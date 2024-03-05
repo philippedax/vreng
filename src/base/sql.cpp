@@ -560,6 +560,7 @@ int VSql::countRows(const char *table)
   if (! db) {
     openDB();	// we need to reopen database
   }
+  //echo("countrows: %s", sql);
   createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, countRows_cb, &val, &err_msg);
@@ -625,6 +626,7 @@ int VSql::countRows(const char *table, const char *col, const char *like)
   if (! db) {
     openDB();	// we need to reopen database
   }
+  //echo("countrows: %s", sql);
   createTable(table);
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
@@ -672,8 +674,9 @@ int VSql::checkRow(const char *table, const char *name, const char *world)
   int val = 0;
 
   if (!name) return 0;
-  createTable(table);
   sprintf(sql, "SELECT * FROM %s WHERE name='%s%s%s'", table, name, (*world) ? "@" : "", world);
+  //echo("checkrow: %s", sql);
+  createTable(table);
 
 #if USE_SQLITE
   int rc = 0;
@@ -729,7 +732,8 @@ void VSql::createDatabase(const char *database)
 /** Creates table */
 void VSql::createTable(const char *table)
 {
-  //echo("createtable %s", table);
+  if (! table || *table == 0) return;
+  //echo("createtable %s %02x", table, *table);
   sprintf(sql, "CREATE TABLE IF NOT EXISTS %s (name VARCHAR(32) NOT NULL, state INT NOT NULL, x REAL NOT NULL, y REAL NOT NULL, z REAL NOT NULL, az REAL, owner VARCHAR(16), geom VARCHAR(256))", table);
   query(sql);
 }
@@ -744,7 +748,6 @@ void VSql::insertRow(WO *o)
 {
   if (! o->objectName()) return;	// no name
   //echo("insertrow: %.1f %.1f %.1f", o->pos.x, o->pos.y, o->pos.z);
-  createTable(o->typeName());
   sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) \
                 VALUES ( '%s@%s', '%d', '%f', '%f', '%f', '%f', '%s', '%s' )",
           o->typeName(),
@@ -753,7 +756,8 @@ void VSql::insertRow(WO *o)
           o->state,						// state
           o->pos.x, o->pos.y, ABSF(o->pos.z), o->pos.az,	// pos
           o->ownerName(), o->geomsolid);			// owner + geom
-  //echo("insertrow %s", sql);
+  //echo("insertrow: %s", sql);
+  createTable(o->typeName());
   query(sql);
 }
 
@@ -776,7 +780,6 @@ void VSql::insertCol(const char *table, const char *col, const char *name, const
 void VSql::updateInt(WO *o, const char *table, const char *col, const char *name, const char *world, int val)
 {
   if (! name) return;	// no name -> no update
-  createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
   //if (checkRow(table, name, world) == ERR_SQL) {
@@ -786,7 +789,8 @@ void VSql::updateInt(WO *o, const char *table, const char *col, const char *name
   //}
   sprintf(sql, "UPDATE %s SET %s=%d WHERE name='%s%s%s'",
           table, col, val, name, (*world) ? "@" : "", world);
-  echo("updateint %s %s", table, sql);
+  //echo("updateint %s %s", table, sql);
+  createTable(table);
   query(sql);
 }
 
@@ -794,7 +798,6 @@ void VSql::updateInt(WO *o, const char *table, const char *col, const char *name
 void VSql::updateFloat(WO *o, const char *table, const char *col, const char *name, const char *world, float val)
 {
   if (! name) return;	// no name -> no update
-  createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
   //if (checkRow(table, name, world) == ERR_SQL) {
@@ -805,6 +808,7 @@ void VSql::updateFloat(WO *o, const char *table, const char *col, const char *na
   sprintf(sql, "UPDATE %s SET %s=%.2f WHERE name='%s%s%s'",
           table, col, val, name, (*world) ? "@" : "", world);
   //echo("updatefloat %s %s", table, sql);
+  createTable(table);
   query(sql);
 }
 
@@ -812,7 +816,6 @@ void VSql::updateFloat(WO *o, const char *table, const char *col, const char *na
 void VSql::updateString(WO *o, const char *table, const char *col, const char *name, const char *world, const char *str)
 {
   if (! name) return;	// no name -> no update
-  createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
   //if (checkRow(table, name, world) == ERR_SQL) {
@@ -822,7 +825,8 @@ void VSql::updateString(WO *o, const char *table, const char *col, const char *n
   //}
   sprintf(sql, "UPDATE %s SET %s='%s' WHERE name='%s%s%s'",
           table, col, str, name, (*world) ? "@" : "", world);
-  echo("updatestring %s %s %s", table, str, sql);
+  //echo("updatestring %s %s %s", table, str, sql);
+  createTable(table);
   query(sql);
 }
 
@@ -916,8 +920,8 @@ void VSql::updateOwner(WO *o)
 void VSql::deleteRows(const char *table)
 {
   //echo("deleterows %s", table);
-  createTable(table);
   sprintf(sql, "DELETE FROM %s", table);
+  createTable(table);
   query(sql);
 }
 
@@ -926,9 +930,9 @@ void VSql::deleteRow(WO *o, const char *table, const char *name, const char *wor
 {
   //echo("deleterow %s", table);
   if (!name) return;
-  createTable(table);
   sprintf(sql, "DELETE FROM %s WHERE name='%s%s%s'",
           table, name, (*world) ? "@" : "", world);
+  createTable(table);
   query(sql);
 }
 
@@ -936,9 +940,9 @@ void VSql::deleteRow(WO *o, const char *table, const char *name, const char *wor
 void VSql::deleteRow(WO *o, const char *str)
 {
   //echo("deleterowstring %s %s", o->typeName(), str);
-  createTable(o->typeName());
   sprintf(sql, "DELETE FROM %s WHERE name='%s@%s'",
           o->typeName(), str, World::current()->getName());
+  createTable(o->typeName());
   query(sql);
 }
 

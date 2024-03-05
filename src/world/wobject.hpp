@@ -101,7 +101,7 @@ struct Name {
   char *given;		///< given name.
   char *url;		///< url.
   char *owner;		///< owner.
-  char *instance;	///< name of an instancied object.
+  char *current;	///< name of an instancied object.
   char *implicit;	///< implicit name.
   char *category;	///< category name.
   char *infos;		///< infos of an instancied object.

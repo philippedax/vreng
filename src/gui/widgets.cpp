@@ -454,7 +454,7 @@ static void objectActionCB(int numaction)
 /** returns info about the pointed object */
 WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 {
-  static char *classname = 0, *instancename = 0, *actionnames = 0;
+  static char *classname = 0, *currentname = 0, *actionnames = 0;
 
   //
   // Interaction GUI <--> 3D
@@ -479,15 +479,15 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 
   // an object has been selected
   // get the object's names
-  object->getObjectNames(&classname, &instancename, &actionnames);
+  object->getObjectNames(&classname, &currentname, &actionnames);
   if (! classname) {
     return NULL;
   }
 
   objinfo[0].name = classname;
-  if (instancename == NULL) instancename = const_cast<char *>("");
-  objinfo[1].name = instancename;
-  if (::g.pref.dbgtrace) echo("pointed: %s.%s", classname, instancename);
+  if (currentname == NULL) currentname = const_cast<char *>("");
+  objinfo[1].name = currentname;
+  if (::g.pref.dbgtrace) echo("pointed: %s.%s", classname, currentname);
 
   // get actions of this object
   int i = 0;

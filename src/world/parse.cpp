@@ -469,6 +469,7 @@ char * Parse::parseAttributes(char *l, WO *wobject)
 {
   while (l) {
     if      (! stringcmp(l, "name=")) {
+      //dax2 wobject->name.given = new char[OBJNAME_LEN];
       l = parseName(l, wobject->name.given);
     }
     else if (! stringcmp(l, "pos=")) {
@@ -532,7 +533,7 @@ char * Parse::parseDescr(char *l, char *strdst)
 /** Parses object name: fill name.given */
 char * Parse::parseName(char *l, char *name)
 {
-  name = new char[OBJNAME_LEN];
+  //dax2 name = new char[OBJNAME_LEN];
   return parseQuotedString(l, name, "name");
 }
 

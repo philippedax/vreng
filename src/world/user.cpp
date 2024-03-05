@@ -91,10 +91,10 @@ void User::defaults()
 
 void User::setName()
 {
-  if (! name.given) {
-    name.given = new char[USER_LEN];
+  if (! *name.given) {
+    //dax2 name.given = new char[USER_LEN];
     sprintf(name.given, "%s", ::g.user);
-    name.instance = name.given;
+    name.current = name.given;
   }
 }
 

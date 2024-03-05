@@ -133,7 +133,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   if (geom && isprint(*geom)) {
     parseSolid(geom);
   }
-  else error("Thing: %s has no geometry", name.given);
+  else error("thing: %s has no geometry", name.given);
 
   enableBehavior(DYNAMIC);
   behaviors();

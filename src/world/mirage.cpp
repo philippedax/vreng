@@ -190,7 +190,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   if (geomsolid && isprint(*geomsolid)) {	//FIXME: when object comes from Cart
     parseSolid(geomsolid);
   }
-  else error("Mirage: %s no geometry available", name.given);
+  else error("mirage: %s no geometry available", name.given);
 
   enableBehavior(DYNAMIC);  // palette
   behaviors();

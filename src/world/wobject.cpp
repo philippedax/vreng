@@ -71,13 +71,14 @@ WO::WO()
   behavior = 0;
 
   name.type = new char[TYPENAME_LEN];
+  name.given = new char[OBJNAME_LEN];
   name.url = new char[URL_LEN];
 
+  //dax2 name.given = NULL;
   //dax1 name.url = NULL;
-  name.given = NULL;
   name.owner = NULL;
   name.implicit = NULL;
-  name.instance = NULL;
+  name.current = NULL;
   name.world = NULL;
   name.category = NULL;
   name.infos = NULL;
@@ -149,7 +150,6 @@ void WO::initObject(uint8_t _mode)
   num = objectNum++;
 
   setWOId();
-  updateNames();
   initPosition();
   objectList.push_back(this);	// add to objectList
 
@@ -218,6 +218,7 @@ void WO::initObject(uint8_t _mode)
     updateBB();
     insertIntoGrid();
   }
+  updateNames();
 }
 
 /** Initializes still object */
@@ -350,7 +351,7 @@ bool WO::isSeen()
 
 bool WO::isOwner() const
 {
-  if (! strcmp(name.owner, localuser->name.instance)) {
+  if (! strcmp(name.owner, localuser->name.current)) {
     return true;
   }
   return false;
@@ -365,7 +366,7 @@ void WO::setOwner(const char *_owner)
 void WO::setOwner()
 {
   if (localuser)
-    setOwner(localuser->name.instance);
+    setOwner(localuser->name.current);
   else
     setOwner("me");
 }
@@ -379,10 +380,15 @@ uint16_t WO::getNum()
 /** Returns object's name */
 const char * WO::objectName() const
 {
-  if (name.instance)
-    return name.instance;
-  else
+  if (*name.given) {
     return name.given;
+  }
+  else if (*name.implicit) {
+    return name.implicit;
+  }
+  else {
+    return NULL;
+  }
 }
 
 /** Returns url's name */
@@ -714,7 +720,7 @@ void WO::forceNames(const char *newname)
   if (isupper(*(name.implicit))) {
     *name.implicit = tolower(*(name.implicit)); // name.implicit in lowercase
   }
-  name.instance = name.implicit;
+  name.current = name.implicit;
 }
 
 /** Updates Object name */
@@ -730,19 +736,19 @@ void WO::updateNames()
     error("updateNames: no name found for type=%d", type);
   }
 
-  if (! name.given) {	// no given name
+  if (*name.given) {
+    name.current = name.given;
+  }
+  else {	// no given name
     name.implicit = new char[OBJNAME_LEN];
     sprintf(name.implicit, "%s%d", name.type, num);
     if (isupper(*(name.implicit))) {
       *name.implicit = tolower(*(name.implicit)); // name.implicit in lowercase
     }
-    name.instance = name.implicit;
-  }
-  else {
-    name.instance = name.given;
+    name.current = name.implicit;
   }
 
-  setObjectName(name.instance);
+  setObjectName(name.current);
   name.world = World::current()->getName();
 
   if (name.owner && *name.owner == 0) {
@@ -826,7 +832,7 @@ int16_t WO::getPersist(int16_t state)
 bool WO::checkPersist()
 {
   if (! vsql) vsql = new VSql();
-  int rows = vsql->countRows(name.type);
+  int rows = vsql->countRows(typeName());
   return rows;
 }
 
@@ -919,17 +925,17 @@ void WO::clearObjectBar()
 }
 
 /**
- * Gives instance or class and action names of an object if it exists
+ * Gives current or class and action names of an object if it exists
  * called by GUI for infoBar
  */
-void WO::getObjectNames(char **classname, char **instancename, char **actionnames)
+void WO::getObjectNames(char **classname, char **currentname, char **actionnames)
 {
   int a;
   static char actionname[ACTIONSNUMBER][ACTIONNAME_LEN];
 
-  *classname    = const_cast<char *>(typeName());
-  *instancename = const_cast<char *>(objectName());
-  *actionnames  = reinterpret_cast<char *>(actionname);
+  *classname   = const_cast<char *>(typeName());
+  *currentname = const_cast<char *>(objectName());
+  *actionnames = reinterpret_cast<char *>(actionname);
 
   // clean actionname
   for (a=0; a < ACTIONSNUMBER; a++) {
@@ -1236,7 +1242,7 @@ OList * WO::addListToList(OList *l1, OList *l2)
 void WO::show(const char *name)
 {
   for (list<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
-    if (! strcmp((*it)->name.instance, name)) {
+    if (! strcmp((*it)->name.current, name)) {
       trace(DBG_FORCE, "%s p=%.2f,%.2f,%.2f it=%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
             name,
             (*it)->pos.x, (*it)->pos.y, (*it)->pos.z,
