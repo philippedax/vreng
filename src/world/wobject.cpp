@@ -776,6 +776,7 @@ void WO::initPosition()
 /** Updates 3D position */
 void WO::updatePosition()
 {
+  //dax update3D(pos);
   updateAll3D(pos);
   if (bbBehavior()) {
     updateBB();

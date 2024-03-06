@@ -232,7 +232,7 @@ void Step::changePermanent(float lasting)
   float sz = 1 * pos.bbs.v[2];  // step height
 
   if (dir > 0) { 				// escalator upwards
-    //echo("h=%.1f %s", height, objectName());
+    //echo("z=%.2f %s", pos.z, objectName());
     pos.x += (lasting * move.lspeed.v[2] * sin(pos.az));
     pos.y += (lasting * move.lspeed.v[2] * cos(pos.az));
     pos.z += (lasting * move.lspeed.v[2]);
@@ -244,7 +244,7 @@ void Step::changePermanent(float lasting)
         //echo("- %.2f", pos.z);
         pos.z = 0;
       }
-      //echo("  %.2f", pos.z);
+      //echo("  %.2f %s", pos.z, objectName());
     }
     if (stuck) {				// user follows up this step
       localuser->pos.x = pos.x;
@@ -295,6 +295,7 @@ void Step::changePermanent(float lasting)
       localuser->updatePosition();
     }
   }
+  updatePosition();
   updatePositionAndGrid(pos);
 }
 
@@ -327,8 +328,8 @@ bool Step::whenIntersect(WO *pcur, WO *pold)
       }
       break;
     case STEP_TYPE:
+      //echo("step collides");
       return false;	// ignore this collision
-      break;
     default:
       pold->copyPositionAndBB(pcur);
       break;

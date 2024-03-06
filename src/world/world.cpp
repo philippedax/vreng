@@ -755,7 +755,7 @@ void World::init(const char *url)
 
   // Attach bubble welcome text to localuser
   char welcome[32];
-  sprintf(welcome, "Hi! I am %s", user->objectName());
+  sprintf(welcome, "Hi! I am %s", ::g.user);
   user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEVERSO);
 }
 
@@ -942,7 +942,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   // Attach bubble hello text to localuser
   char hello[32];
-  sprintf(hello, "Hello! I am %s", localuser->objectName());
+  sprintf(hello, "Hello! I am %s", ::g.user);
   localuser->bubble = new Bubble(localuser, hello, Color::black, Bubble::BUBBLEVERSO);
 
   // check whether icons are locally presents
