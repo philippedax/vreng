@@ -32,13 +32,15 @@
 // local
 static Parse *parse = NULL;
 
-/* aliases */
+/* aliases struct */
 struct sAlias {
   const char *objalias;
   const char *objreal;
 };
 
+//
 // aliases
+//
 static const struct sAlias aliases[] = {
   //{ "old_name", "new_name" },
   { "ftp",        "download" },
@@ -66,7 +68,7 @@ Parse::~Parse()
   parse = NULL;
 }
 
-/** Gets parse pointer : accessor */
+/** Gets parse pointer - accessor */
 Parse * Parse::getParse()
 {
   if (! parse)
@@ -262,7 +264,10 @@ int Parse::parseLine(char *_line, int *ptag_type)
   return TAG_OBJECT;
 }
 
-/** Parses vre data, called by World::worldReader */
+/**
+ * Parses vre data,
+ * called by World::worldReader
+ */
 int Parse::parseVreFile(char *buf, int buflen)
 {
   int len = 0;	// line length
@@ -462,7 +467,7 @@ char * Parse::skipAttribute(char *l)
   return l;
 }
 
-/*
+/**
  * Parses attributes:
  *   name pos url solid category description
  *   be carefull : the line has been tokenized by separators TOK_SEP=" ,<>\t\n"
@@ -471,7 +476,8 @@ char * Parse::parseAttributes(char *l, WO *wobject)
 {
   while (l) {
     if      (! stringcmp(l, "name=")) {
-      wobject->name.given = new char[OBJNAME_LEN];	// alloc name.given
+      if (! wobject->name.given)
+        wobject->name.given = new char[OBJNAME_LEN];	// alloc name.given
       l = parseName(l, wobject->name.given);
     }
     else if (! stringcmp(l, "pos=")) {
@@ -549,7 +555,9 @@ char * Parse::parseCaption(char *l, char *caption, const char *keystr)
   return parseQuotedString(l, caption, keystr);
 }
 
-/** Parses spacial position and orientation : x y z az ax ay */
+/**
+ * Parses spacial position and orientation : x y z az ax ay
+ */
 char * Parse::parsePosition(char *ptok, Pos &pos)
 {
   pos.x = pos.y = pos.z = pos.az = pos.ax = pos.ay = 0;
@@ -863,6 +871,7 @@ char * Parse::parseQuotedString(char *ptok, char *str, const char *keystr)
   return ptok;
 }
 
+/** Parses an int */
 char * Parse::parseInt(char *ptok, int *value)
 {
   if (ptok) {
@@ -881,6 +890,7 @@ char * Parse::parseInt(char *ptok, int *value, const char *keystr)
   return nextToken();
 }
 
+/** Parses a bool */
 char * Parse::parseBool(char *ptok, bool *value)
 {
   if (ptok) {
@@ -909,6 +919,7 @@ char * Parse::parseBool(char *ptok, bool *value, const char *keystr)
   return nextToken();
 }
 
+/** Parses an uint8_t */
 char * Parse::parseUInt8(char *ptok, uint8_t *value)
 {
   if (ptok) {
@@ -927,6 +938,7 @@ char * Parse::parseUInt8(char *ptok, uint8_t *value, const char *keystr)
   return nextToken();
 }
 
+/** Parses an uint16_t */
 char * Parse::parseUInt16(char *ptok, uint16_t *value)
 {
   if (ptok) {
@@ -945,6 +957,7 @@ char * Parse::parseUInt16(char *ptok, uint16_t *value, const char *keystr)
   return nextToken();
 }
 
+/** Parses a float */
 char * Parse::parseFloat(char *ptok, float *value)
 {
   if (ptok) {
@@ -965,6 +978,7 @@ char * Parse::parseFloat(char *ptok, float *value, const char *keystr)
   return nextToken();
 }
 
+/** Parses a vector of floats */
 char * Parse::parseVectorf(char *ptok, float *vector, int n)
 {
   ptok = skipQuotes(ptok);
@@ -1007,6 +1021,7 @@ char * Parse::parseVector3f(char *ptok, float *vector)
   return nextToken();
 }
 
+/** Parses a vector V3 of floats */
 char * Parse::parseVector3fv(char *ptok, V3 *vector)
 {
   if (!ptok) {
