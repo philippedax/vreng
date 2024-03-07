@@ -245,6 +245,10 @@ void User::geometry()
     Color::getRGB(skin, color);
     face = new Face(this, headurl, color);
   }
+
+  if (guy) guy->setGivenName(::g.user);
+  else if (humanoid) humanoid->setGivenName(::g.user);
+  else if (human) human->setGivenName(::g.user);
 }
 
 /** Sets network identity */

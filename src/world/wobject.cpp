@@ -390,6 +390,15 @@ const char * WO::objectName() const
   }
 }
 
+/** Sets name.given */
+void WO::setGivenName(const char *_name)
+{
+  if (! name.given) {
+    name.given = new char[OBJNAME_LEN];
+  }
+  strcpy(name.given, _name);
+}
+
 /** Returns url's name */
 const char * WO::urlName() const
 {
@@ -710,7 +719,7 @@ WO * WO::getObjectByName(const char *name)
   return NULL;              // not found
 }
 
-/** Sets Object name */
+/** Forces Object name.type name.implicit */
 void WO::forceNames(const char *newname)
 {
   strcpy(name.type, newname);

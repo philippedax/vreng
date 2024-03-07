@@ -346,7 +346,10 @@ class WO {
   /**< Checks if valid object type. */
 
   const char * objectName() const;
-  /**< Gets name.instance. */
+  /**< Gets name.current. */
+
+  void setGivenName(const char *name);
+  /**< Sets name.given. */
 
   const char * urlName() const;
   /**< Gets name.url. */
