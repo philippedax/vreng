@@ -45,6 +45,7 @@ static uint16_t portproxy;
 static char *domnoproxy, *hostproxy;
 
 
+/** Begin a thread */
 void Http::begin_thread()
 {
   fifo = NULL;
@@ -70,6 +71,7 @@ void Http::begin_thread()
 #endif
 }
 
+/** End a thread */
 void Http::end_thread()
 {
 #if defined(HAVE_LIBPTHREAD)
@@ -89,6 +91,7 @@ void Http::end_thread()
 #endif
 }
 
+/** Puts into Fifo */
 int Http::putfifo()
 {
 #if defined(HAVE_LIBPTHREAD)
@@ -122,6 +125,7 @@ int Http::putfifo()
 #endif
 }
 
+/** Constructor */
 Http::Http()
 {
   new_http++;
@@ -133,6 +137,7 @@ Http::Http()
   begin_thread();
 }
 
+/** Destructor */
 Http::~Http()
 {
   del_http++;
@@ -145,7 +150,7 @@ Http::~Http()
   end_thread();
 }
 
-// static
+/** Http initialization - static */
 void Http::init()
 {
   initMutex(&nbsimcon_mutex);
@@ -153,8 +158,7 @@ void Http::init()
   trace(DBG_INIT, "Http initialized");
 }
 
-/** Opens a HTTP transaction, returns -1 if error */
-// static
+/** Opens a HTTP transaction, returns -1 if error - static */
 int Http::httpOpen(const char *url,
                    void (*httpReader)(void *handle, Http *http),
                    void *_handle,
@@ -203,7 +207,7 @@ int Http::httpOpen(const char *url,
 /** Makes a http connection */
 void * Http::connection(void *_http)
 {
-  Http *http = (Http *) _http;
+  Http *http = static_cast<Http *>(_http);
 
   checkProxy();
 
@@ -253,7 +257,7 @@ htretry:
       httpsa.sin_port = htons(portproxy);
       memcpy(&httpsa.sin_addr, hp->h_addr_list[0], hp->h_length);
     }
-    else {	// normal
+    else {		// normal
       // resolve hostname
       if ((hp = my_gethostbyname_r(host, AF_INET)) == NULL) {
         err = -BADNAME;	// not resolved
@@ -308,7 +312,7 @@ htretry:
                   ::g.env.relname(), ::g.user, host);
         } 
       } 
-      else {	// GET classic
+      else {		// GET classic
         sprintf(req, "GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, host);
       } 
       //echo("reqGet: %s", req);
@@ -451,11 +455,12 @@ htretry:
   return NULL;
 }
 
+/** Returns number of bytes read */
 int Http::httpRead(char *pbuf, int maxl)
 {
   int lread = 0;
 
-  /* modifie par Fabrice, lread= longueur lue, maxl= longueur restante a recevoir */
+  // modifie par Fabrice, lread= longueur lue, maxl= longueur restante a recevoir
   int length = (off < 0) ? 0 : len - off;
 
   if (length > 0) {
@@ -481,24 +486,29 @@ int Http::httpRead(char *pbuf, int maxl)
   return lread;
 }
 
+//
+// Http IOs methods
+//
+
 static uint8_t http_buf[BUFSIZ];
 static int32_t http_pos = 0;
 static int32_t http_len = 0;
 static bool    http_eof = false;
 
+/** Resets http */
 void Http::reset()
 {
   http_pos = http_len = 0;
   http_eof = false;
 }
 
-/** returns if http eof */
+/** Returns if http eof */
 bool Http::heof()
 {
   return http_eof;
 }
 
-/** returns a byte */
+/** Returns a byte */
 int Http::read_char()
 {
   if (http_pos >= http_len) {	// eob
@@ -511,7 +521,7 @@ int Http::read_char()
   return http_buf[http_pos++];
 }
 
-/** returns a block and its size */
+/** Returns a block and its size */
 uint32_t Http::read_buf(char *buf, int maxlen)
 {
   int32_t siz = http_len - http_pos;
@@ -534,190 +544,7 @@ uint32_t Http::read_buf(char *buf, int maxlen)
   }
 }
 
-#if 0 //notused --------------------------------------------------------------
-/** returns current position */
-int Http::htell()
-{
-  return http_pos;
-}
-
-/** returns a byte or an error */
-int Http::getChar()
-{
-  if (http_pos >= http_len) {	// eob
-    http_pos = 0;
-    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
-      http_eof = true;
-      return -1;	// http eof
-    }
-    if (http_len < 0) {
-      error("getChar: len=%d", http_len);
-      http_eof = true;
-      return -2;	// err
-    }
-  }
-  return http_buf[http_pos++];
-}
-
-/** returns an int */
-int32_t Http::read_int()
-{
-  int32_t val;
-
-  if (http_pos >= http_len) {
-    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
-      http_eof = true;
-      return -1;	// http eof
-    }
-    http_pos = 0;
-  }
-  val = http_buf[http_pos++];
-  if (http_pos >= http_len) {
-    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
-      http_eof = true;
-      return -1;	// http eof
-    }
-    http_pos = 0;
-  }
-  val |= (http_buf[http_pos++] << 8);
-  if (http_pos >= http_len) {
-    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
-      http_eof = true;
-      return -1;	// http eof
-    }
-    http_pos = 0;
-  }
-  val |= (http_buf[http_pos++] << 16);
-  if (http_pos >= http_len) {
-    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
-      http_eof = true;
-      return -1;	// http eof
-    }
-    http_pos = 0;
-  }
-  val |= (http_buf[http_pos++] << 24);
-  return val;
-}
-
-/** returns a long */
-int32_t Http::read_long()
-{
-  return (read_char()<<24) | (read_char()<<16) | (read_char()<<8) | read_char();
-}
-
-/** returns a float */
-float Http::read_float()
-{
-  int32_t n = read_long();
-  return static_cast<float>(*((float *) &n));
-}
-
-/** returns a short */
-int32_t Http::read_short()
-{
-  return (read_char()<<8) | read_char();
-}
-
-/** returns a string */
-int Http::read_string(char *str, int maxlen)
-{
-  int c;
-  int cnt = 0;
-
-  do {
-    c = read_char();
-    if (cnt < maxlen) {
-      str[cnt] = c;
-    }
-    else {
-      str[maxlen-1] = '\0';
-      break;
-    }
-    cnt++;
-  } while (c != 0) ;
-  /* if length of string (including \0) is odded skip another byte */
-  if (cnt % 2) {
-    read_char();
-    cnt++;
-  }
-  return cnt;
-}
-
-/** skips an offset */
-uint32_t Http::skip(int32_t skiplen)
-{
-  int32_t ptr = http_len - http_pos;
-
-  if (ptr >= skiplen) {
-    http_pos += skiplen;
-    return 0;
-  }
-  else {
-    skiplen -= ptr;
-    while (skiplen > 0) {
-      if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
-        break;
-      }
-      if (skiplen >= http_len) {
-        skiplen -= http_len;
-        http_pos = http_len;
-      }
-      else {
-        http_pos = skiplen;
-        skiplen = 0;
-      }
-    }
-    return (uint32_t) skiplen;
-  }
-}
-
-/** returns an item */
-int Http::fread(char *pbuf, int size, int nitems)
-{
-  int toread, len = nitems * size;
-
-  while (len > 0) {
-    if (http_pos >= http_len) {
-      if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) < 0) {
-        http_eof = true;
-        return (nitems - (len / size));
-      }
-      http_pos = 0;
-    }
-    toread = (len < (http_len-http_pos)) ? len : (http_len-http_pos);
-    memcpy(pbuf, http_buf + http_pos, toread);
-    http_pos += toread;
-    pbuf += toread;
-    len -= toread;
-  }
-  return nitems;
-}
-
-static
-bool isEmptyLine(char *line)
-{
-  if (*line == '#')
-    return true;	// commented line
-  if (strlen(line) == 0)
-    return true;	// empty line
-  if (isprint(*line))
-    return false;	// non empty
-  return true;
-}
-
-/** returns a line non empty without comments */
-bool Http::getLine(char *line)
-{
-  do {
-    if (! nextLine(line)) {
-      return false;
-    }
-  } while (isEmptyLine(line)) ;
-  return true;
-}
-#endif //notused --------------------------------------------------------------
-
-/** returns true and the line else returns false */
+/** Returns true and the line else returns false */
 bool Http::nextLine(char *line)
 {
   int i = 0;
@@ -736,9 +563,7 @@ bool Http::nextLine(char *line)
   return true;
 }
 
-
-/** Checks if http proxy */
-// static
+/** Checks if http proxy - static */
 void Http::checkProxy()
 {
   static bool done = false;
@@ -780,3 +605,186 @@ void Http::checkProxy()
   }
   done = true;
 }
+
+#if 0 //notused --------------------------------------------------------------
+/** Returns current position */
+int Http::htell()
+{
+  return http_pos;
+}
+
+/** returns a byte or an error */
+int Http::getChar()
+{
+  if (http_pos >= http_len) {	// eob
+    http_pos = 0;
+    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+      http_eof = true;
+      return -1;	// http eof
+    }
+    if (http_len < 0) {
+      error("getChar: len=%d", http_len);
+      http_eof = true;
+      return -2;	// err
+    }
+  }
+  return http_buf[http_pos++];
+}
+
+/** Returns an int */
+int32_t Http::read_int()
+{
+  int32_t val;
+
+  if (http_pos >= http_len) {
+    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+      http_eof = true;
+      return -1;	// http eof
+    }
+    http_pos = 0;
+  }
+  val = http_buf[http_pos++];
+  if (http_pos >= http_len) {
+    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+      http_eof = true;
+      return -1;	// http eof
+    }
+    http_pos = 0;
+  }
+  val |= (http_buf[http_pos++] << 8);
+  if (http_pos >= http_len) {
+    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+      http_eof = true;
+      return -1;	// http eof
+    }
+    http_pos = 0;
+  }
+  val |= (http_buf[http_pos++] << 16);
+  if (http_pos >= http_len) {
+    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+      http_eof = true;
+      return -1;	// http eof
+    }
+    http_pos = 0;
+  }
+  val |= (http_buf[http_pos++] << 24);
+  return val;
+}
+
+/** Returns a long */
+int32_t Http::read_long()
+{
+  return (read_char()<<24) | (read_char()<<16) | (read_char()<<8) | read_char();
+}
+
+/** Returns a float */
+float Http::read_float()
+{
+  int32_t n = read_long();
+  return static_cast<float>(*((float *) &n));
+}
+
+/** Returns a short */
+int32_t Http::read_short()
+{
+  return (read_char()<<8) | read_char();
+}
+
+/** Returns a string */
+int Http::read_string(char *str, int maxlen)
+{
+  int c;
+  int cnt = 0;
+
+  do {
+    c = read_char();
+    if (cnt < maxlen) {
+      str[cnt] = c;
+    }
+    else {
+      str[maxlen-1] = '\0';
+      break;
+    }
+    cnt++;
+  } while (c != 0) ;
+  /* if length of string (including \0) is odded skip another byte */
+  if (cnt % 2) {
+    read_char();
+    cnt++;
+  }
+  return cnt;
+}
+
+/** Skips an offset */
+uint32_t Http::skip(int32_t skiplen)
+{
+  int32_t ptr = http_len - http_pos;
+
+  if (ptr >= skiplen) {
+    http_pos += skiplen;
+    return 0;
+  }
+  else {
+    skiplen -= ptr;
+    while (skiplen > 0) {
+      if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+        break;
+      }
+      if (skiplen >= http_len) {
+        skiplen -= http_len;
+        http_pos = http_len;
+      }
+      else {
+        http_pos = skiplen;
+        skiplen = 0;
+      }
+    }
+    return (uint32_t) skiplen;
+  }
+}
+
+/** Returns an item */
+int Http::fread(char *pbuf, int size, int nitems)
+{
+  int toread, len = nitems * size;
+
+  while (len > 0) {
+    if (http_pos >= http_len) {
+      if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) < 0) {
+        http_eof = true;
+        return (nitems - (len / size));
+      }
+      http_pos = 0;
+    }
+    toread = (len < (http_len-http_pos)) ? len : (http_len-http_pos);
+    memcpy(pbuf, http_buf + http_pos, toread);
+    http_pos += toread;
+    pbuf += toread;
+    len -= toread;
+  }
+  return nitems;
+}
+
+static
+bool isEmptyLine(char *line)
+{
+  if (*line == '#')
+    return true;	// commented line
+  if (strlen(line) == 0)
+    return true;	// empty line
+  if (isprint(*line))
+    return false;	// non empty
+  return true;
+}
+
+/** Returns a line non empty without comments */
+bool Http::getLine(char *line)
+{
+  do {
+    if (! nextLine(line)) {
+      return false;
+    }
+  } while (isEmptyLine(line)) ;
+  return true;
+}
+#endif //notused --------------------------------------------------------------
