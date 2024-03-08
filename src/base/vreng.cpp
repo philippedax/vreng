@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng/
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -56,45 +56,51 @@ Vreng::Vreng() :	// beware: don't change order !!!
 {
 } 
 
+/**
+ * Entry point
+ */
 int main(int argc, char *argv[])
 {
   g.pref.init(argc, argv, g.env.prefs());	// preferences initialization
   UAppli::conf.soft_menus = true;		// beware: only in single window mode
 
-  UAppli* vreng_ubit = new UAppli(argc, argv);
-  if (! vreng_ubit) {
+  UAppli* vreng_gui = new UAppli(argc, argv);
+  if (! vreng_gui) {
     fatal("Vreng can't be launched");
   }
-  g.theme.init();			// theme initialization
-  g.gui.createWidgets();		// widgets initialization
-  g.gui.showWidgets();			// shows window
+  g.theme.init();		// theme initialization
+  g.gui.createWidgets();	// widgets initialization
+  g.gui.showWidgets();		// shows window
 
-  return vreng_ubit->start();		// launches vreng UI
+  return vreng_gui->start();	// launches vreng UI
 }
 
-/*
+/**
  * initCB() is implicitely called by Scene::init(),
  * but postponed so that the window can appear immediately
  */
 void Vreng::initCB()
 {
-  timer.init.start();	// starts init timer
-  initLimits();		// increases limits
-  initSignals();	// Signals initialization
-  initTrigo();		// Trigo initialization
-  Universe::init();	// world manager initialisation
-  Http::init();		// http connections initialization
-  Channel::init();	// Network initialization
-  Vac::init();	    	// Vac cache initialization
-  VSql::init();		// VSql initialization
-  Openal::init();	// Openal initialization
-  World::init(::g.url); // takes a significant amount of time to launch
+  timer.init.start();		// starts init timer
+  initLimits();			// increases limits
+  initSignals();		// Signals initialization
+  initTrigo();			// Trigo initialization
+  Universe::init();		// world manager initialisation
+  Http::init();			// http connections initialization
+  Channel::init();		// Network initialization
+  Vac::init();	    		// Vac cache initialization
+  VSql::init();			// VSql initialization
+  Openal::init();		// Openal initialization
+  World::init(::g.url);		// takes a significant amount of time to launch
 #if HAVE_OCAML
-  initOcaml();		// Ocaml runtime initialization
+  initOcaml();			// Ocaml runtime initialization
 #endif
-  timer.init.stop();	// stops init timer
+  timer.init.stop();		// stops init timer
 }
 
+/**
+ * Quits
+ */
 void Vreng::quit(int sig)
 {
   static int inquit = 0;
@@ -120,6 +126,7 @@ void Vreng::quit(int sig)
   UAppli::quit(sig);		// quits the application and closes the main window
 }
 
+/** Waits end of a child */
 static void reapchild(int sig)
 {
   int status = 0;
@@ -133,6 +140,7 @@ static void reapchild(int sig)
   }
 }
 
+/** Sets signals */
 void Vreng::initSignals()
 {
   signal(SIGTRAP,quit);
@@ -144,7 +152,7 @@ void Vreng::initSignals()
   signal(SIGUSR2, SIG_IGN);
 }
 
-// Increases open files resource limits
+/** Increases open files resource limits */
 void Vreng::initLimits()
 {
 #if HAVE_SETRLIMIT
