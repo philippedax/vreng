@@ -82,7 +82,7 @@
 #include "ChangeLog.h"
 #include "TODO.h"
 #include "DTD.h"
-#include "CONFIG_H.h"
+//#include "CONFIG_H.h"
 
 #include <vector>
 
@@ -243,8 +243,8 @@ UBox& Widgets::createMenubar()
         + ubutton("DTD"       + ucall("DTD",       DTD,       &showInfoDialog))
         + ubutton("ChangeLog" + ucall("ChangeLog", ChangeLog, &showInfoDialog))
         + ubutton("TODO"      + ucall("TODO",      TODO,      &showInfoDialog))
-        + ubutton("config.h"  + ucall("config.h",  CONFIG_H,  &showInfoDialog))
-        //dax + ubutton("Home Page" + ucall(this, &siteCB))
+        //+ ubutton("config.h"  + ucall("config.h",  CONFIG_H,  &showInfoDialog))
+        //+ ubutton("Home Page" + ucall(this, &siteCB))
        );
 
   // ===== Menubar ======
