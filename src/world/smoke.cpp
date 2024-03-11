@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng/
 //
 // Copyright (C) 1997-2012 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -178,27 +178,3 @@ void Smoke::draw()
 }
 
 void Smoke::funcs() {}
-
-#if 0 //notused
-void Smoke::display()
-{
-  float a = MIN(1.2 - life/255, 1);
-
-  dlist = glGenLists(1);
-  glNewList(dlist, GL_COMPILE);
-  glColor4f(.9,.9,.9, a);
-  glBegin(GL_POLYGON);		// octogon
-  for (int i=0; i<NA; i++) {
-    glVertex3f(loc.x+SZ*cos(A[i]), loc.y+SZ*sin(A[i]), loc.z);
-  }
-  glEnd();
-  glEndList();
-}
-
-Vector3 Smoke::random()
-{ 
-  float x = -0.01+(0.02*(static_cast<float>(rand())/(RAND_MAX))); // -0.02+(0.04 (more compact)
-  float y = -0.01+(0.02*(static_cast<float>(rand())/(RAND_MAX))); // -0.02+(0.04 (more compact)
-  return Vector3(x, y, 0);
-}
-#endif //notused

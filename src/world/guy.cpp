@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng/
 //
-// Copyright (C) 1997-2021 Philippe Dax
+// Copyright (C) 1997-2024 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -504,24 +504,6 @@ void Guy::render()
    glTranslatef(pos.x, pos.y, pos.z);
    glRotatef(RAD2DEG(pos.az), 0, 0, 1);
    glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);	// stand up
-
-#if 0 //notused
-   float dx, dz;
-   static       float rot = M_PI/2;
-   static const float da = 72;
-   static const float rad = 1.5;
-
-   if (::g.timer.isRate(RATE))
-     rot -= M_2PI / da;
-   if (rot <= 0)
-     rot = M_2PI;
-   if (walking) {
-     dx =  rad * cos(rot);
-     dz = -rad * sin(rot);
-     glTranslatef(-dx, -dz, 0);
-     glRotatef(RAD2DEG(rot), 0, 1, 0);
-   }
-#endif //notused
 
    display_bust();
    display_neck();
