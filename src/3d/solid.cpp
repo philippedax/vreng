@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng/
 //
-// Copyright (C) 1997-2021 Philippe Dax
+// Copyright (C) 1997-2024 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -182,7 +182,7 @@ const uint8_t Solid::DEF_DISK_LOOPS = 8;
 const uint8_t Solid::FRAME_MAX = 255;
 
 
-/* New Solid. */
+/** New Solid. */
 Solid::Solid()
 {
   new_solid++;
@@ -217,7 +217,7 @@ Solid::Solid()
   for (int i=0; i<3; i++) flashcol[i] = 1;  // white
 }
 
-/* Deletes solid from display-list. */
+/** Deletes solid from display-list. */
 Solid::~Solid()
 {
   ::g.render.solidList.remove(this);
@@ -259,7 +259,7 @@ char * Solid::getTok(char *l, uint16_t *stok)
   }
 }
 
-/* Parses <frame , return next token after frame. */
+/** Parses <frame , return next token after frame. */
 char * Solid::parseFrame(char *l)
 {
   if (! strcmp(l, "frame")) {
@@ -275,7 +275,7 @@ char * Solid::parseFrame(char *l)
   return l;
 }
 
-/* Sets shape from shape="...", return next token. */
+/** Sets shape from shape="...", return next token. */
 char * Solid::parseShape(char *l, uint8_t *shape)
 {
   const struct sStokens *ptab;
@@ -296,7 +296,7 @@ char * Solid::parseShape(char *l, uint8_t *shape)
   return l;
 }
 
-/*
+/**
  * solid parser.
  * returns next token if it exists
  * called by parseSolid(l) in parse.cpp.
@@ -398,7 +398,7 @@ char * Solid::parser(char *l)
   return l;	// next token
 }
 
-/*
+/**
  * Single solid parser.
  * returns bbmax bbmin
  */
@@ -945,7 +945,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   return 1;	// only one frame
 }
 
-/* compute distance to localuser */
+/** compute distance to localuser */
 void Solid::updateDist()
 {
   if (localuser) {
@@ -955,7 +955,7 @@ void Solid::updateDist()
   }
 }
 
-/*
+/**
  * Parses statue and returns f (number of frames).
  */
 int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
@@ -1144,40 +1144,32 @@ void Solid::postDraw(int texid, GLfloat alpha, GLfloat *fog)
   doBlend(false, alpha);
 }
 
-// Gets max min BB.
+/** Gets max min BB. */
 void Solid::getMaxMinBB(V3 &max, V3 &min, bool is_framed)
 {
   ::g.render.getBB(max, min, is_framed);
 }
 
-// Sets BB sizes.
+/** Sets BB sizes. */
 void Solid::setBB(GLfloat w, GLfloat d, GLfloat h)
 {
   ::g.render.setBB(w, d, h);
 }
 
-/* returns relative center and size of BB. */
+/** returns relative center and size of BB. */
 void Solid::getRelBB(V3 &center, V3 &size) const
 {
   center = bbcent;
   size = bbsize;
 }
 
-/* returns size of BB. */
+/** returns size of BB. */
 void Solid::getDimBB(V3 &dim) const
 {
   dim = bbsize;
 }
 
-#if 0 //notused
-/* returns relative center of BB. */
-void Solid::getCentBB(V3 &center) const
-{
-  center = bbcent;
-}
-#endif //notused
-
-/* Returns absolute center and size of AABB. */
+/** Returns absolute center and size of AABB. */
 void Solid::getAbsBB(V3 &center, V3 &size)
 {
   V3 vtmp[2], vrel, vabs, vmin, vmax;
@@ -1214,7 +1206,7 @@ void Solid::updateBB(GLfloat az)
   ::g.render.updBB(az);
 }
 
-/* returns materials. */
+/** returns materials. */
 void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alp)
 {
   for (int i=0; i<4; i++) {
@@ -1227,7 +1219,7 @@ void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi,
   *alp = alpha;
 }
 
-// accessor - get WO parent from Solid
+/** Gets WO parent from Solid - accessor */
 WO* Solid::object() const
 {
   return wobject;
@@ -1395,7 +1387,7 @@ void Solid::setFrame(uint8_t _frame)
   frame = _frame % nbframes;
 }
 
-/* transpose vreng to opengl coordinates system */
+/** Transposes vreng to opengl coordinates system */
 void Solid::vr2gl()
 {
   GLfloat gl_mat[16];
@@ -1419,12 +1411,13 @@ GLint Solid::getTexid() const
 // Rendering solids
 //
 
-void Solid::displaySolid(render_type type)
+/** Renders a solid */
+void Solid::displaySolid(render_type rdr_type)
 {
   if (isBlinking() && (! toggleBlinking()))
     return;		// pass one turn
 
-  switch (type) {
+  switch (rdr_type) {
 
     case OPAQUE:	// Display opaque solids
       if (isReflexive())
@@ -1486,7 +1479,7 @@ void Solid::displayFlary()
 }
 
 
-/* Renders a solid calling its dlists. */
+/** Renders a solid calling its dlists. */
 int Solid::displayList(int display_mode = NORMAL)
 {
   GLint bufs = GL_NONE;
@@ -1535,7 +1528,7 @@ int Solid::displayList(int display_mode = NORMAL)
          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
        }
        if (fog[0] > 0) {
-         echo("fog=%f %s", fog[0], object()->objectName());
+         //echo("fog=%f %s", fog[0], object()->objectName());
          glEnable(GL_FOG);
          glFogi(GL_FOG_MODE, GL_EXP);
          glFogf(GL_FOG_DENSITY, fog[0]);
@@ -1622,4 +1615,3 @@ int Solid::displayList(int display_mode = NORMAL)
 
   return dlists[frame];		// displaylist number
 }
-

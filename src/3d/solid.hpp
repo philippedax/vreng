@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng/
 //
-// Copyright (C) 1997-2021 Philippe Dax
+// Copyright (C) 1997-2024 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -241,7 +241,6 @@ static const uint8_t FRAME_MAX;		// 255
 
   void getDimBB(V3& bbsize) const;
   void getRelBB(V3& bbcent, V3& bbsize) const;
-  //notused void getCentBB(V3& bbcent) const;
   /**< Returns relative bounding-box. */
 
   void getAbsBB(V3& bbcent, V3& bbsize);
@@ -395,16 +394,6 @@ static const uint8_t FRAME_MAX;		// 255
 
   char* getTok(char* l, uint16_t* stok);
   /** Gets current solid token. */
-
-  //notused void displayObject();
-  //notused /**< Displays a reflexive object. */
-  //notused int solidIntersect(Solid *s2);
-  //notused /**< Returns True if both solids 's1' et 's2' intersect themself
-  //notused  * not implemented for the moment: return 'true'. */
-  //notused static void setFrameBuffer(char *buf, int x0, int y0, int xsize, int ysize);
-  //notused /**< parameters given the position of the display buffer in the display window
-  //notused  * (at address 'buf').
-  //notused  * note: 'xsize' and 'x0' must be even. */
 
 };
 
