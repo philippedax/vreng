@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng/
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -175,7 +175,7 @@ const char* World::getName() const
   return name;
 }
 
-/** Check whether this url has been already loaded - static */
+/** Checks whether this url has been already loaded - static */
 World * World::worldByUrl(const char *url)
 {
   if (! url) return NULL;	// sandbox world
@@ -401,8 +401,7 @@ void World::compute(time_t sec, time_t usec)
   }
 }
 
-/** Calls a world */
-// private
+/** Calls a world - private */
 bool World::call(World *w)
 {
   if (w->linked) {
@@ -432,8 +431,7 @@ bool World::call(World *w)
   return true;		// success
 }
 
-/** Go to the previous World */
-// static
+/** Go to the previous world - static */
 World * World::goPrev()
 {
   World *worldback = worldList->next;
@@ -460,8 +458,7 @@ World * World::goPrev()
   return NULL;
 }
 
-/** Go to the next World */
-// static
+/** Go to the next world - static */
 World * World::goNext()
 {
   if (! worldList->next) return NULL;	// no forward world
@@ -486,8 +483,7 @@ World * World::goNext()
   return NULL;
 }
 
-/** Exchange Worlds in the list */
-// static
+/** Exchanges worlds in the list - static */
 World * World::swap(World *w)
 {
   if (worldList == w) return worldList;	// same world
@@ -525,7 +521,7 @@ void World::initGrid()
   clearGrid();
 }
 
-/** clear all pointers in the grid */
+/** Clears all pointers in the grid */
 void World::clearGrid()
 {
   for (int x=0; x < dimgrid[0]; x++) {
@@ -537,7 +533,7 @@ void World::clearGrid()
   }
 }
 
-/** Check and load my proper icons - static */
+/** Checks and load my proper icons - static */
 void World::checkIcons()
 {
   chdir(::g.env.icons());
@@ -585,7 +581,7 @@ void World::checkIcons()
   chdir(::g.env.cwd());
 }
 
-/** Check whether other objects are persistents */
+/** Checks whether other objects are persistents */
 void World::checkPersist()
 {
   VSql *vsql = new VSql();     // first take the VSql handle;
@@ -632,7 +628,7 @@ void World::checkPersist()
   }
 }
 
-/** world reader - static */
+/** Reads a world - static */
 void World::worldReader(void *_url, Http *http)
 {
   char *url = static_cast<char *>(_url);
@@ -699,7 +695,7 @@ httpread:
 void World::init(const char *url)
 {
   //
-  // Create initial world (Rendezvous)
+  // Creates initial world (Rendezvous)
   //
   World *world = new World();
 
@@ -836,7 +832,7 @@ void World::quit()
   Tool::quitTools();		// quits all tools
 }
 
-/** New World initialization - static */
+/** Enters in a new World - static */
 World * World::enter(const char *url, const char *chanstr, bool isnew)
 {
   trace(DBG_WO, "world enter");

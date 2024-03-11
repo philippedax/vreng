@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng/
 //
 // Copyright (C) 1997-2009 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
@@ -25,8 +25,6 @@
 #include <list>
 
 using namespace std;
-
-//notused #define MAX_WORLDS 256
 
 
 /**
@@ -210,9 +208,6 @@ public:
   /**< Clears all lists. */
 
   static void dumpworldList(const char *note);
-
-  //notused static const char * getManagerChan();
-  //notused /**< Gets the channel name of the manager. */
 };
 
 #endif
