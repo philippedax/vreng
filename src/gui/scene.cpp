@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng/
 //
 // Copyright (C) 1997-2022 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -22,8 +22,6 @@
  *  scene.cpp : scene for the VREng GUI
  *  VREng Project
  *  Author: Eric Lecolinet - ENST Paris
- *
- *  WWW: http://www.enst.fr/~elc/ubit  http://vreng.enst.fr/
  */
 #include <ubit/ugl.hpp>
 #include "vreng.hpp"
@@ -40,7 +38,7 @@
 #include "timer.hpp"	// ::g.timer
 
 
-/** constructor */
+/** Constructor */
 Scene::Scene(Widgets* _gw) :
  gw(*_gw), 
  is_visible(true),		// should be set to false when the window is iconified !
@@ -75,39 +73,7 @@ Scene::Scene(Widgets* _gw) :
           + UOn::resize / ucall(this, &Scene::resizeCB));
 }
 
-#if 0 //notused
-///< checks whether the scene is initialized.
-bool Scene::isInitialized()
-{
-  return is_initialized;
-}
-
-void Scene::setNetDelay(int msec)
-{
-  net_delay = msec;
-}
-
-int Scene::getNetDelay() const
-{
-  return net_delay;
-}
-
-void Scene::getScene(GLint coords[4])
-{
-  UView* v = getView();
-  if (! v) {
-    coords[0] = coords[1] = coords[2] = coords[3] = 0;
-  }
-  else {
-    UPoint pos = v->getGLPos();
-    coords[0] = int(pos.x);
-    coords[1] = int(pos.y);
-    coords[2] = int(v->getWidth());
-    coords[3] = int(v->getHeight());
-  }
-}
-#endif //notused
-
+/** Sets the background color */
 void Scene::setBackground(UColor& c)
 {
   background.setColor(c);
@@ -210,8 +176,10 @@ void Scene::resizeCB(UResizeEvent& e)
   resize(e, int(e.getView()->getWidth()), int(e.getView()->getHeight()));
 }
 
-// netTimeout can't be called directly because a callback function must have 1 or 2
-// arguments (the arg of netTimeoutCB is not used by syntactically required)
+/**
+ * netTimeout can't be called directly because a callback function must have 1 or 2
+ * arguments (the arg of netTimeoutCB is not used by syntactically required)
+ */
 void Scene::netTimeoutCB()
 {
   ::netTimeout();  // checks if various updates are needed
@@ -243,6 +211,7 @@ void Scene::init()
   is_initialized = true;	// the scene is initialized and ready for rendering
 }
 
+/** Resizes scene */
 void Scene::resize(UResizeEvent& e, int width, int height)
 {
   ::g.pref.width3D  = width;
@@ -250,6 +219,7 @@ void Scene::resize(UResizeEvent& e, int width, int height)
   UAppli::setFocus(e.getView()); // gives the input focus to this view
 }
 
+/** Refresh the hud corner */
 void Scene::refreshHud()
 {
   char row[32];
@@ -290,6 +260,7 @@ void Scene::refreshHud()
   }
 }
 
+/** Toggles the hud */
 void Scene::toggleHud()
 {
   is_hudvisible ^= 1;
