@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
@@ -34,8 +34,6 @@
 
 
 // local
-static const char HTTP_PROXY[] = "http_proxy";
-static const char NO_PROXY[] = "no_proxy";
 
 static int32_t nbsimcon;		// current number of simultaneous connections
 static Vpthread_mutex_t nbsimcon_mutex;	// lock on the global variable simcon
@@ -43,6 +41,8 @@ static tWaitFifo *fifofirst, *fifolast;	// variables protected by nbsimcon_mutex
 static uint8_t proxy=0, noproxy=0;
 static uint16_t portproxy;
 static char *domnoproxy, *hostproxy;
+static const char HTTP_PROXY[] = "http_proxy";
+static const char NO_PROXY[] = "no_proxy";
 
 
 /** Begin a thread */
@@ -244,13 +244,13 @@ void * Http::connection(void *_http)
     break;
 
   case Url::URLHTTP:	// http://
-htretry:
+httpretry:
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {  // proxy
       if ((hp = my_gethostbyname(hostproxy, AF_INET)) == NULL) {
         echo("my_gethostbyname hostproxy=%s", hostproxy);
         proxy = 0;
         noproxy = 0;
-        goto htretry;
+        goto httpretry;
       }
       memset(&httpsa, 0, sizeof(struct sockaddr_in));
       httpsa.sin_family = AF_INET;
@@ -377,7 +377,7 @@ htretry:
                       *q = '\0';
                       strcpy(host, p+17);	// redirect host
                       echo("redirect host = %s", host);
-                      goto htretry;
+                      goto httpretry;
                     }
                   }
                 }
@@ -410,7 +410,7 @@ htretry:
                   *q = '\0';
                 }
                 else {
-                  p[MIME_LEN] = 0;
+                  p[MIME_LEN] = '\0';
                 }
                 //echo("mime=%s %s", p, http->url);
                 // only for textures
@@ -460,7 +460,7 @@ int Http::httpRead(char *pbuf, int maxl)
 {
   int lread = 0;
 
-  // modifie par Fabrice, lread= longueur lue, maxl= longueur restante a recevoir
+  // modified by Fabrice, lread= read length, maxl= remain length to receive
   int length = (off < 0) ? 0 : len - off;
 
   if (length > 0) {
@@ -474,7 +474,7 @@ int Http::httpRead(char *pbuf, int maxl)
   while (maxl > 0) {
     int r = ::read(sd, pbuf+lread, maxl);
     if (r < 0) {
-      error("%s (%d) maxl=%d off=%d len=%d", strerror(errno), errno, maxl, off, len);
+      error("%s (%d) maxl=%d off=%d", strerror(errno), errno, maxl, off);
       return r;
     }
     if (r == 0)	{
@@ -515,7 +515,7 @@ int Http::read_char()
     http_pos = 0;
     if ((http_len = httpRead(reinterpret_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
-      return -1;	// http eof
+      return 0;		// http eof
     }
   }
   return http_buf[http_pos++];
@@ -529,7 +529,7 @@ uint32_t Http::read_buf(char *buf, int maxlen)
   if (siz >= maxlen) {
     memcpy(buf, http_buf, maxlen);
     http_pos += maxlen;
-    return (uint32_t) maxlen;
+    return static_cast<uint32_t>(maxlen);
   }
   else {
     memcpy(buf, http_buf, siz);
@@ -539,8 +539,8 @@ uint32_t Http::read_buf(char *buf, int maxlen)
       http_eof = true;
       return -1;	// http eof
     }
-    int size = siz + r;
-    return (uint32_t) size;
+    uint32_t size = siz + r;
+    return size;
   }
 }
 
@@ -620,12 +620,12 @@ int Http::getChar()
     http_pos = 0;
     if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
-      return -1;	// http eof
+      return 0;		// http eof
     }
     if (http_len < 0) {
       error("getChar: len=%d", http_len);
       http_eof = true;
-      return -2;	// err
+      return -1;	// err
     }
   }
   return http_buf[http_pos++];
@@ -639,7 +639,7 @@ int32_t Http::read_int()
   if (http_pos >= http_len) {
     if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
-      return -1;	// http eof
+      return 0;		// http eof
     }
     http_pos = 0;
   }
@@ -647,7 +647,7 @@ int32_t Http::read_int()
   if (http_pos >= http_len) {
     if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
-      return -1;	// http eof
+      return 0;		// http eof
     }
     http_pos = 0;
   }
@@ -655,7 +655,7 @@ int32_t Http::read_int()
   if (http_pos >= http_len) {
     if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
-      return -1;	// http eof
+      return 0;		// http eof
     }
     http_pos = 0;
   }
@@ -663,7 +663,7 @@ int32_t Http::read_int()
   if (http_pos >= http_len) {
     if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
-      return -1;	// http eof
+      return 0;		// http eof
     }
     http_pos = 0;
   }
