@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
 // 
 // Copyright (C) 1997-2023 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
@@ -33,7 +33,7 @@
 #include <string>
 
 
-/* Constructor */
+/** Constructor */
 Cache::Cache()
 {
   new_cache++;
@@ -41,13 +41,13 @@ Cache::Cache()
   fileout = NULL;
 }
 
-/* Destructor */
+/** Destructor */
 Cache::~Cache()
 {
   del_cache++;
 }
 
-/* Fills cachepath from url */
+/** Fills cachepath from url */
 int Cache::setCachePath(const char *url, char *cachepath)
 {
   if (! url) return 0;
@@ -62,6 +62,7 @@ int Cache::setCachePath(const char *url, char *cachepath)
   return 1;
 }
 
+/** Gets file cache name */
 void Cache::getCacheName(const char *url, std::string& cachefile)
 {
   static char cachepath[PATH_LEN];
@@ -71,6 +72,7 @@ void Cache::getCacheName(const char *url, std::string& cachefile)
   cachefile = cachepath;
 }
 
+/** Gets file path */
 char * Cache::getFilePath(const char *url)
 {
   static char filepath[PATH_LEN];
@@ -80,7 +82,7 @@ char * Cache::getFilePath(const char *url)
   return filepath;
 }
 
-/* Opens an url and writes it into the cache and returns the file opened */
+/** Opens an url and writes it into the cache and returns the file opened */
 FILE * Cache::open(const char *url, Http *http)
 {
   if (! http) return NULL;
@@ -164,7 +166,7 @@ http_reread:
   return fpr;  // file is now opened
 }
 
-/* Closes cache */
+/** Closes cache */
 void Cache::close()
 {
   if (filein) {
@@ -174,8 +176,7 @@ void Cache::close()
 }
 
 #if 0 //notused
-/* Opens an url and writes it into the cache and returns the file opened */
-// static
+/** Opens an url and writes it into the cache and returns the file opened - static */
 FILE * Cache::openCache(const char *url, Http *http)
 {
   if (! http) return NULL;
@@ -229,7 +230,7 @@ FILE * Cache::openCache(const char *url, Http *http)
   return fp;  // file is now opened
 }
 
-/* Closes cache - static */
+/** Closes cache - static */
 void Cache::closeCache(FILE *fp)
 {
   if (fp) {
@@ -238,7 +239,7 @@ void Cache::closeCache(FILE *fp)
 }
 #endif //notused
 
-/* Checks if file is in the cache */
+/** Checks if file is in the cache */
 bool Cache::inCache(const char *url)
 {
   char *cachepath = new char[PATH_LEN];
@@ -263,6 +264,7 @@ bool Cache::inCache(const char *url)
   return false;
 }
 
+/** Gets filename from an url */
 char * Cache::getFilename(void *_tex)
 {
   static char filepath[PATH_LEN] = {0};
@@ -272,6 +274,7 @@ char * Cache::getFilename(void *_tex)
   return filepath;
 }
 
+/** Downloads in the cache a file from an url */
 int Cache::download(const char *_url, char *filename, const char arg[])
 {
   char url[URL_LEN];
@@ -299,6 +302,7 @@ int Cache::download(const char *_url, char *filename, const char arg[])
 #endif
 }
 
+/** Checks existence of a file */
 int Cache::check(const char *url)
 {
   return download(url, NULL, "check");
