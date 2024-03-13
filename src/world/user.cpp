@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -77,6 +77,7 @@ static float near = User::NEAR;
 static bool pause_gravity = false;	// with gravity by default
 
 
+/** Sets defaults */
 void User::defaults()
 {
   width = DEF_WIDTH;
@@ -89,6 +90,7 @@ void User::defaults()
   ray = setV3(0, 0, 0);
 }
 
+/** Sets name */
 void User::setName()
 {
   if (name.given && ! *name.given) {
@@ -98,6 +100,7 @@ void User::setName()
   }
 }
 
+/** Resets position */
 void User::resetPosition()
 {
   pos.x = 0;
@@ -108,6 +111,7 @@ void User::resetPosition()
   pos.ay = 0;
 }
 
+/** Sets position */
 void User::setPosition()
 {
   resetPosition();
