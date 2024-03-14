@@ -36,15 +36,15 @@
 class Texture {
 
  private:
-  bool loaded;			///< load flag
-  char mime[MIME_LEN];		///< mime type of the texture
+  bool loaded;		///< load flag
+  char *mime;		///< mime type of the texture
 
  public:
-  GLuint tex_id;		///< texture id
-  class Img *img;		///< img structure
-  class Http *http;		///< http handle
-  class WO *object;		///< object referant
-  char *url;			///< url where is the texture
+  GLuint tex_id;	///< texture id
+  class Img *img;	///< img structure
+  class Http *http;	///< http handle
+  class WO *object;	///< object referant
+  char *url;		///< url where is the texture
 
   Texture(const char *url);
   /**< Constructor. */

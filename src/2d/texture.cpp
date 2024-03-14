@@ -135,20 +135,14 @@ void Texture::selectLoader(void *_tex, Http *_http)
   if (! _http) return;
   Texture *tex = static_cast<Texture *>(_tex);
   tex->http = _http;
-  //echo("texture: mime=%s url=%s", tex->mime, tex->url);
+  //echo("texture: %s", tex->url);
 
+  uint8_t format = 0;
   Img *img = NULL;
 
-  // get the format type by mime type or file extension
-  uint8_t format = Format::getLoaderByMime(tex->mime);
-  switch (format) {
-  case IMG_NULL:
-    format = Format::getLoaderByUrl(tex->url);
-    break;
-  }
-
-  // call the appropriated loader
-  switch (format) {
+  // get the format type by file extension
+  format = Format::getLoaderByUrl(tex->url);
+  switch (format) {	// call the appropriated loader
     case IMG_GIF: img = Img::loadGIF(tex, imageReader); break;
     case IMG_PNG: img = Img::loadPNG(tex, imageReader); break;
     case IMG_JPG: img = Img::loadJPG(tex, imageReader); break;
@@ -182,16 +176,18 @@ void Texture::selectLoader(void *_tex, Http *_http)
 Texture::Texture(const char *_url)
 {
   http = NULL;
+  url = NULL;
   img = NULL;
+  mime = NULL;
   object = NULL;
   loaded = false;
-  *mime = '\0';
 
   textureList.push_back(this);
   tex_id = create();
   last_texid = tex_id;
 
-  url = new char[URL_LEN];
+  if (! url)
+    url = new char[URL_LEN];
   strcpy(url, _url);
   // load image
   switch (Format::getLoaderByUrl(const_cast<char *>(_url))) {
@@ -207,7 +203,7 @@ Texture::~Texture()
   del_texture++;
 }
 
-/** Opens an image texture */
+/** Opens an image texture - returns tex_id */
 GLuint Texture::open(const char *_url)
 {
   if (! Url::check(_url)) return 0;
@@ -288,6 +284,8 @@ GLuint Texture::getIdByObject(WO *wo)
 /** Sets mime string */
 void Texture::setMime(char *p)
 {
+  if (! mime)
+    mime= new char[MIME_LEN];
   if (strlen(p) < MIME_LEN) {
     strcpy(mime, p);
   }
