@@ -178,7 +178,6 @@ Texture::Texture(const char *_url)
   http = NULL;
   url = NULL;
   img = NULL;
-  mime = NULL;
   object = NULL;
   loaded = false;
 
@@ -281,6 +280,16 @@ GLuint Texture::getIdByObject(WO *wo)
   return 0;
 }
 
+/** Lists textures - debug */
+void Texture::listTextures()
+{
+  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+    echo("%d %s", (*it)->tex_id, (*it)->url);
+  }
+  return;
+}
+
+#if 0 //notused
 /** Sets mime string */
 void Texture::setMime(char *p)
 {
@@ -296,16 +305,6 @@ void Texture::setMime(char *p)
   }
 }
 
-/** Lists textures - debug */
-void Texture::listTextures()
-{
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
-    echo("%d %s", (*it)->tex_id, (*it)->url);
-  }
-  return;
-}
-
-#if 0 //notused
 Texture * Texture::getTexByUrl(const char *url)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {

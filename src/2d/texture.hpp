@@ -37,7 +37,7 @@ class Texture {
 
  private:
   bool loaded;		///< load flag
-  char *mime;		///< mime type of the texture
+  //notused char *mime;	///< mime type of the texture
 
  public:
   GLuint tex_id;	///< texture id
@@ -79,12 +79,11 @@ class Texture {
   static void update();
   /**< Updates textures (resizing). */
 
-  void setMime(char *p);
-  /**< copy mime type. */
-
   static void listTextures();
   /**< List textureList. */
 
+  //notused void setMime(char *p);
+  //notused /**< copy mime type. */
   //notused static char * getUrlById(GLuint texid);
   //notused /**< Gets a texture url by its texture id. */
   //notused static Texture * getTexByUrl(const char *url);
