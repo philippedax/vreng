@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -33,25 +33,27 @@
 using namespace std;
 
 
-/* local variables */
+// local variables
 static list<Texture*> textureList;
 static Img *default_img = NULL;
 static GLuint last_texid = 0;
 static Vpthread_mutex_t texture_mutex, *tex_pmutex = &texture_mutex;
 
 
+/** Texture initialization */
 void Texture::init()
 {
   default_img = Img::init();
   initMutex(tex_pmutex);
 }
 
+/** Texture terminaison */
 void Texture::quit()
 {
   if (default_img) delete default_img;
 }
 
-/* called by Render() */
+/** Updates textures - called by render() */
 void Texture::update()
 {
   lockMutex(tex_pmutex);
@@ -60,17 +62,17 @@ void Texture::update()
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->img) {
       if (! (*it)->img->pixmap) {
-        //error("updateTextures pixmap=null: id=%d url=%s", (*it)->id, (*it)->url);
+        //error("updateTextures pixmap=null: id=%d url=%s", (*it)->tex_id, (*it)->url);
         continue;
       }
-      glBindTexture(GL_TEXTURE_2D, (*it)->id);
+      glBindTexture(GL_TEXTURE_2D, (*it)->tex_id);
 
       if (! (*it)->img->wellsized()) {
         // image must be resized
         Img *img1 = NULL;
-        //echo("wellsized: %s", (*it)->url);
+        //echo("to resize: %s", (*it)->url);
         if ((img1 = (*it)->img->resize(Img::SIZE, Img::SIZE)) == NULL) {
-          error("updateTextures: id=%d u=%s", (*it)->id, (*it)->url);
+          error("updateTextures: id=%d u=%s", (*it)->tex_id, (*it)->url);
           continue;
         }
         glTexImage2D(GL_TEXTURE_2D, 0, 3, img1->width, img1->height, 0,
@@ -119,6 +121,7 @@ void Texture::update()
   unlockMutex(tex_pmutex);
 }
 
+/** image reader */
 int imageReader(void *_tex, char *buf, int len)
 {
   Texture *tex = static_cast<Texture *>(_tex);
@@ -126,13 +129,13 @@ int imageReader(void *_tex, char *buf, int len)
   return tex->http->httpRead(buf, len);        // return read length
 }
 
-void Texture::reader(void *_tex, Http *_http)
+/** Selects a texture loader */
+void Texture::selectLoader(void *_tex, Http *_http)
 {
   if (! _http) return;
   Texture *tex = static_cast<Texture *>(_tex);
-
   tex->http = _http;
-  trace(DBG_2D, "texture: mime=%s url=%s", tex->mime, tex->url);
+  //echo("texture: mime=%s url=%s", tex->mime, tex->url);
 
   Img *img = NULL;
 
@@ -176,7 +179,7 @@ void Texture::reader(void *_tex, Http *_http)
 }
 
 /** Constructor */
-Texture::Texture(const char *url)
+Texture::Texture(const char *_url)
 {
   http = NULL;
   img = NULL;
@@ -185,53 +188,52 @@ Texture::Texture(const char *url)
   *mime = '\0';
 
   textureList.push_back(this);
-  //dax object = WO::getSolid()->wobject;
-  id = create();
-  last_texid = id;
+  tex_id = create();
+  last_texid = tex_id;
 
-  if (url) {
-    strcpy(this->url, url);
-    // load image
-    switch (Format::getLoaderByUrl(const_cast<char *>(url))) {
-      case IMG_GIF: Http::httpOpen(url, reader, this, 1); break; // multi-threaded
-      default:      Http::httpOpen(url, reader, this, 0); break;
-    }
+  url = new char[URL_LEN];
+  strcpy(url, _url);
+  // load image
+  switch (Format::getLoaderByUrl(const_cast<char *>(_url))) {
+    case IMG_GIF: Http::httpOpen(_url, selectLoader, this, 1); break; // multi-threaded
+    default:      Http::httpOpen(_url, selectLoader, this, 0); break;
   }
   new_texture++;
 }
 
+/** Destructor */
 Texture::~Texture()
 {
   del_texture++;
 }
 
 /** Opens an image texture */
-GLuint Texture::open(const char *url)
+GLuint Texture::open(const char *_url)
 {
-  if (! Url::check(url)) return 0;
+  if (! Url::check(_url)) return 0;
 
-  Texture * texture = new Texture(url);	// new entry in cache
+  Texture * texture = new Texture(_url);	// new entry in cache
 
-  texture->id = create();		// creates texture and return texid
-  last_texid = texture->id;
-  //trace(DBG_2D, "texture: id=%d %s", texture->id, url);
+  texture->tex_id = create();		// creates texture and return texid
+  last_texid = texture->tex_id;
+  //echo("texture: id=%d %s", texture->tex_id, _url);
 
   // we must download the texture now
-  strcpy(texture->url, url);
-  switch (Format::getLoaderByUrl(const_cast<char *>(url))) {
-    case IMG_GIF: Http::httpOpen(url, reader, texture, 1); break; // multi-threaded
-    default:      Http::httpOpen(url, reader, texture, 0); break;
+  strcpy(texture->url, _url);
+  switch (Format::getLoaderByUrl(const_cast<char *>(_url))) {
+    case IMG_GIF: Http::httpOpen(_url, selectLoader, texture, 1); break; // multi-threaded
+    default:      Http::httpOpen(_url, selectLoader, texture, 0); break;
   }
-  return texture->id;
+  return texture->tex_id;
 }
 
 /** Creates texid and returns it. */
 GLuint Texture::create()
 {
-  GLuint texid = 0;
+  GLuint id = 0;
 
-  glGenTextures(1, (GLuint *) &texid);
-  glBindTexture(GL_TEXTURE_2D, texid);
+  glGenTextures(1, (GLuint *) &id);
+  glBindTexture(GL_TEXTURE_2D, id);
   glTexImage2D(GL_TEXTURE_2D, 0, 3, default_img->width, default_img->height, 0,
                GL_RGB, GL_UNSIGNED_BYTE, default_img->pixmap);
   GLint param = (::g.pref.quality3D) ? GL_LINEAR : GL_NEAREST;
@@ -240,43 +242,69 @@ GLuint Texture::create()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-  return texid;
+  return id;
 }
 
+/** Gets current texid */
 GLuint Texture::current()
 {
   return last_texid;
 }
 
+/** Gets texture by its ID */
 Texture * Texture::getTexById(GLuint texid)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
-    if ((*it)->id == texid) {
+    if ((*it)->tex_id == texid) {
       return *it;	// texture is in the cache
     }
   }
   return NULL;
 }
 
+/** Gets texture-id by its url */
 GLuint Texture::getIdByUrl(const char *url)
 {
   open(url);
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if (! strcmp((*it)->url, url)) {
-      return (*it)->id;
+      return (*it)->tex_id;
     }
   }
   return 0;
 }
 
+/** Gets texture-id by its object */
 GLuint Texture::getIdByObject(WO *wo)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->object == wo) {
-      return (*it)->id;
+      return (*it)->tex_id;
     }
   }
   return 0;
+}
+
+/** Sets mime string */
+void Texture::setMime(char *p)
+{
+  if (strlen(p) < MIME_LEN) {
+    strcpy(mime, p);
+  }
+  else {
+    strncpy(mime, p, MIME_LEN-1);
+    mime[MIME_LEN-1] = 0;
+    error("mime type too long = %s", p);
+  }
+}
+
+/** Lists textures - debug */
+void Texture::listTextures()
+{
+  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+    echo("%d %s", (*it)->tex_id, (*it)->url);
+  }
+  return;
 }
 
 #if 0 //notused
@@ -294,30 +322,10 @@ Texture * Texture::getTexByUrl(const char *url)
 char * Texture::getUrlById(GLuint texid)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
-    if ((*it)->id == texid) {
+    if ((*it)->tex_id == texid) {
       return (*it)->url;	// texture is in the cache
     }
   }
   return NULL;
 }
 #endif //notused
-
-void Texture::setMime(char *p)
-{
-  if (strlen(p) < MIME_LEN) {
-    strcpy(mime, p);
-  }
-  else {
-    strncpy(mime, p, MIME_LEN-1);
-    mime[MIME_LEN-1] = 0;
-    error("mime type too long = %s", p);
-  }
-}
-
-void Texture::listTextures()
-{
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
-    echo("%d %s", (*it)->id, (*it)->url);
-  }
-  return;
-}

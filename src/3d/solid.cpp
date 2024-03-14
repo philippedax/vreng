@@ -629,9 +629,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
           if (*urltex) {
             texture = new Texture(urltex);
             for (int i=0; i<6 ; i++) {
-              box_tex[i] = texture->id;
+              box_tex[i] = texture->tex_id;
             }
-            texid = texture->id;
+            texid = texture->tex_id;
             texture->object = wobject;
           }
           delete[] urltex;
@@ -647,8 +647,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
           l = wobject->parse()->parseString(l, urltex);
           if (*urltex) {
             texture = new Texture(urltex);
-            box_tex[stok - STOK_TEX_XP] = texture->id;
-            texid = texture->id;
+            box_tex[stok - STOK_TEX_XP] = texture->tex_id;
+            texid = texture->tex_id;
             texture->object = wobject;
           }
           delete[] urltex;
@@ -1020,7 +1020,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
           l = wobject->parse()->parseString(l, urltex);
           if (*urltex) {
             texture = new Texture(urltex);
-            texid = texture->id;
+            texid = texture->tex_id;
             texture->object = wobject;
           }
           delete[] urltex;

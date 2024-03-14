@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -40,11 +40,11 @@ class Texture {
   char mime[MIME_LEN];		///< mime type of the texture
 
  public:
-  GLuint id;			///< texture id
+  GLuint tex_id;		///< texture id
   class Img *img;		///< img structure
   class Http *http;		///< http handle
   class WO *object;		///< object referant
-  char url[URL_LEN];		///< url where is the texture
+  char *url;			///< url where is the texture
 
   Texture(const char *url);
   /**< Constructor. */
@@ -52,8 +52,8 @@ class Texture {
   virtual ~Texture();
   /**< Destructor. */
 
-  static void reader(void *_tex, Http *_http);
-  /**< Downloads a texture. */
+  static void selectLoader(void *_tex, Http *_http);
+  /**< Selects a texture loader. */
 
   static void init();
   /**< Initializes the texture cache. */
