@@ -78,17 +78,21 @@ class Http {
   /**< Checks proxy environment variables. */
 
  public:
+  //
   // members
-  int sd;		///< http fd
-  int off;		///< offset in buf
-  int len;		///< length
-  char *buf;		///< buffer
-  char *url;		///< url
+  //
+  int sd;		///< http fd.
+  int off;		///< offset in buf.
+  int len;		///< length.
+  char *buf;		///< buffer.
+  char *url;		///< url.
 
-  Http();		///< constructor
-  virtual ~Http();	///< destructor
-
+  //
   // methods
+  //
+  Http();		///< constructor.
+  virtual ~Http();	///< destructor.
+
   static void init();
   /**< Initializes Http. */
 

@@ -181,10 +181,10 @@ int Http::httpOpen(const char *url,
   if (url) strcpy(http->url, url);
 
   // Checks if url is in the cache (_mode < 0 : don't use the cache)
-  if (_mode >= 0 && Cache::inCache(url)) { // in cache
+  if (_mode >= 0 && Cache::inCache(url)) {	// in cache
     http->httpReader(http->handle, http);	// call the appropiated httpReader
     if (http) {
-      delete http;		// segfault
+      delete http;			// segfault
     }
     http = NULL;
     progression('c');			// 'c' as cache
@@ -194,7 +194,7 @@ int Http::httpOpen(const char *url,
   else {				// not in cache
     progression('i');			// 'i' as image
     if (_mode > 0) {			// is it a thread ?
-      return http->putfifo();	// yes, put it into fifo
+      return http->putfifo();		// yes, put it into fifo
     }
     else {
       connection((void *) http);	// it's not a thread
@@ -325,12 +325,16 @@ httpretry:
       }
 
       /*
-       * parses HTTP/1.1 header received from the server
+       * Parses HTTP/1.1 header received from the httpd server
        */
       http->reset();
 
       do {
-        if ((http->len = ::recv(http->sd, http->buf, HTTP_BUFSIZ, 0)) <= 0) {
+        //
+        // reads a http bloc
+        //
+        http->len = ::recv(http->sd, http->buf, HTTP_BUFSIZ, 0);
+        if (http->len <= 0) {
           httpeoh = true;
           httperr = true;
           break;
@@ -353,7 +357,7 @@ httpretry:
               break;
             }
             httpheader[i-1] = '\0';	// replace '\r' by '\0'
-            http->off++;			// skip '\0'
+            http->off++;		// skip '\0'
             //echo("->%s", httpheader);
 
             if (hanswer) {
@@ -364,11 +368,11 @@ httpretry:
                     herr, hmajor, hminor, httpheader+12, http->url);
 
               switch (herr) {
-              case HTTP_200:	// good
+              case HTTP_200:		// good
               case HTTP_202:
                 hanswer = false;	// answer done
                 break;
-              case HTTP_301:	// transcient
+              case HTTP_301:		// transcient
               case HTTP_302:
               case HTTP_307: {
                   char *p, *q;
@@ -382,13 +386,13 @@ httpretry:
                   }
                 }
                 break;
-              case HTTP_400:	// bad request
-              case HTTP_403:	// forbidden
-              case HTTP_404:	// not found
+              case HTTP_400:		// bad request
+              case HTTP_403:		// forbidden
+              case HTTP_404:		// not found
                 error("HTTP-err: %d - %s %s on %s", herr, httpheader, http->url, host);
                 httperr = true;
                 break;
-              case HTTP_503:	// server unavailable
+              case HTTP_503:		// server unavailable
                 error("HTTP-err: %d - server %s unavailable", herr, host);
                 httperr = true;
                 break;
@@ -401,8 +405,8 @@ httpretry:
             if (httperr) {
               break;
             }
-
-            // mime type
+#if 0 //notused mime
+            // extract mime type
             if (! strncmp(httpheader, "Content-Type: ", 14)) {
               char *p, *q;
               if ((p = strchr(httpheader, '/')) != NULL) {
@@ -420,8 +424,9 @@ httpretry:
                 }
               }
             }
+#endif //notused
           }
-          else {
+          else {		// end of block
             break;
           }
         } // end for
