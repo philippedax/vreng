@@ -1,6 +1,6 @@
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
-// Copyright (C) 1997-2021 Philippe Dax
+// Copyright (C) 1997-2024 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -110,7 +110,9 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
  postponedKRmask(0),
  postponedKRcount(0)
 {
+  //
   // main box
+  //
   addAttr(g.theme.mainStyle);
   add(  utop()
       + menubar
@@ -147,31 +149,29 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
 }
 
 
-//---------------------------------------------------------------------------
-/** infobar = navig_box + infos_box */
+/** Infobar = navig_box + infos_box */
 UBox& Widgets::createInfobar()
 {
-  UBox& navig_box =
-  uhbox(  upadding(8,0)
-        + uhspacing(8)
-        + uleft()
-        + UFont::bold
-        + uitem(  g.theme.Left //USymbol::left
-                + utip("Prev world")
-                + ucall(this, &Widgets::prevCB)
-               )
-        + "   "
-        + uitem(  g.theme.Up //USymbol::up
-                + utip("Home world")
-                + ucall(this, &Widgets::homeCB)
-               )
-        + "   "
-        + uitem(  g.theme.Right //USymbol::right
-                + utip("Next world")
-                + ucall(this, &Widgets::nextCB)
-               )
-        //+ usepar()
-       );
+  UBox& navig_box = uhbox(  upadding(8,0)
+                          + uhspacing(8)
+                          + uleft()
+                          + UFont::bold
+                          + uitem(  g.theme.Left //USymbol::left
+                                  + utip("Prev world")
+                                  + ucall(this, &Widgets::prevCB)
+                                 )
+                          + "   "
+                          + uitem(  g.theme.Up //USymbol::up
+                                  + utip("Home world")
+                                  + ucall(this, &Widgets::homeCB)
+                                 )
+                          + "   "
+                          + uitem(  g.theme.Right //USymbol::right
+                                  + utip("Next world")
+                                  + ucall(this, &Widgets::nextCB)
+                                 )
+                          //+ usepar()
+                         );
 
   // infos_box initially contains the welcome message,
   // its changed dynamically when objects are selected
@@ -197,8 +197,8 @@ void Widgets::setInfobar(UBox* content)
 }
 
 
-//---------------------------------------------------------------------------
-/** menubar on top of the window :
+/**
+ * Menubar on top of the window
  * [File] [View] [Goto] [History] [Tool] [Mark] [About]
  */
 UBox& Widgets::createMenubar()
@@ -302,7 +302,7 @@ void Widgets::dynamicMenus(UMenubar& menubar, const char* filename)
   }
 }
 
-// Mark menu
+/** Mark menu */
 UMenu& Widgets::markMenu()
 {
   UBox& mark_box = uvbox();
@@ -333,13 +333,7 @@ UMenu& Widgets::markMenu()
   return mark_menu;
 }
 
-void Widgets::showInfoDialog(const char* title, const char* message)
-{
-  UDialog::showMessageDialog(title, uscrollpane(usize(450, 500) + utextarea(message)));
-}
 
-
-//---------------------------------------------------------------------------
 GuiItem::GuiItem(UArgs a) : UButton(a)
 {
   addAttr(UBorder::none + UOn::enter / UBackground::blue + UOn::arm / UBackground::blue);
@@ -392,7 +386,7 @@ static void setWorld(GuiItem* gw, World *world, bool isCurrent)
   UFont *font = isCurrent ? &UFont::bold : &UFont::plain;
   gw->add(font
           + ustr(world->getName())
-          + umenu(UFont::bold + UColor::navy
+          + umenu(  UFont::bold + UColor::navy
                   + uhbox(" URL: " + UFont::plain + world->getUrl())
                   + uhbox(" Channel: " + UFont::plain + world->getChan())
                  )
@@ -430,17 +424,7 @@ void Widgets::removeWorld(World *world)
   world->resetGui();
 }
 
-/** do an action on local user */
-void Widgets::callAction(int numaction)
-{
-  if (! localuser)  return;
-
-  struct timeval t;
-  gettimeofday(&t, NULL);
-  localuser->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);	// do action
-}
-
-/** do an action on selected object */
+/** Makes an action on selected object */
 static void objectActionCB(int numaction)
 {
   WO* object = g.gui.getSelectedObject();
@@ -451,7 +435,17 @@ static void objectActionCB(int numaction)
   }
 }
 
-/** returns info about the pointed object */
+/** Makes an action on local user */
+void Widgets::callAction(int numaction)
+{
+  if (! localuser)  return;
+
+  struct timeval t;
+  gettimeofday(&t, NULL);
+  localuser->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);	// do action
+}
+
+/** Returns info about the pointed object */
 WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 {
   static char *classname = 0, *currentname = 0, *actionnames = 0;
@@ -507,6 +501,7 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   return object;
 }
 
+/** Lanches a ray */
 void Widgets::setRayDirection(int x, int y)
 {
   if (localuser) {
@@ -514,11 +509,13 @@ void Widgets::setRayDirection(int x, int y)
   }
 }
 
+
 //---------------------------------------------------------------------------
 //
 // CALLBACKS
 //
 
+/** Home world */
 void Widgets::homeCB()
 {
   char chan_str[CHAN_LEN];
@@ -534,16 +531,19 @@ void Widgets::homeCB()
   if (audioactive) Audio::start(chan_str);
 }
 
+/** Previous world */
 void Widgets::prevCB()
 {
   World::goPrev();
 }
 
+/** Next world */
 void Widgets::nextCB()
 {
   World::goNext();
 }
 
+/** Saves world */
 void Widgets::saveCB()
 {
   char vrein[PATH_LEN] = {0}, vreout[PATH_LEN], buf[BUFSIZ];
@@ -578,6 +578,7 @@ void Widgets::siteCB()
   system(cmd.c_str());
 }
 
+/** Preferences tools */
 void Widgets::prefCB(int tool)
 {
   if (tool & AUDIO_MASK)      Audio::init(tool);
@@ -653,7 +654,7 @@ void Widgets::markCB()
 
 //---------------------------------------------------------------------------
 /*
- *  Key management and correspondance with VREng keys
+ *  Keys management and correspondance with VREng keys
  */
 
 void Widgets::setKey(int key, int ispressed)
@@ -664,7 +665,7 @@ void Widgets::setKey(int key, int ispressed)
   changeKey(key, ispressed, t.tv_sec, t.tv_usec);
 }
 
-/*
+/**
  * converts the X keysym into a Vreng change key (vrkey) and returns
  * a keymask which is an hexa value for marking released keys in the KRmask
  */
@@ -792,6 +793,12 @@ void Widgets::flushPostponedKRs()
 //
 //  Dialogs
 //
+
+/** Shows infos */
+void Widgets::showInfoDialog(const char* title, const char* message)
+{
+  UDialog::showMessageDialog(title, uscrollpane(usize(450, 500) + utextarea(message)));
+}
 
 /** Displays preferences */
 UDialog& Widgets::prefsDialog()
@@ -926,7 +933,7 @@ static void worldsHttpReader(void *box, Http *http)
   delete cache;
 }
 
-/** Dialog box for vre source */
+/** Dialog box to display vre source */
 void Widgets::sourceDialog()
 {
   World *world = World::current();
@@ -945,7 +952,7 @@ void Widgets::sourceDialog()
   source_dialog.show();
 }
 
-/** Dialog box for present objects in the current world */
+/** Dialog box for to display present objects in the current world */
 void Widgets::objectsDialog()
 {
   char line[64];
@@ -963,6 +970,7 @@ void Widgets::objectsDialog()
   objects_dialog.show();
 }
 
+/** Dialog box to display current stats */
 void Widgets::statsDialog()
 {
   FILE *fin = NULL;
@@ -982,6 +990,7 @@ void Widgets::statsDialog()
   stats_dialog.show();
 }
 
+/** Dialog box for messages */
 void Widgets::messDialog()
 {
   UBox& mess_box = uvbox(UBackground::none);
@@ -1002,7 +1011,7 @@ void Widgets::messDialog()
   mess_dialog.show();
 }
 
-/** Dialog box for worlds list */
+/** Dialog box to display worlds list */
 void Widgets::gotoDialog()
 {
   char worlds_url[URL_LEN];
@@ -1036,6 +1045,7 @@ void Widgets::worldsDialog()
   worlds_dialog.show();
 }
 
+/** Sets buttons for Tools */
 UDialog& Widgets::settingsDialog()
 {
   URadioSelect
@@ -1163,11 +1173,7 @@ UDialog& Widgets::settingsDialog()
   );
 }
 
-UDialog& Widgets::gridDialog()
-{
-  return udialog(Grid::grid()->gridBox());
-}
-
+/** Dialog box for tools */
 UDialog& Widgets::toolDialog()
 {
   return udialog
@@ -1180,8 +1186,12 @@ UDialog& Widgets::toolDialog()
   );
 }
 
+/** Dialog box for grid */
+UDialog& Widgets::gridDialog()
+{
+  return udialog(Grid::grid()->gridBox());
+}
 
-//---------------------------------------------------------------------------
 
 VncDialog* VncDialog::vnc_dialog = null;
 
