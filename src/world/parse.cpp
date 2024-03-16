@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
-// Copyright (C) 1997-2021 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2024 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -999,6 +999,7 @@ char * Parse::parseVectorf(char *ptok, float *vector, int n)
   return ptok;		// abnormal string
 }
 
+/** Parses a vector of 3 floats */
 char * Parse::parseVector3f(char *ptok, float *vector)
 {
   if (!ptok) {
@@ -1021,6 +1022,15 @@ char * Parse::parseVector3f(char *ptok, float *vector)
   return nextToken();
 }
 
+char * Parse::parseVector3f(char *ptok, float *vector, const char *keystr)
+{
+  if (ptok && !stringcmp(ptok, keystr)) {
+    ptok = skipEqual(ptok);
+    return parseVector3f(ptok, vector);
+  }
+  return nextToken();
+}
+
 /** Parses a vector V3 of floats */
 char * Parse::parseVector3fv(char *ptok, V3 *vector)
 {
@@ -1038,15 +1048,6 @@ char * Parse::parseVector3fv(char *ptok, V3 *vector)
   return nextToken();
 }
 
-char * Parse::parseVector3f(char *ptok, float *vector, const char *keystr)
-{
-  if (ptok && !stringcmp(ptok, keystr)) {
-    ptok = skipEqual(ptok);
-    return parseVector3f(ptok, vector);
-  }
-  return nextToken();
-}
-
 char * Parse::parseVector3fv(char *ptok, V3 *vector, const char *keystr)
 {
   if (ptok && !stringcmp(ptok, keystr)) {
@@ -1056,6 +1057,7 @@ char * Parse::parseVector3fv(char *ptok, V3 *vector, const char *keystr)
   return nextToken();
 }
 
+/** Parses a vector of 5 floats */
 char * Parse::parseVector5f(char *ptok, float *vector)
 {
   if (!ptok) {
