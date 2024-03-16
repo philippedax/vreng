@@ -86,7 +86,10 @@
 
 #include <vector>
 
-/** Constructor : creates all widgets needed for the GUI */
+
+/** Constructor
+ * Creates all widgets needed for the GUI
+ */
 Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
  gui(*_gui),
  scene(*new Scene(this)),
@@ -149,7 +152,7 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
 }
 
 
-/** Infobar = navig_box + infos_box */
+/** Creates Infobar = navig_box + infos_box */
 UBox& Widgets::createInfobar()
 {
   UBox& navig_box = uhbox(  upadding(8,0)
@@ -198,7 +201,7 @@ void Widgets::setInfobar(UBox* content)
 
 
 /**
- * Menubar on top of the window
+ * Creates Menubar on top of the window
  * [File] [View] [Goto] [History] [Tool] [Mark] [About]
  */
 UBox& Widgets::createMenubar()
@@ -334,6 +337,7 @@ UMenu& Widgets::markMenu()
 }
 
 
+/** item constructor */
 GuiItem::GuiItem(UArgs a) : UButton(a)
 {
   addAttr(UBorder::none + UOn::enter / UBackground::blue + UOn::arm / UBackground::blue);
@@ -355,6 +359,7 @@ static void setUser(UBox *gu, User *user)
          );
 }
 
+/** Adds an avatar item */
 GuiItem *Widgets::addUser(User *user)
 {
   if (! user)  return null;
@@ -365,6 +370,7 @@ GuiItem *Widgets::addUser(User *user)
   return gu;
 }
 
+/** Updates an avatar item */
 void Widgets::updateUser(GuiItem* gu, User *user)
 {
   if (! user)  return;
@@ -373,12 +379,14 @@ void Widgets::updateUser(GuiItem* gu, User *user)
   setUser(gu, user);
 }
 
+/** Removes an avatar item */
 void Widgets::removeUser(GuiItem* gu)
 {
   if (! gu)  return;
   avatars.remove(*gu);
 }
 
+/** Sets a world item */
 static void setWorld(GuiItem* gw, World *world, bool isCurrent)
 {
   if (! gw || !world)  return;
@@ -393,6 +401,7 @@ static void setWorld(GuiItem* gw, World *world, bool isCurrent)
          );
 }
 
+/** Adds a world item */
 GuiItem *Widgets::addWorld(World *world, bool isCurrent)
 {
   if (! world)  return null;
@@ -403,6 +412,7 @@ GuiItem *Widgets::addWorld(World *world, bool isCurrent)
   return gw;
 }
 
+/** Updates a world item */
 void Widgets::updateWorld(World *world, bool isCurrent)
 {
   if (! world)  return;
@@ -414,6 +424,7 @@ void Widgets::updateWorld(World *world, bool isCurrent)
   gw->update();
 }
 
+/** Removes a world item */
 void Widgets::removeWorld(World *world)
 {
   if (! world)  return;
@@ -501,7 +512,7 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   return object;
 }
 
-/** Lanches a ray */
+/** Launches a ray */
 void Widgets::setRayDirection(int x, int y)
 {
   if (localuser) {
@@ -666,7 +677,7 @@ void Widgets::setKey(int key, int ispressed)
 }
 
 /**
- * converts the X keysym into a Vreng change key (vrkey) and returns
+ * Converts the X keysym into a Vreng change key (vrkey) and returns
  * a keymask which is an hexa value for marking released keys in the KRmask
  */
 static long convertKey(long keycode, int keychar, int& vrkey)
