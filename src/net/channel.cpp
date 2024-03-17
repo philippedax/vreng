@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -38,15 +38,17 @@
 using namespace std;
 
 
-// local: list
+// local
+
+// list
 list<Channel*> Channel::channelList;
 
-/* local: fds */
+// fds
 static int *tabFd;
 static int *tabManagerFd;
 static int cntFd;
 
-/* local: channels */
+// channels
 static Channel *channel = NULL;		// current channel
 static Channel *managerChannel = NULL;	// manager channel
 static int16_t channelCount = 0;	// channel count
@@ -54,7 +56,7 @@ static int16_t channelCount = 0;	// channel count
 static char vrum_addr[16];
 
 
-/** Find the VRUM address and check if the MBone works */
+/** Finds the VRUM address and check if the MBone works */
 void Channel::initReflector()
 {
   // resolves reflector address
@@ -81,7 +83,7 @@ void Channel::init()
   NetObj::clearList();
 }
 
-/** Create a new Channel */
+/** Creates a new Channel */
 Channel::Channel()
 {
   new_channel++;
@@ -95,12 +97,13 @@ Channel::Channel()
   channelList.push_back(this);
 }
 
+/** Clears list */
 void Channel::clearList()
 {
   channelList.clear();
 }
 
-/** Join group */
+/** Joins group */
 int Channel::joinGroup(int sd)
 {
   if (strcmp(::g.server, "localhost")) {
@@ -115,7 +118,7 @@ int Channel::joinGroup(int sd)
   return sd;
 }
 
-/** Leave group */
+/** Leaves group */
 int Channel::leaveGroup(int sd)
 {
   if (strcmp(::g.server, "localhost")) {
@@ -125,7 +128,7 @@ int Channel::leaveGroup(int sd)
   return sd;
 }
 
-/** Create a Multicast listen socket on the channel defined by group/port */
+/** Creates a Multicast listen socket on the channel defined by group/port */
 int Channel::createMcastRecvSocket(struct sockaddr_in *sa)
 {
   int sd = -1;
@@ -141,6 +144,7 @@ int Channel::createMcastRecvSocket(struct sockaddr_in *sa)
   return sd;
 }
 
+/** Closes a multicast socket */
 void Channel::closeMcastSocket()
 {
   leaveGroup(sd[SD_R_RTP]);
@@ -156,12 +160,13 @@ void Channel::closeMcastSocket()
   sd[SD_W_RTCP] = -1;
 }
 
+/** Gets current channel */
 Channel * Channel::current()
 {
   return channel;
 }
 
-/** Decode the string format "group[/port[/ttl]]" */
+/** Decodes the string format "group[/port[/ttl]]" */
 void Channel::decodeChan(const char *chan_str, uint32_t *group, uint16_t *port, uint8_t *ttl)
 {
   char *ttlstr, *portstr, *groupstr;
@@ -218,7 +223,7 @@ void Channel::namingId()
   NetObj::setObj(0);
 }
 
-/** Create a Channel */
+/** Creates a Channel */
 int Channel::create(const char *chan_str, int **pfds)
 {
   cntfds = 0;	// number of fd
@@ -364,7 +369,7 @@ void Channel::sendBYE()
   }
 }
 
-/** Delete from channelList */
+/** Deletes from channelList */
 void Channel::deleteFromList()
 {
   if (this == managerChannel)  return;
@@ -373,6 +378,7 @@ void Channel::deleteFromList()
   channelList.remove(this);
 }
 
+/** Quits a channel */
 void Channel::quit()
 {
   /* respect this order! */
@@ -386,7 +392,7 @@ void Channel::quit()
   }
 }
 
-/** Channel destructor */
+/** Channel Destructor */
 Channel::~Channel()
 {
   del_channel++;
@@ -436,7 +442,7 @@ bool Channel::joinManager(char *manager_str, const char *chan_str)
   return true;
 }
 
-/** get a socket fd by sockaddr_in */
+/** Gets a socket fd by sockaddr_in */
 int Channel::getfdbysa(const struct sockaddr_in *sa, int i_fd)
 {
   int ret = -2;
@@ -471,7 +477,7 @@ int Channel::getFdSendRTCP(const struct sockaddr_in *sa)
   return getfdbysa(sa, SD_W_RTCP);
 }
 
-/** get a socket address by sockaddr_in */
+/** Gets a socket address by sockaddr_in */
 struct sockaddr_in * Channel::getsabysa(const struct sockaddr_in *sa, int i_sa)
 {
   if (! sa) {
@@ -578,7 +584,7 @@ uint8_t Channel::getTtl(const char *chan_str)
   return ttl;
 }
 
-/* Modifies a chan_str */
+/** Modifies a chan_str */
 void Channel::newChanStr(char *chan_str)
 {
   char *group = NULL;
