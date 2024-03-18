@@ -1,7 +1,7 @@
 package fr.enst.vreng;
 
 /**
- * Generated from ../../../src/world/vjc.hpp at Sat Jan 27 12:05:37 2024
+ * Generated from ../../../src/world/vjc.hpp at Mon Mar 18 18:57:58 2024
  */
 public class MessageTypes {
 

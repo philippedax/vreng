@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2012 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -254,21 +254,25 @@ void setActionFunc(uint8_t type, uint8_t action, void (*action_method)(WO *o, vo
   actionArray[type][action].method = action_method;
 }
 
+/** Is an action ? */
 bool isAction(uint8_t type, uint8_t action)
 {
   return actionArray[type][action].method;
 }
 
+/** Do an action */
 void doAction(uint8_t type, uint8_t action, WO *o, void *d, time_t s, time_t u)
 {
   actionArray[type][action].method(o, d, s, u);
 }
 
+/** Is action named ? */
 bool isActionName(uint8_t type, uint8_t action)
 {
   return actionArray[type][action].name[0] != '\0';
 }
 
+/** Returns index of the action */
 int indexAction(uint8_t type, const char *name)
 {
   for (int i=0; isAction(type, i) ; i++) {
@@ -279,67 +283,79 @@ int indexAction(uint8_t type, const char *name)
   return -1;
 }
 
+/** Copies action's name */
 void copyActionName(uint8_t type, uint8_t action, char *dest)
 {
   strcpy(dest, actionArray[type][action].name);
 }
 
+/** Gets action's name */
 char * getActionName(uint8_t type, uint8_t action)
 {
   return actionArray[type][action].name;
 }
 
+/** Gets action's method */
 void * getActionMethod(uint8_t type, uint8_t action)
 {
   return (void *) actionArray[type][action].method;
 }
 
+/** Sets maxlast */
 void setMaxLastings(uint8_t type, float maxlast)
 {
   maxlastings[type] = maxlast;
 }
 
+/** Gets maxlast */
 float getMaxLastings(uint8_t type)
 {
   return maxlastings[type];
 }
 
+/** Sets property number */
 void setPropertiesnumber(uint8_t type, uint8_t nbprop)
 {
   propertiesnumber[type] = nbprop;
 }
 
+/** Gets property number */
 uint8_t getPropertiesnumber(uint8_t type)
 {
   return propertiesnumber[type];
 }
 
-/** Initializes table of property functions */
+/** Initializes table of get property functions */
 void getPropFunc(uint8_t type, uint8_t prop, void (*get_method)(WO *o, Payload *p))
 {
   getPropArray[type][prop].method = get_method;
 }
 
+/** Initializes table of put property functions */
 void putPropFunc(uint8_t type, uint8_t prop, void (*put_method)(WO *o, Payload *p))
 {
   putPropArray[type][prop].method = put_method;
 }
 
+/** Is get property ? */
 bool isGetPropFunc(uint8_t type, uint8_t prop)
 {
   return getPropArray[type][prop].method;
 }
 
+/** Is put property ? */
 bool isPutPropFunc(uint8_t type, uint8_t prop)
 {
   return putPropArray[type][prop].method;
 }
 
+/** Exec get property */
 void runGetPropFunc(uint8_t type, uint8_t prop, WO *o, Payload *pp)
 {
   getPropArray[type][prop].method(o, pp);
 }
 
+/** Exec put property */
 void runPutPropFunc(uint8_t type, uint8_t prop, WO *o, Payload *pp)
 {
   putPropArray[type][prop].method(o, pp);
