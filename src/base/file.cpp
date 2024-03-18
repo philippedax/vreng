@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
-// Copyright (C) 1997-2008 Philippe Dax
+// Copyright (C) 1997-2024 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -23,21 +23,20 @@
 #include "stat.hpp"	// opn_file cls_file
 
 
-/* Constructor */
+/** Constructor */
 File::File()
 {
   new_file++;
   f = NULL;
 }
 
-/* Deestructor */
+/** Deestructor */
 File::~File()
 {
   del_file++;
 }
 
-
-/* Open a file - after a new File() */
+/** Open a file */
 FILE * File::open(const char *filename, const char *param)
 {
   f = fopen(filename, param);
@@ -45,7 +44,7 @@ FILE * File::open(const char *filename, const char *param)
   return f; 
 }
 
-/* Close a file */
+/** Close a file */
 void File::close()
 {
   if (f) {
@@ -54,7 +53,7 @@ void File::close()
   }
 }
 
-/* Open a file - static */
+/** Open a file - static */
 FILE * File::openFile(const char *filename, const char *param)
 {
   FILE *fp = fopen(filename, param);
@@ -63,7 +62,7 @@ FILE * File::openFile(const char *filename, const char *param)
   return fp; 
 }
 
-/* Close a file - static */
+/** Close a file - static */
 void File::close(FILE *fp)
 {
   if (fp) {
@@ -72,7 +71,7 @@ void File::close(FILE *fp)
   }
 }
 
-/* Close a file - static */
+/** Close a file - static */
 void File::closeFile(FILE *fp)
 {
   fclose(fp);
@@ -85,7 +84,7 @@ void File::closeFile(FILE *fp)
 // methods commun to file and cache
 //
 
-/* Reads a char */
+/** Reads a char */
 int File::read_char(FILE *f)
 {
   int c = fgetc(f);
@@ -95,45 +94,45 @@ int File::read_char(FILE *f)
   return c;
 }
 
-/* Reads a short in big-endian */
+/** Reads a short in big-endian */
 int File::read_short(FILE *f)
 {
   return (read_char(f)<<8) | read_char(f);
 }
 
-/* Reads a short in little-endian */
+/** Reads a short in little-endian */
 int File::read_short_le(FILE *f)
 {
   return (read_char(f)) | (read_char(f)<<8);
 }
 
-/* Reads a long in big-endian */
+/** Reads a long in big-endian */
 int File::read_long(FILE *f)
 {
   return (read_char(f)<<24) | (read_char(f)<<16) | (read_char(f)<<8) | read_char(f);
 }
 
-/* Reads a long in little-endian */
+/** Reads a long in little-endian */
 int File::read_long_le(FILE *f)
 {
   return (read_char(f)) | (read_char(f)<<8) | (read_char(f)<<16) | (read_char(f)<<24);
 }
 
-/* Reads a float in big-endian */
+/** Reads a float in big-endian */
 float File::read_float(FILE *f)
 {
   int v = read_long(f);
   return static_cast<float>(*(float *)&v);
 }
 
-/* Reads a float in little-endian */
+/** Reads a float in little-endian */
 float File::read_float_le(FILE *f)
 {
   int v = read_long_le(f);
   return (float) *(float *)&v;
 }
 
-/* Reads a string */
+/** Reads a string */
 int File::read_string(FILE *f, char *str, int maxlen)
 {
   int c;
@@ -156,7 +155,7 @@ int File::read_string(FILE *f, char *str, int maxlen)
   return cnt;
 }
 
-/* Reads a bloc */
+/** Reads a bloc */
 void File::read_buf(FILE *f, char *buf, int len)
 {
   int c;
@@ -170,13 +169,13 @@ void File::read_buf(FILE *f, char *buf, int len)
   } while (len != 0) ;
 }
 
-/* Skips an offset */
+/** Skips an offset */
 void File::skip(FILE *f, int offset)
 {
   fseek(f, offset+(offset%2), SEEK_CUR);
 }
 
-/** returns true and the line else returns false */
+/** Returns true and the line else returns false */
 bool File::nextLine(FILE *f, char *line)
 {
   int i = 0;
