@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -28,7 +28,7 @@
 #include "olist.hpp"	// OList
 
 
-/* intersection cases */
+// intersection cases
 enum {
   NO_INTER,	// no intersect
   IN2,		// obj1 inside obj2
@@ -327,6 +327,7 @@ void WO::computeNormal(Pos &mobil, Pos &still, V3 *normal)
   }
 }
 
+/** Computes normal */
 void WO::computeNormal(WO *mobil, V3 *normal)
 {
   float fxmin = pos.bbc.v[0] - pos.bbs.v[0];
@@ -423,7 +424,7 @@ void WO::bounceTrajectory(WO *wo, V3 *normal)
 static uint8_t dim[3];
 static V3 dist;
 
-/** sets locals */
+/** Sets grid */
 void World::localGrid()
 {
   for (int i=0; i<3 ; i++) {
