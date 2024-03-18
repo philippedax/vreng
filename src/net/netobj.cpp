@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -48,8 +48,7 @@ uint32_t NetObj::myMgrSsrcId = 0; // manager ssrc network format
  * Handling net id names and properties
  */
 
-/* NetObj constructors */
-
+/** Sets default values */
 void NetObj::defaults()
 {
   new_netobj++;
@@ -57,7 +56,7 @@ void NetObj::defaults()
   netprop = NULL;
 }
 
-/* Creates local generic NetObj */
+/** Creates local generic NetObj */
 NetObj::NetObj()
 {
   defaults();
@@ -67,7 +66,7 @@ NetObj::NetObj()
   setNoid();
 }
 
-/* Creates local permanent NetObj */
+/** Creates local permanent NetObj */
 NetObj::NetObj(WO *po, uint8_t nprop, uint16_t oid)
 {
   defaults();
@@ -82,7 +81,7 @@ NetObj::NetObj(WO *po, uint8_t nprop, uint16_t oid)
   trace(DBG_NET, "NetObj: str=%s %s", str, pobject->objectName());
 }
 
-/* Creates volatile NetObj */
+/** Creates volatile NetObj */
 NetObj::NetObj(WO *po, uint8_t nprop)
 {
   defaults();
@@ -94,7 +93,7 @@ NetObj::NetObj(WO *po, uint8_t nprop)
   setNoid();
 }
 
-/* Creates replicated volatile NetObj */
+/** Creates replicated volatile NetObj */
 NetObj::NetObj(WO *po, uint8_t nprop, Noid _noid)
 {
   defaults();
@@ -105,68 +104,79 @@ NetObj::NetObj(WO *po, uint8_t nprop, Noid _noid)
   setProperties(nprop);
 }
 
+/** Gets begin List */
 list<NetObj*>::iterator NetObj::getList()
 {
   return netobjList.begin();
 }
 
+/** Clears List */
 void NetObj::clearList()
 {
   netobjList.clear();
 }
 
+/** Sets ssrc manager */
 void NetObj::setMgrSsrc(uint32_t mgr_ssrc_id)
 {
   myMgrSsrcId = mgr_ssrc_id;
 }
 
+/** Gets ssrc manager */
 uint32_t NetObj::getMgrSsrc()
 {
   return myMgrSsrcId;
 }
 
+/** Sets ssrc */
 void NetObj::setSsrc(uint32_t ssrc_id)
 {
   mySsrcId = ssrc_id;
 }
 
-// get current ssrc
+/** Gets current ssrc */
 uint32_t NetObj::getSsrc()
 {
   return mySsrcId;
 }
 
+/** Sets host */
 void NetObj::setHost(uint32_t host_id)
 {
   myHostId = host_id;
 }
 
+/** Gets current host */
 uint32_t NetObj::getHost()
 {
   return myHostId;
 }
 
+/** Sets port */
 void NetObj::setPort(uint16_t _port_id)
 {
   myPortId = _port_id;
 }
 
+/** Gets port */
 uint16_t NetObj::getPort()
 {
   return myPortId;
 }
 
+/** Sets Obj */
 void NetObj::setObj(uint16_t _obj_id)
 {
   myObjId = _obj_id;
 }
 
+/** Gets Obj */
 uint16_t NetObj::getObj()
 {
   return myObjId;
 }
 
-/* Inserts netobj into netobjList */
+/** Inserts netobj into netobjList */
 void NetObj::addToList()
 {
   netobjList.push_back(this);
@@ -190,31 +200,33 @@ void NetObj::initProperties(bool _responsible)
   }
 }
 
-/* Returns the number of properties of this type */
+/** Returns the number of properties of this type */
 uint8_t NetObj::getProperties() const
 {
   if (nbprop == 0) return NetProperty::getProperties(type);
   return nbprop;
 }
 
+/** Returns the number of properties of this type */
 uint8_t NetObj::getProperties(uint8_t _type_id)
 {
   return NetProperty::getProperties(_type_id);
 }
 
-/* Sets the number of properties of this type */
+/** Sets the number of properties of this type */
 void NetObj::setProperties(uint8_t _nbprop)
 {
   nbprop = _nbprop;
   NetProperty::setProperties(type, _nbprop);
 }
 
+/** Sets the number of properties of this type */
 void NetObj::setProperties(uint8_t _type_id, uint8_t _nbprop)
 {
   NetProperty::setProperties(_type_id, _nbprop);
 }
 
-/* Assigns an unique identifier to each Vreng netobj */
+/** Sets an unique identifier to each Vreng netobj */
 void NetObj::setNoid()
 {
   noid.src_id = mySsrcId;		// Application's identifier
@@ -222,7 +234,7 @@ void NetObj::setNoid()
   noid.obj_id = htons(myObjId++);	// Application wide unique number
 }
 
-/* Creates a new netobj name */
+/** Creates a new netobj name */
 void NetObj::set(bool _state)
 {
   // MS.: Objects need a unique ID from the start,
@@ -235,7 +247,7 @@ void NetObj::set(bool _state)
   netobjList.push_back(this);	// add to list
 }
 
-/* Builds a netobj name from the string "scene_id/obj_id" */
+/** Builds a netobj name from the string "scene_id/obj_id" */
 void NetObj::setNetName(const char *s, bool _state)
 {
   uint16_t scene_id, obj_id;
@@ -260,7 +272,7 @@ void NetObj::setNetName(const char *s, bool _state)
   netobjList.push_back(this);	// add to list
 }
 
-/* Deletes a netobj from the list */
+/** Deletes a netobj from the list */
 void NetObj::deleteFromList()
 {
   if (! getNetObj()) {
@@ -269,6 +281,7 @@ void NetObj::deleteFromList()
   netobjList.remove(this);
 }
 
+/** Destructor */
 NetObj::~NetObj()
 {
   netobjList.remove(this);
@@ -279,17 +292,19 @@ NetObj::~NetObj()
   del_netobj++;
 }
 
+/** Is permanent */
 bool NetObj::isPermanent() const
 {
   return state;
 }
 
+/** Is responsible */
 bool NetObj::isResponsible() const
 {
   return (netprop && netprop->responsible);
 }
 
-/* Finds a WO pointer by its noid */
+/** Finds a WO pointer by its noid */
 WO * NetObj::getWOByNoid() const
 {
   for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
@@ -303,13 +318,13 @@ WO * NetObj::getWOByNoid() const
   return NULL;
 }
 
-/* Gets the property prop_id (its local copy) got from Network */
+/** Gets the property prop_id (its local copy) got from Network */
 void NetObj::getProperty(uint8_t prop_id, Payload *pp) const
 {
   if (pobject) pobject->getProperty(prop_id, pp);
 }
 
-/* Puts the property (its local copy) to be sent to Network */
+/** Puts the property (its local copy) to be sent to Network */
 void NetObj::putProperty(uint8_t prop_id, Payload *pp)
 {
   if (pobject) pobject->putProperty(prop_id, pp);
@@ -323,7 +338,7 @@ void NetObj::getAllProperties(Payload *pp) const
   }
 }
 
-/* Puts all properties of the netobj */
+/** Puts all properties of the netobj */
 void NetObj::putAllProperties(Payload *pp)
 {
   uint8_t _nbprop = getProperties(type);
@@ -333,13 +348,13 @@ void NetObj::putAllProperties(Payload *pp)
   }
 }
 
-/* Removes netobj */
+/** Removes netobj */
 void NetObj::requestDeletion()
 {
   if (pobject) pobject->deleteReplica();
 }
 
-/* Creates a replicated object */
+/** Creates a replicated object */
 NetObj * NetObj::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
 {
   WO *po = OClass::replicatorInstance(type_id, noid, pp);  // factory
@@ -353,7 +368,7 @@ NetObj * NetObj::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
   return NULL;		// BAD
 }
 
-/* Send a multicast packet of type '0x02' = Delta */
+/** Sends a multicast packet of type '0x02' = Delta */
 void NetObj::sendDelta(uint8_t prop_id)
 {
   if (! netprop) {
@@ -381,7 +396,7 @@ void NetObj::sendDelta(uint8_t prop_id)
   }
 }
 
-/* Send a '0x01' packet to mentionned unicast address for the current object */
+/** Sends a '0x01' packet to mentionned unicast address for the current object */
 void NetObj::sendCreate(const struct sockaddr_in *to)
 {
   Payload pp;
@@ -401,7 +416,7 @@ void NetObj::sendCreate(const struct sockaddr_in *to)
 #endif
 }
 
-/* Exported to WO, to call for each new object */
+/** Declares a creation - exported to WO, to call for each new object */
 void NetObj::declareCreation()
 {
   if (! getNetObj()) {
@@ -416,7 +431,7 @@ void NetObj::declareCreation()
   if (pchan) sendCreate(pchan->sa[SA_RTP]);
 }
 
-/* Updates netobj version */
+/** Updates netobj version */
 void NetObj::declareDelta(uint8_t prop_id)
 {
   if (noid.src_id == 0) {
@@ -435,7 +450,7 @@ void NetObj::declareDelta(uint8_t prop_id)
   sendDelta(prop_id);
 }
 
-/* Destroy the netobj (its local copy) */
+/** Destroys the netobj (its local copy) */
 void NetObj::declareDeletion()
 {
   if (! getNetObj()) return;
@@ -448,7 +463,7 @@ void NetObj::declareDeletion()
   if (pchan) sendDelete(pchan->sa[SA_RTP]);
 }
 
-/* Send a Delete '0x04' packet */
+/** Sends a Delete '0x04' packet */
 void NetObj::sendDelete(const struct sockaddr_in *to)
 {
   Payload pp;
@@ -458,7 +473,7 @@ void NetObj::sendDelete(const struct sockaddr_in *to)
   pp.sendPayload(to);
 }
 
-/* Gets a NetObj by name */
+/** Gets a NetObj by name */
 NetObj * NetObj::getNetObj()
 {
   for (list<NetObj*>::iterator it = netobjList.begin(); it != netobjList.end(); ++it) {
