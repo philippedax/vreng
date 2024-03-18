@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -49,7 +49,7 @@
 #include "theme.hpp"	// g.theme
 
 
-// Constructor
+/** Constructor */
 Gui::Gui() :
  widgets(null),
  selected_object(null),		// the object that is currently selected
@@ -59,27 +59,33 @@ Gui::Gui() :
 {
 }
 
+/** Creates Widgets */
 void Gui::createWidgets()
 {
   widgets = new Widgets(this);  // creates the widgets of the GUI
+
   trace(DBG_INIT, "Gui initialized");
 }
 
+/** Shows Widgets */
 void Gui::showWidgets(bool state)
 {
   if (widgets) widgets->show(state);
 }
 
+/** Gets scene pointer */
 Scene* Gui::scene()
 {
   return (widgets) ? &widgets->scene : null;
 }
 
+/** Gets cycles (fps) */
 int Gui::getCycles()
 {
   return (widgets) ? widgets->scene.cycles : 0;
 }
 
+/** Writes a message */
 void Gui::writeMessage(const char *mode, const char *from, const char *mess)
 {
   if (widgets) widgets->message.writeMessage(mode, from, mess);
