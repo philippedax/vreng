@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -21,21 +21,17 @@
 #ifndef OLIST_HPP
 #define OLIST_HPP
 
-#include <list>
-#include <vector>
-
 
 /**
  * OList Class
  */
 class OList {
-
-public:
+ public:
   class WO *pobject;	///< object ptr.
-  class OList *next;		///< next.
+  class OList *next;	///< next.
 
-  OList();			///< constructor.
-  virtual ~OList();		///< destructor.
+  OList();		///< constructor.
+  virtual ~OList();	///< destructor.
 
   void remove();
   /**< Frees an object list. */
@@ -45,13 +41,6 @@ public:
 
   static WO *findObj(uint8_t type_id,uint32_t src_id,uint16_t port_id,uint16_t obj_id);
   /**< Returns the object identified by type and id from the mobile list. */
-
-  //notused static void  clearIspointed(std::list<WO*> &olist);
-  //notused static void  remove(std::list<WO*> &olist);
-  //notused static void show(std::list<WO*> &olist);
-  //notused static void show(std::list<WO*> &olist, const char *str);
-  //notused /**< Shows contents of list for debugging only. */
-
 };
 
 

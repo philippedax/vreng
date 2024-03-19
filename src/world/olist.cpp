@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -20,47 +20,46 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "olist.hpp"
-#include "wobject.hpp"
-#include "stat.hpp"	// new_olist
+#include "wobject.hpp"	// WO
+#include "stat.hpp"	// new_olist, del_olist
 
 #include <list>
-#include <vector>
 using namespace std;
 
 
+/** Constructor */
 OList::OList()
 {
   new_olist++;
 }
 
+/** Destructor */
 OList::~OList()
 {
   del_olist++;
 }
 
-/* Removes all objects from a olist */
+/** Removes all objects from a olist */
 void OList::remove()
 {
-  for (OList *l = this; l ; ) {
-    OList *next = l->next;
-    if (l && l->pobject && l->pobject->type) {
-      delete l;  	//FIXME: BUG! macosx iconStick
+  for (OList *list = this; list ; ) {
+    OList *next = list->next;
+    if (list && list->pobject && list->pobject->type) {
+      delete list;
     }
-    l = next;
+    list = next;
   }
 }
 
-/* Clears flags "inlist" of all objects in an olist */
-// called by col.cpp
+/** Clears flags "inlist" of all objects in an olist - called by col.cpp */
 void OList::clearIspointed()
 {
-  for (OList *l = this; l && l->pobject; l = l->next) {
-    l->pobject->inlist = false;
+  for (OList *list = this; list && list->pobject; list = list->next) {
+    list->pobject->inlist = false;
   }
 }
 
-/* Returns the object from the mobile list */
-// static
+/** Returns the object from the mobile list - static */
 WO * OList::findObj(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
 {
   for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end() ; ++it) {
@@ -72,43 +71,3 @@ WO * OList::findObj(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t o
   }
   return NULL;
 }
-
-#if 0 //notused - static
-void OList::remove(list<WO*> &olist)
-{
-  for (list<WO*>::iterator it = olist.begin(); it != olist.end(); ++it) {
-    if (*it) {
-      delete *it;
-    }
-  }
-}
-
-// static
-void OList::clearIspointed(list<WO*> &olist)
-{
-  for (list<WO*>::iterator it = olist.begin(); it != olist.end(); ++it) {
-    (*it)->inlist = false;
-  }
-}
-
-/* Show an olist: debug only */
-// static
-void OList::show(list<WO*> &olist)
-{
-  show(olist, "List:");
-}
-
-/* Show an olist with its prefix: debug only */
-// static
-void OList::show(list<WO*> &olist, const char *str)
-{
-  echo("%s", str);
-
-  for (list<WO*>::reverse_iterator it = olist.rbegin(); it != olist.rend(); ++it) {
-    if ((*it)->objectName())
-      echo("t=%d m=%d n=%d %s", (*it)->type, (*it)->mode, (*it)->num, (*it)->objectName());
-    else
-      echo("t=%d m=%d n=%d (null)", (*it)->type, (*it)->mode, (*it)->num);
-  }
-}
-#endif //notused
