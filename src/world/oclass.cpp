@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -29,7 +29,7 @@ OClass** OClass::otable = NULL;
 uint16_t OClass::otable_size = 0;
 
 
-/** OClass constructor */
+/** Constructor */
 OClass::OClass(uint8_t _type_id, const char* _type_name,
 	       WCreator _creator, WReplicator _replicator, WBuiltin _builtin) :
  type_id(_type_id),
@@ -40,17 +40,16 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
 {
   if (type_id < otable_size) {
     otable[type_id] = this;
+    return;	// OK
   }
-  else {
-    if (! (otable = static_cast<OClass**> (realloc(otable, sizeof(OClass *) * (type_id+1))))) {
-      fatal("can't realloc otable");
-    }
-    for (int i = otable_size; i < (type_id + 1); i++) {
-      otable[i] = NULL;
-    }
-    otable_size = type_id + 1;
-    otable[type_id] = this;
+  if (! (otable = static_cast<OClass**> (realloc(otable, sizeof(OClass *) * (type_id+1))))) {
+    fatal("can't realloc otable");
   }
+  for (int i = otable_size; i < (type_id+1); i++) {
+    otable[i] = NULL;
+  }
+  otable_size = type_id + 1;
+  otable[type_id] = this;
   //echo("otable[%d] %s size=%d", type_id, type_name, otable_size);
 }
 
@@ -62,9 +61,9 @@ const OClass * OClass::getOClass(const char *type_name)
       if (otable[i]->type_name) {
         if (type_name) {
           if (! mystrcasecmp(type_name, otable[i]->type_name)) {
-            return otable[i];		// found
+            return otable[i];		// found return it !
           }
-          if (! mystrcasecmp(type_name, "html")) {	// hack!!!
+          if (! mystrcasecmp(type_name, "html")) {	// hugly hack!!!
             //dumpTable();
             fatal("bad world: type=html");
             Vreng::quit(1);
@@ -72,7 +71,7 @@ const OClass * OClass::getOClass(const char *type_name)
         }
       }
       else {
-        echo("otable[%d]->type_name=%s", i, otable[i]->type_name);
+        error("otable[%d]->type_name=%s", i, otable[i]->type_name);	// debug
       }
     }
   }
@@ -95,7 +94,8 @@ const OClass * OClass::getOClass(uint8_t type_id)
 WO * OClass::creatorInstance(uint8_t type_id, char *l)
 {
   if (! isValidType(type_id)) {
-    error("creatorInstance: type_id=%d out of bounds", type_id); dumpTable();
+    error("creatorInstance: type_id=%d out of bounds", type_id);
+    dumpTable();
     return NULL;
   }
   return otable[type_id]->creator(l);
