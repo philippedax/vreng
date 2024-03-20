@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2022 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -95,7 +95,7 @@ void Scene::getScene(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
   }
 }
 
-/** Sets Scene */
+/** Sets Scene viewport */
 void Scene::setScene(GLint x, GLint y, GLsizei w, GLsizei h)
 {
   UView* v = getView();
@@ -114,7 +114,7 @@ void Scene::setScene(GLint x, GLint y, GLsizei w, GLsizei h)
  */
 GLSection::GLSection(Scene* s) :
  UGraph::Glpaint(s->getView(), true)
-{ }
+{}
 
 /** Paints scene CB */
 void Scene::paintCB(UPaintEvent& e)
