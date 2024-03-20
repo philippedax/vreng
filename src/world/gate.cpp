@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -43,12 +43,13 @@ static uint16_t oid = 0;
 static uint8_t cntcol = 0;
 
 
-/* creation from a file */
+/** creation from a file */
 WO * Gate::creator(char *l)
 {
   return new Gate(l);
 }
 
+/** Sets defaults values */
 void Gate::defaults()
 {
   link = false;
@@ -58,6 +59,7 @@ void Gate::defaults()
   memset(chan, 0, sizeof(chan));
 }
 
+/** Parses vre lines */
 void Gate::parser(char *l)
 {
   defaults();
@@ -76,24 +78,26 @@ void Gate::parser(char *l)
     else if (! stringcmp(l, "entry")) {
       l = parseVector3fv(l, &entry, "entry");
       flagentry = true;
-      trace(DBG_WO, "gate: entry=%.1f %.1f %.1f", entry.v[0], entry.v[1], entry.v[2]);
+      //echo("gate: entry=%.1f %.1f %.1f", entry.v[0], entry.v[1], entry.v[2]);
     }
   }
   end_while_parse(l);
 }
 
+/** Behaviors */
 void Gate::behaviors()
 {
   enableBehavior(COLLIDE_ONCE);
 }
 
+/** Initializations */
 void Gate::inits()
 {
   initMobileObject(0);
   createNetObj(PROPS, ++oid);
 }
 
-/** Created fron vre file */
+/** Created from vre file */
 Gate::Gate(char *l)
 {
   parser(l);
@@ -117,17 +121,16 @@ Gate::Gate(WO *user, char *geom)
   updatePosition();
 }
 
+/** Publishes properties */
 bool Gate::publish(const Pos &oldpos)
 {
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-/* action: enter */
+/** Enters into a new world */
 void Gate::enter()
 {
-  /* saves url because World::quit frees gate */
-  //dax1 name.url = new char[URL_LEN];
-  //echo("enter: %s", name.url);
+  // saves url because World::quit frees gate
   char *new_url = strdup(name.url);
 
   if (link) {	// without channel
@@ -184,7 +187,7 @@ void Gate::enter()
     free(new_url);
 }
 
-/* when an intersection occurs */
+/** When an intersection occurs */
 bool Gate::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
@@ -234,13 +237,13 @@ bool Gate::whenIntersect(WO *pcur, WO *pold)
     doAction(ICON_TYPE, Icon::STICK, this, pcur, 0, 0);
     pold->copyPositionAndBB(pcur);
     break;
-  default:	// other objects
+  default:		// other objects
     pold->copyPositionAndBB(pcur);
   }
-
   return true;
 }
 
+/** Leaves intersection */
 bool Gate::whenIntersectOut(WO *pcur, WO *pold)
 {
   if (pcur->type == USER_TYPE) {
@@ -250,17 +253,20 @@ bool Gate::whenIntersectOut(WO *pcur, WO *pold)
   return false;
 }
 
+/** Quits */
 void Gate::quit()
 {
   clearObjectBar();
   oid = 0;
 }
 
+/** enter call-back */
 void Gate::enter_cb(Gate *gate, void *d, time_t s, time_t u)
 {
   gate->enter();
 }
 
+/** Predefined Functions */
 void Gate::funcs()
 {
   getPropFunc(GATE_TYPE, PROPXY, _Payload get_xy);
