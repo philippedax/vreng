@@ -60,6 +60,9 @@ class Universe {
 
   void startWheel();
   /**< Starts the wheel progression indicator */
+
+  void stopWheel();
+  /**< Stops the wheel progression indicator */
 };
 
 extern class World *world_manager;

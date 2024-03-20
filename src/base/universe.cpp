@@ -144,3 +144,11 @@ void * Universe::runWheel(void * arg)
 #endif
   return NULL;
 }
+
+void Universe::stopWheel()
+{
+  progression(']');
+  pthread_kill(wheel_tid, SIGTERM);
+  signal(SIGTERM, SIG_IGN);
+  univ_progress = false;
+}
