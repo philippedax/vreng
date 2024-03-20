@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -34,6 +34,7 @@
 World *world_manager = NULL;
 
 
+/** Constructor */
 Universe::Universe()
 {
   localuser = NULL;
@@ -42,14 +43,14 @@ Universe::Universe()
 
   url = new char[strlen(::g.url) + 1];
   strcpy(url, ::g.url);
-  server = new char[128];
+  server = new char[URL_LEN];
 
-  if (! ::g.universe) { // by default
+  if (! ::g.universe) { 	// by default
     char *univ = new char[URL_LEN];
     sprintf(univ, "http://%s/%s", DEF_HTTP_SERVER, ::g.urlpfx);
     ::g.universe = strdup(univ);
     strcpy(server, DEF_HTTP_SERVER);
-    urlpfx = new char[128];
+    urlpfx = new char[URL_LEN];
     strcpy(urlpfx, ::g.urlpfx);
   }
   else {			// universe given by -u universe_url
@@ -59,7 +60,6 @@ Universe::Universe()
     strcpy(tmp, ::g.universe);
     p = strchr(tmp, '/');
     p++;
-    ptmp = strchr(p, '/');
     pserv = ++p;
     p = strchr(p, '/');
     *p = '\0';
@@ -68,7 +68,7 @@ Universe::Universe()
   
     ++p;
     ::g.urlpfx = strdup(p);
-    urlpfx = new char[128];
+    urlpfx = new char[URL_LEN];
     ptmp = strrchr(p, '/');
     if (ptmp) *ptmp = '\0';
     sprintf(urlpfx, "/%s", p);	// urlpfx given by -u universe_url
@@ -78,10 +78,10 @@ Universe::Universe()
   Channel::getGroup(DEF_MANAGER_CHANNEL, grpstr);
   ttl = Channel::getTtl(::g.channel);
   wheel = new Wheel();
-  trace(DBG_INIT,"Universe: universe=%s server=%s pfx=%s", ::g.universe, ::g.server, ::g.urlpfx);
   //echo("universe=%s server=%s pfx=%s", ::g.universe, ::g.server, ::g.urlpfx);
 }
 
+/** Destructor */
 Universe::~Universe()
 {
   if (server) delete server;
@@ -91,6 +91,7 @@ Universe::~Universe()
   if (wheel) delete wheel;
 }
 
+/** Gets current universe */
 Universe* Universe::current()
 {
   static Universe* defUniverse = NULL;
@@ -108,6 +109,10 @@ void Universe::init()
   world_manager->setManagerChanAndJoin(DEF_MANAGER_CHANNEL); // join world_manager chan
   world_manager->setName(MANAGER_NAME);
 }
+
+//
+// Wheel progression
+//
 
 static bool univ_progress = false;
 
@@ -127,11 +132,10 @@ void * Universe::runWheel(void * arg)
 {
   univ_progress = true;
   progression('[');
-  //CRASH ubit GLSection gls(::g.gui.scene());
 #if 0 //dax
   while (univ_progress) {
-    //progression('.');
-    ::g.render.wheel();	//CRASH
+    progression('.');
+    ::g.render.wheel();		//CRASH
     if (new_world > 1) Wheel::current()->render();	//CRASH machine
     //signal(SIGTERM, SIG_IGN);
     usleep(100000/12);		// a tour of dial in 1 sec
@@ -139,14 +143,4 @@ void * Universe::runWheel(void * arg)
   }
 #endif
   return NULL;
-}
-
-void Universe::stopWheel()
-{
-  progression(']');
-#if HAVE_LIBPTHREAD
-  pthread_kill(wheel_tid, SIGTERM);
-  signal(SIGTERM, SIG_IGN);
-#endif
-  univ_progress = false;
 }

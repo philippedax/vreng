@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
@@ -60,9 +60,6 @@ class Universe {
 
   void startWheel();
   /**< Starts the wheel progression indicator */
-
-  void stopWheel();
-  /**< Stops the wheel progression indicator */
 };
 
 extern class World *world_manager;
