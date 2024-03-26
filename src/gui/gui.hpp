@@ -28,7 +28,6 @@
 #ifndef GUI_HPP
 #define GUI_HPP
 
-#include "config.h"
 #include "ubit/ubit.hpp"
 #include <vector>
 

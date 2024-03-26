@@ -30,14 +30,7 @@
 #define WIDGETS_HPP
 
 #include "gui.hpp"
-#include "ubit/ubit.hpp"
-#include "ubit/ustr.hpp"
 
-using namespace ubit;
-
-//#if (UBIT_VERSION_MAJOR < 6 || !defined(UBIT_WITH_GL))
-//#  error "Vreng requires Ubit Version 6 compiled in OpenGL mode"
-//#endif
 
 class Gui;
 class Widgets;
@@ -58,7 +51,7 @@ struct ObjInfo {
 
 /** KR structure for postponing Key Releases when AutoRepeat is ON */
 struct KRKey {
-  static const int KRBUF_MAX = 10; 	// max number of postponed Key Release(s)
+  static const int KRBUF_MAX=10;// max number of postponed Key Release(s)
   int vrkey;			///< code of the corresponding VREng change key
   struct timeval time;		///< time when this key was released
 };
@@ -78,16 +71,15 @@ struct GuiItem : public UButton {
 class Widgets : public ubit::UFrame {
 friend class Message;
 
-public:
+ public:
   static const int MESSAGES_BOX_WIDTH = 320;
   static const int MESSAGES_BOX_HEIGHT = 150;
   static const int GW_DEFAULT_SCROLL = 50;
   static const int GW_ZOOM_SCROLL = 35;
 
-  Widgets(Gui*);
-  ///< constructor.
+  Widgets(Gui*);	///< constructor.
 
-  Navig* getNavig() {return &navig;}
+  Navig* getNavig() { return &navig; }
 
   void alertDialog(const char* message);
   ///< opens alert box if arg is not null, closes it if arg is null.
@@ -96,7 +88,7 @@ public:
 
   static void showInfoDialog(const char* title, const char* message);
 
-  // Users - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Users
 
   GuiItem * addUser(User *username);
   ///< Adds an avatar name.
@@ -107,7 +99,7 @@ public:
   void removeUser(GuiItem *gp);
   ///< Removes an avatar name.
 
-  // Worlds - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Worlds
 
   GuiItem * addWorld(World *worldname, bool isCurrentWorld);
   ///< Adds a world name.
@@ -119,6 +111,7 @@ public:
   ///< Removes a world name.
 
   // Callback functions
+
   class WO* pointedObject(int x, int y, ObjInfo* obji, int depthsel);
   /**< returns info about the pointed object but do NOT select it */
   
@@ -128,8 +121,9 @@ public:
   void flushPostponedKRs();
   bool pendingPostponedKRs() {return (postponedKRmask || postponedKRcount);}
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-private:
+  // Private members
+
+ private:
   friend class Gui;
   friend class Scene;
   friend class Navig;
@@ -162,7 +156,7 @@ private:
   long postponedKRcount;	///< count in the KRbuf
   KRKey postponedKRbuf[KRKey::KRBUF_MAX]; ///< kbd bufs
 
-  // private methods - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Private methods
 
   // Dialogs
   void sourceDialog();
@@ -206,15 +200,14 @@ private:
   void setRayDirection(int x, int y);
 };
 
-//---------------------------------------------------------------------------
 /**
  * VncDialog class
  */
 class VncDialog : public UOptionDialog {
-public:
+ public:
   static void vncDialog(Widgets*, class Vnc*);
  
-private:
+ private:
   static VncDialog* vnc_dialog;
   class Vnc* vnc;	///< vnc pointer.
 
