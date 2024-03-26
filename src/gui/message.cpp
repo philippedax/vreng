@@ -44,6 +44,7 @@
 #include "aiinit.hpp"	// read_request
 #endif
 #include <iostream>
+#include "ubit/ubit.hpp"
 
 
 /* ==================================================== ======== ======= */

@@ -75,6 +75,8 @@
 #include "pdf.hpp"	// start
 #include "office.hpp"	// start
 
+#include <vector>
+
 // Text files
 #include "README.h"
 #include "COPYRIGHT.h"
@@ -84,7 +86,7 @@
 #include "DTD.h"
 //#include "CONFIG_H.h"
 
-#include <vector>
+using namespace ubit;
 
 
 /** Constructor

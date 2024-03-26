@@ -28,13 +28,10 @@
 #ifndef GUI_HPP
 #define GUI_HPP
 
-#include "ubit/ubit.hpp"
 #include <vector>
 
-using namespace ubit;
+#include "ubit/ustr.hpp"	// UStr
 
-
-struct GuiItem;
 
 /**
  * Gui class
@@ -52,7 +49,7 @@ class Gui {
   int getCycles();
   ///< returns the current number of frames.
 
-  void gotoWorld(const UStr& url_or_name); 
+  void gotoWorld(const ubit::UStr& url_or_name); 
   ///< go to this world.
  
   void showNavigator();
@@ -75,21 +72,21 @@ class Gui {
   ///< NB: canal=0 for tab_fd / canal=1 for tab_manager_fd.
 
   // User
-  GuiItem * addUser(class User*);
+  struct GuiItem * addUser(class User*);
   void updateUser(class User*);
   void removeUser(class User*);
   void pauseUser();
  
   // World
-  GuiItem * addWorld(class World *world, bool isCurrent);
+  struct GuiItem * addWorld(class World *world, bool isCurrent);
   void updateWorld(class World *world, bool isCurrent);
   void removeWorld(class World *world);
   
   // Cart
-  void showCartDialog(bool flag);
-  GuiItem* addCart(class WO *po);
-  void removeCart(class WO *po, int target);
+  struct GuiItem* addCart(class WO *po);
   void updateCart(class WO*);		///< Updates the infoBar when a cart item is selected.
+  void removeCart(class WO *po, int target);
+  void showCartDialog(bool flag);
   
   // Vnc, Vrelet, Carrier, Board
   void launchVnc(class Vnc*);		///< Lauches vnc dialog.
@@ -113,7 +110,7 @@ class Gui {
   std::vector<ChannelSources*> channel_sources;	///< table of network events
 
   class Widgets* widgets;		///< the widgets of the GUI
-  class WO* selected_object;	///< the object that is currently selected
+  class WO* selected_object;		///< the object that is currently selected
   class Vnc* vnc;			///< vnc pointer
   class Carrier* carrier;		///< carrier pointer
   class Vrelet* vrelet;			///< vrelet pointer

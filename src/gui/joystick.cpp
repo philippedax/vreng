@@ -29,11 +29,11 @@
  *  WWW: http://www.enst.fr/~elc/ubit
  */
 #include "vreng.hpp"
-#include "widgets.hpp"
+#include "widgets.hpp"	// gw
 #include "joystick.hpp"
-#include "navig.hpp"
-#include "motion.hpp"
-#include "theme.hpp"
+#include "navig.hpp"	// getNavig
+#include "motion.hpp"	// Motion
+#include "theme.hpp"	// Theme
 #include "user.hpp"	// User
 
 

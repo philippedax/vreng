@@ -48,6 +48,10 @@
 #include "vac.hpp"	// resolveWorldUrl, getUrlAndChannel
 #include "theme.hpp"	// g.theme
 
+#include "ubit/ubit.hpp"
+
+using namespace ubit;
+
 
 /** Constructor */
 Gui::Gui() :
@@ -56,8 +60,7 @@ Gui::Gui() :
  vnc(null),
  carrier(null),
  vrelet(null)
-{
-}
+{}
 
 /** Creates Widgets */
 void Gui::createWidgets()

@@ -31,6 +31,9 @@
 
 #include "gui.hpp"
 
+#include "ubit/ubit.hpp"
+using namespace ubit;
+
 
 class Gui;
 class Widgets;
@@ -51,7 +54,7 @@ struct ObjInfo {
 
 /** KR structure for postponing Key Releases when AutoRepeat is ON */
 struct KRKey {
-  static const int KRBUF_MAX=10;// max number of postponed Key Release(s)
+  static const int KRBUF_MAX=10;///< max number of postponed Key Release(s)
   int vrkey;			///< code of the corresponding VREng change key
   struct timeval time;		///< time when this key was released
 };

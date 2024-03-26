@@ -28,10 +28,10 @@ class Widgets;
  * Joystick classes
  */
 class Joystick1 : public UBox {
-public:
+ public:
   Joystick1(Widgets* gw, GLint radius);
 
-private:
+ private:
   Widgets& gw;
   bool  is_drawing;
   GLfloat radius;
@@ -46,10 +46,10 @@ private:
 };
 
 class Joystick2 : public UBox {
-public:
+ public:
   Joystick2(Widgets* gw, GLint radius);
 
-private:
+ private:
   bool  is_drawing;
   UBox  canvas;
   USize canvas_size;

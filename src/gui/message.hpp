@@ -21,10 +21,10 @@
 #ifndef MESSAGE_HPP
 #define MESSAGE_HPP
 
-#include "ubit/ubit.hpp"
 #include <string>
 #include <vector>
 
+#include "ubit/ubit.hpp"
 using namespace ubit;
 
 class WO;

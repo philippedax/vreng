@@ -26,7 +26,7 @@
  * Palette class
  */
 class Palette : public UBox {
-public:
+ public:
   Palette(UArgs content = UArgs::none);
 
   virtual void collapse();
@@ -39,7 +39,7 @@ public:
   virtual Palette& setPos(UPos&);
   UPos& pos() { return *ppos; }
 
-protected:
+ protected:
   uptr<UPos> ppos;
   uptr<UElem> ptitle;
   uptr<UBox> piconify;
