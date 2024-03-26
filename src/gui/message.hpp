@@ -26,7 +26,6 @@
 #include <vector>
 
 using namespace ubit;
-using namespace std;
 
 class WO;
 
@@ -38,9 +37,9 @@ class Message {
 friend class Widgets;
 
  public:
-  vector<UStr> mess_history;	///< history log
+  std::vector<UStr> mess_history;	///< history log
 
-  Message(class Widgets*);
+  Message(class Widgets*);		///< constructor.
   
   UBox& createQuery();
   ///< creates the query box
