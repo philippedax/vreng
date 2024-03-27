@@ -22,6 +22,7 @@
 #include <ubit/ustr.hpp>
 #include <ubit/uappli.hpp>
 #include <ubit/uappliImpl.hpp>
+
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
@@ -46,28 +47,34 @@ const char* UError::what() const throw() {
 
 UObject::UConst UObject::UCONST;
 
+#if 0 //notused
 const char* UObject::getVersion() {
   return UBIT_VERSION;
 }
+#endif //notused
 
-const UStr& UObject::getClassName() const {
+const UStr& UObject::getClassName() const
+{
   return getClass().getName();
 }
 
-void UObject::error(const char* funcname, const char* format, ...) const throw(UError) {
+void UObject::error(const char* funcname, const char* format, ...) const throw(UError)
+{
   va_list ap;
   va_start(ap, format);
   UAppli::raiseError(UError::ERROR, this, funcname, format, ap);
   va_end(ap);
 }
 
-void UObject::warning(const char* funcname, const char* format, ...) const throw(UError) {
+void UObject::warning(const char* funcname, const char* format, ...) const throw(UError)
+{
   va_list ap;
   va_start(ap, format);
   UAppli::raiseError(UError::WARNING, this, funcname, format, ap);
   va_end(ap);
 }
 
+#if 0 //notused
 void uerror(const char* funcname, const char* format, ...) {
   va_list ap;
   va_start(ap, format);
@@ -81,6 +88,7 @@ void uwarning(const char* funcname, const char* format, ...) {
   UAppli::raiseError(UError::WARNING, null/*object*/, funcname, format, ap);
   va_end(ap);
 }
+#endif //notused
 
 UObject& UObject::setAutoUpdate(bool state) {
   omodes.DONT_AUTO_UPDATE = !state;

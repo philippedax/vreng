@@ -16,10 +16,12 @@
 
 #ifndef _uobject_hpp_
 #define	_uobject_hpp_ 1
+
 #include <stdlib.h>    // for size_t, new(), delete()
 #include <exception>
 #include <ubit/udefs.hpp>
 #include <ubit/uclass.hpp>
+
 namespace ubit {
   
   /** Ubit exception.
@@ -42,7 +44,7 @@ namespace ubit {
     char message[message_capacity];
   };
   
-  void uerror(const char* function_name, const char* format, ...);
+  //notused void uerror(const char* function_name, const char* format, ...);
   /**< prints out an error message.
    * this method displays an error message (on std::cerr by default) :
    * - 'function_name' = the name of the function where the error occured
@@ -51,8 +53,8 @@ namespace ubit {
    * @see also: uwarning() and UAppli::error().
    */
   
-  void uwarning(const char* function_name, const char* format, ...);
-  ///< prints out a warning message: @see uerror().
+  //notused void uwarning(const char* function_name, const char* format, ...);
+  //notused ///< prints out a warning message: @see uerror().
   
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -125,8 +127,8 @@ namespace ubit {
     virtual ~UObject();
     UObject& operator=(const UObject&);
     
-    static const char* getVersion();
-    ///< returns the version of the Ubit package.
+    //notused static const char* getVersion();
+    //notused ///< returns the version of the Ubit package.
 
     static const UClass& Class() {static MetaClass& c = *new MetaClass; return c;}
     ///< class method that returns the metaclass of this class. @see getClass().
@@ -419,4 +421,3 @@ namespace ubit {
   
 }
 #endif
-
