@@ -14,6 +14,8 @@
  * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
  * ***********************************************************************/
 
+#if 0 //dax - notused in vreng
+
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -663,5 +665,5 @@ namespace ubit {
   }
   
 }
-/* ==================================================== [TheEnd] ======= */
-/* ==================================================== [(c)Elc] ======= */
+
+#endif //dax

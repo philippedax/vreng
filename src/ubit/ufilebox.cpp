@@ -14,6 +14,8 @@
  * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
  * ***********************************************************************/
 
+#if 0 //dax - notused in vreng
+
 #include <ubit/ubit_features.h>
 #include <algorithm>
 #include <vector>
@@ -378,3 +380,4 @@ void UFilebox::setFilter(const UStr& s) {
 
 }
 
+#endif //dax
