@@ -56,14 +56,14 @@ NAMESPACE_UBIT
 
 // ==================================================== [Ubit Toolkit] =========
 
-UGraph::UGraph(UView* v) throw (UError) {
+UGraph::UGraph(UView* v) /*throw (UError)*/ {
   rc = null; // securite pour ~UGraph
   if (!v) {
-    UAppli::fatalError("UGraph::UGraph(UView*)","null UView argument: cannot create a UGraph");
+    UAppli::fatalError("UGraph::UGraph(UView*)", "null UView argument: cannot create a UGraph");
     return;
   }
   if (!(hardwin = v->getHardwin())) {
-    UAppli::fatalError("UGraph:UGraph(UView*)","null window: cannot create UGraph");
+    UAppli::fatalError("UGraph:UGraph(UView*)"," null window: cannot create UGraph");
     return;
   }
   
@@ -111,12 +111,12 @@ UGraph::UGraph(UView* v) throw (UError) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-UGraph::UGraph(UPaintEvent& e) throw (UError) {
+UGraph::UGraph(UPaintEvent& e) /*throw (UError)*/ {
   rc = null; // securite pour ~UGraph
   UUpdateContext* c = e.current_context;
   UGraph* g = c ? c->getGraph() : null;
   if (g == null || g->rc == null) {
-    UAppli::fatalError("UGraph::UGraph(UPaintEvent&)","null graphics context: cannot create UGraph");
+    UAppli::fatalError("UGraph::UGraph(UPaintEvent&)", "null graphics context: cannot create UGraph");
     return;
   }
   UView* v = e.getView();  
@@ -140,14 +140,6 @@ UGraph::UGraph(UPaintEvent& e) throw (UError) {
       
   UPaintEvent e2(UOn::paint, v->getWinView(), null/*flow*/);
   e2.setSourceAndProps(v);
-  //rc->setOffset(v->x, v->y); //remplacé avantageusement par glTranslatef()
-  
-  //if (e2.isClipSet()) {
-    // CLIP FAUX ? SERT A QQ CHOSE ?
-    // rc->setClip(e2.redraw_clip.x, e2.redraw_clip.y,  // att: en absolu!
-    //            e2.redraw_clip.width, e2.redraw_clip.height);
-    // rc->clipbegin = e2.redraw_clip;
-  //}
   
   glPushMatrix();  // permet que le clip precedent ne soit pas translate
   glTranslatef(v->x, -v->y, 0);
@@ -169,9 +161,6 @@ UGraph::~UGraph() {
   else {
     rc->swapBuffers();
   }
-  /*
-   ... case OWN_RC: delete rc; break;
-   */
 }
 
 // ==================================================== [Ubit Toolkit] =========
@@ -212,13 +201,6 @@ void UGraph::Glpaint::begin(UView* v, bool _push_attrib)
     glViewport(int(v->x), int(winview->height - v->height - v->y), 
                int(v->width), int(v->height));  
   }
-  /*
-   cerr << "> GLSection " << no << " " << v << " / "
-   << " / glcoord: "<< int(v->x) << " "<< int(winview->height - v->height - v->y)
-   << " / " << int(v->width) << " " << int(v->height)
-   << " / hw: "<< v << " " << hardwin 
-   << endl;
-   */
   glDisable(GL_CLIP_PLANE0);
   glDisable(GL_CLIP_PLANE1);
   glDisable(GL_CLIP_PLANE2);
@@ -246,7 +228,7 @@ void UGraph::Glpaint::end() {
 }
 
 // ==================================================== [Ubit Toolkit] =========
-/*
+#if 0 //notused
 void UPaintEvent::beginGL() {
 #if UBIT_WITH_GL
   UView* winview = null;
@@ -260,21 +242,17 @@ void UPaintEvent::beginGL() {
     return;
   }
   
-  //cerr << "beginGL: "
-  //<< int(redraw_clip.x)<<" "<<int(winview->height - redraw_clip.height - redraw_clip.y)
-  //<<" "<< int(redraw_clip.width)<<" "<< int(redraw_clip.height)<< endl;
-  
   if (hardwin->wintype != UWinImpl::SUBWIN) 
     glViewport(int(redraw_clip.x), int(winview->height - redraw_clip.height - redraw_clip.y),
                int(redraw_clip.width), int(redraw_clip.height));
   
-  //glPushAttrib(GL_ALL_ATTRIB_BITS); responsabilité du client
+  //glPushAttrib(GL_ALL_ATTRIB_BITS);	// client responsibility 
   
   glDisable(GL_CLIP_PLANE0);
   glDisable(GL_CLIP_PLANE1);
   glDisable(GL_CLIP_PLANE2);
   glDisable(GL_CLIP_PLANE3);
-#endif
+#endif //UBIT_WITH_GL
 }
 
 void UPaintEvent::endGL() {
@@ -289,7 +267,7 @@ void UPaintEvent::endGL() {
     return;
   }
   
-  // glPopAttrib();  responsabilité du client
+  // glPopAttrib();	// client responsibility
   
   // reset to normal viewport rendering (does nothing if this hardwin is a subwin)
   //cerr << "endGL: "<<source_view<< " " << hardwin<<endl;
@@ -299,19 +277,24 @@ void UPaintEvent::endGL() {
   glEnable(GL_CLIP_PLANE1);
   glEnable(GL_CLIP_PLANE2);
   glEnable(GL_CLIP_PLANE3);
-#endif
+#endif //UBIT_WITH_GL
 }
-*/
-/*
- void UGraph::beginBlend(const URect& clip, float _alpha) {
-   blend_mode = TRUE_BLEND;
-   alpha = _alpha;
- }
-void UGraph::endBlend() {
-   alpha = 1.;
- }
+#endif //notused
 
-void UGraph::fillBackground(const URect& clip, const UColor& c, float _alpha) {
+#if 0 //notused
+void UGraph::beginBlend(const URect& clip, float _alpha)
+{
+  blend_mode = TRUE_BLEND;
+  alpha = _alpha;
+}
+
+void UGraph::endBlend()
+{
+  alpha = 1.;
+}
+
+void UGraph::fillBackground(const URect& clip, const UColor& c, float _alpha)
+{
   if (_alpha == 1.) {
     setColor(c);
     fillRect(clip.x, clip.y, clip.width, clip.height);
@@ -322,13 +305,15 @@ void UGraph::fillBackground(const URect& clip, const UColor& c, float _alpha) {
   }
 }
 
- void UGraph::setGLDefaults() {
- glShadeModel(GL_FLAT);
- glDisable(GL_COLOR_MATERIAL);
- glClearDepth(1.0f);
- glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
- }
- */
+void UGraph::setGLDefaults()
+{
+  glShadeModel(GL_FLAT);
+  glDisable(GL_COLOR_MATERIAL);
+  glClearDepth(1.0f);
+  glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+}
+#endif //notused
+
 // ==================================================== [Ubit Toolkit] =========
 
 void UGraph::set3Dmode(bool state) {
