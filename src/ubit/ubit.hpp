@@ -58,7 +58,6 @@
 #include <ubit/uslider.hpp>
 #include <ubit/utable.hpp>
 #include <ubit/uchoice.hpp>
-#include <ubit/ufilebox.hpp>
 #include <ubit/ulistbox.hpp>
 #include <ubit/upalette.hpp>
 #include <ubit/utreebox.hpp>
@@ -82,7 +81,6 @@
 #include <ubit/usource.hpp>
 #include <ubit/ueventflow.hpp>
 #include <ubit/uselection.hpp>
-#include <ubit/ufile.hpp>
 
 #endif
 
