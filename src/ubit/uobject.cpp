@@ -28,18 +28,21 @@ using namespace std;
 NAMESPACE_UBIT
 
 UError::UError(int _errnum, const UObject* obj, const char* funcname) :
-errnum(_errnum),
-object(obj),
-function_name(funcname) {
+ errnum(_errnum),
+ object(obj),
+ function_name(funcname)
+{
   message[0] = 0;
 }
 
-UError::~UError() throw () {
+UError::~UError() /*noexcept throw ()*/
+{
   //cerr << "UError destroyed " << (function_name? function_name:"")
   //<< " / " <<  (message?*message:"") << endl << endl;
 }
 
-const char* UError::what() const throw() {
+const char* UError::what() const /*noexcept throw()*/
+{
   return message;
 }
 
@@ -58,7 +61,7 @@ const UStr& UObject::getClassName() const
   return getClass().getName();
 }
 
-void UObject::error(const char* funcname, const char* format, ...) const throw(UError)
+void UObject::error(const char* funcname, const char* format, ...) const /*throw(UError)*/
 {
   va_list ap;
   va_start(ap, format);
@@ -66,7 +69,7 @@ void UObject::error(const char* funcname, const char* format, ...) const throw(U
   va_end(ap);
 }
 
-void UObject::warning(const char* funcname, const char* format, ...) const throw(UError)
+void UObject::warning(const char* funcname, const char* format, ...) const /*throw(UError)*/
 {
   va_list ap;
   va_start(ap, format);

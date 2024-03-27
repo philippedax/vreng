@@ -26,16 +26,16 @@ namespace ubit {
   
   /** Ubit exception.
    */
-  class UError : public std::exception {
+  class UError /*: public std::exception*/ {
   public:
     enum {
       FATAL_ERROR = -1, WARNING, ERROR, INTERNAL_ERROR, STYLE_ERROR, CSS_ERROR, XML_ERROR
     };
     
     UError(int errnum, const UObject*, const char* funcname);
-    virtual ~UError() throw ();
+    virtual ~UError() /*noexcept throw ()*/;
     
-    virtual const char* what() const throw();
+    virtual const char* what() const /*noexcept throw()*/;
 
     static const int message_capacity = 2000;
     int errnum;
@@ -149,7 +149,7 @@ namespace ubit {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    virtual void error(const char* function_name, const char* format, ...) const throw (UError);
+    virtual void error(const char* function_name, const char* format, ...) const /*throw (UError)*/;
     /**< prints out an error message.
      * this method displays an error message (on std::cerr by default) :
      * - 'function_name' = the name of the function where the error occured
@@ -158,7 +158,7 @@ namespace ubit {
      * @see also: warning() and UAppli::error().
      */
     
-    virtual void warning(const char* function_name, const char* format, ...) const throw (UError);
+    virtual void warning(const char* function_name, const char* format, ...) const /*throw (UError)*/;
     ///< prints out a warning message: @see error().
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
