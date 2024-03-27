@@ -37,6 +37,7 @@
 #include <ubit/usource.hpp>
 #include <ubit/utimer.hpp>
 #include <ubit/ugraph.hpp>
+
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
@@ -139,7 +140,7 @@ void UAppli::realize() {
   //const char* UAppli::getCommandPath() const {return (conf.app_argc>0 ? conf.app_argv[0] : null);}
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   
-UAppli& UAppli::appli() throw (UError) {
+UAppli& UAppli::appli() /*throw (UError)*/ {
   if (!impl.appli)    // throws an exception
     UAppli::fatalError("UAppli::appli()","no UAppli instance (not created yet?, already destroyed?)");
   return *impl.appli;
@@ -603,28 +604,28 @@ void UAppli::onMessage(const UStr& name, UCall& c) {
 
 //==============================================================================
 
-void UAppli::error(const char* fun, const char* format, ...) throw (UError) {
+void UAppli::error(const char* fun, const char* format, ...) /*throw (UError)*/ {
   va_list ap;
   va_start(ap, format);
   raiseError(UError::ERROR, null/*object*/, fun, format, ap);
   va_end(ap);
 }
 
-void UAppli::warning(const char* fun, const char* format, ...) throw (UError) {
+void UAppli::warning(const char* fun, const char* format, ...) /*throw (UError)*/ {
   va_list ap;
   va_start(ap, format);
   raiseError(UError::WARNING, null/*object*/, fun, format, ap);
   va_end(ap);
 }
 
-void UAppli::fatalError(const char* fun, const char* format, ...) throw (UError) {
+void UAppli::fatalError(const char* fun, const char* format, ...) /*throw (UError)*/ {
   va_list ap;
   va_start(ap, format);
   raiseError(UError::FATAL_ERROR, null/*object*/, fun, format, ap);
   va_end(ap);
 }
 
-void UAppli::internalError(const char* fun, const char* format, ...) throw (UError) {
+void UAppli::internalError(const char* fun, const char* format, ...) /*throw (UError)*/ {
   va_list ap;
   va_start(ap, format);
   raiseError(UError::INTERNAL_ERROR, null/*object*/, fun, format, ap);
@@ -634,7 +635,7 @@ void UAppli::internalError(const char* fun, const char* format, ...) throw (UErr
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 void UAppli::raiseError(int errnum, const UObject* obj, const char* funcname, 
-                        const char* format, ...) throw (UError) {
+                        const char* format, ...) /*throw (UError)*/ {
   va_list ap;
   va_start(ap, format);
   getErrorHandler().raiseError(errnum, obj, funcname, format, ap);
@@ -642,7 +643,7 @@ void UAppli::raiseError(int errnum, const UObject* obj, const char* funcname,
 }
 
 void UAppli::raiseError(int errnum, const UObject* obj, const char* funcname, 
-                        const char* format, va_list ap) throw (UError) {
+                        const char* format, va_list ap) /*throw (UError)*/ {
   getErrorHandler().raiseError(errnum, obj, funcname, format, ap);
 }
 
@@ -683,14 +684,14 @@ void UErrorHandler::setOutputBuffer(UStr* s) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-void UErrorHandler::warning(const char* fun, const char* format, ...) const throw (UError) {
+void UErrorHandler::warning(const char* fun, const char* format, ...) const /*throw (UError)*/ {
   va_list ap;
   va_start(ap, format);
   raiseError(UError::WARNING, null, fun, format, ap);
   va_end(ap);
 }
 
-void UErrorHandler::error(const char* fun, const char* format, ...) const throw (UError) {
+void UErrorHandler::error(const char* fun, const char* format, ...) const /*throw (UError)*/ {
   va_list ap;
   va_start(ap, format);
   raiseError(UError::ERROR, null, fun, format, ap);
@@ -698,7 +699,7 @@ void UErrorHandler::error(const char* fun, const char* format, ...) const throw 
 }
 
 void UErrorHandler::error(int errnum, const UObject *obj, const char* fun, 
-                          const char* format, ...) const throw (UError) {
+                          const char* format, ...) const /*throw (UError)*/ {
   va_list ap;
   va_start(ap, format);
   raiseError(errnum, obj, fun, format, ap);
@@ -707,7 +708,7 @@ void UErrorHandler::error(int errnum, const UObject *obj, const char* fun,
 
 void UErrorHandler::parserError(int errnum, const UChar* tbuffer,
                                 const char* msg1, const UStr& name,
-                                const char* msg2, const UChar* line) const throw (UError) {
+                                const char* msg2, const UChar* line) const /*throw (UError)*/ {
   // eviter erreurs de positionnement en debut de buffer
   if (line < tbuffer) line = tbuffer;
   
@@ -739,15 +740,15 @@ void UErrorHandler::parserError(int errnum, const UChar* tbuffer,
 }
 
 void UErrorHandler::raiseError(int errnum, const UObject* obj, const char* funcname, 
-                               const char* format, va_list ap) const throw (UError) {
+                               const char* format, va_list ap) const /*throw (UError)*/ {
   UError e(errnum, obj, funcname);
   formatMessage(e, format, ap);
   if (fout && *fout) printOnStream(e);
   if (pbuffer) printOnBuffer(e);
-  if (e.errnum < 0) throw e;
+  if (e.errnum < 0) cerr << "errnum" <<e.errnum <<endl;	//throw e;
 }
 
-void UErrorHandler::raiseError(int errnum, UStr* msg) const throw (UError) {
+void UErrorHandler::raiseError(int errnum, UStr* msg) const /*throw (UError)*/ {
   UError e(errnum, null, null);
     if (msg) {
       strncpy(e.message, msg->c_str(), sizeof(e.message));
@@ -755,7 +756,7 @@ void UErrorHandler::raiseError(int errnum, UStr* msg) const throw (UError) {
   }
   if (fout && *fout) printOnStream(e);
   if (pbuffer) printOnBuffer(e);
-  if (e.errnum < 0) throw e;
+  if (e.errnum < 0) cerr << "errnum" <<e.errnum <<endl;	//throw e;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
