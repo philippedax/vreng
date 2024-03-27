@@ -210,7 +210,7 @@ void UGif::setSize(int w, int h, int max_w, int max_h) {
       skip_h = (float)h / image_height;
     }
   }
-}
+}v
 */
 /* ==================================================== ======== ======= */
 /* ==================================================== ======== ======= */
@@ -220,13 +220,13 @@ void UGif::read() {
 
   do {
     if (DGifGetRecordType(gfile, &recordType) == GIF_ERROR)
-      throw GifError(UFilestat::InvalidData);
+      /*throw*/ cerr << "giferror invalid data" <<endl;	//GifError(UFilestat::InvalidData);
 
     switch (recordType) {
       case IMAGE_DESC_RECORD_TYPE:
         // this is not really an error but we dont want to read
         // multiple GIF images
-        if (imacount > 0) throw GifError(UFilestat::Opened);
+        if (imacount > 0) /*throw*/ cerr << "giferror invalid data" <<endl;	//GifError(UFilestat::Opened);
         imacount++;
         readImage();
         break;
@@ -377,7 +377,7 @@ void UGif::putLine_X16(int x1, int x2, int y) {
 
 void UGif::readImage() {
   if (DGifGetImageDesc(gfile) == GIF_ERROR)
-    throw GifError(UFilestat::InvalidData);
+    /*throw*/ cerr << "giferror invalid data" <<endl;	//GifError(UFilestat::InvalidData);
   
   int row = gfile->Image.Top;   // Image Position relative to Screen
   int col = gfile->Image.Left;
@@ -388,7 +388,7 @@ void UGif::readImage() {
   //setSize(..., max_w, max_h); ??? cf JPEG @@@
 
   if (gfile->Image.Left + iw > gfile->SWidth || gfile->Image.Top + ih > gfile->SHeight) {
-    throw GifError(UFilestat::InvalidData); // image is not confined to screen dimension
+    /*throw*/ cerr << "giferror invalid data" <<endl;	//GifError(UFilestat::InvalidData); // image is not confined to screen dimension
   }
 
   // line buffer for reading the GIF file
@@ -396,7 +396,7 @@ void UGif::readImage() {
 
   // create the new image
   natima.setRaster(gfile->SWidth, gfile->SHeight, (transpcolor >= 0));
-  // if (!natima) throw GifError(UFilestat::NoMemory);
+  // if (!natima) /*throw*/ cerr << "giferror invalid data" <<endl;	//GifError(UFilestat::NoMemory);
 
   // GIF ColorMap (used by GL and by createContable for X11)
   gif_colormap = (gfile->Image.ColorMap ? gfile->Image.ColorMap : gfile->SColorMap);
@@ -441,7 +441,7 @@ DONE:
     for (int k = 0; k < 4; k++) {
       for (int y = row+InterlacedOffset[k]; y<row+ih; y+=InterlacedJumps[k]){
         if (DGifGetLine(gfile, buf, iw) == GIF_ERROR)
-          throw GifError(UFilestat::InvalidData);
+          /*throw*/ cerr << "giferror invalid data" <<endl;	//GifError(UFilestat::InvalidData);
         (this->*put_line)(col, col + iw, y);
       }
     }
@@ -449,7 +449,7 @@ DONE:
   else {
     for (int y = row; y < row+ih; y++) {
       if (DGifGetLine(gfile, buf, iw) == GIF_ERROR)
-        throw GifError(UFilestat::InvalidData);
+        /*throw*/ cerr << "giferror invalid data" <<endl;	//GifError(UFilestat::InvalidData);
       (this->*put_line)(col, col + iw, y);
     }
   }
@@ -512,7 +512,7 @@ void UGif::readExtension() {
 
   // Skip any extension blocks in file:
   if (DGifGetExtension(gfile, &extcode, &extension) == GIF_ERROR)
-    throw GifError(UFilestat::InvalidData);
+    /*throw*/ cerr << "giferror invalid data" <<endl;	//GifError(UFilestat::InvalidData);
 
   if (extension) {
     if (extcode == 0xF9) {
@@ -529,7 +529,7 @@ void UGif::readExtension() {
 
   while (extension != NULL) {
     if (DGifGetExtensionNext(gfile, &extension) == GIF_ERROR)
-      throw GifError(UFilestat::InvalidData);
+      /*throw*/ cerr << "giferror invalid data" <<endl;	//GifError(UFilestat::InvalidData);
 
     if (extension) {
       if (extcode == 0xF9) {
