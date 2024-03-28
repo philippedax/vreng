@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -29,18 +29,6 @@ extern "C" {	// MacOSX doesn't declare these functions
 extern int inet_pton(int, const char *, void *);
 }
 
-
-struct hostent * my_getipnodebyname(const char *hostname, int af)
-{
-#if HAVE_GETIPNODEBYNAME
-  int err;
-
-  struct hostent *hp = getipnodebyname(hostname, af, AI_DEFAULT, &err);
-  return hp;
-#else //!HAVE_GETIPNODEBYNAME
-  return NULL;
-#endif
-}
 
 struct hostent * my_gethostbyname(const char *hostname, int af)
 {
@@ -90,6 +78,18 @@ struct hostent * my_gethostbyname_r(const char *hostname, int af)
 #endif
 }
 
+struct hostent * my_getipnodebyname(const char *hostname, int af)
+{
+#if HAVE_GETIPNODEBYNAME
+  int err;
+
+  struct hostent *hp = getipnodebyname(hostname, af, AI_DEFAULT, &err);
+  return hp;
+#else //!HAVE_GETIPNODEBYNAME
+  return NULL;
+#endif
+}
+
 struct hostent * my_getipnodebyaddr(const char *addr, int af)
 {
 #if HAVE_GETIPNODEBYADDR
@@ -117,71 +117,6 @@ struct hostent * my_gethostbyaddr(const char *addr, int af)
   return hp;
 #endif
 }
-
-struct hostent * my_gethostbyaddr_r(const char *addr, int af)
-{
-#if HAVE_GETIPNODEBYADDR
-  return my_getipnodebyaddr(addr, af);
-#else //!HAVE_GETIPNODEBYADDR
-
-  struct hostent *hptmp = NULL, *hp;
-
-#if HAVE_GETHOSTBYADDR_R
-  struct hostent result;
-  int err;
-  char buf[512];
-
-#if defined(LINUX) || defined(HPUX)
-  gethostbyaddr_r(addr, sizeof(struct in_addr), af, (struct hostent *) &result, buf, sizeof(buf), (struct hostent **) &hptmp, &err);
-#else
-  hptmp = gethostbyaddr_r(addr, sizeof(struct in_addr), af, &result, buf, sizeof(buf), &err);
-#endif
-
-#else //!HAVE_GETHOSTBYADDR_R
-  hptmp = gethostbyaddr(addr, sizeof(struct in_addr), af);
-#endif
-
-  if (! hptmp) return NULL;
-  if ((hp =  static_cast<struct hostent *>(malloc(sizeof(struct hostent)))) != NULL)
-    memcpy(hp, hptmp, sizeof(struct hostent));
-  return hp;
-#endif
-}
-
-#if 0 //notused
-struct servent * my_getservbyname(const char *service)
-{
-  struct servent *sptmp, *sp;
-
-  if ((sptmp = getservbyname(service, NULL)) == NULL) return NULL;
-  if ((sp =  static_cast<struct servent *>(malloc(sizeof(struct servent)))) != NULL)
-    memcpy(sp, sptmp, sizeof(struct servent));
-  return sp;
-}
-
-struct servent * my_getservbyname_r(const char *service)
-{
-  struct servent *sptmp = NULL, *sp;
-
-#if HAVE_GETSERVBYNAME_R
-  struct servent s_r;
-  char buf[512];
-#if defined(LINUX) || defined(HPUX)
-  getservbyname_r(service, NULL, &s_r, buf, sizeof(buf), (struct servent **) &sptmp);
-#else
-  sptmp = getservbyname_r(service, NULL, &s_r, buf, sizeof(buf));
-#endif
-
-#else //!HAVE_GETSERVBYNAME_R
-  sptmp = getservbyname(service, NULL);
-#endif
-
-  if (! sptmp) return NULL;
-  if ((sp =  static_cast<struct servent *>(malloc(sizeof(struct servent)))) != NULL)
-    memcpy(sp, sptmp, sizeof(struct servent));
-  return sp;
-}
-#endif //notused
 
 void my_free_hostent(struct hostent *hp)
 {
@@ -234,3 +169,69 @@ int inet6_pton(const char *name, void *addr)
 {
   return my_inet_pton(AF_INET6, name, addr);
 }
+
+#if 0 //notused -------------------------------------------------------------
+
+struct hostent * my_gethostbyaddr_r(const char *addr, int af)
+{
+#if HAVE_GETIPNODEBYADDR
+  return my_getipnodebyaddr(addr, af);
+#else //!HAVE_GETIPNODEBYADDR
+
+  struct hostent *hptmp = NULL, *hp;
+
+#if HAVE_GETHOSTBYADDR_R
+  struct hostent result;
+  int err;
+  char buf[512];
+
+#if defined(LINUX) || defined(HPUX)
+  gethostbyaddr_r(addr, sizeof(struct in_addr), af, (struct hostent *) &result, buf, sizeof(buf), (struct hostent **) &hptmp, &err);
+#else
+  hptmp = gethostbyaddr_r(addr, sizeof(struct in_addr), af, &result, buf, sizeof(buf), &err);
+#endif
+
+#else //!HAVE_GETHOSTBYADDR_R
+  hptmp = gethostbyaddr(addr, sizeof(struct in_addr), af);
+#endif
+
+  if (! hptmp) return NULL;
+  if ((hp =  static_cast<struct hostent *>(malloc(sizeof(struct hostent)))) != NULL)
+    memcpy(hp, hptmp, sizeof(struct hostent));
+  return hp;
+#endif
+}
+
+struct servent * my_getservbyname(const char *service)
+{
+  struct servent *sptmp, *sp;
+
+  if ((sptmp = getservbyname(service, NULL)) == NULL) return NULL;
+  if ((sp =  static_cast<struct servent *>(malloc(sizeof(struct servent)))) != NULL)
+    memcpy(sp, sptmp, sizeof(struct servent));
+  return sp;
+}
+
+struct servent * my_getservbyname_r(const char *service)
+{
+  struct servent *sptmp = NULL, *sp;
+
+#if HAVE_GETSERVBYNAME_R
+  struct servent s_r;
+  char buf[512];
+#if defined(LINUX) || defined(HPUX)
+  getservbyname_r(service, NULL, &s_r, buf, sizeof(buf), (struct servent **) &sptmp);
+#else
+  sptmp = getservbyname_r(service, NULL, &s_r, buf, sizeof(buf));
+#endif
+
+#else //!HAVE_GETSERVBYNAME_R
+  sptmp = getservbyname(service, NULL);
+#endif
+
+  if (! sptmp) return NULL;
+  if ((sp =  static_cast<struct servent *>(malloc(sizeof(struct servent)))) != NULL)
+    memcpy(sp, sptmp, sizeof(struct servent));
+  return sp;
+}
+#endif //notused

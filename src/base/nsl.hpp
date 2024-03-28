@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -21,14 +21,10 @@
 #ifndef NSL_HPP
 #define NSL_HPP
 
+struct hostent * my_gethostbyname(const char *hostname, int af);
+struct hostent * my_gethostbyname_r(const char *hostname, int af);
 struct hostent * my_getipnodebyname(const char *hostname, int af);
 struct hostent * my_getipnodebyaddr(const char *hostaddr, int af);
-struct hostent * my_gethostbyname(const char *hostname, int af);
-struct hostent * my_gethostbyaddr(const char *hostaddr, int af);
-struct hostent * my_gethostbyname_r(const char *hostname, int af);
-struct hostent * my_gethostbyaddr_r(const char *hostaddr, int af);
-//notused struct servent * my_getservbyname(const char *servname);
-//notused struct servent * my_getservbyname_r(const char *servname);
 void my_free_hostent(struct hostent *hp);
 const char * my_inet_ntop(int af, const void *addr);
 const char * inet4_ntop(const void *addr);
@@ -36,5 +32,10 @@ const char * inet6_ntop(const void *addr);
 int my_inet_pton(int af, const char *name, void *addr);
 int inet4_pton(const char *name, void *addr);
 int inet6_pton(const char *name, void *addr);
+
+//notused struct hostent * my_gethostbyaddr(const char *hostaddr, int af);
+//notused struct hostent * my_gethostbyaddr_r(const char *hostaddr, int af);
+//notused struct servent * my_getservbyname(const char *servname);
+//notused struct servent * my_getservbyname_r(const char *servname);
 
 #endif
