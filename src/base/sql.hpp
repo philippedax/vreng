@@ -26,8 +26,6 @@
 #else
 #define VSQL 0
 #endif
-#define USE_SQLITE 0
-#define USE_MYSQL 0
 #if HAVE_SQLITE
 #define USE_SQLITE 1
 #endif
