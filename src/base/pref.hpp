@@ -85,6 +85,8 @@ public:
   char *mcastproxystr;
   char *sqltable;
 
+  char *stdcpp;
+
   void parse(int argc, char **argv);
   /**< Parses options in command line */
   

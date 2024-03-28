@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
-// Copyright (C) 1997-2021 Philippe Dax
+// Copyright (C) 1997-2024 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -55,6 +55,7 @@ where options are:\n\
 -2, --fullscreen		Screen double size\n\
 -3, --thirdview			Thirdperson view\n\
 -A, --address group/port/ttl	Multicast address (deprecated)\n\
+-B, --build			Build infos\n\
 -C, --clean			Clean cache\n\
 -D, --debugger			Debugging lldb or gdb (reserved for vr)\n\
 -E, --expand			Expand palettes (GUI)\n\
@@ -135,6 +136,8 @@ Pref::Pref()
   noproxystr = NULL;
   mcastproxystr = NULL;
   sqltable = NULL;
+
+  stdcpp = NULL;
 }
 
 void Pref::init(int argc, char **argv, const char* pref_file)
@@ -174,6 +177,7 @@ void Pref::parse(int argc, char **argv)
     {"fullscreen", 0, 0, '2'},
     {"thirdview",  0, 0, '3'},
     {"address",    1, 0, 'A'},
+    {"build",      0, 0, 'B'},
     {"clean",      0, 0, 'C'},
     {"expand",     0, 0, 'E'},
     {"fillcache",  0, 0, 'F'},
@@ -188,9 +192,9 @@ void Pref::parse(int argc, char **argv)
     {"ubit",       0, 0, 'U'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghiklqrstv23CDEFLMNPRSUa:d:f:n:p:u:w:A:Q:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghiklqrstv23BCDEFLMNPRSUa:d:f:n:p:u:w:A:Q:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghiklqrstvx23CDEFLMNPRSUa:d:f:n:p:u:w:A:Q:T:"))
+  while ((c = getopt(argc, argv, "-bghiklqrstvx23BCDEFLMNPRSUa:d:f:n:p:u:w:A:Q:T:"))
 #endif
    != -1) {
 
@@ -294,15 +298,14 @@ void Pref::parse(int argc, char **argv)
         reflector = false;
         break;
       case 'B':
-#if 0 //obsoleted
-        switch (*optarg) {
-        case 'b': gui_skin = Theme::BLACK; break; // black
-        case 'g': gui_skin = Theme::GREY; break; // grey
-        case 'y': gui_skin = Theme::YELLOW; break; // yellow
-        case 'w': gui_skin = Theme::WHITE; break; // white
-        case 'W': gui_skin = Theme::WOOD; break; // wood
+        stdcpp = new char[6];
+	switch (__cplusplus) {
+        case 201703: sprintf(stdcpp, "C++17"); break;
+        case 201402: sprintf(stdcpp, "C++14"); break;
+        case 199711: sprintf(stdcpp, "C++11"); break;
+        default:     sprintf(stdcpp, "C++?"); break;
         }
-#endif
+        printf("%s\n", stdcpp);
         break;
       case 'C':
         ::g.env.cleanCacheByTime(0L);
