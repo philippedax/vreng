@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -26,6 +26,7 @@
 char pathhtdocs[PATH_LEN];
 
 
+/** Constructor */
 Env::Env()
 {
   strcpy(systemname, "unknown");
@@ -126,7 +127,7 @@ void Env::sysinfo()
   strcpy(systemname, myutsname.sysname);
   strcpy(releasename, myutsname.release);
   strcpy(machinename, myutsname.machine);
-  for (int i=0; i < int(sizeof(machinename)); i++) {
+  for (int i=0; i < 32; i++) {
     if (machinename[i] == ' ') {
       machinename[i] = '_';
     }
@@ -134,6 +135,7 @@ void Env::sysinfo()
 #endif
 }
 
+/** Inits user and vreng local dirs */
 void Env::init()
 {
   char pathenvdir[256];
@@ -256,15 +258,17 @@ void Env::init()
   }
 }
 
+/** Lists the cache */
 void Env::listCache()
 {
   char cmd[128];
 
   chdir(vrengcache);
-  sprintf(cmd, "IFS=' '; /bin/ls -l");
+  sprintf(cmd, "IFS=' '; /bin/ls -ltr");
   system(cmd);
 }
 
+/** Fills the cache with all data files */
 void Env::fillCache()
 {
   char cmd[128];

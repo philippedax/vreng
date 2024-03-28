@@ -55,7 +55,7 @@ where options are:\n\
 -2, --fullscreen		Screen double size\n\
 -3, --thirdview			Thirdperson view\n\
 -A, --address group/port/ttl	Multicast address (deprecated)\n\
--B, --build			Build infos\n\
+-B, --build			Build infos [show]\n\
 -C, --clean			Clean cache\n\
 -D, --debugger			Debugging lldb or gdb (reserved for vr)\n\
 -E, --expand			Expand palettes (GUI)\n\
@@ -142,6 +142,7 @@ Pref::Pref()
 
 void Pref::init(int argc, char **argv, const char* pref_file)
 {
+  //echo("preffile: %s",pref_file);
   initPrefs(pref_file);  // ::g.env.prefs());
   parse(argc, argv);
   trace(DBG_INIT, "Pref initialized");
@@ -305,8 +306,9 @@ void Pref::parse(int argc, char **argv)
         case 199711: sprintf(stdcpp, "C++11"); break;
         default:     sprintf(stdcpp, "C++?"); break;
         }
+        printf("%s %s %s\n", ::g.env.sysname(), ::g.env.relname(), ::g.env.machname());
         printf("%s\n", stdcpp);
-        break;
+        exit(0);
       case 'C':
         ::g.env.cleanCacheByTime(0L);
         break;
