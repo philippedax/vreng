@@ -23,7 +23,7 @@
 
 
 // local
-char pathhtdocs[PATH_LEN+8];
+char pathhtdocs[PATH_LEN];
 
 
 Env::Env()
@@ -126,7 +126,7 @@ void Env::sysinfo()
   strcpy(systemname, myutsname.sysname);
   strcpy(releasename, myutsname.release);
   strcpy(machinename, myutsname.machine);
-  for (int i=0; i < sizeof(machinename); i++) {
+  for (int i=0; i < int(sizeof(machinename)); i++) {
     if (machinename[i] == ' ') {
       machinename[i] = '_';
     }
@@ -136,16 +136,16 @@ void Env::sysinfo()
 
 void Env::init()
 {
-  char pathenvdir[PATH_LEN+8];
-  char pathweb[PATH_LEN+8];
-  char pathdata[PATH_LEN+8];
-  char pathprefs[PATH_LEN+16];
-  char pathstats[PATH_LEN+16];
-  char pathmenu[PATH_LEN+16];
-  char pathicons[PATH_LEN+16];
-  char pathworldmarks[PATH_LEN+32];
-  char pathcache[PATH_LEN+32];
-  char pathpasswd[PATH_LEN+32];
+  char pathenvdir[256];
+  char pathweb[256];
+  char pathdata[256];
+  char pathprefs[256];
+  char pathstats[256];
+  char pathmenu[256];
+  char pathicons[256];
+  char pathworldmarks[256];
+  char pathcache[256];
+  char pathpasswd[256];
   struct stat bufstat;
   char *home = NULL;
   char *loguser = NULL;

@@ -219,7 +219,7 @@ void * Http::connection(void *_http)
   bool httpeoh = false;
   bool hanswer = true;	// position at first line
 
-  char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[256];
+  char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[512];
 
   memset(host, 0, sizeof(host));
   memset(scheme, 0, sizeof(scheme));
