@@ -148,6 +148,7 @@ struct hostent * my_gethostbyaddr_r(const char *addr, int af)
 #endif
 }
 
+#if 0 //notused
 struct servent * my_getservbyname(const char *service)
 {
   struct servent *sptmp, *sp;
@@ -180,6 +181,7 @@ struct servent * my_getservbyname_r(const char *service)
     memcpy(sp, sptmp, sizeof(struct servent));
   return sp;
 }
+#endif //notused
 
 void my_free_hostent(struct hostent *hp)
 {
