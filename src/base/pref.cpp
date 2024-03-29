@@ -301,9 +301,13 @@ void Pref::parse(int argc, char **argv)
       case 'B':
         stdcpp = new char[6];
 	switch (__cplusplus) {
-        case 201703: sprintf(stdcpp, "C++17"); break;
+        case 199711:
+        case 201103: sprintf(stdcpp, "C++11"); break;
         case 201402: sprintf(stdcpp, "C++14"); break;
-        case 199711: sprintf(stdcpp, "C++11"); break;
+        case 201703: sprintf(stdcpp, "C++17"); break;
+        case 202002: sprintf(stdcpp, "C++20"); break;
+        case 202302: sprintf(stdcpp, "C++23"); break;
+        case 202602: sprintf(stdcpp, "C++26"); break;
         default:     sprintf(stdcpp, "C++?"); break;
         }
         printf("%s %s %s\n", ::g.env.sysname(), ::g.env.relname(), ::g.env.machname());

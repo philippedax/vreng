@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
@@ -154,6 +154,7 @@ void Url::file2url(const char *filename, char *url)
   free(fname);
 }
 
+/** Gets a file by an url */
 int Url::curl(const char *url, char *filename, const char arg[])
 {
 #if HAVE_LIBCURL
