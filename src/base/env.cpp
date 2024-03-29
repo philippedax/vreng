@@ -271,7 +271,7 @@ void Env::listCache()
 /** Fills the cache with all data files */
 void Env::fillCache()
 {
-  char cmd[128];
+  char cmd[256];
 
   chdir(vrengcache);
   sprintf(cmd, "IFS=' '; /bin/cp %s/vre/*.vre .", pathhtdocs);
