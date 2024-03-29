@@ -219,11 +219,10 @@ void * Http::connection(void *_http)
   bool httpeoh = false;
   bool hanswer = true;	// position at first line
 
-  char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[512];
-
-  memset(host, 0, sizeof(host));
-  memset(scheme, 0, sizeof(scheme));
-  memset(path, 0, sizeof(path));
+  char *host = new char[MAXHOSTNAMELEN];
+  char *scheme = new char[8];
+  char *path = new char[PATH_LEN];
+  char *req = new char[512];
 
   int urltype = Url::parser(http->url, host, scheme, path);
   trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
