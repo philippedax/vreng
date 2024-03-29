@@ -26,8 +26,9 @@
  * Env class
  */
 class Env {
-public:
+ public:
   Env();		///< constructor
+  virtual ~Env();	///< destructor
   
   const char * home() const;
   const char * cwd() const;
@@ -49,24 +50,24 @@ public:
   void cleanCacheByExt(const char *ext);
   void cleanCacheByTime(time_t cachetime);
   
-private:
-  char homedir[PATH_LEN];
-  char vrengdir[PATH_LEN];
-  char vrengcwd[PATH_LEN];
+ private:
+  char pathhtdocs[PATH_LEN];
+  char vrengcache[PATH_LEN];
   char vrengprefs[PATH_LEN];
   char vrengstats[PATH_LEN];
-  char vrengmenu[PATH_LEN];
   char vrengicons[PATH_LEN];
   char vrengworldmarks[PATH_LEN];
   char vrengpasswd[PATH_LEN];
-  char vrengcache[PATH_LEN];
+  char vrengmenu[PATH_LEN];
   
-  char logname[USER_LEN];
-  char systemname[9];
-  char releasename[9];
-  char machinename[32];
+  char *homedir;
+  char *vrengcwd;
+  char *vrengdir;
+  char *logname;
+  char *systemname;
+  char *releasename;
+  char *machinename;
   
-  void sysinfo();
   void init();
 };
 

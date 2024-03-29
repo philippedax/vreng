@@ -22,17 +22,9 @@
 #include "env.hpp"
 
 
-// local
-char pathhtdocs[PATH_LEN];
-
-
 /** Constructor */
 Env::Env()
 {
-  strcpy(systemname, "unknown");
-  strcpy(releasename, "unknown");
-  strcpy(machinename, "unknown");
-
   // Set some process attributes
 #if HAVE_NICE
   nice(10);
@@ -44,8 +36,35 @@ Env::Env()
   setlocale(LC_ALL, "C");       // Unix traditionnal
 #endif
   
-  sysinfo();
+  systemname = new char[16];
+  releasename = new char[16];
+  machinename = new char[32];
+  strcpy(systemname, "unknown");
+  strcpy(releasename, "unknown");
+  strcpy(machinename, "unknown");
+#if HAVE_UNAME
+  struct utsname myutsname;
+
+  uname(&myutsname);
+  strcpy(systemname, myutsname.sysname);
+  strcpy(releasename, myutsname.release);
+  strcpy(machinename, myutsname.machine);
+  for (int i=0; i < 32; i++) {
+    if (machinename[i] == ' ') {
+      machinename[i] = '_';
+    }
+  }
+#endif
   init();
+}
+
+/** Destructor */
+Env::~Env()
+{
+  if (logname) delete[] logname;
+  if (homedir) delete[] homedir;
+  if (vrengdir) delete[] vrengdir;
+  if (vrengcwd) delete[] vrengcwd;
 }
 
 const char * Env::home() const
@@ -118,26 +137,10 @@ const char * Env::machname() const
   return machinename;
 }
 
-void Env::sysinfo()
-{
-#if HAVE_UNAME
-  struct utsname myutsname;
-
-  uname(&myutsname);
-  strcpy(systemname, myutsname.sysname);
-  strcpy(releasename, myutsname.release);
-  strcpy(machinename, myutsname.machine);
-  for (int i=0; i < 32; i++) {
-    if (machinename[i] == ' ') {
-      machinename[i] = '_';
-    }
-  }
-#endif
-}
-
 /** Inits user and vreng local dirs */
 void Env::init()
 {
+  struct stat bufstat;
   char pathenvdir[256];
   char pathweb[256];
   char pathdata[256];
@@ -148,27 +151,20 @@ void Env::init()
   char pathworldmarks[256];
   char pathcache[256];
   char pathpasswd[256];
-  struct stat bufstat;
-  char *home = NULL;
-  char *loguser = NULL;
 
   // $LOGNAME
-  if ((loguser = getenv("LOGNAME"))) {
-    strcpy(logname, loguser);
-  }
+  logname = new char[USER_LEN];
+  logname = getenv("LOGNAME");
 
   // dir $CWD
-  if (getcwd(vrengcwd, sizeof(vrengcwd)) == NULL) {
-    return;
-  }
-  strcpy(homedir, vrengcwd);
+  vrengcwd = new char[PATH_LEN];
+  getcwd(vrengcwd, PATH_LEN);
 
   // dir $HOME
-  if ((home = getenv("HOME"))) {
-    strcpy(homedir, home);
-  }
+  homedir = new char[PATH_LEN];
+  homedir = getenv("HOME");
 
-  // dir WEB
+  // dir $WEB (public_html/ | Sites/)
   if (! strcmp(DEF_HTTP_SERVER, "localhost") && strlen(DEF_URL_PFX) > 0) { // if local
     sprintf(pathdata, "%s/htdocs", vrengcwd);	// htdocs location
 #if MACOSX
@@ -178,47 +174,37 @@ void Env::init()
 #endif
     if (stat(pathweb, &bufstat) < 0) {
       echo("website does not exist: %s", pathweb);
-      // create $HOME/public_html or $HOME/Sites
+      // create $HOME/public_html/ or $HOME/Sites/
       mkdir(pathweb, 0755);
-      sprintf(pathhtdocs, "%s/vreng", pathweb);
-      if (stat(pathhtdocs, &bufstat) < 0) {
-        if (! symlink(pathdata, pathhtdocs)) {
-          echo("create symlink htdocs: %s", pathhtdocs);
-        }
-        else {
-          error("can't create symlink htdocs: %s", pathhtdocs);
-        }
-      }
     }
-    else {
-      sprintf(pathhtdocs, "%s/vreng", pathweb);
-      if (stat(pathhtdocs, &bufstat) < 0) {
-        if (! symlink(pathdata, pathhtdocs)) {
-          echo("create symlink htdocs: %s", pathhtdocs);
-        }
-        else {
-          error("can't create symlink htdocs: %s", pathhtdocs);
-        }
+    sprintf(pathhtdocs, "%s/vreng", pathweb);
+    if (stat(pathhtdocs, &bufstat) < 0) {
+      if (! symlink(pathdata, pathhtdocs)) {
+        echo("create symlink htdocs: %s", pathhtdocs);
+      }
+      else {
+        error("can't create symlink htdocs: %s", pathhtdocs);
       }
     }
   }
 
-  // dir $HOME/.vreng
+  // dir $HOME/.vreng/
   sprintf(pathenvdir, "%s/.vreng", homedir);
   if (stat(pathenvdir, &bufstat) < 0) {
     mkdir(pathenvdir, 0700);
   }
+  vrengdir = new char[PATH_LEN];
   strcpy(vrengdir, pathenvdir);
   chdir(pathenvdir);
 
-  // dir $HOME/.vreng/cache
+  // dir $HOME/.vreng/cache/
   sprintf(pathcache, "%s/cache", pathenvdir);
   if (stat(pathcache, &bufstat) < 0) {
     mkdir(pathcache, 0700);
   }
   strcpy(vrengcache, pathcache);
 
-  // dir $HOME/.vreng/icons
+  // dir $HOME/.vreng/icons/
   sprintf(pathicons, "%s/icons", pathenvdir);
   if (stat(pathicons, &bufstat) < 0) {
     mkdir(pathicons, 0700);
