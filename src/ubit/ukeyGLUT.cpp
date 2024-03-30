@@ -14,6 +14,8 @@
  * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
  * ***********************************************************************/
 
+#if 0 //dax - notused in vreng
+
 #include <ubit/ubit_features.h>
 #if UBIT_WITH_GLUT
 
@@ -105,6 +107,4 @@ void UKey::mapKeys(UDisp* nd) { }
 
 }
 #endif
-/* ==================================================== [TheEnd] ======= */
-/* ==================================================== [(c)Elc] ======= */
-
+#endif //notused

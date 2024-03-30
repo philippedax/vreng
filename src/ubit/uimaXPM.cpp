@@ -346,4 +346,3 @@ int UImaXPM::readFromData(UHardIma& natima, const char** xpmdata, int maxw, int 
 
 #endif
 }
-

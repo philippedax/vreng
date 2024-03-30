@@ -18,14 +18,10 @@
 #if UBIT_WITH_X11
 
 #include <X11/keysym.h> 
-//#include <X11/XF86keysym.h>        // @@@!!!
 #include <ubit/udispX11.hpp>
 #include <ubit/ukey.hpp>
+
 namespace ubit {
-  
-  /* PROBLEMES / QUESTIONS :
-  * XK_KP_Enter et NumLeft, NumUp, NumRight, KpDown, et Home, etc. et F1, F2 ...
-  */
   
 #define ALT_GRAPH_MASK  0x2000
 
@@ -41,15 +37,6 @@ const int
   &UModifier::AltDown    = _AltDown,          // !! defini dynamiquement !!
   UModifier::AltGraphDown= ALT_GRAPH_MASK;
 
-  /*
-const int
-  UModifier::MButton1 = UModifier::LeftButton, 
-  UModifier::MButton2 = UModifier::MidButton, 
-  UModifier::MButton3 = UModifier::RightButton ,
-  UModifier::ShiftButton =   UModifier::ShiftDown,
-  UModifier::ControlButton = UModifier::ControlDown;
-*/
-  
 const int 
   UKey::BackSpace = XK_BackSpace,
   UKey::Tab = XK_Tab,
@@ -67,7 +54,6 @@ const int
   UKey::Find = XK_Find,
   UKey::Cancel = XK_Cancel,
   UKey::Help = XK_Help,
-  // XK_Sys_Req, XK_Select, XK_Execute, XK_Begin, XK_Break
   
   UKey::NumLock = XK_Num_Lock,
   UKey::CapsLock = XK_Caps_Lock, // XK_Shift_Lock,
@@ -75,17 +61,7 @@ const int
   UKey::Control = XK_Control_L,  // idem
   UKey::Meta = XK_Meta_L,        // idem
   UKey::Alt = XK_Alt_L,          // idem
-  //UKey::ModeSwitch = XK_Mode_switch,  // touche Alt avec Mac, ModeChange en Java ???
-  /*
-   XK_Super_L, XK_Super_R, XK_Hyper_L, XK_Hyper_R
-   XK_script_switch
-   Multi_key = XK_Multi_key,	 
-   Codeinput = XK_Codeinput,	 
-   SingleCandidate	= XK_SingleCandidate,	 
-   MultipleCandidate = XK_MultipleCandidate,	 
-   PreviousCandidate = XK_PreviousCandidate;
-   */
-   
+ 
   // cursor
   UKey::Home = XK_Home,
   UKey::End = XK_End,
@@ -142,7 +118,7 @@ const int
   _MetaDown = _AltDown = _ModeSwitch = 0;
   XModifierKeymap* modmap = XGetModifierMapping(sysdisp);
   if (!modmap) return;
-  
+ 
   // 8 modifiers dans tous les cas de figures (definis ou pas)
   for (int m = 0; m < 8; m++) {
     // plusieurs keycodes par modifiers, de 0 a max_keypermod
@@ -165,7 +141,7 @@ const int
   XFreeModifiermap(modmap);
 }
 
-void UKey::mapKeys(UDisp*) { }
+void UKey::mapKeys(UDisp*) {}
 
 }
 #endif
