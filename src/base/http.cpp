@@ -213,7 +213,7 @@ void * Http::connection(void *_http)
 
   struct sockaddr_in httpsa;
   struct hostent *hp = NULL;
-  uint16_t port;
+  uint16_t port = 0;
   int err = 0;
   bool httperr = false;
   bool httpeoh = false;
@@ -452,6 +452,10 @@ httpretry:
   }
 
   // free memory
+  if (host) delete[] host;
+  if (scheme) delete[] scheme;
+  if (path) delete[] path;
+  if (req) delete[] req;
   if (hp) my_free_hostent(hp);
   if (http) delete http;
   http = NULL;
