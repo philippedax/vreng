@@ -40,8 +40,7 @@
 #include "nsl.hpp"	// my_gethostbyname
 
 
-// Constructors
-
+/** Constructor */
 VNCSoc::VNCSoc(const char *_servername, uint16_t _port = DEF_VNC_PORT)
 {
   strcpy(servername, _servername);
@@ -56,11 +55,17 @@ VNCSoc::VNCSoc(const char *_servername, uint16_t _port = DEF_VNC_PORT)
     ipaddr = ntohl(ipaddr);
   }
   else {
-    error("VNCSoc: can't resolve %s", _servername);
+    if (! strcmp(servername, "localhost")) {     // force localhost (not resolved)
+      struct in_addr myip;
+      inet_aton("127.0.0.1", &myip);
+      //ipaddr = static_cast<uint32_t>(myip);
+    }
+    else
+      error("VNCSoc: can't resolve %s", _servername);
   }
 }
 
-/*
+/**
  * ReadFromRFB is called whenever we want to read some data from the RFB
  * server.  It is non-trivial for two reasons:
  *
@@ -74,7 +79,7 @@ VNCSoc::VNCSoc(const char *_servername, uint16_t _port = DEF_VNC_PORT)
  *    events are processed, as there is no XtAppMainLoop in the program.
  */
 
-/*
+/**
  * Read bytes from the server
  */
 bool VNCSoc::readRFB(char *out, uint32_t n)
@@ -142,7 +147,7 @@ bool VNCSoc::readRFB(char *out, uint32_t n)
   }
 }
 
-/*
+/**
  * Write an exact number of bytes, and don't return until you've sent them.
  */
 bool VNCSoc::writeExact(char *buf, int n)
@@ -177,7 +182,7 @@ bool VNCSoc::writeExact(char *buf, int n)
   return true;
 }
 
-/*
+/**
  * connectRFB connects to the given TCP port.
  * returns opened socket.
  */
@@ -216,7 +221,7 @@ int VNCSoc::connectRFB()
   return rfbsock;
 }
 
-/*
+/**
  * setBlocking sets a socket into non-blocking mode.
  */
 bool VNCSoc::setBlocking()
@@ -225,7 +230,7 @@ bool VNCSoc::setBlocking()
   return true;
 }
 
-/*
+/**
  * Test if the other end of a socket is on the same machine.
  */
 bool VNCSoc::sameMachine()
@@ -239,7 +244,7 @@ bool VNCSoc::sameMachine()
   return (peersa.sin_addr.s_addr == mysa.sin_addr.s_addr);
 }
 
-/*
+/**
  * Returns the socket used
  */
 int VNCSoc::getSock()
@@ -248,7 +253,7 @@ int VNCSoc::getSock()
 }
 
 #if 0 //notused
-/*
+/**
  * Print out the contents of a packet for debugging.
  */
 void VNCSoc::PrintInHex(char *buf, int len)

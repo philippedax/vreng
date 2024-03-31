@@ -50,7 +50,7 @@ bool newCutText = false;
 /* also hextile assumes it is big enough to hold 16 * 16 * 32 bits */
 
 
-/** Constructors */
+/** Constructor */
 VNCRFB::VNCRFB(char *_servername, int _port, char* _pswdFile)
  : vncsock(_servername, _port)
 {
@@ -73,6 +73,7 @@ bool VNCRFB::connectRFB()
   return vncsock.setBlocking();
 }
 
+/** Inits RFB */
 bool VNCRFB::initRFB()
 {
   rfbProtocolVersionMsg pv;
@@ -191,7 +192,7 @@ bool VNCRFB::initRFB()
     return false;
   }
   desktopName[si.nameLength] = 0;
-  echo("Desktop: %s", desktopName);
+  //echo("Desktop: %s", desktopName);
   delete[] desktopName;
   desktopName = NULL;
 
