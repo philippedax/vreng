@@ -51,15 +51,6 @@ class Env {
   void cleanCacheByTime(time_t cachetime);
   
  private:
-  char pathhtdocs[PATH_LEN];
-  char vrengcache[PATH_LEN];
-  char vrengprefs[PATH_LEN];
-  char vrengstats[PATH_LEN];
-  char vrengicons[PATH_LEN];
-  char vrengworldmarks[PATH_LEN];
-  char vrengpasswd[PATH_LEN];
-  char vrengmenu[PATH_LEN];
-  
   char *homedir;
   char *vrengcwd;
   char *vrengdir;
@@ -67,6 +58,15 @@ class Env {
   char *systemname;
   char *releasename;
   char *machinename;
+  char *pathhtdocs;
+
+  char vrengcache[PATH_LEN];
+  char vrengprefs[PATH_LEN];
+  char vrengstats[PATH_LEN];
+  char vrengicons[PATH_LEN];
+  char vrengworldmarks[PATH_LEN];
+  char vrengpasswd[PATH_LEN];
+  char vrengmenu[PATH_LEN];
   
   void init();
 };

@@ -39,6 +39,7 @@ Env::Env()
   systemname = new char[16];
   releasename = new char[16];
   machinename = new char[32];
+  pathhtdocs = new char[PATH_LEN];
   strcpy(systemname, "unknown");
   strcpy(releasename, "unknown");
   strcpy(machinename, "unknown");
@@ -65,6 +66,7 @@ Env::~Env()
   if (homedir) delete[] homedir;
   if (vrengdir) delete[] vrengdir;
   if (vrengcwd) delete[] vrengcwd;
+  if (pathhtdocs) delete[] pathhtdocs;
 }
 
 const char * Env::home() const
@@ -137,18 +139,18 @@ const char * Env::machname() const
   return machinename;
 }
 
-/** Inits user and vreng local dirs */
+/** Inits user and vreng local paths */
 void Env::init()
 {
   struct stat bufstat;
-  char pathenvdir[256];
-  char pathweb[256];
+  char pathenv[256];
+  char dirweb[256];
   char pathdata[256];
   char pathprefs[256];
   char pathstats[256];
   char pathmenu[256];
   char pathicons[256];
-  char pathworldmarks[256];
+  char pathmarks[256];
   char pathcache[256];
   char pathpasswd[256];
 
@@ -165,19 +167,19 @@ void Env::init()
   homedir = getenv("HOME");
 
   // dir $WEB (public_html/ | Sites/)
-  if (! strcmp(DEF_HTTP_SERVER, "localhost") && strlen(DEF_URL_PFX) > 0) { // if local
-    sprintf(pathdata, "%s/htdocs", vrengcwd);	// htdocs location
+  if (! strcmp(DEF_HTTP_SERVER, "localhost") && strlen(DEF_URL_PFX) > 0) { // if local server
+    sprintf(pathdata, "%s/htdocs", vrengcwd);	// local htdocs location
 #if MACOSX
-    sprintf(pathweb, "%s/Sites", homedir);
+    sprintf(dirweb, "%s/Sites", homedir);
 #else
-    sprintf(pathweb, "%s/public_html", homedir);
+    sprintf(dirweb, "%s/public_html", homedir);
 #endif
-    if (stat(pathweb, &bufstat) < 0) {
-      echo("website does not exist: %s", pathweb);
+    if (stat(dirweb, &bufstat) < 0) {
+      echo("website does not exist: %s", dirweb);
       // create $HOME/public_html/ or $HOME/Sites/
-      mkdir(pathweb, 0755);
+      mkdir(dirweb, 0755);
     }
-    sprintf(pathhtdocs, "%s/vreng", pathweb);
+    sprintf(pathhtdocs, "%s/vreng", dirweb);
     if (stat(pathhtdocs, &bufstat) < 0) {
       if (! symlink(pathdata, pathhtdocs)) {
         echo("create symlink htdocs: %s", pathhtdocs);
@@ -189,47 +191,46 @@ void Env::init()
   }
 
   // dir $HOME/.vreng/
-  sprintf(pathenvdir, "%s/.vreng", homedir);
-  if (stat(pathenvdir, &bufstat) < 0) {
-    mkdir(pathenvdir, 0700);
+  sprintf(pathenv, "%s/.vreng", homedir);
+  if (stat(pathenv, &bufstat) < 0) {
+    mkdir(pathenv, 0700);
   }
   vrengdir = new char[PATH_LEN];
-  strcpy(vrengdir, pathenvdir);
-  chdir(pathenvdir);
+  strcpy(vrengdir, pathenv);
 
   // dir $HOME/.vreng/cache/
-  sprintf(pathcache, "%s/cache", pathenvdir);
+  sprintf(pathcache, "%s/cache", pathenv);
   if (stat(pathcache, &bufstat) < 0) {
     mkdir(pathcache, 0700);
   }
   strcpy(vrengcache, pathcache);
 
   // dir $HOME/.vreng/icons/
-  sprintf(pathicons, "%s/icons", pathenvdir);
+  sprintf(pathicons, "%s/icons", pathenv);
   if (stat(pathicons, &bufstat) < 0) {
     mkdir(pathicons, 0700);
   }
   strcpy(vrengicons, pathicons);
 
   // file $HOME/.vreng/prefs
-  sprintf(pathprefs, "%s/prefs", pathenvdir);
+  sprintf(pathprefs, "%s/prefs", pathenv);
   strcpy(vrengprefs, pathprefs);
 
   // file $HOME/.vreng/stats
-  sprintf(pathstats, "%s/stats", pathenvdir);
+  sprintf(pathstats, "%s/stats", pathenv);
   strcpy(vrengstats, pathstats);
 
-  // file $HOME/.vreng/menu
-  sprintf(pathmenu, "%s/menu", pathenvdir);
-  strcpy(vrengmenu, pathmenu);
-
-  // file $HOME/.vreng/worldmarks
-  sprintf(pathworldmarks, "%s/worldmarks", pathenvdir);
-  strcpy(vrengworldmarks, pathworldmarks);
+  // file $HOME/.vreng/marks
+  sprintf(pathmarks, "%s/marks", pathenv);
+  strcpy(vrengworldmarks, pathmarks);
 
   // file $HOME/.vreng/vncpasswd
-  sprintf(pathpasswd, "%s/vncpasswd", pathenvdir);
+  sprintf(pathpasswd, "%s/vncpasswd", pathenv);
   strcpy(vrengpasswd, pathpasswd);
+
+  // file $HOME/.vreng/menu
+  sprintf(pathmenu, "%s/menu", pathenv);
+  strcpy(vrengmenu, pathmenu);
 
   chdir(vrengcwd);
 
@@ -244,7 +245,7 @@ void Env::init()
   }
 }
 
-/** Lists the cache */
+/** Lists contents of cache */
 void Env::listCache()
 {
   char cmd[128];
