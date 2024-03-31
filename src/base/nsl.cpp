@@ -33,7 +33,9 @@ extern int inet_pton(int, const char *, void *);
 struct hostent * my_gethostbyname(const char *hostname, int af)
 {
 #if HAVE_GETIPNODEBYNAME
+
   return my_getipnodebyname(hostname, af);
+
 #else //!HAVE_GETIPNODEBYNAME
 
   struct hostent *hptmp, *hp;
@@ -49,9 +51,10 @@ struct hostent * my_gethostbyname(const char *hostname, int af)
 struct hostent * my_gethostbyname_r(const char *hostname, int af)
 {
 #if HAVE_GETIPNODEBYNAME
-  struct hostent *hp = NULL;
-  hp = my_getipnodebyname(hostname, af);
+
+  struct hostent *hp = my_getipnodebyname(hostname, af);
   return hp;
+
 #else //!HAVE_GETIPNODEBYNAME
 
   struct hostent *hptmp = NULL, *hp;
