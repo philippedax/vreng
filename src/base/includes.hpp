@@ -105,14 +105,8 @@
 #else
 # define dirent direct
 # define NAMLEN(dirent) (dirent)->d_namlen
-# if HAVE_SYS_NDIR_H
-#  include <sys/ndir.h>
-# endif
 # if HAVE_SYS_DIR_H
 #  include <sys/dir.h>
-# endif
-# if HAVE_NDIR_H
-#  include <ndir.h>
 # endif
 #endif
 
@@ -137,10 +131,6 @@
 
 #if HAVE_SYS_SELECT_H
 # include <sys/select.h>
-#else
-# if HAVE_SELECT_H
-#  include <select.h>
-# endif
 #endif
 
 #if HAVE_SYS_POLL_H
@@ -231,16 +221,8 @@
 # include <X11/xpm.h>
 #endif
 
-#if defined(HAVE_DMALLOC_H) && defined(DMALLOC_FUNC_CHECK)
-# include <dmalloc.h>
-#else
-# if HAVE_MALLOC_H
-#  include <malloc.h>
-# endif
-#endif
-
-#if HAVE_IEEEFP_H
-# include <ieeefp.h>
+#if HAVE_MALLOC_H
+# include <malloc.h>
 #endif
 
 #if HAVE_FLOATINGPOINT_H
