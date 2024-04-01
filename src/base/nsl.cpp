@@ -25,10 +25,6 @@
 #define AF_INET6 26
 #endif
 
-extern "C" {	// MacOSX doesn't declare these functions
-extern int inet_pton(int, const char *, void *);
-}
-
 
 struct hostent * my_gethostbyname(const char *hostname, int af)
 {
@@ -64,11 +60,7 @@ struct hostent * my_gethostbyname_r(const char *hostname, int af)
   int err;
   char buf[512];
 
-#if defined(LINUX) || defined(HPUX)
-  gethostbyname_r(hostname, (struct hostent *) &result, buf, sizeof(buf), (struct hostent **) &hptmp, &err);
-#else
   hptmp = gethostbyname_r(hostname, &result, buf, sizeof(buf), &err);
-#endif
 
 #else //!HAVE_GETHOSTBYADDR_R
   hptmp = gethostbyname(hostname);
@@ -188,11 +180,7 @@ struct hostent * my_gethostbyaddr_r(const char *addr, int af)
   int err;
   char buf[512];
 
-#if defined(LINUX) || defined(HPUX)
-  gethostbyaddr_r(addr, sizeof(struct in_addr), af, (struct hostent *) &result, buf, sizeof(buf), (struct hostent **) &hptmp, &err);
-#else
   hptmp = gethostbyaddr_r(addr, sizeof(struct in_addr), af, &result, buf, sizeof(buf), &err);
-#endif
 
 #else //!HAVE_GETHOSTBYADDR_R
   hptmp = gethostbyaddr(addr, sizeof(struct in_addr), af);
@@ -222,11 +210,8 @@ struct servent * my_getservbyname_r(const char *service)
 #if HAVE_GETSERVBYNAME_R
   struct servent s_r;
   char buf[512];
-#if defined(LINUX) || defined(HPUX)
-  getservbyname_r(service, NULL, &s_r, buf, sizeof(buf), (struct servent **) &sptmp);
-#else
+
   sptmp = getservbyname_r(service, NULL, &s_r, buf, sizeof(buf));
-#endif
 
 #else //!HAVE_GETSERVBYNAME_R
   sptmp = getservbyname(service, NULL);

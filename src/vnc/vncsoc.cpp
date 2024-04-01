@@ -58,7 +58,6 @@ VNCSoc::VNCSoc(const char *_servername, uint16_t _port = DEF_VNC_PORT)
     if (! strcmp(servername, "localhost")) {     // force localhost (not resolved)
       struct in_addr myip;
       inet_aton("127.0.0.1", &myip);
-      //ipaddr = static_cast<uint32_t>(myip);
     }
     else
       error("VNCSoc: can't resolve %s", _servername);
