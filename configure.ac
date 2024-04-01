@@ -76,14 +76,12 @@ AC_SEARCH_LIBS([strerror],[cposix])
 AC_PROG_GCC_TRADITIONAL
 AC_PROG_YACC
 
-AH_TEMPLATE(GCC_VERSION, [gcc version])
-AH_TEMPLATE(GCC_MAJOR_VERSION, [gcc major version])
+AH_TEMPLATE(GCC_VERSION, [gcc --version])
 if test "$GCC" = "yes"; then
   gcc_version=`${CXX} --version | sed 1q | cut -f3 -d' '`
   gcc_major_version=`echo ${gcc_version} | cut -f1 -d'.'`
   gcc_minor_version=`echo ${gcc_version} | cut -f2 -d'.'`
   AC_DEFINE_UNQUOTED(GCC_VERSION, ["${gcc_version}"])
-  AC_DEFINE_UNQUOTED(GCC_MAJOR_VERSION, [${gcc_major_version}])
   compiler=${CXX}-${gcc_version}
 else
   compiler=${CC}
@@ -275,6 +273,7 @@ LDFLAGS_EXT=""
 
 case "`$ac_config_sub $build`" in
 *-*-solaris*)
+  AC_DEFINE(SOLARIS)
   CPPFLAGS="-I/usr/X11R6/include -I/usr/openwin/include $CPPFLAGS"
   X_CFLAGS="-I/usr/X11R6/include -I/usr/openwin/include"
   X_LIBS="-L/usr/openwin/lib"
@@ -290,7 +289,6 @@ case "`$ac_config_sub $build`" in
   if test -d /usr/sfw/include ; then
     OSDEP_CFLAGS="${OSDEP_CFLAGS} -I/usr/sfw/include"
   fi
-  AC_DEFINE(SOLARIS)
   ;;
 sparc-sun-sunos*)
   AC_DEFINE(SUNOS)
@@ -308,6 +306,7 @@ armv4l-*-linux*)
   AC_DEFINE(LINUX)
   ;;
 *-*-linux*)
+  AC_DEFINE(LINUX)
   X_CFLAGS="-I/usr/include"
   if test -d /usr/lib64 ; then
     X_LIBS="-L/usr/lib64"
@@ -316,7 +315,6 @@ armv4l-*-linux*)
     X_LIBS="-L/usr/lib"
     OSDEP_LIBS="-L/usr/lib"
   fi
-  AC_DEFINE(LINUX)
   distrib=`lsb_release -is`
   case $distrib in
   Fedora)
@@ -333,18 +331,18 @@ armv4l-*-linux*)
     ;;
   esac
   ;;
+*-*-freebsd*)
+  AC_DEFINE(FREEBSD)
+  ;;
 *-*-netbsd*)
+  AC_DEFINE(NETBSD)
   OSDEP_LIBS="-L/usr/pkg/lib"
   if test -d /usr/pkg/include ; then
     OSDEP_CFLAGS="-I/usr/pkg/include"
   fi
   CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
-  AC_DEFINE(NETBSD)
   # special patch for pkgsrc -lmpeg become -lmpeg_lib, because of kde conflict
   libmpeg=mpeg_lib
-  ;;
-*-*-freebsd*)
-  AC_DEFINE(FREEBSD)
   ;;
 *-*-openbsd*)
   AC_DEFINE(OPENBSD)
@@ -362,6 +360,7 @@ AC_DEFINE(OSF1)
   AC_DEFINE(IRIX)
   ;;
 *-*-darwin*|*-*-macosx*)
+  AC_DEFINE(MACOSX)
   # needed by ocaml linking
   LDFLAGS="-Wl,-no_compact_unwind"
   # search in MacPorts and Fink installs
@@ -392,7 +391,6 @@ AC_DEFINE(OSF1)
     OSDEP_LIBS="${OSDEP_LIBS} -L/sw/lib"
   fi
   #CXXFLAGS="${CXXFLAGS} -bind_at_load"
-  AC_DEFINE(MACOSX)
   case "`$ac_config_sub $build`" in
     *-*-darwin9*)
     # BUG leopard
@@ -453,14 +451,13 @@ AC_CHECK_LIB([m], [sqrt])
 # Check headers
 #
 AC_INCLUDES_DEFAULT([])
-AC_HEADER_STDBOOL
 AC_HEADER_DIRENT
 AC_HEADER_RESOLV
 AC_HEADER_STAT
 AC_HEADER_ASSERT
 AC_HEADER_SYS_WAIT
 
-AC_CHECK_HEADERS([unistd.h stddef.h float.h limits.h fcntl.h stdarg.h ctype.h utime.h malloc.h signal.h math.h errno.h setjmp.h getopt.h pwd.h pthread.h ieeefp.h locale.h wchar.h libintl.h floatingpoint.h sys/param.h sys/time.h sys/timeb.h sys/socket.h sys/select.h sys/poll.h sys/resource.h sys/utsname.h netinet/tcp.h arpa/inet.h])
+AC_CHECK_HEADERS([ unistd.h stddef.h float.h limits.h fcntl.h stdarg.h ctype.h utime.h malloc.h signal.h math.h errno.h setjmp.h getopt.h pwd.h pthread.h locale.h wchar.h libintl.h floatingpoint.h sys/param.h sys/time.h sys/timeb.h sys/socket.h sys/select.h sys/poll.h sys/resource.h sys/utsname.h netinet/tcp.h arpa/inet.h ])
 
 
 # --------------------------------------------------------------------------
@@ -468,8 +465,6 @@ AC_CHECK_HEADERS([unistd.h stddef.h float.h limits.h fcntl.h stdarg.h ctype.h ut
 # Check for sizeofs and typedefs.
 #
 AC_C_BIGENDIAN
-AC_C_CONST
-AC_C_VOLATILE
 AC_C_INLINE
 
 AC_TYPE_OFF_T
@@ -480,10 +475,10 @@ AC_TYPE_SIZE_T
 AC_TYPE_INT8_T
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T
-AC_TYPE_UINT64_T
-AC_TYPE_UINT32_T
-AC_TYPE_UINT16_T
 AC_TYPE_UINT8_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT64_T
 AC_CHECK_TYPES(ptrdiff_t)
 
 AC_MSG_CHECKING(for socklen_t)
@@ -505,7 +500,6 @@ AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_FORK
 AC_FUNC_MALLOC
-AC_FUNC_ALLOCA
 AC_FUNC_REALLOC
 AC_FUNC_SELECT_ARGTYPES
 AC_FUNC_STAT
@@ -513,7 +507,7 @@ AC_FUNC_UTIME_NULL
 AC_FUNC_VPRINTF
 AC_FUNC_STRTOD
 
-AC_CHECK_FUNCS([ getuid getpid getcwd getpwuid gethostname gethostid gethostbyaddr gethostbyname gethostbyname_r getservbyname getservbyname_r getipnodebyname getipnodebyaddr freehostent inet_pton inet_ntoa inet_ntop isascii gettimeofday memset mkdir pow sqrt strcasecmp strrchr strstr utime fcntl floor select poll socket setrlimit waitpid strchr strncasecmp strdup strerror memcpy readdir getopt getopt_long uname rand random drand48 lrand48 usleep fpsetmask nice getaddrinfo setlocale alarm ftime strtol sysinfo memmove strpbrk ])
+AC_CHECK_FUNCS([ getuid getpid getcwd getpwuid gethostname gethostid gethostbyaddr gethostbyname gethostbyname_r getservbyname getipnodebyname getipnodebyaddr freehostent inet_pton inet_ntoa inet_ntop isascii gettimeofday memcpy memmove memset mkdir pow sqrt strcasecmp strchr strrchr strstr strcasecmp strerror strdup strtol strpbrk utime fcntl floor select poll socket setrlimit waitpid readdir getopt getopt_long uname rand random drand48 lrand48 usleep fpsetmask nice getaddrinfo setlocale alarm ftime sysinfo ])
 
 AH_TEMPLATE(_REENTRANT)
 if test "$ac_cv_func_gethostbyname_r" = "yes" ; then
