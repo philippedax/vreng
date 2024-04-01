@@ -143,6 +143,10 @@
 # endif
 #endif
 
+#if HAVE_SYS_POLL_H
+# include <sys/poll.h>
+#endif
+
 #if HAVE_SYS_SOCKET_H
 # include <sys/socket.h>
 #endif
