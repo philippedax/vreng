@@ -140,7 +140,7 @@ if test "${enable_optimize:=no}" = "yes"; then
   CFLAGS="${CFLAGS} -O"
   CXXFLAGS="${CXXFLAGS}"
   if test "${GCC}" = "yes"; then
-    optim_flags="-ffast-math -fomit-frame-pointer -fexpensive-optimizations -funroll-loops -fpermissive"
+    optim_flags="-ffast-math -fomit-frame-pointer -funroll-loops -fpermissive"
     CFLAGS="${CFLAGS} ${optim_flags}"
     CXXFLAGS="${CXXFLAGS} ${optim_flags}"
   else
