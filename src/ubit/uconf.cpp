@@ -114,15 +114,15 @@ UConf::UConf() :
   //printf("fonts: %s %s\n", XFT_DIR, LFT_DIR);
   UFontFamily::defaults.setFreeType(
 #if LINUX
-   XFT_DIR"UTRG____.pfa,"LFT_DIR"UTRG____.pfa",   //-adobe-utopia-medium-r-normal--0-0-0-0-p-0-iso8859-1
-   XFT_DIR"UTB_____.pfa,"LFT_DIR"UTB_____.pfa",   //-adobe-utopia-bold-r-normal--0-0-0-0-p-0-iso8859-1
-   XFT_DIR"UTI_____.pfa,"LFT_DIR"UTI_____.pfa",   //-adobe-utopia-medium-i-normal--0-0-0-0-p-0-iso8859-1
-   XFT_DIR"UTBI____.pfa,"LFT_DIR"UTBI____.pfa"    //-adobe-utopia-bold-i-normal--0-0-0-0-p-0-iso8859-1
+   XFT_DIR"UTRG____.pfa," LFT_DIR"UTRG____.pfa",   //-adobe-utopia-medium-r-normal--0-0-0-0-p-0-iso8859-1
+   XFT_DIR"UTB_____.pfa," LFT_DIR"UTB_____.pfa",   //-adobe-utopia-bold-r-normal--0-0-0-0-p-0-iso8859-1
+   XFT_DIR"UTI_____.pfa," LFT_DIR"UTI_____.pfa",   //-adobe-utopia-medium-i-normal--0-0-0-0-p-0-iso8859-1
+   XFT_DIR"UTBI____.pfa," LFT_DIR"UTBI____.pfa"    //-adobe-utopia-bold-i-normal--0-0-0-0-p-0-iso8859-1
 #else // !LINUX
-   XFT_DIR"l048013t.pfa,"LFT_DIR"l048013t.pfa",   //b&h-luxi sans-medium-r-**-iso8859-1
-   XFT_DIR"l048016t.pfa,"LFT_DIR"l048016t.pfa",   //b&h-luxi sans-bold-r-**-iso8859-1
-   XFT_DIR"l048033t.pfa,"LFT_DIR"l048033t.pfa",   //b&h-luxi sans-medium-o-**-iso8859-1
-   XFT_DIR"l048036t.pfa,"LFT_DIR"l048036t.pfa"    //b&h-luxi sans-bold-o-**-iso8859-1
+   XFT_DIR"l048013t.pfa," LFT_DIR"l048013t.pfa",   //b&h-luxi sans-medium-r-**-iso8859-1
+   XFT_DIR"l048016t.pfa," LFT_DIR"l048016t.pfa",   //b&h-luxi sans-bold-r-**-iso8859-1
+   XFT_DIR"l048033t.pfa," LFT_DIR"l048033t.pfa",   //b&h-luxi sans-medium-o-**-iso8859-1
+   XFT_DIR"l048036t.pfa," LFT_DIR"l048036t.pfa"    //b&h-luxi sans-bold-o-**-iso8859-1
 #endif
   );
   
@@ -131,22 +131,22 @@ UConf::UConf() :
   UFontFamily::sans_serif.setFreeType
 #if LINUX
     //regular
-    (XFT_DIR"UTRG____.pfa,"LFT_DIR"UTRG____.pfa,"OFT_DIR"Arial.ttf",  //-adobe-utopia-medium-r-normal--0-0-0-0-p-0-iso8859-1
+    (XFT_DIR"UTRG____.pfa," LFT_DIR"UTRG____.pfa," OFT_DIR"Arial.ttf",  //-adobe-utopia-medium-r-normal--0-0-0-0-p-0-iso8859-1
      //bold
-     XFT_DIR"UTB_____.pfa,"LFT_DIR"UTB_____.pfa,"OFT_DIR"Arial_Bold.ttf", //-adobe-utopia-bold-r-normal--0-0-0-0-p-0-iso8859-1
+     XFT_DIR"UTB_____.pfa," LFT_DIR"UTB_____.pfa," OFT_DIR"Arial_Bold.ttf", //-adobe-utopia-bold-r-normal--0-0-0-0-p-0-iso8859-1
      //italic
-     XFT_DIR"UTI_____.pfa,"LFT_DIR"UTI_____.pfa,"OFT_DIR"Arial_Italic.ttf", //-adobe-utopia-medium-i-normal--0-0-0-0-p-0-iso8859-1
+     XFT_DIR"UTI_____.pfa," LFT_DIR"UTI_____.pfa," OFT_DIR"Arial_Italic.ttf", //-adobe-utopia-medium-i-normal--0-0-0-0-p-0-iso8859-1
      //bolditalic
-     XFT_DIR"UTBI____.pfa,"LFT_DIR"UTBI____.pfa,"OFT_DIR"Arial_BoldItalic.ttf"); //-adobe-utopia-bold-i-normal--0-0-0-0-p-0-iso8859-1
+     XFT_DIR"UTBI____.pfa," LFT_DIR"UTBI____.pfa," OFT_DIR"Arial_BoldItalic.ttf"); //-adobe-utopia-bold-i-normal--0-0-0-0-p-0-iso8859-1
 #else
     //regular
-    (XFT_DIR"l048013t.pfa,"LFT_DIR"l048013t.pfa,"OFT_DIR"Arial.ttf",  //b&h-luxi sans-medium-r-**-iso8859-1
+    (XFT_DIR"l048013t.pfa," LFT_DIR"l048013t.pfa," OFT_DIR"Arial.ttf",  //b&h-luxi sans-medium-r-**-iso8859-1
      //bold
-     XFT_DIR"l048016t.pfa,"LFT_DIR"l048016t.pfa,"OFT_DIR"Arial_Bold.ttf", //b&h-luxi sans-bold-r-**-iso8859-1
+     XFT_DIR"l048016t.pfa," LFT_DIR"l048016t.pfa," OFT_DIR"Arial_Bold.ttf", //b&h-luxi sans-bold-r-**-iso8859-1
      //italic
-     XFT_DIR"l048033t.pfa,"LFT_DIR"l048033t.pfa,"OFT_DIR"Arial_Italic.ttf", //b&h-luxi sans-medium-o-**-iso8859-1
+     XFT_DIR"l048033t.pfa," LFT_DIR"l048033t.pfa," OFT_DIR"Arial_Italic.ttf", //b&h-luxi sans-medium-o-**-iso8859-1
      //bolditalic
-     XFT_DIR"l048036t.pfa,"LFT_DIR"l048036t.pfa,"OFT_DIR"Arial_BoldItalic.ttf"); //b&h-luxi sans-bold-o-**-iso8859-1
+     XFT_DIR"l048036t.pfa," LFT_DIR"l048036t.pfa," OFT_DIR"Arial_BoldItalic.ttf"); //b&h-luxi sans-bold-o-**-iso8859-1
 #endif
   
   UFontFamily::serif = UFontFamily::defaults;
@@ -154,25 +154,25 @@ UConf::UConf() :
   UFontFamily::serif.setStyles("r", "i,o");
   UFontFamily::serif.setFreeType
     //regular
-    (XFT_DIR"l049013t.pfa,"LFT_DIR"l049013t.pfa,"XFT_DIR"UTRG____.pfa", //b&h-luxi serif-medium-r-**-iso8859-1
+    (XFT_DIR"l049013t.pfa," LFT_DIR"l049013t.pfa," XFT_DIR"UTRG____.pfa", //b&h-luxi serif-medium-r-**-iso8859-1
      //bold
-     XFT_DIR"l049016t.pfa,"LFT_DIR"l049016t.pfa,"XFT_DIR"UTB_____.pfa", //b&h-luxi serif-bold-r-**-iso8859-1
+     XFT_DIR"l049016t.pfa," LFT_DIR"l049016t.pfa," XFT_DIR"UTB_____.pfa", //b&h-luxi serif-bold-r-**-iso8859-1
      //italic
-     XFT_DIR"l049033t.pfa,"LFT_DIR"l049033t.pfa,"XFT_DIR"UTI_____.pfa", //b&h-luxi serif-medium-o-**-iso8859-1
+     XFT_DIR"l049033t.pfa," LFT_DIR"l049033t.pfa," XFT_DIR"UTI_____.pfa", //b&h-luxi serif-medium-o-**-iso8859-1
      //bolditalic
-     XFT_DIR"l049036t.pfa,"LFT_DIR"l049036t.pfa,"XFT_DIR"UTBI____.pfa"); //b&h-luxi serif-bold-o-**-iso8859-1
+     XFT_DIR"l049036t.pfa," LFT_DIR"l049036t.pfa," XFT_DIR"UTBI____.pfa"); //b&h-luxi serif-bold-o-**-iso8859-1
   
   UFontFamily::monospace = UFontFamily::defaults;
   UFontFamily::monospace.setFamily("courier");
   UFontFamily::monospace.setFreeType
     //regular
-    (XFT_DIR"l047013t.pfa,"LFT_DIR"l047013t.pfa,"XFT_DIR"cour.pfa", //b&h-luxi mono-medium-r-**-iso8859-1
+    (XFT_DIR"l047013t.pfa," LFT_DIR"l047013t.pfa," XFT_DIR"cour.pfa", //b&h-luxi mono-medium-r-**-iso8859-1
      //bold
-     XFT_DIR"l047016t.pfa,"LFT_DIR"l047016t.pfa,"XFT_DIR"courb.pfa", //b&h-luxi mono-bold-r-**-iso8859-1
+     XFT_DIR"l047016t.pfa," LFT_DIR"l047016t.pfa," XFT_DIR"courb.pfa", //b&h-luxi mono-bold-r-**-iso8859-1
      //italic
-     XFT_DIR"l047033t.pfa,"LFT_DIR"l047033t.pfa,"XFT_DIR"couri.pfa", //b&h-luxi mono-medium-o-**-iso8859-1
+     XFT_DIR"l047033t.pfa," LFT_DIR"l047033t.pfa," XFT_DIR"couri.pfa", //b&h-luxi mono-medium-o-**-iso8859-1
      //bolditalic
-     XFT_DIR"l047036t.pfa,"LFT_DIR"l047036t.pfa,"XFT_DIR"courbi.pfa"); //b&h-luxi mono-bold-o-**-iso8859-1
+     XFT_DIR"l047036t.pfa," LFT_DIR"l047036t.pfa," XFT_DIR"courbi.pfa"); //b&h-luxi mono-bold-o-**-iso8859-1
   
    // - - - defaults - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   
