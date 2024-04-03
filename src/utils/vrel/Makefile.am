@@ -17,6 +17,7 @@ VREL_SRCS = $(MAIN_SRCS) $(MAIN_HDRS) $(ENV_SRCS) $(ENV_HDRS) $(DECL_SRCS) $(DEC
 
 EXTRA_DIST = vrel.l vrel.y
 
+CXXFLAGS += -Wno-deprecated-register -Wno-writable-strings
 
 if ENABLE_VREL
 lex.yy.o: lex.yy.cpp y.tab.h
