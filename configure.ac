@@ -62,6 +62,9 @@ AC_CONFIG_HEADERS([config.h])
 
 #AM_MAINTAINER_MODE
 
+if test -f "${ac_aux_dir}config.sub"; then
+  ac_config_sub="$SHELL ${ac_aux_dir}config.sub"
+fi
 
 # --------------------------------------------------------------------------
 #
@@ -71,7 +74,6 @@ AC_LANG([C++])
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_CXXCPP
-AC_PROG_GCC_TRADITIONAL
 
 
 # --------------------------------------------------------------------------
@@ -788,51 +790,51 @@ fi
 #
 # Check for X11 header and library files
 #
-AC_DEFUN([AC_X11_CHECK],
-[
-  have_x11="no"
-  AC_PATH_X
-  AC_PATH_XTRA
-  saved_cflags=$CFLAGS
-  saved_ldflags=$LDFLAGS
-  CFLAGS=$X_CFLAGS
-  LDFLAGS="$X_LDFLAGS $X_LIBS"
-  #
-  # Check for X libraries
-  #
-  AH_TEMPLATE(HAVE_LIBX11)
-  AC_CHECK_LIB([X11], [XOpenDisplay],
-               [x_libs="$X_LIBS -lX11 $X_EXTRA_LIBS" AC_DEFINE(HAVE_LIBX11)],
-               [AC_MSG_WARN([X11 library not found, check config.log! try --with-x])],
-               [$X_LIBS $X_EXTRA_LIBS])
-  # needed by ubit: XmuClientWindow
-  AH_TEMPLATE(HAVE_LIBXMU)
-  AC_CHECK_LIB([Xmu], [XmuClientWindow],
-               [x_libs="$X_LIBS -lXmu $x_libs" AC_DEFINE(HAVE_LIBXMU)],
-               [AC_MSG_WARN([Xmu library not found, check config.log! try apt|dnf|yum|brew install libXmu-devel | apt-get install libxmu-dev])],
-               [$x_libs])
-
-  x_libs="$X_LIBS $X_PRE_LIBS $x_libs"
-  AH_TEMPLATE(HAVE_XMU_WINUTIL_H)
-  AH_TEMPLATE(HAVE_XPM_H)
-  case "`$ac_config_sub $build`" in
-    *-*-solaris*) 
-      AC_CHECK_HEADER([openwin/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
-	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
-      AC_CHECK_HEADER([openwin/xpm.h], [AC_DEFINE([HAVE_XPM_H])],
-	AC_MSG_WARN([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
-      ;;
-    *)
-      AC_CHECK_HEADER([X11/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
-	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
-      AC_CHECK_HEADER([X11/xpm.h], [AC_DEFINE([HAVE_XPM_H])],
-	AC_MSG_WARN([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
-      ;;
-  esac
-  CFLAGS=$saved_cflags
-  LDFLAGS=$saved_ldflags
-  have_x11="yes"
-])
+#AC_DEFUN([AC_X11_CHECK],
+#[
+#  have_x11="no"
+#  AC_PATH_X
+#  AC_PATH_XTRA
+#  saved_cflags=$CFLAGS
+#  saved_ldflags=$LDFLAGS
+#  CFLAGS=$X_CFLAGS
+#  LDFLAGS="$X_LDFLAGS $X_LIBS"
+#  #
+#  # Check for X libraries
+#  #
+#  AH_TEMPLATE(HAVE_LIBX11)
+#  AC_CHECK_LIB([X11], [XOpenDisplay],
+#               [x_libs="$X_LIBS -lX11 $X_EXTRA_LIBS" AC_DEFINE(HAVE_LIBX11)],
+#               [AC_MSG_WARN([X11 library not found, check config.log! try --with-x])],
+#               [$X_LIBS $X_EXTRA_LIBS])
+#  # needed by ubit: XmuClientWindow
+#  AH_TEMPLATE(HAVE_LIBXMU)
+#  AC_CHECK_LIB([Xmu], [XmuClientWindow],
+#               [x_libs="$X_LIBS -lXmu $x_libs" AC_DEFINE(HAVE_LIBXMU)],
+#               [AC_MSG_WARN([Xmu library not found, check config.log! try apt|dnf|yum|brew install libXmu-devel | apt-get install libxmu-dev])],
+#               [$x_libs])
+#
+#  x_libs="$X_LIBS $X_PRE_LIBS $x_libs"
+#  AH_TEMPLATE(HAVE_XMU_WINUTIL_H)
+#  AH_TEMPLATE(HAVE_XPM_H)
+#  case "`$ac_config_sub $build`" in
+#    *-*-solaris*) 
+#      AC_CHECK_HEADER([openwin/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
+#	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
+#      AC_CHECK_HEADER([openwin/xpm.h], [AC_DEFINE([HAVE_XPM_H])],
+#	AC_MSG_WARN([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
+#      ;;
+#    *)
+#      AC_CHECK_HEADER([X11/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
+#	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
+#      AC_CHECK_HEADER([X11/xpm.h], [AC_DEFINE([HAVE_XPM_H])],
+#	AC_MSG_WARN([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
+#      ;;
+#  esac
+#  CFLAGS=$saved_cflags
+#  LDFLAGS=$saved_ldflags
+#  have_x11="yes"
+#])
 
 
 # --------------------------------------------------------------------------
@@ -1221,64 +1223,64 @@ AC_SUBST(GL_CFLAGS)
 #
 # Glut configuration
 #
-AC_DEFUN([AC_GLUT_CHECK],
-[ 
-am_libglut="no"
-AH_TEMPLATE(HAVE_LIBGLUT)
-
-case "`$ac_config_sub $build`" in
-*-*-darwin*)
-  AC_CHECK_HEADERS([GLUT/glut.h])
-  OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
-  LIBS="$LIBS $(OPENGL_LIBS)"
-  # search in MacPorts and Fink installs
-  if test -d /wudr/X11/include ; then
-    OSDEP_CFLAGS="-I/wudr/X11/include"
-  elif test -d /opt/X11/include ; then
-    OSDEP_CFLAGS="-I/opt/X11/include"
-  elif test -d /opt/local/include ; then
-    OSDEP_CFLAGS="-I/opt/local/include"
-  elif test -d /sw/include ; then
-    OSDEP_CFLAGS="$OSDEP_CFLAGS -I/sw/include"
-  fi
-  if test -d /usr/X11/lib ; then
-    OSDEP_LIBS="-L/opt/X11/lib"
-  elif test -d /opt/X11/lib ; then
-    OSDEP_LIBS="-L/opt/X11/lib"
-  elif test -d /opt/local/lib ; then
-    OSDEP_LIBS="-L/opt/local/lib"
-  elif test -d /sw/lib ; then
-    OSDEP_LIBS="$OSDEP_LIBS -L/sw/lib"
-  fi
-  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
-  AC_DEFINE(HAVE_LIBGLU)  
-  ;;
-*)
-  case "`$ac_config_sub $build`" in
-    *-*-solaris*) OSDEP_LIBS="-L/usr/openwin/lib" OSDEP_CFLAGS="-I/usr/local/include" ;;
-    *-*-linux*)   OSDEP_LIBS=""                   OSDEP_CFLAGS="" ;;
-    *-*-netbsd*)  OSDEP_LIBS="-L/usr/pkg/lib"     OSDEP_CFLAGS="-I/usr/pkg/include" ;;
-    *)            OSDEP_LIBS="-L/usr/local/lib"   OSDEP_CFLAGS="-I/usr/local/include" ;;
-  esac
-
-  AC_CHECK_LIB([glut], [glutMainLoop])
-  AC_CHECK_HEADERS([GL/glut.h])
-  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
-  if test "ac_cv_lib_glut_glutMainLoop" = no; then
-    AC_MSG_WARN([Could not find glut lib!])
-  else
-    CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
-    LIBS="$OSDEP_LIBS -lglut $LIBS"
-    GLUT_LIB="$OSDEP_LIBS -lglut"
-    AC_SUBST(GNUT_LIB)
-  fi
-  ;;
-esac
-AC_DEFINE(HAVE_LIBGLUT)
-am_libglut="yes"
-
-CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
-])
+#AC_DEFUN([AC_GLUT_CHECK],
+#[ 
+#am_libglut="no"
+#AH_TEMPLATE(HAVE_LIBGLUT)
+#
+#case "`$ac_config_sub $build`" in
+#*-*-darwin*)
+#  AC_CHECK_HEADERS([GLUT/glut.h])
+#  OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
+#  LIBS="$LIBS $(OPENGL_LIBS)"
+#  # search in MacPorts and Fink installs
+#  if test -d /wudr/X11/include ; then
+#    OSDEP_CFLAGS="-I/wudr/X11/include"
+#  elif test -d /opt/X11/include ; then
+#    OSDEP_CFLAGS="-I/opt/X11/include"
+#  elif test -d /opt/local/include ; then
+#    OSDEP_CFLAGS="-I/opt/local/include"
+#  elif test -d /sw/include ; then
+#    OSDEP_CFLAGS="$OSDEP_CFLAGS -I/sw/include"
+#  fi
+#  if test -d /usr/X11/lib ; then
+#    OSDEP_LIBS="-L/opt/X11/lib"
+#  elif test -d /opt/X11/lib ; then
+#    OSDEP_LIBS="-L/opt/X11/lib"
+#  elif test -d /opt/local/lib ; then
+#    OSDEP_LIBS="-L/opt/local/lib"
+#  elif test -d /sw/lib ; then
+#    OSDEP_LIBS="$OSDEP_LIBS -L/sw/lib"
+#  fi
+#  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
+#  AC_DEFINE(HAVE_LIBGLU)  
+#  ;;
+#*)
+#  case "`$ac_config_sub $build`" in
+#    *-*-solaris*) OSDEP_LIBS="-L/usr/openwin/lib" OSDEP_CFLAGS="-I/usr/local/include" ;;
+#    *-*-linux*)   OSDEP_LIBS=""                   OSDEP_CFLAGS="" ;;
+#    *-*-netbsd*)  OSDEP_LIBS="-L/usr/pkg/lib"     OSDEP_CFLAGS="-I/usr/pkg/include" ;;
+#    *)            OSDEP_LIBS="-L/usr/local/lib"   OSDEP_CFLAGS="-I/usr/local/include" ;;
+#  esac
+#
+#  AC_CHECK_LIB([glut], [glutMainLoop])
+#  AC_CHECK_HEADERS([GL/glut.h])
+#  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
+#  if test "ac_cv_lib_glut_glutMainLoop" = no; then
+#    AC_MSG_WARN([Could not find glut lib!])
+#  else
+#    CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
+#    LIBS="$OSDEP_LIBS -lglut $LIBS"
+#    GLUT_LIB="$OSDEP_LIBS -lglut"
+#    AC_SUBST(GNUT_LIB)
+#  fi
+#  ;;
+#esac
+#AC_DEFINE(HAVE_LIBGLUT)
+#am_libglut="yes"
+#
+#CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
+#])
 
 # --------------------------------------------------------------------------
 # Ubit with Glut
@@ -1297,7 +1299,6 @@ if test "$ac_cv_use_glut" = "yes"; then
     ubit_features="$ubit_features UBIT_WITH_GL"
   fi
 else
-  #AC_X11_CHECK
   want_x11="yes"
   want_glut="no"
   ubit_features="$ubit_features UBIT_WITH_X11"
@@ -1757,9 +1758,9 @@ AC_ARG_WITH([sdl2],
 
 if test "$ac_cv_use_SDL" = "yes" ; then
   SDL_VERSION_MIN=1.2.11
-  AM_PATH_SDL($SDL_VERSION_MIN,
-      [am_libsdl="yes"],
-      AC_MSG_WARN([*** SDL version $SDL_VERSION_MIN not found!]))
+  #dax AM_PATH_SDL($SDL_VERSION_MIN,
+  #dax     [am_libsdl="yes"],
+  #dax     AC_MSG_WARN([*** SDL version $SDL_VERSION_MIN not found!]))
   AH_TEMPLATE(HAVE_LIBSDL)
   if test "$am_libsdl" = "yes"; then
     AC_DEFINE(HAVE_LIBSDL)

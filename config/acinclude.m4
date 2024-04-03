@@ -17,6 +17,121 @@ dnl
 dnl @author Stephane Bortzmeyer <bortzmeyer@pasteur.fr>
 dnl @version $Id: ac_check_class.m4,v 1.3 2000/01/28 11:54:26 bortz Exp $
 dnl
+
+#
+# Check for X11 header and library files
+#
+AC_DEFUN([AC_X11_CHECK],
+[ 
+  have_x11="no"
+  AC_PATH_X
+  AC_PATH_XTRA
+  saved_cflags=$CFLAGS
+  saved_ldflags=$LDFLAGS
+  CFLAGS=$X_CFLAGS
+  LDFLAGS="$X_LDFLAGS $X_LIBS"
+  # 
+  # Check for X libraries
+  #
+  AH_TEMPLATE(HAVE_LIBX11)
+  AC_CHECK_LIB([X11], [XOpenDisplay], 
+               [x_libs="$X_LIBS -lX11 $X_EXTRA_LIBS" AC_DEFINE(HAVE_LIBX11)],
+               [AC_MSG_WARN([X11 library not found, check config.log! try --with-x])],
+               [$X_LIBS $X_EXTRA_LIBS])
+  # needed by ubit: XmuClientWindow
+  AH_TEMPLATE(HAVE_LIBXMU)
+  AC_CHECK_LIB([Xmu], [XmuClientWindow],
+               [x_libs="$X_LIBS -lXmu $x_libs" AC_DEFINE(HAVE_LIBXMU)],
+               [AC_MSG_WARN([Xmu library not found, check config.log! try apt|dnf|yum|brew install libXmu-devel | apt-get install libxmu-dev])],
+               [$x_libs])
+  
+  x_libs="$X_LIBS $X_PRE_LIBS $x_libs"
+  AH_TEMPLATE(HAVE_XMU_WINUTIL_H)
+  AH_TEMPLATE(HAVE_XPM_H)
+  case "`$ac_config_sub $build`" in
+    *-*-solaris*) 
+      AC_CHECK_HEADER([openwin/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
+        AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
+      AC_CHECK_HEADER([openwin/xpm.h], [AC_DEFINE([HAVE_XPM_H])], 
+        AC_MSG_WARN([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
+      ;;
+    *)
+      AC_CHECK_HEADER([X11/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])], 
+        AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
+      AC_CHECK_HEADER([X11/xpm.h], [AC_DEFINE([HAVE_XPM_H])], 
+        AC_MSG_WARN([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
+      ;;
+  esac
+  CFLAGS=$saved_cflags
+  LDFLAGS=$saved_ldflags
+  have_x11="yes"
+])
+
+# --------------------------------------------------------------------------
+#
+# Glut configuration
+#
+AC_DEFUN([AC_GLUT_CHECK],
+[
+am_libglut="no"
+AH_TEMPLATE(HAVE_LIBGLUT)
+
+case "`$ac_config_sub $build`" in
+*-*-darwin*)
+  AC_CHECK_HEADERS([GLUT/glut.h])
+  OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
+  LIBS="$LIBS $(OPENGL_LIBS)"
+  # search in MacPorts and Fink installs
+  if test -d /wudr/X11/include ; then
+    OSDEP_CFLAGS="-I/wudr/X11/include"
+  elif test -d /opt/X11/include ; then
+    OSDEP_CFLAGS="-I/opt/X11/include"
+  elif test -d /opt/local/include ; then
+    OSDEP_CFLAGS="-I/opt/local/include"
+  elif test -d /sw/include ; then
+    OSDEP_CFLAGS="$OSDEP_CFLAGS -I/sw/include"
+  fi
+  if test -d /usr/X11/lib ; then
+    OSDEP_LIBS="-L/opt/X11/lib"
+  elif test -d /opt/X11/lib ; then
+    OSDEP_LIBS="-L/opt/X11/lib"
+  elif test -d /opt/local/lib ; then
+    OSDEP_LIBS="-L/opt/local/lib"
+  elif test -d /sw/lib ; then
+    OSDEP_LIBS="$OSDEP_LIBS -L/sw/lib"
+  fi
+  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
+  AC_DEFINE(HAVE_LIBGLU)
+  ;;
+*)
+  case "`$ac_config_sub $build`" in
+    *-*-solaris*) OSDEP_LIBS="-L/usr/openwin/lib" OSDEP_CFLAGS="-I/usr/local/include" ;;
+    *-*-linux*)   OSDEP_LIBS=""                   OSDEP_CFLAGS="" ;;
+    *-*-netbsd*)  OSDEP_LIBS="-L/usr/pkg/lib"     OSDEP_CFLAGS="-I/usr/pkg/include" ;;
+    *)            OSDEP_LIBS="-L/usr/local/lib"   OSDEP_CFLAGS="-I/usr/local/include" ;;
+  esac
+  AC_CHECK_LIB([glut], [glutMainLoop])
+  AC_CHECK_HEADERS([GL/glut.h])
+  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
+  if test "ac_cv_lib_glut_glutMainLoop" = no; then
+    AC_MSG_WARN([Could not find glut lib!])
+  else
+    CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
+    LIBS="$OSDEP_LIBS -lglut $LIBS"
+    GLUT_LIB="$OSDEP_LIBS -lglut"
+    AC_SUBST(GNUT_LIB)
+  fi
+  ;;
+esac
+AC_DEFINE(HAVE_LIBGLUT)
+am_libglut="yes"
+
+CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
+])
+
+#
+# Java
+#
 AC_DEFUN([AC_CHECK_CLASS],[
 AC_REQUIRE([AC_PROG_JAVA])dnl
 ac_var_name=`echo $1 | sed 's/\./_/g'`
@@ -75,9 +190,9 @@ EOF
 		if uudecode$EXEEXT Test.uue; then
 			:
 		else
-			echo "configure: __oline__: uudecode had trouble decoding base 64 file 'Test.uue'" >&AC_FD_CC
-			echo "configure: failed file was:" >&AC_FD_CC
-			cat Test.uue >&AC_FD_CC
+			echo "configure: __oline__: uudecode had trouble decoding base 64 file 'Test.uue'" >&AS_MESSAGE_LOG_FD
+			echo "configure: failed file was:" >&AS_MESSAGE_LOG_FD
+			cat Test.uue >&AS_MESSAGE_LOG_FD
 			ac_cv_prog_uudecode_base64=no
 		fi
 	rm -f Test.uue
@@ -105,6 +220,7 @@ dnl do scripts have variable scoping?
 eval "ac_var_val=$`eval echo ac_cv_class_$ac_var_name`"
 AC_MSG_RESULT($ac_var_val)
 ])
+
 dnl @synopsis AC_CHECK_CLASSPATH
 dnl
 dnl AC_CHECK_CLASSPATH just displays the CLASSPATH, for the edification
@@ -149,7 +265,6 @@ dnl
 dnl @author Stephane Bortzmeyer <bortzmeyer@pasteur.fr>
 dnl @version $Id: ac_check_rqrd_class.m4,v 1.1 1999/12/29 09:22:26 bortz Exp $
 dnl
-
 AC_DEFUN([AC_CHECK_RQRD_CLASS],[
 CLASS=`echo $1|sed 's/\./_/g'`
 AC_CHECK_CLASS($1)
@@ -157,6 +272,7 @@ if test "$HAVE_LAST_CLASS" = "no"; then
         AC_MSG_ERROR([Required class $1 missing, exiting.])
 fi
 ])
+
 dnl @synopsis AC_JAVA_OPTIONS
 dnl
 dnl AC_JAVA_OPTIONS adds configure command line options used for Java m4
@@ -189,6 +305,7 @@ AC_SUBST(JAVAFLAGS)dnl
 AC_SUBST(JAVA)dnl
 AC_SUBST(JAVAC)dnl
 ])
+
 dnl @synopsis AC_PROG_JAVA
 dnl
 dnl Here is a summary of the main macros:
@@ -266,6 +383,7 @@ test x$JAVA = x && AC_MSG_ERROR([no acceptable Java virtual machine found in \$P
 AC_PROG_JAVA_WORKS
 AC_PROVIDE([$0])dnl
 ])
+
 dnl @synopsis AC_PROG_JAVA_WORKS
 dnl
 dnl Internal use ONLY.
@@ -312,9 +430,9 @@ EOF
 if uudecode$EXEEXT Test.uue; then
 	ac_cv_prog_uudecode_base64=yes
 else
-	echo "configure: __oline__: uudecode had trouble decoding base 64 file 'Test.uue'" >&AC_FD_CC
-	echo "configure: failed file was:" >&AC_FD_CC
-	cat Test.uue >&AC_FD_CC
+	echo "configure: __oline__: uudecode had trouble decoding base 64 file 'Test.uue'" >&AS_MESSAGE_LOG_FD
+	echo "configure: failed file was:" >&AS_MESSAGE_LOG_FD
+	cat Test.uue >&AS_MESSAGE_LOG_FD
 	ac_cv_prog_uudecode_base64=no
 fi
 rm -f Test.uue])
@@ -346,16 +464,16 @@ if test x$ac_cv_prog_uudecode_base64 != xyes; then
 	if AC_TRY_COMMAND(CLASSPATH=$CLASSPATH $JAVAC $JAVACFLAGS $JAVA_TEST) && test -s $CLASS_TEST; then
 		:
 	else
-	  echo "configure: failed program was:" >&AC_FD_CC
-	  cat $JAVA_TEST >&AC_FD_CC
+	  echo "configure: failed program was:" >&AS_MESSAGE_LOG_FD
+	  cat $JAVA_TEST >&AS_MESSAGE_LOG_FD
 	  AC_MSG_ERROR(The Java compiler $JAVAC failed (see config.log, check the CLASSPATH?))
 	fi
 fi
 if AC_TRY_COMMAND(CLASSPATH=$CLASSPATH $JAVA $JAVAFLAGS $TEST) >/dev/null 2>&1; then
   ac_cv_prog_java_works=yes
 else
-  echo "configure: failed program was:" >&AC_FD_CC
-  cat $JAVA_TEST >&AC_FD_CC
+  echo "configure: failed program was:" >&AS_MESSAGE_LOG_FD
+  cat $JAVA_TEST >&AS_MESSAGE_LOG_FD
   AC_MSG_ERROR(The Java VM $JAVA failed (see config.log, check the CLASSPATH?))
 fi
 rm -fr $JAVA_TEST $CLASS_TEST Test.uue
@@ -363,6 +481,7 @@ rm -fr $JAVA_TEST $CLASS_TEST Test.uue
 AC_PROVIDE([$0])dnl
 ]
 )
+
 dnl @synopsis AC_PROG_JAVAC
 dnl
 dnl AC_PROG_JAVAC tests an existing Java compiler. It uses the environment
@@ -406,6 +525,7 @@ test "x$JAVAC" = x && AC_MSG_ERROR([no acceptable Java compiler found in \$PATH]
 AC_PROG_JAVAC_WORKS
 AC_PROVIDE([$0])dnl
 ])
+
 dnl @synopsis AC_PROG_JAVAC_WORKS
 dnl
 dnl Internal use ONLY.
@@ -434,13 +554,14 @@ if AC_TRY_COMMAND($JAVAC $JAVACFLAGS $JAVA_TEST) >/dev/null 2>&1; then
   ac_cv_prog_javac_works=yes
 else
   AC_MSG_ERROR([The Java compiler $JAVAC failed (see config.log, check the CLASSPATH?)])
-  echo "configure: failed program was:" >&AC_FD_CC
-  cat $JAVA_TEST >&AC_FD_CC
+  echo "configure: failed program was:" >&AS_MESSAGE_LOG_FD
+  cat $JAVA_TEST >&AS_MESSAGE_LOG_FD
 fi
 rm -f $JAVA_TEST $CLASS_TEST
 ])
 AC_PROVIDE([$0])dnl
 ])
+
 dnl @synopsis AC_TRY_COMPILE_JAVA
 dnl
 dnl AC_TRY_COMPILE_JAVA attempt to compile user given source.
@@ -473,13 +594,14 @@ then
 dnl Don't remove the temporary files here, so they can be examined.
   ifelse([$3], , :, [$3])
 else
-  echo "configure: failed program was:" >&AC_FD_CC
-  cat Test.java >&AC_FD_CC
+  echo "configure: failed program was:" >&AS_MESSAGE_LOG_FD
+  cat Test.java >&AS_MESSAGE_LOG_FD
 ifelse([$4], , , [  rm -fr Test*
   $4
 ])dnl
 fi
 rm -fr Test*])
+
 dnl @synopsis AC_TRY_RUN_JAVA
 dnl
 dnl AC_TRY_RUN_JAVA attempt to compile and run user given source.
@@ -513,8 +635,8 @@ then
 dnl Don't remove the temporary files here, so they can be examined.
   ifelse([$3], , :, [$3])
 else
-  echo "configure: failed program was:" >&AC_FD_CC
-  cat Test.java >&AC_FD_CC
+  echo "configure: failed program was:" >&AS_MESSAGE_LOG_FD
+  cat Test.java >&AS_MESSAGE_LOG_FD
 ifelse([$4], , , [  rm -fr Test*
   $4
 ])dnl
@@ -561,7 +683,6 @@ AC_PROVIDE([$0])dnl
 dnl AC_CHECK_FREETYPE([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for FreeType2, and define FREETYPE_CFLAGS, FREETYPE_LIBS
 dnl and HAVE_FREETYPE, HAVE_LIBFREETYPE
-dnl
 AC_DEFUN([AC_CHECK_FREETYPE],
 [dnl
 dnl Get the cflags and libraries from the freetype-config script
@@ -644,7 +765,7 @@ AC_CHECK_LIB(freetype, FT_Init_FreeType, [AC_DEFINE(HAVE_LIBFREETYPE)],
 
 dnl AM_PATH_SDL([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for SDL, and define SDL_CFLAGS and SDL_LIBS
-dnl
+
 AC_DEFUN([AM_PATH_SDL],
 [dnl 
 dnl Get the cflags and libraries from the sdl-config script
