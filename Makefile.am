@@ -27,7 +27,7 @@ ACLOCAL_AMFLAGS = -I config
 
 SUBDIRS = src man etc bin
 
-EXTRA_DIST = LICENSE README.md VERSION.md config/* md/* data/* autogen.sh build vr
+EXTRA_DIST = LICENSE.md README.md VERSION.md config/* md/* data/* autogen.sh build vr
 
 ARCHIVE  = archive
 HTML     = html
