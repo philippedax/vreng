@@ -367,7 +367,7 @@ void UHardwinX11::realize(WinType wtype, float w, float h) {
     // non-native pointer events are sent by the UMS on UBIT_WINDOW(s)
     // according to the UBIT_EVENT_FLOW Protocol
     // NB: inutile de copier le 0 final de la string: getProperty le rajoutera
-    unsigned char winid[2] = {wtype, 0};
+    unsigned char winid[2] = {static_cast<unsigned char>(wtype), 0};
     XChangeProperty(d->sys_disp, sys_win, atoms.UMS_WINDOW,
                     XA_STRING, 8/*format*/, PropModeReplace, winid, 2);  
   }
@@ -380,5 +380,3 @@ void UHardwinX11::realize(WinType wtype, float w, float h) {
 
 }
 #endif
-/* ==================================================== [TheEnd] ======= */
-/* ==================================================== [(c)Elc] ======= */

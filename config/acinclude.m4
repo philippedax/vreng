@@ -48,7 +48,7 @@ AC_DEFUN([AC_X11_CHECK],
   x_libs="$X_LIBS $X_PRE_LIBS $x_libs"
   AH_TEMPLATE(HAVE_XMU_WINUTIL_H)
   AH_TEMPLATE(HAVE_XPM_H)
-  case "`$ac_config_sub $build`" in
+  case "`$canonilize $build`" in
     *-*-solaris*) 
       AC_CHECK_HEADER([openwin/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
         AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
@@ -76,7 +76,7 @@ AC_DEFUN([AC_GLUT_CHECK],
 am_libglut="no"
 AH_TEMPLATE(HAVE_LIBGLUT)
 
-case "`$ac_config_sub $build`" in
+case "`$canonilize $build`" in
 *-*-darwin*)
   AC_CHECK_HEADERS([GLUT/glut.h])
   OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
@@ -104,7 +104,7 @@ case "`$ac_config_sub $build`" in
   AC_DEFINE(HAVE_LIBGLU)
   ;;
 *)
-  case "`$ac_config_sub $build`" in
+  case "`$canonilize $build`" in
     *-*-solaris*) OSDEP_LIBS="-L/usr/openwin/lib" OSDEP_CFLAGS="-I/usr/local/include" ;;
     *-*-linux*)   OSDEP_LIBS=""                   OSDEP_CFLAGS="" ;;
     *-*-netbsd*)  OSDEP_LIBS="-L/usr/pkg/lib"     OSDEP_CFLAGS="-I/usr/pkg/include" ;;
