@@ -7,6 +7,9 @@ VRED_HDRS = main.hpp vred.hpp vre.hpp app.hpp bbox.hpp board.hpp box.hpp bsphere
 EXTRA_DIST = vred.l vred.y
 
 SRCDIR = $(top_srcdir)/src
+
+CXXFLAGS += -Wno-deprecated-declarations -Wno-deprecated-register -Wno-writable-strings
+
 AM_CPPFLAGS = -I$(SRCDIR)/base -I$(SRCDIR)/ext/glui $(GL_CFLAGS) $(X_CFLAGS)
 
 if ENABLE_VRED

@@ -13,6 +13,8 @@ CMX = $(CML:.ml=.cmx)
 
 SRC = $(top_srcdir)/src
 CFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@
+CXXFLAGS += -Wno-writable-strings
+
 AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/net -I$(SRC)/world -I$(SRC)/3d -I$(SRC)/gui
 
 if ENABLE_OCAML

@@ -13,6 +13,8 @@ EXTRA_DIST = vrl.l vrl.y
 
 if ENABLE_VRL
 
+CXXFLAGS += -Wno-writable-strings -Wno-deprecated-declarations
+
 AM_CPPFLAGS = -I$(top_srcdir)/src/base
 
 lex.yy.o: lex.yy.cpp y.tab.h

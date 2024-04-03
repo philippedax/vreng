@@ -1203,8 +1203,8 @@ bool UCstr::equals(const char* s1, const char* s2, bool ignore_case) {
 
 int UCstr::compare(const char* s1, const char* s2, bool ignore_case) {
   if (s1 == s2) return 0;
-  register const unsigned char *p1 = (const unsigned char *) s1;
-  register const unsigned char *p2 = (const unsigned char *) s2;
+  const unsigned char *p1 = (const unsigned char *) s1;
+  const unsigned char *p2 = (const unsigned char *) s2;
   unsigned char c1, c2;
 
   if (ignore_case) {
@@ -1229,8 +1229,8 @@ int UCstr::compare(const char* s1, const char* s2, bool ignore_case) {
 
 int UCstr::compareN(const char* s1, const char* s2, unsigned int n, bool ignore_case) {
   if (s1 == s2 || n == 0) return 0;  
-  register const unsigned char *p1 = (const unsigned char *) s1;
-  register const unsigned char *p2 = (const unsigned char *) s2;
+  const unsigned char *p1 = (const unsigned char *) s1;
+  const unsigned char *p2 = (const unsigned char *) s2;
   unsigned char c1, c2;
 
   if (ignore_case) {

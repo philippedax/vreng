@@ -6,6 +6,8 @@ MPEG_SRCS = 24bit.c 2x2.c decoders.c fs2.c fs2fast.c fs4.c gdith.c globals.c gra
 
 MPEG_HDRS = decoders.h dither.h fs2.h fs4.h globals.h mpeg.h my_dmalloc.h proto.h util.h video.h
 
+CFLAGS += -Wno-int-to-pointer-cast
+
 AM_CPPFLAGS = -I$(top_srcdir)
 
 if ENABLE_LIBMPEG
