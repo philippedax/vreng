@@ -26,20 +26,25 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[9.4.4],[philippe.dax@gmail.com])
+AC_INIT([vreng],[9.4.5],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ([2.71])
 
 AC_CONFIG_SRCDIR([src/base/vreng.cpp])
 
-# where to find install.sh, config.sub, and config.guess
+# where to find install.sh, config.sub
 AC_CONFIG_AUX_DIR(config)
+
 # where to find macros m4
 AC_CONFIG_MACRO_DIR(config)
 
 # canonicalizing cpu:vendor:os
 AC_CANONICAL_HOST([])
+
+if test -f "${ac_aux_dir}canonical"; then
+  canonical="$SHELL ${ac_aux_dir}canonical"
+fi
 
 AM_INIT_AUTOMAKE([subdir-objects])
 
@@ -60,11 +65,6 @@ ubit_features=""
 # use config.h
 AC_CONFIG_HEADERS([config.h])
 
-#AM_MAINTAINER_MODE
-
-if test -f "${ac_aux_dir}canonical"; then
-  canonical="$SHELL ${ac_aux_dir}canonical"
-fi
 
 # --------------------------------------------------------------------------
 #

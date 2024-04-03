@@ -14,8 +14,14 @@ The rules for this file:
 
 ++ 9
 == 9.4
+-- 9.4.5
+	(2024/04/03, Philippe Dax)
+
 -- 9.4.4
-	(2024/01/01, Philippe Dax)
+	- fix CXXFLAGS configure.ac and */Makefile.am
+	- add -B option to show build infos
+	- fix throw exceptions in ubit/*pp
+	(2024/03/28, Philippe Dax)
 
 -- 9.4.3
 	- fix AM_CPPFLAGS for freetype2 src/*/Makefile.am
