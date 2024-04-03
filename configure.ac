@@ -62,8 +62,8 @@ AC_CONFIG_HEADERS([config.h])
 
 #AM_MAINTAINER_MODE
 
-if test -f "${ac_aux_dir}canonilize"; then
-  canonilize="$SHELL ${ac_aux_dir}canonilize"
+if test -f "${ac_aux_dir}canonize"; then
+  canonize="$SHELL ${ac_aux_dir}canonize"
 fi
 
 # --------------------------------------------------------------------------
@@ -242,7 +242,7 @@ OSDEP_LIBS=""
 OSDEP_CFLAGS=""
 
 # X11 paths
-case "`$canonilize $build`" in
+case "`$canonize $build`" in
 *-*-darwin*)
   ;;
 *)
@@ -261,7 +261,7 @@ esac
 libmpeg=mpeg
 LDFLAGS_EXT=""
 
-case "`$canonilize $build`" in
+case "`$canonize $build`" in
 *-*-solaris*)
   AC_DEFINE(SOLARIS)
   CPPFLAGS="-I/usr/X11R6/include -I/usr/openwin/include $CPPFLAGS"
@@ -380,7 +380,7 @@ AC_DEFINE(OSF1)
   elif test -d /sw/lib ; then
     OSDEP_LIBS="${OSDEP_LIBS} -L/sw/lib"
   fi
-  case "`$canonilize $build`" in
+  case "`$canonize $build`" in
     *-*-darwin9*)
     # BUG leopard
     LDFLAGS_EXT="-dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib"
@@ -817,7 +817,7 @@ fi
 #  x_libs="$X_LIBS $X_PRE_LIBS $x_libs"
 #  AH_TEMPLATE(HAVE_XMU_WINUTIL_H)
 #  AH_TEMPLATE(HAVE_XPM_H)
-#  case "`$canonilize $build`" in
+#  case "`$canonize $build`" in
 #    *-*-solaris*) 
 #      AC_CHECK_HEADER([openwin/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
 #	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
@@ -1146,7 +1146,7 @@ AC_ARG_WITH([GL-prefix],
             AS_HELP_STRING([--with-GL-prefix=DIR],
             [prefix for OpenGL/Mesa3D lib & include]))
 
-case "`$canonilize $build`" in
+case "`$canonize $build`" in
 *-*-darwin*)
 GL_L="-L/usr/X11/lib"
 GL_I="-I/usr/X11/include"
@@ -1228,7 +1228,7 @@ AC_SUBST(GL_CFLAGS)
 #am_libglut="no"
 #AH_TEMPLATE(HAVE_LIBGLUT)
 #
-#case "`$canonilize $build`" in
+#case "`$canonize $build`" in
 #*-*-darwin*)
 #  AC_CHECK_HEADERS([GLUT/glut.h])
 #  OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
@@ -1256,7 +1256,7 @@ AC_SUBST(GL_CFLAGS)
 #  AC_DEFINE(HAVE_LIBGLU)  
 #  ;;
 #*)
-#  case "`$canonilize $build`" in
+#  case "`$canonize $build`" in
 #    *-*-solaris*) OSDEP_LIBS="-L/usr/openwin/lib" OSDEP_CFLAGS="-I/usr/local/include" ;;
 #    *-*-linux*)   OSDEP_LIBS=""                   OSDEP_CFLAGS="" ;;
 #    *-*-netbsd*)  OSDEP_LIBS="-L/usr/pkg/lib"     OSDEP_CFLAGS="-I/usr/pkg/include" ;;
