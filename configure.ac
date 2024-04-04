@@ -24,7 +24,7 @@
 
 # --------------------------------------------------------------------------
 #
-# Checks name, version, config
+# Check name, version, config
 #
 AC_INIT([vreng],[9.4.5],[philippe.dax@gmail.com])
 
@@ -68,7 +68,7 @@ AC_CONFIG_HEADERS([config.h])
 
 # --------------------------------------------------------------------------
 #
-# Checks for compiler
+# Check for compiler
 #
 AC_LANG([C++])
 AC_PROG_CC
@@ -213,7 +213,7 @@ fi
 
 # --------------------------------------------------------------------------
 #
-# Checks for OS types
+# Check for OS types
 #
 AH_TEMPLATE(LINUX)
 AH_TEMPLATE(MACOSX)
@@ -483,7 +483,7 @@ fi
 
 # --------------------------------------------------------------------------
 #
-# Checks for library functions.
+# Check for library functions.
 #
 AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_ERROR_AT_LINE
@@ -496,7 +496,7 @@ AC_FUNC_UTIME_NULL
 AC_FUNC_VPRINTF
 AC_FUNC_STRTOD
 
-AC_CHECK_FUNCS([ getuid getpid getcwd getpwuid gethostname gethostid gethostbyaddr gethostbyname gethostbyname_r getservbyname getipnodebyname getipnodebyaddr freehostent inet_pton inet_ntoa inet_ntop isascii gettimeofday memcpy memmove memset mkdir pow sqrt strcasecmp strchr strrchr strstr strcasecmp strerror strdup strtol strpbrk utime fcntl floor select poll socket setrlimit waitpid readdir getopt getopt_long uname rand random drand48 lrand48 usleep fpsetmask nice getaddrinfo setlocale alarm ftime sysinfo ])
+AC_CHECK_FUNCS([ getuid getpid getcwd getpwuid gethostname gethostid gethostbyaddr gethostbyname gethostbyname_r getservbyname getipnodebyname getipnodebyaddr getaddrinfo freehostent inet_pton inet_ntoa inet_ntop isascii gettimeofday memcpy memmove memset mkdir pow sqrt strcasecmp strchr strrchr strstr strcasecmp strerror strdup strtol strpbrk utime fcntl floor select poll socket setrlimit waitpid readdir getopt getopt_long uname rand random drand48 lrand48 usleep fpsetmask nice setlocale alarm ftime sysinfo ])
 
 AH_TEMPLATE(_REENTRANT)
 if test "$ac_cv_func_gethostbyname_r" = "yes" ; then
@@ -974,7 +974,7 @@ AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
 #
 AC_ARG_WITH([mpeg],
             AS_HELP_STRING([--with-mpeg],
-            [allow use of libmpeg if available [[default=yes]]]))
+            [allow use of builtin libmpeg [[default=yes]]]))
 
 am_libmpeg="no"
 AH_TEMPLATE(HAVE_LIBMPEG)
@@ -1022,7 +1022,6 @@ AH_TEMPLATE(WITH_FREETYPE)
 AC_CHECK_LIB([freetype],[FT_Library_Version],[have_freetype="yes"
              [LIBS="-lfreetype $LIBS"]],
              [AC_MSG_WARN([could not find FreeType2!, try apt|dnf|yum|brew install freetype-devel or apt-get install libfreetype6-dev])])
-#dax AC_CHECK_FREETYPE([23.0.0],[have_freetype="yes"], [AC_MSG_WARN([could not find FreeType2!, try apt|dnf|yum|brew install freetype-devel or apt-get install libfreetype6-dev])])
 AC_PATH_PROG(FREETYPE_CONFIG,freetype-config)
 freetype_cflags=`$FREETYPE_CONFIG --cflags`
 FREETYPE_CFLAGS=$freetype_cflags
@@ -1188,9 +1187,8 @@ fi
 AH_TEMPLATE(HAVE_GL_GL_H)
 AC_CHECK_HEADER([GL/gl.h], [AC_DEFINE([HAVE_GL_GL_H])],
 	        AC_MSG_WARN([unable to find gl header]))
-
 #
-# check glu
+# Check Glu
 #
 AH_TEMPLATE(HAVE_LIBGLU)
 AC_CHECK_LIB([GLU], [gluPerspective],
@@ -1360,7 +1358,7 @@ fi
 am_libglui="no"
 AC_ARG_ENABLE([glui],
               AS_HELP_STRING([--enable-glui],
-              [allow use of glui if available [[default=no]]]))
+              [allow use of builtin glui [[default=no]]]))
 
 if test "${enable_glui:=no}" = "yes"; then
   am_libglui="yes"
@@ -1758,9 +1756,6 @@ AC_ARG_WITH([sdl2],
 
 if test "$ac_cv_use_SDL" = "yes" ; then
   SDL_VERSION_MIN=1.2.11
-  #dax AM_PATH_SDL($SDL_VERSION_MIN,
-  #dax     [am_libsdl="yes"],
-  #dax     AC_MSG_WARN([*** SDL version $SDL_VERSION_MIN not found!]))
   AH_TEMPLATE(HAVE_LIBSDL)
   if test "$am_libsdl" = "yes"; then
     AC_DEFINE(HAVE_LIBSDL)
@@ -1788,7 +1783,7 @@ fi
 
 # --------------------------------------------------------------------------
 #
-# Checks for external tools
+# Check for external tools
 #
 # check for wget
 AH_TEMPLATE(HAVE_WGET)
