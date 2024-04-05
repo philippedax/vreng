@@ -8,7 +8,7 @@ SRC = $(top_srcdir)/src
 CFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ @X_CFLAGS@ @FREETYPE_CFLAGS@ @XML2_CFLAGS@ @OCAML_CFLAGS@
 AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/world -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/model -I$(SRC)/3d -I$(SRC)/tool -I$(SRC)/vnc -I$(SRC)/gui/xpm -I$(SRC)/ext/gl2ps -I$(SRC)/ai -I$(SRC)
 
-widgets.cpp: README.h TODO.h DTD.h COPYRIGHT.h LICENSE.h ChangeLog.h CONFIG_H.h
+widgets.cpp: README.h TODO.h DTD.h COPYRIGHT.h LICENSE.h CHANGELOG.h CONFIG_H.h
 
 TOP = $(top_srcdir)
 MD = $(TOP)/md
@@ -19,8 +19,8 @@ COPYRIGHT.h: $(MD)/COPYRIGHT.md
 	../base/txt2str COPYRIGHT < $(MD)/COPYRIGHT.md > $@
 LICENSE.h: $(MD)/LICENSE.md
 	../base/txt2str LICENSE < $(MD)/LICENSE.md > $@
-ChangeLog.h: $(MD)/ChangeLog.md
-	../base/txt2str ChangeLog < $(MD)/ChangeLog.md > $@
+CHANGELOG.h: $(MD)/CHANGELOG.md
+	../base/txt2str CHANGELOG < $(MD)/CHANGELOG.md > $@
 TODO.h: $(MD)/TODO.md
 	../base/txt2str TODO < $(MD)/TODO.md > $@
 DTD.h: $(MD)/vre-1.0.dtd

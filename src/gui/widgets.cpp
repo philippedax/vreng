@@ -81,7 +81,7 @@
 #include "README.h"
 #include "COPYRIGHT.h"
 #include "LICENSE.h"
-#include "ChangeLog.h"
+#include "CHANGELOG.h"
 #include "TODO.h"
 #include "DTD.h"
 //#include "CONFIG_H.h"
@@ -246,7 +246,7 @@ UBox& Widgets::createMenubar()
         + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &showInfoDialog))
         + ubutton("LICENSE"   + ucall("LICENSE",   LICENSE,   &showInfoDialog))
         + ubutton("DTD"       + ucall("DTD",       DTD,       &showInfoDialog))
-        + ubutton("ChangeLog" + ucall("ChangeLog", ChangeLog, &showInfoDialog))
+        + ubutton("CHANGELOG" + ucall("CHANGELOG", ChangeLog, &showInfoDialog))
         + ubutton("TODO"      + ucall("TODO",      TODO,      &showInfoDialog))
         //+ ubutton("config.h"  + ucall("config.h",  CONFIG_H,  &showInfoDialog))
         //+ ubutton("Home Page" + ucall(this, &siteCB))
