@@ -69,7 +69,7 @@ int decodeBase64(const char *in, char *out)
   pin = in;
   pout = out;
   /* build decode table */
-  for (int i = 0; i < sizeof(decode); i++) {
+  for (int i = 0; i < 256; i++) {
     decode[i] = -2; /* illegal digit */
   }
   for (int i = 0; i < 64; i++) {
