@@ -1272,7 +1272,7 @@ static char shape[16] = "box";	// box
 static char texture[128] = "";	// empty
 static V3 color;		// white
 static float alpha = 1;		// opaque
-static float size = .5;		// medium
+static float siz = .5;		// medium
 
 static const char chair_wood[] = "\
 <solid dim=\".25 .25 .01\" dif=\".5 .3 .1\" tx=\"/gif/wood.gif\" />\n\
@@ -1308,7 +1308,7 @@ static void defaultAddobj()
   strcpy(shape, "box");	// box
   *texture = '\0';	// no textures
   alpha = 1;		// opaque
-  size = .5;		// 50 cm
+  siz = .5;		// 50 cm
   color = setV3(1,1,1);	// white
 }
 
@@ -1363,11 +1363,11 @@ static void setVal(int item) {
     case OPAQUE0 : alpha = .0; break;
 
     // sizes
-    case TINY :   size = .12; break;
-    case SMALL :  size = .25; break;
-    case MEDIUM : size = .50; break;
-    case BIG :    size = 1.0; break;
-    case BIGEST : size = 2.0; break;
+    case TINY :   siz = .12; break;
+    case SMALL :  siz = .25; break;
+    case MEDIUM : siz = .50; break;
+    case BIG :    siz = 1.0; break;
+    case BIGEST : siz = 2.0; break;
 
     // models
     case MAN :     sprintf(shape, "man"); break;
@@ -1388,7 +1388,7 @@ static void setVal(int item) {
 void Widgets::newObjectCB()
 {
   char solid[BUFSIZ], url[128];
-  float r = .2 * size;
+  float r = .2 * siz;
   float scale = 1;
   V3 c = color;
 
