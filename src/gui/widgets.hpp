@@ -187,7 +187,7 @@ friend class Message;
   void getMessage(UMessageEvent&);
   void moveMessage(UMessageEvent&);
 
-  // Widgets internal methods
+  // Widgets callbacks
   void prevCB();
   void nextCB();
   void homeCB();
