@@ -431,7 +431,6 @@ void VjcMessage::dumpHeader(tVjcHeader hdr)
 /* Adds a 8bit int to the message */
 void VjcMessage::put8(int val)
 {
-  //dax VJC_CHECK_OVERFLOW_1(sizeof(uint8_t))
   data[cursor] = static_cast<uint8_t>((0x000000FF) & val);
   cursor += sizeof(uint8_t);
 }
@@ -439,7 +438,6 @@ void VjcMessage::put8(int val)
 /* Adds a 16bit int to the message */
 void VjcMessage::put16(int val)
 {
-  //dax VJC_CHECK_OVERFLOW_1(sizeof(int16_t))
   data[cursor]   = (val & 0xFF00) >> 8;
   data[cursor+1] = (val & 0x00FF);
   cursor += sizeof(int16_t);
@@ -448,7 +446,6 @@ void VjcMessage::put16(int val)
 /* Adds a 32bit int to the message */
 void VjcMessage::put32(int val)
 {
-  //dax VJC_CHECK_OVERFLOW_1(sizeof(int32_t))
   data[cursor]   = (val & 0xFF000000) >> 24;
   data[cursor+1] = (val & 0x00FF0000) >> 16;
   data[cursor+2] = (val & 0x0000FF00) >> 8;
@@ -636,7 +633,6 @@ havedate:
 /* Reads an 8 bit signed int */
 int8_t VjcMessage::read8()
 {
-  //dax VJC_CHECK_OVERFLOW_2(sizeof(int8_t))
   uint8_t val = data[cursor];
   cursor += sizeof(int8_t);
   return val;
@@ -645,7 +641,6 @@ int8_t VjcMessage::read8()
 /* Reads a 16 bit signed int */
 int16_t VjcMessage::read16()
 {
-  //dax VJC_CHECK_OVERFLOW_2(sizeof(int16_t))
   int16_t val = (data[cursor] << 8) + (0x00ff & data[cursor+1]);
   cursor += sizeof(int16_t);
   return val;
@@ -654,7 +649,6 @@ int16_t VjcMessage::read16()
 /* Reads a 32 bit signed int */
 int32_t VjcMessage::read32()
 {
-  //dax VJC_CHECK_OVERFLOW_2(sizeof(int32_t))
   int32_t val =
           (0xff000000 & (data[cursor]   << 24))
         + (0x00ff0000 & (data[cursor+1] << 16))
@@ -687,7 +681,6 @@ V3 VjcMessage::readPoint2D()
 {
   V3 point;
 
-  //dax VJC_CHECK_OVERFLOW_2(2*sizeof(int32_t))
   point.v[0] = (static_cast<float>(read32()));
   point.v[1] = (static_cast<float>(read32()));
   point.v[2] = 0;
@@ -698,7 +691,6 @@ V3 VjcMessage::readPoint3D()
 {
   V3 point = readPoint2D();
 
-  //dax VJC_CHECK_OVERFLOW_2(sizeof(int32_t))
   point.v[2] = (static_cast<float>(read32()));
   return point;
 }
