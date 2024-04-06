@@ -143,16 +143,16 @@ const char * Env::machname() const
 void Env::init()
 {
   struct stat bufstat;
-  char pathenv[256];
-  char dirweb[256];
-  char pathdata[256];
-  char pathprefs[256];
-  char pathstats[256];
-  char pathmenu[256];
-  char pathicons[256];
-  char pathmarks[256];
-  char pathcache[256];
-  char pathpasswd[256];
+  char *pathcache;
+  char *pathprefs;
+  char *pathenv;
+  char *dirweb;
+  char *pathdata;
+  char *pathstats;
+  char *pathicons;
+  char *pathmarks;
+  char *pathmenu;
+  char *pathpasswd;
 
   // $LOGNAME
   logname = new char[USER_LEN];
@@ -168,7 +168,9 @@ void Env::init()
 
   // dir $WEB (public_html/ | Sites/)
   if (! strcmp(DEF_HTTP_SERVER, "localhost") && strlen(DEF_URL_PFX) > 0) { // if local server
+    pathdata = new char[PATH_LEN];
     sprintf(pathdata, "%s/htdocs", vrengcwd);	// local htdocs location
+    dirweb = new char[PATH_LEN];
 #if MACOSX
     sprintf(dirweb, "%s/Sites", homedir);
 #else
@@ -191,6 +193,7 @@ void Env::init()
   }
 
   // dir $HOME/.vreng/
+  pathenv = new char[PATH_LEN];
   sprintf(pathenv, "%s/.vreng", homedir);
   if (stat(pathenv, &bufstat) < 0) {
     mkdir(pathenv, 0700);
@@ -199,36 +202,43 @@ void Env::init()
   strcpy(vrengdir, pathenv);
 
   // dir $HOME/.vreng/cache/
+  pathcache = new char[PATH_LEN];
   sprintf(pathcache, "%s/cache", pathenv);
   if (stat(pathcache, &bufstat) < 0) {
     mkdir(pathcache, 0700);
   }
   strcpy(vrengcache, pathcache);
 
+  // file $HOME/.vreng/prefs
+  pathprefs = new char[PATH_LEN];
+  sprintf(pathprefs, "%s/prefs", pathenv);
+  strcpy(vrengprefs, pathprefs);
+
+  // file $HOME/.vreng/stats
+  pathstats = new char[PATH_LEN];
+  sprintf(pathstats, "%s/stats", pathenv);
+  strcpy(vrengstats, pathstats);
+
   // dir $HOME/.vreng/icons/
+  pathicons = new char[PATH_LEN];
   sprintf(pathicons, "%s/icons", pathenv);
   if (stat(pathicons, &bufstat) < 0) {
     mkdir(pathicons, 0700);
   }
   strcpy(vrengicons, pathicons);
 
-  // file $HOME/.vreng/prefs
-  sprintf(pathprefs, "%s/prefs", pathenv);
-  strcpy(vrengprefs, pathprefs);
-
-  // file $HOME/.vreng/stats
-  sprintf(pathstats, "%s/stats", pathenv);
-  strcpy(vrengstats, pathstats);
-
   // file $HOME/.vreng/marks
+  pathmarks = new char[PATH_LEN];
   sprintf(pathmarks, "%s/marks", pathenv);
   strcpy(vrengworldmarks, pathmarks);
 
   // file $HOME/.vreng/vncpasswd
+  pathpasswd = new char[PATH_LEN];
   sprintf(pathpasswd, "%s/vncpasswd", pathenv);
   strcpy(vrengpasswd, pathpasswd);
 
   // file $HOME/.vreng/menu
+  pathmenu = new char[PATH_LEN];
   sprintf(pathmenu, "%s/menu", pathenv);
   strcpy(vrengmenu, pathmenu);
 
