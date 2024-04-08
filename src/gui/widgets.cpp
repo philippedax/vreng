@@ -1255,21 +1255,21 @@ void VncDialog::vncConvert()
 /* items */
 enum {
   NONE,
-  WALL, THING, MIRAGE, BALL, STEP, GROUND, GATE,
-  BOX, SPHERE, CONE, CYLINDER, DISK, TORUS,
-  BLACK, RED, GREEN, BLUE, PURPLE, YELLOW, CYAN, WHITE,
-  TINY, SMALL, MEDIUM, BIG, BIGEST,
-  OPAQUE, OPAQUE8, OPAQUE6, OPAQUE4, OPAQUE2, OPAQUE0,
-  WOOD, MARBLE, BRICK, STUC, GRASS, PAPER, WATER, CLOUD,
-  MODEL, MAN, CAR, SHRUB, TREE, PENGUIN,
-  CHAIR_WOOD, TABLE_WOOD, TABLE_METAL, TABLE_GLASS,
+  WALL, THING, MIRAGE, BALL, STEP, GROUND, GATE,	// objects
+  BOX, SPHERE, CONE, CYLINDER, DISK, TORUS,		// shapes
+  BLACK, RED, GREEN, BLUE, PURPLE, YELLOW, CYAN, WHITE,	// colors
+  TINY, SMALL, MEDIUM, BIG, BIGEST,			// sizes
+  OPAQUE, OPAQUE8, OPAQUE6, OPAQUE4, OPAQUE2, OPAQUE0,	// transparencies
+  WOOD, MARBLE, BRICK, STUC, GRASS, PAPER, WATER, CLOUD,// textures
+  MODEL, MAN, CAR, SHRUB, TREE, PENGUIN,		// models
+  CHAIR_WOOD, TABLE_WOOD, TABLE_METAL, TABLE_GLASS,	// compound objects
   ENDOBJ
 };
 
 // Local
 static uint8_t objtype = THING;	// thing (for multiple solids)
 static char shape[16] = "box";	// box
-static char texture[128] = "";	// empty
+static char texture[128] = {0};	// empty
 static V3 color;		// white
 static float alpha = 1;		// opaque
 static float siz = .5;		// medium
