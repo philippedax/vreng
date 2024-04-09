@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	htt://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -45,11 +45,13 @@ const float Model::DEF_SCALE = 1;       ///< 1
 static uint16_t oid = 0;
 
 
+/** Creates model class */
 WO * Model::creator(char *l)
 {
   return new Model(l);
 }
 
+/** Sets defaults before parsing */
 void Model::defaults()
 {
   scale = DEF_SCALE;
@@ -86,7 +88,7 @@ Model::Model(char *l)
   initMobileObject(1);
 }
 
-/** solid geometry */
+/** Sets solid geometry */
 void Model::geometry()
 {
   char s[128];
@@ -95,11 +97,13 @@ void Model::geometry()
   parseSolid(s);
 }
 
+/** Sets name */
 void Model::setName()
 {
   sprintf(name.given, "%s-%s.%d", MODEL_NAME, localuser->objectName(), getNum());
 }
 
+/** Parse a model */
 void Model::parser(char *l)
 {
   defaults();
@@ -128,6 +132,7 @@ void Model::parser(char *l)
   end_while_parse(l);
 }
 
+/** Sets behaviors */
 void Model::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
@@ -135,7 +140,7 @@ void Model::behaviors()
   enableBehavior(SPECIFIC_RENDER);
 }
 
-/* creation from Gui addobj */
+/** Creation from Gui addobj */
 Model::Model(WO *user, char *url, float _scale)
 {
   defaults();
@@ -162,6 +167,7 @@ Model::Model(WO *user, char *url, float _scale)
   initMobileObject(1);
 }
 
+/** Loads a model */
 void Model::loader()
 {
   if ((name.url && *name.url == 0) || (name.url && ! strcmp(name.url, "man"))) {
@@ -186,6 +192,7 @@ void Model::loader()
   }
 }
 
+/** Scales a model */
 void Model::scaler()
 {
   if (scale == 1) {
@@ -216,6 +223,7 @@ void Model::scaler()
   }
 }
 
+/** Draws a model into a displaylist */
 void Model::drawer()
 {
   switch (model_t) {
@@ -231,12 +239,14 @@ void Model::drawer()
   }
 }
 
+/** Is model moving */
 bool Model::isMoving()
 {
   if (taken) return true;
   return testMoving();
 }
 
+/** Permanent movement of a model */
 void Model::changePermanent(float lasting)
 {
   pos.x = localuser->pos.x;
@@ -245,6 +255,7 @@ void Model::changePermanent(float lasting)
   pos.az = localuser->pos.az;
 }
 
+/** Renders position of a model */
 void Model::posRender()
 {
   if (texid) {
@@ -262,6 +273,7 @@ void Model::posRender()
   glRotatef(RAD2DEG(pos.ay), 0,1,0);
 }
 
+/** Renders end */
 void Model::endRender()
 {
   if (texid)
@@ -269,6 +281,7 @@ void Model::endRender()
   glPopMatrix();
 }
 
+/** Renders a model */
 void Model::render()
 {
   switch (model_t) {
@@ -284,6 +297,7 @@ void Model::render()
   }
 }
 
+/** Quits a model */
 void Model::quit()
 {
   switch (model_t) {

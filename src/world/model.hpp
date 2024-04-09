@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -65,9 +65,9 @@ class Model: public WO {
 
   Model(char *l);	///< Constructor.
 
-  Model(WO *user, char *_url, float _scale);     ///< Constructor from GUI.
+  Model(class WO *user, char *_url, float _scale);     ///< Constructor from GUI.
 
-  static WO * (creator)(char *l);
+  static class WO * (creator)(char *l);
   /**< Creates from fileline. */
 
   bool isMoving();
