@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -115,37 +115,43 @@ void Motion::setToCarrier(class Carrier *_carrier)
 
 /////////////////
 // User movements
+/////////////////
 
 // Translation movements
-// Move forward, backward
+
+/** Move forward, backward */
 Motion Motion::u_trans_y(0, KEY_AR /*KEY_AV*/, User::UA_SETLSPEED, LINEAR_ACCEL);
-// Move left, right
+/** Move left, right */
 Motion Motion::u_trans_x(0, KEY_SD /*KEY_SG*/, User::UA_SETLSPEED, LINEAR_ACCEL);
-// Move up, down
+/** Move up, down */
 Motion Motion::u_trans_z(0, KEY_JD /*KEY_JU*/, User::UA_SETLSPEED, LINEAR_ACCEL);
 
 // Rotation movements
-// Turn left, right
+
+/** Turn left, right */
 Motion Motion::u_rot_z(0,   KEY_DR /*KEY_GA*/, User::UA_SETASPEED, ANGULAR_ACCEL);
 
 ///////////////////
 // Object movements
+///////////////////
 
 // Translation movements
-// Move forward, backward
+
+/** Move forward, backward */
 Motion Motion::o_trans_f(0, KEY_AR /*KEY_AV*/, Carrier::SETLSPEED, LINEAR_ACCEL);
-// Move left, right
+/** Move left, right */
 Motion Motion::o_trans_l(0, KEY_SD /*KEY_SG*/, Carrier::SETLSPEED, LINEAR_ACCEL);
-// Move up, down
+/** Move up, down */
 Motion Motion::o_trans_u(0, KEY_JD /*KEY_JU*/, Carrier::SETLSPEED, LINEAR_ACCEL);
 
 // Rotation movements
-// Turn left, right (Yaw)
+
+/** Turn left, right (Yaw) */
 Motion Motion::o_rot_l_z(0,  KEY_GA, Carrier::SETASPEED, 0);
 Motion Motion::o_rot_r_z(0,  KEY_DR, Carrier::SETASPEED, 0);
-// Roll left, right
+/** Roll left, right */
 Motion Motion::o_rot_l_x(0,  KEY_TL, Carrier::SETASPEED, 0);
 Motion Motion::o_rot_r_x(0,  KEY_TR, Carrier::SETASPEED, 0);
-// Tilt down, up
+/** Tilt down, up */
 Motion Motion::o_rot_d_y(0,  KEY_DE, Carrier::SETASPEED, 0);
 Motion Motion::o_rot_u_y(0,  KEY_MT, Carrier::SETASPEED, 0);
