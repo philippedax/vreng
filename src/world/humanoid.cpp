@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -40,12 +40,13 @@ static float skin[] = {1, .75, .7}; // skin color
 static uint8_t vaps_offset_port = Humanoid::VAPS_OFFSET_PORT;
 
 
-/** create from a fileline */
+/** Creates from a fileline */
 WO * Humanoid::creator(char *l)
 {
   return new Humanoid(l);
 }
 
+/** Sets default values */
 void Humanoid::defaults()
 {
   head_url = new char[URL_LEN];
@@ -56,6 +57,7 @@ void Humanoid::defaults()
   for (int i=0; i<3; i++) cloth[i] = skin[i];
 }
 
+/** Parses humanoid */
 void Humanoid::parser(char *l)
 {
   defaults();
@@ -72,6 +74,7 @@ void Humanoid::parser(char *l)
   end_while_parse(l);
 }
 
+/** Sets solid geometry */
 void Humanoid::geometry()
 {
   char s[128];
@@ -80,6 +83,7 @@ void Humanoid::geometry()
   parseSolid(s);
 }
 
+/** Sets behaviors */
 void Humanoid::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
@@ -88,6 +92,7 @@ void Humanoid::behaviors()
   enableBehavior(SPECIFIC_RENDER);
 }
 
+/** Inits humanoid */
 void Humanoid::inits()
 {
   initMobileObject(0);
@@ -117,7 +122,7 @@ void Humanoid::inits()
   state = INACTIVE;
 }
 
-/* Comes from file */
+/** Constructor from file */
 Humanoid::Humanoid(char *l)
 {
   parser(l);
@@ -127,7 +132,7 @@ Humanoid::Humanoid(char *l)
   usercontrol = false;
 }
 
-/* Called from User */
+/** Constructor from User */
 Humanoid::Humanoid()
 {
   defaults();
@@ -137,6 +142,7 @@ Humanoid::Humanoid()
   usercontrol = true;
 }
 
+/** Renders */
 void Humanoid::render()
 {
   if (localuser->humanoid && ! localuser->isVisible()) return;
@@ -175,7 +181,7 @@ int Humanoid::initReceiver()
   return 1;
 }
 
-/** Establishes a TCP connection and send the setup packet */
+/** Establishes a TCP connection with the VAPS server and send the setup packet */
 int Humanoid::connectToBapServer(int _ipmode)
 {
   char setup_cmd[128];
@@ -222,6 +228,7 @@ int Humanoid::connectToBapServer(int _ipmode)
   return sdtcp;
 }
 
+/** Disconnects from VAPS server */
 void Humanoid::disconnectFromBapServer()
 {
   if (sdtcp > 0) {
@@ -235,7 +242,7 @@ void Humanoid::disconnectFromBapServer()
   state = INACTIVE;
 }
 
-/** get a frame from the vaps server */
+/** Gets a frame from the vaps server */
 int Humanoid::readBapFrame()
 {
   fd_set set;
@@ -266,7 +273,7 @@ int Humanoid::readBapFrame()
   return 1; // bap is present
 }
 
-/** system of equations handling permanent motion */
+/** System of equations handling permanent motion */
 void Humanoid::changePermanent(float lasting)
 {
   static float angle = 0;
@@ -316,8 +323,8 @@ void Humanoid::changePermanent(float lasting)
       //body->animChest(-30, 1);	// chest abduct right : OK
       //body->animChest(-30, 2);	// chest torsion left : OK
       //for (int i=0; i<30; i++) {
-      //body->animArm(-i, 0, 0);		// arm left flexion : OK
-      //body->animArm(+i, 1, 0);		// arm right flexion : OK
+      //body->animArm(-i, 0, 0);	// arm left flexion : OK
+      //body->animArm(+i, 1, 0);	// arm right flexion : OK
       //body->animForearm(-2*i, 0, 0);	// forearm left flexion front : OK
       //body->animForearm(+2*i, 1, 0);	// forearm right flexion front : OK
       //}
@@ -383,7 +390,7 @@ void Humanoid::changePermanent(float lasting)
       hdr_frame = false;
     }
 
-    // data
+    // data bap
     do {
       //bapmask
       memset(bapline, 0, sizeof(bapline));
@@ -479,7 +486,7 @@ void Humanoid::changePermanent(float lasting)
 #endif //dax
 }
 
-/** send a play command to the vaps server */
+/** Sends a play command to the vaps server */
 bool Humanoid::sendPlayToBapServer(const char *bap_name)
 {
   char play_cmd[128];
@@ -501,6 +508,7 @@ bool Humanoid::sendPlayToBapServer(const char *bap_name)
   return true;
 }
 
+/** Quits */
 void Humanoid::quit()
 {
   disconnectFromBapServer();
@@ -531,6 +539,7 @@ char * Humanoid::toPlay(const char *str)
 }
 #endif
 
+/** Resets */
 void Humanoid::reset()
 {
   disconnectFromBapServer();  // first disconnect
@@ -539,54 +548,63 @@ void Humanoid::reset()
   if (! connectToBapServer(MULTICAST)) return;
 }
 
+/** Plays pause */
 void Humanoid::pause()
 {
   sendPlayToBapServer("pause.bap");
   bapfile = const_cast<char *>(pause_bap);
 }
 
+/** Plays hi */
 void Humanoid::hi()
 {
   sendPlayToBapServer("hi.bap");
   bapfile = const_cast<char *>(hi_bap);
 }
 
+/** Plays bye */
 void Humanoid::bye()
 {
   sendPlayToBapServer("bye.bap");
   bapfile = const_cast<char *>(bye_bap);
 }
 
+/** Plays ask */
 void Humanoid::ask()
 {
   sendPlayToBapServer("ask.bap");
   bapfile = const_cast<char *>(ask_bap);
 }
 
+/** Plays sit */
 void Humanoid::sit()
 {
   sendPlayToBapServer("sit.bap");
   bapfile = const_cast<char *>(sit_bap);
 }
 
+/** Plays show */
 void Humanoid::show()
 {
   sendPlayToBapServer("show.bap");
   bapfile = const_cast<char *>(show_bap);
 }
 
+/** Plays clap */
 void Humanoid::clap()
 {
   sendPlayToBapServer("clap.bap");
   bapfile = const_cast<char *>(clap_bap);
 }
 
+/** Plays nak */
 void Humanoid::nak()
 {
   sendPlayToBapServer("nak.bap");
   bapfile = const_cast<char *>(nak_bap);
 }
 
+/** Plays test */
 void Humanoid::test()
 {
   sendPlayToBapServer("test.bap");
