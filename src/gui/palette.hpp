@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -29,15 +29,11 @@ class Palette : public UBox {
  public:
   Palette(UArgs content = UArgs::none);
 
-  virtual void collapse();
-  virtual void expand();
+  void collapse();
+  void expand();
 
-  virtual Palette& setTitle(UArgs);
-
-  virtual Palette& setPos(ULength x, ULength y);
-  virtual Palette& setPos(UPoint&);
-  virtual Palette& setPos(UPos&);
-  UPos& pos() { return *ppos; }
+  Palette& setTitle(UArgs);
+  Palette& setPos(ULength x, ULength y);
 
  protected:
   uptr<UPos> ppos;
@@ -45,7 +41,11 @@ class Palette : public UBox {
   uptr<UBox> piconify;
   uptr<UBox> ptitlebox;
   uptr<UBox> pcontent;
-  virtual void titleCB();
+  void titleCB();
+
+  //notused UPos& pos() { return *ppos; }
+  //notused Palette& setPos(UPoint&);
+  //notused Palette& setPos(UPos&);
 };
 
 #endif
