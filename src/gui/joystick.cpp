@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -37,6 +37,7 @@
 #include "user.hpp"	// User
 
 
+/** Constructor */
 Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
  gw(*_gw),
  is_drawing(false),
@@ -81,6 +82,7 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
      );
 }
 
+/** Press into the joystick */
 void Joystick1::pressCanvasCB(UMouseEvent& e)
 {
   gw.getNavig()->userMotion(e, &Motion::u_rot_z, &Motion::u_trans_y);
@@ -89,6 +91,7 @@ void Joystick1::pressCanvasCB(UMouseEvent& e)
   repaint();	// uwin
 }
 
+/** Drags into the joystick */
 void Joystick1::dragCanvasCB(UMouseEvent& e)
 {
   gw.getNavig()->doMotion(e);
@@ -96,6 +99,7 @@ void Joystick1::dragCanvasCB(UMouseEvent& e)
   repaint();	// uwin
 }
 
+/** Releases into the joystick */
 void Joystick1::releaseCanvasCB(UMouseEvent& e)
 {
   gw.getNavig()->stopMotion();
@@ -104,6 +108,7 @@ void Joystick1::releaseCanvasCB(UMouseEvent& e)
   repaint();	// uwin
 }
 
+/** Points into the joystick */
 void Joystick1::paintCanvasCB(UPaintEvent& e)
 {
   UGraph g(e);
@@ -133,6 +138,7 @@ void Joystick1::paintCanvasCB(UPaintEvent& e)
 
 //---------------------------------------------------------------------------
 
+/** Constructor foe joystick2 */
 Joystick2::Joystick2(Widgets* _gw, GLint _radius)
 {
   is_drawing = false;
@@ -152,6 +158,7 @@ Joystick2::Joystick2(Widgets* _gw, GLint _radius)
      );
 }
 
+/** Do an action */
 void Joystick2::doAction()
 {
   if (! localuser)  return;
@@ -163,6 +170,7 @@ void Joystick2::doAction()
   localuser->specialAction(User::UA_SETPITCH, (void *)val, t.tv_sec, t.tv_usec);
 }
 
+/** Drags joystick2 */
 void Joystick2::dragCB(UMouseEvent &e)
 {
   GLfloat dx = e.getX() - arrow_point.x;
@@ -187,6 +195,7 @@ void Joystick2::dragCB(UMouseEvent &e)
   repaint();	// uwin
 }
 
+/** Doubleclick */
 void Joystick2::doubleClickCB(UMouseEvent &e)
 {
   delta = 0;
@@ -195,6 +204,7 @@ void Joystick2::doubleClickCB(UMouseEvent &e)
   repaint();	// uwin
 }
 
+/** Paints joystick2 */
 void Joystick2::paintCB(UPaintEvent &e)
 {
   UGraph g(e);

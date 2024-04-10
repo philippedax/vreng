@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -50,6 +50,7 @@
 /* ==================================================== ======== ======= */
 // MESSAGES and REQUESTS
 
+/** Constructor */
 Message::Message(Widgets* _gw) :
  gw(*_gw)
 {
@@ -129,6 +130,7 @@ UBox& Message::createMessagePanel(bool transparent)
   return notif;
 }
 
+/** Input callback */
 void Message::inputCB()
 {
   if (mess_text.empty()) return;
@@ -145,12 +147,14 @@ void Message::inputCB()
   mess_text = "";			// clear textfield
 }
 
+/** Gets history of messages */
 void Message::getHistoryCB(int go)
 {
   mess_history_pos = (mess_history.size() + mess_history_pos + go) % mess_history.size();
   mess_text = mess_history[mess_history_pos];
 }
 
+/** Performs a request */
 void Message::performRequest(const UStr& req)	// req starts with a '!'
 {
 #if HAVE_OCAML
@@ -183,6 +187,7 @@ void Message::performRequest(const UStr& req)	// req starts with a '!'
 #endif //HAVE_OCAML
 }
 
+/** Performs a request */
 void Message::performRequest(WO *object)
 {
   if (object && nclicks > 0) {
@@ -216,6 +221,7 @@ void Message::getClicked(uint8_t *_nclicks, float _clicked[])
   }
 }
 
+/** Converts string to float coords */
 static bool string2Coord(const char* positions, float& x, float& y, float& z, float& az)
 {
   char *positions_copy = strdup(positions);
@@ -239,7 +245,7 @@ endstr:
   return false;
 }
 
-// move the satellite camera at wanted position
+/** Moves the satellite camera at wanted position */
 static void moveSatCamera(char* pos)
 {
   float x, y, z, az;
