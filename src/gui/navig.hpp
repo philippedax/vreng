@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -37,7 +37,6 @@ class Navig {
   void selectObject(ObjInfo* objinfo);
 
   void userMotion(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
-  void objectMove(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
   void doMotion(UMouseEvent& e);
   void stopMotion();
   void clearInfoBar();
@@ -47,14 +46,14 @@ class Navig {
 
   Widgets& gw;
   float xref, yref;
-  bool followMouse;		///< flag to follow mouse.
   int depthsel;
   UStr object_name, object_class;
-  ULabel object_infos;		///< infos box
+  ULabel object_infos;			///< infos box
   UPopmenu object_menu;
   UCtlmenu navig_menu;
   uptr<UMenu> opened_menu;
 
+  //notused bool followMouse;		///< flag to follow mouse.
   //notused UStr selected_object_url;
 
   void initNavigMenu();
@@ -67,6 +66,7 @@ class Navig {
   void mouseMoveCB(UMouseEvent& e);
   void keyPressCB(UKeyEvent& e);
   void keyReleaseCB(UKeyEvent& e);
+  void objectMotion(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
  };
 
 #endif

@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -50,12 +50,11 @@ static ObjInfo objinfo[ACTIONSNUMBER + 6];
 static Motion *motionx = null, *motiony = null;
 
 
-/* Constructor */
+/** Constructor */
 Navig::Navig(Widgets* _gw, Scene& scene) :
  gw(*_gw),
  xref(0),
  yref(0),
- followMouse(false),
  depthsel(0),
  opened_menu(null) 
 {  
@@ -84,7 +83,7 @@ Navig::Navig(Widgets* _gw, Scene& scene) :
 // Scene callbacks
 //////////////////
 
-// the mouse is pressed on the canvas
+/** The mouse is pressed on the canvas */
 void Navig::mousePressCB(UMouseEvent& e)
 {
   int x = (int) e.getX(), y = (int) e.getY();
@@ -106,20 +105,20 @@ void Navig::mousePressCB(UMouseEvent& e)
     gw.gui.board->mouseEvent(x, y, btn);
   }
 #endif
-  else if (gw.gui.vnc) {				// events are sent to Vnc
+  else if (gw.gui.vnc) {			// events are sent to Vnc
     gw.gui.vnc->mouseEvent(x, y, btn);
   }
-  else if (btn == 2) {			// button 2: fine grain selection
+  else if (btn == 2) {				// button 2: fine grain selection
     mousePressB2(e, x, y);
     //dax mousePressB1orB3(e, x, y, btn);	// dax reverse buttons B1 B2
   }
-  else {				// buttons 1 or 3: navigator or info menu
+  else {					// buttons 1 or 3: navigator or info menu
     mousePressB1orB3(e, x, y, btn);
     //dax mousePressB2(e, x, y);		// dax reverse buttons B1 B2
   }
 }
 
-// the mouse is released on the canvas
+/** The mouse is released on the canvas */
 void Navig::mouseReleaseCB(UMouseEvent& e)
 {
   stopMotion(); // sanity
@@ -136,7 +135,7 @@ void Navig::mouseReleaseCB(UMouseEvent& e)
   opened_menu = null;
 }
 
-// the mouse is dragged on the canvas
+/** The mouse is dragged on the canvas */
 void Navig::mouseDragCB(UMouseEvent& e)
 {
   if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
@@ -150,24 +149,26 @@ void Navig::mouseDragCB(UMouseEvent& e)
   }
 }
 
-// the mouse is moved on the canvas
+/** The mouse is moved on the canvas */
 void Navig::mouseMoveCB(UMouseEvent& e)
 {
   if (gw.gui.vnc) {		// events are redirected to Vnc
     gw.gui.vnc->mouseEvent((int) e.getX(), (int) e.getY(), 0);
   }
+#if 0 //notused
   else if (followMouse) {
     // mode followMouse continuously indicates object under pointer
     WO *object = gw.pointedObject((int) e.getX(), (int) e.getY(), objinfo, depthsel);
     selectObject(object ? objinfo : null);
   }
-  else if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
+#endif //notused
+  if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
     gw.gui.selected_object->resetFlashy();	// stop flashing edges
     gw.gui.selected_object->resetRay();
   }
 }
 
-// a key is pressed on the canvas
+/** A key is pressed on the canvas */
 void Navig::keyPressCB(UKeyEvent& e)
 {
   if (gw.gui.vnc) {	// key events are redirected to Vnc
@@ -191,7 +192,7 @@ void Navig::keyPressCB(UKeyEvent& e)
   }
 }
 
-// a key is released on the canvas
+/** A key is released on the canvas */
 void Navig::keyReleaseCB(UKeyEvent& e)
 {
   if (gw.gui.vnc) {     // key events are redirected to Vnc
@@ -205,7 +206,7 @@ void Navig::keyReleaseCB(UKeyEvent& e)
   }
 }
 
-// Press Buttons 1 or 3: navigator or info menu
+/** Press Buttons 1 or 3: navigator or info menu */
 void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
 {
   //Sound::playSound(CLICKSND);
@@ -234,7 +235,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
     else {
       selected_object_url.clear();
     }
-#endif
+#endif //notused
     gw.message.performRequest(object);
     // Vrelet: calculate the clic vector and do the clic method on the object
     if (btn == 1) {
@@ -242,7 +243,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
       if (gw.gui.board)  object->click(x, y);
     }
 
-selectObject(objinfo);
+    selectObject(objinfo);
   
     if (btn == 3) {		// show object menu
       object_menu.open(e);
@@ -260,7 +261,7 @@ selectObject(objinfo);
   }
 }
 
-// Press button 2: fine grain selection
+/** Press button 2: fine grain selection */
 void Navig::mousePressB2(UMouseEvent&, int x, int y)
 {
   depthsel++;
@@ -273,18 +274,18 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y)
 
     selectObject(objinfo);
   }  
-  else {	// no object!
+  else {			// no object!
     gw.setRayDirection(x, y);	// launches ray on x,y screen coord
   }
 }
 
-// Clears InfoBar
+/** Clears InfoBar */
 void Navig::clearInfoBar()
 {
   gw.infos_box.removeAll();	// clears infos in infobar
 }
 
-// Updates object infos (infosbox in the infobar and in the contextual menu)
+/** Updates object infos (infosbox in the infobar and in the contextual menu) */
 void Navig::selectObject(ObjInfo* objinfo)
 {
   if (! objinfo)  return;
@@ -319,6 +320,7 @@ void Navig::selectObject(ObjInfo* objinfo)
 // MOTION 
 /////////
 
+/** User motion */
 void Navig::userMotion(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
 {
   xref = e.getX();
@@ -329,7 +331,8 @@ void Navig::userMotion(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
   motiony = _motiony;
 }
 
-void Navig::objectMove(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
+/** Object motion */
+void Navig::objectMotion(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
 {
   xref = e.getX();
   yref = e.getY();
@@ -340,6 +343,7 @@ void Navig::objectMove(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
   motiony = _motiony;
 }
 
+/** Do motion */
 void Navig::doMotion(UMouseEvent& e)
 {
   float dx = e.getX() - xref;
@@ -348,6 +352,7 @@ void Navig::doMotion(UMouseEvent& e)
   if (motiony)  motiony->move((int) dy);
 }
 
+/** Stop motion */
 void Navig::stopMotion()
 {
   if (motionx)  motionx->stop();
@@ -363,12 +368,14 @@ void Navig::stopMotion()
 void Navig::initNavigMenu()
 {
   navig_menu.addAttr(UBackground::black);
+
   // X translation on x-mouse
   UCall& XMotion = ucall(this, &Motion::u_trans_x, (Motion*)0, &Navig::userMotion);
   // Z rotation on x-mouse and Y translation on y-mouse
   UCall& YMotion = ucall(this, &Motion::u_rot_z, &Motion::u_trans_y, &Navig::userMotion);
   // Z translation on y-mouse
   UCall& ZMotion = ucall(this, (Motion*)0, &Motion::u_trans_z, &Navig::userMotion);
+
   UCall& move = ucall(this, &Navig::doMotion);
   UCall& stop = ucall(this, &Navig::stopMotion);
 
@@ -420,7 +427,6 @@ void Navig::initNavigMenu()
 // MANIPULATOR
 //
 // called by panels
-//
 ///////////////////
 
 UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
@@ -440,21 +446,21 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_trans_f, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_trans_f, &Navig::objectMotion)
 	  )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotzleft	 // TURN LEFT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_l_z, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_l_z, &Navig::objectMotion)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotzright // TURN RIGHT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_r_z, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_r_z, &Navig::objectMotion)
           )
   );
   UTrow& row2 = utrow
@@ -463,21 +469,21 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_trans_l, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_trans_l, &Navig::objectMotion)
           )
    + uitem(l + " ")
    + uitem(l+ g.theme.Rotxleft	 // ROLL LEFT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_l_z, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_l_z, &Navig::objectMotion)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotxright // ROLL RIGHT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_r_z, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_r_z, &Navig::objectMotion)
           )
   );
   UTrow& row3 = utrow
@@ -486,21 +492,21 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_trans_u, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_trans_u, &Navig::objectMotion)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotyup	 // TILT UP
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_u_y, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_u_y, &Navig::objectMotion)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotydown	 // TILT DOWN
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_d_y, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_d_y, &Navig::objectMotion)
           )
   );
 
