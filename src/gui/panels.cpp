@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -48,6 +48,9 @@
 #include "grid.hpp"	// toggle
 
 
+//
+// CallBacks
+//
 static void toggleHudCB(Widgets*)
 {
   g.gui.scene()->toggleHud();
@@ -67,18 +70,18 @@ static void toggleGridCB(Widgets*, int flag)
   }
 }
 
-void Panels::showManipulator(bool state)
-{
-  manipulator.show(state);
-  joystick1->show(!state);
-  joystick2->show(!state);
-}
-
 static void sandboxCB(Widgets*)
 {
   World::current()->quit();
   delete Channel::current();	// delete Channel
   World::enter(NULL, NULL, false);
+}
+
+void Panels::showManipulator(bool state)
+{
+  manipulator.show(state);
+  joystick1->show(!state);
+  joystick2->show(!state);
 }
 
 /** Constructor */
@@ -345,6 +348,10 @@ void Panels::showBasket(bool state)
                                     );
 #endif
 }
+
+//
+// Expands and Collopses
+//
 
 void Panels::expandNavig()
 {
