@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -47,7 +47,7 @@ double ProfileTime::stop()
   return d;
 }
 
-/* returns last diff */
+/** returns last diff */
 double ProfileTime::diff()
 {
   return diff_time;
@@ -85,8 +85,8 @@ bool Timer::isRate(uint16_t _rate)
   return ((ratio <= 1) || ((ratio > 1) && (::g.gui.getCycles() % ratio) == 1));
 }
 
-/* Returns the number of seconds that have elapsed since
-   the previous call to this function. */
+/** Returns the number of seconds that have elapsed since
+    the previous call to this function. */
 float Timer::delta()
 {
   static bool first = true;

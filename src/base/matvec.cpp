@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -32,7 +32,7 @@ V3 setV3(float x, float y, float z)
   return v;
 }
 
-/* Clear a vector */
+/** Clear a vector */
 void clearV3(V3 vec)
 {
   vec.v[0] = 0;
@@ -40,7 +40,7 @@ void clearV3(V3 vec)
   vec.v[2] = 0;
 }
 
-/* Copies a vector into another */
+/** Copies a vector into another */
 void copyV3(V3 *to, V3 from)
 {
   to->v[0] = from.v[0];
@@ -48,7 +48,7 @@ void copyV3(V3 *to, V3 from)
   to->v[2] = from.v[2];
 }
 
-/* Computes a determinant for a 3x3 matrix */
+/** Computes a determinant for a 3x3 matrix */
 float detV3(V3 d, V3 v, V3 w)
 {
   return (  d.v[0] * (v.v[2] * w.v[1] - v.v[1] * w.v[2])
@@ -57,7 +57,7 @@ float detV3(V3 d, V3 v, V3 w)
          );
 }
 
-/* Compute an quantity that's used in the line/surface intersection */
+/** Compute an quantity that's used in the line/surface intersection */
 float calcV3(V3 c, V3 e, V3 w, V3 v)
 {
   return (  (c.v[0] - e.v[0]) * (v.v[2] * w.v[1] - v.v[1] * w.v[2])
@@ -66,7 +66,7 @@ float calcV3(V3 c, V3 e, V3 w, V3 v)
          );
 }
 
-/* identity matrix */
+/** identity matrix */
 void idM4(M4 *a)
 {
   for (int i=0; i<4; i++) {
@@ -130,7 +130,7 @@ M4 transM4(float x, float y, float z)
   return a;
 }
 
-/* returns a = b x c */
+/** Returns a = b x c */
 void mulM4V3(V3 *a, const M4 *b, const V3 *c)
 {
   a->v[0] = b->m[0][0]*c->v[0] + b->m[0][1]*c->v[1] + b->m[0][2]*c->v[2] + b->m[0][3];
@@ -138,7 +138,7 @@ void mulM4V3(V3 *a, const M4 *b, const V3 *c)
   a->v[2] = b->m[2][0]*c->v[0] + b->m[2][1]*c->v[1] + b->m[2][2]*c->v[2] + b->m[2][3];
 }
 
-/* Matrix times a vector, dest = m*v */
+/** Matrix times a vector, dest = m*v */
 void mulM3V4(float m[3][4], float v[4], float dest[3])
 {
   for (int i=0; i<3; i++) {
@@ -149,7 +149,7 @@ void mulM3V4(float m[3][4], float v[4], float dest[3])
   }
 }
 
-/* Matrix multiplication, dest = m1*m2 */
+/** Matrix multiplication, dest = m1*m2 */
 void mulM3M4(float m1[3][4], float m2[4][4], float dest[3][4])
 {
   for (int i=0; i<3; i++) {
@@ -173,7 +173,7 @@ void M4toV16(const M4 *mat, float *_vec)
   }
 }
 
-#if 0 //notused
+#if 0 //notused ----------------------------------------------------------------------
 
 V4 setV4(float x, float y, float z, float w)
 {
@@ -219,7 +219,7 @@ float * getGLMatrix(const M4 *vrmat)
   return gl_mat;
 }
 
-/* inverse of a 3x3 matrix */
+/** Inverse of a 3x3 matrix */
 M3 M3_Inv(M3 m)
 {
   float det;
@@ -241,7 +241,7 @@ M3 M3_Inv(M3 m)
   return a;
 }
 
-/* normalisation d'un vecteur */
+/** normalisation d'un vecteur */
 int normV3(V3 *v)
 {
   float n = sqrt(v->v[0]*v->v[0] + v->v[1]*v->v[1] + v->v[2]*v->v[2]);

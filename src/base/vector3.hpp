@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -26,8 +26,7 @@
  * Vector3 class.
  */
 class Vector3 {
-
-public:
+ public:
 
   union { float x; float nx; };
   union { float y; float ny; };
@@ -329,7 +328,7 @@ inline void operator *= (float * m) {
  * Matrix3 class.
  */
 class Matrix3 {
-public:
+ public:
   Vector3 vx, vy, vz;
 
   Matrix3() : vx(1,0,0), vy(0,1,0), vz(0,0,1) {}  /// constructor.

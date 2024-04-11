@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -21,6 +21,7 @@
 #ifndef MACROS_HPP
 #define MACROS_HPP
 
+
 #ifndef MIN
 #define MIN(a,b)	((a)<(b)?(a):(b))
 #endif
@@ -28,26 +29,26 @@
 #define MAX(a,b)	((a)<(b)?(b):(a))
 #endif
 #define ABSF(f)		((f)>0?(f):(-(f)))
-#define SQR(x)		((x)*(x))	// Square
-#define SGN(a)		((a)<0?-1:((a)?1:0)) // Force sign clamping to (-1;0;1)
+#define SQR(x)		((x)*(x))		// Square
+#define SGN(a)		((a)<0?-1:((a)?1:0))	// Force sign clamping to (-1;0;1)
 #define NN(s)		((s)?(s):"")
 #define CROP(a,x,b)	MIN(MAX(a,x),b)
-#define SWAP(a,b,t)	{t=a;a=b;b=t;}
+#define SWAP(a,b,t)	{ t=a;a=b;b=t; }
 
 /* byte swap a 32-bit value */
-#define SWAPL(x, n) { \
-                 n = ((char *) (x))[0];\
-                 ((char *) (x))[0] = ((char *) (x))[3];\
-                 ((char *) (x))[3] = n;\
-                 n = ((char *) (x))[1];\
-                 ((char *) (x))[1] = ((char *) (x))[2];\
-                 ((char *) (x))[2] = n; }
+#define SWAPL(x, n)	{ \
+                 	n = ((char *) (x))[0];\
+                 	((char *) (x))[0] = ((char *) (x))[3];\
+                 	((char *) (x))[3] = n;\
+                 	n = ((char *) (x))[1];\
+                 	((char *) (x))[1] = ((char *) (x))[2];\
+                 	((char *) (x))[2] = n; }
 
 /* byte swap a short */
-#define SWAPS(x, n) { \
-                 n = ((char *) (x))[0];\
-                 ((char *) (x))[0] = ((char *) (x))[1];\
-                 ((char *) (x))[1] = n; }
+#define SWAPS(x, n)	{ \
+                 	n = ((char *) (x))[0];\
+                 	((char *) (x))[0] = ((char *) (x))[1];\
+                 	((char *) (x))[1] = n; }
 
 #define FREE(x)		{ if (x != NULL) { free(x); x = NULL; } }
 #define DELETE(x)	{ if (x != NULL) { delete x; x = NULL; } }

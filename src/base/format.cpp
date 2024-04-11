@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -21,6 +21,7 @@
 #include "vreng.hpp"
 #include "str.hpp"
 #include "format.hpp"
+
 
 static const struct _file imgs[] = {
   { EXT_GIF,  MIME_GIF,  IMG_GIF },
@@ -135,6 +136,7 @@ uint8_t Format::getLoaderByUrl(char *url)
   return t->loader;
 }
 
+/** Returns a loader by mime */
 uint8_t Format::getModelByMime(const char *mime)
 {
   const struct _file *t = models;
@@ -145,6 +147,7 @@ uint8_t Format::getModelByMime(const char *mime)
   return t->loader;
 }
 
+/** Returns a loader by url */
 uint8_t Format::getModelByUrl(char *url)
 {
   char *p = url + strlen(url)-1;
@@ -161,6 +164,7 @@ uint8_t Format::getModelByUrl(char *url)
   return t->loader;
 }
 
+/** Returns a player */
 uint8_t Format::getPlayerByUrl(char *url)
 {
   char *p = url + strlen(url)-1;
@@ -177,7 +181,7 @@ uint8_t Format::getPlayerByUrl(char *url)
   return t->player;
 }
 
-/* fills ext */
+/** fills ext */
 bool Format::getExt(char *str, char *ext)
 {
   char *p, *pdot = NULL;
@@ -207,7 +211,7 @@ bool Format::getExt(char *str, char *ext)
   return true;
 }
 
-/* fills img */
+/** fills img */
 void Format::getImgByExt(const char *ext, char *img)
 {
   const struct _icons *t = icons;
