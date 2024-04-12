@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -25,13 +25,12 @@
  * Wheel class
  */
 class Wheel {
-
-private:
+ private:
   GLint wheel_dlist;
   GLint needle_dlist;
   float needle_angle;
 
-public:
+ public:
   Wheel(uint8_t teeth, GLfloat r, const GLfloat *color); ///< constructor.
   Wheel(); ///< constructor.
 
@@ -42,7 +41,7 @@ public:
   virtual void render();
   /**< Renders wheel */
 
-private:
+ private:
   void defaults();
   /**< Sets default values */
 
@@ -54,7 +53,6 @@ private:
   void needle(uint8_t teeth, GLfloat r);
   void needle_displaylist(uint8_t teeth, GLfloat r);
   void displaylist(uint8_t teeth, GLfloat r, const GLfloat *color);
-
 };
 
 

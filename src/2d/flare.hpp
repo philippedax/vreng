@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -35,8 +35,7 @@ struct Pos;
  * Flare class
  */
 class Flare {
-
-private:
+ private:
   static const GLfloat white[3];
   static const GLfloat red[3];
   static const GLfloat green[3];
@@ -52,7 +51,7 @@ private:
   uint8_t num_flares;	///< number of flares
   float scale;		///< global scale
 
-public:
+ public:
   Flare();		///< constructor
   Flare(uint8_t number, float _scale, GLfloat *color);
 
@@ -74,7 +73,7 @@ public:
   void render(float *from, float delta);
   /**< Renders flare + shine */
 
-private:
+ private:
   void defaults();
   /**< Sets default values */
 
@@ -97,7 +96,6 @@ private:
   void vcopy(float *dst, float *src);
   void vscale(float *dst, float *src, float scale);
   void vcross(float *cross, const float *v1, const float *v2);
-
 };
 
 

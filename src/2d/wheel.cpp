@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -18,14 +18,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+/*
+ * wheel asynchronous progress indicator
+ */
 #include "vreng.hpp"
 #include "wheel.hpp"
 #include "pref.hpp"	// ::g.pref
 
-
-/*
- * wheel asynchronous progress indicator
- */
 
 // local
 static Wheel *pwheel;
@@ -36,7 +35,7 @@ void Wheel::defaults()
   needle_angle = 0;
 }
 
-/* constructor with parameters */
+/** constructor with parameters */
 Wheel::Wheel(uint8_t teeth, GLfloat r, const GLfloat *color)
 {
   defaults();
@@ -55,7 +54,7 @@ Wheel::Wheel()
   needle_displaylist(12, 1);
 }
 
-/* destructor */
+/** destructor */
 Wheel::~Wheel()
 {
   pwheel = NULL;
@@ -63,13 +62,13 @@ Wheel::~Wheel()
   if (needle_dlist > 0) glDeleteLists(needle_dlist, 1);
 }
 
-/* accessor */
+/** accessor */
 Wheel * Wheel::current()
 {
   return pwheel;
 }
 
-/* draws one spoke */
+/** draws one spoke */
 void Wheel::spoke(GLfloat r)
 {
   GLfloat w = r / 2.5;
@@ -85,7 +84,7 @@ void Wheel::spoke(GLfloat r)
   glEnd();
 }
 
-/* draws every spoke */
+/** draws every spoke */
 void Wheel::dial(GLfloat a, GLfloat r, const GLfloat *color)
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
@@ -95,7 +94,7 @@ void Wheel::dial(GLfloat a, GLfloat r, const GLfloat *color)
   glPopMatrix();
 }
 
-/* draws needles */
+/** draws needles */
 void Wheel::needle(uint8_t teeth, GLfloat r)
 {
   GLfloat c[4] = {0,0,0,1};	// black
@@ -116,7 +115,7 @@ void Wheel::needle(uint8_t teeth, GLfloat r)
   }
 }
 
-/* needle display-list */
+/** needle display-list */
 void Wheel::needle_displaylist(uint8_t teeth, GLfloat r)
 {
   needle_dlist = glGenLists(1);
@@ -125,7 +124,7 @@ void Wheel::needle_displaylist(uint8_t teeth, GLfloat r)
   glEndList();
 }
 
-/* draws a wheel */
+/** draws a wheel */
 void Wheel::draw(uint8_t teeth, GLfloat r, const GLfloat *color)
 {
   GLfloat c[4];
@@ -140,7 +139,7 @@ void Wheel::draw(uint8_t teeth, GLfloat r, const GLfloat *color)
   glRotatef(-90, 0, 1, 0);
 }
 
-/* wheel display-list */
+/** wheel display-list */
 void Wheel::displaylist(uint8_t teeth, GLfloat r, const GLfloat *color)
 {
   wheel_dlist = glGenLists(1);
@@ -149,6 +148,7 @@ void Wheel::displaylist(uint8_t teeth, GLfloat r, const GLfloat *color)
   glEndList();
 }
 
+/** Renders */
 void Wheel::render()
 {
   glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT);

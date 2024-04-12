@@ -19,7 +19,6 @@
  *    misrepresented as being the original source.
  * 3. This notice must not be removed or altered from any source distribution.
  */
-
 #ifndef GLPNG_HPP
 #define GLPNG_HPP
 

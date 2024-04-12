@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -66,7 +66,7 @@ Img * Img::loadPPM(void *_tex, ImageReader read_func)
   return img;
 }
 
-/* save file in PPM */
+/** save file in PPM */
 void Img::savePPM(const char *filename, GLenum mode)
 {
   GLint viewport[4];

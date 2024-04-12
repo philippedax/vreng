@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -18,7 +18,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/* GIF Decoder (c) 1997 Fabrice BELLARD */
+/*
+ * GIF Decoder (c) 1997
+ * Fabrice BELLARD
+ */
 #include "vreng.hpp"
 #include "img.hpp"
 #include "cache.hpp"	// open, open
@@ -96,7 +99,7 @@ Img * Img::loadGIF(void *_tex, ImageReader read_func)
   return g->img;
 }
 
-/* image data */
+/** image data */
 static inline int gifread(GifInfo *g, uint8_t *buf, int len)
 {
   return fread(reinterpret_cast<char *>(buf), 1, len, g->fp);
@@ -246,7 +249,7 @@ static void gifReadExtension(GifInfo *g)
   }
 }
 
-/* read gif blocks until we find an image block */
+/** read gif blocks until we find an image block */
 static int gifReadBlocks(GifInfo *g)
 {
   int c, err;
@@ -269,7 +272,7 @@ static int gifReadBlocks(GifInfo *g)
   }
 }
 
-/* LZW decompression */
+/** LZW decompression */
 #define MAXBITS	12
 #define	SIZLZW	(1<<MAXBITS)
 
@@ -334,7 +337,7 @@ static int LZWDecodeEnd(GifInfo *g)
   }					\
 }
 
-/*
+/**
  * Gif LZW Decoder
  */
 static void LZWDecode(GifInfo *g, uint8_t *out_buf, int out_len)
@@ -348,7 +351,6 @@ static void LZWDecode(GifInfo *g, uint8_t *out_buf, int out_len)
   uint8_t *stack, *suffix, *sp;
   int16_t *prefix;
 
-/* cache rw */
   cursize = g->cursize;
   slot = g->slot;
   oc = g->oc;
@@ -360,7 +362,6 @@ static void LZWDecode(GifInfo *g, uint8_t *out_buf, int out_len)
   bbits = g->bbits;
   pbuf = g->pbuf;
 
-/* cache r */
   clear_code = g->clear_code;
   end_code = g->end_code;
   newcodes = g->newcodes;
@@ -428,7 +429,6 @@ static void LZWDecode(GifInfo *g, uint8_t *out_buf, int out_len)
   }
  _end:
 
-/* cache rw */
   g->cursize = cursize;
   g->slot = slot;
   g->oc = oc;

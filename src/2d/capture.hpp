@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -30,7 +30,7 @@
 
 
 class Capture {
-public:
+ public:
   static const unsigned int MAX_CAPTURE_COUNT = 1000;
 
   Capture();
@@ -55,7 +55,7 @@ public:
 
   bool isCapturingVideo() const {return is_capturing;}
 
-private:
+ private:
   bool is_capturing;		      ///< is capturing video.
   unsigned int capture_no;
   
