@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -34,13 +34,13 @@ const uint8_t Grid::SCROLL_MAX = 100;
 const uint8_t Grid::SCROLL_INCR = 1;
 
 
-/* Accessor */
+/** Accessor */
 Grid * Grid::grid()
 {
   return &_grid;
 }
 
-/* Constructor */
+/** Constructor */
 Grid::Grid()
 {
   dlist = -1;
@@ -62,7 +62,7 @@ void Grid::defaults()
   posz = 0;	//FIXME: user->pos.z - user->pos.bbsize.v[2] + epsilon
 }
 
-/* Called by world.cpp: Grid::grid()->init */
+/** Called by world.cpp: Grid::grid()->init */
 void Grid::init(uint16_t _depth, uint16_t _width, uint16_t _height)
 {
   defaults();
@@ -417,5 +417,5 @@ void Grid::setRotY(UEvent &e)
 
 void Grid::setRotZ(UEvent &e)
 {
-  rotz = ((UScrollbar *)e.getSource())->getValue();
+	rotz = ((UScrollbar *)e.getSource())->getValue();
 }

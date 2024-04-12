@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -49,7 +49,7 @@ static GLuint selbuf[4*SEL_MAXNAMES];			// 1024 objects
 extern struct Render::sCamera camera;		// camera.cpp
 
 
-/* Initialization. */
+/** Initialization. */
 Render::Render()
 {
   first_bb = false;	// mono solid
@@ -99,7 +99,7 @@ GLint Render::haveClips()
   return clips;
 }
 
-/* OpenGL initialization. */
+/** OpenGL initialization. */
 void Render::init(bool _quality)
 {
   static bool configured = false;
@@ -170,7 +170,7 @@ void Render::recordObject(WO *o)
   }
 }
 
-// Compares distances  : called by sort()
+/** Compares distances  : called by sort() */
 bool Render::compDist(const void *t1, const void *t2)
 {
   Solid *s1 = (Solid *) t1;
@@ -180,7 +180,7 @@ bool Render::compDist(const void *t1, const void *t2)
   return (s1->userdist > s2->userdist);
 }
 
-// Compares surfaces  : called by sort()
+/** Compares surfaces  : called by sort() */
 bool Render::compSize(const void *t1, const void *t2)
 {
   Solid *s1 = (Solid *) t1;
@@ -190,7 +190,7 @@ bool Render::compSize(const void *t1, const void *t2)
   return (s1->surfsize > s2->surfsize);
 }
 
-// Compares nbframes  : called by sort()
+/** Compares nbframes  : called by sort() */
 bool Render::compFrame(const void *t1, const void *t2)
 {
   Solid *s1 = (Solid *) t1;
@@ -200,7 +200,7 @@ bool Render::compFrame(const void *t1, const void *t2)
   return (s1->nbframes < s2->nbframes);
 }
 
-// Renders opaque solids
+/** Renders opaque solids */
 void Render::renderOpaque(bool mini)
 {
   trace2(DBG_3D, "\nopaque: ");
@@ -243,7 +243,7 @@ void Render::renderOpaque(bool mini)
   }
 }
 
-// Renders transparent solids sorted from the furthest to the nearest
+/** Renders transparent solids sorted from the furthest to the nearest */
 void Render::renderTransparent(bool mini)
 {
   trace2(DBG_3D, "\ntransparent: ");
@@ -296,7 +296,7 @@ void Render::renderTransparent(bool mini)
   }
 }
 
-// Renders ground solids sorted from the furthest to the nearest
+/** Renders ground solids sorted from the furthest to the nearest */
 void Render::renderGround()
 {
   trace2(DBG_3D, "\nground: ");
@@ -315,7 +315,7 @@ void Render::renderGround()
   }
 }
 
-// Renders model solids sorted from the furthest to the nearest
+/** Renders model solids sorted from the furthest to the nearest */
 void Render::renderModel()
 {
   trace2(DBG_3D, "\nmodel: ");
@@ -335,7 +335,7 @@ void Render::renderModel()
   }
 }
 
-// Renders user
+/** Renders user */
 void Render::renderUser()
 {
   trace2(DBG_3D, "\nuser: ");
@@ -354,7 +354,7 @@ void Render::renderUser()
   }
 }
 
-// Renders flary solids
+/** Renders flary solids */
 void Render::renderFlary()
 {
   trace2(DBG_3D, "\nflary: ");
@@ -422,7 +422,7 @@ void Render::renderSolids(bool mini)
 }
 
 
-/*
+/**
  * General rendering loop.
  */
 void Render::render()
@@ -524,7 +524,7 @@ void Render::lighting()
   }
 }
 
-/* highlight same type of object. */
+/** highlight same type of object. */
 void Render::setAllTypeFlashy(char *object_type, int typeflash)
 {
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; it++) {
@@ -537,7 +537,7 @@ void Render::setAllTypeFlashy(char *object_type, int typeflash)
   }
 }
 
-/*
+/**
  * 3D Selection using picking algorithm.
  * Returns object number selectionned
  * called by camera and getPointedObject (widgets.cpp)
@@ -632,7 +632,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   return objnum_nearest;
 }
 
-/* Qsort function for elements of the selection buffer. */
+/** Qsort function for elements of the selection buffer. */
 int Render::compareHit(const void *t1, const void *t2)
 {
   GLuint s1 = (*((GLuint **)t1))[1];	// please don't touch that
@@ -643,7 +643,7 @@ int Render::compareHit(const void *t1, const void *t2)
   else  return 0;
 }
 
-/* Computes and returns bbmax, bbmin in Solid::parser. */
+/** Computes and returns bbmax, bbmin in Solid::parser. */
 void Render::getBB(V3& bbmax, V3& bbmin, bool framed)
 {
   if (! framed) {	// one frame
@@ -658,7 +658,7 @@ void Render::getBB(V3& bbmax, V3& bbmin, bool framed)
   }
 }
 
-/* Computes bounding box. */
+/** Computes bounding box. */
 void Render::setBB(const GLfloat *v)
 {
   if (first_bb) {
@@ -676,7 +676,7 @@ void Render::setBB(const GLfloat *v)
   }
 }
 
-/* Sets bounding box. */
+/** Sets bounding box. */
 void Render::setBB(GLfloat w, GLfloat d, GLfloat h)
 {
   bbox_max.v[0] = w;
@@ -687,7 +687,7 @@ void Render::setBB(GLfloat w, GLfloat d, GLfloat h)
   bbox_min.v[2] = -h;
 }
 
-/* Updates bounding box according to its orientation. */
+/** Updates bounding box according to its orientation. */
 void Render::updBB(GLfloat az)
 {
   bbox_max.v[0] *= cos(az);
@@ -696,7 +696,7 @@ void Render::updBB(GLfloat az)
   bbox_min.v[1] *= sin(az);
 }
 
-/*
+/**
  * Converts (wx,wy) window coordinates into a vector (dir) representing
  * the direction of the line from the user's eyes to the point he clicked on.
  * Vector dir is returned.
@@ -724,7 +724,7 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
   //echo("wx=%d wy=%d dir=%.1f %.1f %.1f", wx, wy,dir->v[0], dir->v[1] ,dir->v[2]);
 }
 
-/*
+/**
  * Get the object list where each object have a type present in the given list.
  */
 WO** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
@@ -755,7 +755,7 @@ WO** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
   return objlist;
 }
 
-/* Returns the list of drawed object on the user's screen. */
+/** Returns the list of drawed object on the user's screen. */
 WO** Render::getDrawedObjects(int *nbhit)
 {
   // set selection mode
@@ -837,7 +837,7 @@ void Render::stat()
   echo("### Graphic ###\ndisplay-lists   : %d", --dlist);
 }
 
-/* Debug */
+/** Debug */
 void Render::showSolidList()
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {

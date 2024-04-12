@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -35,7 +35,7 @@
 
 #if !defined(HAVE_GLU)
 
-/*
+/**
  * Transform a point (column vector) by a 4x4 matrix.  I.e.  out = m * in
  * Input:  m - the 4x4 matrix
  *         in - the 4x1 vector
@@ -52,7 +52,7 @@ transform_point(GLdouble out[4], const GLdouble m[16], const GLdouble in[4])
 #undef M
 }
 
-/*
+/**
  * Perform a 4x4 matrix multiplication  (product = a x b).
  * Input:  a, b - matrices to multiply
  * Output:  product - product of a and b
@@ -78,7 +78,8 @@ matmul(GLdouble * product, const GLdouble * a, const GLdouble * b)
 #undef T
    memcpy((void *) product, (void *) temp, (size_t) 16 * sizeof(GLdouble));
 }
-/*
+
+/**
  * Compute inverse of 4x4 transformation matrix.
  * Code contributed by Jacques Leroy jle@star.be
  * Return GL_TRUE for success, GL_FALSE for failure (singular matrix)
@@ -257,7 +258,7 @@ invert_matrix(const GLdouble * m, GLdouble * out)
 #undef SWAP_ROWS
 }
 
-/* projection du point (objx,objy,objz) sur l'ecran (winx,winy,winz) */
+/** projection du point (objx,objy,objz) sur l'ecran (winx,winy,winz) */
 GLint
 gluProject(GLdouble objx, GLdouble objy, GLdouble objz,
 	   const GLdouble model[16], const GLdouble proj[16],
@@ -291,7 +292,7 @@ gluProject(GLdouble objx, GLdouble objy, GLdouble objz,
   return GL_TRUE;
 }
 
-/* transformation du point ecran (winx,winy,winz) en point objet */
+/** transformation du point ecran (winx,winy,winz) en point objet */
 GLint
 gluUnProject(GLdouble winx, GLdouble winy, GLdouble winz,
 	     const GLdouble model[16], const GLdouble proj[16],

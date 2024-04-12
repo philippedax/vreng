@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -32,7 +32,7 @@ const GLfloat Axis::DEF_GLYPH = 0.04;	// 4 cm
 const GLfloat Axis::DEF_WIDTH = 2;	// 2 pixels
 
 
-/* Constructor */
+/** Constructor */
 Axis::Axis()
 {
   defaults();
@@ -56,7 +56,7 @@ void Axis::reset()
   defaults();
 }
 
-/* Accessor */
+/** Accessor */
 Axis * Axis::axis()
 {
   return &_axis;
@@ -67,6 +67,7 @@ void Axis::init()
   draw();
 }
 
+/** Draws axis */
 void Axis::draw()
 {
   if (dlist != -1) glDeleteLists(dlist, 1);
@@ -110,6 +111,7 @@ void Axis::draw()
   glEndList();
 }
 
+/** Renders axis */
 void Axis::render()
 {
   if (! visible) return;

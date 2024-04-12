@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2012 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
@@ -25,7 +25,7 @@
 #include "wobject.hpp"	// WO
 #include "world.hpp"	// current
 #include "user.hpp"	// USER_TYPE
-#include "glu.hpp"	// glu alternative
+#include "glu.hpp"	// gluProject alternative
 #include "img.hpp"	// saveJPG
 #include "ogl.hpp"	// copyPixels
 #include "pref.hpp"	// width3D
@@ -35,19 +35,19 @@
 // global
 struct Render::sCamera camera;
 
-/* Sets camera projection */
+/** Sets camera projection */
 void Render::cameraUser()
 {
   cameraProjection(camera.fovy, camera.near, camera.far);
 }
 
-/* Observer view, called by updateCamera: vr2gl.cpp. */
+/** Observer view, called by updateCamera: vr2gl.cpp. */
 void Render::setCameraPosition(M4 *vrmat)
 {
   camera_pos = *vrmat;
 }
 
-/*
+/**
  * Observer view, called by setCamera: user.cpp.
  * static
  */
@@ -72,6 +72,7 @@ void Render::cameraProjection(GLfloat fovy, GLfloat near, GLfloat far)
   glMatrixMode(GL_MODELVIEW);
 }
 
+/** Sets view */
 void Render::setViewMode(uint8_t _view)
 {
   view = _view;
@@ -80,6 +81,7 @@ void Render::setViewMode(uint8_t _view)
   }
 }
 
+/** Gets view */
 uint8_t Render::getViewMode() const
 {
   return view;
@@ -211,7 +213,7 @@ void Render::cameraPosition(WO *o)
   glLoadMatrixf(glmat);
 }
 
-/* Displays the map on the top-right corner of the canvas */
+/** Displays the map on the top-right corner of the canvas */
 void Render::showMap()
 {
   if (! viewMap) return;
@@ -247,7 +249,7 @@ void Render::showMap()
   ::g.gui.scene()->setScene(x, y, w, h);
 }
 
-/* Displays the satellite on the bottom-left corner of the canvas */
+/** Displays the satellite on the bottom-left corner of the canvas */
 void Render::showSat()
 {
   if (view != VIEW_SCISSOR || viewObj) return;
@@ -318,12 +320,14 @@ void Render::showView()
   ::g.gui.scene()->setScene(x, y, w, h);
 }
 
+/** Resets view */
 void Render::resetView()
 {
   view = VIEW_FIRST_PERSON;
   third_xRot = third_yRot = third_Near = 0;
 }
 
+/** Sets scissor */
 void Render::setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz)
 {
   if (view != VIEW_SCISSOR) {
@@ -420,7 +424,7 @@ void Render::calculateFov(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz
   minirender();
 }
 
-/* called by aiinit */
+/** called by aiinit */
 void Render::computeCameraProjection()
 {
   GLint vp[4];

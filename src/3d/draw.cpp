@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2012 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -24,7 +24,7 @@
 #include "color.hpp"	// Color
 
 
-/* Draws vertex */
+/** Draws vertex */
 void Draw::vertex3fv(const GLfloat *v)
 {
   ::g.render.setBB(v);		//update bbin & bbmax
@@ -39,7 +39,7 @@ void Draw::vertex3f(GLfloat x, GLfloat y, GLfloat z)
   vertex3fv(v);
 }
 
-/* Draws point */
+/** Draws point */
 void Draw::point(GLfloat x, GLfloat y, GLfloat z)
 {
   glBegin(GL_POINTS);
@@ -47,7 +47,7 @@ void Draw::point(GLfloat x, GLfloat y, GLfloat z)
   glEnd();
 }
 
-/* Draws line */
+/** Draws line */
 void Draw::line(GLfloat l, GLfloat w = 0)
 {
   glEnable(GL_LINE_SMOOTH);  // anti aliasing
@@ -60,7 +60,7 @@ void Draw::line(GLfloat l, GLfloat w = 0)
   glDisable(GL_LINE_SMOOTH);
 }
 
-/* Draws rectangle */
+/** Draws rectangle */
 void Draw::rect(GLfloat w, GLfloat h, uint8_t style, GLfloat rtxs, GLfloat rtxt)
 {
   if ((rtxs > 1) || (rtxt > 1)) {
@@ -83,7 +83,7 @@ void Draw::rect(GLfloat w, GLfloat h, uint8_t style, GLfloat rtxs, GLfloat rtxt)
   glEnd();
 }
 
-/* Draws triangle */
+/** Draws triangle */
 void Draw::triangle(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, GLfloat x3, GLfloat y3, GLfloat z3)
 {
   glBegin(GL_POLYGON);
@@ -93,7 +93,7 @@ void Draw::triangle(GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, 
   glEnd();
 }
 
-/* Draws ellipse */
+/** Draws ellipse */
 void Draw::ellipse(GLfloat xr, GLfloat yr, uint8_t style)
 {
   switch (style) {
@@ -115,7 +115,7 @@ void Draw::ellipse(GLfloat xr, GLfloat yr, uint8_t style)
   glEnd();
 }
 
-/*
+/**
  * Draws a box (taken from Mesa)
  */
 void Draw::box(GLfloat width, GLfloat depth, GLfloat height, const int textures[], GLfloat rtx[6][2], uint8_t style)
@@ -262,7 +262,7 @@ void Draw::box(GLfloat width, GLfloat depth, GLfloat height)
   }
 }
 
-/*
+/**
  * Draws a bounding box
  */
 void Draw::bbox(GLfloat width, GLfloat depth, GLfloat height)
@@ -277,7 +277,7 @@ void Draw::bbox(GLfloat width, GLfloat depth, GLfloat height)
   glDisable(GL_LINE_STIPPLE);
 }
 
-/*
+/**
  * Draws a pentagon
  */
 void Draw::pentagon(GLfloat width, GLfloat height, uint8_t style)
@@ -298,6 +298,9 @@ void Draw::pyramid(GLfloat width, uint8_t style)
   pentagon(width, width, style);	// regular pentagon
 }
 
+/**
+ * Draws an octagon
+ */
 void Draw::octagon(GLfloat width, GLfloat height, uint8_t style)
 {
   GLfloat x = width * sin(M_PI_4), y = width/2., z = height/2., c;
@@ -330,7 +333,7 @@ void Draw::octagon(GLfloat width, GLfloat height, uint8_t style)
   }
 }
 
-/*
+/**
  * Torus drawing (taken from Mesa)
  */
 void Draw::torus(GLfloat rc, uint8_t numc, GLfloat rt, uint8_t numt, uint8_t style)
@@ -359,7 +362,7 @@ void Draw::torus(GLfloat rc, uint8_t numc, GLfloat rt, uint8_t numt, uint8_t sty
   }
 }
 
-/*
+/**
  * Sphere (taken from Mesa)
  */
 void Draw::sphere(GLfloat r, uint8_t slices, uint8_t stacks, uint8_t style)
@@ -435,7 +438,7 @@ void Draw::sphere(GLfloat r, uint8_t slices, uint8_t stacks, uint8_t style)
   glEnd();
 }
 
-/*
+/**
  * Cylinder (taken from Mesa, Brian Paul)
  */
 void Draw::cylinder(GLfloat baseR, GLfloat topR, GLfloat height, uint8_t slices, uint8_t stacks, uint8_t style)
@@ -533,7 +536,7 @@ void Draw::cylinder(GLfloat baseR, GLfloat topR, GLfloat height, uint8_t slices,
   }
 }
 
-/*
+/**
  * Disk (taken from Mesa, Brian Paul)
  */
 void Draw::disk(GLfloat innerR, GLfloat outerR, uint8_t slices, uint8_t loops, uint8_t style)
@@ -618,7 +621,7 @@ void Draw::disk(GLfloat innerR, GLfloat outerR, uint8_t slices, uint8_t loops, u
   }
 }
 
-/* Draws a line in a display-list */
+/** Draws a line in a display-list */
 void Draw::ray(GLint *ray_dl, GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2, const GLfloat *color, GLint stipple)
 {
   *ray_dl = glGenLists(1);
@@ -647,6 +650,7 @@ void Draw::ray(GLint *ray_dl, GLfloat ex, GLfloat ey, GLfloat ez, GLfloat tx, GL
   Draw::ray(ray_dl, ex, ey, ez, tx, ty, tz, color, 0);
 }
 
+/** Draws an helix */
 void Draw::helix(GLfloat r, GLfloat length, GLfloat height, GLfloat slices, GLfloat thick, GLfloat *color)
 {
   GLfloat a, h;
