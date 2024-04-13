@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -26,8 +26,7 @@
  * Car class
  */
 class Car {
-
-public:
+ public:
   Car() {};
   /**< constructor */
   virtual ~Car() {};
@@ -36,7 +35,7 @@ public:
   void draw(GLfloat width, GLfloat depth, GLfloat height, const int textures[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
   /**< Draws a car */
 
-private:
+ private:
   void car(GLfloat adir, const int textures[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
   void rouederdte(GLfloat r, int p);
   void rouedergche(GLfloat r, int p);

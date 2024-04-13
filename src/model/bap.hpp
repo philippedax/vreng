@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -184,12 +184,11 @@ extern const char surp_fap[];
  * Body Animator Parameter
  */
 class Bap {
-
-private:
+ private:
   uint16_t num_params;	///< number of params
   uint8_t baptype;	///< stream type bap-3.1, bap-3.2, fap
 
-public:
+ public:
   Bap();		///< constructor
   virtual ~Bap(){}	///< destructor
 
@@ -214,7 +213,7 @@ public:
 
   void setFap(int param, float val);
 
-protected:
+ protected:
   uint8_t bit[NUM_BAPS_V32 + 1];	///< bap/fap bit mask
   float ba[NUM_BAPS_V32 + 1];		///< baps angles
   float fa[NUM_FAPS + 1];		///< faps angles

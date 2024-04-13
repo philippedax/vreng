@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -17,6 +17,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//---------------------------------------------------------------------------
+// body.cpp
+//
+// Body articulations
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "body.hpp"
@@ -537,12 +541,14 @@ Body::Body()
   init();
 }
 
+/** Constructor */
 Body::Body(const char *_url)
 {
   init();
   load(_url);
 }
 
+/** Initialization */
 void Body::init()
 {
   drawparts = 0;
@@ -589,6 +595,7 @@ void Body::init()
   }
 }
 
+/** Destructor */
 Body::~Body()
 {
   for (int i=0; i<10 ; i++) {
@@ -650,6 +657,7 @@ char * Body::getTok(char *l, int *tok)
   return l;
 }
 
+/** Loads body url */
 void Body::load(const char *_url)
 {
   url = new char[URL_LEN];
@@ -657,7 +665,7 @@ void Body::load(const char *_url)
   Http::httpOpen(url, reader, this, 0);
 }
 
-/** load joint points (static) */
+/** Reads joint points (static) */
 void Body::reader(void *_body, Http *http)
 {
   Body *body = static_cast<Body *>(_body);
@@ -675,7 +683,7 @@ void Body::reader(void *_body, Http *http)
   delete cache;
 }
 
-/** load body's parts */
+/** Loads body's parts */
 void Body::loadBodyParts(FILE *f)
 {
   char *l, jpline[256], tex[128];
@@ -805,6 +813,7 @@ endloadbody:
   model = bodyparts[0].model;  // keep model used
 }
 
+/** Draws body */
 void Body::draw()
 {
   glShadeModel(GL_SMOOTH);
@@ -821,7 +830,7 @@ void Body::draw()
   }
 }
 
-/* called from humanoid */
+/** Sets colors - called from humanoid */
 void Body::setColors(float *_skin, float *_cloth)
 {
   for (int i=0; i<3; i++) {

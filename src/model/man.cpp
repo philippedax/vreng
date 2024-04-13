@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -19,6 +19,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 //-------------------------------------------------------------------
+// man.cpp
+//
 // Fichier d'origine en VRML
 // Auteurs de l'avatar initial : Thierry BLANDET - Magalie GROSS
 //-------------------------------------------------------------------
@@ -129,7 +131,7 @@ static tBody manpart[] = {
 };
 
 
-/* Constructor */
+/** Constructor */
 Man::Man()
 {
   Pref* pref = &::g.pref;
@@ -155,7 +157,7 @@ void Man::myMaterial(GLenum mode, float *rgb, float alpha)
   glMaterialfv(GL_FRONT_AND_BACK, mode, color4);
 }
 
-/* Sets the material properties of the 3D Object */
+/** Sets the material properties of the 3D Object */
 void Man::setMaterial(int i)
 {
   float alpha = materials[i].alpha;
@@ -167,7 +169,7 @@ void Man::setMaterial(int i)
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, materials[i].shininess);
 }
 
-// Draws in the display list
+/** Draws in the display list */
 GLint Man::displaylist()
 {
   GLint dlist = glGenLists(1);
@@ -177,7 +179,7 @@ GLint Man::displaylist()
   return dlist;
 }
 
-/* Draws man */
+/** Draws man */
 void Man::draw()
 {
   int vc = 0, part = 0;

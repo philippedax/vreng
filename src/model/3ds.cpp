@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -19,6 +19,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 //***************************************//
+// 3ds.cpp                               //
+//                                       //
 // Author :                              //
 // Ben Humphrey, Game Programmer         //
 // DigiBen@GameTutorials.com             //
@@ -26,7 +28,6 @@
 //                                       //
 // Vreng port :                          //
 // Romain Piegay                         //
-// piegay@enst.fr                        //
 // piegaro.free.fr/piegaropro            //
 //***************************************//
 #include "vreng.hpp"
@@ -37,6 +38,7 @@
 #include "endian.hpp"	// bigEndian
 
 
+/** Constructor */
 _3ds::_3ds(const char *_url) :
  loaded(false),
  currentScale(1),
@@ -52,6 +54,7 @@ _3ds::_3ds(const char *_url) :
   displaylist();
 }
 
+/** Destructor */
 _3ds::~_3ds()
 {
   for (int i=0; i < _3dsModel.numObjects; i++) {
@@ -64,6 +67,7 @@ _3ds::~_3ds()
   if (dlist > 0) glDeleteLists(dlist, 1);
 }
 
+/** Imports */
 bool _3ds::import(FILE *f)
 {
   fp = f;
@@ -79,7 +83,7 @@ bool _3ds::import(FILE *f)
   return loaded = true; //success
 }
 
-/* called by the client to open the .3ds file and read it */
+/** Imports : called by the client to open the .3ds file and read it */
 bool _3ds::importModel(t3dsModel *pModel)
 {
   tChunk chunk = {0};
@@ -101,6 +105,7 @@ bool _3ds::importModel(t3dsModel *pModel)
   return true;
 }
 
+/** Imports texture */
 bool _3ds::importTextures()
 {
   int id = 0;
@@ -119,6 +124,7 @@ bool _3ds::importTextures()
   return true;
 }
 
+/** Opens texture */
 int _3ds::openTexture(const char *img)
 {
   char *end = strrchr(url, '/');
@@ -132,6 +138,7 @@ int _3ds::openTexture(const char *img)
   return Texture::open(url_tex);
 }
 
+/** Gets scale */
 float _3ds::getScale()
 {
   float max_radius = 0;
@@ -154,6 +161,7 @@ float _3ds::getScale()
   return sqrt(max_radius);
 }
 
+/** Sets scale */
 void _3ds::setScale(float scale)
 {
   if (scale != currentScale) {
@@ -173,6 +181,7 @@ void _3ds::setScale(float scale)
   }
 }
 
+/** Reads data */
 void _3ds::reader(void *__3ds, Http *http)
 {
   _3ds *_3d = static_cast<_3ds *>(__3ds);
@@ -190,6 +199,7 @@ void _3ds::reader(void *__3ds, Http *http)
   delete cache;
 }
 
+/** Renders with color */
 void _3ds::render(float *color)
 {
   if (! loaded) return;
@@ -204,6 +214,7 @@ void _3ds::render(float *color)
   glPopMatrix();
 }
 
+/** Renders with pos and color */
 void _3ds::render(const Pos &pos, float *color)
 {
   if (!loaded) return;
@@ -224,7 +235,7 @@ void _3ds::render(const Pos &pos, float *color)
   glPopMatrix();
 }
 
-// Put drawing in the display list
+/** Draws in the display list */
 GLint _3ds::displaylist()
 {
   dlist = glGenLists(1);
@@ -234,6 +245,7 @@ GLint _3ds::displaylist()
   return dlist;
 }
 
+/** Draws */
 void _3ds::draw()
 {
   if (! loaded) return;
@@ -288,7 +300,7 @@ void _3ds::draw()
   }
 }
 
-/** reads the main sections of the .3DS file, then dives deeper with recursion */
+/** Reads the main sections of the .3DS file, then dives deeper with recursion */
 void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPrev)
 {
   tObject newObject = {0};	// This is used to add to our object list
@@ -371,7 +383,7 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPrev)
   //chunk = pPrev;
 }
 
-/** handles all the information about the objects in the file */
+/** Handles all the information about the objects in the file */
 void _3ds::nextObject(t3dsModel *pModel, tObject *pObject, tChunk *pPrev)
 {
   int buffer[50000] = {0};	// This is used to read past unwanted data
@@ -416,7 +428,7 @@ void _3ds::nextObject(t3dsModel *pModel, tObject *pObject, tChunk *pPrev)
   //chunk = pPrev;
 }
 
-/** handles all the information about the material (Texture) */
+/** Handles all the information about the material (Texture) */
 void _3ds::nextMaterial(t3dsModel *pModel, tChunk *pPrev)
 {
   int buffer[50000] = {0};	// This is used to read past unwanted data
@@ -452,7 +464,7 @@ void _3ds::nextMaterial(t3dsModel *pModel, tChunk *pPrev)
   //chunk = pPrev;
 }
 
-/** reads in a chunk ID and it's length in bytes */
+/** Reads in a chunk ID and it's length in bytes */
 void _3ds::readChunk(tChunk *pchunk)
 {
   // The chunk ID is like _3DS_OBJECT or _3DS_MATERIAL.
@@ -464,7 +476,7 @@ void _3ds::readChunk(tChunk *pchunk)
   if (Endian::bigEndian()) { char t; SWAPL(&pchunk->len, t); }
 }
 
-/** reads in a string of characters */
+/** Reads in a string of characters */
 int _3ds::getString(char *pbuffer)
 {
   int index = 0;
@@ -477,7 +489,7 @@ int _3ds::getString(char *pbuffer)
   return strlen(pbuffer) + 1;
 }
 
-/** reads in the RGB color data */
+/** Reads in the RGB color data */
 void _3ds::readColor(t3dsMaterialInfo *pMaterial, tChunk *pchunk)
 {
   tChunk tmp = {0};
@@ -490,7 +502,7 @@ void _3ds::readColor(t3dsMaterialInfo *pMaterial, tChunk *pchunk)
   pchunk->read += tmp.read;
 }
 
-/** reads in the indices for the vertex array */
+/** Reads in the indices for the vertex array */
 void _3ds::readVertex(tObject *pObject, tChunk *pPrev)
 {
   uint16_t index = 0;	// This is used to read in the current face index
@@ -516,7 +528,7 @@ void _3ds::readVertex(tObject *pObject, tChunk *pPrev)
   }
 }
 
-/** reads in the UV coords for the object */
+/** Reads in the UV coords for the object */
 void _3ds::readUVCoords(tObject *pObject, tChunk *pPrev)
 {
   // Read in the number of UV coords there are (int)
@@ -534,7 +546,7 @@ void _3ds::readUVCoords(tObject *pObject, tChunk *pPrev)
   }
 }
 
-/** reads in the vertices for the object */
+/** Reads in the vertices for the object */
 void _3ds::readVertices(tObject *pObject, tChunk *pPrev)
 {
   // Read in the number of vertices (int)
@@ -574,7 +586,7 @@ void _3ds::readVertices(tObject *pObject, tChunk *pPrev)
   }
 }
 
-/** reads in the material name assigned to the object and sets the materialID */
+/** Reads in the material name assigned to the object and sets the materialID */
 void _3ds::readMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPrev)
 {
   char strMaterial[255] = {0};	// This is used to hold the objects material name
@@ -613,7 +625,7 @@ void _3ds::readMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPrev)
   pPrev->read += fread(buffer, 1, pPrev->len - pPrev->read, fp);
 }
 
-/** computes the normals and vertex normals of the objects */
+/** Computes the normals and vertex normals of the objects */
 void _3ds::computeNormals(t3dsModel *pModel)
 {
   Vec3 v1, v2, vNormal, vPoly[3];

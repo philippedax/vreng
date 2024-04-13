@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -18,16 +18,17 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//***************************************//
-// Author (10/06/01) :                   //
-// Ben Humphrey, Game Programmer         //
-// DigiBen@GameTutorials.com             //
-// Co-Web Host of www.GameTutorials.com  //
-//                                       //
-// Vreng port (21/09/06) :               //
-// Philippe Dax                          //
-// dax@enst.fr                           //
-//***************************************//
+//**************************************//
+// obj.cpp				//
+//					//
+// Author (10/06/01) :                  //
+// Ben Humphrey, Game Programmer        //
+// DigiBen@GameTutorials.com            //
+// Co-Web Host of www.GameTutorials.com //
+//                                      //
+// Vreng port (21/09/06) :              //
+// Philippe Dax                         //
+//**************************************//
 #include "vreng.hpp"
 #include "obj.hpp"
 #include "http.hpp"	// httpOpen
@@ -35,6 +36,7 @@
 #include "cache.hpp"	// open, close
 
 
+/** Constructor */
 Obj::Obj(const char *_url)
  : loaded(false), currentScale(1.0), desiredScale(1.0), fp(NULL)
 {
@@ -88,6 +90,7 @@ Obj::~Obj()
   if (dlist > 0) glDeleteLists(dlist, 1);
 }
 
+/** Reads data */
 void Obj::reader(void *_obj, Http *http)
 {
   Obj *obj = static_cast<Obj *>(_obj);
@@ -106,6 +109,7 @@ void Obj::reader(void *_obj, Http *http)
   delete cache;
 }
 
+/** Imports */
 bool Obj::import(FILE *f)
 {
   fp = f;
@@ -118,7 +122,7 @@ bool Obj::import(FILE *f)
   return loaded = true; //success
 }
 
-// checks the materials
+/** Imports textures - checks the materials */
 bool Obj::importTextures()
 {
   int id = 0;
@@ -136,6 +140,7 @@ bool Obj::importTextures()
   return true;
 }
 
+/** Opens texture */
 int Obj::openTexture(const char *file)
 {
   char *end = strrchr(url, '/');
@@ -147,6 +152,7 @@ int Obj::openTexture(const char *file)
   return Texture::open(urltex);
 }
 
+/** Gets scale */
 float Obj::getScale()
 {
   double max_radius = 0.0;
@@ -166,6 +172,7 @@ float Obj::getScale()
   return sqrt(max_radius);
 }
 
+/** Sets scale */
 void Obj::setScale(float scale)
 {
   if (scale != currentScale) {
@@ -185,6 +192,7 @@ void Obj::setScale(float scale)
   }
 }
 
+/** Sets color */
 void Obj::setColor(int type, float *color)
 {
   flgcolor = true;
@@ -196,6 +204,7 @@ void Obj::setColor(int type, float *color)
   }
 }
 
+/** Renders with color */
 void Obj::render(float *color)
 {
   if (!loaded) return;
@@ -212,6 +221,7 @@ void Obj::render(float *color)
   glPopMatrix();
 }
 
+/** Renders with pos and color */
 void Obj::render(const Pos &pos, float *color)
 {
   if (!loaded) return;
@@ -232,7 +242,7 @@ void Obj::render(const Pos &pos, float *color)
   glPopMatrix();
 }
 
-// Draws in the display list
+/** Draws in the display list */
 GLint Obj::displaylist()
 {
   dlist = glGenLists(1);
@@ -242,6 +252,7 @@ GLint Obj::displaylist()
   return dlist;
 }
 
+/** Draws obj */
 void Obj::draw()
 {
   if (!loaded) return;
@@ -275,7 +286,7 @@ void Obj::draw()
   }
 }
 
-/** loads a .obj file into a specified model by a .obj file name */
+/** Loads a .obj file into a specified model by a .obj file name */
 bool Obj::importModel(tOBJModel *pmodel)
 {
   if (!pmodel || !fp) return false;
@@ -286,7 +297,7 @@ bool Obj::importModel(tOBJModel *pmodel)
   return true;
 }
 
-/** main loop for reading in the .obj file */
+/** Reads in the .obj file - main loop */
 void Obj::readFile(tOBJModel *pmodel)
 {
   char line[256];
@@ -309,7 +320,7 @@ void Obj::readFile(tOBJModel *pmodel)
   fillInObjectInfo(pmodel); // we are done reading in the file
 }
 
-/** reads in the vertex information ("v" vertex : "vt" UVCoord) */
+/** Reads in the vertex information ("v" vertex : "vt" UVCoord) */
 void Obj::readVertexInfo()
 {
   Vec3 vVertex   = {0};
@@ -342,7 +353,7 @@ void Obj::readVertexInfo()
   }
 }
 
-/** reads in the face information ("f") */
+/** Reads in the face information ("f") */
 void Obj::readFaceInfo()
 {
   tOBJFace Face;
@@ -389,7 +400,7 @@ void Obj::readFaceInfo()
   pFaces.push_back(Face);		// add the  face to our face list
 }
 
-/** called after an object is read in to fill in the model structure */
+/** Fills in the model structure */
 void Obj::fillInObjectInfo(tOBJModel *pmodel)
 {
   tOBJObject object = {0};
@@ -478,7 +489,7 @@ void Obj::fillInObjectInfo(tOBJModel *pmodel)
   bJustReadAFace = false;
 }
 
-/** computes the normals and vertex normals of the objects */
+/** Computes the normals and vertex normals of the objects */
 void Obj::computeNormals(tOBJModel *pmodel)
 {
   Vec3 v1, v2, vNormal, vPoly[3];

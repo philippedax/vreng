@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -17,6 +17,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//---------------------------------------------------------------------------
+// off.cpp
+//
+// Model .off
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "off.hpp"
@@ -34,6 +38,7 @@ void Off::defaults()
   dlist = 0;
 }
 
+/** Constructor */
 Off::Off(float _scale) : scale(_scale)
 {
   defaults();
@@ -47,6 +52,7 @@ Off::Off(const char *_url) : scale(1)
   Http::httpOpen(url, reader, this, 0);
 }
 
+/** Destructor */
 Off::~Off()
 {
   if (v) delete[] v;
@@ -56,6 +62,7 @@ Off::~Off()
   if (url) delete[] url;
 }
 
+/** Sets scale */
 void Off::setScale(float _scale)
 {
   scale = _scale;
@@ -128,7 +135,7 @@ void Off::reader(void *_off, Http *http)
   delete cache;
 }
 
-// Draws in the display list
+/** Draws in the display list */
 GLint Off::displaylist()
 {
   dlist = glGenLists(1);
@@ -138,6 +145,7 @@ GLint Off::displaylist()
   return dlist;
 }
 
+/** Draw off */
 void Off::draw()
 {
   glBegin(GL_TRIANGLES);
@@ -159,6 +167,7 @@ void Off::draw()
   glEnd();
 }
 
+/** Renders with color */
 void Off::render(float *color)
 {
   glPushMatrix();
@@ -173,6 +182,7 @@ void Off::render(float *color)
   glPopMatrix();
 }
 
+/** Renders with pos and color */
 void Off::render(const Pos &pos, float *color)
 {
   glPushMatrix();
@@ -190,7 +200,7 @@ void Off::render(const Pos &pos, float *color)
   glPopMatrix();
 }
 
-/* Returns a b c floats */
+/** Returns a b c floats */
 void Off::getOff3i(char *s, int *a, int *b, int *c)
 {
   int k = strlen(s);
@@ -210,7 +220,7 @@ void Off::getOff3i(char *s, int *a, int *b, int *c)
   *c = atoi(&s[z]);
 }
 
-/* Returns a b c floats */
+/** Returns a b c floats */
 void Off::getOff3f(char *s, float *a, float *b, float *c, float scale)
 {
   int k = strlen(s);

@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -18,25 +18,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*------------------------------------------------------------------------
-                                /\
-                             __/__\__
-                            /\      /\
-                           /  \    /  \
-                          /    \  /    \
-                         /______\/______\
-                          /____________\
-                          M   M OOOO X  X
-                          M M M 0  0  XX
-                          M   M OOOO X  X
-
-          MOX - Centro de Computacion Avanzada en Ingenieria.
-                        Facultad de Ingenieria
-                       Universidad de los Andes
-                         Bogota, Colombia.
-------------------------------------------------------------------------*/
-#ifndef DXF_HPP
-#define DXF_HPP
 /*************************************************************************
   Nombre: common3D.h      Version: 0.5                  Fecha: Abril-1996
   Descripcion:
@@ -61,6 +42,8 @@
      clase se manipula por medio de las de la clase Point3D.
  Autor: Daniel Barrero                                  Fecha: Abril-1996
 **************************************************************************/
+#ifndef DXF_HPP
+#define DXF_HPP
 
 /*------------------  Object Point3D -----------------------------------*/
 typedef struct Point3D_s {

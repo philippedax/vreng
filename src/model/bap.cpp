@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -18,6 +18,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// bap.cpp
+//
+// Body Animator Parameter
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "bap.hpp"
 #include "timer.hpp"	// getRate
@@ -32,7 +36,7 @@ Bap::Bap()
   baptype = 0;
   num_params = 0;
 
-  //set all values to 0
+  // set all values to 0
   for (int i=0; i <= NUM_BAPS_V32; i++) {
     ba[i] = 0;
     bit[i] = 0;
@@ -84,6 +88,7 @@ void Bap::setFap(int param, float val)
   fa[param] = val;
 }
 
+/** Parse a bap line */
 uint8_t Bap::parse(char *bapline)
 {
   if (! strcmp(bapline, ""))  return 0;  // discard empty bapline

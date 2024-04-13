@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -19,6 +19,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 //***************************************//
+// ase.cpp                               //
+//                                       //
 // Author (10/06/01) :                   //
 // Ben Humphrey, Game Programmer         //
 // DigiBen@GameTutorials.com             //
@@ -61,6 +63,7 @@
 
 
 
+/** Constructor */
 Ase::Ase(const char *_url) :
  loaded(false),
  currentScale(1.0),
@@ -73,6 +76,7 @@ Ase::Ase(const char *_url) :
   displaylist();
 }
 
+/** Destructor */
 Ase::~Ase()
 {
   for (int i=0; i < ASEModel.numObjects; i++) {
@@ -85,6 +89,7 @@ Ase::~Ase()
   if (dlist > 0) glDeleteLists(dlist, 1);
 }
 
+/** Reads data */
 void Ase::reader(void *aase, Http *http)
 {
   Ase *ase = static_cast<Ase *>(aase);
@@ -102,6 +107,7 @@ void Ase::reader(void *aase, Http *http)
   delete cache;
 }
 
+/** Imports file */
 bool Ase::import(FILE *f)
 {
   fp = f;
@@ -126,6 +132,7 @@ bool Ase::importModel(tASEModel *pModel)
   return true;
 }
 
+/** Imports textures */
 bool Ase::importTextures()
 {
   int texid = 0;
@@ -143,7 +150,7 @@ bool Ase::importTextures()
   return true;
 }
 
-/* Returns the texid */
+/** Returns the texid */
 int Ase::openTexture(const char *file)
 {
   char *end = strrchr(url, '/');
@@ -157,6 +164,7 @@ int Ase::openTexture(const char *file)
   return Texture::open(urltex);
 }
 
+/** Gets scale */
 float Ase::getScale()
 {
   double max_radius = 0;
@@ -177,6 +185,7 @@ float Ase::getScale()
   return static_cast<float>(sqrt(max_radius));
 }
 
+/** Sets scale */
 void Ase::setScale(float scale)
 {
   if (scale != currentScale) {
@@ -198,6 +207,7 @@ void Ase::setScale(float scale)
   }
 }
 
+/** Renders ase */
 void Ase::render()
 {
   if (! loaded) return;
@@ -208,7 +218,7 @@ void Ase::render()
   glPopMatrix();
 }
 
-// Draws in the display list
+/** Draws in the display list */
 GLint Ase::displaylist()
 {
   dlist = glGenLists(1);
@@ -218,6 +228,7 @@ GLint Ase::displaylist()
   return dlist;
 }
 
+/** Draws ase */
 void Ase::draw()
 {
   if (! loaded) return;
@@ -272,7 +283,7 @@ void Ase::draw()
   }
 }
 
-/** reads the data for every object and it's associated material*/
+/** Reads the data for every object and it's associated material*/
 void Ase::readFile(tASEModel *pModel)
 {
   tASEMaterialInfo newMaterial;	// This will be used to push on a new material
@@ -319,7 +330,7 @@ void Ase::readFile(tASEModel *pModel)
   }
 }
 
-/** returns the total object count in the .ase file */
+/** Returns the total object count in the .ase file */
 int Ase::getObjectCount()
 {
   char line[255] = {0};
@@ -337,7 +348,7 @@ int Ase::getObjectCount()
   return cnt;
 }
 
-/** returns the total material count for the .ase file */
+/** Returns the total material count for the .ase file */
 int Ase::getMaterialCount()
 {
   char line[255] = {0};
@@ -356,7 +367,7 @@ int Ase::getMaterialCount()
   return 0;	// Return NO materials if we get here
 }
 
-/** reads in the information about the desired material */
+/** Reads in the information about the desired material */
 void Ase::getTextureInfo(tASEMaterialInfo *pTexture, int desiredMaterial)
 {
   char line[255] = {0};
@@ -416,7 +427,7 @@ void Ase::getTextureInfo(tASEMaterialInfo *pTexture, int desiredMaterial)
   }
 }
 
-/** moves the filepointer in the .ase file to the desired object */
+/** Moves the filepointer in the .ase file to the desired object */
 void Ase::moveToObject(int desiredObject)
 {
   char line[255] = {0};
@@ -441,7 +452,7 @@ void Ase::moveToObject(int desiredObject)
   }
 }
 
-/** reads in and returns a float from the .ase file */
+/** Reads in and returns a float from the .ase file */
 float Ase::readFloat()
 {
   float v = 0.;
@@ -450,7 +461,7 @@ float Ase::readFloat()
   return v;
 }
 
-/** reads in the information about the object, but not the data */
+/** Reads in the information about the object, but not the data */
 void Ase::readObjectInfo(tASEObject *pObject, int desiredObject)
 {
   char line[255] = {0};
@@ -489,21 +500,21 @@ void Ase::readObjectInfo(tASEObject *pObject, int desiredObject)
   }
 }
 
-/** reads in the filename of the texture assigned to the object */
+/** Reads in the filename of the texture assigned to the object */
 void Ase::getTextureName(tASEMaterialInfo *pTexture)
 {
   fscanf(fp, " \"%s", pTexture->strFile);
   pTexture->strFile[strlen (pTexture->strFile) - 1] = '\0';
 }
 
-/** reads in the material name of the object */
+/** Reads in the material name of the object */
 void Ase::getMaterialName(tASEMaterialInfo *pTexture)
 {
   fscanf(fp, " \"%s", pTexture->strName);
   pTexture->strName[strlen (pTexture->strName)] = '\0';
 }
 
-/** calls the functions that query and read in the desired data */
+/** Reads in the desired data */
 void Ase::readObjectData(tASEModel *pModel, tASEObject *pObject, int desiredObject)
 {
   // This will go through the file every time for each data tag and read
@@ -534,7 +545,7 @@ void Ase::readObjectData(tASEModel *pModel, tASEObject *pObject, int desiredObje
   getData(pModel, pObject, const_cast<char*>(ASE_VTILE), desiredObject);
 }
 
-/** loop for reading in the object data */
+/** Reads in the object data */
 void Ase::getData(tASEModel *pModel, tASEObject *pObject, char *strDesiredData, int desiredObject)
 {
   char line[255] = {0};
@@ -586,7 +597,7 @@ void Ase::getData(tASEModel *pModel, tASEObject *pObject, char *strDesiredData, 
   }
 }
 
-/** reads in the vertices for the object */
+/** Reads in the vertices for the object */
 void Ase::readVertex(tASEObject *pObject)
 {
   int index = 0;
@@ -605,7 +616,7 @@ void Ase::readVertex(tASEObject *pObject)
   pObject->pVerts[index].z = -pObject->pVerts[index].z;
 }
 
-/** reads in the texture coordinates */
+/** Reads in the texture coordinates */
 void Ase::readTextureVertex(tASEObject *pObject, tASEMaterialInfo texture)
 {
   int index = 0;
@@ -625,7 +636,7 @@ void Ase::readTextureVertex(tASEObject *pObject, tASEMaterialInfo texture)
   pObject->bHasTexture = true;
 }
 
-/** reads in the indices to the array of vertices */
+/** Reads in the indices to the array of vertices */
 void Ase::readFace(tASEObject *pObject)
 {
   int index = 0;
@@ -639,7 +650,7 @@ void Ase::readFace(tASEObject *pObject)
                                        &(pObject->pFaces[index].vertIndex[2]));
 }
 
-/** reads in the indices to the texture coordinate array */
+/** Reads in the indices to the texture coordinate array */
 void Ase::readTextureFace(tASEObject *pObject)
 {
   int index = 0;
@@ -653,7 +664,7 @@ void Ase::readTextureFace(tASEObject *pObject)
                          &pObject->pFaces[index].coordIndex[2]);
 }
 
-/** This function computes the normals and vertex normals of the objects */
+/** Computes the normals and vertex normals of the objects */
 void Ase::computeNormals(tASEModel *pModel)
 {
   Vec3 v1, v2, vNormal, vPoly[3];
