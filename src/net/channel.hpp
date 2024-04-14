@@ -24,11 +24,11 @@
 #include <list>
 using namespace std;
 
+
 /**
  * Channel class
  */
 class Channel {
-
  private:
   static list<Channel*> channelList;
 

@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Ecole Nationale Superieure des Telecommunications
 //
@@ -17,9 +17,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// md5.cpp
+//
 /*	$FreeBSD: src/sys/crypto/md5.c,v 1.1.2.1 2000/07/15 07:14:18 kris Exp $	*/
 /*	$KAME: md5.c,v 1.4 2000/03/27 04:36:22 sumikawa Exp $	*/
-
 /*
  * Copyright (C) 1995, 1996, 1997, and 1998 WIDE Project.
  * All rights reserved.

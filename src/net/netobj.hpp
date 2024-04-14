@@ -35,7 +35,6 @@ class NetObj {
  friend class Noid;
 
  private:
-
   NetObj *next;		///< next
   NetObj *prev;		///< prev
 

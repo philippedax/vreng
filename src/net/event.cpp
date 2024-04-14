@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -18,6 +18,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// event.cpp
+//
+// Events handling
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "event.hpp"
 #include "vrep.hpp"	// VREP_*
@@ -29,7 +33,7 @@
 #include "timer.hpp"	// diffDates
 
 
-/* When something is available on file-descriptor "fd" */
+/** When something is available on file-descriptor "fd" */
 void netIncoming(int fd)
 {
   while (1) {
@@ -97,7 +101,7 @@ void netIncoming(int fd)
 }
 
 
-/* Check if some responsibilities should to be taken when a timeout occurs */
+/** Check if some responsibilities should to be taken when a timeout occurs */
 int netTimeout()
 {
   float refresh = DEF_REFRESH_TIMEOUT;
