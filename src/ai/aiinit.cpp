@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -18,6 +18,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// aiinit.cpp
+//
+// AI Initialization
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "aiinit.hpp"
 #include "wobject.hpp"
@@ -31,6 +35,7 @@
 #include "xml.hpp"	// selectProximity
 
 
+/** Initialization */
 void initOcaml()
 {
   char *Argv[2];
@@ -44,7 +49,7 @@ void initOcaml()
 
 #if HAVE_OCAML
 
-/*************** fonctions de transformations de requetes *********************/
+/** fonctions de transformations de requetes */
 value recherche_Typegen(value ttype, value actiondemande)
 {
   char *typechercher = const_cast<char *>(String_val(ttype));
@@ -185,8 +190,7 @@ value recherche_Objet(value mot)
   return ret;
 }
 
-
-/************ fontions de deplacement de l'utilisateur ******************/
+/** fontions de deplacement de l'utilisateur */
 value deplacement_to_Objet(value px, value py, value pz, value ori, value depl)
 {
   int deplacement;
@@ -291,8 +295,7 @@ value deplacement_to_Proximite(value mot, value pos)
   return Val_int(0);
 }
 
-
-/** fonctions d'affichage **/
+/** fonctions d'affichage */
 void msg_info(value mot)
 {
   char *val = const_cast<char *>(String_val(mot));
@@ -312,8 +315,7 @@ void viewed_objects(value mot)
   vicin->analScene();
 }
 
-
-/** fonctions de lecture des requetes **/
+/** fonctions de lecture des requetes */
 int read_request(const char *requete)
 {
   if (requete && (requete[0] == '@')) {
@@ -339,7 +341,6 @@ int read_request(const char *requete)
   }
 
   int temp = (int) Int_val(callback(*caml_named_value("caml_entree_analyse"), copy_string(requete)));
-
   return temp;
 }
 
