@@ -18,17 +18,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//**************************************//
-// obj.cpp				//
-//					//
-// Author (10/06/01) :                  //
-// Ben Humphrey, Game Programmer        //
-// DigiBen@GameTutorials.com            //
-// Co-Web Host of www.GameTutorials.com //
-//                                      //
-// Vreng port (21/09/06) :              //
-// Philippe Dax                         //
-//**************************************//
+// obj.cpp
+//
+// Author (10/06/01) : Ben Humphrey, Game Programmer
+// DigiBen@GameTutorials.com
+//
+// Vreng port (21/09/06) : Philippe Dax
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "obj.hpp"
 #include "http.hpp"	// httpOpen

@@ -18,12 +18,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//-------------------------------------------------------------------
 // man.cpp
 //
 // Fichier d'origine en VRML
 // Auteurs de l'avatar initial : Thierry BLANDET - Magalie GROSS
-//-------------------------------------------------------------------
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "man.hpp"
 #include "user.hpp"	// localuser

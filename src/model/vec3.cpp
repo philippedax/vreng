@@ -18,19 +18,17 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//**************************************//
-// vec3.cpp				//
-//					//
-// Author (10/06/01) :                  //
-// Ben Humphrey, Game Programmer        //
-// DigiBen@GameTutorials.com            //
-// Co-Web Host of www.GameTutorials.com //
-//**************************************//
+// vec3.cpp
+//
+// Author (10/06/01) :
+// Ben Humphrey, Game Programmer
+// DigiBen@GameTutorials.com
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "vec3.hpp"
 
 
-// calculates a vector between 2 points and returns the result
+/** Calculates a vector between 2 points and returns the result */
 Vec3 Vec3::subVect(Vec3 p1, Vec3 p2)
 {
   Vec3 v;
@@ -41,7 +39,7 @@ Vec3 Vec3::subVect(Vec3 p1, Vec3 p2)
   return v;
 }
 
-// adds 2 vectors together and returns the result
+/** Adds 2 vectors together and returns the result */
 Vec3 Vec3::addVect(Vec3 v1, Vec3 v2)
 {
   Vec3 v;
@@ -52,7 +50,7 @@ Vec3 Vec3::addVect(Vec3 v1, Vec3 v2)
   return v;
 }
 
-// divides a vector by a single number (scalar) and returns the result
+/** Divides a vector by a single number (scalar) and returns the result */
 Vec3 Vec3::divVect(Vec3 v1, float val)
 {
   Vec3 v;
@@ -63,7 +61,7 @@ Vec3 Vec3::divVect(Vec3 v1, float val)
   return v;
 }
 
-// returns the cross product between 2 vectors
+/** Returns the cross product between 2 vectors */
 Vec3 Vec3::crossVect(Vec3 v1, Vec3 v2)
 {
   Vec3 v;
@@ -74,7 +72,7 @@ Vec3 Vec3::crossVect(Vec3 v1, Vec3 v2)
   return v;
 }
 
-// returns the normal of a vector
+/** Returns the normal of a vector */
 Vec3 Vec3::normVect(Vec3 v)
 {
   float magnitude = static_cast<float>(Mag(v));  // Get the magnitude

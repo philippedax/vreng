@@ -18,18 +18,16 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-// ------------------------------------------------------------ //
-// v3d.cpp							//
-//								//
-// Author   : This file has been written by Yann Renard         //
-// Copyright: This file is totaly free and you may distribute   //
-//            it to anyone you want, without modifying this     //
-//            header. If you use it in a commercial project (?) //
-//            or in bigger project (!), I would be glad to know //
-//            about it :) Please mail me...                     //
-//            be glad to know about it, please mail me          //
-//                myself_yr@hotmail.com                         //
-// ------------------------------------------------------------ //
+// v3d.cpp
+//
+// Author   : This file has been written by Yann Renard
+// Copyright: This file is totaly free and you may distribute
+//            it to anyone you want, without modifying this
+//            header. If you use it in a commercial project (?)
+//            or in bigger project (!), I would be glad to know about it :) Please mail me...
+//            be glad to know about it, please mail me
+//            myself_yr@hotmail.com
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "v3d.hpp"
 #include "humanoid.hpp"

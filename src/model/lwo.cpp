@@ -18,17 +18,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- * lwo.cpp
- *
- * Copyright (C) 1998 Janne Löf <jlof@mail.student.oulu.fi>
- */
+// lwo.cpp
+//
+// Copyright (C) 1998 Janne Löf <jlof@mail.student.oulu.fi>
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "lwo.hpp"
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// open, close
 #include "file.hpp"	// skip
-
 
 
 void Lwo::readSrfs(class File *file, FILE *f, int nbytes)

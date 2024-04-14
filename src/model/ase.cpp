@@ -18,19 +18,17 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//***************************************//
-// ase.cpp                               //
-//                                       //
-// Author (10/06/01) :                   //
-// Ben Humphrey, Game Programmer         //
-// DigiBen@GameTutorials.com             //
-// Co-Web Host of www.GameTutorials.com  //
-//                                       //
-// Vreng port (30/03/04) :               //
-// Romain Piegay                         //
-// piegay@enst.fr                        //
-// piegaro.free.fr/piegaropro            //
-//***************************************//
+// ase.cpp
+//
+// ASE Loader
+//
+// Author (10/06/01) :
+// Ben Humphrey, Game Programmer
+// DigiBen@GameTutorials.com
+//
+// Vreng port (30/03/04) :
+// Romain Piegay -- piegaro.free.fr/piegaropro
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "ase.hpp"
 #include "http.hpp"	// httpOpen
