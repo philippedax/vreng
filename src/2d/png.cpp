@@ -18,6 +18,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// png.cpp
+//
+// PNG Loader
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"	// Img
 #include "cache.hpp"	// open, close

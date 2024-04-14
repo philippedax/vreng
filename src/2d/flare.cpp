@@ -18,8 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/* Copyright (c) Mark J. Kilgard, 1997. */
-//--------------------------------------//
+// flare.cpp
+//
+// Flare effects
+//
+// Copyright (c) Mark J. Kilgard, 1997.
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "flare.hpp"
 #include "texture.hpp"	// open

@@ -18,29 +18,18 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- *  Some utilities for writing and reading AVI files.
- *  These are not intended to serve for a full blown
- *  AVI handling software (this would be much too complex)
- *  The only intention is to write out MJPEG encoded
- *  AVIs with sound and to be able to read them back again.
- *
- *  Copyright (C) 1999 Rainer Johanni <Rainer@Johanni.de>
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
+// avi.cpp
+//
+// AVI Loader
+//
+// Some utilities for writing and reading AVI files.
+// These are not intended to serve for a full blown
+// AVI handling software (this would be much too complex)
+// The only intention is to write out MJPEG encoded
+// AVIs with sound and to be able to read them back again.
+//
+// Copyright (C) 1999 Rainer Johanni <Rainer@Johanni.de>
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "avi.hpp"
 #include "http.hpp"	// Http

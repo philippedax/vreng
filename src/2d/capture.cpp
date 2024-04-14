@@ -18,11 +18,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- *  capture.cpp : captures for the VREng GUI
- *  VREng Project
- *  Author: Philippe Dax - Telecom-ParisTech Paris
- */
+// capture.cpp
+//
+// Captures for the VREng GUI
+// Author: Philippe Dax - Telecom-Paris
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "capture.hpp"
 #include "world.hpp"	// current

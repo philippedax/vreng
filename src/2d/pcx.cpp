@@ -18,9 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/* GiMd2Viewer - Quake2 model viewer
- * Copyright (C) 1998  Lionel ULMER <bbrox@mygale.org>
- */
+// pcx.cpp
+//
+// PCX Loader
+// GiMd2Viewer - Quake2 model viewer
+// Copyright (C) 1998  Lionel ULMER <bbrox@mygale.org>
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
 #include "cache.hpp"	// open, close

@@ -18,10 +18,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/* based on examplecode for IJG's JPEG-library found on
- * http://courses.cs.deu.edu.tr/cse566/newpage2.htm
- * Author Fredrik Orderud, 2005
- */
+// jpg.cpp
+//
+// JPEG Loader
+// based on examplecode for IJG's JPEG-library found on
+// http://courses.cs.deu.edu.tr/cse566/newpage2.htm
+// Author Fredrik Orderud, 2005
+//
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
 #include "cache.hpp"	// open, close
