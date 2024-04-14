@@ -20,13 +20,9 @@
 //---------------------------------------------------------------------------
 /*
  *  joystick.cpp : joystick for the VREng GUI
- *  NOTE: this file should be common to all GUI variants
  *
  *  VREng Project / Ubit GUI
  *  Authors: Eric Lecolinet and Philippe Dax
- *
- *  (C) 1999-2009 Eric Lecolinet / ENST Paris
- *  WWW: http://www.enst.fr/~elc/ubit
  */
 #include "vreng.hpp"
 #include "widgets.hpp"	// gw

@@ -23,11 +23,6 @@
  *
  *  VREng / Ubit Project
  *  Authors: Eric Lecolinet and Philippe Dax
- *
- *  Ubit Toolkit: A Brick Construction Game Model for Creating GUIs
- *  Please refer to the Ubit GUI Toolkit Home Page for details.
- *
- *  (C) 2002/2009 Philippe Dax and Eric Lecolinet - ENST Paris
  */
 #include "xpm.hpp"
 #include "theme.hpp"

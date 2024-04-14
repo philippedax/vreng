@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 /*
  *  scene.cpp : scene for the VREng GUI
+ *
  *  VREng Project
  *  Author: Eric Lecolinet - ENST Paris
  */
