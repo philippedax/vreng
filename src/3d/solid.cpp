@@ -18,9 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- * Authors: Fabrice Bellard, Philippe Dax
- */
+// solid.cpp
+//
+// Solid handling
+//
+// Authors: Fabrice Bellard, Philippe Dax
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "solid.hpp"
 #include "draw.hpp"	// STYLE

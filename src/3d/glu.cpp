@@ -18,18 +18,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- * Mesa 3-D graphics library
- * Version:  3.3
- * Copyright (C) 1995-2000  Brian Paul
- */
-/*
- * This code was contributed by Marc Buffat (buffat@mecaflu.ec-lyon.fr).
- * Implementation de gluProject et gluUnproject
- * M. Buffat 17/2/95
- * Thanks Marc!!!
- */
-
+// glu.cpp
+//
+// Mesa 3-D graphics library
+// Version:  3.3
+// Copyright (C) 1995-2000  Brian Paul
+//
+// This code was contributed by Marc Buffat (buffat@mecaflu.ec-lyon.fr).
+// Implementation de gluProject et gluUnproject -- // Buffat 17/2/95
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "glu.hpp"
 
