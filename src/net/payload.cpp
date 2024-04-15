@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // payload.cpp
 //
-// Payload handling
+// Packetization Payload handling
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "payload.hpp"

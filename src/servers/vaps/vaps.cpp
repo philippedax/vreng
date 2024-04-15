@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)
+// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
 // 
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 // 
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -17,6 +17,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//---------------------------------------------------------------------------
+// vaps.cpp
+//
+// Vreng Animation Parameters Serser
+//
+// should be compiled with ./configure --enable-vaps
+//
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 
@@ -74,7 +81,7 @@ const char *date()
   return datestr;
 }
 
-/* UDP server initialization */
+/** UDP server initialization */
 int initUdpSender(bool ipmode, const struct sockaddr_in *sa, uint32_t addr, uint16_t port, uint8_t ttl)
 {
   int sdudp = -1;
@@ -91,8 +98,7 @@ int initUdpSender(bool ipmode, const struct sockaddr_in *sa, uint32_t addr, uint
     mreq.imr_multiaddr.s_addr = addr;
     mreq.imr_interface.s_addr = htonl(INADDR_ANY);
 #if !defined(CYGWIN32)
-    if (setsockopt(sdudp, IPPROTO_IP, IP_ADD_MEMBERSHIP,
-                   &mreq, sizeof(mreq)) < 0)
+    if (setsockopt(sdudp, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq)) < 0)
       perror("setsockopt");
 #endif
     setsockopt(sdudp, IPPROTO_IP, IP_MULTICAST_TTL, &ttl, sizeof(ttl));
@@ -147,14 +153,14 @@ FILE * getBapHeader(const char *fname)
   char *l;
   char bapline[VAPS_BUFSIZ];
 
-  /* open the local bap file */
+  // open the local bap file
   if ((fpbap = fopen(fname, "r")) == NULL) {
     fprintf(flog, "can't open the bap file: %s\n", fname); fflush(flog);
     perror("fopen");
     return NULL;
   }
 
-  /* parsing the Bap header */
+  // parsing the Bap header
   getBapLine(bapline, fpbap);
   strcpy(bap_hdr, bapline);
   l = strtok(bapline, " ");
@@ -450,7 +456,7 @@ void initVapsServer()
   setrlimit(RLIMIT_NOFILE, &rlp);
 #endif
   
-  /* TCP server initialisation */
+  // TCP server initialisation
   if ((sock = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
     perror("TCP socket");
     exit(1);
