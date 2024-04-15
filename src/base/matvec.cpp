@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // macvec.cpp
 //
-// Matrices and Vectors
+// Matrices and Vectors operations
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "matvec.hpp"

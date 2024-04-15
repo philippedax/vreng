@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // format.cpp
 //
-// Format adnd Extension handling
+// Format and Extension handling
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "str.hpp"
