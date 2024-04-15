@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -32,7 +32,7 @@
  */
 class Door: public WO {
 
-private:
+ private:
   uint8_t mecanism;	///< mecanism
   float aopen;		///< open angle
   float aclose;		///< close angle
@@ -44,7 +44,7 @@ private:
   V3 center;		///< center position
   V3 size;		///< dimension
 
-public:
+ public:
 
   /* mecanisms */
   enum {
@@ -98,7 +98,7 @@ public:
   void quit();
   /**< Quits properly */
 
-private:
+ private:
   void parser(char *l);
   /**< Parses file line */
 

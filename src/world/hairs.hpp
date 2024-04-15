@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -55,7 +55,7 @@ inline T rnd(T n) { return (rand()*n)/(RAND_MAX); }
  * Color4f class
  */
 class Color4f {
-public:
+ public:
   union {
     struct { float r,g,b,a; };
     float t[4];
@@ -71,7 +71,7 @@ public:
  * HVertex class
  */
 class HVertex {
-public:
+ public:
   Vector3 n;
   Vector3 p;
 
@@ -82,7 +82,7 @@ public:
  * Material class
  */
 class Material {
-public:
+ public:
   Color4f ambient;
   Color4f diffuse;
   Color4f specular;
@@ -106,7 +106,7 @@ public:
  * TriFace class
  */
 class TriFace {
-public:
+ public:
   HVertex *v[3];
   Vector3 n;
   Material *m;
@@ -120,7 +120,7 @@ public:
  * Surface class
  */
 class Surface : public Material {
-public:
+ public:
   int nbf;
   int nbts; // nb triangle strip
   TriFace *fc;
@@ -133,7 +133,7 @@ public:
  * Object class
  */
 class Object {
-public:
+ public:
   int nbp, nbf, nbs;
   HVertex *pt;
   TriFace *fc;
@@ -151,7 +151,7 @@ public:
  * Node class
  */
 class Node {
-public:
+ public:
   Vector3 p;
   Vector3 v;
 
@@ -162,7 +162,7 @@ public:
  * Line class
  */
 class Line {
-public:
+ public:
   Vector3 n;
   Node pt[HAIRSIZE];
 
@@ -175,7 +175,7 @@ public:
  * CHair class
  */
 class Hair {
-public:
+ public:
   Object *o;
   Surface *s;
   Material m;
@@ -199,7 +199,7 @@ public:
  */
 class Hairs: public WO {
 
-private:
+ private:
   Hair *hair;
 #if 0 //dax use Lwo
   Lwo *obj;
@@ -213,7 +213,7 @@ private:
   float scale;
   Vector3 posh, pos0, pos1;
 
-public:
+ public:
   static const OClass oclass;  ///< class variable.
   const OClass* getOClass() {return &oclass;}
 
@@ -228,7 +228,7 @@ public:
   void render();
   void quit();
 
-private:
+ private:
   void parser(char *l);
   /**< Parses. */
 

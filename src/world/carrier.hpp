@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -44,14 +44,14 @@
  */
 class Carrier: public WO {
 
-private:
+ private:
   class WO *object;	///< object ptr
   float lspeed;		///< linear speed
   float aspeed;		///< angular speed
   bool taking;		///< flag true/false
 
 
-public:
+ public:
   static const float LSPEED;	///< linear speed
   static const float ASPEED;	///< angular speed
 
@@ -101,7 +101,7 @@ public:
    * arrow keys to move the object
    * and handle intersects of this object */
 
-private:
+ private:
   void defaults();
   /**< Sets default values */
 

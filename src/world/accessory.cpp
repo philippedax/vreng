@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2012 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -18,6 +18,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// accessory.cpp
+//
+// Accessory handling
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "accessory.hpp"
 #include "user.hpp"	// localuser
@@ -31,7 +35,7 @@ const float Accessory::LSPEED = 0.5; // 1/2 ms
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** Creation from a file */
 WO * Accessory::creator(char *l)
 {
   return new Accessory(l);
@@ -123,7 +127,7 @@ void Accessory::quit()
   savePersist();
 }
 
-/* wear */
+/** Wears */
 void Accessory::follow()
 {
   if (following)  return;
@@ -134,7 +138,7 @@ void Accessory::follow()
   oax = pos.ax; oay = pos.ay; oaz = pos.az;
 }
 
-/* takeoff */
+/** Takeoffs */
 void Accessory::takeoff()
 {
   if (! following)  return;
@@ -143,7 +147,7 @@ void Accessory::takeoff()
   restorePosition();  // restore original position
 }
 
-/* drop */
+/** Drops */
 void Accessory::drop()
 {
   if (! following)  return;
@@ -151,19 +155,19 @@ void Accessory::drop()
   following = false;
 }
 
-/* follow_cb: indirectly called by user */
+/** follow_cb: indirectly called by user */
 void Accessory::follow_cb(Accessory *accessory, void *d, time_t s, time_t u)
 {
   accessory->follow();
 }
 
-/* takeoff_cb: indirectly called by user */
+/** takeoff_cb: indirectly called by user */
 void Accessory::takeoff_cb(Accessory *accessory, void *d, time_t s, time_t u)
 {
   accessory->takeoff();
 }
 
-/* drop_cb: indirectly called by user */
+/** drop_cb: indirectly called by user */
 void Accessory::drop_cb(Accessory *accessory, void *d, time_t s, time_t u)
 {
   accessory->drop();

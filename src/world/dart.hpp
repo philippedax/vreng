@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -35,11 +35,11 @@ class User;
  */
 class Dart: public Projectile {
 
-private:
+ private:
   static const float LSPEED;
   static const float TTL;
 
-public:
+ public:
   static const OClass oclass;	///< class variable
 
   const OClass* getOClass() {return &oclass;}
@@ -56,7 +56,7 @@ public:
 
   static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
 
-private:
+ private:
   void defaults();
   /**< Sets default values */
 

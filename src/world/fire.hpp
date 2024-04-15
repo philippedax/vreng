@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -74,8 +74,7 @@ struct sCyl {
  * Fire class
  */
 class Fire: public WO {
-
-public:
+ public:
   static const OClass oclass;	///< class variable.
   const OClass* getOClass() {return &oclass;}
 
@@ -96,7 +95,7 @@ public:
   void quit();
   /**< Quits properly. */
 
-protected:
+ protected:
   uint16_t np;	///< number of particles
   float time;   ///< fire time
   float speed;
@@ -110,7 +109,7 @@ protected:
   void geometry();
   /**< Makes a solid if no one. */
 
-private:
+ private:
   void defaults();
   /**< Sets defaults values. */
 

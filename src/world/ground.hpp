@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -31,8 +31,7 @@
  * Ground class
  */
 class Ground: public WO {
-
-public:
+ public:
   static const OClass oclass;	///< class variable
 
   static void funcs();	///< init funclist
@@ -60,7 +59,7 @@ public:
   /**< Destroyes */
 #endif
 
-private:
+ private:
   void parser(char *l);
   /**< Parses */
 

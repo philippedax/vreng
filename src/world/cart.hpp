@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -33,12 +33,12 @@
  */
 class Cart: public WO {
 
-protected:
+ protected:
   uint8_t number;	///< number of objects inside cart
   class User *user;	///< owner of the cart
   static std::vector<WO*> cartList; ///< vector of objects in the cart
 
-public:
+ public:
   // target values handled by GuiRemoveCart in gui.cc
   enum {
     REMOVE,
@@ -69,7 +69,7 @@ public:
   void quit();
   /**< Quits properly */
 
- private:
+  private:
   void parser(char *l);
   /**< Parses */
 

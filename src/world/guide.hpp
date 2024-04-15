@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -31,8 +31,7 @@
  * Guide class
  */
 class Guide: public WO {
-
-private:
+ private:
   static const uint8_t GUIDE_DIM;	///< max size of the path
   static const float GUIDE_DELTAZ;	///< step in Z
   static const float GUIDE_COLOR[3];	///< path's default color
@@ -46,7 +45,7 @@ private:
   uint8_t seg;		///< current segment number in this path
   GLint dlist;		///< display list
 
-public:
+ public:
   bool pause;		///< flag pause continue
 
   enum {
@@ -90,7 +89,7 @@ public:
   void quit();
   /**< Quits. */
 
-private:
+ private:
   void parser(char *l);
   /**< Parses. */
 

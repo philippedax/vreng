@@ -66,7 +66,7 @@ typedef struct {
  */
 class Guy: public WO {
 
-private:
+ private:
   enum {
     BUST,
     NECK,
@@ -118,7 +118,7 @@ private:
   float feet_color[4];  ///< feet color
   float cycles[2][MAX_JOINTS][CYCLES]; ///< array of angles
 
-public:
+ public:
   static const OClass oclass;	///< class variable.
 
   const OClass* getOClass() {return &oclass;}
@@ -154,7 +154,7 @@ public:
   void setShowing(bool flag);
   /**< Set showing flag. */
 
-private:
+ private:
   void parser(char *l);
   /**< Parses file line. */
 

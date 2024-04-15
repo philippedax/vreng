@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -34,7 +34,7 @@ class Wall;
  */
 class Icon: public WO {
 
-private:
+ private:
   static const float DEPTH;
   static const float LSPEED;
   static const float ZSPEED;
@@ -125,7 +125,7 @@ private:
   void quit();
   /**< Quits */
 
-private:
+ private:
   void parser(char *l);
   /**< Parses */
 

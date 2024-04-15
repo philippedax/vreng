@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -32,12 +32,12 @@
  */
 class Music: public WO {
 
-private:
+ private:
   uint8_t fmt;		///< audio format
   bool repeat;		///< repeat flag
   char statestr[8];	///< action string
 
-public:
+ public:
   /* properties */
   enum {
     PROPHNAME,
@@ -93,7 +93,7 @@ public:
   void quit();
   /**< Quits properly */
 
-private:
+ private:
   void parser(char *l);
   /**< Parses line */
 

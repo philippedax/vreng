@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -33,7 +33,7 @@
  */
 class Text: public WO {
 
-protected:
+ protected:
   static const float RATIO_SCALE;	///< default scale ratio.
   static const uint16_t MAXLEN;		///< max lenght of text.
 
@@ -49,7 +49,7 @@ protected:
   uint8_t verso;	///< flag text recto/verso.
   bool havefont;	///< flag texture txf established.
 
-public:
+ public:
   static const float GLYPHSIZ;		///< lenght of a glyph.
 
   static const OClass oclass;	///< class variable.
@@ -88,11 +88,11 @@ public:
   void quit();
   /**< Quits text. */
 
-protected:
+ protected:
   bool loadFont();
   /**< Loads font */
 
-private:
+ private:
   void parser(char *l);
   /**< Parses file line.*/
 

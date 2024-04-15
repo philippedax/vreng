@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
-// TelecomParisTech (Ecole Nationale Superieure des Telecommunications)
+// TelecomParis (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -32,14 +32,14 @@
  */
 class Wind: public WO {
 
-private:
+ private:
   static Wind *wind;		///< singleton.
   static const char url[36];	///< wind url.
   uint16_t speed;		///< linear speed in km/s.
   float orient;			///< orientation in radians.
   pthread_t tid;
 
-public:
+ public:
   static const OClass oclass;	///< class variable.
 
   const OClass* getOClass() {return &oclass;}
@@ -61,7 +61,7 @@ public:
   void quit();		///< Quits.
 
 
-private:
+ private:
   void defaults();
   /**< Sets default values. */
 
