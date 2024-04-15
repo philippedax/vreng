@@ -18,33 +18,31 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- * This is D3DES (V5.09) by Richard Outerbridge with the double and
- * triple-length support removed for use in VNC.  Also the bytebit[] array
- * has been reversed so that the most significant bit in each byte of the
- * key is ignored, not the least significant.
- *
- * These changes are:
- *  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- */
-/* D3DES (V5.09) -
- *
- * A portable, public domain, version of the Data Encryption Standard.
- *
- * Written with Symantec's THINK (Lightspeed) C by Richard Outerbridge.
- * Thanks to: Dan Hoey for his excellent Initial and Inverse permutation
- * code;  Jim Gillogly & Phil Karn for the DES key schedule code; Dennis
- * Ferguson, Eric Young and Dana How for comparing notes; and Ray Lau,
- * for humouring me on.
- *
- * Copyright (c) 1988,1989,1990,1991,1992 by Richard Outerbridge.
- * (GEnie : OUTER; CIS : [71755,204]) Graven Imagery, 1992.
- */
-
+// vncdes.cpp
+//
+// This is D3DES (V5.09) by Richard Outerbridge with the double and
+// triple-length support removed for use in VNC.  Also the bytebit[] array
+// has been reversed so that the most significant bit in each byte of the
+// key is ignored, not the least significant.
+//
+// These changes are:
+//  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//
+// A portable, public domain, version of the Data Encryption Standard.
+//
+// Written with Symantec's THINK (Lightspeed) C by Richard Outerbridge.
+// Thanks to: Dan Hoey for his excellent Initial and Inverse permutation
+// code;  Jim Gillogly & Phil Karn for the DES key schedule code; Dennis
+// Ferguson, Eric Young and Dana How for comparing notes; and Ray Lau,
+// for humouring me on.
+//
+// Copyright (c) 1988,1989,1990,1991,1992 by Richard Outerbridge.
+// (GEnie : OUTER; CIS : [71755,204]) Graven Imagery, 1992.
+//---------------------------------------------------------------------------
 #include "vncdes.hpp"
 
 static void scrunch(unsigned char *, unsigned long *);
