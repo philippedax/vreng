@@ -23,7 +23,6 @@
 // VACS: Vreng Addresses Cache Server
 //
 // should be compiled with ./configure --enable-vacs
-//
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 

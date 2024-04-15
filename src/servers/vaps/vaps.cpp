@@ -20,10 +20,9 @@
 //---------------------------------------------------------------------------
 // vaps.cpp
 //
-// Vreng Animation Parameters Serser
+// Vreng Animation Parameters Server
 //
 // should be compiled with ./configure --enable-vaps
-//
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 
