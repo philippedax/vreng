@@ -36,6 +36,7 @@
 #include "stat.hpp"	// statSendRTP getSentPackets
 
 
+/** Constructor */
 Payload::Payload()
 {
   new_payload++;
@@ -45,6 +46,7 @@ Payload::Payload()
   vrep = VREP_VERSION_V3;
 }
 
+/** Destructor */
 Payload::~Payload()
 {
   del_payload++;
@@ -57,13 +59,13 @@ Payload * Payload::resetPayload()
   return this;
 }
 
-/* Checks validity */
+/** Checks validity */
 bool Payload::isValid()
 {
   return (len <= PAYLOAD_LEN && idx <= len);
 }
 
-/* Fills the payload */
+/** Fills the payload */
 int Payload::putPayload(const char *format, ...)
 {
   va_list ap;
@@ -186,7 +188,7 @@ int Payload::putPayload(const char *format, ...)
   return 0;
 }
 
-/* Gets the payload */
+/** Gets the payload */
 int Payload::getPayload(const char *format, ...)
 {
   va_list ap;
@@ -670,7 +672,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
   return pkt_len;
 }
 
-/* Incoming Delta */
+/** Incoming Delta */
 void Payload::incomingDelta(const struct sockaddr_in *from)
 {
   Noid noid;		// netobj name received
@@ -726,7 +728,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
   // else, it's just a "recall" (then nothing to do)
 }
 
-/* Incoming Create */
+/** Incoming Create */
 void Payload::incomingCreate(const struct sockaddr_in *from)
 {
   Noid noid;
@@ -775,7 +777,7 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   }
 }
 
-/* Incoming Query */
+/** Incoming Query */
 void Payload::incomingQuery(const struct sockaddr_in *from)
 {
   Noid noid;
@@ -800,7 +802,7 @@ void Payload::incomingQuery(const struct sockaddr_in *from)
   }
 }
 
-/* Incoming Delete */
+/** Incoming Delete */
 void Payload::incomingDelete(const struct sockaddr_in *from)
 {
   Noid noid;
@@ -817,7 +819,7 @@ void Payload::incomingDelete(const struct sockaddr_in *from)
   }
 }
 
-/* Incoming Unknown */
+/** Incoming Unknown */
 void Payload::incomingUnknown(const struct sockaddr_in *from, int size)
 {
   error("InUnknown: size=%d from %lx/%x", size, ntohl(from->sin_addr.s_addr), ntohs(from->sin_port));

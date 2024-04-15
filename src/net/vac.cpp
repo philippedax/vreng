@@ -23,7 +23,6 @@
 // VAC: Vreng Addresses Cache (client)
 //
 // should be compiled with ./configure --enable-vacs
-//
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "vac.hpp"

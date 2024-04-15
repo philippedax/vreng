@@ -33,12 +33,8 @@
 static uint16_t sourcesCounter;		// sources counter
 
 
-/*
- * Handling Network Sources
- */
-
 /**
- * creates a new Source
+ * Creates a new Source
  */
 Source::Source(uint32_t _ssrc)
 {
@@ -55,7 +51,7 @@ Source::Source(uint32_t _ssrc)
 }
 
 /**
- * finds source by its ssrc else creates a new source
+ * Finds source by its ssrc else creates a new source
  */
 Source * Source::getSource(uint32_t _ssrc)
 {

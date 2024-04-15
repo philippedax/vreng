@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // noid.cpp
 //
-// Network IDs
+// Network IDs objects names
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "noid.hpp"
@@ -34,11 +34,7 @@
 using namespace std;
 
 
-/*
- * Handling id objects names
- */
-
-/* Builds a concataned string name */
+/** Builds a concataned string name */
 char * Noid::getNoid()
 {
   static char str[80];
@@ -47,13 +43,13 @@ char * Noid::getNoid()
   return str;
 }
 
-/* Returns 0 if different, other if equal */
+/** Returns 0 if different, other if equal */
 bool Noid::equal(Noid n2) const
 {
   return src_id == n2.src_id && port_id == n2.port_id && obj_id == n2.obj_id;
 }
 
-/* Gets a NetObj by name */
+/** Gets a NetObj by name */
 NetObj * Noid::getNetObj()
 {
   list<NetObj*>::iterator it;
@@ -67,7 +63,7 @@ NetObj * Noid::getNetObj()
   return *it;
 }
 
-/* Heuristic to avoid to send bunch of Query */
+/** Heuristic to avoid to send bunch of Query */
 int Noid::filterQuery()
 {
   static Noid oldnoid;
@@ -86,7 +82,7 @@ int Noid::filterQuery()
   return 1;
 }
 
-/* Send a Query '0x03' packet  to the unicast sender */
+/** Send a Query '0x03' packet  to the unicast sender */
 void Noid::sendQuery(const struct sockaddr_in *to)
 {
   if (! filterQuery()) return;
@@ -98,7 +94,7 @@ void Noid::sendQuery(const struct sockaddr_in *to)
   pp.sendPayload(to);
 }
 
-/* Send a Delete '0x04' packet */
+/** Send a Delete '0x04' packet */
 void Noid::sendDelete(const struct sockaddr_in *to)
 {
   Payload pp;
