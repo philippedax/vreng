@@ -18,12 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- *  gui.cpp : generic interface and callback functions for the VREng GUI
- *
- *  VREng Project / Ubit GUI
- *  Authors: Eric Lecolinet and Philippe Dax
- */
+//
+//  gui.cpp : generic interface and callback functions for the VREng GUI
+//
+//  VREng Project / Ubit GUI
+//  Authors: Eric Lecolinet and Philippe Dax
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "gui.hpp"
 #include "widgets.hpp"	// widgets

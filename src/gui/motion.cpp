@@ -18,15 +18,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- *  motion.cpp : Ubit Movements for the VREng GUI
- *
- *  VREng / Ubit Project
- *  Author: Eric Lecolinet
- *
- *  Ubit Toolkit: A Brick Construction Game Model for Creating GUIs
- *  Please refer to the Ubit GUI Toolkit Home Page for details.
- */
+//
+//  motion.cpp : Ubit Movements for the VREng GUI
+//
+//  VREng / Ubit Project
+//  Author: Eric Lecolinet
+//
+//  Ubit Toolkit: A Brick Construction Game Model for Creating GUIs
+//  Please refer to the Ubit GUI Toolkit Home Page for details.
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "motion.hpp"
 #include "user.hpp"	// User
