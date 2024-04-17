@@ -21,7 +21,7 @@
 // capture.cpp
 //
 // Captures for the VREng GUI
-// Author: Philippe Dax - Telecom-Paris
+// Author: Philippe Dax
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "capture.hpp"

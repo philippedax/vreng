@@ -18,12 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/* Copyright (c) Mark J. Kilgard, 1997. */
-
-/* This program is freely distributable without licensing fees  and is
-   provided without guarantee or warrantee expressed or  implied. This
-   program is -not- in the public domain. */
-
+// txf.hpp
+//---------------------------------------------------------------------------
 #ifndef TXF_HPP
 #define TXF_HPP
 

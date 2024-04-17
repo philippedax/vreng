@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // tga.cpp
 //
-// TGA Loader
+// TGA Loader (Truevision Targa)
 // author: Alexander Zaprjagaev -- frustum@public.tsu.ru
 //---------------------------------------------------------------------------
 #include "vreng.hpp"

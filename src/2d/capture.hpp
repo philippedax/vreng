@@ -18,13 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- *  capture.hpp : captures for the VREng GUI
- *  VREng Project
- *  Author: Eric Lecolinet - ENST Paris
- *
- *  WWW: http://www.enst.fr/~elc  http://vreng.enst.fr/
- */
+// capture.hpp
+//---------------------------------------------------------------------------
 #ifndef CAPTURE_HPP
 #define CAPTURE_HPP
 

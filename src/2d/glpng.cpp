@@ -39,11 +39,6 @@
 //    misrepresented as being the original source.
 // 3. This notice must not be removed or altered from any source distribution.
 //---------------------------------------------------------------------------
-#ifdef _WIN32 /* Stupid Windows needs to include windows.h before gl.h */
-#undef FAR
-#include <windows.h>
-#endif
-
 #include <GL/gl.h>
 #include <stdlib.h>
 #include <math.h>
@@ -51,6 +46,10 @@
 
 #include "png.h"	// src/ext/mypng
 
+#ifdef _WIN32 /* Stupid Windows needs to include windows.h before gl.h */
+#undef FAR
+#include <windows.h>
+#endif
 
 /* Used to decide if GL/gl.h supports the paletted extension */
 #ifdef GL_COLOR_INDEX1_EXT

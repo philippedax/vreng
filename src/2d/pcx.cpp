@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // pcx.cpp
 //
-// PCX Loader
+// PCX Loader (Picture Exchange)
 // GiMd2Viewer - Quake2 model viewer
 // Copyright (C) 1998  Lionel ULMER <bbrox@mygale.org>
 //---------------------------------------------------------------------------

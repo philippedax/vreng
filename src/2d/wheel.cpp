@@ -20,8 +20,7 @@
 //---------------------------------------------------------------------------
 // wheel.cpp
 //
-// wheel asynchronous progress indicator
-//
+// Wheel asynchronous progress indicator
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "wheel.hpp"

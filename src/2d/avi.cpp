@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // avi.cpp
 //
-// AVI Loader
+// AVI Loader (Audio Video Interleave)
 //
 // Some utilities for writing and reading AVI files.
 // These are not intended to serve for a full blown

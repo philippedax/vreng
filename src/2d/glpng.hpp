@@ -1,24 +1,25 @@
-/*
- * PNG loader library for OpenGL v1.43 (11/5/00)
- * by Ben Wyatt ben@wyatt100.freeserve.co.uk
- * Using LibPNG 1.0.2 and ZLib 1.1.3
- *
- * This software is provided 'as-is', without any express or implied warranty.
- * In no event will the author be held liable for any damages arising from the
- * use of this software.
- *
- * Permission is hereby granted to use, copy, modify, and distribute this
- * source code, or portions hereof, for any purpose, without fee, subject to
- * the following restrictions:
- *
- * 1. The origin of this source code must not be misrepresented. You must not
- *    claim that you wrote the original software. If you use this software in
- *    a product, an acknowledgment in the product documentation would be
- *    appreciated but is not required.
- * 2. Altered versions must be plainly marked as such and must not be
- *    misrepresented as being the original source.
- * 3. This notice must not be removed or altered from any source distribution.
- */
+//---------------------------------------------------------------------------
+// VREng (Virtual Reality Engine)       https://github.com/philippedax/vreng
+//
+// Copyright (C) 1997-2009 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
+//
+// VREng is a free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public Licence as published by
+// the Free Software Foundation; either version 2, or (at your option)
+// any later version.
+//
+// VREng is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//---------------------------------------------------------------------------
+// glpng.hpp
+//---------------------------------------------------------------------------
 #ifndef GLPNG_HPP
 #define GLPNG_HPP
 
@@ -56,18 +57,18 @@ extern "C" {
 #define PNG_SIMPLEMIPMAP PNG_SIMPLEMIPMAPS
 
 /* Transparency parameters */
-#define PNG_CALL_BACK  -3 /* Call the callback function to generate alpha   */
-#define PNG_ALPHA     -2 /* Use alpha bpp in PNG file, if there is one */
-#define PNG_SOLID     -1 /* No transparency                                */
-#define PNG_STENCIL    0 /* Sets alpha to 0 for r=g=b=0, 1 otherwise       */
-#define PNG_BLEND1     1 /* a = r+g+b                                      */
-#define PNG_BLEND2     2 /* a = (r+g+b)/2                                  */
-#define PNG_BLEND3     3 /* a = (r+g+b)/3                                  */
-#define PNG_BLEND4     4 /* a = r*r+g*g+b*b                                */
-#define PNG_BLEND5     5 /* a = (r*r+g*g+b*b)/2                            */
-#define PNG_BLEND6     6 /* a = (r*r+g*g+b*b)/3                            */
-#define PNG_BLEND7     7 /* a = (r*r+g*g+b*b)/4                            */
-#define PNG_BLEND8     8 /* a = sqrt(r*r+g*g+b*b)                          */
+#define PNG_CALL_BACK -3 /* Call the callback function to generate alpha */
+#define PNG_ALPHA     -2 /* Use alpha bpp in PNG file, if there is one   */
+#define PNG_SOLID     -1 /* No transparency                              */
+#define PNG_STENCIL    0 /* Sets alpha to 0 for r=g=b=0, 1 otherwise     */
+#define PNG_BLEND1     1 /* a = r+g+b                                    */
+#define PNG_BLEND2     2 /* a = (r+g+b)/2                                */
+#define PNG_BLEND3     3 /* a = (r+g+b)/3                                */
+#define PNG_BLEND4     4 /* a = r*r+g*g+b*b                              */
+#define PNG_BLEND5     5 /* a = (r*r+g*g+b*b)/2                          */
+#define PNG_BLEND6     6 /* a = (r*r+g*g+b*b)/3                          */
+#define PNG_BLEND7     7 /* a = (r*r+g*g+b*b)/4                          */
+#define PNG_BLEND8     8 /* a = sqrt(r*r+g*g+b*b)                        */
 
 typedef unsigned char * png_bytep;
 

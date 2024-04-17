@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // psd.cpp
 //
-// Photoshop PSD loader
+// PSD loader (PhotoShop Document)
 // PD by Thatcher Ulrich, integration by Nicholas Schulz, tweaked by STB
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
