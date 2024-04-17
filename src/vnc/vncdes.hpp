@@ -18,25 +18,16 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- * This is D3DES (V5.09) by Richard Outerbridge with the double and
- * triple-length support removed for use in VNC.
- *
- * These changes are:
- *  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- */
-/* d3des.h -
- *
- *	Headers and defines for d3des.c
- *	Graven Imagery, 1992.
- *
- * Copyright (c) 1988,1989,1990,1991,1992 by Richard Outerbridge
- *	(GEnie : OUTER; CIS : [71755,204])
- */
+// vncdes.hpp
+//
+// d3des.h
+//
+//	Headers and defines for d3des.c
+//	Graven Imagery, 1992.
+//
+// Copyright (c) 1988,1989,1990,1991,1992 by Richard Outerbridge
+//	(GEnie : OUTER; CIS : [71755,204])
+//---------------------------------------------------------------------------
 #ifndef VNCDES_HPP
 #define VNCDES_HPP
 

@@ -22,7 +22,7 @@
 //
 // Functions for VNC password management and authentication.
 //
-//  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
+// Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "vncauth.hpp"

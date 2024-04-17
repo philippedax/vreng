@@ -18,47 +18,31 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- *  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
- *
- *  This is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This software is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this software; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
- *  USA.
- */
-/*
- * rfbproto.h - header file for the RFB protocol version 3.3
- *
- * Uses types CARD<n> for an n-bit unsigned integer, INT<n> for an n-bit signed
- * integer (for n = 8, 16 and 32).
- *
- * All multiple byte integers are in big endian (network) order (most
- * significant byte first).  Unless noted otherwise there is no special
- * alignment of protocol structures.
- *
- *
- * Once the initial handshaking is done, all messages start with a type byte,
- * (usually) followed by message-specific data.  The order of definitions in
- * this file is as follows:
- *
- *  (1) Structures used in several types of message.
- *  (2) Structures used in the initial handshaking.
- *  (3) Message types.
- *  (4) Encoding types.
- *  (5) For each message type, the form of the data following the type byte.
- *      Sometimes this is defined by a single structure but the more complex
- *      messages have to be explained by comments.
- */
+// vncrfb.hpp
+//
+// header file for the RFB protocol version 3.3
+//
+// Uses types CARD<n> for an n-bit unsigned integer, INT<n> for an n-bit signed
+// integer (for n = 8, 16 and 32).
+//
+// All multiple byte integers are in big endian (network) order (most
+// significant byte first).  Unless noted otherwise there is no special
+// alignment of protocol structures.
+//
+// Once the initial handshaking is done, all messages start with a type byte,
+// (usually) followed by message-specific data.  The order of definitions in
+// this file is as follows:
+//
+//  (1) Structures used in several types of message.
+//  (2) Structures used in the initial handshaking.
+//  (3) Message types.
+//  (4) Encoding types.
+//  (5) For each message type, the form of the data following the type byte.
+//      Sometimes this is defined by a single structure but the more complex
+//      messages have to be explained by comments.
+//
+//  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
+//---------------------------------------------------------------------------
 #ifndef VNCRFB_HPP
 #define VNCRFB_HPP
 
