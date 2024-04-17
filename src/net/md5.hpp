@@ -17,6 +17,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// md5.hpp
+//
 /*	$FreeBSD: src/sys/crypto/md5.h,v 1.1.2.1 2000/07/15 07:14:18 kris Exp $	*/
 /*	$KAME: md5.h,v 1.4 2000/03/27 04:36:22 sumikawa Exp $	*/
 /*
@@ -47,6 +49,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 
 #ifndef MD5_HPP

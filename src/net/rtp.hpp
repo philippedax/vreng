@@ -18,9 +18,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- * rtp.h  --  RTP header file (RFC 1890)
- */
+// rtp.hpp  --  RTP header file
+//
+// Real Time Protocol (RFC 1890)
+//---------------------------------------------------------------------------
 #ifndef RTP_HPP
 #define RTP_HPP
 
