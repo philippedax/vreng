@@ -18,6 +18,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// solid.hpp
 /*
  * Les fonctions suivantes sont utilisees pour gerer des solides
  * disposes dans le monde.
@@ -27,6 +28,7 @@
  * - les fonctions d'entree/sortie pour les geometries et les scenes
  * - comment gerer plusieurs mondes ou affichages
  */
+//---------------------------------------------------------------------------
 #ifndef SOLID_HPP
 #define SOLID_HPP
 
