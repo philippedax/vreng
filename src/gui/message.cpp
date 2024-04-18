@@ -35,7 +35,7 @@
 #include "pref.hpp"	// user
 #include "icon.hpp"	// user
 #if HAVE_OCAML
-#include "aiinit.hpp"	// read_request
+#include "ai.hpp"	// read_request
 #endif
 #include <iostream>
 #include "ubit/ubit.hpp"

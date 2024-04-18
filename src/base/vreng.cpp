@@ -38,7 +38,7 @@
 #include "http.hpp"	// Http::init
 #include "sql.hpp"	// VSql::init
 #include "stat.hpp"	// printStats
-#include "aiinit.hpp"	// initOcaml
+#include "ai.hpp"	// initOcaml
 #include "openal.hpp"	// Openal::init
 
 
