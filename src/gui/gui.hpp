@@ -18,12 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// gui.hpp
 //
-//  gui.hpp : public interface for the VREng GUI
-//  VREng Project
-//  Author: Eric Lecolinet - ENST Paris
+// public interface for the VREng GUI
 //
-//  WWW: http://www.enst.fr/~elc  http://vreng.enst.fr/
+// VREng Project
+// Author: Eric Lecolinet - ENST Paris
 //---------------------------------------------------------------------------
 #ifndef GUI_HPP
 #define GUI_HPP
