@@ -34,8 +34,6 @@ UCursor UCursor::none(-1, UCONST);
   * ...etc...
   */
   
-/* ==================================================== ===== ======= */
-
 UCursor::UCursor(const UCursor& c) : cursor_type(c.cursor_type) {}
 UCursor::UCursor(int ctype) : cursor_type(ctype) {}
 UCursor::UCursor(int ctype, UConst m): UAttr(m), cursor_type(ctype) {}
@@ -51,8 +49,6 @@ UCursor& UCursor::set(const UCursor& c) {
 bool UCursor::equals(const UCursor &c) const {
   return (cursor_type == c.cursor_type);
 }
-
-/* ==================================================== ===== ======= */
 
 void UCursor::addingTo(UChild& c, UElem& parent) {
   UAttr::addingTo(c, parent);
@@ -94,5 +90,3 @@ UCursorImpl* UCursor::getCursorImpl(UDisp* d) const {
 
 
 }
-/* ==================================================== [TheEnd] ======= */
-/* ==================================================== [(c)Elc] ======= */

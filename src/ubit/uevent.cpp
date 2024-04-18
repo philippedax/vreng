@@ -32,111 +32,13 @@
 #include <ubit/umsproto.hpp>
 #include <ubit/umessage.hpp>
 #include <ubit/uflag.hpp>
-using namespace std;
+
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
 
 static const int _BUTTONS = 
   UModifier::LeftButton | UModifier::MidButton | UModifier::RightButton;
-
-/*
-class UNodeEvent : public UAnyEvent {
-public:
-  UNodeEvent(const UCond&, UNode* source, UNode* target = null);  
-  
-  virtual UNodeEvent* toNodeEvent() {return this;}  
-  
-  virtual UNode* getSource() const {return source;}  
-  UNode* getTarget() const {return target;}
-  
-protected:
-  UNode* source;      // the object that produced this event
-  UNode* target;
-};
-
-class UElemEvent : public UAnyEvent {
-public:
-  UElemEvent(const UCond&, UElem* source, UNode* target = null);  
-  
-  virtual UElemEvent* toElemEvent() {return this;}
-  
-  virtual UElem* getSource() const {return source;}  
-  
-  UNode* getTarget() const {return target;}
-  **< returns an object that is related to this event (or null).
-   * the returned object depends on the event condition (@see getCond()).
-   * Examples: for UOn::change/add/remove returns the object that was 
-   * modified, selected, added, removed...
-   *
-
-protected:
-  UElem* source;
-  UNode* target;
-};
-
- class UEvent : public UAnyEvent, public UModifier {
-protected:
-  UEvent(const UCond& c) : UAnyEvent(c) {} 
-  
-public:
-  virtual UElem* getSource() const = 0;
-  ///< returns the object that received this event.  
-  
- //void UEvent::goThrough(UBox* _obj, bool _go_through_children) {
- //  aux = _obj;
- //  if (_go_through_children) sp.modes |=  UEventProps::GO_THROUGH_CHILDREN;
- //  else sp.modes |=  UEventProps::GO_THROUGH;
- //}
-  
-  // - - - Impl. - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#ifndef NO_DOC
-  //protected:  
-  void addFlagdef(const UFlagdef*);
-  ///< [advanced] adds a Flag to the Event (for transparent tools, etc); see: UFlag.
-  
-  const UFlagdef* getFlagdef(const UFlag&) const;
-  ///< [advanced] returns the flagdef associated to this flag (if any); see: UFlag.
-  
-  const UPropdef* getPropdef(const UFlag&) const;
-  ///< [advanced] returns the flagprop associated to this flag (if any); see: UFlag.
-  
-  // void goThrough(UBox*, bool go_through_children = true);
-  // events will go through this object.
-  
-  std::vector<const UFlagdef*>flagdefs;   // event flags
-#endif
-};
-
- void UEvent::addFlagdef(const UFlagdef* f) {
- flagdefs.push_back(f);
- }
- 
- const class UFlagdef* UEvent::getFlagdef(const UFlag &f) const {
- for (unsigned int k = 0; k < flagdefs.size(); ++k) {
- if ((flagdefs)[k]->getFlag() == &f) return flagdefs[k];
- }
- return null;  // not found
- }
- 
- const UPropdef* UEvent::getPropdef(const UFlag& f) const {
- const UPropdef* last_pdef = null;
- // att: comme il peut y avoir plusieurs propdef empilees il faut
- // toujours prendre la derniere
- 
- for (unsigned int k = 0; k < flagdefs.size(); ++k) {
- const UPropdef* pdef = null;
- if ((flagdefs)[k]->getFlag() == &f
- && (pdef = dynamic_cast<const UPropdef*>((flagdefs)[k]))
- ) {
- last_pdef = pdef;
- }
- }
- 
- return last_pdef;
- }
- */
-// ==================================================== ======== ===============
 
 UEvent::UEvent(const UCond& c, UObject* s, UObject* a)
 : cond(&c), source(s), aux(a) {} 
@@ -145,15 +47,6 @@ UEvent::~UEvent() {}
  
 void UEvent::setCond(const UCond& c) {cond = &c;}
 
-//UNodeEvent::UNodeEvent(const UCond& c, UNode* s, UNode* t) 
-//: UAnyEvent(c), source(s), target(t) {}
-
-// ==================================================== ======== ===============
-/*
-UElemEvent::UElemEvent(const UCond& _c, UElem* _src, UNode* _target)
-: UAnyEvent(_c), source(_src), target(_target) {}
-  */
-
 UWinEvent::UWinEvent(const UCond& c, UView* v, int t, int s) : 
 UEvent(c, (v? v->getBox(): null)), 
 source_view(v), 
@@ -161,21 +54,11 @@ type(t),
 state(s) {
 }
 
-//UBox* UWinEvent::getSource() const {
-//  return source_view ? source_view->getBox() : null;
-//}
-
 USysWMEvent::USysWMEvent(const UCond& c, UView* v, void* sev) : 
 UEvent(c, (v? v->getBox(): null)), 
 source_view(v), 
 sys_event(sev) {
 }
-
-//UBox* USysWMEvent::getSource() const {
-//  return source_view ? source_view->getBox() : null;
-//}
-  
-// ==================================================== ======== ===============
 
 UInputEvent::UInputEvent(const UCond& c, UView* v, UEventFlow* f, 
                          unsigned long time, int st) : 
@@ -210,10 +93,6 @@ UDisp* UInputEvent::getDisp() const {
   return (source_view && source_view->hardwin) ? source_view->hardwin->disp : null;
 }
   
-//#if UBIT_WITH_GLUT
-//int UInputEvent::getModifiers() const {return glutGetModifiers();}
-//#endif
-
 int UInputEvent::getModifiers() const {return state;}
 
 bool UInputEvent::isShiftDown() const 
@@ -231,8 +110,6 @@ bool UInputEvent::isMetaDown() const
 bool UInputEvent::isAltGraphDown() const 
 {return (getModifiers() & UModifier::AltGraphDown) != 0;}
 
-// ==================================================== ======== ===============
-  
 UMouseEvent::UMouseEvent(const UCond& c, UView* source, UEventFlow* f, 
                          unsigned long time, int state,
                          const UPoint& pos, const UPoint& abs_pos, int btn) :
@@ -269,8 +146,6 @@ UPoint UMouseEvent::getPosAndViewIn(const UBox& parent, UView*& parent_view) con
   else return UPoint(0,0);
 }
 
-// ==================================================== ======== ===============
-
 UData* UMouseEvent::getData() {
   if (!source_view) return null;
   UDataContext dc;
@@ -296,8 +171,6 @@ UStr* UMouseEvent::getStr(UDataContext& dc) {
   return (data ? data->toStr() : null);
 }
 
-// ==================================================== ======== ===============
-
 UWheelEvent::UWheelEvent(const UCond& c, UView* source, UEventFlow* f, 
                          unsigned long time, int state,
                          const UPoint& pos, const UPoint& abs_pos, 
@@ -306,16 +179,12 @@ UMouseEvent(c, source, f, time, state, pos, abs_pos, wheel_btn),
 delta(wheel_delta) {
 } 
     
-// ==================================================== ======== ===============
-
 UKeyEvent::UKeyEvent(const UCond& c, UView* source, UEventFlow* f, unsigned long when, 
                      int mods, int kcode, short kchar)
 : UInputEvent(c, source, f, when, mods), keycode(kcode), keychar(kchar) {}
 
 void UKeyEvent::setKeyChar(short ch) {keychar = ch;}
 void UKeyEvent::setKeyCode(int ks) {keycode = ks;}
-
-// ==================================================== ======== ===============
 
 UViewEvent::UViewEvent(const UCond& c, UView* v) : 
 UEvent(c, (v? v->getBox(): null)), 
@@ -332,8 +201,6 @@ UDisp* UViewEvent::getDisp() const {
   else return null;
 }
 
-// ==================================================== ======== ===============
-
 UTimerEvent::UTimerEvent(const UCond& c, UTimer* t, unsigned long w) 
 : UEvent(c, t), /*timer(t),*/ when(w) {}
 
@@ -348,8 +215,6 @@ const UStr* UMessageEvent::getMessage() const {
   if (source) return &((UMessagePort*)source)->getValue(); 
   else return null;
 }
-
-// ==================================================== ======== ===============
 
 UResizeEvent::UResizeEvent(const UCond& c, UView* v) : UViewEvent(c, v) {} 
 
@@ -401,17 +266,6 @@ void UPaintEvent::getClip(URect& r) const {
     r.width = r.height = 0;
   }  
 }
-    
-/*
-URect UPaintEvent::getGLClip() const {
-  URect r;
-  getHardwinClip(r);       // pas tres clair: on veut le clip, ou la vue entiere
-  UDimension s; hardwin->getSize(s);   // pour faire glviewport ?
-  r.y = s.height - r.height - r.y;
-  return r;
-}
-*/
-/* ==================================================== [(c)Elc] ======= */
 
 URect UDataContext::getBounds() const {
   if (!source_view) return URect();

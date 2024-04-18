@@ -26,19 +26,6 @@ using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
 
-/* TEST
- template <class A, class R> 
- Truc_F1<A,R> operator/(R(*f)(A)) {return Truc_F1<A,R>(*this,f);}
- 
- template <class A, class R, class E> 
- Truc_F1E<A,R,E> operator/(R(*f)(E&,A)) {return Truc_F1E<A,R,E>(*this,f);}
- 
- template <class A1, class A2, class R> 
- Truc_F2<A1,A2,R> operator/(R(*f)(A1,A2)) {return Truc_F2<A1,A2,R>(*this,f);}
- 
- template <class A1, class A2, class R, class E> 
- Truc_F2E<A1,A2,R,E> operator/(R(*f)(E&,A1,A2)) {return Truc_F2E<A1,A2,R,E>(*this,f);}
- */
 
 UMultiCond& UMultiCond::add(const UCond& c) {
   condlist.push_back(&c);
