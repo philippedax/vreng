@@ -18,26 +18,27 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*------------------------------------------------------------------------
-  dxf.cpp
-
-                                /\
-                             __/__\__
-                            /\      /\
-                           /  \    /  \
-                          /    \  /    \
-                         /______\/______\
-                          /____________\
-                          M   M OOOO X  X
-                          M M M 0  0  XX
-                          M   M OOOO X  X
-
-          MOX - Centro de Computacion Avanzada en Ingenieria.
-                        Facultad de Ingenieria
-                       Universidad de los Andes
-                         Bogota, Colombia.
- Autor: Daniel Barrero                                  Fecha: Abril-1996
-------------------------------------------------------------------------*/
+// dxf.cpp
+//
+// DXF Loader (Drawing eXchange Format)
+//
+//                              /\
+//                           __/__\__
+//                          /\      /\
+//                         /  \    /  \
+//                        /    \  /    \
+//                       /______\/______\
+//                        /____________\
+//                        M   M OOOO X  X
+//                        M M M 0  0  XX
+//                        M   M OOOO X  X
+//
+//        MOX - Centro de Computacion Avanzada en Ingenieria.
+//                      Facultad de Ingenieria
+//                     Universidad de los Andes
+//                       Bogota, Colombia.
+// Autor: Daniel Barrero                                  Fecha: Abril-1996
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "dxf.hpp"
 #include "http.hpp"	// httpOpen

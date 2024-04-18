@@ -18,14 +18,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- * md2.hpp
- *
- * GiMd2Viewer - Quake2 model viewer
- * Copyright (C) 1998  Lionel ULMER <bbrox@mygale.org>
- *
- * Based on code Copyright (C) 1997 Trey Harrison <trey@crack.com>
- */
+// md2.hpp
+//
+// GiMd2Viewer - Quake2 model viewer
+// Copyright (C) 1998  Lionel ULMER <bbrox@mygale.org>
+//
+// Based on code Copyright (C) 1997 Trey Harrison <trey@crack.com>
+//---------------------------------------------------------------------------
 #ifndef MD2_HPP
 #define MD2_HPP
 

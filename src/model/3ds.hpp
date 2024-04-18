@@ -24,10 +24,7 @@
 // This file is created in the hopes that you can just plug it into your code
 // easily. You will probably want to query more chunks though for animation, ...
 //
-// Ben Humphrey (DigiBen)
-// Game Programmer
-// DigiBen@GameTutorials.com
-// Co-Web Host of www.GameTutorials.com
+// Ben Humphrey (DigiBen) Game Programmer - DigiBen@GameTutorials.com
 //---------------------------------------------------------------------------
 #ifndef _3DS_HPP
 #define _3DS_HPP

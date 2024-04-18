@@ -18,33 +18,35 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/***********************************************************
-# BAP file, by Tolga K. Capin (capin@lig.di.epfl.ch)\n\
-# EPFL-LIG, Switzerland\n\
-# March 23, 1999.\n\
-############################ HEADER DESCRIPTION ###############################\n\
-#Header record :\n\
-#       Version number:3.0\n\
-#       Sequence base name: note:body feature filename= <basename>.bff,\n\
-#       video filename= <basename>.vid, separate image filenames=\n\
-#       <basename>.nnnnn.img, audio filename= <basename>.aud,\n\
-#       FAP filename = <basename>.fap, FDP filename = <basename>.fdp,\n\
-#       BAP filename = <basename>.bap, BDP filename = <basename>.bdp\n\
-#       Frame rate:     fps (note that this may be equal to the video field\n\
-#       rate since interlace has no meaning here)\n\
-#       Sequence length: Nframe\n\
-#BAP mask: one 0 or 1 for each of the possible 169 BAPs (masked or unmasked) indicating\n\
-#whether it is used. The BAP mask precedes each BAP data line on a separate line.\n\
-################# BAP DATA DESCRIPTION ##########################\n\
-#Each frame  is described as one line of integer BAP values starting with the\n\
-#frame number. The BAP mask in the header indicates which\n\
-#BAP groups are included. The 169 parameter values are defined\n\
-#in MPEG doc N2068 (Page 22). A zero value for any\n\
-#BAP indicates a body in default position.\n\
-#Example:\n\
-#<frame number> <pelvic_tilt><pelvic_torsion>...<l5tilt>\n\
-#Header description\n\
-*************************************************************/
+// gestures.hpp
+//
+// BAP file, by Tolga K. Capin (capin@lig.di.epfl.ch)
+// EPFL-LIG, Switzerland
+// March 23, 1999.
+//
+// Header description
+// Header record :
+//        Version number:3.0
+//        Sequence base name: note:body feature filename= <basename>.bff,
+//        video filename= <basename>.vid, separate image filenames=
+//        <basename>.nnnnn.img, audio filename= <basename>.aud,
+//        FAP filename = <basename>.fap, FDP filename = <basename>.fdp,
+//        BAP filename = <basename>.bap, BDP filename = <basename>.bdp
+//        Frame rate:     fps (note that this may be equal to the video field
+//        rate since interlace has no meaning here)
+//        Sequence length: Nframe
+// BAP mask: one 0 or 1 for each of the possible 169 BAPs (masked or unmasked) indicating
+// whether it is used. The BAP mask precedes each BAP data line on a separate line.
+// BAP data description
+// Each frame  is described as one line of integer BAP values starting with the
+// frame number. The BAP mask in the header indicates which
+// BAP groups are included. The 169 parameter values are defined
+// in MPEG doc N2068 (Page 22). A zero value for any
+// BAP indicates a body in default position.
+// Example:
+// <frame number> <pelvic_tilt><pelvic_torsion>...<l5tilt>
+// Header description
+//---------------------------------------------------------------------------
 #ifndef GESTURES_HPP
 #define GESTURES_HPP
 

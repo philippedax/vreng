@@ -18,30 +18,30 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*************************************************************************
-  Nombre: common3D.h      Version: 0.5                  Fecha: Abril-1996
-  Descripcion:
-     Funciones para la matematica de puntos en 3D, asi como la
-     definicion del estandar de putno flotante utilizado por la libreria
-     tambien se ecuentran las funciones para el manejo de color por RGB.
-  Tipos/Clases:
-     FPOINT    objeto de punto flotante.
-     Point3D   Punto en el espacio R3.
-     SRGB      Estructura para el manejo del espacio de color RGB.
-  Funciones:
-     Las funciones definidas en este modulo estan definidas por cada tipo
-     de objeto (ver mas adelantre en la definicion de cada uno).
-  Observaciones:
-     FPOINT corresponde al tipo estandar double, pero se puede modificar
-     facilmente a otro formato (p.ej. punto fijo para eficiencia, todo
-     programa que utilize la libreria al declarar una variable de punto
-     flotante deberia utilizar este objeto para consistencia.
-
-     SRGB corraponde al manjo del espacio RGB, pero por el momento este
-     equivale a un punto 3D (3 valores de tipo FPOINT), por lo tanto esta
-     clase se manipula por medio de las de la clase Point3D.
- Autor: Daniel Barrero                                  Fecha: Abril-1996
-**************************************************************************/
+// dxf.hpp
+//
+// Nombre: common3D.h      Version: 0.5                  Fecha: Abril-1996
+// Descripcion:
+//    Funciones para la matematica de puntos en 3D, asi como la
+//    definicion del estandar de putno flotante utilizado por la libreria
+//    tambien se ecuentran las funciones para el manejo de color por RGB.
+// Tipos/Clases:
+//    FPOINT    objeto de punto flotante.
+//    Point3D   Punto en el espacio R3.
+//    SRGB      Estructura para el manejo del espacio de color RGB.
+// Funciones:
+//    Las funciones definidas en este modulo estan definidas por cada tipo
+//    de objeto (ver mas adelantre en la definicion de cada uno).
+// Observaciones:
+//    FPOINT corresponde al tipo estandar double, pero se puede modificar
+//    facilmente a otro formato (p.ej. punto fijo para eficiencia, todo
+//    programa que utilize la libreria al declarar una variable de punto
+//    flotante deberia utilizar este objeto para consistencia.
+//    SRGB corraponde al manjo del espacio RGB, pero por el momento este
+//    equivale a un punto 3D (3 valores de tipo FPOINT), por lo tanto esta
+//    clase se manipula por medio de las de la clase Point3D.
+// Autor: Daniel Barrero                                  Fecha: Abril-1996
+//---------------------------------------------------------------------------
 #ifndef DXF_HPP
 #define DXF_HPP
 

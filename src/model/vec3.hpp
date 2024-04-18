@@ -18,14 +18,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//**************************************//
-// vec3.hpp				//
-//					//
-// Author (10/06/01) :                  //
-// Ben Humphrey, Game Programmer        //
-// DigiBen@GameTutorials.com            //
-// Co-Web Host of www.GameTutorials.com //
-//**************************************//
+// vec3.hpp
+//
+// Author (10/06/01) :
+// Ben Humphrey, Game Programmer - DigiBen@GameTutorials.com
+//---------------------------------------------------------------------------
 #ifndef VEC3_HPP
 #define VEC3_HPP
 

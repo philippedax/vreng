@@ -20,9 +20,9 @@
 //---------------------------------------------------------------------------
 // x3d.cpp
 //
-// X3D Loader
+// X3D Loader (eXtensible 3D)
 //
-// author: Marc Chambon
+// author: Pascal Chambon
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "x3d.hpp"

@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// x3d.hpp
+//---------------------------------------------------------------------------
 #ifndef X3D_HPP
 #define X3D_HPP
 

@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // ase.cpp
 //
-// ASE Loader
+// ASE Loader (Ascii Scene Export)
 //
 // Author (10/06/01) :
 // Ben Humphrey, Game Programmer

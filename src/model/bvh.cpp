@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // bvh.cpp
 //
-// bioviewer
+// BVH Loader (BioVision Hierarchy) - bioviewer
 // Copyright (C) 2002  Lucas Walter
 //
 // lucasw@u.washington.edu

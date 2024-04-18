@@ -18,7 +18,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-// * QUICK NOTES *
+// ase.hpp
+//
+// * quick notes *
 // This file holds the class and defines to load a .Ase file.  The .Ase file is
 // created by 3D Studio Max, but isn't as nice as the .3DS file format.
 //

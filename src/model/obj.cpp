@@ -20,6 +20,8 @@
 //---------------------------------------------------------------------------
 // obj.cpp
 //
+// OBJ Loader (WaveFront Object)
+//
 // Author (10/06/01) : Ben Humphrey, Game Programmer
 // DigiBen@GameTutorials.com
 //

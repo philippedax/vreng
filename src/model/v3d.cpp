@@ -20,13 +20,14 @@
 //---------------------------------------------------------------------------
 // v3d.cpp
 //
+// V3D Loader
+//
 // Author   : This file has been written by Yann Renard
 // Copyright: This file is totaly free and you may distribute
 //            it to anyone you want, without modifying this
 //            header. If you use it in a commercial project (?)
 //            or in bigger project (!), I would be glad to know about it :) Please mail me...
-//            be glad to know about it, please mail me
-//            myself_yr@hotmail.com
+//            be glad to know about it, please mail me  myself_yr@hotmail.com
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "v3d.hpp"

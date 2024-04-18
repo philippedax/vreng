@@ -18,20 +18,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//**************************************//
-// 3ds.cpp                              //
-//                                      //
-// 3DS Loader				//
-//					//
-// Author :                             //
-// Ben Humphrey, Game Programmer        //
-// DigiBen@GameTutorials.com            //
-// Co-Web Host of www.GameTutorials.com //
-//                                      //
-// Vreng port :                         //
-// Romain Piegay                        //
-// piegaro.free.fr/piegaropro           //
-//***************************************//
+// 3ds.cpp 
+//
+// 3DS Loader (3DS MAX)
+//
+// Author : Ben Humphrey, Game Programmer - DigiBen@GameTutorials.com
+//
+// Vreng port :
+// Romain Piegay - piegaro.free.fr/piegaropro
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "3ds.hpp"
 #include "http.hpp"	// httpOpen

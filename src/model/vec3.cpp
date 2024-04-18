@@ -20,6 +20,8 @@
 //---------------------------------------------------------------------------
 // vec3.cpp
 //
+// Vectors operations
+//
 // Author (10/06/01) :
 // Ben Humphrey, Game Programmer
 // DigiBen@GameTutorials.com
