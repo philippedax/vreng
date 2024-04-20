@@ -25,22 +25,16 @@
 #include "vreng.hpp"
 #include "nsl.hpp"
 
-#ifndef AF_INET6
-#define AF_INET6 26
-#endif
-
 
 struct hostent * my_gethostbyname(const char *hostname, int af)
 {
 #if HAVE_GETIPNODEBYNAME
-
   return my_getipnodebyname(hostname, af);
-
 #else //!HAVE_GETIPNODEBYNAME
-
   struct hostent *hptmp, *hp;
 
-  if ((hptmp = gethostbyname(hostname)) == NULL) return NULL;
+  if ((hptmp = gethostbyname(hostname)) == NULL)
+    return NULL;
 
   if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
     memcpy(hp, hptmp, sizeof(struct hostent));
@@ -51,26 +45,26 @@ struct hostent * my_gethostbyname(const char *hostname, int af)
 struct hostent * my_gethostbyname_r(const char *hostname, int af)
 {
 #if HAVE_GETIPNODEBYNAME
-
   struct hostent *hp = my_getipnodebyname(hostname, af);
   return hp;
-
 #else //!HAVE_GETIPNODEBYNAME
-
   struct hostent *hptmp = NULL, *hp;
-
 #if HAVE_GETHOSTBYNAME_R
+  struct hostent ret;
   struct hostent result;
+  int r;
   int err;
   char buf[512];
 
-  hptmp = gethostbyname_r(hostname, &result, buf, sizeof(buf), &hptmp, &err);
-
+  r = gethostbyname_r(hostname, &ret, buf, sizeof(buf), &result, &err);
+  if (r == 0)
+    return result;
+  else
+    return NULL;
 #else //!HAVE_GETHOSTBYADDR_R
   hptmp = gethostbyname(hostname);
 #endif
 
-  if (! hptmp) return NULL;
   if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
     memcpy(hp, hptmp, sizeof(struct hostent));
   return hp;
@@ -177,7 +171,6 @@ struct hostent * my_gethostbyaddr_r(const char *addr, int af)
 #if HAVE_GETIPNODEBYADDR
   return my_getipnodebyaddr(addr, af);
 #else //!HAVE_GETIPNODEBYADDR
-
   struct hostent *hptmp = NULL, *hp;
 
 #if HAVE_GETHOSTBYADDR_R
@@ -230,4 +223,4 @@ struct servent * my_getservbyname_r(const char *service)
     memcpy(sp, sptmp, sizeof(struct servent));
   return sp;
 }
-#endif //notused
+#endif //notused -------------------------------------------------------------

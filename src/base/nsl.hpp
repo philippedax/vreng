@@ -23,6 +23,11 @@
 #ifndef NSL_HPP
 #define NSL_HPP
 
+#ifndef AF_INET6
+#define AF_INET6 26
+#endif
+
+
 struct hostent * my_gethostbyname(const char *hostname, int af);
 struct hostent * my_gethostbyname_r(const char *hostname, int af);
 struct hostent * my_getipnodebyname(const char *hostname, int af);
