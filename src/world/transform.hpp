@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// transform.hpp
+//---------------------------------------------------------------------------
 #ifndef TRANSFORM_HPP
 #define TRANSFORM_HPP
 
@@ -46,7 +48,6 @@ struct sOplist {
  * - either a transformation inside the local repere
  */
 class Transform: public WO {
-
  private:
   struct sOplist *opList;	///< list of operations
   struct sOplist *opl;		///< current pointer in the list of operations

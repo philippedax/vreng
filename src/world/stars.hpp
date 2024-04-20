@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// stars.hpp
+//---------------------------------------------------------------------------
 #ifndef STARS_HPP
 #define STARS_HPP
 
@@ -37,7 +39,6 @@ typedef struct {
  * Stars class
  */
 class Stars: public WO {
-
  private:
   static const uint16_t NUMBER;
   static const uint16_t MAXPOS;

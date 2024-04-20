@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// clip.hpp
+//---------------------------------------------------------------------------
 #ifndef CLIP_HPP
 #define CLIP_HPP
 
@@ -30,7 +32,6 @@
  * Clip class
  */
 class Clip: public WO {
-
  private:
   uint8_t fmt;		///< video format
   char url2[URL_LEN];	///< url where is video

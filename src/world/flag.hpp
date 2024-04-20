@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// flag.hpp
+//---------------------------------------------------------------------------
 #ifndef FLAG_HPP
 #define FLAG_HPP
 
@@ -32,7 +34,6 @@
  * Flag class
  */
 class Flag: public WO {
-
  private:
   GLfloat width;	///< width
   GLfloat height;	///< height

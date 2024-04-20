@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// halo.hpp
+//---------------------------------------------------------------------------
 #ifndef HALO_HPP
 #define HALO_HPP
 
@@ -31,7 +33,6 @@
  * Halo class
  */
 class Halo: public Cloth {
-
  protected:
   static GLfloat RI, RE;
   char strcolor[16];

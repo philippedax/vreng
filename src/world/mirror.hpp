@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// mirror.hpp
+//---------------------------------------------------------------------------
 #ifndef MIRROR_HPP
 #define MIRROR_HPP
 
@@ -30,7 +32,6 @@
  * Mirror class
  */
 class Mirror: public WO {
-
  public:
   /* properties */
   enum {

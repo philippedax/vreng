@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// accessory.hpp
+//---------------------------------------------------------------------------
 #ifndef ACCESSORY_HPP
 #define ACCESSORY_HPP
 
@@ -32,7 +34,7 @@
  */
 class Accessory: public Cloth {
 
-public:
+ public:
   static const OClass oclass;	///< class variable.
 
   const OClass* getOClass() {return &oclass;}
@@ -50,7 +52,7 @@ public:
   void quit();
   /**< Quits. */
 
-private:
+ private:
   static const float LSPEED;    ///< linear speed
 
   bool following;

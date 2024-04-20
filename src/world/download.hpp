@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// download.hpp
+//---------------------------------------------------------------------------
 #ifndef DOWNLOAD_HPP
 #define DOWNLOAD_HPP
 
@@ -31,7 +33,6 @@
  * Download class
  */
 class Download: public WO {
-
  public:
   static const OClass oclass;	///< class variable
 

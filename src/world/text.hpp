@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// text.hpp
+//---------------------------------------------------------------------------
 #ifndef TEXT_HPP
 #define TEXT_HPP
 
@@ -32,7 +34,6 @@
  * Text class
  */
 class Text: public WO {
-
  protected:
   static const float RATIO_SCALE;	///< default scale ratio.
   static const uint16_t MAXLEN;		///< max lenght of text.

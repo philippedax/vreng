@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// escalator.hpp
+//---------------------------------------------------------------------------
 #ifndef ESCALATOR_HPP
 #define ESCALATOR_HPP
 
@@ -31,7 +33,6 @@
  * Escalator class
  */
 class Escalator: public Step {
-
  private:
   bool on;	///< running or pause
 

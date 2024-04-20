@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// world.hpp
+//---------------------------------------------------------------------------
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
@@ -31,7 +33,6 @@ using namespace std;
  * World class
  */
 class World {
-
  private:
   static class World * worldList;
 

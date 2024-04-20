@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// light.hpp
+//---------------------------------------------------------------------------
 #ifndef LIGHT_HPP
 #define LIGHT_HPP
 
@@ -32,7 +34,6 @@
  * Light class
  */
 class Light: public WO {
-
  private:
   GLfloat light_position[4];
   GLfloat light_ambient[4];

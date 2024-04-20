@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// ball.hpp
+//---------------------------------------------------------------------------
 #ifndef BALL_HPP
 #define BALL_HPP
 
@@ -33,7 +35,6 @@
  * Ball class
  */
 class Ball: public WO {
-
  private:
   float lspeed;		///< horizontal speed in xy
   float zspeed;		///< vertical speed

@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// water.hpp
+//---------------------------------------------------------------------------
 #ifndef WATER_HPP
 #define WATER_HPP
 
@@ -31,7 +33,6 @@
  * Water class
  */
 class Water: public WO {
-
  private:
   //static const uint16_t RATE;
   static const float MAX_OFF;

@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// thunder.hpp
+//---------------------------------------------------------------------------
 #ifndef THUNDER_HPP
 #define THUNDER_HPP
 
@@ -35,7 +37,6 @@ typedef struct {
  * Thunder class
  */
 class Thunder: public WO {
-
  private:
   static const uint16_t NUMBER;		///< number of simultaneous thunders
   static const float PERIOD;		///< period en sec

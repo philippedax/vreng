@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// river.hpp
+//---------------------------------------------------------------------------
 #ifndef RIVER_HPP
 #define RIVER_HPP
 
@@ -30,7 +32,6 @@
  * River class
  */
 class River: public WO {
-
  protected:
   static const uint8_t DEF_WAVES;
   static const float DEF_WIDTH;

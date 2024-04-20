@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// clock.hpp
+//---------------------------------------------------------------------------
 #ifndef CLOCK_HPP
 #define CLOCK_HPP
 
@@ -31,7 +33,6 @@
  * Clock class
  */
 class Clock: public WO {
-
  private:
   enum {
     SECOND,

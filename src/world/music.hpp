@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// music.hpp
+//---------------------------------------------------------------------------
 #ifndef MUSIC_HPP
 #define MUSIC_HPP
 
@@ -31,7 +33,6 @@
  * Music class
  */
 class Music: public WO {
-
  private:
   uint8_t fmt;		///< audio format
   bool repeat;		///< repeat flag

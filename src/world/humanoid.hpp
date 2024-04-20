@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// humanoid.hpp
+//---------------------------------------------------------------------------
 #ifndef HUMANOID_HPP
 #define HUMANOID_HPP
 
@@ -31,7 +33,6 @@
  * Humanoid class
  */
 class Humanoid: public WO {
-
  private:
   // VAPS values
   static const uint16_t VAPS_BUFSIZ = 8192;	///< buffer line.

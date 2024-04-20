@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// dart.hpp
+//---------------------------------------------------------------------------
 #ifndef DART_HPP
 #define DART_HPP
 
@@ -34,7 +36,6 @@ class User;
  * Dart class
  */
 class Dart: public Projectile {
-
  private:
   static const float LSPEED;
   static const float TTL;

@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// movie.hpp
+//---------------------------------------------------------------------------
 #ifndef MOVIE_HPP
 #define MOVIE_HPP
 
@@ -38,7 +40,6 @@
  * Movie class
  */
 class Movie: public WO {
-
  private:
   static const float FPS;	///< max number of frames decoded per rendering
   static const float DEF_PROJ;	///< distance between projector and screen

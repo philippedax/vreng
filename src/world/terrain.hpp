@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// terrain.hpp
+//---------------------------------------------------------------------------
 #ifndef TERRAIN_HPP
 #define TERRAIN_HPP
 
@@ -32,7 +34,6 @@ typedef struct {GLfloat x; GLfloat y; GLfloat z;} nVect;
  * Terrain class
  */
 class Terrain: public WO {
-
  protected:
   static const uint8_t DEF_LEVEL;
   static const GLfloat DEF_WIDTH;

@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// face.hpp
+//---------------------------------------------------------------------------
 #ifndef FACE_HPP
 #define FACE_HPP
 
@@ -33,7 +35,6 @@
  * Face class
  */
 class Face: public WO {
-
  protected:
   bool visible;
   uint8_t model_e;			///< types of model

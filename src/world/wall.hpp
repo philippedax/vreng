@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// wall.hpp
+//---------------------------------------------------------------------------
 #ifndef WALL_HPP
 #define WALL_HPP
 
@@ -31,7 +33,6 @@
  * Wall class
  */
 class Wall: public WO {
-
  public:
   static const uint8_t props;
 

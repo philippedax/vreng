@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// model.hpp
+//---------------------------------------------------------------------------
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
@@ -31,7 +33,6 @@
  * Model class
  */
 class Model: public WO {
-
  private:
   static const float DEF_SCALE; ///< default scale
 

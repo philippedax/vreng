@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// particle.hpp
+//---------------------------------------------------------------------------
 #ifndef PARTICLE_HPP
 #define PARTICLE_HPP
 
@@ -41,7 +43,6 @@ typedef struct {
  * Particle class
  */
 class Particle: public WO {
-
  protected:
   static const uint16_t DEF_NUM;
   static const float DEF_FLOW;

@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// vrelet.hpp
+//---------------------------------------------------------------------------
 #ifndef VRELET_HPP
 #define VRELET_HPP
 
@@ -51,7 +53,6 @@ typedef struct _Object2D {
  */
 class Vrelet: public WO {
  public:
-
   int incrx, incry;		///< increments x y
   float fx, fy;			///< ratios x y
   char app[VRELET_NAME_LEN];	///< class name

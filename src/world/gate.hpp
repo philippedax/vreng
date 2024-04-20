@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// gate.hpp
+//---------------------------------------------------------------------------
 #ifndef GATE_HPP
 #define GATE_HPP
 
@@ -31,7 +33,6 @@
  * Gate class
  */
 class Gate: public WO {
-
  private:
   bool automatic;	///< flag automatic enter
   bool flagentry;	///< flag entry

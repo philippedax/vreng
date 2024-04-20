@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// sun.hpp
+//---------------------------------------------------------------------------
 #ifndef SUN_HPP
 #define SUN_HPP
 
@@ -30,7 +32,6 @@
  * Sun class
  */
 class Sun: public WO {
-
  protected:
   static const GLfloat DEF_RADIUS;
   static const GLfloat light_pos[4];

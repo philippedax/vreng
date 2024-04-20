@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// lift.hpp
+//---------------------------------------------------------------------------
 #ifndef LIFT_HPP
 #define LIFT_HPP
 
@@ -31,7 +33,6 @@
  * Lift class
  */
 class Lift: public WO {
-
  private:
   static const int DEF_TOP;
   static const int DEF_BOT;

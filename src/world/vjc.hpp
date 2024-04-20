@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// vjc.hpp
+//---------------------------------------------------------------------------
 #ifndef VJC_HPP
 #define VJC_HPP
 
@@ -41,7 +43,6 @@
 //	vjs/base/fr/enst/vreng/data/messages/DrawMessage.java
 //	vjs/base/fr/enst/vreng/data/messages/PosMessage.java
 //	vjs/base/fr/enst/vreng/data/messages/QueryMessage.java
-//
 
 // Message types
 #define VJC_MSGT_CTRL		0

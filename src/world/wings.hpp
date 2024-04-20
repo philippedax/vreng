@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// wings.hpp
+//---------------------------------------------------------------------------
 #ifndef WINGS_HPP
 #define WINGS_HPP
 
@@ -37,7 +39,6 @@ struct sWings {
  * Wings class
  */
 class Wings: public WO {
-
  private:
   bool taken;                           ///< bool taken by avatar
   float ttl;                            ///< time to live with avatar

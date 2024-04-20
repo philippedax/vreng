@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// aoi.hpp
+//---------------------------------------------------------------------------
 #ifndef AOI_HPP
 #define AOI_HPP
 
@@ -35,10 +37,6 @@
  */
 class Aoi: public WO {
  private:
-#if 0
-  static Aoi *current;	///< points to current AoI where local user is in
-#endif
-
   char chan[CHAN_LEN];	///< aoi mcast channel string
 
  public:
@@ -85,7 +83,6 @@ class Aoi: public WO {
 
   void inits();
   /**< Sets initializations. */
-
 };
 
 extern Aoi *currentAoi;

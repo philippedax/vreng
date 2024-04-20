@@ -18,6 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// walls.hpp
+//---------------------------------------------------------------------------
 #ifndef WALLS_HPP
 #define WALLS_HPP
 
@@ -31,7 +33,6 @@
  * Walls class
  */
 class Walls: public WO {
-
  private:
   float xs, xe;		///< pos x start, end
   float ys, ye;		///< pos y start, end
