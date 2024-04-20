@@ -48,21 +48,18 @@ struct hostent * my_gethostbyname_r(const char *hostname, int af)
   struct hostent *hp = my_getipnodebyname(hostname, af);
   return hp;
 #else //!HAVE_GETIPNODEBYNAME
-  struct hostent *hptmp = NULL, *hp;
+  struct hostent *hp;
 #if HAVE_GETHOSTBYNAME_R
   struct hostent ret;
-  struct hostent result;
-  int r;
   int err;
   char buf[512];
 
-  r = gethostbyname_r(hostname, &ret, buf, sizeof(buf), &result, &err);
-  if (r == 0)
-    return result;
+  if (gethostbyname_r(hostname, &ret, buf, sizeof(buf), &hp, &err) == 0)
+    return hp;
   else
     return NULL;
 #else //!HAVE_GETHOSTBYADDR_R
-  hptmp = gethostbyname(hostname);
+  hp = gethostbyname(hostname);
 #endif
 
   if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
@@ -101,7 +98,6 @@ struct hostent * my_gethostbyaddr(const char *addr, int af)
 #if HAVE_GETIPNODEBYADDR
   return my_getipnodebyaddr(addr, af);
 #else //!HAVE_GETIPNODEBYADDR
-
   struct hostent *hptmp, *hp;
 
   if ((hptmp = gethostbyaddr(addr, sizeof(struct in_addr), af)) == NULL)
