@@ -263,7 +263,8 @@ httpretry:
     }
     else {		// normal
       // resolve hostname
-      if ((hp = my_gethostbyname_r(host, AF_INET)) == NULL) {
+      //dax if ((hp = my_gethostbyname_r(host, AF_INET)) == NULL) {
+      if ((hp = my_gethostbyname(host, AF_INET)) == NULL) {
         err = -BADNAME;	// not resolved
       }
       if (! strcmp(scheme, "http")) {
