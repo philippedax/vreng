@@ -42,7 +42,7 @@ struct hostent * my_gethostbyname(const char *hostname, int af)
 
   if ((hptmp = gethostbyname(hostname)) == NULL) return NULL;
 
-  if ((hp =  static_cast<struct hostent *>)malloc(sizeof(struct hostent)))) != NULL)
+  if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
     memcpy(hp, hptmp, sizeof(struct hostent));
   return hp;
 #endif
@@ -64,14 +64,14 @@ struct hostent * my_gethostbyname_r(const char *hostname, int af)
   int err;
   char buf[512];
 
-  hptmp = gethostbyname_r(hostname, &result, buf, sizeof(buf), &err);
+  hptmp = gethostbyname_r(hostname, &result, buf, sizeof(buf), &hptmp, &err);
 
 #else //!HAVE_GETHOSTBYADDR_R
   hptmp = gethostbyname(hostname);
 #endif
 
   if (! hptmp) return NULL;
-  if ((hp =  static_cast<struct hostent *>(malloc(sizeof(struct hostent)))) != NULL)
+  if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
     memcpy(hp, hptmp, sizeof(struct hostent));
   return hp;
 #endif
@@ -110,8 +110,9 @@ struct hostent * my_gethostbyaddr(const char *addr, int af)
 
   struct hostent *hptmp, *hp;
 
-  if ((hptmp = gethostbyaddr(addr, sizeof(struct in_addr), af)) == NULL) return NULL;
-  if ((hp =  static_cast<struct hostent *>(malloc(sizeof(struct hostent)))) != NULL)
+  if ((hptmp = gethostbyaddr(addr, sizeof(struct in_addr), af)) == NULL)
+    return NULL;
+  if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
     memcpy(hp, hptmp, sizeof(struct hostent));
   return hp;
 #endif
@@ -190,8 +191,9 @@ struct hostent * my_gethostbyaddr_r(const char *addr, int af)
   hptmp = gethostbyaddr(addr, sizeof(struct in_addr), af);
 #endif
 
-  if (! hptmp) return NULL;
-  if ((hp =  static_cast<struct hostent *>(malloc(sizeof(struct hostent)))) != NULL)
+  if (! hptmp)
+    return NULL;
+  if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
     memcpy(hp, hptmp, sizeof(struct hostent));
   return hp;
 #endif
@@ -201,8 +203,9 @@ struct servent * my_getservbyname(const char *service)
 {
   struct servent *sptmp, *sp;
 
-  if ((sptmp = getservbyname(service, NULL)) == NULL) return NULL;
-  if ((sp =  static_cast<struct servent *>(malloc(sizeof(struct servent)))) != NULL)
+  if ((sptmp = getservbyname(service, NULL)) == NULL)
+    return NULL;
+  if ((sp =  static_cast<struct servent *> (malloc(sizeof(struct servent)))) != NULL)
     memcpy(sp, sptmp, sizeof(struct servent));
   return sp;
 }
@@ -221,8 +224,9 @@ struct servent * my_getservbyname_r(const char *service)
   sptmp = getservbyname(service, NULL);
 #endif
 
-  if (! sptmp) return NULL;
-  if ((sp =  static_cast<struct servent *>(malloc(sizeof(struct servent)))) != NULL)
+  if (! sptmp)
+    return NULL;
+  if ((sp =  static_cast<struct servent *> (malloc(sizeof(struct servent)))) != NULL)
     memcpy(sp, sptmp, sizeof(struct servent));
   return sp;
 }
