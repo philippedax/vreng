@@ -26,27 +26,24 @@
 #include "nsl.hpp"
 
 
+/** my_gethostbyname */
 struct hostent * my_gethostbyname(const char *hostname, int af)
 {
 #if HAVE_GETIPNODEBYNAME
   return my_getipnodebyname(hostname, af);
 #else //!HAVE_GETIPNODEBYNAME
-  static struct hostent *hp;
-
-  hp = gethostbyname(hostname);
-  return hp;
+  return gethostbyname(hostname);
 #endif
 }
 
+/** my_gethostbyname_r */
 struct hostent * my_gethostbyname_r(const char *hostname, int af)
 {
-  static struct hostent *hp;
-
 #if HAVE_GETIPNODEBYNAME
-  hp = my_getipnodebyname(hostname, af);
-  return hp;
+  return my_getipnodebyname(hostname, af);
 #else //!HAVE_GETIPNODEBYNAME
 #if HAVE_GETHOSTBYNAME_R
+  static struct hostent *hp;
   struct hostent ret;
   int err;
   char buf[512];
@@ -56,55 +53,53 @@ struct hostent * my_gethostbyname_r(const char *hostname, int af)
   else
     return NULL;
 #else //!HAVE_GETHOSTBYADDR_R
-  hp = gethostbyname(hostname);
+  return gethostbyname(hostname);
 #endif //HAVE_GETHOSTBYNAME_R
-  return hp;
 #endif
 }
 
+/** my_getipnodebyname */
 struct hostent * my_getipnodebyname(const char *hostname, int af)
 {
 #if HAVE_GETIPNODEBYNAME
   int err;
 
-  struct hostent *hp = getipnodebyname(hostname, af, AI_DEFAULT, &err);
-  return hp;
+  return getipnodebyname(hostname, af, AI_DEFAULT, &err);
 #else //!HAVE_GETIPNODEBYNAME
   return NULL;
 #endif
 }
 
+/** my_getipnodebyaddr */
 struct hostent * my_getipnodebyaddr(const char *addr, int af)
 {
 #if HAVE_GETIPNODEBYADDR
   int err;
-
   unsigned int len = (af == AF_INET) ? 4 : 16;
-  struct hostent *hp = getipnodebyaddr(addr, len, af, &err);
-  return hp;
+
+  return getipnodebyaddr(addr, len, af, &err);
 #else //!HAVE_GETIPNODEBYADDR
   return NULL;
 #endif
 }
 
+/** my_gethostbyaddr */
 struct hostent * my_gethostbyaddr(const char *addr, int af)
 {
 #if HAVE_GETIPNODEBYADDR
   return my_getipnodebyaddr(addr, af);
 #else //!HAVE_GETIPNODEBYADDR
-  static struct hostent *hp;
-
-  hp = gethostbyaddr(addr, sizeof(struct in_addr), af);
-  return hp;
+  return gethostbyaddr(addr, sizeof(struct in_addr), af);
 #endif
 }
 
-void my_free_hostent(struct hostent *hp)
+/** my_free_hostent */
+void my_free_hostent(struct hostent *_hp)
 {
 #if HAVE_FREEHOSTENT
-  if (hp) freehostent(hp);
+  if (_hp) freehostent(_hp);
 #else
-    free(hp);
+  free(_hp);
 #endif
 }
 
@@ -131,21 +126,25 @@ int my_inet_pton(int af, const char *name, void *addr)
 #endif
 }
 
+/** inet4_ntop */
 const char * inet4_ntop(const void *addr)
 {
   return my_inet_ntop(AF_INET, addr);
 }
 
+/** inet4_pton */
 int inet4_pton(const char *name, void *addr)
 {
   return my_inet_pton(AF_INET, name, addr);
 }
 
+/** inet6_ntop */
 const char * inet6_ntop(const void *addr)
 {
   return my_inet_ntop(AF_INET6, addr);
 }
 
+/** inet6_pton */
 int inet6_pton(const char *name, void *addr)
 {
   return my_inet_pton(AF_INET6, name, addr);
@@ -160,13 +159,16 @@ struct hostent * my_gethostbyaddr_r(const char *addr, int af)
   return my_getipnodebyaddr(addr, af);
 #else //!HAVE_GETIPNODEBYADDR
 #if HAVE_GETHOSTBYADDR_R
-  struct hostent result;
+  struct hostent ret;
   int err;
   char buf[512];
 
-  hp = gethostbyaddr_r(addr, sizeof(struct in_addr), af, &result, buf, sizeof(buf), &err);
+  if (!gethostbyaddr_r(addr, sizeof(struct in_addr), af, &ret, buf, sizeof(buf), &err))
+    return ret;
+  else
+    return NULL;
 #else //!HAVE_GETHOSTBYADDR_R
-  hp = gethostbyaddr(addr, sizeof(struct in_addr), af);
+  return gethostbyaddr(addr, sizeof(struct in_addr), af);
 #endif
   return hp;
 #endif
@@ -174,24 +176,18 @@ struct hostent * my_gethostbyaddr_r(const char *addr, int af)
 
 struct servent * my_getservbyname(const char *service)
 {
-  static struct servent *sp;
-
-  sp = getservbyname(service, NULL);
-  return sp;
+  return getservbyname(service, NULL);
 }
 
 struct servent * my_getservbyname_r(const char *service)
 {
-  static struct servent *sp;
-
 #if HAVE_GETSERVBYNAME_R
   struct servent s_r;
   char buf[512];
 
-  sp = getservbyname_r(service, NULL, &s_r, buf, sizeof(buf));
+  return getservbyname_r(service, NULL, &s_r, buf, sizeof(buf));
 #else //!HAVE_GETSERVBYNAME_R
-  sp = getservbyname(service, NULL);
+  return getservbyname(service, NULL);
 #endif
-  return sp;
 }
 #endif //notused -------------------------------------------------------------
