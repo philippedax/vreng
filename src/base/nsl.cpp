@@ -70,29 +70,6 @@ struct hostent * my_getipnodebyname(const char *hostname, int af)
 #endif
 }
 
-/** my_getipnodebyaddr */
-struct hostent * my_getipnodebyaddr(const char *addr, int af)
-{
-#if HAVE_GETIPNODEBYADDR
-  int err;
-  unsigned int len = (af == AF_INET) ? 4 : 16;
-
-  return getipnodebyaddr(addr, len, af, &err);
-#else //!HAVE_GETIPNODEBYADDR
-  return NULL;
-#endif
-}
-
-/** my_gethostbyaddr */
-struct hostent * my_gethostbyaddr(const char *addr, int af)
-{
-#if HAVE_GETIPNODEBYADDR
-  return my_getipnodebyaddr(addr, af);
-#else //!HAVE_GETIPNODEBYADDR
-  return gethostbyaddr(addr, sizeof(struct in_addr), af);
-#endif
-}
-
 /** my_free_hostent */
 void my_free_hostent(struct hostent *_hp)
 {
@@ -106,9 +83,9 @@ void my_free_hostent(struct hostent *_hp)
 /** inet_ntop, inet_ntoa */
 const char * my_inet_ntop(int af, const void *addr)
 {
+#if HAVE_INET_NTOP
   char dst[MAXHOSTNAMELEN];
 
-#if HAVE_INET_NTOP
   return inet_ntop(af, addr, dst, sizeof(dst));
 #else
   return inet_ntoa((struct in_addr &) addr);
@@ -138,19 +115,30 @@ int inet4_pton(const char *name, void *addr)
   return my_inet_pton(AF_INET, name, addr);
 }
 
-/** inet6_ntop */
-const char * inet6_ntop(const void *addr)
-{
-  return my_inet_ntop(AF_INET6, addr);
-}
-
-/** inet6_pton */
-int inet6_pton(const char *name, void *addr)
-{
-  return my_inet_pton(AF_INET6, name, addr);
-}
-
 #if 0 //notused -------------------------------------------------------------
+/** my_getipnodebyaddr */
+struct hostent * my_getipnodebyaddr(const char *addr, int af)
+{
+#if HAVE_GETIPNODEBYADDR
+  int err;
+  unsigned int len = (af == AF_INET) ? 4 : 16;
+
+  return getipnodebyaddr(addr, len, af, &err);
+#else //!HAVE_GETIPNODEBYADDR
+  return NULL;
+#endif
+}
+
+/** my_gethostbyaddr */
+struct hostent * my_gethostbyaddr(const char *addr, int af)
+{
+#if HAVE_GETIPNODEBYADDR
+  return my_getipnodebyaddr(addr, af);
+#else //!HAVE_GETIPNODEBYADDR
+  return gethostbyaddr(addr, sizeof(struct in_addr), af);
+#endif
+}
+
 struct hostent * my_gethostbyaddr_r(const char *addr, int af)
 {
   static struct hostent *hp;
@@ -189,5 +177,17 @@ struct servent * my_getservbyname_r(const char *service)
 #else //!HAVE_GETSERVBYNAME_R
   return getservbyname(service, NULL);
 #endif
+}
+
+/** inet6_ntop */
+const char * inet6_ntop(const void *addr)
+{
+  return my_inet_ntop(AF_INET6, addr);
+}
+
+/** inet6_pton */
+int inet6_pton(const char *name, void *addr)
+{
+  return my_inet_pton(AF_INET6, name, addr);
 }
 #endif //notused -------------------------------------------------------------

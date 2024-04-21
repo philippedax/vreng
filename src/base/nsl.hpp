@@ -31,15 +31,15 @@
 struct hostent * my_gethostbyname(const char *hostname, int af);
 struct hostent * my_gethostbyname_r(const char *hostname, int af);
 struct hostent * my_getipnodebyname(const char *hostname, int af);
-struct hostent * my_getipnodebyaddr(const char *hostaddr, int af);
 void my_free_hostent(struct hostent *hp);
 const char * my_inet_ntop(int af, const void *addr);
 const char * inet4_ntop(const void *addr);
-const char * inet6_ntop(const void *addr);
 int my_inet_pton(int af, const char *name, void *addr);
 int inet4_pton(const char *name, void *addr);
-int inet6_pton(const char *name, void *addr);
 
+//notused struct hostent * my_getipnodebyaddr(const char *hostaddr, int af);
+//notused const char * inet6_ntop(const void *addr);
+//notused int inet6_pton(const char *name, void *addr);
 //notused struct hostent * my_gethostbyaddr(const char *hostaddr, int af);
 //notused struct hostent * my_gethostbyaddr_r(const char *hostaddr, int af);
 //notused struct servent * my_getservbyname(const char *servname);
