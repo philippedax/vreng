@@ -61,13 +61,9 @@ struct hostent * my_gethostbyname_r(const char *hostname, int af)
 /** my_getipnodebyname */
 struct hostent * my_getipnodebyname(const char *hostname, int af)
 {
-#if HAVE_GETIPNODEBYNAME
   int err;
 
   return getipnodebyname(hostname, af, AI_DEFAULT, &err);
-#else //!HAVE_GETIPNODEBYNAME
-  return NULL;
-#endif
 }
 
 /** my_free_hostent */
