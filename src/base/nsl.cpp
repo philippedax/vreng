@@ -31,24 +31,21 @@ struct hostent * my_gethostbyname(const char *hostname, int af)
 #if HAVE_GETIPNODEBYNAME
   return my_getipnodebyname(hostname, af);
 #else //!HAVE_GETIPNODEBYNAME
-  struct hostent *hptmp, *hp;
+  static struct hostent *hp;
 
-  if ((hptmp = gethostbyname(hostname)) == NULL)
-    return NULL;
-
-  if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
-    memcpy(hp, hptmp, sizeof(struct hostent));
+  hp = gethostbyname(hostname);
   return hp;
 #endif
 }
 
 struct hostent * my_gethostbyname_r(const char *hostname, int af)
 {
+  static struct hostent *hp;
+
 #if HAVE_GETIPNODEBYNAME
-  struct hostent *hp = my_getipnodebyname(hostname, af);
+  hp = my_getipnodebyname(hostname, af);
   return hp;
 #else //!HAVE_GETIPNODEBYNAME
-  struct hostent *hp;
 #if HAVE_GETHOSTBYNAME_R
   struct hostent ret;
   int err;
@@ -60,10 +57,7 @@ struct hostent * my_gethostbyname_r(const char *hostname, int af)
     return NULL;
 #else //!HAVE_GETHOSTBYADDR_R
   hp = gethostbyname(hostname);
-#endif
-
-  if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
-    memcpy(hp, hptmp, sizeof(struct hostent));
+#endif //HAVE_GETHOSTBYNAME_R
   return hp;
 #endif
 }
@@ -98,12 +92,9 @@ struct hostent * my_gethostbyaddr(const char *addr, int af)
 #if HAVE_GETIPNODEBYADDR
   return my_getipnodebyaddr(addr, af);
 #else //!HAVE_GETIPNODEBYADDR
-  struct hostent *hptmp, *hp;
+  static struct hostent *hp;
 
-  if ((hptmp = gethostbyaddr(addr, sizeof(struct in_addr), af)) == NULL)
-    return NULL;
-  if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
-    memcpy(hp, hptmp, sizeof(struct hostent));
+  hp = gethostbyaddr(addr, sizeof(struct in_addr), af);
   return hp;
 #endif
 }
@@ -120,9 +111,9 @@ void my_free_hostent(struct hostent *hp)
 /** inet_ntop, inet_ntoa */
 const char * my_inet_ntop(int af, const void *addr)
 {
-#if HAVE_INET_NTOP
   char dst[MAXHOSTNAMELEN];
 
+#if HAVE_INET_NTOP
   return inet_ntop(af, addr, dst, sizeof(dst));
 #else
   return inet_ntoa((struct in_addr &) addr);
@@ -161,62 +152,46 @@ int inet6_pton(const char *name, void *addr)
 }
 
 #if 0 //notused -------------------------------------------------------------
-
 struct hostent * my_gethostbyaddr_r(const char *addr, int af)
 {
+  static struct hostent *hp;
+
 #if HAVE_GETIPNODEBYADDR
   return my_getipnodebyaddr(addr, af);
 #else //!HAVE_GETIPNODEBYADDR
-  struct hostent *hptmp = NULL, *hp;
-
 #if HAVE_GETHOSTBYADDR_R
   struct hostent result;
   int err;
   char buf[512];
 
-  hptmp = gethostbyaddr_r(addr, sizeof(struct in_addr), af, &result, buf, sizeof(buf), &err);
-
+  hp = gethostbyaddr_r(addr, sizeof(struct in_addr), af, &result, buf, sizeof(buf), &err);
 #else //!HAVE_GETHOSTBYADDR_R
-  hptmp = gethostbyaddr(addr, sizeof(struct in_addr), af);
+  hp = gethostbyaddr(addr, sizeof(struct in_addr), af);
 #endif
-
-  if (! hptmp)
-    return NULL;
-  if ((hp =  static_cast<struct hostent *> (malloc(sizeof(struct hostent)))) != NULL)
-    memcpy(hp, hptmp, sizeof(struct hostent));
   return hp;
 #endif
 }
 
 struct servent * my_getservbyname(const char *service)
 {
-  struct servent *sptmp, *sp;
+  static struct servent *sp;
 
-  if ((sptmp = getservbyname(service, NULL)) == NULL)
-    return NULL;
-  if ((sp =  static_cast<struct servent *> (malloc(sizeof(struct servent)))) != NULL)
-    memcpy(sp, sptmp, sizeof(struct servent));
+  sp = getservbyname(service, NULL);
   return sp;
 }
 
 struct servent * my_getservbyname_r(const char *service)
 {
-  struct servent *sptmp = NULL, *sp;
+  static struct servent *sp;
 
 #if HAVE_GETSERVBYNAME_R
   struct servent s_r;
   char buf[512];
 
-  sptmp = getservbyname_r(service, NULL, &s_r, buf, sizeof(buf));
-
+  sp = getservbyname_r(service, NULL, &s_r, buf, sizeof(buf));
 #else //!HAVE_GETSERVBYNAME_R
-  sptmp = getservbyname(service, NULL);
+  sp = getservbyname(service, NULL);
 #endif
-
-  if (! sptmp)
-    return NULL;
-  if ((sp =  static_cast<struct servent *> (malloc(sizeof(struct servent)))) != NULL)
-    memcpy(sp, sptmp, sizeof(struct servent));
   return sp;
 }
 #endif //notused -------------------------------------------------------------
