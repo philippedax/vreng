@@ -51,7 +51,7 @@ struct hostent * my_gethostbyname(const char *hostname, int af)
 //in_addrs.push_back(NULL);
 //
 //struct hostent *hp = static_cast<struct hostent *> (malloc(sizeof(struct hostent)));
-//hp->h_name = p_addrs->ai_canonname;
+//hp->h_name = p_addrs->ai_canonname;	// CRASH access ai !!! FIXME!
 //hp->h_aliases = NULL;
 //hp->h_addrtype = af;
 //hp->h_length = sizeof(in_addr);
