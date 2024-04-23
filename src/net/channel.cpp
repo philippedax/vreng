@@ -197,11 +197,12 @@ void Channel::decodeChan(const char *chan_str, uint32_t *group, uint16_t *port, 
 /** Channel naming */
 void Channel::namingId()
 {
-  char hostname[MAXHOSTNAMELEN];
-  gethostname(hostname, sizeof(hostname)-1);
+  //dax char hostname[MAXHOSTNAMELEN];
+  //dax gethostname(hostname, sizeof(hostname)-1);
+  //dax echo("hostname: %s", hostname);
 
   struct hostent *ph;
-  if ((ph = my_gethostbyname(hostname, AF_INET)) == NULL)  return;
+  if ((ph = my_gethostbyname("127.0.0.1", AF_INET)) == NULL)  return;
   struct in_addr *pa;
   if ((pa = (struct in_addr*) (ph->h_addr)) == NULL) {
     my_free_hostent(ph);
