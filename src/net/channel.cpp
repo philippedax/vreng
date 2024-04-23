@@ -199,17 +199,18 @@ void Channel::namingId()
 {
   //dax char hostname[MAXHOSTNAMELEN];
   //dax gethostname(hostname, sizeof(hostname)-1);
-  //dax echo("hostname: %s", hostname);
 
   struct hostent *ph;
-  if ((ph = my_gethostbyname("127.0.0.1", AF_INET)) == NULL)  return;
+  if ((ph = my_gethostbyname("127.0.0.1", AF_INET)) == NULL)
+    return;
+
   struct in_addr *pa;
   if ((pa = (struct in_addr*) (ph->h_addr)) == NULL) {
     my_free_hostent(ph);
     return;
   }
-  NetObj::setHost(pa->s_addr);
   my_free_hostent(ph);
+  NetObj::setHost(pa->s_addr);
 
   /* first packet to learn my_port_id */
   Payload pp;	// dummy payload
@@ -217,11 +218,11 @@ void Channel::namingId()
   pp.sendPayload(sa[SA_RTP]);	// needed for naming (port number)
 
 #if NEEDLOOPBACK
-  NetObj::setPort((uint16_t) (NetObj::getSsrc() & 0x00007FFF));
+  NetObj::setPort(static_cast<uint16_t> (NetObj::getSsrc() & 0x00007FFF));
 #else
   NetObj::setPort(Socket::getSrcPort(sd[SD_W_RTP]));
   if (NetObj::getPort() == 0)
-    NetObj::setPort((uint16_t) (NetObj::getSsrc()) & 0x00007FFF);
+    NetObj::setPort(static_cast<uint16_t> (NetObj::getSsrc()) & 0x00007FFF);
 #endif
 
   pp.sendPayload(sa[SA_RTCP]);	// needed for proxy (source port)
