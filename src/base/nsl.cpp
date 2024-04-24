@@ -30,43 +30,43 @@
 /** my_gethostbyname */
 struct hostent * my_gethostbyname(const char *hostname, int af)
 {
-#if HAVE_GETADDRINFO
-  struct addrinfo hints, *result;
-
-  memset(&hints, 0, sizeof(hints));
-  hints.ai_family = PF_UNSPEC;
-  hints.ai_socktype = SOCK_STREAM;
-  hints.ai_flags = 0;
-
-  int ret = getaddrinfo(hostname, "http", &hints, &result);
-  if (ret) {
-    error("addrinfo: %d %s - %s", ret, gai_strerror(ret), hostname);
-    //dax /*NOTREACHED*/
-  }
-
-  std::vector<in_addr*> in_addrs;
-  for (addrinfo *p_addr = result; p_addr != NULL; p_addr = p_addr->ai_next) {
-    in_addrs.push_back(&reinterpret_cast<sockaddr_in*> (p_addr->ai_addr)->sin_addr);
-  }
-  in_addrs.push_back(NULL);
-
-  struct hostent *hp = static_cast<struct hostent *> (malloc(sizeof(struct hostent)));
-  //dax hp->h_name = result->ai_canonname;	// CRASH access ai !!! FIXME!
-  hp->h_aliases = NULL;
-  hp->h_addrtype = af;
-  hp->h_length = sizeof(in_addr);
-  hp->h_addr_list = reinterpret_cast<char**> (&in_addrs[0]);
-
-  freeaddrinfo(result);
-  return hp;
-#else //!HAVE_GETADDRINFO
+//#if HAVE_GETADDRINFO
+//  struct addrinfo hints, *result;
+//
+//  memset(&hints, 0, sizeof(hints));
+//  hints.ai_family = PF_UNSPEC;
+//  hints.ai_socktype = SOCK_STREAM;
+//  hints.ai_flags = 0;
+//
+//  int ret = getaddrinfo(hostname, "http", &hints, &result);
+//  if (ret) {
+//    error("addrinfo: %d %s - %s", ret, gai_strerror(ret), hostname);
+//    //dax /*NOTREACHED*/
+//  }
+//
+//  std::vector<in_addr*> in_addrs;
+//  for (addrinfo *p_addr = result; p_addr != NULL; p_addr = p_addr->ai_next) {
+//    in_addrs.push_back(&reinterpret_cast<sockaddr_in*> (p_addr->ai_addr)->sin_addr);
+//  }
+//  in_addrs.push_back(NULL);
+//
+//  struct hostent *hp = static_cast<struct hostent *> (malloc(sizeof(struct hostent)));
+//  //dax hp->h_name = result->ai_canonname;	// CRASH access ai !!! FIXME!
+//  hp->h_aliases = NULL;
+//  hp->h_addrtype = af;
+//  hp->h_length = sizeof(in_addr);
+//  hp->h_addr_list = reinterpret_cast<char**> (&in_addrs[0]);
+//
+//  freeaddrinfo(result);
+//  return hp;
+//#else //!HAVE_GETADDRINFO
 
 #if HAVE_GETIPNODEBYNAME
   return my_getipnodebyname(hostname, af);
 #else //!HAVE_GETIPNODEBYNAME
   return gethostbyname(hostname);
 #endif
-#endif
+//#endif
 }
 
 /** my_gethostbyname_r */
