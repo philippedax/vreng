@@ -54,7 +54,6 @@
  * Vnc class
  */
 class Vnc : public WO {
-
  private:
   static const uint16_t VNC_PORT;
 
@@ -109,19 +108,16 @@ class Vnc : public WO {
 
  private:
   void parser(char *l);
-  /**< Parses */
+  /**< Parses vre lines */
 
   void defaults();
-  /**< Set the defaults */
+  /**< Set the default values */
 
   void getVncCoords(int16_t &x, int16_t &y);
   /**< Convert VReng screen coordinates to VNC screen coordinates */
 
   void setTexture(bool mipmap);
   /**< Build a texture */
-
-  void defaultPixmap();
-  /**< Build the default pixmap */
 
   void displayScreen();
   /**< Draw the screen */
@@ -130,8 +126,9 @@ class Vnc : public WO {
   /**< Build the screen */
 
   void connectServer();
+  /**< Connect to the Vnc server */
 
-  // GUI callbacks
+  // GUI callbacks actions
   static void takeFocus(Vnc *o, void *d, time_t s, time_t u);
   static void leaveFocus(Vnc *o, void *d, time_t s, time_t u);
   static void disconnectServer(Vnc *o, void *d, time_t s, time_t u);

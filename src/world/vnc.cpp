@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // vnc.cpp
 //
-// Virtual Networking Client
+// Virtual Network Computing object
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "vnc.hpp"
@@ -36,18 +36,18 @@ const OClass Vnc::oclass(VNC_TYPE, "Vnc", Vnc::creator);
 const uint16_t Vnc::VNC_PORT = DEF_VNC_PORT;
 
 
-/* Creation from a file */
+/** Creation from a file */
 WO * Vnc::creator(char *l)
 {
   return new Vnc(l);
 }
 
+/** Sets default values */
 void Vnc::defaults()
 {
   serverdefined = false;
   connected = false;
   focus = false;
-  def_pixmap = NULL;
   tex_pixmap = NULL;
   port = VNC_PORT;
 
@@ -58,11 +58,23 @@ void Vnc::defaults()
   tex_width = 4;
   tex_height = 3;
   glGenTextures(1, &texture);	// texture number given by OpenGL
-  defaultPixmap();
-  setTexture(0);	// without mipmaps
+
+  // set default pixmap
+  def_pixmap = new GLubyte[3 * tex_width * tex_height];
+
+  GLubyte *pix = def_pixmap;
+  for (int i=0; i < tex_width; i++) {
+    for (int j=0; j < tex_height; j++) {
+      *pix++ = 0;
+      *pix++ = 127;	// cyan
+      *pix++ = 127;
+    }
+  }
+  setTexture(0);		// without mipmaps
   u = v = 1.;
 }
 
+/** Parses the vre lines */
 void Vnc::parser(char *l)
 {
   char passwd[20];
@@ -72,15 +84,15 @@ void Vnc::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (!stringcmp(l, "server")) {
+    if (! stringcmp(l, "server")) {
       l = parseString(l, servername, "server");
       serverdefined = true;
     }
-    else if (!stringcmp(l, "port")) {
+    else if (! stringcmp(l, "port")) {
       l = parseUInt16(l, &port, "port");
       if (port == 0) port = VNC_PORT;
     }
-    else if (!stringcmp(l, "passwd")) {
+    else if (! stringcmp(l, "passwd")) {
       l = parseString(l, passwd, "passwd");
       passwd[8] = '\0';
     }
@@ -91,12 +103,11 @@ void Vnc::parser(char *l)
   vncEncryptAndStorePasswd(passwd, passwdfile);
 }
 
-/* Constructor */
+/** Constructor */
 Vnc::Vnc(char *l)
 {
   parser(l);
 
-  enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 
@@ -107,6 +118,7 @@ Vnc::Vnc(char *l)
   connectServer();
 }
 
+/** Builds the screen */
 void Vnc::buildScreen()
 {
   V3 dim;
@@ -136,59 +148,46 @@ void Vnc::buildScreen()
   vertices[ 9] = front;  vertices[10] = -width; vertices[11] = bot;
 }
 
-void Vnc::defaultPixmap()
-{
-  def_pixmap = new GLubyte[3 * tex_width * tex_height];
-
-  GLubyte *pix = tex_pixmap = def_pixmap;
-  for (int i=0; i < tex_width; i++) {
-    for (int j=0; j < tex_height; j++) {
-      *pix++ = 0;
-      *pix++ = 127;	// cyan
-      *pix++ = 127;
-    }
-  }
-}
-
-/* Set texture parameters */
+/** Sets texture parameters */
 void Vnc::setTexture(bool mipmap)
 {
   glEnable(GL_TEXTURE_2D);	// we need to use a texture
   glBindTexture(GL_TEXTURE_2D, texture);	// we use ours
 
-  // put it into the video memory
   //echo("tex: w=%d h=%d %d",tex_width,tex_height,mipmap);
+  // put it into the video memory
   if (mipmap) {
 #if HAVE_GLU
     gluBuild2DMipmaps(GL_TEXTURE_2D, 3, tex_width, tex_height,
                       GL_RGB, GL_UNSIGNED_BYTE, tex_pixmap);
 #else
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, tex_width, tex_height,
-                 0, GL_RGB, GL_UNSIGNED_BYTE, tex_pixmap);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, tex_width, tex_height, 0,
+                      GL_RGB, GL_UNSIGNED_BYTE, tex_pixmap);
 #endif
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   }
   else {
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, tex_width, tex_height,
-                 0, GL_RGB, GL_UNSIGNED_BYTE, tex_pixmap);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, tex_width, tex_height, 0,
+                      GL_RGB, GL_UNSIGNED_BYTE, tex_pixmap);
     // no interpolation
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   }
 
-  //glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);	// bad fonts
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
   glDisable(GL_TEXTURE_2D);
 }
 
+/** Makes video frames changes */
 void Vnc::changePermanent(float lasting)
 {
   if (connected && vncClient) {
     fd_set rmask;
     struct timeval delay;
     int rfbsock = vncClient->getSock();
+
     delay.tv_sec =  0;
     delay.tv_usec = 1;
     FD_ZERO(&rmask);
@@ -206,7 +205,7 @@ void Vnc::changePermanent(float lasting)
   }
 }
 
-/* display the screen */
+/** Displays the screen */
 void Vnc::displayScreen()
 {
   glBegin(GL_QUADS);
@@ -217,6 +216,7 @@ void Vnc::displayScreen()
   glEnd();
 }
 
+/** Renders */
 void Vnc::render()
 {
   if (! vncClient) return;
@@ -254,6 +254,7 @@ void Vnc::render()
   glPopMatrix();
 }
 
+/** Gets vnc coords */
 void Vnc::getVncCoords(int16_t &x, int16_t &y)
 {
   y = viewport[3] - y;
@@ -298,13 +299,12 @@ void Vnc::getVncCoords(int16_t &x, int16_t &y)
   }
 }
 
-/* Connect to a Vnc server */
+/** Connects to a Vnc server */
 void Vnc::connectServer()
 {
   if (! serverdefined) return;
 
   vncClient = new VNCCliTextured(servername, port, passwdfile);
-
   //echo("VNC try to connect to %s:%d", servername, port);
 
   // client initialization
@@ -327,12 +327,12 @@ void Vnc::connectServer()
   }
 
   // texture initialization from the framebuffer
-  tex_pixmap = reinterpret_cast<GLubyte *>(vncClient->framebuffer);
+  tex_pixmap = (uint8_t *) (vncClient->framebuffer);	// reinterpret_cast
   tex_width = vncClient->fbWidth;
   tex_height = vncClient->fbHeight;
   //echo("tex: w=%d h=%d",tex_width,tex_height);
 
-  setTexture(0);	// without mipmaps
+  setTexture(0);		// without mipmaps
 
   u = static_cast<float>(vncClient->realScreenWidth / tex_width);
   v = static_cast<float>(vncClient->realScreenHeight / tex_height);
@@ -340,7 +340,7 @@ void Vnc::connectServer()
   //echo("real_height=%d tex_height=%d v=%.2f", vncClient->realScreenHeight, tex_height, v);
 }
 
-/* Disconnect from Vnc server */
+/** Disconnects from Vnc server */
 void Vnc::disconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
 {
   if (vnc->connected) {
@@ -355,7 +355,7 @@ void Vnc::disconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
   }
 }
 
-/* Open the dialog window */
+/** Opens the dialog window */
 void Vnc::reconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
 {
   if (vnc->connected || vnc->serverdefined)
@@ -364,7 +364,7 @@ void Vnc::reconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
     ::g.gui.launchVnc(vnc);
 }
 
-/* Update server parameters from the dialog window : called from gui */
+/** Updates server parameters from the dialog window : called from gui */
 void Vnc::convert(const char *srvstr, const char *portstr, const char *passstr)
 {
   if (!srvstr || !portstr || !passstr) {
@@ -378,9 +378,7 @@ void Vnc::convert(const char *srvstr, const char *portstr, const char *passstr)
   connectServer();
 }
 
-/**
- * Redirects events to the Vnc object
- */
+/** Redirects mouse events to the Vnc object */
 bool Vnc::mouseEvent(int16_t x, int16_t y, uint8_t button)
 {
   if (! connected) return false;
@@ -409,6 +407,7 @@ bool Vnc::mouseEvent(int16_t x, int16_t y, uint8_t button)
   return true;
 }
 
+/** Redirects key events to the Vnc object */
 bool Vnc::keyEvent(const char *key, bool is_pressed)
 {
   if (! connected) return false;
@@ -426,6 +425,7 @@ bool Vnc::keyEvent(const char *key, bool is_pressed)
   return true;
 }
 
+/** Quits */
 void Vnc::quit()
 {
   if (def_pixmap) delete[] def_pixmap;
@@ -441,7 +441,7 @@ void Vnc::quit()
   }
 }
 
-/* Gives the focus to this object: all events will be redirected */
+/** Gives the focus to this object: all events will be redirected */
 void Vnc::takeFocus(Vnc *vnc, void *d, time_t s, time_t u)
 {
   if (! vnc->focus) {
@@ -451,7 +451,7 @@ void Vnc::takeFocus(Vnc *vnc, void *d, time_t s, time_t u)
   }
 }
 
-/* Leave the focus from the object */
+/** Leaves the focus from the object */
 void Vnc::leaveFocus(Vnc *vnc, void *d, time_t s, time_t u)
 {
   if (vnc->focus) {
@@ -461,6 +461,7 @@ void Vnc::leaveFocus(Vnc *vnc, void *d, time_t s, time_t u)
   }
 }
 
+/** Actions functions */
 void Vnc::funcs()
 {
   setActionFunc(VNC_TYPE, 0, _Action takeFocus,  "Focus");
