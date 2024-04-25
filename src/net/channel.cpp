@@ -197,24 +197,24 @@ void Channel::decodeChan(const char *chan_str, uint32_t *group, uint16_t *port, 
 /** Channel naming */
 void Channel::namingId()
 {
-  //dax char hostname[MAXHOSTNAMELEN];
-  //dax gethostname(hostname, sizeof(hostname)-1);
+  char hostname[MAXHOSTNAMELEN];
+  strcpy(hostname, "localhost");
 
-  struct hostent *ph;
-  if ((ph = my_gethostbyname("127.0.0.1", AF_INET)) == NULL)
-    return;
-
-  struct in_addr *pa;
-  if ((pa = (struct in_addr*) (ph->h_addr)) == NULL) {
-    my_free_hostent(ph);
+  struct hostent *hp;
+  if ((hp = my_gethostbyname(hostname, AF_INET)) == NULL) {
     return;
   }
-  my_free_hostent(ph);
+
+  struct in_addr *pa;
+  if ((pa = (struct in_addr*) (hp->h_addr)) == NULL) {
+    my_free_hostent(hp);
+    return;
+  }
+  my_free_hostent(hp);
   NetObj::setHost(pa->s_addr);
 
-  /* first packet to learn my_port_id */
-  Payload pp;	// dummy payload
-
+  // first packet to learn my_port_id
+  Payload pp;			// dummy payload
   pp.sendPayload(sa[SA_RTP]);	// needed for naming (port number)
 
 #if NEEDLOOPBACK
