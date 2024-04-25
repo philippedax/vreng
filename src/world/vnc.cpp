@@ -70,7 +70,7 @@ void Vnc::defaults()
       *pix++ = 127;
     }
   }
-  setTexture(0);		// without mipmaps
+  displayTexture(0);		// without mipmaps
   u = v = 1.;
 }
 
@@ -148,8 +148,8 @@ void Vnc::buildScreen()
   vertices[ 9] = front;  vertices[10] = -width; vertices[11] = bot;
 }
 
-/** Sets texture parameters */
-void Vnc::setTexture(bool mipmap)
+/** Displays texture */
+void Vnc::displayTexture(bool mipmap)
 {
   glEnable(GL_TEXTURE_2D);	// we need to use a texture
   glBindTexture(GL_TEXTURE_2D, texture);	// we use ours
@@ -199,21 +199,11 @@ void Vnc::changePermanent(float lasting)
           error("can't handle RFB server message");
           return;
         }
-        setTexture(1);	// with mipmaps
+        //echo("frame");
+        displayTexture(1);	// with mipmaps
       }
     }
   }
-}
-
-/** Displays the screen */
-void Vnc::displayScreen()
-{
-  glBegin(GL_QUADS);
-   glTexCoord2f(u, v); glVertex3fv(vertices+0);	// bot, right
-   glTexCoord2f(u, 0); glVertex3fv(vertices+3);	// top, right
-   glTexCoord2f(0, 0); glVertex3fv(vertices+6);	// top, left
-   glTexCoord2f(0, v); glVertex3fv(vertices+9);	// bot, left
-  glEnd();
 }
 
 /** Renders */
@@ -223,6 +213,7 @@ void Vnc::render()
 
   GLint renderMode;
   glGetIntegerv(GL_RENDER_MODE, &renderMode);
+  //echo("render");
 
   updatePosition();
 
@@ -239,7 +230,14 @@ void Vnc::render()
   glMultMatrixf(gl_mat);
 
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
-  displayScreen();	// display screen
+
+  // displays the screen
+  glBegin(GL_QUADS);
+   glTexCoord2f(u, v); glVertex3fv(vertices+0);	// bot, right
+   glTexCoord2f(u, 0); glVertex3fv(vertices+3);	// top, right
+   glTexCoord2f(0, 0); glVertex3fv(vertices+6);	// top, left
+   glTexCoord2f(0, v); glVertex3fv(vertices+9);	// bot, left
+  glEnd();
 
   // update parameters for mouse handling
   if (renderMode == GL_RENDER) {
@@ -332,7 +330,7 @@ void Vnc::connectServer()
   tex_height = vncClient->fbHeight;
   //echo("tex: w=%d h=%d",tex_width,tex_height);
 
-  setTexture(0);		// without mipmaps
+  displayTexture(0);		// without mipmaps
 
   u = static_cast<float>(vncClient->realScreenWidth / tex_width);
   v = static_cast<float>(vncClient->realScreenHeight / tex_height);

@@ -116,11 +116,8 @@ class Vnc : public WO {
   void getVncCoords(int16_t &x, int16_t &y);
   /**< Convert VReng screen coordinates to VNC screen coordinates */
 
-  void setTexture(bool mipmap);
+  void displayTexture(bool mipmap);
   /**< Build a texture */
-
-  void displayScreen();
-  /**< Draw the screen */
 
   void buildScreen();
   /**< Build the screen */
