@@ -36,7 +36,6 @@
  */
 class VNCrgb {
  public:
-
   VNCrgb();
   ///< this constructor is only used to handle faster 32bits pixels we get from the server
   VNCrgb(const uint32_t &pixel);
@@ -98,15 +97,10 @@ class VNCCli {
   int getSock();
   ///< we might want to get the socket descriptor to listen to it
 
-  // set of functions to initialize the connection
-
-  bool initVNC();
-  ///< initVNC has to allocate memory for the framebuffer if everything goes fine
   bool closeVNC();
   ///< closeVNC has to free it
 
   /* Remote Frame Buffer Protocol v3.3 */
-
   void sendRFBEvent(char **params, uint32_t *num_params);
   bool sendIncrementalFramebufferUpdateRequest();
   bool sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incremental);

@@ -66,36 +66,6 @@ VNCCliTextured::VNCCliTextured(char *server, int port, char *pswdfile)
   realScreenHeight = 0;
 }
 
-bool VNCCli::initVNC()
-{
-  if (rfbproto.connectRFB() && rfbproto.initRFB()) {
-
-    rfbproto.setVisual();
-
-    if (rfbproto.setFormatAndEncodings()) {
-      fbWidth = rfbproto.si.framebufferWidth;
-      fbHeight = rfbproto.si.framebufferHeight;
-      //echo("initVNC: fbWidth=%d fbHeight=%d", fbWidth,fbHeight);
-
-      framebuffer = new VNCrgb[fbWidth * fbHeight];
-      if (framebuffer) {
-        return true;
-      }
-      else {
-        error("initVNC: unable to allocate memory for framebuffer");
-      }
-    }
-    else {
-      error("initVNC: unable to set default PixelFormat");
-    }
-  }
-  else {
-    error("initVNC: connection or initialization impossible");
-  }
-  closeVNC();
-  return false;
-}
-
 bool VNCCliTextured::initVNC()
 {
   if (rfbproto.connectRFB() && rfbproto.initRFB()) {
