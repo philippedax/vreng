@@ -70,8 +70,6 @@ bool VNCRFB::initRFB()
   int authScheme, reasonLen, authResult;
   uint8_t challenge[CHALLENGESIZE];
 
-  //echo("initRFB: initializing RFB connection");
-
   if (!vncsock.readRFB(pv, sz_rfbProtocolVersionMsg))
     return false;
 
@@ -108,7 +106,6 @@ bool VNCRFB::initRFB()
     return false;
 
   case rfbNoAuth:
-    //echo("No authentication needed");
     break;
 
   case rfbVncAuth:
@@ -183,9 +180,7 @@ bool VNCRFB::initRFB()
   delete[] desktopName;
   desktopName = NULL;
 
-  echo("initRFB: connected to VNC server, using protocol version %d.%d",
-	rfbProtocolMajorVersion, rfbProtocolMinorVersion);
-  //echo("initRFB: VNC server default format:");
+  //echo("initRFB: connected to VNC server, using protocol version %d.%d", rfbProtocolMajorVersion, rfbProtocolMinorVersion);
   printPixelFormat(&si.format);
   return true;
 }

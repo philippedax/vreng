@@ -632,7 +632,6 @@ typedef union {
  */
 class VNCRFB {
  private:
-
   char passwordFile[64];
   ///< Name of the file containing the encrypted password
 
@@ -646,7 +645,6 @@ class VNCRFB {
   ///< name of the distant desktop
 
  public:
-
   VNCSoc vncsock;
 
   VNCRFB(char *Servername, int Port, char *pswdFile);
@@ -694,7 +692,6 @@ class VNCRFB {
 
   int getSock();
   ///< get the used socket
-
 };
 
 #endif
