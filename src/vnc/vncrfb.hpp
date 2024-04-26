@@ -632,21 +632,12 @@ typedef union {
  */
 class VNCRFB {
  private:
-  char passwordFile[64];
-  ///< Name of the file containing the encrypted password
-
-  int buffered;
-  ///< size of what is stored in the buffer
-
-  bool shareDesktop;
-  ///< indicates whether other connection on the server are allowed
-
-  char *desktopName;
-  ///< name of the distant desktop
+  char passwdFile[64];	///< Name of the file containing the encrypted password
+  int buffered;		///< size of what is stored in the buffer
+  bool shareDesktop;	///< indicates whether other connection on the server are allowed
+  char *desktopName;	///< name of the distant desktop
 
  public:
-  VNCSoc vncsock;
-
   VNCRFB(char *Servername, int Port, char *pswdFile);
 #if 0 //notused
   VNCRFB();
@@ -655,28 +646,16 @@ class VNCRFB {
 #endif
   ///< constructors
 
-#if 0 //notused
-  char **Encodings;
-  ///< could be used to ask the best encoding for the client.
-#endif
-
+  VNCSoc vncsock;
   rfbPixelFormat pixFormat;
-
   rfbServerInitMsg si;
 
-  void printPixelFormat(rfbPixelFormat *format);
-  ///< Prints out the format for debugging
+  void printPixelFormat(rfbPixelFormat *format);	///< Prints out the format for debugging
+  void setVisual();	///< default is 32 BPP
+  bool connectRFB();	///< connects to the server
+  bool initRFB();	///< initialise the connection with this server
 
-  void setVisual();
-  ///< default is 32 BPP
-
-  bool connectRFB();
-  ///< connects to the server
-
-  bool initRFB();
-  ///< initialise the connection with this server
-
-  //Send different kind of events
+  // Send different kind of events
   bool sendPointerEvent(int x, int y, int buttonMask);
   bool sendKeyEvent(uint32_t key, bool down);
   bool sendClientCutText(char *str, int len);
@@ -684,7 +663,7 @@ class VNCRFB {
   bool setFormatAndEncodings();
   ///< sets the format of rfb messages and the way it will be encoded.
 
-  //Send a request to the server to update the FrameBuffer
+  // Send a request to the server to update the FrameBuffer
   bool sendIncrementalFramebufferUpdateRequest();
   ///< if incremental, updates the Framebuffer for all the screen
   bool sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incremental);
@@ -692,6 +671,8 @@ class VNCRFB {
 
   int getSock();
   ///< get the used socket
+
+  //notused char **Encodings;	///< could be used to ask the best encoding for the client.
 };
 
 #endif
