@@ -36,8 +36,7 @@
  */
 class VNCrgb {
  public:
-  VNCrgb();
-  ///< this constructor is only used to handle faster 32bits pixels we get from the server
+  VNCrgb(); 	///< is only used to handle faster 32bits pixels we get from the server
   VNCrgb(const uint32_t &pixel);
   VNCrgb(uint8_t red, uint8_t green, uint8_t blue);
 
@@ -57,15 +56,8 @@ class VNCrgb {
  */
 class VNCCli {
  private:
-  char rfbbuffer[RFB_BUF_SIZE];
-  ///< this buffer is used to get Server MSGs
-
-  //dax bool viewonly;
-  ///< do we want to forward events? (no if true)
-
-  void fillRect(int rx, int ry, int rw, int rh, VNCrgb pixel);
-  ///< handling Rectangles we got from server
-
+  char rfbbuffer[RFB_BUF_SIZE];		///< this buffer is used to get Server MSGs
+  void fillRect(int rx, int ry, int rw, int rh, VNCrgb pixel); ///< handling Rectangles
   uint8_t rescalePixValue(uint32_t Pix, uint8_t Shift, uint16_t Max);
   VNCrgb cardToVNCrgb(uint32_t pixel);
 
@@ -76,38 +68,24 @@ class VNCCli {
   bool handleHextile32(int rx, int ry, int rw, int rh);
 
  protected:
-  VNCRFB rfbproto;
-  /**< the VNCRFB object implements all we need to to send and receive
-   * messages specified in the RFB protocol
-   */
+  VNCRFB rfbproto;		///< implements all we need to send and receive RFB messages
 
  public:
-  VNCCli(char *server, int port, char *passFile);
-  ///< constructor
+  VNCCli(char *server, int port, char *passFile);	///< constructor
 
-  char *serverCutText;
-  bool newCutText;
-  ///< for now, public attributes we keep to handle server cut texts
+  VNCrgb *framebuffer;		///< here is our framebuffer
+  uint16_t fbWidth;		///< framebuffer width
+  uint16_t fbHeight;		///< framebuffer height
+  char *serverCutText;		///< to handle server cut texts
 
-  VNCrgb *framebuffer;
-  uint16_t fbWidth;
-  uint16_t fbHeight;
-  ///< here is our framebuffer
-
-  int getSock();
-  ///< we might want to get the socket descriptor to listen to it
-
-  bool closeVNC();
-  ///< closeVNC has to free it
+  int getSock();		///< to get the socket descriptor to listen to it
+  bool closeVNC();		///< closeVNC has to free it
+  bool handleRFBMessage();	///< handle the messages from the server
 
   /* Remote Frame Buffer Protocol v3.3 */
   void sendRFBEvent(char **params, uint32_t *num_params);
   bool sendIncrementalFramebufferUpdateRequest();
   bool sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incremental);
-  ///< messages from client to server
-
-  bool handleRFBMessage();
-  ///< handle the messages from the server
 };
 
 
@@ -122,12 +100,10 @@ class VNCCliTextured : public VNCCli {
  public:
   VNCCliTextured(char *server, int port, char *pass);
 
-  uint16_t realScreenWidth;
-  uint16_t realScreenHeight;
-  ///< here we keep what the real server screen size is
+  uint16_t realScreenWidth;	///< real screen width
+  uint16_t realScreenHeight;	///< real screen height
 
-  bool initVNC();
-  ///< initVNC has to allocate memory for the framebuffer if everything goes fine
+  bool initVNC();		///< to allocate memory for the framebuffer
 };
 
 #endif

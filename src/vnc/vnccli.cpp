@@ -56,7 +56,6 @@ VNCCli::VNCCli(char *server, int port, char *pswdfile) :
   fbHeight = 0;
   framebuffer = NULL;
   serverCutText = NULL;
-  newCutText = false;
 }
 
 VNCCliTextured::VNCCliTextured(char *server, int port, char *pswdfile)
@@ -272,7 +271,6 @@ bool VNCCli::handleRRE32(int rx, int ry, int rw, int rh)
     if (! rfbproto.vncsock.readRFB(reinterpret_cast<char*>(&subrect), sz_rfbRectangle)) {
       return false;
     }
-
     subrect.x = swap16(subrect.x);
     subrect.y = swap16(subrect.y);
     subrect.w = swap16(subrect.w);
@@ -358,7 +356,6 @@ bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
 	handleRAW32(x, y, w, h);
 	continue;
       }
-
       if (subencoding & rfbHextileBackgroundSpecified) {
 	if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&bg), sizeof(bg))) {
 	  return false;
@@ -385,7 +382,6 @@ bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
 	if (! rfbproto.vncsock.readRFB(rfbbuffer, nSubrects * 6)) {
 	  return false;
         }
-
 	for (int i=0; i < nSubrects; i++) {
 	  GET_PIXEL32(fg, ptr);
 	  sx = rfbHextileExtractX(*ptr);
@@ -402,7 +398,6 @@ bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
 	if (! rfbproto.vncsock.readRFB(rfbbuffer, nSubrects * 2)) {
 	  return false;
         }
-
 	for (int i=0; i < nSubrects; i++) {
 	  sx = rfbHextileExtractX(*ptr);
 	  sy = rfbHextileExtractY(*ptr);
@@ -489,7 +484,7 @@ bool VNCCli::handleRFBMessage()
 	bytesPerLine = rect.r.w * rfbproto.pixFormat.bitsPerPixel / 8;
 	linestoread = sizeof(rfbbuffer) / bytesPerLine;
 	//dax linestoread = 1280*960 / bytesPerLine;
-        //echo("rfbEncodingRaw: bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
+        echo("rfbEncodingRaw: bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
 
 	while (rect.r.h > 0) {
 	  if (linestoread > rect.r.h) {
@@ -565,7 +560,6 @@ bool VNCCli::handleRFBMessage()
     }
 
     serverCutText[msg.sct.length] = 0;
-    newCutText = true;
     break;
 
   default:
