@@ -30,9 +30,9 @@
 
 
 /**
- * class VNCrgb
- * this is what our framebuffer is made of 24 bits per pixel
- * 8bits for Red, 8 for Green, 8 for Blue
+ * VNCrgb class
+ *  this is what our framebuffer is made of 24 bits per pixel
+ *  8bits for Red, 8 for Green, 8 for Blue
  */
 class VNCrgb {
  public:
@@ -48,12 +48,12 @@ class VNCrgb {
 
 
 /**
- * class VNCCli
- * object will be used in VReng:
- * - to connect to the VNC server
- * - to handle its messages
- * - to forward pointer and keyboard events to the server
- * framebuffer is public
+ * VNCCli class
+ *  object will be used in VReng:
+ *  - to connect to the VNC server
+ *  - to handle its messages
+ *  - to forward pointer and keyboard events to the server
+ *  framebuffer is public
  */
 class VNCCli {
  private:
@@ -112,11 +112,11 @@ class VNCCli {
 
 
 /**
- * class VNCCliTextured
- * inherits everything from VNCCli
- * the framebuffer allocated is bigger than the real VNC server screen size
- * and has dimensions that are a power of 2
- * needed by OpenGL to map the texture
+ * VNCCliTextured class
+ *  inherits everything from VNCCli
+ *  the framebuffer allocated is bigger than the real VNC server screen size
+ *  and has dimensions that are a power of 2
+ *  needed by OpenGL to map the texture
  */
 class VNCCliTextured : public VNCCli {
  public:

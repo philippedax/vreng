@@ -254,20 +254,24 @@ bool VNCCli::handleRRE32(int rx, int ry, int rw, int rh)
   VNCrgb pixel;
 
   echo("handleRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
-  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&hdr), sz_rfbRREHeader))
+  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&hdr), sz_rfbRREHeader)) {
     return false;
+  }
   hdr.nSubrects = swap32(hdr.nSubrects);
 
-  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&pix), sizeof(pix)))
+  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&pix), sizeof(pix))) {
     return false;
+  }
   pixel = cardToVNCrgb(swap32(pix));
   fillRect(rx, ry, rw, rh, pixel);
 
   for (int i=0; i < hdr.nSubrects; i++) {
-    if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&pix), sizeof(pix)))
+    if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&pix), sizeof(pix))) {
       return false;
-    if (! rfbproto.vncsock.readRFB(reinterpret_cast<char*>(&subrect), sz_rfbRectangle))
+    }
+    if (! rfbproto.vncsock.readRFB(reinterpret_cast<char*>(&subrect), sz_rfbRectangle)) {
       return false;
+    }
 
     subrect.x = swap16(subrect.x);
     subrect.y = swap16(subrect.y);
@@ -288,18 +292,21 @@ bool VNCCli::handleCoRRE32(int rx, int ry, int rw, int rh)
   VNCrgb pixel;
 
   echo("handleCoRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
-  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&hdr), sz_rfbRREHeader))
+  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&hdr), sz_rfbRREHeader)) {
     return false;
+  }
   hdr.nSubrects = swap32(hdr.nSubrects);
 
-  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&pix), sizeof(pix)))
+  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&pix), sizeof(pix))) {
     return false;
+  }
 
   pixel = cardToVNCrgb(swap32(pix));
   fillRect(rx, ry, rw, rh, pixel);
 
-  if (! rfbproto.vncsock.readRFB(rfbbuffer, hdr.nSubrects * 8))
+  if (! rfbproto.vncsock.readRFB(rfbbuffer, hdr.nSubrects * 8)) {
     return false;
+  }
 
   ptr = reinterpret_cast<uint8_t *>(rfbbuffer);
 
@@ -341,37 +348,43 @@ bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
       if (ry + rh - y < 16)
 	h = ry + rh - y;
 
-      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&subencoding), 1))
+      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&subencoding), 1)) {
 	return false;
+      }
       if (subencoding & rfbHextileRaw) {
-	if (! rfbproto.vncsock.readRFB(rfbbuffer, w * h * 4))
+	if (! rfbproto.vncsock.readRFB(rfbbuffer, w * h * 4)) {
 	  return false;
+        }
 	handleRAW32(x, y, w, h);
 	continue;
       }
 
       if (subencoding & rfbHextileBackgroundSpecified) {
-	if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&bg), sizeof(bg)))
+	if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&bg), sizeof(bg))) {
 	  return false;
+        }
       }
 
       pixel = VNCrgb(swap32(bg));
       fillRect(x, y, w, h, pixel);
 
       if (subencoding & rfbHextileForegroundSpecified) {
-	if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&fg), sizeof(fg)))
+	if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&fg), sizeof(fg))) {
 	  return false;
+        }
       }
       if (! (subencoding & rfbHextileAnySubrects))
 	continue;
-      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&nSubrects), 1))
+      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&nSubrects), 1)) {
 	return false;
+      }
 
       ptr = (uint8_t *) rfbbuffer;
 
       if (subencoding & rfbHextileSubrectsColoured) {
-	if (! rfbproto.vncsock.readRFB(rfbbuffer, nSubrects * 6))
+	if (! rfbproto.vncsock.readRFB(rfbbuffer, nSubrects * 6)) {
 	  return false;
+        }
 
 	for (int i=0; i < nSubrects; i++) {
 	  GET_PIXEL32(fg, ptr);
@@ -386,8 +399,9 @@ bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
 	}
       }
       else {
-	if (! rfbproto.vncsock.readRFB(rfbbuffer, nSubrects * 2))
+	if (! rfbproto.vncsock.readRFB(rfbbuffer, nSubrects * 2)) {
 	  return false;
+        }
 
 	for (int i=0; i < nSubrects; i++) {
 	  sx = rfbHextileExtractX(*ptr);
@@ -409,26 +423,30 @@ bool VNCCli::handleRFBMessage()
 {
   rfbToClientMsg msg;
 
-  if (! framebuffer)
+  if (! framebuffer) {
     return false;
-  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&msg), 1))
+  }
+  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&msg), 1)) {
     return false;
+  }
 
   switch (msg.type) {
 
   case rfbSetColourMapEntries:
   {
-    error("handleRFBMessage: rfbSetColourMapEntries not supported yet");
+    //echo("handleRFBMessage: rfbSetColourMapEntries not supported yet");
     uint16_t rgb[3];
 
-    if (! rfbproto.vncsock.readRFB((reinterpret_cast<char *>(&msg)) + 1, sz_rfbSetColourMapEntriesMsg - 1))
+    if (! rfbproto.vncsock.readRFB((reinterpret_cast<char *>(&msg)) + 1, sz_rfbSetColourMapEntriesMsg - 1)) {
       return false;
+    }
     msg.scme.firstColour = swap16(msg.scme.firstColour);
     msg.scme.nColours = swap16(msg.scme.nColours);
 
     for (int i=0; i < msg.scme.nColours; i++) {
-      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(rgb), 6))
+      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(rgb), 6)) {
 	return false;
+      }
     }
     break;
   }
@@ -440,13 +458,15 @@ bool VNCCli::handleRFBMessage()
     int linestoread;
     int bytesPerLine;
 
-    if (! rfbproto.vncsock.readRFB((reinterpret_cast<char *>(&msg.fu)) + 1, sz_rfbFramebufferUpdateMsg - 1))
+    if (! rfbproto.vncsock.readRFB((reinterpret_cast<char *>(&msg.fu)) + 1, sz_rfbFramebufferUpdateMsg - 1)) {
       return false;
+    }
     msg.fu.nRects = swap16(msg.fu.nRects);
 
     for (int i=0; i < msg.fu.nRects; i++) {
-      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&rect), sz_rfbFramebufferUpdateRectHeader))
+      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&rect), sz_rfbFramebufferUpdateRectHeader)) {
 	return false;
+      }
 
       rect.r.x = swap16(rect.r.x);
       rect.r.y = swap16(rect.r.y);
@@ -467,8 +487,8 @@ bool VNCCli::handleRFBMessage()
       switch (rect.encoding) {
       case rfbEncodingRaw:
 	bytesPerLine = rect.r.w * rfbproto.pixFormat.bitsPerPixel / 8;
-	//dax linestoread = sizeof(rfbbuffer) / bytesPerLine;
-	linestoread = 1280*960 / bytesPerLine;
+	linestoread = sizeof(rfbbuffer) / bytesPerLine;
+	//dax linestoread = 1280*960 / bytesPerLine;
         //echo("rfbEncodingRaw: bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
 
 	while (rect.r.h > 0) {
@@ -490,33 +510,39 @@ bool VNCCli::handleRFBMessage()
       case rfbEncodingCopyRect:
       {
 	rfbCopyRect cr;
-	if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&cr), sz_rfbCopyRect))
+	if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&cr), sz_rfbCopyRect)) {
 	  return false;
+        }
 	cr.srcX = swap16(cr.srcX);
 	cr.srcY = swap16(cr.srcY);
-	if (! handleCR(cr.srcX, cr.srcY, rect.r.x, rect.r.y, rect.r.w, rect.r.h))
+	if (! handleCR(cr.srcX, cr.srcY, rect.r.x, rect.r.y, rect.r.w, rect.r.h)) {
 	  return false;
+        }
 	break;
       }
       case rfbEncodingRRE:
-	if (! handleRRE32(rect.r.x, rect.r.y, rect.r.w, rect.r.h))
+	if (! handleRRE32(rect.r.x, rect.r.y, rect.r.w, rect.r.h)) {
 	  return false;
+        }
 	break;
       case rfbEncodingCoRRE:
-	if (! handleCoRRE32(rect.r.x, rect.r.y, rect.r.w, rect.r.h))
+	if (! handleCoRRE32(rect.r.x, rect.r.y, rect.r.w, rect.r.h)) {
 	  return false;
+        }
 	break;
       case rfbEncodingHextile:
-        if (! handleHextile32(rect.r.x, rect.r.y, rect.r.w, rect.r.h))
+        if (! handleHextile32(rect.r.x, rect.r.y, rect.r.w, rect.r.h)) {
 	  return false;
+        }
 	break;
       default:
 	error("unknown rect encoding %d", int(rect.encoding));
 	return false;
       }
     }
-    if (! sendIncrementalFramebufferUpdateRequest())
+    if (! sendIncrementalFramebufferUpdateRequest()) {
       return false;
+    }
     break;
   }
 
@@ -525,16 +551,18 @@ bool VNCCli::handleRFBMessage()
     break;
 
   case rfbCutText:
-    if (! rfbproto.vncsock.readRFB((reinterpret_cast<char *>(&msg)) + 1, sz_rfbCutTextMsg - 1))
+    if (! rfbproto.vncsock.readRFB((reinterpret_cast<char *>(&msg)) + 1, sz_rfbCutTextMsg - 1)) {
       return false;
+    }
     msg.sct.length = swap32(msg.sct.length);
 
     if (serverCutText) delete[] serverCutText;
     serverCutText = NULL;
     serverCutText = new char[msg.sct.length+1];
 
-    if (! rfbproto.vncsock.readRFB(serverCutText, msg.sct.length))
+    if (! rfbproto.vncsock.readRFB(serverCutText, msg.sct.length)) {
       return false;
+    }
 
     serverCutText[msg.sct.length] = 0;
     newCutText = true;
