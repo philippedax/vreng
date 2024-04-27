@@ -193,6 +193,7 @@ VNCrgb VNCCli::cardToVNCrgb(uint32_t pix)
 // All the methods we need to handle a given rect message
 // and update the framebuffer
 
+/** RAW32 */
 bool VNCCli::handleRAW32(int rx, int ry, int rw, int rh)
 {
   uint32_t *rfb = reinterpret_cast<uint32_t *>(rfbbuffer);
@@ -208,13 +209,15 @@ bool VNCCli::handleRAW32(int rx, int ry, int rw, int rh)
   return true;
 }
 
+#if 0 //notused ---------------------------------------------------------
+/** Copy Rect */
 bool VNCCli::handleCR(int srcx, int srcy, int rx, int ry, int rw, int rh)
 {
   VNCrgb *src;
   VNCrgb *dst;
   VNCrgb *buftmp = new VNCrgb[rh*rw];
 
-  echo("handleCR: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
+  echo("CR: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
   src = framebuffer + (srcy * fbWidth + srcx);
   dst = buftmp;
   for (int h = 0; h < rh; h++) {
@@ -233,6 +236,7 @@ bool VNCCli::handleCR(int srcx, int srcy, int rx, int ry, int rw, int rh)
   return true;
 }
 
+/** Fills Rect */
 void VNCCli::fillRect(int rx, int ry, int rw, int rh, VNCrgb pixel)
 {
   VNCrgb *dst = framebuffer + (ry * fbWidth + rx);
@@ -245,6 +249,7 @@ void VNCCli::fillRect(int rx, int ry, int rw, int rh, VNCrgb pixel)
   }
 }
 
+/** RRE32 */
 bool VNCCli::handleRRE32(int rx, int ry, int rw, int rh)
 {
   rfbRREHeader hdr;
@@ -252,7 +257,7 @@ bool VNCCli::handleRRE32(int rx, int ry, int rw, int rh)
   rfbRectangle subrect;
   VNCrgb pixel;
 
-  echo("handleRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
+  echo("RRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
   if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&hdr), sz_rfbRREHeader)) {
     return false;
   }
@@ -281,6 +286,7 @@ bool VNCCli::handleRRE32(int rx, int ry, int rw, int rh)
   return true;
 }
 
+/** coRRE32 */
 bool VNCCli::handleCoRRE32(int rx, int ry, int rw, int rh)
 {
   int x, y, w, h;
@@ -289,7 +295,7 @@ bool VNCCli::handleCoRRE32(int rx, int ry, int rw, int rh)
   uint8_t *ptr;
   VNCrgb pixel;
 
-  echo("handleCoRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
+  echo("CoRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
   if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&hdr), sz_rfbRREHeader)) {
     return false;
   }
@@ -327,6 +333,7 @@ bool VNCCli::handleCoRRE32(int rx, int ry, int rw, int rh)
 			       ((uint8_t*)&(pix))[2] = *(ptr)++, \
 			       ((uint8_t*)&(pix))[3] = *(ptr)++)
 
+/** HexTile32 */
 bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
 {
   int w, h;
@@ -337,7 +344,7 @@ bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
   uint8_t nSubrects;
   VNCrgb pixel;
 
-  echo("handleHextile32: rx=%d ry=%d rw=%d rh=%d",rx,ry,rw,rh);
+  echo("Hextile32: rx=%d ry=%d rw=%d rh=%d",rx,ry,rw,rh);
   for (int y = ry; y < ry + rh; y += 16) {
     for (int x = rx; x < rx + rw; x += 16) {
       w = h = 16;
@@ -413,7 +420,9 @@ bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
   }
   return true;
 }
+#endif //notused ----------------------------------------------------------
 
+/** RFB message */
 bool VNCCli::handleRFBMessage()
 {
   rfbToClientMsg msg;
@@ -425,11 +434,12 @@ bool VNCCli::handleRFBMessage()
     return false;
   }
 
+  //echo("msg: %d", msg.type);
   switch (msg.type) {
 
   case rfbSetColourMapEntries:
   {
-    //echo("handleRFBMessage: rfbSetColourMapEntries not supported yet");
+    echo("RFBMessage: rfbSetColourMapEntries not supported yet");
     uint16_t rgb[3];
 
     if (! rfbproto.vncsock.readRFB((reinterpret_cast<char *>(&msg)) + 1, sz_rfbSetColourMapEntriesMsg - 1)) {
@@ -448,7 +458,7 @@ bool VNCCli::handleRFBMessage()
 
   case rfbFramebufferUpdate:
   {
-    //echo("handleRFBMessage: rfbFramebufferUpdate");
+    //echo("RFBMessage: rfbFramebufferUpdate");
     rfbFramebufferUpdateRectHeader rect;
     int linestoread;
     int bytesPerLine;
@@ -462,7 +472,6 @@ bool VNCCli::handleRFBMessage()
       if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&rect), sz_rfbFramebufferUpdateRectHeader)) {
 	return false;
       }
-
       rect.r.x = swap16(rect.r.x);
       rect.r.y = swap16(rect.r.y);
       rect.r.w = swap16(rect.r.w);
@@ -479,12 +488,13 @@ bool VNCCli::handleRFBMessage()
 	continue;
       }
 
+      echo(" encoding: %d", rect.encoding);
       switch (rect.encoding) {
       case rfbEncodingRaw:
 	bytesPerLine = rect.r.w * rfbproto.pixFormat.bitsPerPixel / 8;
 	linestoread = sizeof(rfbbuffer) / bytesPerLine;
 	//dax linestoread = 1280*960 / bytesPerLine;
-        echo("rfbEncodingRaw: bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
+        echo(" bpl=%d linestoread=%d", bytesPerLine, linestoread);
 
 	while (rect.r.h > 0) {
 	  if (linestoread > rect.r.h) {
@@ -493,7 +503,7 @@ bool VNCCli::handleRFBMessage()
 	  if (! rfbproto.vncsock.readRFB(rfbbuffer, bytesPerLine * linestoread)) {
 	    return false;
           }
-          //echo("rfbEncodingRaw: %d,%d w=%d h=%d", rect.r.x, rect.r.y, rect.r.w, rect.r.h);
+          echo("  raw: %d %d w=%d h=%d", rect.r.x, rect.r.y, rect.r.w, rect.r.h);
           if (! handleRAW32(rect.r.x, rect.r.y, rect.r.w, rect.r.h)) {
 	    return false;
           }
@@ -502,6 +512,7 @@ bool VNCCli::handleRFBMessage()
           //rfbproto.vncsock.PrintInHex(rfbbuffer, 64);
 	}
 	break;
+#if 0 //notused ------------------------------------------
       case rfbEncodingCopyRect:
       {
 	rfbCopyRect cr;
@@ -530,6 +541,7 @@ bool VNCCli::handleRFBMessage()
 	  return false;
         }
 	break;
+#endif //notused ------------------------------------------
       default:
 	error("unknown rect encoding %d", int(rect.encoding));
 	return false;

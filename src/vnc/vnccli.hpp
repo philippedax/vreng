@@ -62,10 +62,10 @@ class VNCCli {
   VNCrgb cardToVNCrgb(uint32_t pixel);
 
   bool handleRAW32(int rx, int ry, int rw, int rh);
-  bool handleCR(int srcx, int srcy, int rx, int ry, int rw, int rh);
-  bool handleRRE32(int rx, int ry, int rw, int rh);
-  bool handleCoRRE32(int rx, int ry, int rw, int rh);
-  bool handleHextile32(int rx, int ry, int rw, int rh);
+  //notused bool handleCR(int srcx, int srcy, int rx, int ry, int rw, int rh);
+  //notused bool handleRRE32(int rx, int ry, int rw, int rh);
+  //notused bool handleCoRRE32(int rx, int ry, int rw, int rh);
+  //notused bool handleHextile32(int rx, int ry, int rw, int rh);
 
  protected:
   VNCRFB rfbproto;		///< implements all we need to send and receive RFB messages
