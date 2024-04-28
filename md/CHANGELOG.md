@@ -5,15 +5,15 @@ Last changes in VREng
 The rules for this file:
 * entries are sorted newest-first.
 *
-* ++ : major
+* ++ : major [yy/mm]
 * == : medium
 * -- : minor
 * Version: major.medium.minor
 * date and author format: (YYYY/MM/DD, Author).
 ------------------------------------------
 
-++ 9
-== 9.4
+++ 9 [2024/04]
+== 9.4 (2024/04)
 -- 9.4.5
 	(2024/04/03, Philippe Dax)
 
@@ -73,7 +73,7 @@ The rules for this file:
 	- fix cache when an http-err occurs
 	(2023/01/05, Philippe Dax)
 
-== 9.3
+== 9.3 (2022/12)
 -- 9.3.3
 	- removed prof*pp see stat*pp
 	- added button view stats in the GUI
@@ -120,7 +120,7 @@ The rules for this file:
 	- moved fonts into src/ubit
 	(2021/06/04, Philippe Dax)
 
-== 9.2
+== 9.2 (2021/05)
 -- 9.2.0
 	- added new object #84 : human
 	(2021/05/24, Philippe Dax)
@@ -144,7 +144,7 @@ The rules for this file:
 	- removed old lists
 	(2021/02/24, Philippe Dax)
 
-== 9.1
+== 9.1 (2021/01)
 -- 9.1.6
 	- fixed toDelete call to deleteFromGrid()
 	(2021/02/21, Philippe Dax)
@@ -209,7 +209,7 @@ The rules for this file:
 	- added command line options -k (keepcache) and -S (nostats)
 	(2020/11/03, Philippe Dax)
 
-== 9.0
+== 9.0 (2020/10)
 -- 9.0.3
 	- move gui/mvt.*pp to gui/motion.*pp
 	- removed vgl/hud.*pp
@@ -251,8 +251,8 @@ The rules for this file:
         - changed ray color from red to white stippled
 	(2020/10/03, Philippe Dax)
 
-++ 8
-== 8.7
+++ 8 [2018/10]
+== 8.7 (2018/10)
 -- 8.7.3
 	- configure change openal by freealut
 	- changed fire parameters in fire.hpp
@@ -274,14 +274,14 @@ The rules for this file:
 	- added missing ttf fonts in directory fonts/
 	(2018/10/18, Philippe Dax)
 
-== 8.6
+== 8.6 (2018/10)
 -- 8.6.0
 	- find dynamycaly presence of ttf freetype fonts when ./configure is running
 	- move bundle/glpng to texture/
 	- move bundle/png to bundle/mypng and phg.h to mypng.h
 	(2018/10/08, Philippe Dax)
 
-== 8.5
+== 8.5 (2018/09)
 -- 8.5.7
 	- fixed some compilation warnings
 	- fixed X11 fonts path in ubit/uconf.cpp to find freetype fonts
@@ -323,12 +323,12 @@ The rules for this file:
 	- added etc directory at top
 	(2017/04/11, Philippe Dax)
 
-== 8.4
+== 8.4 (2016/09)
 -- 8.4.0
 	- removed -Wno-unknown-warning
 	(2016/09/28, Philippe Dax)
 
-== 8.3
+== 8.3 (2016/09)
 -- 8.3.3
 	- added install vjs
 	- added install vrum
@@ -350,7 +350,7 @@ The rules for this file:
 	- added openal support --with-openal into configure.ac
 	(2016/03/26, Philippe Dax)
 
-== 8.2
+== 8.2 (2016/01)
 -- 8.2.2
 	- renamed missile to projectile
 	- added view third person button in panels.cpp
@@ -374,13 +374,13 @@ The rules for this file:
 	- updated check libmysqlclient for Linux
 	(2015/10/26, Philippe Dax)
 
-== 8.1
+== 8.1 (2012/10)
 -- 8.1.0
 	- added tar.xz distribution
 	- added vmm branch
 	(2013/10/15, Philippe Dax)
 
-== 8.0
+== 8.0 (2012/09)
 -- 8.0.0
 	- added bsphere bounding sphere
 	- fixed draw bbox
@@ -393,9 +393,8 @@ The rules for this file:
 	- updated vreng data version to v8
 	(2012/09/03, Philippe Dax)
 
-=======
-++ 7
-== 7.4
+++ 7 [2012/07]
+== 7.4 (2012/07)
 -- 7.4.0
 	- added src/sys
 	- rewriting src/app/* with classes
@@ -409,7 +408,7 @@ The rules for this file:
 	- fixed bin/Makefile.am for vred and vrel
 	(2012/07/08, Philippe Dax)
 
-== 7.3
+== 7.3 (2012/06)
 -- 7.3.3
 	- moved src/net/md5* src/net/random.cpp to src/vreng/
 	- resolved opens/closes leak
@@ -449,7 +448,7 @@ The rules for this file:
 	- updated paralellipedic sizes
 	(2012/02/24, Philippe Dax)
 
-== 7.2
+== 7.2 (2012/02)
 -- 7.2.8
 	- added object smoke
 	- moved anim.{ch}pp to animator.{ch}pp
@@ -520,7 +519,7 @@ The rules for this file:
 	- moved com to vreng
 	(2011/07/30, Philippe Dax)
 
-== 7.1
+== 7.1 (2011/07)
 -- 7.1.0
 	- reduced dependencies (ubit, png, zlib)
 	- added builtin ubit
@@ -528,7 +527,7 @@ The rules for this file:
 	- added builtin zlib
 	(2011/07/28, Philippe Dax)
 
-== 7.0
+== 7.0 (2011/07)
 -- 7.0.2
 	- added src/ubit
 	- added src/3rdpart/ftgl
@@ -603,8 +602,8 @@ The rules for this file:
 	- updated gui/* reorganization and rewritting without X11 dependencies
 	(2008/07/19 - Eric Lecolinet)
 
-++ 6
-== 6.9
+++ 6 [2007/12]
+== 6.9 (2007/12)
 -- 6.9.3
 	- updated GUI to be compliant with ubit6
 	- fixed movie.cpp include mpeg.h
@@ -649,7 +648,7 @@ The rules for this file:
 	- revisted models Md2, Obj, Man
 	(2007/06/18, Philippe Dax)
 
-== 6.8
+== 6.8 (2007/03)
 -- 6.8.12
 	- fixed getProperty, don't call isValid()
 	- fixed glPushName((GLuint) (long)addr & 0xffffffff) (64 bits arch)
@@ -691,7 +690,7 @@ The rules for this file:
 	- added xerr.{cpp,hpp} from xwin.cpp
 	- added double-click handling (default action id=0)
 	- fixed parsing bugs introduced in 6.8.4
-	- renamed all file .cc to .cpp
+	- renamed all files .cc to .cpp
 	- renamed counter.* to hud.*
 	(2007/02/18, Philippe Dax)
 
@@ -776,7 +775,7 @@ The rules for this file:
 	- added dymamic thing objects are now persistent
 	(2006/09/04, Philippe Dax)
 
-== 6.7
+== 6.7 (2006/07)
 -- 6.7.4
 	- added audio loaders : wav.cc, au.cc
 	- added audio player : vlc, play
@@ -818,7 +817,7 @@ The rules for this file:
 	- fixed an huge bug about setlocale LC_NUMERIC, now take LC_ALL="C"
 	(2006/06/14, Philippe Dax)
 
-== 6.6
+== 6.6 (2006/06)
 -- 6.6.3
 	- check ubit version and compare it with required ubit version
 	- fixed minor bugs in gui/
@@ -845,7 +844,7 @@ The rules for this file:
 	- fixed bug in deleteObject when an object is destroyed in the scene
 	(2006/06/05, Philippe Dax)
 
-== 6.5
+== 6.5 (2006/06)
 -- 6.5.13
 	- added code in prevision of UBIT5
 	- added gui/baz.{cc,hh}
@@ -967,7 +966,7 @@ The rules for this file:
 	- cleanup 6.4.10
 	(2005/10/02, Philippe Dax)
 
-== 6.4
+== 6.4 (2005/07)
 -- 6.4.10
 	- goto deplacement is multithreaded and moves without colliding
 	- request input on the same panel as chat input
@@ -1062,7 +1061,7 @@ The rules for this file:
 	- remove dbs and elc objects from distribution
 	(2005/02/11, Philippe Dax)
 
-== 6.3
+== 6.3 (2005/02)
 -- 6.3.10
 	- add new sounds in snd.cc (clack, camera)
 	(2005/02/02, Philippe Dax)
@@ -1140,7 +1139,7 @@ The rules for this file:
 	- add panel to manipulate position and orientation of objects
 	(2004/12/14, Philippe Dax)
 
-== 6.2
+== 6.2 (2004/12)
 -- 6.2.11
         - fix a compilation bug in mirror.cc
 	(2004/12/14, Philippe Dax)
@@ -1234,7 +1233,7 @@ The rules for this file:
 	- add pyramid shape
 	(2004/09/28, Philippe Dax)
 
-== 6.1
+== 6.1 (2004/07)
 -- 6.1.4
 	- update door.cc and vrmysql.cc, remove setSqlState from wobject.cc
 	- fix bug in parse.cc where strtok makes a segfault under Linux in libc
@@ -1266,7 +1265,7 @@ The rules for this file:
 	- add <local> </local> tags : local coordinate system (push and pop)
 	(2004/06/15, Philippe Dax)
 
-== 6.0
+== 6.0 (2004/06)
 -- 6.0.0
 	- fix worldname of user forgotten when swapping worlds
 	- add ptsize="val" attribute
@@ -1302,8 +1301,8 @@ The rules for this file:
 	- new version of syntax (v6)
 	(2004/04/30, Philippe Dax)
 
-++ 5
-== 5.2
+++ 5 [2004/04]
+== 5.2 (2004/04)
 -- 5.2.0
 	- fix http.cc to allow Apache VirtualHost
 	- remove /net/vreng prefix
@@ -1332,7 +1331,7 @@ The rules for this file:
 	- class lwObject in lwo.cc
 	(2004/03/09, Philippe Dax)
 
-== 5.1
+== 5.1 (2004/02)
 -- 5.1.5
 	- fix inet_ntop declaration id MacOSX
 	- add bug-report email in configure.ac
@@ -1389,7 +1388,7 @@ The rules for this file:
 	- add elc object for further use
 	(2004/01/16, Philippe Dax)
 
-== 5.0
+== 5.0 (2004.01)
 -- 5.0.3 <-- www.opengl.org news
 	- submit news to www.opengl.org
 	- fix bad <solid=...> to solid="..."
@@ -1431,7 +1430,8 @@ The rules for this file:
 	- m4 macros for java moved from aclocal.m4 to acinclude.m4
 	(2003/10/01, Philippe Dax)
 
-== 4.6
+++ 4 [2003/09]
+== 4.6 (2003/09)
 -- 4.6.6 <-- Last release before 5.0.0
         - fix my_inet_ntop, my_inet_pton
 	(2003/09/01, Philippe Dax)
@@ -1497,7 +1497,7 @@ The rules for this file:
 	- reorder AC_CHECK_LIB in configure.ac
 	(2003/05/28, Philippe Dax)
 
-== 4.5
+== 4.5 (2003/05)
 -- 4.5.7
 	- add take and drop actions for ball
 	- fix aoiQuit
@@ -1571,7 +1571,7 @@ The rules for this file:
 	- add objects 'book' (#53) and 'sheet' (#54) with appropriated actions
 	(2003/03/18, Julien Desreumaux - Sebastien Piraud)
 
-== 4.4
+== 4.4 (2003/03)
 -- 4.4.5
 	- add axis and grid landmarks into the 3D with landmark.{cc,h}
 	(2003/03/17, Mario Trentini)
@@ -1622,7 +1622,7 @@ The rules for this file:
 	- bug fixes applied to be compliant with Debian GNU/Linux distribution
 	(2003/02/25, Philippe Dax)
 
-== 4.3
+== 4.3 (2003/01)
 -- 4.3.1 <-- Debian 'sarge'
 	- update music object to play midi pieces of music
 	- add call to timidity++ player to play midi sounds by http in app/
@@ -1638,13 +1638,13 @@ The rules for this file:
 	- ImgReader class updated
 	(2003/01/07, Philippe Dax)
 
-== 4.2
+== 4.2 (2002/11)
 -- 4.2.0
 	- require ubit-2.11.0 -> ftp://ftp.enst.fr/pub/unix/gui/ubit/ubit-2.11.0.tar.gz
 	- gui/* compliant with ubit-2.11.0
 	(2002/11/20, Eric Lecolinet)
 
-== 4.1
+== 4.1 (2002/11)
 -- 4.1.11
 	- fix lift movement
 	- fix check of fpsetmask in configure.in
@@ -1717,7 +1717,7 @@ The rules for this file:
 	- fix entry, bgcolor, dbs objects to be unique per world
 	(2002/09/06, Philippe Dax)
 
-== 4.0
+== 4.0 (2002/09)
 -- 4.0.3
 	- fixes theme.cc (classical and flashy buttons)
 	- fixes to open relative url in browser.cc
@@ -1751,15 +1751,15 @@ The rules for this file:
 	- add classes: Session NetObject Rtp Channel Payload Solid VGContext App
 	(2002/07/12, Philippe Dax)
 
-++ 3
-== 3.6
+++ 3 [2002/04]
+== 3.6 (2002/04)
 -- 3.6.0
 	- require ubit-2.4.3 -> ftp://ftp.enst.fr/pub/unix/gui/ubit/ubit-2.4.3.tar.gz
 	- require libungif.a
 	- gui with new ubit release
 	(2002/04/22, Eric Lecolinet)
 
-== 3.5
+== 3.5 (2002/04)
 -- 3.5.7
 	- replace fatal() by warning()
 	- suppress assert()
@@ -1804,7 +1804,7 @@ The rules for this file:
 	- add new object 'lwo' to render LightWave Objects Models
 	(2002/01/25, Pierre Gros)
 
-== 3.4
+== 3.4 (2002/01)
 -- 3.4.5
 	- suppress AC_C_CONST from configure.in, don't check working const
 	  resolve compilation errors with <string.h>
@@ -1843,7 +1843,7 @@ The rules for this file:
 	- new control menu to navigate in ubwidgets.cc
 	(2001/07/30, Eric Lecolinet)
 
-== 3.3
+== 3.3 (2001/11)
 -- 3.3.4
 	- fix confused --enable --with in configure.in
 	- add with-ubit-prefix=DIR in configure.in
@@ -1885,7 +1885,7 @@ The rules for this file:
 	- add comments for model files *.m
 	(2001/11/12, Philippe Dax)
 
-== 3.2
+== 3.2 (2001/10)
 -- 3.2.5
 	- fix ubxwin.cc: no more reference to colormap
 	(2001/10/29, Alexandre Fenyo)
@@ -1929,7 +1929,8 @@ The rules for this file:
 	- each lara object can define its own bap server (baps=bap_host)
 	(2001/09/21, Philippe Dax)
 
-== 3.1
+== 3.0 (2001/08)
+== 3.1 (2001/08)
 -- 3.1.0
 	- update client/server handshaking to play bap files
 	- fix dimension and space position of lara object
@@ -1939,6 +1940,7 @@ The rules for this file:
 	- add face animation built with bones, zv/bones tree
 	(2001/08/03, Yann Renard)
 
+== 3.0 (2001/07)
 -- 3.0.0	<-- (full C++) - unstable, obsoleted by 4.0.0
 	- requires ubit-b1.7.0: ftp://ftp.enst.fr/pub/unix/gui/ubit/ubit.tar.gz
 	(2001/07/27, Eric Lecolinet)
@@ -1968,10 +1970,10 @@ The rules for this file:
 	- all objects have their own class
 	- all *.c source files are now rewritten in C++ (*.cc)
 	- add intuitive mouse navigation
-	(2001/05/29, Eric Lecolinet, Philippe Dax)
+	(2001/06/29, Eric Lecolinet, Philippe Dax)
 
-++ 2
-== 2.6
+++ 2 [2001/06]
+== 2.6 (2001/06)
 -- 2.6.5	<-- stable in C language
 	- bug fixes for Motif
 	(2001/06/21, Philippe Dax)
@@ -2005,7 +2007,7 @@ The rules for this file:
 	- add warning notifications when the avatar collides a gate or a link
 	(2001/03/22, Philippe Dax)
 
-== 2.5
+== 2.5 (2001/03)
 -- 2.5.9
 	- fix SolidGetSelection for objects with specialRendering
 	(2001/03/19, Patrick Bellot)
@@ -2101,7 +2103,7 @@ The rules for this file:
 	- suppress a2 angle from panel
 	(2001/01/12, Philippe Dax)
 
-== 2.4
+== 2.4 (2000/12)
 -- 2.4.1
 	- requires ubit-0.12.0
 	- add actions pause and continue in clip.c and cd.c
@@ -2137,7 +2139,7 @@ The rules for this file:
 	- merge libglpng from Ben Wyatt into zv/ to downdload png files
 	(2000/11/29, Philippe Dax)
 
-== 2.3
+== 2.3 (2000/11)
 -- 2.3.7
 	- replace URL files extensions by MIME types to download images
 	- split rocket(#16) in 2 different objects: bullet(#16) & dart(#38)
@@ -2211,7 +2213,7 @@ The rules for this file:
 	- decrease texture size from 256x256 to 128x128 to improve rendering
 	(2000/07/07, Mathieu Imrazene)
 
-== 2.2
+== 2.2 (2000/07)
 -- 2.2.3
 	- add --enable-64bit into configure.in if gcc-2.96 available
 	(2000/07/03, Philippe Dax)
@@ -2241,7 +2243,7 @@ The rules for this file:
 	- major reorganization of gui/x11*
 	(2000/06/06, Eric Lecolinet)
 
-== 2.1
+== 2.1 (2000/06)
 -- 2.1.0
 	- overload netstrings by %d/%d, objTYPE, objID++ to keep uniqueness
 	- dismiss loop in genaralIntersect (col.c)
@@ -2260,7 +2262,7 @@ The rules for this file:
 	- declare user geometry to the network
 	(2000/05/27, Philippe Dax)
 
-== 2.0
+== 2.0 (2000/05)
 -- 2.0.3
 	- change --enable-thread by default from 'yes' to 'no' (more robust)
 	  some core dumps occur inside gethostbyname_r()
@@ -2372,8 +2374,8 @@ The rules for this file:
 	- del gui/callbaks.h & gui/wmgtincl.h
 	(2000/02/20, Philippe Dax)
 
-++ 1
-== 1.6
+++ 1 [2000/01]
+== 1.6 (2000/01)
 -- 1.6.5 <-- stable, obsoletes previous releases, obsoleted by 2.0.0
 
 	- #define FPSET_MASK if FREEBSD defined
@@ -2430,7 +2432,7 @@ The rules for this file:
 	- add trace function for debugging
 	(1999/08/10, Philippe Dax)
 
-== 1.5
+== 1.5 (1999/07)
 -- 1.5.8 <-- stable, obsoletes previous releases, obsoleted by 1.6.0
 
 	- bug fixed in ps.c while link-editing
@@ -2499,7 +2501,7 @@ The rules for this file:
 	- all theses changes leads to upgrade medium version from 1.4 to 1.5
 	(1999/06/29, Philippe Dax)
 
-== 1.4
+== 1.4 (1999/06)
 -- 1.4.11 <-- obsoleted
 	- bug fix floating point exception in freeBSD - add fpsetmask(0L)
 	- bug fix in mctools/whiteboard.h
@@ -2555,7 +2557,7 @@ The rules for this file:
 	- added 'MiMaze' simulation (straight walls + rockets)
 	(1998/06/30, Lionel Ulmer)
 
-== 1.3
+== 1.3 (1998/06)
 -- 1.3.7 <-- obsoleted
 	- added object naming for doors (to allow an object to call a method
 	  from another).
@@ -2631,7 +2633,7 @@ The rules for this file:
 	- libXaw3d in configure.in
 	(1998/03/12, Philippe Dax)
 
-== 1.2
+== 1.2 (1998/02)
 -- 1.2.9 <-- obsoleted
 	- when is active, keep audio tool active through worlds
  	- no_proxy variable
@@ -2685,7 +2687,7 @@ The rules for this file:
 	- automake, autoconf, configure
 	(1997/11/10, Philippe Dax)
 
-== 1.1
+== 1.1 (1997/11)
 -- 1.1.3 <-- obsoleted
 	- port on Linux Pentium
 	- port on Linux Sparc
@@ -2712,7 +2714,7 @@ The rules for this file:
 	- new object: host, w_mgt/w_mgt_host.[hc]
 	(1997/10/30, Philippe Dax)
 
-== 1.0
+== 1.0 (1997/10)
 -- 1.0.1
 	- bug fix about GET HTTP/1.0, gui/int_supportFuncs.c
 	(1997/10/22, Philippe Dax)
@@ -2724,13 +2726,13 @@ The rules for this file:
 	- add external audio support with vat, mctools/audio.[hc]
 	(1997/10/16, Philippe Dax)
 
-++ 0
-== 0.4
+++ 0 [1997/05]
+== 0.4 (1997/05)
 -- 0.4.6 <-- obsoleted
 	- original version
 	- (May 1997)
 
-== 0.1
+== 0.1 (1996/11)
 -- 0.0.1
 	- first version
 	- (Nov 1996)
