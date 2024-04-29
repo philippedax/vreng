@@ -6,7 +6,7 @@ The rules for this file:
 * entries are sorted newest-first.
 *
 * ++ : major [yy/mm]
-* == : medium
+* == : medium (yy/mm)
 * -- : minor
 * Version: major.medium.minor
 * date and author format: (YYYY/MM/DD, Author).
@@ -15,6 +15,7 @@ The rules for this file:
 ++ 9 [2024/04]
 == 9.4 (2024/04)
 -- 9.4.5
+	- dates yy/mm in ChangeLog
 	(2024/04/03, Philippe Dax)
 
 -- 9.4.4
