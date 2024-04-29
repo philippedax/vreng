@@ -50,7 +50,7 @@ static const char HTTP_PROXY[] = "http_proxy";
 static const char NO_PROXY[] = "no_proxy";
 
 
-/** Begin a thread */
+/** Begins a thread */
 void Http::begin_thread()
 {
   fifo = NULL;
@@ -76,7 +76,7 @@ void Http::begin_thread()
 #endif
 }
 
-/** End a thread */
+/** Ends a thread */
 void Http::end_thread()
 {
 #if defined(HAVE_LIBPTHREAD)
@@ -179,7 +179,7 @@ int Http::httpOpen(const char *url,
 
   Http *http = new Http();	// create a http instance
 
-  // Fills the httpthread structure
+  // Fills the http structure
   http->handle = _handle;
   http->httpReader = httpReader;
   http->mode = _mode;
@@ -191,9 +191,8 @@ int Http::httpOpen(const char *url,
     if (http) {
       delete http;			// segfault
     }
-    http = NULL;
     progression('c');			// 'c' as cache
-    delete http;
+    http = NULL;
     return 0;
   }
   else {				// not in cache
@@ -230,8 +229,6 @@ void * Http::connection(void *_http)
   char *req = new char[512];
 
   int urltype = Url::parser(http->url, host, scheme, path);
-  trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
-                  ::g.url, ::g.universe, scheme, host, path, urltype);
   //echo("HTTP: %s://%s/%s", scheme, host, path);
 
   switch (urltype) {	// which kind of URL ?
@@ -336,7 +333,7 @@ httpretry:
 
       do {
         //
-        // reads a http bloc
+        // reads a http block
         //
         http->len = ::recv(http->sd, http->buf, HTTP_BUFSIZ, 0);
         if (http->len <= 0) {
@@ -385,7 +382,6 @@ httpretry:
                     if ( (q = strchr(p+17, '/')) != 0 ) {
                       *q = '\0';
                       strcpy(host, p+17);	// redirect host
-                      echo("redirect host = %s", host);
                       goto httpretry;
                     }
                   }
@@ -465,7 +461,6 @@ httpretry:
   if (hp) my_free_hostent(hp);
   if (http) delete http;
   http = NULL;
-
   return NULL;
 }
 
