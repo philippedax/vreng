@@ -122,10 +122,10 @@ int Http::putfifo()
 
   /* start new thread */
   Vpthread_t tid;
-  return pthread_create(&tid, NULL, Http::connection, (void *)this);
+  return pthread_create(&tid, NULL, Http::connection, static_cast<void *>(this));
 
 #else
-  Http::connection((void *) this);
+  Http::connection(static_cast<void *>(this));
   return 0;
 #endif
 }
@@ -169,7 +169,9 @@ int Http::httpOpen(const char *url,
                    void *_handle,
                    int _mode)
 {
-  if (url && ! isprint(*url)) {
+  if (! url) return -1;
+
+  if (! isprint(*url)) {
     error("httpOpen: url not printable");
     return -1;
   }
@@ -177,15 +179,15 @@ int Http::httpOpen(const char *url,
   //echo("httpOpen: %s", url);
   ::g.timer.image.start();
 
-  Http *http = new Http();	// create a http instance
+  Http *http = new Http();		// create a http instance
 
   // Fills the http structure
   http->handle = _handle;
   http->httpReader = httpReader;
   http->mode = _mode;
-  if (url) strcpy(http->url, url);
+  strcpy(http->url, url);
 
-  // Checks if url is in the cache (_mode < 0 : don't use the cache)
+  // checks if url is in the cache (_mode < 0 : don't use the cache)
   if (_mode >= 0 && Cache::inCache(url)) {	// in cache
     http->httpReader(http->handle, http);	// call the appropiated httpReader
     if (http) {
@@ -201,7 +203,7 @@ int Http::httpOpen(const char *url,
       return http->putfifo();		// yes, put it into fifo
     }
     else {
-      connection((void *) http);	// it's not a thread
+      connection(static_cast<void *>(http));	// it's not a thread
       ::g.timer.image.stop();
       return 0;
     }
