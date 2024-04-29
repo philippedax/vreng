@@ -195,7 +195,6 @@ int Http::httpOpen(const char *url,
     }
     progression('c');			// 'c' as cache
     http = NULL;
-    return 0;
   }
   else {				// not in cache
     progression('i');			// 'i' as image
@@ -205,9 +204,9 @@ int Http::httpOpen(const char *url,
     else {
       connection(static_cast<void *>(http));	// it's not a thread
       ::g.timer.image.stop();
-      return 0;
     }
   }
+  return 0;
 }
 
 /** Makes a http connection */
@@ -239,7 +238,7 @@ void * Http::connection(void *_http)
     if ((http->sd = ::open(path, O_RDONLY)) < 0) {
       httperr = true;
     }
-    else {	// file not found
+    else {		// file not found
       http->off = -1;
       http->httpReader(http->handle, http);
       httperr = false;
@@ -290,7 +289,7 @@ httpretry:
         httperr = true;
       }
 
-      // open a socket to connect
+      // opens a socket to connect
       if ((http->sd = Socket::openStream()) < 0) {
         perror("connect: socket");
         break;
@@ -301,7 +300,7 @@ httpretry:
       }
 
       /*
-       * send the GET request to the http server with useful infos
+       * sends the GET request to the http server with useful infos
        */
       if (::g.pref.loghttpd) {	// more infos
         if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
@@ -321,7 +320,7 @@ httpretry:
       } 
       //echo("reqGet: %s", req);
 
-      // send the request
+      // sends the request
       if (::write(http->sd, req, strlen(req)) < 0) {
         error("can't send req=%s", req);
         httperr = true;
@@ -436,7 +435,7 @@ httpretry:
       } while (! httpeoh);	// end do
 
       /*
-       * call the appropriated httpReader
+       * calls the appropriated httpReader
        */
       http->httpReader(http->handle, http);
       httperr = false;
@@ -455,7 +454,7 @@ httpretry:
     http->httpReader(http->handle, http);
   }
 
-  // free memory
+  // frees memory
   if (host) delete[] host;
   if (scheme) delete[] scheme;
   if (path) delete[] path;
