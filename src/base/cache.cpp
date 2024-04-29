@@ -62,7 +62,6 @@ int Cache::setCachePath(const char *url, char *cachepath)
     return 0;
   }
   sprintf(cachepath, "%s/%s", ::g.env.cache(), ++pfile);
-  //echo("cachepath: %s", cachepath);
   return 1;
 }
 
@@ -112,10 +111,10 @@ FILE * Cache::open(const char *url, Http *http)
     // writes the file into the cache
 http_reread:
     //
-    // before check if the head of downloading file is valid
+    // checks if the head of the downloaded file is valid
     //
     http->read_buf(buf, 14);	// read head to check if correct
-    if (strncmp(buf, "<!DOCTYPE HTML", 14) == 0) {
+    if (strncmp(buf, "<!DOCTYPE HTML", 14) == 0) {	// hack!!!
       // Httpd-err occured (404)
       fileout->close();
       delete fileout;
@@ -141,12 +140,12 @@ http_reread:
     //
     filein = new File();
     if ((fpr = filein->open(cachepath, "r")) == NULL) {
-      error("openCache: can't open %s", cachepath);
+      error("openCache: can't reopen %s", cachepath);
       return NULL;
     }
 
     //
-    // verify the integrity of the new file created
+    // verifies the integrity of the new created file
     //
     struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
@@ -154,7 +153,7 @@ http_reread:
         error("openCache: %s is empty", cachepath);
         unlink(cachepath);
         progression('-');	// '-' as failed
-        goto http_reread;
+        goto http_reread;	// re-do read
       }
       else {
         progression('h');	// 'h' as http
@@ -162,12 +161,12 @@ http_reread:
     }
   }
   else {	// found in the cache
-    progression('c');	// 'c' as cache
+    progression('c');		// 'c' as cache
   }
 
-  // ready for reading
+  // ready for reading as a file
   delete[] cachepath;
-  return fpr;  // file is now opened
+  return fpr;			// file is now opened
 }
 
 /** Closes cache */
