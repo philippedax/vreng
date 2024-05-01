@@ -99,6 +99,9 @@ class World {
   void addList();
   /**< Adds world into world list. */
 
+  static void reader(void *urlvre, class Http *http);
+  /**< World reader. */
+
   bool call(World *wprev);
   /**<
    * Switches channels.
@@ -121,7 +124,6 @@ class World {
   //
   // Accessors
   //
-
   const char* getName() const;		///< Gets current world name.
   void setName(const char* name);	///< Builds world name from url.
 
@@ -154,7 +156,7 @@ class World {
   //
   // Grid
   //
-private:
+ private:
   void initGrid();
   /**< Inits the grid by default. */
 
@@ -168,7 +170,7 @@ private:
   // World methods
   // static methods
   //
-public:
+ public:
   static World* current();
   /**< Return the current world. */
 
@@ -186,9 +188,6 @@ public:
 
   static World* swap(World *w);
   /**< Exchanges Worlds in the list. */
-
-  static void reader(void *urlvre, class Http *http);
-  /**< World reader. */
 
   static World* find(const char *_url);
   /**< Gets world by url. */
