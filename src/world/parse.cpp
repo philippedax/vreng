@@ -270,7 +270,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
 
 /**
  * Parses vre data,
- * called by World::worldReader
+ * called by World::reader
  */
 int Parse::parseVreFile(char *buf, int buflen)
 {

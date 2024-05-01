@@ -180,7 +180,7 @@ const char* World::getName() const
 }
 
 /** Checks whether this url has been already loaded - static */
-World * World::worldByUrl(const char *url)
+World * World::find(const char *url)
 {
   if (! url) return NULL;	// sandbox world
 
@@ -199,7 +199,7 @@ World * World::worldByUrl(const char *url)
 }
 
 /** Gets a world by its group number */
-World * World::worldByGroup(uint32_t group)
+World * World::find(uint32_t group)
 {
   for (World *w = worldList; w ; w = w->next) {
     if (w->group == group) {
@@ -633,7 +633,7 @@ void World::checkPersist()
 }
 
 /** Reads a world - static */
-void World::worldReader(void *_url, Http *http)
+void World::reader(void *_url, Http *http)
 {
   char *url = static_cast<char *>(_url);
   //char *url = World::current()->url;	// maybe url is corrupted HACK!!!
@@ -735,7 +735,7 @@ void World::init(const char *url)
   // Download initial world (Rendezvous.vre by default)
   //
   //world->universe->startWheel();
-  Http::httpOpen(url, worldReader, (void *)url, 0);
+  Http::httpOpen(url, reader, (void *)url, 0);
   //world->universe->stopWheel();
   endprogression();
 
@@ -850,8 +850,8 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   World *world = NULL;
 
   // check whether this world is already in memory
-  if (worldByUrl(url) && isnew) {
-    world = worldByUrl(url);	// existing world
+  if (find(url) && isnew) {
+    world = find(url);	// existing world
     worldList = swap(world);
     if (::g.pref.dbgtrace) echo("enter: world=%s (%d)", world->name, isnew);
     if (world->guip) {
@@ -905,7 +905,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     //
     trace(DBG_WO, "enter: downloading world url=%s", url);
     //world->universe->startWheel();
-    if (Http::httpOpen(url, worldReader, (void *)url, 0) < 0) {
+    if (Http::httpOpen(url, reader, (void *)url, 0) < 0) {
       error("enter: bad download: url=%s", url);
       return NULL;
     }

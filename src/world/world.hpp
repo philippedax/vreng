@@ -187,13 +187,13 @@ public:
   static World* swap(World *w);
   /**< Exchanges Worlds in the list. */
 
-  static void worldReader(void *urlvre, class Http *http);
+  static void reader(void *urlvre, class Http *http);
   /**< World reader. */
 
-  static World* worldByUrl(const char *_url);
+  static World* find(const char *_url);
   /**< Gets world by url. */
 
-  static World* worldByGroup(uint32_t group);
+  static World* find(uint32_t group);
   /**< Gets world by group addr. */
 
   static void deleteObjects();

@@ -328,8 +328,8 @@ int Channel::create(const char *chan_str, int **pfds)
   uint32_t oldssrc = 0;
   World *world = NULL;
 
-#if 0 //dax loop in worldByGroup
-  if ((world = World::worldByGroup(group)) != NULL) {
+#if 0 //dax loop in World::find
+  if ((world = World::find(group)) != NULL) {
     if (world) {
       oldssrc = world->getSsrc();
     }
