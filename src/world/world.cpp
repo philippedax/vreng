@@ -351,14 +351,14 @@ void World::compute(time_t sec, time_t usec)
     // computes world's bounding box
     //
     for (vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-      if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER)) continue;
+      if (! (*it)->isBehavior(NO_BBABLE) || (*it)->isBehavior(COLLIDE_NEVER)) continue;
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
       }
     }
     for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-      if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER) || (*it)->type == USER_TYPE) continue;
+      if (! (*it)->isBehavior(NO_BBABLE) || (*it)->isBehavior(COLLIDE_NEVER) || (*it)->type == USER_TYPE) continue;
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
@@ -832,7 +832,7 @@ void World::quit()
   if (localuser) localuser->resetPosition();
   if (linked) return;
 
-  WO::resetObjectsNumber();
+  //dax WO::resetObjectsNumber();
   Tool::quitTools();		// quits all tools
 }
 

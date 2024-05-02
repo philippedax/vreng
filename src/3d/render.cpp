@@ -168,7 +168,7 @@ void Render::materials()
 /** Records object number into the selection buffer */
 void Render::recordObject(WO *o)
 {
-  if (o->isSelectable()) {
+  if (! o->isBehavior(UNSELECTABLE)) {
     glPopName();
     glPushName((GLuint) o->num); // push number
   }

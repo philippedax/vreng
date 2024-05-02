@@ -701,9 +701,6 @@ class WO {
   bool isBehavior(uint32_t flag) const;
   /**< Checks if this behavior is on. */
 
-  bool bbBehavior() const;
-  /**< Checks if BBox behavior is on. */
-
   bool isSeen();
   /**< Checks if the object is in the sight view of the user. */
 
@@ -736,9 +733,6 @@ class WO {
   /**< Resets Ray on the 3D object. */
 
   void setReflexive(bool flag);
-
-  bool isSelectable() const;
-  /**< Checks whether 3D selectable behavior is on. */
 
   bool isRemoved() const;
   /**< Returns if object has been removed or not. */
@@ -818,9 +812,6 @@ class WO {
 
   void deleteReplica();
   /**< Deletes a replicated object. */
-
-  static void resetObjectsNumber();
-  /**< Resets object seq. number. */
 
   uint32_t getObjectsNumber();
   /**< Gets current object sequence number. */

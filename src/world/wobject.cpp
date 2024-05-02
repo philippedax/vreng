@@ -217,7 +217,7 @@ void WO::initObject(uint8_t _mode)
   }
 
   update3D(pos);
-  if (bbBehavior()) {
+  if (! isBehavior(NO_BBABLE)) {
     updateBB();
     insertIntoGrid();
   }
@@ -305,26 +305,19 @@ bool WO::isBehavior(uint32_t flag) const
   return (behavior & flag);
 }
 
-bool WO::bbBehavior() const
-{
-  return (! isBehavior(NO_BBABLE));
-}
-
-bool WO::isSelectable() const
-{
-  return (! isBehavior(UNSELECTABLE));
-}
-
+/** Checks if valid type */
 bool WO::isValid() const
 {
   return OClass::isValidType(type);
 }
 
+/** Sets type */
 void WO::setType(uint8_t _type)
 {
   type = _type;
 }
 
+/** Checks if is removed */
 bool WO::isRemoved() const
 {
   return removed;
@@ -336,22 +329,20 @@ uint32_t WO::getObjectsNumber()
   return objectNum;
 }
 
-void WO::resetObjectsNumber()
-{
-  objectNum = 0;
-}
-
+/** Checks if is permanent */
 bool WO::isPermanent() const
 {
   return (netop) ? netop->isPermanent() : false;
 }
 
+/** Checks if is seen */
 bool WO::isSeen()
 {
   V3 vseen = ::g.render.getVisiblePosition(this);
   return vseen.v[2];  // seen = v[2]
 }
 
+/** Checks if is owner */
 bool WO::isOwner() const
 {
   if (! strcmp(name.owner, localuser->name.current)) {
@@ -360,12 +351,14 @@ bool WO::isOwner() const
   return false;
 }
 
+/** Sets the owner name */
 void WO::setOwner(const char *_owner)
 {
   name.owner = new char[USER_LEN];
   strcpy(name.owner, _owner);
 }
 
+/** Sets the owner */
 void WO::setOwner()
 {
   if (localuser)
@@ -374,6 +367,7 @@ void WO::setOwner()
     setOwner("me");
 }
 
+/** Gets current object number */
 uint16_t WO::getNum()
 {
   num = ++objectNum;
@@ -433,12 +427,14 @@ Solid* WO::getSolid() const
   return solid;
 }
 
+/** Sets visibility */
 void WO::setVisible(bool flag)
 {
   visible = flag;
   if (solid) solid->setVisible(flag);
 }
 
+/** Checks if is visible */
 bool WO::isVisible() const
 {
   if (solid)
@@ -447,11 +443,13 @@ bool WO::isVisible() const
     return false;
 }
 
+/** Sets already rendered */
 void WO::setRendered(bool flag)
 {
   if (solid) solid->setRendered(flag);
 }
 
+/** Checks if is rendered */
 bool WO::isRendered() const
 {
   if (solid)
@@ -460,6 +458,7 @@ bool WO::isRendered() const
     return false;
 }
 
+/** Checks if is opaque */
 bool WO::isOpaque() const
 {
   if (solid)
@@ -468,17 +467,20 @@ bool WO::isOpaque() const
     return false;
 }
 
+/** Sets a ray */
 void WO::setRay(GLint wx, GLint wy)
 {
   if (solid) solid->setRay(wx, wy);
 }
 
+/** Resets a ray */
 void WO::resetRay()
 {
   if (! isValid()) return;
   if (solid) solid->resetRay();
 }
 
+/** Sets reflexive */
 void WO::setReflexive(bool flag)
 {
   if (solid) solid->setReflexive(flag);
@@ -503,11 +505,13 @@ void WO::delSolids()
   }
 }
 
+/** Gets 3D position */
 void WO::getPosition(M4& mpos)
 {
   if (solid) solid->getPosition(mpos);
 }
 
+/** Gets materials */
 void WO::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alpha)
 {
   if (solid) solid->getMaterials(dif, amb, spe, emi, shi, alpha);
@@ -539,7 +543,7 @@ void WO::getCent(V3 &center)
 }
 #endif //notused
 
-/** Gets number of frames of this solid */
+/** Gets the number of frames of this solid */
 uint8_t WO::getFrames()
 {
   if (solid) return solid->getFrames();
@@ -553,21 +557,25 @@ uint8_t WO::getFrame()
   else return 0;
 }
 
+/** Sets a frame number */
 void WO::setFrame(uint8_t _frame)
 {
   if (solid) solid->setFrame(_frame);      // set frame
 }
 
+/** Set flashy */
 void WO::setFlashy(float *color)
 {
   if (solid) solid->setFlashyEdges(color);
 }
 
+/** Set flashy */
 void WO::setFlashy()
 {
   if (solid) solid->setFlashyEdges(true);
 }
 
+/** Reset flashy */
 void WO::resetFlashy()
 {
   if (! isValid()) return;
@@ -780,7 +788,7 @@ void WO::updateBB()
 void WO::initPosition()
 {
   update3D(pos);
-  if (bbBehavior()) {
+  if (! isBehavior(NO_BBABLE)) {
     updateBB();
     insertIntoGrid();
   }
@@ -791,7 +799,7 @@ void WO::updatePosition()
 {
   //dax update3D(pos);
   updateAll3D(pos);
-  if (bbBehavior()) {
+  if (! isBehavior(NO_BBABLE)) {
     updateBB();
   }
   pos.alter = true;	// has changed
@@ -802,13 +810,13 @@ void WO::updatePosition()
 void WO::updatePositionAndGrid(Pos &oldpos)
 {
   updatePosition();
-  if (bbBehavior()) updateGrid(oldpos);
+  if (! isBehavior(NO_BBABLE)) updateGrid(oldpos);
 }
 
 void WO::updatePositionAndGrid(WO *pold)
 {
   updatePosition();
-  if (bbBehavior()) updateGrid(pold);
+  if (! isBehavior(NO_BBABLE)) updateGrid(pold);
 }
 
 /** Updates distance - accessor */
@@ -980,7 +988,7 @@ void WO::click(GLint x, GLint y)
 // Parsing vre lines
 //
 
-/** parse accessors */
+/** parse accessor */
 Parse * WO::parse()
 {
   return Parse::getParse();
