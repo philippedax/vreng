@@ -77,7 +77,6 @@ WO::WO()
   name.type = new char[TYPENAME_LEN];
   name.url = new char[URL_LEN];
 
-  //dax1 name.url = NULL;
   name.given = NULL;
   name.owner = NULL;
   name.implicit = NULL;
@@ -797,7 +796,6 @@ void WO::initPosition()
 /** Updates 3D position */
 void WO::updatePosition()
 {
-  //dax update3D(pos);
   updateAll3D(pos);
   if (! isBehavior(NO_BBABLE)) {
     updateBB();

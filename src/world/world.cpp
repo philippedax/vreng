@@ -351,28 +351,24 @@ void World::compute(time_t sec, time_t usec)
     // computes world's bounding box
     //
     for (vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-      if (! (*it)->isBehavior(NO_BBABLE) || (*it)->isBehavior(COLLIDE_NEVER)) continue;
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
       }
     }
     for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-      if (! (*it)->isBehavior(NO_BBABLE) || (*it)->isBehavior(COLLIDE_NEVER) || (*it)->type == USER_TYPE) continue;
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
       }
     }
-
     for (int i=0; i<3 ; i++) {
       bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]);
       bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]);
     }
-    //dax OList::clearIspointed(mobileList);
-
     //echo("bbs=%.1f,%.1f,%.1f bbc=%.1f,%.1f,%.1f", bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
 
+    //dax OList::clearIspointed(mobileList);
     setState(SIMULATION);
     Axis::axis()->init();
     Grid::grid()->init(bbsize.v[0], bbsize.v[1], bbsize.v[2]);
