@@ -151,17 +151,15 @@ void WO::initObject(uint8_t _mode)
   type = typeId();
   num = objectNum++;
 
+  //echo("num=%d mode=%d type=%d", num, mode, type);
   setWOId();
   initPosition();
   objectList.push_back(this);	// add to objectList
 
-  //echo("num=%d mode=%d type=%d", num, mode, type);
   switch (mode) {
-
     case STILL:
       stillList.push_back(this);	// add to stillList
       break;
-
     case MOBILE:
       if (isBehavior(PERSISTENT)) {
         if (checkPersist()) {
@@ -176,17 +174,14 @@ void WO::initObject(uint8_t _mode)
         enablePermanentMovement();
       }
       break;
-
     case FLUID:
       enableBehavior(NO_ELEMENTARY_MOVE);
       fluidList.push_back(this);	// add to fluidList
       break;
-
     case CLOTH:
       enableBehavior(NO_ELEMENTARY_MOVE);
       clothList.push_back(this);	// add to clothList
       break;
-
     case INVISIBLE:
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
@@ -194,14 +189,12 @@ void WO::initObject(uint8_t _mode)
       visible = false;
       invisList.push_back(this);	// add to invisList
       break;
-
     case EPHEMERAL:
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
       mobileList.push_back(this);	// add to mobileList
       break;
-
     case MOBILEINVISIBLE:
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
@@ -265,7 +258,7 @@ void WO::initEphemeralObject(float last)
   }
 }
 
-/** Enables one behavior */
+/** Enables a behavior */
 void WO::enableBehavior(uint32_t flag)
 {
   switch (flag) {
@@ -288,7 +281,7 @@ void WO::enableBehavior(uint32_t flag)
   behavior |= flag;
 }
 
-/** Disables one behavior */
+/** Disables a behavior */
 void WO::disableBehavior(uint32_t flag)
 {
   behavior &= ~flag;
@@ -298,7 +291,7 @@ void WO::disableBehavior(uint32_t flag)
   }
 }
 
-/** Checks one behavior */
+/** Checks a behavior */
 bool WO::isBehavior(uint32_t flag) const
 {
   return (behavior & flag);
@@ -316,18 +309,6 @@ void WO::setType(uint8_t _type)
   type = _type;
 }
 
-/** Checks if is removed */
-bool WO::isRemoved() const
-{
-  return removed;
-}
-
-/** Gets the number of the object - static */
-uint32_t WO::getObjectsNumber()
-{
-  return objectNum;
-}
-
 /** Checks if is permanent */
 bool WO::isPermanent() const
 {
@@ -339,15 +320,6 @@ bool WO::isSeen()
 {
   V3 vseen = ::g.render.getVisiblePosition(this);
   return vseen.v[2];  // seen = v[2]
-}
-
-/** Checks if is owner */
-bool WO::isOwner() const
-{
-  if (! strcmp(name.owner, localuser->name.current)) {
-    return true;
-  }
-  return false;
 }
 
 /** Sets the owner name */
@@ -396,12 +368,6 @@ void WO::setGivenName(const char *_name)
   strcpy(name.given, _name);
 }
 
-/** Returns url's name */
-const char * WO::urlName() const
-{
-  return name.url;
-}
-
 /** Returns owner's name */
 const char * WO::ownerName() const
 {
@@ -426,7 +392,7 @@ Solid* WO::getSolid() const
   return solid;
 }
 
-/** Sets visibility */
+/** Sets visible */
 void WO::setVisible(bool flag)
 {
   visible = flag;
@@ -438,21 +404,6 @@ bool WO::isVisible() const
 {
   if (solid)
     return solid->isVisible();
-  else
-    return false;
-}
-
-/** Sets already rendered */
-void WO::setRendered(bool flag)
-{
-  if (solid) solid->setRendered(flag);
-}
-
-/** Checks if is rendered */
-bool WO::isRendered() const
-{
-  if (solid)
-    return solid->isRendered();
   else
     return false;
 }
@@ -656,7 +607,7 @@ void WO::resetGui()
 
 bool WO::removeFromScene()
 {
-  if (isOwner()) {
+  if (! strcmp(name.owner, localuser->name.current)) {
     if (vsql) vsql->deleteRow(this);
     toDelete();
     clearObjectBar();

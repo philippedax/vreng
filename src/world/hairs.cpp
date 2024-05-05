@@ -370,7 +370,7 @@ void Hairs::reader(void *_lwo, Http *http)
   char str[1024];
 
   Cache *cache = new Cache();
-  FILE *fp = cache->open(hairs->urlName(), http);
+  FILE *fp = cache->open(hairs->name.url, http);
 
   /* check for header */
   littleendian = Endian::littleEndian();

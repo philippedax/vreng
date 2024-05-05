@@ -307,7 +307,7 @@ Icon::Icon(User *user, void *d)
   // document's owner
   setOwner();
 
-  trace(DBG_WO, "Icon: url=%s icon=%s name=%s owner=%s", urlName(), tex, objectName(), ownerName());
+  trace(DBG_WO, "Icon: url=%s icon=%s name=%s owner=%s", name.url, tex, objectName(), ownerName());
 
   if (action) {
     if      (! stringcmp(action, "pin"))   pin(this, NULL, 0L, 0L);

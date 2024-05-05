@@ -353,9 +353,6 @@ class WO {
   void setGivenName(const char *name);
   /**< Sets name.given. */
 
-  const char * urlName() const;
-  /**< Gets name.url. */
-
   const char * ownerName() const;
   /**< Gets name.owner. */
 
@@ -378,9 +375,6 @@ class WO {
   /**< Checks if permanent object. */
 
  private:
-  bool isOwner() const;
-  /**< Returns true if owner. */
-
   void setOwner(const char *_owner);
   /**< Initialize owner. */
 
@@ -710,12 +704,6 @@ class WO {
   bool isVisible() const;
   /**< Checks if the object is visible. */
 
-  void setRendered(bool flag);
-  /**< Sets rendered or not the 3D object. */
-
-  bool isRendered() const;
-  /**< Checks if the object is Rendered. */
-
   bool isOpaque() const;
   /**< Checks whether the object is opaque. */
 
@@ -733,9 +721,6 @@ class WO {
   /**< Resets Ray on the 3D object. */
 
   void setReflexive(bool flag);
-
-  bool isRemoved() const;
-  /**< Returns if object has been removed or not. */
 
   uint32_t collideBehavior() const;
   /**< Returns collide behavior. */
@@ -812,9 +797,6 @@ class WO {
 
   void deleteReplica();
   /**< Deletes a replicated object. */
-
-  uint32_t getObjectsNumber();
-  /**< Gets current object sequence number. */
 
 
   //

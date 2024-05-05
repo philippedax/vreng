@@ -273,12 +273,6 @@ static const uint8_t FRAME_MAX;		// 255
   bool isVisible() const;
   /**< Return if the solid should be drawn or not. */
 
-  void setRendered(bool v);
-  /**< Sets the solid rendered (true) or not (false). */
-
-  bool isRendered() const;
-  /**< Return if the solid should be rendered or not. */
-
   bool isOpaque() const;
   /**< Return if the solid is opaque or not. */
 

@@ -1248,16 +1248,6 @@ bool Solid::isVisible() const
   return visible;
 }
 
-void Solid::setRendered(bool _rendered)
-{
-  rendered = _rendered;
-}
-
-bool Solid::isRendered() const
-{
-  return rendered;
-}
-
 bool Solid::isOpaque() const
 {
   return opaque;

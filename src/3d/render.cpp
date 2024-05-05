@@ -237,13 +237,13 @@ void Render::renderOpaque(bool mini)
 
         for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::OPAQUE);
-          (*jt)->setRendered(true);
+          (*jt)->rendered = true;
           trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*jt)->object()->objectName(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
         }
         glPopMatrix();
       }
     }
-    (*it)->setRendered(true);
+    (*it)->rendered = true;
   }
 }
 
@@ -255,8 +255,8 @@ void Render::renderTransparent(bool mini)
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() == false &&
          (*it)->isVisible() &&
-         ! (*it)->isRendered() &&
-         ! (*it)->object()->isRemoved() ) {
+         ! (*it)->rendered &&
+         ! (*it)->object()->removed ) {
       transparentList.push_back(*it);	// add to transparent list
     }
   }
@@ -290,13 +290,13 @@ void Render::renderTransparent(bool mini)
 
         for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::TRANSPARENT);
-          (*jt)->setRendered(true);
+          (*jt)->rendered = true;
           trace2(DBG_3D, " %s:%.1f#%d", (*jt)->object()->objectName(), (*jt)->userdist, (*jt)->nbsolids);
         }
         glPopMatrix();
       }
     }
-    (*it)->setRendered(true);
+    (*it)->rendered = true;
   }
 }
 
@@ -314,7 +314,7 @@ void Render::renderGround()
     else {
       (*it)->displaySolid(Solid::OPAQUE);
     }
-    (*it)->setRendered(true);
+    (*it)->rendered = true;
     trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
   }
 }
@@ -334,7 +334,7 @@ void Render::renderModel()
     else {
       (*it)->displaySolid(Solid::OPAQUE);
     }
-    (*it)->setRendered(true);
+    (*it)->rendered = true;
     trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
   }
 }
@@ -352,7 +352,7 @@ void Render::renderUser()
     else {
       (*it)->displaySolid(Solid::USER);
     }
-    (*it)->setRendered(true);
+    (*it)->rendered = true;
     trace2(DBG_3D, " %s", (*it)->object()->objectName());
     break;	// only one
   }
@@ -369,7 +369,7 @@ void Render::renderFlary()
     else {
       (*it)->displaySolid(Solid::FLASH);
     }
-    (*it)->setRendered(true);
+    (*it)->rendered = true;
     trace2(DBG_3D, " %s", (*it)->object()->objectName());
   }
 }
@@ -393,9 +393,9 @@ void Render::renderSolids(bool mini)
   flaryList.clear();
 
   // for all solids
-  // set setRendered=false updateDist and find the localuser solid
+  // sets rendered=false updateDist and find the localuser solid
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
-    (*it)->setRendered(false);
+    (*it)->rendered = false;
     (*it)->updateDist();
     if ( (*it)->isOpaque() && (*it)->isVisible() ) {
       if ( (*it)->isFlashy() || (*it)->isFlary() ) {
