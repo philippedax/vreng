@@ -356,7 +356,7 @@ static void setUser(UBox *gu, User *user)
 }
 
 /** Adds an avatar item */
-GuiItem *Widgets::addUser(User *user)
+GuiItem *Widgets::addAvatar(User *user)
 {
   if (! user)  return null;
 
@@ -367,7 +367,7 @@ GuiItem *Widgets::addUser(User *user)
 }
 
 /** Updates an avatar item */
-void Widgets::updateUser(GuiItem* gu, User *user)
+void Widgets::updateAvatar(GuiItem* gu, User *user)
 {
   if (! user)  return;
 
@@ -376,7 +376,7 @@ void Widgets::updateUser(GuiItem* gu, User *user)
 }
 
 /** Removes an avatar item */
-void Widgets::removeUser(GuiItem* gu)
+void Widgets::removeAvatar(GuiItem* gu)
 {
   if (! gu)  return;
   avatars.remove(*gu);

@@ -31,7 +31,7 @@
 #include "sql.hpp"	// VSql
 #include "solid.hpp"	// Solid
 #include "olist.hpp"	// OList
-#include "gui.hpp"	// clearInfoBar, removeUser
+#include "gui.hpp"	// clearInfoBar, removeAvatar
 #include "payload.hpp"	// Payload
 #include "carrier.hpp"	// carrier->take
 #include "render.hpp"	// getVisiblePosition
@@ -1362,7 +1362,7 @@ void WO::putProperty(uint8_t prop_id, Payload *pp)
 void WO::deleteReplica()
 {
   if (this != localuser) {
-    if (type == USER_TYPE) ::g.gui.removeUser((User *) this);
+    if (type == USER_TYPE) ::g.gui.removeAvatar((User *) this);
     delFromGrid();
     delFromList(mobileList);
 

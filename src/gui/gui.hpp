@@ -71,11 +71,11 @@ class Gui {
   void removeChannelSources(int canal);
   ///< NB: canal=0 for tab_fd / canal=1 for tab_manager_fd.
 
-  // User
-  struct GuiItem * addUser(class User*);
-  void updateUser(class User*);
-  void removeUser(class User*);
-  void pauseUser();
+  // Avatar
+  struct GuiItem * addAvatar(class User*);
+  void updateAvatar(class User*);
+  void removeAvatar(class User*);
+  void pauseAvatar();
  
   // World
   struct GuiItem * addWorld(class World *world, bool isCurrent);

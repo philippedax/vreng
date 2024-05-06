@@ -41,7 +41,7 @@
 #include "solid.hpp"	// solid ray_dlist
 #include "draw.hpp"	// ray
 #include "render.hpp"	// sharedRender getViewMode
-#include "gui.hpp"	// addUser
+#include "gui.hpp"	// addAvatar
 #include "sound.hpp"	// playSound
 #include "rtp.hpp"	// RTPNAME_LEN
 #include "pref.hpp"	// user
@@ -280,7 +280,7 @@ void User::setCamera()
 /** Informs the Gui */
 void User::addGui()
 {
-  if (! guip) guip = ::g.gui.addUser(this);
+  if (! guip) guip = ::g.gui.addAvatar(this);
 }
 
 /** Checks attached persist objects */
@@ -497,7 +497,7 @@ void User::getMemory()
 User::~User()
 {
   echo("User %s quits", objectName());
-  ::g.gui.removeUser(this);
+  ::g.gui.removeAvatar(this);
 
   // MS. if this destructor is called for a remote user,
   // we should not declare the deletion: it's not our problem.

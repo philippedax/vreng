@@ -740,7 +740,7 @@ void World::init(const char *url)
   // check whether other objects are persistents
   world->checkPersist();
 
-  if (! ::g.pref.gravity) ::g.gui.pauseUser();
+  if (! ::g.pref.gravity) ::g.gui.pauseAvatar();
 
   world->setState(LOADED);
   trace(DBG_INIT, "World %s initialized", world->getName());

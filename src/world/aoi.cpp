@@ -26,7 +26,7 @@
 #include "aoi.hpp"
 #include "world.hpp"	// current->getName()
 #include "user.hpp"	// localuser
-#include "gui.hpp"	// removeUser
+#include "gui.hpp"	// removeAvatar
 #include "channel.hpp"	// cnt_fd
 #include "netobj.hpp"	// NetObj
 
@@ -133,7 +133,7 @@ void Aoi::aoiEnter()
    */
 
   /* GUI stuff */
-  g.gui.updateUser(localuser);
+  g.gui.updateAvatar(localuser);
 
   /* 3D stuff */
   localuser->updatePosition();
@@ -150,7 +150,7 @@ void Aoi::aoiQuit()
     /* skipping local user object (as we do not want to remove it) */
     if (*it == localuser) continue;
     /* closes GUI */
-    if ((*it)->type == USER_TYPE) ::g.gui.removeUser(reinterpret_cast<User *>((*it)));
+    if ((*it)->type == USER_TYPE) ::g.gui.removeAvatar(reinterpret_cast<User *>((*it)));
     /* performs some clean up */
     if ((*it)->type) delete *it;
   }

@@ -84,7 +84,7 @@ friend class Message;
   Navig* getNavig() { return &navig; }
 
   void alertDialog(const char* message);
-  ///< opens alert box if arg is not null, closes it if arg is null.
+  ///< Opens alert box if arg is not null, closes it if arg is null.
 
   void setInfobar(UBox* content);
 
@@ -92,13 +92,13 @@ friend class Message;
 
   // Users
 
-  GuiItem * addUser(User *username);
+  GuiItem * addAvatar(User *username);
   ///< Adds an avatar name.
 
-  void updateUser(GuiItem *gp, User *username);
+  void updateAvatar(GuiItem *gp, User *username);
   ///< Updates an avatar.
 
-  void removeUser(GuiItem *gp);
+  void removeAvatar(GuiItem *gp);
   ///< Removes an avatar name.
 
   // Worlds
@@ -115,7 +115,7 @@ friend class Message;
   // Callback functions
 
   class WO* pointedObject(int x, int y, ObjInfo* obji, int depthsel);
-  /**< returns info about the pointed object but do NOT select it */
+  /**< Returns info about the pointed object but do NOT select it */
   
   static void callAction(int numaction);
   static void setKey(int key, int is_pressed);  
@@ -186,7 +186,7 @@ friend class Message;
   void getMessage(UMessageEvent&);
   void moveMessage(UMessageEvent&);
 
-  // Widgets callbacks
+  // Widgets Callbacks
   void prevCB();
   void nextCB();
   void homeCB();

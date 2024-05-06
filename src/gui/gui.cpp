@@ -191,38 +191,38 @@ void Gui::updateCart(WO* po)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Handling User
+// Handling Avatar
 //
-GuiItem * Gui::addUser(User *user) 	// when a new user comes in
+GuiItem * Gui::addAvatar(User *user) 	// when a new user comes in
 {
   if (! user)  return NULL;
 
   //echo("Avatar %s joins %s", user->objectName(), user->worldName());
-  return widgets->addUser(user);
+  return widgets->addAvatar(user);
 }
 
-void Gui::removeUser(User *user)	// when an user quits
+void Gui::removeAvatar(User *user)	// when an user quits
 {
   if (! user)  return;
 
   //echo("Avatar %s leaves %s", user->objectName(), user->worldName());
   if (user->isGui()) {
-    widgets->removeUser(user->getGui());
-    // MS : for Ubit at least, removeUser does a delete on the guiItem structure.
+    widgets->removeAvatar(user->getGui());
+    // MS : for Ubit at least, removeAvatar does a delete on the guiItem structure.
     // safer to mark it a NULL than to carry an invalid pointer around.
     user->resetGui();
   }
 }
 
-void Gui::updateUser(User *user)
+void Gui::updateAvatar(User *user)
 {
   if (! user)  return;
 
   //echo("Avatar %s is in %s", user->objectName(), user->worldName());
-  if (user->isGui()) widgets->updateUser(user->getGui(), user);
+  if (user->isGui()) widgets->updateAvatar(user->getGui(), user);
 }
 
-void Gui::pauseUser()
+void Gui::pauseAvatar()
 {
   widgets->callAction(User::UA_PAUSE);
 }
