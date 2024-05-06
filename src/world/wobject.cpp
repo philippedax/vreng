@@ -392,14 +392,14 @@ Solid* WO::getSolid() const
   return solid;
 }
 
-/** Sets visible */
+/** Sets visible - accessor */
 void WO::setVisible(bool flag)
 {
   visible = flag;
   if (solid) solid->setVisible(flag);
 }
 
-/** Checks if is visible */
+/** Checks if is visible - accessor */
 bool WO::isVisible() const
 {
   if (solid)
@@ -408,7 +408,7 @@ bool WO::isVisible() const
     return false;
 }
 
-/** Checks if is opaque */
+/** Checks if is opaque - accessor */
 bool WO::isOpaque() const
 {
   if (solid)
@@ -417,20 +417,20 @@ bool WO::isOpaque() const
     return false;
 }
 
-/** Sets a ray */
+/** Sets a ray - accessor */
 void WO::setRay(GLint wx, GLint wy)
 {
   if (solid) solid->setRay(wx, wy);
 }
 
-/** Resets a ray */
+/** Resets a ray - accessor */
 void WO::resetRay()
 {
   if (! isValid()) return;
   if (solid) solid->resetRay();
 }
 
-/** Sets reflexive */
+/** Sets reflexive - accessor */
 void WO::setReflexive(bool flag)
 {
   if (solid) solid->setReflexive(flag);
@@ -455,77 +455,77 @@ void WO::delSolids()
   }
 }
 
-/** Gets 3D position */
+/** Gets 3D position - accessor */
 void WO::getPosition(M4& mpos)
 {
   if (solid) solid->getPosition(mpos);
 }
 
-/** Gets materials */
+/** Gets materials - accessor */
 void WO::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alpha)
 {
   if (solid) solid->getMaterials(dif, amb, spe, emi, shi, alpha);
 }
 
-/** Gets size of solid */
+/** Gets size of solid - accessor */
 void WO::getDim(V3 &dim)
 {
   if (solid) solid->getDimBB(dim);
 }
 
-/** Gets relative center and size of solid */
+/** Gets relative center and size of solid - accessor */
 void WO::getRelBB(V3 &center, V3 &size)
 {
   if (solid) solid->getRelBB(center, size);
 }
 
 #if 0 //notused
-/** Gets absolute center and size of solid */
+/** Gets absolute center and size of solid - accessor */
 void WO::getAbsBB(V3 &center, V3 &size)
 {
   if (solid) solid->getAbsBB(center, size);
 }
 
-/** Gets relative center of solid */
+/** Gets relative center of solid - accessor */
 void WO::getCent(V3 &center)
 {
   if (solid) solid->getCentBB(center);
 }
 #endif //notused
 
-/** Gets the number of frames of this solid */
+/** Gets the number of frames of this solid - accessor */
 uint8_t WO::getFrames()
 {
   if (solid) return solid->getFrames();
   else return 0;
 }
 
-/** Gets index of current frame of this solid */
+/** Gets index of current frame of this solid - accessor */
 uint8_t WO::getFrame()
 {
   if (solid) return solid->getFrame();
   else return 0;
 }
 
-/** Sets a frame number */
+/** Sets a frame number - accessor */
 void WO::setFrame(uint8_t _frame)
 {
   if (solid) solid->setFrame(_frame);      // set frame
 }
 
-/** Set flashy */
+/** Set flashy - accessor */
 void WO::setFlashy(float *color)
 {
   if (solid) solid->setFlashyEdges(color);
 }
 
-/** Set flashy */
+/** Set flashy - accessor */
 void WO::setFlashy()
 {
   if (solid) solid->setFlashyEdges(true);
 }
 
-/** Reset flashy */
+/** Reset flashy - accessor */
 void WO::resetFlashy()
 {
   if (! isValid()) return;
@@ -590,21 +590,25 @@ NetObj * WO::replicate(uint8_t props, Noid _noid)
 // Gui
 //
 
+/** Returns Gui pointer */
 struct GuiItem* WO::getGui() const
 {
   return guip;
 }
 
+/** Checks if Gui valid */
 bool WO::isGui() const
 {
   return (guip) ? true : false;
 }
 
+/** Resets Gui pointer */
 void WO::resetGui()
 {
   guip = NULL;
 }
 
+/** Removes an object from scene */
 bool WO::removeFromScene()
 {
   if (! strcmp(name.owner, localuser->name.current)) {
@@ -625,6 +629,7 @@ bool WO::removeFromScene()
 // name
 //
 
+/** Inits hash table */
 void WO::initNames()  
 { 
   for (int i=0; i < NAME_HASH_SIZE; i++) {
@@ -633,6 +638,7 @@ void WO::initNames()
   }
 }
 
+/** Returns a hash number from name */
 static uint32_t hash_name(const char *s)
 { 
   uint32_t h;
@@ -643,6 +649,7 @@ static uint32_t hash_name(const char *s)
   return h;
 } 
 
+/** Sets a name in hash table */
 void WO::setObjectName(const char *name)
 { 
   if (! name) return;
@@ -661,14 +668,15 @@ void WO::setObjectName(const char *name)
   }
 }
 
-WO * WO::getObjectByName(const char *name)
+/** Gets an object by its name */
+WO * WO::getObject(const char *name)
 {
   if (! name) return NULL;
 
   char fullname[OBJNAME_LEN];
   sprintf(fullname, "%s@%s", name, World::current()->getName());
   uint32_t hval = hash_name(fullname);
-  trace(DBG_WO, "getObjectByName: hval=%d name=%s", hval, fullname);
+  trace(DBG_WO, "getObject: hval=%d name=%s", hval, fullname);
   while (hval) {
     if (*(hashtable[hval].name) == '\0') {
       return NULL;          // not found
@@ -693,7 +701,7 @@ void WO::forceNames(const char *newname)
   name.current = name.implicit;
 }
 
-/** Updates Object name */
+/** Updates object name */
 void WO::updateNames()
 {
   if (! isValid()) return;

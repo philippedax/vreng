@@ -637,7 +637,7 @@ class WO {
   void updateNames();
   /**< Updates names. */
 
-  WO *getObjectByName(const char *str);
+  WO *getObject(const char *str);
   /**< Gets an object by its name. */
 
  private:

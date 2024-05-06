@@ -74,7 +74,7 @@ void Button::parser(char *l)
   p = strchr(pname, ' ');
   if (p) *p = '\0';
 
-  WO *puse = getObjectByName(pname);
+  WO *puse = getObject(pname);
   if (puse) {
     num_action0 = indexAction(puse->type, str_action0);
     if (*str_action1)
@@ -125,7 +125,7 @@ void Button::commut(Button *button, void *d, time_t s, time_t us)
 
   char *puse = strtok(button->use_names, " \t");
   while (puse) {
-    if ((psel = button->getObjectByName(puse)) != NULL) {
+    if ((psel = button->getObject(puse)) != NULL) {
       if ((idxaction <= OBJECTSNUMBER) && isAction(psel->type, idxaction))
         doAction(psel->type, idxaction, psel, d, s, us);
       else

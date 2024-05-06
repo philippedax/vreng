@@ -37,6 +37,7 @@
 #define _DEBUG_TOPO_ 0
 
 
+/** Constructor */
 Vicinity::Vicinity()
 {
   solidLst = ::g.render.getSolidList();
@@ -59,6 +60,7 @@ Vicinity::Vicinity()
   vicinList.resize(listSize);
 }
 
+/** Constructor */
 Vicinity::Vicinity(string objectName)
 {
   // On instancie l'objet
@@ -67,7 +69,7 @@ Vicinity::Vicinity(string objectName)
 
   // On cherche l'objet dans la liste
   obj = NULL;
-  obj->getObjectByName(objName.c_str());
+  obj->getObject(objName.c_str());
   //echo("found object %s in the list of objects", obj->objectName());
 
   setSize(localuser);
@@ -103,6 +105,7 @@ void Vicinity::setSize(WO *user)
     userSize = SIZE_NORMAL;
 }
 
+/** Destructor */
 Vicinity::~Vicinity()
 {
   if (vicinList) delete vicinList;
@@ -208,6 +211,7 @@ Vicinity::Size Vicinity::evalSize(WO *obj)
   return size;
 }
 
+/** Compares distances */
 int Vicinity::cmpDist(const void *t1, const void *t2)
 {
   Vicin s1 = *((Vicin*) t1);
@@ -221,6 +225,7 @@ int Vicinity::cmpDist(const void *t1, const void *t2)
   return 0;
 }
 
+/** Sorts distances */
 void Vicinity::sortDist()
 {
   qsort((void *)vicinList, listSize, sizeof(vicinList[0]), cmpDist);
@@ -269,6 +274,7 @@ void Vicinity::sortInterest()
   qsort((void *)vicinList, listSize, sizeof(Vicin), cmpInterest);
 }
 
+/** Searchs an object at proximity */
 WO* Vicinity::searchProximityObject(char** typeObj, int nb)
 {
   sortDist();
@@ -276,7 +282,7 @@ WO* Vicinity::searchProximityObject(char** typeObj, int nb)
   WO* o = NULL;
   for (int i=0; i<listSize && vicinList[i].dist <= DIST_NEAR; i++) {
     for (int j=0; j<nb ; j++) {
-      if (!strcasecmp((vicinList[i].object)->typeName(), typeObj[j])) {
+      if (! strcasecmp((vicinList[i].object)->typeName(), typeObj[j])) {
 	o = vicinList[i].object;
 	return o;
       }
@@ -285,6 +291,7 @@ WO* Vicinity::searchProximityObject(char** typeObj, int nb)
   return NULL;
 }
 
+/** Describes topology */
 void Vicinity::describeTopo(Vicin vicin)
 {
   string msg;
@@ -299,6 +306,7 @@ void Vicinity::describeTopo(Vicin vicin)
   echo("object %s %s %s", objName.c_str(), msg.c_str(), (vicin.object)->objectName());
 }
 
+/** Analyzes the scene */
 void Vicinity::analScene()
 { 
   // test: que vois-je de cristal-pyramid ?
@@ -313,6 +321,7 @@ void Vicinity::analScene()
   return;
 }
 
+/** Analyzes the topology */
 void Vicinity::analTopo()
 {
   int toread = 3;
@@ -332,6 +341,7 @@ void Vicinity::analTopo()
   }
 }
 
+/** Discards type of object */
 bool Vicinity::uselessType(WO *obj)
 {
   if (! obj) return true;
@@ -467,7 +477,7 @@ void Vicinity::describeVisual()
   free(msg);
 }
 
-/*TODO : Fusion de l'analyse Topo + Visuel en fonction de la */
+/**TODO : Fusion de l'analyse Topo + Visuel en fonction de la */
 void Vicinity::analVicinity()
 {
   int hits = 0;
@@ -488,12 +498,13 @@ void Vicinity::analVicinity()
   if (seen) delete[] seen;
 }
 
-/* Debugging Methods */
+/** Debugging Methods */
 void Vicinity::show()
 {
   show("Show:");
 }
 
+/** Shows - debug */
 void Vicinity::show(const char *str)
 {
   echo("%s", str);
