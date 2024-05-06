@@ -169,21 +169,18 @@ UBox& Widgets::createInfobar()
                                   + utip("Next world")
                                   + ucall(this, &Widgets::nextCB)
                                  )
-                          //+ usepar()
                          );
 
   // infos_box initially contains the welcome message,
   // its changed dynamically when objects are selected
   infos_box.addAttr(UOrient::horizontal + uleft());
   infos_box.add(  uleft()
-                //+ UPix::ray
-                //+ " "
+                //+ UPix::ray //+ " "
                 + UColor::white
                 + UFont::bold
                 + UFont::large
                 + "Welcome to VREng"
-                //+ " "
-                //+ UPix::ray
+                //+ " " //+ UPix::ray
                );
 
   return uhbox(uvspacing(2) + navig_box + infos_box);
@@ -258,10 +255,6 @@ UBox& Widgets::createMenubar()
            + ubutton("About"   + about_menu)
           );
 
-  //dax menu_bar.add(ubutton("Mark" + markMenu()));
-  //dax menu_bar.add(ubutton("About" + about_menu));
-  //dynamicMenus(menu_bar, ::g.env.menu());
-
   return menu_bar;
 }
 
@@ -333,12 +326,13 @@ UMenu& Widgets::markMenu()
 }
 
 
-/** item constructor */
+/** Item constructor */
 GuiItem::GuiItem(UArgs a) : UButton(a)
 {
   addAttr(UBorder::none + UOn::enter / UBackground::blue + UOn::arm / UBackground::blue);
 }
 
+/** Sets user's infos */
 static void setUser(UBox *gu, User *user)
 {
   if (! user)  return;
@@ -460,7 +454,7 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   //
   // Interaction GUI <--> 3D
   //
-  uint16_t objnum = ::g.render.bufferSelection(x, y, z);	// find object number in the Z-buffer
+  uint16_t objnum = ::g.render.bufferSelection(x, y, z);	// get object's num from Z-buffer
   //echo("pointed: clic=%d %d %d objnum=%d", x, y, z, objnum);
   if (objnum == 0) {
     return NULL;
@@ -550,10 +544,13 @@ void Widgets::nextCB()
   World::goNext();
 }
 
-/** Saves world */
+/** Saves current world */
 void Widgets::saveCB()
 {
-  char vrein[PATH_LEN] = {0}, vreout[PATH_LEN], buf[BUFSIZ];
+  char vrein[PATH_LEN] = {0};
+  char vreout[PATH_LEN];
+  char buf[BUFSIZ];
+
   World *world = World::current();
   if (! world) return;
 
@@ -577,6 +574,7 @@ void Widgets::saveCB()
   }
 }
 
+/** Displays web page */
 void Widgets::siteCB()
 {
   UStr cmd = "IFS=' '; firefox -remote 'openURL(http://"
@@ -601,6 +599,7 @@ void Widgets::prefCB(int tool)
   if (tool & OFFICE_MASK)     Office::init(tool);
 }
 
+/** Starts audio tool */
 void Widgets::audioCB(bool on)
 {
   if (on) {
@@ -613,24 +612,28 @@ void Widgets::audioCB(bool on)
   }
 }
 
+/** Starts video tool */
 void Widgets::videoCB(bool on)
 {
   if (on) Video::start(World::current()->getChan());
   else    Video::quit();
 }
 
+/** Starts whiteboard tool */
 void Widgets::whiteboardCB(bool on)
 {
   if (on) Wb::start(World::current()->getChan());
   else    Wb::quit();
 }
 
+/** Starts modeler tool */
 void Widgets::modelerCB(bool on)
 {
   if (on) Modeler::start();
   else    Modeler::quit();
 }
 
+/** Marks current world */
 void Widgets::markCB()
 {
   FILE *fp;
@@ -743,7 +746,8 @@ void Widgets::processKey(long keysym, int keychar, bool press)
 {
   int vrkey;
   long keymask = convertKey(keysym, keychar, vrkey);
-  if (keymask == 0) return;    // return if null (undefined or not a vrkey)
+
+  if (keymask == 0) return;		// return if null (undefined or not a vrkey)
 
   if (postponedKRcount < 0) {
     echo("!negative KRcount => reset"); // should never happen!
@@ -759,8 +763,9 @@ void Widgets::processKey(long keysym, int keychar, bool press)
     }
     else {	// Press
       //echo("KPress change or activate Key (%d)", vrkey);
-      if (vrkey >= MAXKEYS || vrkey < 0)
+      if (vrkey >= MAXKEYS || vrkey < 0) {
         return;
+      }
 
       struct timeval time;
       gettimeofday(&time, NULL);
@@ -785,6 +790,7 @@ void Widgets::processKey(long keysym, int keychar, bool press)
   }
 }
 
+/** Flushes keys */
 void Widgets::flushPostponedKRs()
 {
   for (int ix = 0; ix < postponedKRcount; ix++) {
@@ -798,7 +804,7 @@ void Widgets::flushPostponedKRs()
 
 //---------------------------------------------------------------------------
 //
-//  Dialogs
+//  Dialog Boxes
 //
 
 /** Shows infos */
@@ -959,7 +965,7 @@ void Widgets::sourceDialog()
   source_dialog.show();
 }
 
-/** Dialog box for to display present objects in the current world */
+/** Dialog box to display present objects in the current world */
 void Widgets::objectsDialog()
 {
   char line[64];
@@ -1193,7 +1199,7 @@ UDialog& Widgets::toolDialog()
   );
 }
 
-/** Dialog box for grid */
+/** Dialog box for grid marks */
 UDialog& Widgets::gridDialog()
 {
   return udialog(Grid::grid()->gridBox());
@@ -1202,6 +1208,7 @@ UDialog& Widgets::gridDialog()
 
 VncDialog* VncDialog::vnc_dialog = null;
 
+/** Dialog box for VNC */
 void VncDialog::vncDialog(Widgets* gw, Vnc* vnc)
 {
   if (! gw)  return;
@@ -1214,6 +1221,7 @@ void VncDialog::vncDialog(Widgets* gw, Vnc* vnc)
   vnc_dialog->show(true);
 }
 
+/** Dialog box for VNC */
 VncDialog::VncDialog(Widgets* _gw, Vnc* _vnc) : vnc(_vnc)
 {
   vnc_server = DEF_VNC_SERVER;
@@ -1473,6 +1481,7 @@ void Widgets::newObjectCB()
   defaultAddobj();	// reset to default values
 }
 
+/** Dialog box for addobj */
 UDialog& Widgets::addobjDialog()
 {
   URadioSelect
