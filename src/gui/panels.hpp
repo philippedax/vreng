@@ -30,20 +30,22 @@
  * Panels class
  */
 class Panels {
+ private:
+  friend class Widgets;
+
+  Widgets& gw;
+  class Joystick1* joystick1;
+  class Joystick2* joystick2;
+  UBox& manipulator;  
+  UBox right_panel, control_panel, main_panel;
+  UBar control_bar;
+
  public:
-  static int 
-    RIGHT_PANEL_WIDTH,
-    CONTROL_PANEL_HEIGHT,
-    LIST_PALETTE_WIDTH,
-    LIST_PALETTE_HEIGHT,
-    MESSAGE_PALETTE_WIDTH,
-    MESSAGE_PALETTE_HEIGHT;
+  Panels(class Widgets*, class Scene&);
 
   Palette *pnavig;
   Palette *pnotif;
   Palette *pavatar;
-
-  Panels(class Widgets*, class Scene&);
 
   void showManipulator(bool state);
   void showBasket(bool state);
@@ -54,16 +56,6 @@ class Panels {
   void collapseNotif();
   void expandAvatar();
   void collapseAvatar();
-
- private:
-  friend class Widgets;
-
-  Widgets& gw;
-  class Joystick1* joystick1;
-  class Joystick2* joystick2;
-  UBox& manipulator;  
-  UBox right_panel, control_panel, main_panel;
-  UBar control_bar;
 };
 
 #endif
