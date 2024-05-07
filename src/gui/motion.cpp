@@ -18,14 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//
 //  motion.cpp : Ubit Movements for the VREng GUI
 //
 //  VREng / Ubit Project
 //  Author: Eric Lecolinet
 //
 //  Ubit Toolkit: A Brick Construction Game Model for Creating GUIs
-//  Please refer to the Ubit GUI Toolkit Home Page for details.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "motion.hpp"
@@ -41,6 +39,7 @@ const float Motion::ANGULAR_ACCEL = 0.0045;
 static Motion *motion;	///< current pointer
 
 
+/** Constructor */
 Motion::Motion(int _minuskey, int _pluskey, int _fun, float _accel)
 {
   minuskey = _minuskey;
@@ -51,16 +50,19 @@ Motion::Motion(int _minuskey, int _pluskey, int _fun, float _accel)
   carrier  = NULL;
 }
 
+/** Gets current instance */
 Motion * Motion::current()
 {
   return motion;
 }
 
+/** Stops motion */
 void Motion::stop()
 {
   move(0);
 }
 
+/** Do motion */
 void Motion::move(int mspeed)
 {
   struct timeval t;
