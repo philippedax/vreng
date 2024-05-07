@@ -32,20 +32,7 @@ class Widgets;
  * Navig class
  */
 class Navig {
- public:
-  Navig(Widgets*, class Scene&);
-  UBox& manipulator();
-  
-  void selectObject(ObjInfo* objinfo);
-
-  void userMotion(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
-  void doMotion(UMouseEvent& e);
-  void stopMotion();
-  void clearInfoBar();
-
  private:
-  friend class Widgets;
-
   Widgets& gw;
   float xref, yref;
   int depthsel;
@@ -55,20 +42,33 @@ class Navig {
   UCtlmenu navig_menu;
   uptr<UMenu> opened_menu;
 
-  //notused bool followMouse;		///< flag to follow mouse.
-  //notused UStr selected_object_url;
+  void navigator();
 
-  void initNavigMenu();
-  void mouseRefCB(UMouseEvent& e);
-  void mousePressB1orB3(UMouseEvent& e, int x, int y, int button_no);
-  void mousePressB2(UMouseEvent& e, int x, int y);
+  void pressB1orB3(UMouseEvent& e, int x, int y, int button_no);
+  void pressB2(UMouseEvent& e, int x, int y);
+
+  // Callbacks
   void mousePressCB(UMouseEvent& e);  
   void mouseReleaseCB(UMouseEvent& e);
   void mouseDragCB(UMouseEvent& e);
   void mouseMoveCB(UMouseEvent& e);
+  void mouseRefCB(UMouseEvent& e);
   void keyPressCB(UKeyEvent& e);
   void keyReleaseCB(UKeyEvent& e);
+
   void objectMotion(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
- };
+
+ public:
+  Navig(Widgets*, class Scene&);	///< constructor
+
+  UBox& manipulator();
+  
+  void selectObject(ObjInfo* objinfo);
+
+  void userMotion(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
+  void doMotion(UMouseEvent& e);
+  void stopMotion();
+  void clearInfoBar();
+};
 
 #endif

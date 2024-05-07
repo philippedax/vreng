@@ -18,13 +18,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//
 //  navig.cpp : Ubit Navigator for the VREng GUI
 //
 //  VREng / Ubit Project
 //  Author: Eric Lecolinet
 //---------------------------------------------------------------------------
-
 #include "vreng.hpp"
 #include "navig.hpp"
 #include "widgets.hpp"	// gw
@@ -41,7 +39,7 @@
 
 // local
 static ObjInfo objinfo[ACTIONSNUMBER + 6];
-static Motion *motionx = null, *motiony = null;
+static Motion *motx = null, *moty = null;
 
 
 /** Constructor */
@@ -53,14 +51,22 @@ Navig::Navig(Widgets* _gw, Scene& scene) :
  opened_menu(null) 
 {  
   object_infos.addAttr(UBackground::green + UColor::white);
-  object_infos.add(  uelem(UFont::bold + " "           + object_class + " ") 
-                   + uelem(UFont::bold + UFont::italic + object_name + " ")
+  object_infos.add(  uelem(  UFont::bold
+                           + " "
+                           + object_class
+                           + " "
+                          ) 
+                   + uelem(  UFont::bold
+                           + UFont::italic
+                           + object_name
+                           + " "
+                          )
                   );
   object_menu.addAttr(ualpha(0.5) + UBackground::black);
   object_menu.add(object_infos);
   object_menu.softwin();
   
-  initNavigMenu();
+  navigator();
   
   scene.add(  object_menu
             + navig_menu
@@ -80,7 +86,8 @@ Navig::Navig(Widgets* _gw, Scene& scene) :
 /** The mouse is pressed on the canvas */
 void Navig::mousePressCB(UMouseEvent& e)
 {
-  int x = (int) e.getX(), y = (int) e.getY();
+  int x = (int) e.getX();
+  int y = (int) e.getY();
   int btn = 0;
   int bid = e.getButton();
 
@@ -95,20 +102,20 @@ void Navig::mousePressCB(UMouseEvent& e)
     gw.gui.carrier->mouseEvent(x, y, btn);
   }
 #if 0 //dax
-  else if (gw.gui.board && gw.gui.board->isDrawing()) {	// events are sent to Board
+  else if (gw.gui.board && gw.gui.board->isDrawing()) { // events are sent to Board
     gw.gui.board->mouseEvent(x, y, btn);
   }
 #endif
-  else if (gw.gui.vnc) {			// events are sent to Vnc
+  else if (gw.gui.vnc) {		// events are sent to Vnc
     gw.gui.vnc->mouseEvent(x, y, btn);
   }
-  else if (btn == 2) {				// button 2: fine grain selection
-    mousePressB2(e, x, y);
-    //dax mousePressB1orB3(e, x, y, btn);	// dax reverse buttons B1 B2
+  else if (btn == 2) {			// button 2: fine grain selection
+    pressB2(e, x, y);
+    //dax pressB1orB3(e, x, y, btn);	// dax reverse buttons B1 B2
   }
-  else {					// buttons 1 or 3: navigator or info menu
-    mousePressB1orB3(e, x, y, btn);
-    //dax mousePressB2(e, x, y);		// dax reverse buttons B1 B2
+  else {				// buttons 1 or 3: navigator or info menu
+    pressB1orB3(e, x, y, btn);
+    //dax pressB2(e, x, y);		// dax reverse buttons B1 B2
   }
 }
 
@@ -201,38 +208,28 @@ void Navig::keyReleaseCB(UKeyEvent& e)
 }
 
 /** Press Buttons 1 or 3: navigator or info menu */
-void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
+void Navig::pressB1orB3(UMouseEvent& e, int x, int y, int btn)
 {
-  //Sound::playSound(CLICKSND);
-
   // desactivate previous object
   WO* prev_object = gw.gui.getSelectedObject();
   if (prev_object) {
     prev_object->resetFlashy();
     prev_object->resetRay();
   }
+  //Sound::playSound(CLICKSND);
 
   // current clic
-  static uint8_t z = 0;	// first object static to allow 3 objects
-  //echo("z: %d", z);
+  static uint8_t z = 0;		// first object static to allow 3 objects
   WO* object = gw.pointedObject(x, y, objinfo, z % 3);
-  z++;			// next object hidden in th the z buffer
+  z++;				// next object hidden in th the z buffer
 
   if (object) {
     gw.gui.selected_object = object;
     //echo("clic [%d %d] on %s", x, y, object->objectName());
-  
-#if 0 //notused
-    if (object->name.url && object->name.url[0]) {
-      selected_object_url = object->name.url;
-    }
-    else {
-      selected_object_url.clear();
-    }
-#endif //notused
+
     gw.message.performRequest(object);
-    // Vrelet: calculate the clic vector and do the clic method on the object
     if (btn == 1) {
+      // do the click method on the object
       if (gw.gui.vrelet) object->click(x, y);
       if (gw.gui.board)  object->click(x, y);
     }
@@ -250,13 +247,13 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
       object->setRay(x, y);	// launches stipple ray on the object
     }
   }
-  else {	// no object!
+  else {			// no object!
     gw.setRayDirection(x, y);	// launches ray on x,y screen coord
   }
 }
 
 /** Press button 2: fine grain selection */
-void Navig::mousePressB2(UMouseEvent&, int x, int y)
+void Navig::pressB2(UMouseEvent&, int x, int y)
 {
   depthsel++;
   WO* object = gw.pointedObject(x, y, objinfo, depthsel);
@@ -315,26 +312,26 @@ void Navig::selectObject(ObjInfo* objinfo)
 /////////
 
 /** User motion */
-void Navig::userMotion(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
+void Navig::userMotion(UMouseEvent& e, Motion* _motx, Motion *_moty)
 {
   xref = e.getX();
   yref = e.getY();
-  if (motionx)  motionx->stop();
-  if (motiony)  motiony->stop();
-  motionx = _motionx;
-  motiony = _motiony;
+  if (motx)  motx->stop();
+  if (moty)  moty->stop();
+  motx = _motx;
+  moty = _moty;
 }
 
 /** Object motion */
-void Navig::objectMotion(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
+void Navig::objectMotion(UMouseEvent& e, Motion* _motx, Motion *_moty)
 {
   xref = e.getX();
   yref = e.getY();
   //echo("xyref: %.0f %.0f", xref,yref);
-  if (motionx)  motionx->stop();
-  if (motiony)  motiony->stop();
-  motionx = _motionx;
-  motiony = _motiony;
+  if (motx)  motx->stop();
+  if (moty)  moty->stop();
+  motx = _motx;
+  moty = _moty;
 }
 
 /** Do motion */
@@ -342,24 +339,24 @@ void Navig::doMotion(UMouseEvent& e)
 {
   float dx = e.getX() - xref;
   float dy = e.getY() - yref;
-  if (motionx)  motionx->move((int) dx);
-  if (motiony)  motiony->move((int) dy);
+  if (motx)  motx->move((int) dx);
+  if (moty)  moty->move((int) dy);
 }
 
 /** Stop motion */
 void Navig::stopMotion()
 {
-  if (motionx)  motionx->stop();
-  if (motiony)  motiony->stop();
-  motionx = null;
-  motiony = null;
+  if (motx)  motx->stop();
+  if (moty)  moty->stop();
+  motx = null;
+  moty = null;
 }
 
 ////////////
 // NAVIGATOR
 ////////////
 
-void Navig::initNavigMenu()
+void Navig::navigator()
 {
   navig_menu.addAttr(UBackground::black);
 
