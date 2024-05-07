@@ -18,7 +18,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//
 //  message.cpp : Ubit messages for the VREng GUI
 //
 //  VREng / Ubit Project
@@ -362,6 +361,7 @@ void Message::postRequest(const string& mess, string& result)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // chat, warning, request, notice...
 
+/** Writes a message */
 void Message::writeMessage(const char* mode, const char* from, const char* msg)
 {
   if (! msg)  return;

@@ -39,10 +39,10 @@ class Message {
 friend class Widgets;
 
  public:
-  std::vector<UStr> mess_history;	///< history log
-
   Message(class Widgets*);		///< constructor.
   
+  std::vector<UStr> mess_history;	///< history log
+
   UBox& createQuery();
   ///< creates the query box
 
@@ -73,6 +73,7 @@ friend class Widgets;
   void postRequest(const std::string& mess, std::string& result);
   void convertTextToLink(const std::string& text, char **listeObjets, int size);
 };
+
 
 /**
  * Message2 class
