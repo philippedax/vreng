@@ -25,7 +25,9 @@
 
 #include "widgets.hpp"
 
-// the Scene is a standard UBox (transparent menus and windows are then possible)
+// the Scene is a standard UBox
+// (transparent menus and windows are then possible)
+
 struct GLSection : public ubit::UGraph::Glpaint {
   GLSection(class Scene*);
 };
@@ -35,17 +37,23 @@ struct GLSection : public ubit::UGraph::Glpaint {
  * Scene class
  */
 class Scene : public ubit::UBox {
-
  public:
   Scene(class Widgets*);	///< constructor.
 
   void getScene(GLint& x, GLint& y, GLsizei& w, GLsizei& h);
+  /** Gets scene view */
+
   void setScene(GLint x, GLint y, GLsizei width, GLsizei height);
+  /** Sets scene view */
+
   void setBackground(UColor& color);
+  /** Sets background color */
+
   void toggleHud();
+  /** Toggles hud display */
 
  private:
-  friend class Gui;		// cycles net_delay
+  friend class Gui;		///< cycles net_delay
 
   class Widgets& gw;		///< gui widget
   bool is_visible;		///< true if visible (not iconified).
@@ -54,12 +62,12 @@ class Scene : public ubit::UBox {
   bool is_hudvisible;		///< true if hud is visible
   uint32_t cycles;		///< scenes per sec
   uint32_t net_delay;		///< default is 500ms
-  UTimer render_timer, net_timer;
-  ULabel message;
-  UBackground background;
+  UTimer render_timer,net_timer;///< timers
+  ULabel message;		///< message initial
+  UBackground bgcolor;		///< background color
   UBox hudbox;			///< hud box
-  UStr hud_row1, hud_row2, hud_row3, hud_row4, hud_row5, hud_row6;
-  class Hud *hud;
+  class Hud *hud;		///< hud instance
+  UStr hud_row1, hud_row2, hud_row3, hud_row4, hud_row5, hud_row6;	///< hud rows
 
   //
   // methods
@@ -67,17 +75,20 @@ class Scene : public ubit::UBox {
   void init();
   /** Inits the scene */
 
-  void resize(UResizeEvent&, int width, int height);
-  /** Resizes the scene */
-
   void netTimeoutCB();
-
-  void refreshHud();
+  /** Network timeout */
 
   void paintCB(UPaintEvent&);
   /** Repaints the scene */
 
+  void resize(UResizeEvent&, int width, int height);
+  /** Resizes the scene */
+
   void resizeCB(UResizeEvent&);
+  /** Resizes callback */
+
+  void refreshHud();
+  /** Refreshes the hud */
 };
 
 #endif

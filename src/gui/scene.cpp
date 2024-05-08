@@ -18,11 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+// scene.cpp
 //
-//  scene.cpp : scene for the VREng GUI
+// scene for the VREng GUI
 //
-//  VREng Project
-//  Author: Eric Lecolinet - ENST Paris
+// VREng Project
+// Authors: Eric Lecolinet, Philippe Dax - ENST Paris
 //---------------------------------------------------------------------------
 #include <ubit/ugl.hpp>
 #include "vreng.hpp"
@@ -49,9 +50,9 @@ Scene::Scene(Widgets* _gw) :
  net_delay(500)
 {
   is_hudvisible = true;		// hud visible by default
-  background = UBackground::blue;
+  bgcolor = UBackground::blue;
 
-  addAttr(background);
+  addAttr(bgcolor);
   addAttr(usize(g.pref.width3D, g.pref.height3D));
 
   hudbox.addAttr(upos(1, 1)	// position relatively to the canvas : up left corner
@@ -77,10 +78,10 @@ Scene::Scene(Widgets* _gw) :
 /** Sets the background color */
 void Scene::setBackground(UColor& c)
 {
-  background.setColor(c);
+  bgcolor.setColor(c);
 }
 
-/** Gets Scene */
+/** Gets Scene view */
 void Scene::getScene(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
 {
   UView* v = getView();
@@ -117,7 +118,7 @@ GLSection::GLSection(Scene* s) :
  UGraph::Glpaint(s->getView(), true)
 {}
 
-/** Paints scene CB */
+/** Paints the scene CB */
 void Scene::paintCB(UPaintEvent& e)
 {
   GLSection gls(this);
@@ -137,7 +138,7 @@ void Scene::paintCB(UPaintEvent& e)
   }
 
   //
-  // Main loop of the engine
+  // Main loop of the VReng engine
   //
 
   // Computes current world
@@ -171,7 +172,7 @@ void Scene::paintCB(UPaintEvent& e)
   cycles++;		// increments cycles (fps)
 }
 
-/** Resizes scene CB */
+/** Resizes the scene CB */
 void Scene::resizeCB(UResizeEvent& e)
 {
   resize(e, int(e.getView()->getWidth()), int(e.getView()->getHeight()));
@@ -186,7 +187,7 @@ void Scene::netTimeoutCB()
   ::netTimeout();  // checks if various updates are needed
 }
 
-/** Inits scene */
+/** Inits the scene */
 void Scene::init()
 {
   GLSection gls(this);
@@ -212,7 +213,7 @@ void Scene::init()
   is_initialized = true;	// the scene is initialized and ready for rendering
 }
 
-/** Resizes scene */
+/** Resizes the scene */
 void Scene::resize(UResizeEvent& e, int width, int height)
 {
   ::g.pref.width3D  = width;
