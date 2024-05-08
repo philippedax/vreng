@@ -55,8 +55,8 @@ void Humanoid::defaults()
 {
   head_url = new char[URL_LEN];
   memset(head_url, 0, URL_LEN);
-  strcpy(vaps, DEF_VAPS_SERVER);   // default server
-  strcpy(name.url, DEF_BODY_URL); // default body
+  strcpy(vaps, DEF_VAPS_SERVER);	// default server
+  strcpy(name.url, DEF_BODY_URL);	// default body
 
   for (int i=0; i<3; i++) cloth[i] = skin[i];
 }
@@ -126,7 +126,7 @@ void Humanoid::inits()
   state = INACTIVE;
 }
 
-/** Constructor from file */
+/** Constructor from fileline */
 Humanoid::Humanoid(char *l)
 {
   parser(l);
@@ -154,7 +154,7 @@ void Humanoid::render()
   body->render(pos);
 }
 
-/** init receiver in UDP mode : returns 1 if OK else 0 if fails */
+/** Inits receiver in UDP mode : returns 1 if OK else 0 if fails */
 int Humanoid::initReceiver()
 {
   if (sdudp > 0) disconnectFromBapServer();
@@ -225,10 +225,9 @@ int Humanoid::connectToBapServer(int _ipmode)
     sprintf(setup_cmd, "setup a=%s p=%d t=%d r=%.2f ",
             group, vaps_port, Channel::getTtl(World::current()->getChan()), ::g.timer.rate());
   }
-  else
 #endif
   sprintf(setup_cmd, "setup p=%d r=%.2f ", vaps_port, ::g.timer.rate());
-  write(sdtcp, setup_cmd, strlen(setup_cmd));  // setup packet
+  write(sdtcp, setup_cmd, strlen(setup_cmd));	// setup packet
   return sdtcp;
 }
 
@@ -253,11 +252,10 @@ int Humanoid::readBapFrame()
   FD_ZERO(&set);
   FD_SET(sdudp, &set);
   struct timeval delay;
-  delay.tv_sec = delay.tv_usec = 0;  // set select passing
+  delay.tv_sec = delay.tv_usec = 0;	// set select passing
 
   if (select(FD_SETSIZE, &set, NULL, NULL, &delay) == 0) {
-    //echo("select=0 sdudp=%d", sdudp);
-    return 0;  // nothing to read
+    return 0;				// nothing to read
   }
 
   memset(bapline, 0, VAPS_BUFSIZ);
@@ -270,11 +268,9 @@ int Humanoid::readBapFrame()
   }
   if (! len) {
     // end of stream
-    //disconnectFromBapServer();
-    //state = INACTIVE;
-    return 0; // eof
+    return 0;	// eof
   }
-  return 1; // bap is present
+  return 1;	// bap is present
 }
 
 /** System of equations handling permanent motion */
@@ -336,11 +332,12 @@ void Humanoid::changePermanent(float lasting)
       //body->animLeg(+30, 0, 1);	// leg left abduct back : OK
       //body->animLeg(-30, 1, 2);	// leg right torsion ext : OK
       //body->animFoot(-30, 1, 2);	// foot right torsion ext : NO
+
       render();
+
        //disconnectFromBapServer();
        state = INACTIVE;
        angle = 0;
-       //echo("disconnect");
       break;
     default:
       break;
@@ -348,7 +345,7 @@ void Humanoid::changePermanent(float lasting)
     }
   }
   else if ((sdtcp > 0) && body->v3d) {
-    body->v3d->animate();	// local animation
+    body->v3d->animate();		// local animation
   }
   //angle = 10;
   //body->animArm(-angle, 0, 0);	// arm left flexion : OK
@@ -356,7 +353,7 @@ void Humanoid::changePermanent(float lasting)
   //body->animForearm(-2*angle, 0, 0);	// forearm left flexion front : OK
   //body->animForearm(+2*angle, 1, 0);	// forearm right flexion front : OK
 
-#if 0 //dax testing
+#if 1 //dax testing
   else if (sdtcp <= 0) {
     // get frame from local string bapfile (see gestures.hpp)
     echo("get local frame");
@@ -435,7 +432,7 @@ void Humanoid::changePermanent(float lasting)
       for (int i=1; i <= num_params; i++) {
         if (! bap->isMask(i)) continue;
         if (i >= TR_VERTICAL && i <= TR_FRONTAL) {	// 170..172 translations
-          bap->setBap(i, static_cast<float>(atof(p)); // / TR_DIV)));	// magic formula (300)
+          bap->setBap(i, static_cast<float>(atof(p)));	// / TR_DIV)));	// magic formula (300)
         }
         else {  // angles
           switch (baptype) {
