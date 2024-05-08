@@ -94,20 +94,20 @@ class Humanoid: public WO {
   void pause();
 
  private:
-  int connectToBapServer(int _ipmode);
+  int connectVaps(int _ipmode);
   /**< Establishes a TCP connection to the vaps server
    * and send the setup packet.
    * Sets sdtcp; return 1 if OK else return 0 if failed.
    */
 
-  int initReceiver();
+  void disconnectVaps();
+  /**< Closes connection with the vaps server. */
+
+  int receiver();
   /**< Inits UDP listening. */
 
-  bool sendPlayToBapServer(const char *bap_name);
+  bool sendPlay(const char *bap_name);
   /**< Sends a play command to the vaps server. */
-
-  void disconnectFromBapServer();
-  /**< Closes connection with the vaps server. */
 
   void parser(char *l);
   /**< Parses. */
@@ -124,8 +124,8 @@ class Humanoid: public WO {
   void inits();
   /**< Makes some initializations. */
 
-  int readBapFrame();
-  /**< Gets a frame from the vaps server. */
+  int readFrame();
+  /**< Reads a frame from the vaps server. */
 
   //char * toPlay(const char *str);
 
