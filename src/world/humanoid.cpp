@@ -360,7 +360,7 @@ void Humanoid::changePermanent(float lasting)
     int nbr_frames = 0;
     int num_frame = 0;
     int num_params = 0;
-    echo("bapfile: %s", bapfile);
+    //echo("bapfile: %s", bapfile);
 
     if (hdr_frame) {
       //baphdr
