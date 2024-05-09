@@ -183,6 +183,7 @@ extern const char surp_fap[];
 
 /**
  * Bap class
+ *
  * Body Animator Parameter
  */
 class Bap {
@@ -200,10 +201,10 @@ class Bap {
   uint8_t parse(char *line);
   /**< Parses and reads header and data of a frame */
 
-  bool isMask(int param) const;
+  bool isBit(int param) const;
   /**< Checks bit indexed by param */
 
-  void setMask(int param, uint8_t val);
+  void setBit(int param, uint8_t val);
 
   float getBap(int param) const;
   /**< Gets a Bap angle indexed by param */
@@ -215,13 +216,13 @@ class Bap {
 
   void setFap(int param, float val);
 
- protected:
-  uint8_t bit[NUM_BAPS_V32 + 1];	///< bap/fap bit mask
-  float ba[NUM_BAPS_V32 + 1];		///< baps angles
-  float fa[NUM_FAPS + 1];		///< faps angles
-  //float balast[NUM_BAPS_V32 + 1];	///< last baps angles
+ private:
+  uint8_t bits[NUM_BAPS_V32 + 1];	///< bap/fap bit mask
+  float baps[NUM_BAPS_V32 + 1];		///< baps angles
+  float faps[NUM_FAPS + 1];		///< faps angles
+  //float baplast[NUM_BAPS_V32 + 1];	///< last baps angles
 
-  void resetMask(int num);
+  void resetBit(int num);
   /**< Resets bit mask */
 };
 

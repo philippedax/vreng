@@ -33,7 +33,7 @@
 #include "pref.hpp"	// reflector
 #include "timer.hpp"	// rate
 #include "user.hpp"	// localuser
-#include "bap.hpp"	// setMask, setBap
+#include "bap.hpp"	// setBit, setBap
 
 
 const OClass Humanoid::oclass(HUMANOID_TYPE, "Humanoid", Humanoid::creator);
@@ -292,14 +292,14 @@ void Humanoid::changePermanent(float lasting)
     switch (baptype) {
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
       for (int i=1; i <= NUM_BAPS_V32; i++) {
-        if (! bap->isMask(i)) continue;
+        if (! bap->isBit(i)) continue;
         //echo("play: %d (%.2f)", i, bap->getBap(i));
       }
       body->animate();		// play bap frame
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
-        if (bap->isMask(i) && body->v3d) {
+        if (bap->isBit(i) && body->v3d) {
           body->v3d->animate(i, bap->getFap(i)); // play fap frame
         }
       }
@@ -405,8 +405,8 @@ void Humanoid::changePermanent(float lasting)
       for (int i=1; i <= num_params; i++) {
         if (p) {
           switch (*p) {
-          case '0': bap->setMask(i, 0); break;
-          case '1': bap->setMask(i, 1); break;
+          case '0': bap->setBit(i, 0); break;
+          case '1': bap->setBit(i, 1); break;
           }
           p = strchr(p, ' ');
           if (! p) break;	// no mask
@@ -434,7 +434,7 @@ void Humanoid::changePermanent(float lasting)
       p++;		// first value
       echo("values: %s", p);
       for (int i=1; i <= num_params; i++) {
-        if (! bap->isMask(i)) continue;
+        if (! bap->isBit(i)) continue;
         if (i >= TR_VERTICAL && i <= TR_FRONTAL) {	// 170..172 translations
           bap->setBap(i, static_cast<float>(atof(p)));	// / TR_DIV)));	// magic formula (300)
         }
@@ -459,7 +459,7 @@ void Humanoid::changePermanent(float lasting)
       switch (baptype) {
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
         for (int i=1; i <= num_params; i++) {
-          if (! bap->isMask(i)) continue;
+          if (! bap->isBit(i)) continue;
           echo("play bap: %d (%.2f)", i, bap->getBap(i));
         }
 
@@ -468,7 +468,7 @@ void Humanoid::changePermanent(float lasting)
         break;
       case TYPE_FAP_V20: case TYPE_FAP_V21:
         for (int i=1; i <= NUM_FAPS; i++) {
-          if (! bap->isMask(i)) continue;
+          if (! bap->isBit(i)) continue;
           echo("play fap: %d (%.2f)", i, bap->getFap(i));
           if (body->v3d) {
             body->v3d->animate(i, bap->getFap(i));	// play fap frame
