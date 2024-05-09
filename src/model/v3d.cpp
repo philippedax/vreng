@@ -320,7 +320,8 @@ void V3d::animLip(float angle, const char *_side)
     error("lipsRoot not found");
 }
 
-void V3d::animate(int fapn, int a)
+/** Plays a fap */
+void V3d::play(int fapn, int a)
 {
   //echo("fap: %d %d", fapn, a);
   switch (fapn) {
@@ -533,7 +534,8 @@ void V3d::animate(int fapn, int a)
   }
 }
 
-void V3d::animate()
+/** Plays animations */
+void V3d::play()
 {
   static float angle = 0;
   angle += 5.;

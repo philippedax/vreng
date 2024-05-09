@@ -73,9 +73,9 @@ class V3d {
   virtual void render();
   /**< Render the face */
 
-  void animate();
-  void animate(int fapn, int value);
-  /**< Animate the face */
+  void play();
+  void play(int fapn, int value);
+  /**< Animates the face */
 
   void change();
   /**< Change the face */

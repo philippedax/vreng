@@ -577,8 +577,8 @@ class Body {
   void init();
   /**< Inits body. */
 
-  void animate();
-  /**< Animates body. */
+  void play();
+  /**< Plays a body param. */
 
   void animReset();
   void animHead(float deg, uint8_t axis);
@@ -590,10 +590,10 @@ class Body {
   void animArm(float deg, uint8_t side, uint8_t axis);
   void animForearm(float deg, uint8_t side, uint8_t axis);
   void animHand(float deg, uint8_t side, uint8_t axis);
-  /**x Animates members. */
+  /**x Animation members. */
 
   void anim(int param);
-  /**< Animates body. */
+  /**< Animates a body param. */
 
   virtual void render(Pos& pos);
   /**< Renders body and v3d. */

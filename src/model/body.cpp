@@ -840,8 +840,8 @@ void Body::setColors(float *_skin, float *_cloth)
   }
 }
 
-/** Animates all body's articulations */
-void Body::animate()
+/** Animates all body's articulations - called from humanoid.cpp */
+void Body::play()
 {
   if (!bap) return;
 

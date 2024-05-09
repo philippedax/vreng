@@ -295,12 +295,12 @@ void Humanoid::changePermanent(float lasting)
         if (! bap->isBit(i)) continue;
         //echo("play: %d (%.2f)", i, bap->getBap(i));
       }
-      body->animate();		// play bap frame
+      body->play();		// play bap frame
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
         if (bap->isBit(i) && body->v3d) {
-          body->v3d->animate(i, bap->getFap(i)); // play fap frame
+          body->v3d->play(i, bap->getFap(i)); // play fap frame
         }
       }
       break;
@@ -340,7 +340,7 @@ void Humanoid::changePermanent(float lasting)
     }
   }
   else if ((sdtcp > 0) && body->v3d) {
-    body->v3d->animate();		// local animation
+    body->v3d->play();		// local animation
   }
   //angle = 10;
   //body->animArm(-angle, 0, 0);	// arm left flexion : OK
@@ -463,7 +463,7 @@ void Humanoid::changePermanent(float lasting)
           echo("play bap: %d (%.2f)", i, bap->getBap(i));
         }
 
-        body->animate();				// play bap frame
+        body->play();				// play bap frame
 
         break;
       case TYPE_FAP_V20: case TYPE_FAP_V21:
@@ -471,7 +471,7 @@ void Humanoid::changePermanent(float lasting)
           if (! bap->isBit(i)) continue;
           echo("play fap: %d (%.2f)", i, bap->getFap(i));
           if (body->v3d) {
-            body->v3d->animate(i, bap->getFap(i));	// play fap frame
+            body->v3d->play(i, bap->getFap(i));	// play fap frame
           }
         }
         break;
