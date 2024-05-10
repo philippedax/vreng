@@ -592,8 +592,8 @@ class Body {
   void animHand(float deg, uint8_t side, uint8_t axis);
   /**x Animation members. */
 
-  void anim(int param);
-  /**< Plays a body param (without bap server). */
+  //notused void anim(int param);
+  //notused /**< Plays a body param (without bap server). */
 
   virtual void render(Pos& pos);
   /**< Renders body and v3d. */

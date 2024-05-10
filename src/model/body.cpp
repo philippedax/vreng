@@ -1084,6 +1084,7 @@ void Body::animHand(float a, uint8_t side, uint8_t axis)
   }
 }
 
+#if 0 //notused
 /** Animates body bap articulations - called from humanoid.cpp without server */
 void Body::anim(int param)
 {
@@ -1147,6 +1148,7 @@ void Body::anim(int param)
   case RT_BODY_TILT:		ry = bap->getBap(RT_BODY_TILT); break;
   }
 }
+#endif //notused
 
 /** Checks if body part is loaded */
 bool Body::isLoaded(uint8_t part)
