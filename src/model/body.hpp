@@ -578,7 +578,7 @@ class Body {
   /**< Inits body. */
 
   void play();
-  /**< Plays a body param. */
+  /**< Animates a body param (with bap server). */
 
   void animReset();
   void animHead(float deg, uint8_t axis);
@@ -593,7 +593,7 @@ class Body {
   /**x Animation members. */
 
   void anim(int param);
-  /**< Animates a body param. */
+  /**< Plays a body param (without bap server). */
 
   virtual void render(Pos& pos);
   /**< Renders body and v3d. */

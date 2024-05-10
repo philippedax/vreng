@@ -813,7 +813,7 @@ endloadbody:
   model = bodyparts[0].model;  // keep model used
 }
 
-/** Draws body */
+/** Draws body parts */
 void Body::draw()
 {
   glShadeModel(GL_SMOOTH);
@@ -830,7 +830,7 @@ void Body::draw()
   }
 }
 
-/** Sets colors - called from humanoid */
+/** Sets skin and cloth colors - called from humanoid */
 void Body::setColors(float *_skin, float *_cloth)
 {
   for (int i=0; i<3; i++) {
@@ -840,7 +840,7 @@ void Body::setColors(float *_skin, float *_cloth)
   }
 }
 
-/** Animates all body's articulations - called from humanoid.cpp */
+/** Animates all body's articulations - called from humanoid.cpp with server */
 void Body::play()
 {
   if (!bap) return;
@@ -946,145 +946,145 @@ void Body::animReset()
   animHand(0, 1, 2);
 }
 
-void Body::animHead(float deg, uint8_t axis)
+void Body::animHead(float a, uint8_t axis)
 {
-  echo("Head: %d %.0f", axis, deg);
+  echo("Head: %d %.0f", axis, a);
   switch (axis) {
-  case 0: head->flexion(deg); break;
-  case 1: head->abduct(deg); break;
-  case 2: head->torsion(deg); break;
+  case 0: head->flexion(a); break;
+  case 1: head->abduct(a); break;
+  case 2: head->torsion(a); break;
   }
 }
 
-void Body::animNeck(float deg, uint8_t axis)
+void Body::animNeck(float a, uint8_t axis)
 {
-  echo("Neck: %d %.0f", axis, deg);
+  echo("Neck: %d %.0f", axis, a);
   switch (axis) {
-  case 0: neck->flexion(deg); break;
-  case 1: neck->abduct(deg); break;
-  case 2: neck->torsion(deg); break;
+  case 0: neck->flexion(a); break;
+  case 1: neck->abduct(a); break;
+  case 2: neck->torsion(a); break;
   }
 }
 
-void Body::animChest(float deg, uint8_t axis)
+void Body::animChest(float a, uint8_t axis)
 {
-  echo("Chest: %d %.0f", axis, deg);
+  echo("Chest: %d %.0f", axis, a);
   switch (axis) {
-  case 0: chest->flexion(deg); break;
-  case 1: chest->abduct(deg); break;
-  case 2: chest->torsion(deg); break;
+  case 0: chest->flexion(a); break;
+  case 1: chest->abduct(a); break;
+  case 2: chest->torsion(a); break;
   }
 }
 
-void Body::animLeg(float deg, uint8_t side, uint8_t axis)
+void Body::animLeg(float a, uint8_t side, uint8_t axis)
 {
-  echo("Leg: %d %d %.0f", side, axis, deg);
+  echo("Leg: %d %d %.0f", side, axis, a);
   switch (side) {
   case 0:
     switch (axis) {
-    case 0: thigh_l->flexion(deg); break; //bap->setBap(L_HIP_FLEXION, deg);
-    case 1: thigh_l->abduct(deg); break;
-    case 2: thigh_l->torsion(deg); break;
+    case 0: thigh_l->flexion(a); break; //bap->setBap(L_HIP_FLEXION, a);
+    case 1: thigh_l->abduct(a); break;
+    case 2: thigh_l->torsion(a); break;
     }
   case 1:
     switch (axis) {
-    case 0: thigh_r->flexion(deg); break;
-    case 1: thigh_r->abduct(deg); break;
-    case 2: thigh_r->torsion(deg); break;
+    case 0: thigh_r->flexion(a); break;
+    case 1: thigh_r->abduct(a); break;
+    case 2: thigh_r->torsion(a); break;
     }
   }
 }
 
-void Body::animShin(float deg, uint8_t side, uint8_t axis)
+void Body::animShin(float a, uint8_t side, uint8_t axis)
 {
-  echo("Shin: %d %d %.0f", side, axis, deg);
+  echo("Shin: %d %d %.0f", side, axis, a);
   switch (side) {
   case 0:
     switch (axis) {
-    case 1: shin_l->flexion(deg); break;
-    case 2: shin_l->torsion(deg); break;
+    case 1: shin_l->flexion(a); break;
+    case 2: shin_l->torsion(a); break;
     }
   case 1:
     switch (axis) {
-    case 1: shin_r->flexion(deg); break;
-    case 2: shin_r->torsion(deg); break;
+    case 1: shin_r->flexion(a); break;
+    case 2: shin_r->torsion(a); break;
     }
   }
 }
 
-void Body::animFoot(float deg, uint8_t side, uint8_t axis)
+void Body::animFoot(float a, uint8_t side, uint8_t axis)
 {
-  echo("Foot: %d %d %.0f", side, axis, deg);
+  echo("Foot: %d %d %.0f", side, axis, a);
   switch (side) {
   case 0:
     switch (axis) {
-    case 0: foot_l->flexion(deg); break;
-    case 2: foot_l->torsion(deg); break;
+    case 0: foot_l->flexion(a); break;
+    case 2: foot_l->torsion(a); break;
     }
   case 1:
     switch (axis) {
-    case 0: foot_r->flexion(deg); break;
-    case 2: foot_r->torsion(deg); break;
+    case 0: foot_r->flexion(a); break;
+    case 2: foot_r->torsion(a); break;
     }
   }
 }
 
-void Body::animArm(float deg, uint8_t side, uint8_t axis)
+void Body::animArm(float a, uint8_t side, uint8_t axis)
 {
-  echo("Arm: %d %d %.0f", side, axis, deg);
+  echo("Arm: %d %d %.0f", side, axis, a);
   switch (side) {
   case 0:
     switch (axis) {
-    case 0: arm_l->flexion(deg); break;
-    case 1: arm_l->abduct(deg); break;
-    case 2: arm_l->torsion(deg); break;
+    case 0: arm_l->flexion(a); break;
+    case 1: arm_l->abduct(a); break;
+    case 2: arm_l->torsion(a); break;
     }
   case 1:
     switch (axis) {
-    case 0: arm_r->flexion(deg); break;
-    case 1: arm_r->abduct(deg); break;
-    case 2: arm_r->torsion(deg); break;
+    case 0: arm_r->flexion(a); break;
+    case 1: arm_r->abduct(a); break;
+    case 2: arm_r->torsion(a); break;
     }
   }
 }
 
-void Body::animForearm(float deg, uint8_t side, uint8_t axis)
+void Body::animForearm(float a, uint8_t side, uint8_t axis)
 {
-  echo("Forearm: %d %d %.0f", side, axis, deg);
+  echo("Forearm: %d %d %.0f", side, axis, a);
   switch (side) {
   case 0:
     switch (axis) {
-    case 0: forearm_l->flexion(deg); break;
-    case 2: forearm_l->torsion(deg); break;
+    case 0: forearm_l->flexion(a); break;
+    case 2: forearm_l->torsion(a); break;
     }
   case 1:
     switch (axis) {
-    case 0: forearm_r->flexion(deg); break;
-    case 2: forearm_r->torsion(deg); break;
+    case 0: forearm_r->flexion(a); break;
+    case 2: forearm_r->torsion(a); break;
     }
   }
 }
 
-void Body::animHand(float deg, uint8_t side, uint8_t axis)
+void Body::animHand(float a, uint8_t side, uint8_t axis)
 {
-  echo("Hand: %d %d %.0f", side, axis, deg);
+  echo("Hand: %d %d %.0f", side, axis, a);
   switch (side) {
   case 0:
     switch (axis) {
-    case 0: hand_l->flexion(deg); break;
-    case 1: hand_l->abduct(deg); break;
-    case 2: hand_l->torsion(deg); break;
+    case 0: hand_l->flexion(a); break;
+    case 1: hand_l->abduct(a); break;
+    case 2: hand_l->torsion(a); break;
     }
   case 1:
     switch (axis) {
-    case 0: hand_r->flexion(deg); break;
-    case 1: hand_r->abduct(deg); break;
-    case 2: hand_r->torsion(deg); break;
+    case 0: hand_r->flexion(a); break;
+    case 1: hand_r->abduct(a); break;
+    case 2: hand_r->torsion(a); break;
     }
   }
 }
 
-/** Animates body articulations */
+/** Animates body bap articulations - called from humanoid.cpp without server */
 void Body::anim(int param)
 {
   switch (param) {
@@ -1148,6 +1148,7 @@ void Body::anim(int param)
   }
 }
 
+/** Checks if body part is loaded */
 bool Body::isLoaded(uint8_t part)
 {
   if (part < MAX_PARTS)
@@ -1155,6 +1156,7 @@ bool Body::isLoaded(uint8_t part)
   return false;
 }
 
+/** Translates positive */
 void Body::transP(uint8_t part)
 {
   if (part < MAX_PARTS) {
@@ -1165,6 +1167,7 @@ void Body::transP(uint8_t part)
   }
 }
 
+/** Translates negative */
 void Body::transN(uint8_t part)
 {
   if (part < MAX_PARTS) {
@@ -1175,48 +1178,51 @@ void Body::transN(uint8_t part)
   }
 }
 
-void Body::rotX(int param, uint8_t model)
+/** Rotates around X axis */
+void Body::rotX(int side, uint8_t model)
 {
-  int sign = (param >= 0) ?1:-1;
+  int sign = (side >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef( sign * bap->getBap(abs(param)), 1,0,0); break;
-  case MODEL_OBJ: glRotatef(-sign * bap->getBap(abs(param)), 0,1,0); break;
+  case MODEL_OFF: glRotatef( sign * bap->getBap(abs(side)), 1,0,0); break;
+  case MODEL_OBJ: glRotatef(-sign * bap->getBap(abs(side)), 0,1,0); break;
   }
 }
 
-void Body::rotY(int param, uint8_t model)
+/** Rotates around Y axis */
+void Body::rotY(int side, uint8_t model)
 {
-  int sign = (param >= 0) ?1:-1;
+  int sign = (side >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef(sign * bap->getBap(abs(param)), 0,1,0); break;
-  case MODEL_OBJ: glRotatef(sign * bap->getBap(abs(param)), 1,0,0); break;
+  case MODEL_OFF: glRotatef(sign * bap->getBap(abs(side)), 0,1,0); break;
+  case MODEL_OBJ: glRotatef(sign * bap->getBap(abs(side)), 1,0,0); break;
   }
 }
 
-void Body::rotZ(int param, uint8_t model)
+/** Rotates around Z axis */
+void Body::rotZ(int side, uint8_t model)
 {
-  int sign = (param >= 0) ?1:-1;
+  int sign = (side >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef(sign * bap->getBap(abs(param)), 0,0,1); break;
-  case MODEL_OBJ: glRotatef(sign * bap->getBap(abs(param)), 0,0,1); break;
+  case MODEL_OFF: glRotatef(sign * bap->getBap(abs(side)), 0,0,1); break;
+  case MODEL_OBJ: glRotatef(sign * bap->getBap(abs(side)), 0,0,1); break;
   }
 }
 
-void Body::rotX(int param, float angle)
+void Body::rotX(int side, float angle)
 {
-  int sign = (param >= 0) ?1:-1;
+  int sign = (side >= 0) ?1:-1;
   glRotatef(sign * angle, 1,0,0);
 }
 
-void Body::rotY(int param, float angle)
+void Body::rotY(int side, float angle)
 {
-  int sign = (param >= 0) ?1:-1;
+  int sign = (side >= 0) ?1:-1;
   glRotatef(sign * angle, 0,1,0);
 }
 
-void Body::rotZ(int param, float angle)
+void Body::rotZ(int side, float angle)
 {
-  int sign = (param >= 0) ?1:-1;
+  int sign = (side >= 0) ?1:-1;
   glRotatef(sign * angle, 0,0,1);
 }
 
@@ -1233,7 +1239,7 @@ void Body::display(uint8_t part)
       glColor3fv(bodyparts[part].color);
     }
 
-    glCallList(dlist + part);
+    glCallList(dlist + part);	// displays this part
 
     glDisable(GL_TEXTURE_2D);
   }

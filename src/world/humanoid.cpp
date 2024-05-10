@@ -295,7 +295,7 @@ void Humanoid::changePermanent(float lasting)
         if (! bap->isBit(i)) continue;
         //echo("play: %d (%.2f)", i, bap->getBap(i));
       }
-      body->play();		// play bap frame
+      body->play();		// plays bap frame
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
@@ -342,16 +342,13 @@ void Humanoid::changePermanent(float lasting)
   else if ((sdtcp > 0) && body->v3d) {
     body->v3d->play();		// local animation
   }
-  //angle = 10;
-  //body->animArm(-angle, 0, 0);	// arm left flexion : OK
-  //body->animArm(+angle, 1, 0);	// arm right flexion : OK
-  //body->animForearm(-2*angle, 0, 0);	// forearm left flexion front : OK
-  //body->animForearm(+2*angle, 1, 0);	// forearm right flexion front : OK
-
-#if 1 //dax testing
   else if (sdtcp <= 0) {
+    //
+    // local playing
+    //
     // get frame from local string bapfile (see gestures.hpp)
-    echo("get local frame");
+    //
+    //echo("get local frame");
     static bool hdr_frame = true;
     char ch;
     char *p = NULL;
@@ -369,7 +366,7 @@ void Humanoid::changePermanent(float lasting)
         bapline[c] = ch;
       }
       bapfile += (c + 1);	// + eol
-      echo("baphdr: %s (%d)", bapline, c);
+      //echo("baphdr: %s (%d)", bapline, c);
       p = strrchr(bapline, ' ');
       if (p)
         nbr_frames = atoi(++p);
@@ -426,13 +423,13 @@ void Humanoid::changePermanent(float lasting)
       // num_frame
       p = bapline;
       num_frame = atoi(p);
-      echo("num_frame: %d", num_frame);
+      //echo("num_frame: %d", num_frame);
 
       // values
       p = strchr(bapline, ' ');
       if (! p) break;	// no values
       p++;		// first value
-      echo("values: %s", p);
+      //echo("values: %s", p);
       for (int i=1; i <= num_params; i++) {
         if (! bap->isBit(i)) continue;
         if (i >= TR_VERTICAL && i <= TR_FRONTAL) {	// 170..172 translations
@@ -450,34 +447,35 @@ void Humanoid::changePermanent(float lasting)
           //echo("bap: p=%s ba[%d]=%.2f", p, i, bap->getBap(i));
         }
 
+        //
         // play frame
+        //
         switch (baptype) {
         case TYPE_BAP_V31: case TYPE_BAP_V32: 
           for (int i=1; i <= num_params; i++) {
             if (! bap->isBit(i)) continue;
-            echo("play bap: %d (%.2f)", i, bap->getBap(i));
+            //echo("play bap: %d (%.2f)", i, bap->getBap(i));
           }
-          body->play();					// play bap frame
+          body->play();					// plays bap frame
           break;
         case TYPE_FAP_V20: case TYPE_FAP_V21:
           for (int i=1; i <= NUM_FAPS; i++) {
             if (! bap->isBit(i)) continue;
-            echo("play fap: %d (%.2f)", i, bap->getFap(i));
+            //echo("play fap: %d (%.2f)", i, bap->getFap(i));
             if (body->v3d) {
-              body->v3d->play(i, bap->getFap(i));	// play fap frame
+              body->v3d->play(i, bap->getFap(i));	// plays fap frame
             }
           }
           break;
         default:
-          echo("baptype: %d", baptype);
+          //echo("baptype: %d", baptype);
           break;
         }
-        echo("mask: %d (%.2f)", i, bap->getBap(i));
+        //echo("mask: %d (%.2f)", i, bap->getBap(i));
         p = strchr(p, ' ');	// skip space
         if (! p) break;		// end of frame
         p++;			// next value
       }
-      ////usleep(200000);	// 2/10 sec
       //struct timeval to;
       //to.tv_sec = 0;
       //to.tv_usec = 200000; //::g.pref.frame_delay;     // 20ms -> 50 fps
@@ -486,9 +484,14 @@ void Humanoid::changePermanent(float lasting)
 
     hdr_frame = true;
     state = INACTIVE;
-    echo("end frames");
-  }
-#endif //dax
+    //echo("end frames");
+  } // local playing
+
+  //angle = 10;
+  //body->animArm(-angle, 0, 0);	// arm left flexion : OK
+  //body->animArm(+angle, 1, 0);	// arm right flexion : OK
+  //body->animForearm(-2*angle, 0, 0);	// forearm left flexion front : OK
+  //body->animForearm(+2*angle, 1, 0);	// forearm right flexion front : OK
 }
 
 /** Sends a play command to the vaps server */
