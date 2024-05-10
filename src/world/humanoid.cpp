@@ -449,41 +449,39 @@ void Humanoid::changePermanent(float lasting)
           }
           //echo("bap: p=%s ba[%d]=%.2f", p, i, bap->getBap(i));
         }
+
+        // play frame
+        switch (baptype) {
+        case TYPE_BAP_V31: case TYPE_BAP_V32: 
+          for (int i=1; i <= num_params; i++) {
+            if (! bap->isBit(i)) continue;
+            echo("play bap: %d (%.2f)", i, bap->getBap(i));
+          }
+          body->play();					// play bap frame
+          break;
+        case TYPE_FAP_V20: case TYPE_FAP_V21:
+          for (int i=1; i <= NUM_FAPS; i++) {
+            if (! bap->isBit(i)) continue;
+            echo("play fap: %d (%.2f)", i, bap->getFap(i));
+            if (body->v3d) {
+              body->v3d->play(i, bap->getFap(i));	// play fap frame
+            }
+          }
+          break;
+        default:
+          echo("baptype: %d", baptype);
+          break;
+        }
         echo("mask: %d (%.2f)", i, bap->getBap(i));
         p = strchr(p, ' ');	// skip space
         if (! p) break;		// end of frame
         p++;			// next value
       }
-
-      // play frame
-      switch (baptype) {
-      case TYPE_BAP_V31: case TYPE_BAP_V32: 
-        for (int i=1; i <= num_params; i++) {
-          if (! bap->isBit(i)) continue;
-          echo("play bap: %d (%.2f)", i, bap->getBap(i));
-        }
-
-        body->play();				// play bap frame
-
-        break;
-      case TYPE_FAP_V20: case TYPE_FAP_V21:
-        for (int i=1; i <= NUM_FAPS; i++) {
-          if (! bap->isBit(i)) continue;
-          echo("play fap: %d (%.2f)", i, bap->getFap(i));
-          if (body->v3d) {
-            body->v3d->play(i, bap->getFap(i));	// play fap frame
-          }
-        }
-        break;
-      default:
-        echo("baptype: %d", baptype);
-        break;
-      }
-      //usleep(200000);	// 2/10 sec
-      struct timeval to;
-      to.tv_sec = 0;
-      to.tv_usec = 200000; //::g.pref.frame_delay;     // 20ms -> 50 fps
-      select(0, 0, 0, 0, &to);
+      ////usleep(200000);	// 2/10 sec
+      //struct timeval to;
+      //to.tv_sec = 0;
+      //to.tv_usec = 200000; //::g.pref.frame_delay;     // 20ms -> 50 fps
+      //select(0, 0, 0, 0, &to);
     } while ((num_frame + 1) < nbr_frames) ;
 
     hdr_frame = true;
