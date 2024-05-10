@@ -1387,7 +1387,7 @@ void Body::display()
      rotX(+R_SHOULDER_ABDUCT, model);	// -
      rotY(R_SHOULDER_FLEXION, model);
      rotZ(+R_SHOULDER_TORSION, model);	// -
-     echo("R f:%.0f a:%.0f t:%.0f", arm_r->a_flexion(), arm_r->a_abduct(), arm_r->a_torsion());
+     //echo("R f:%.0f a:%.0f t:%.0f", arm_r->a_flexion(), arm_r->a_abduct(), arm_r->a_torsion());
      //rotY(+R_SHOULDER_ABDUCT,  arm_r->a_abduct());	// -
      //rotX(R_SHOULDER_FLEXION, arm_r->a_flexion());
      //rotZ(+R_SHOULDER_TORSION, arm_r->a_torsion());	// -
