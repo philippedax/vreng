@@ -1210,6 +1210,7 @@ void Body::rotZ(int side, uint8_t model)
   }
 }
 
+#if 0 //notused
 void Body::rotX(int side, float angle)
 {
   int sign = (side >= 0) ?1:-1;
@@ -1227,6 +1228,7 @@ void Body::rotZ(int side, float angle)
   int sign = (side >= 0) ?1:-1;
   glRotatef(sign * angle, 0,0,1);
 }
+#endif //notused
 
 /** Displays a part of the body */
 void Body::display(uint8_t part)
@@ -1315,7 +1317,7 @@ void Body::display()
      display(NECK);
      // Head
      if (! v3d) {
-       //echo("head render");
+       //echo("head display");
        display(HEAD);
      }
 
@@ -1332,7 +1334,7 @@ void Body::display()
         glScalef(V3d::SCALE, V3d::SCALE, V3d::SCALE);
         glTranslatef(0, 0.9, -0.9);
         glRotatef(90, 1,0,0);
-        //echo("v3d render");
+        //echo("v3d display");
         v3d->render();	// YR
       }
       transP(UPPER_NECK);
@@ -1538,7 +1540,7 @@ void Body::display()
 
 void Body::render(Pos& pos)
 {
-  //dax if (!bap) return;
+  if (! bap) return;
 
   const float color[] = {.4,.4,.4,1};
 

@@ -636,10 +636,11 @@ class Body {
   void rotX(int param, uint8_t model);
   void rotY(int param, uint8_t model);
   void rotZ(int param, uint8_t model);
-  void rotX(int param, float angle);
-  void rotY(int param, float angle);
-  void rotZ(int param, float angle);
   /**< Rotates around the Joint Point. */
+
+  //notused void rotX(int param, float angle);
+  //notused void rotY(int param, float angle);
+  //notused void rotZ(int param, float angle);
 
   char * getTok(char *l, int *tok);
   char * skipEqual(char *l);
