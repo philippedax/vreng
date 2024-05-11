@@ -201,7 +201,7 @@ template <class BoneElem> class BoneList {
     BoneNode<BoneElem> *newNode = new BoneNode<BoneElem>();
     newNode->setElement(elem);
 
-    if (listHead == NULL) {
+    if (! listHead) {
       listHead = newNode;
       listEnd  = newNode;
     }
@@ -217,7 +217,7 @@ template <class BoneElem> class BoneList {
   void addList(BoneList *list) {
     BoneNode<BoneElem> *newNode = list->getFirstNode();
 
-    if (listHead == NULL) {
+    if (! listHead) {
       listHead = newNode;
       listEnd  = newNode;
     }
@@ -232,7 +232,7 @@ template <class BoneElem> class BoneList {
   // Enlever un element dans la liste, tous les elements
   // suivants remontent d'un rang
   void removeElement(int index) {
-    if (listHead == NULL) return;
+    if (! listHead) return;
 
     BoneNode<BoneElem> *prevNode;
     BoneNode<BoneElem> *curNode;
@@ -264,7 +264,7 @@ template <class BoneElem> class BoneList {
   // Enlever un element dans la liste, tous les elements
   // suivants remontent d'un rang
   void removeElement(BoneElem *ptr) {
-    if (listHead == NULL) return;
+    if (! listHead) return;
 
     BoneNode<BoneElem> *prevNode;
     BoneNode<BoneElem> *curNode;

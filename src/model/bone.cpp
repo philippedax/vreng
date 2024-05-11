@@ -32,10 +32,6 @@
 #include "file.hpp"	// open, close
 
 
-// TODO : remove next lines !
-char *selectedNodeName = NULL;
-
-
 Bone::Bone()
 {
   meshToMove = NULL;
@@ -171,31 +167,31 @@ void Bone::generateLinkList()
   if (meshToMove == NULL) return; // To avoid NULL pointer exception
   if ( skeleton  == NULL) return; // To avoid NULL pointer exception
 
-  BoneVertex *tempNode;
-  tempNode = skeleton->findBone("root");
-  if (tempNode != NULL)
-    tempNode->influenceScaleFactor = 10.;
-  tempNode = skeleton->findBone("lipsRoot");
-  if (tempNode != NULL)
-    tempNode->influenceScaleFactor = 10.;
-  tempNode = skeleton->findBone("frontRoot");
-  if (tempNode != NULL)
-    tempNode->influenceScaleFactor = 10.;
+  BoneVertex *tempnode;
+  tempnode = skeleton->findBone("root");
+  if (tempnode)
+    tempnode->influenceScaleFactor = 10.;
+  tempnode = skeleton->findBone("lipsRoot");
+  if (tempnode)
+    tempnode->influenceScaleFactor = 10.;
+  tempnode = skeleton->findBone("frontRoot");
+  if (tempnode)
+    tempnode->influenceScaleFactor = 10.;
 
   // We start link generation with an empty link list of course
   emptyLinkList();
 
   // If the mesh has not compiled hos vertices list, we'll do it
-  if (! meshToMove->vertexListCompiled) meshToMove->compileVertexList();
+  if (! meshToMove->vertexListCompiled)
+    meshToMove->compileVertexList();
 
-  // First, we need to generate the initial matrices for
-  // all the nodes of the skeleton
+  // First, we need to generate the initial matrices for all the nodes of the skeleton
   glPushMatrix();
    glLoadIdentity();
    skeleton->generateIniMatrix();
   glPopMatrix();
 
-  //--- We'll store the skeleton nodes into a list
+  // We'll store the skeleton nodes into a list
   BoneList <BoneVertex> nodeList;
   BoneVertex **node;
   int nodes;
@@ -233,7 +229,6 @@ void Bone::generateLinkList()
       }
       tempLink[k] = temp;
     }
-
     // Now removing unsignificant links
     float seuil = 0.3 * tempLink[0]->weight;
     for (int j=0; j < tempLinks; j++) {
@@ -242,11 +237,10 @@ void Bone::generateLinkList()
         tempLink[j] = NULL;
       }
     }
-
     // Record the selected links in the list
     normalize(tempLink, tempLinks);
     for (int j=0; j < tempLinks; j++) {
-      if (tempLink[j] != NULL)
+      if (tempLink[j])
         linkList.addElement(tempLink[j]);
     }
   }
@@ -260,10 +254,10 @@ void Bone::generateLinkList()
   for (int i=0; i < meshToMove->vertices; i++) {
     meshToMove->vertex[i]->compileLinkList();
   }
-
-  trace(DBG_MAN, "selected links: [%2.2f%%]", (links*100.) / (meshToMove->vertices * nodes));
+  //echo("selected links: [%2.2f%%]", (links*100.) / (meshToMove->vertices * nodes));
 }
 
+#if 0 //notused
 // The render part of this file has been written very quickly, for tests only !
 #define __AXIS_SIZE__ 0.5f
 
@@ -311,6 +305,7 @@ void renderLocalCoordinate2() // This is for selected node
    glVertex3f(0, 0, __AXIS_SIZE__);	// Z
   glEnd();
 }
+#endif //notused
 
 void renderOneBone(BoneVertex *node)
 {
@@ -330,19 +325,20 @@ void renderOneBone(BoneVertex *node)
 // Main rendering method, will draw the skeleton and the mesh
 void Bone::render()
 {
+#if 0 //notused
   // First we draw the skeleton with local coordinates
-  //if (axisRendering) {
-  if (0) {
+  if (axisRendering) {
     glPointSize(5.0);
     glDisable(GL_LIGHTING);
     glDisable(GL_COLOR_MATERIAL);
     glDisable(GL_TEXTURE_2D);
-    renderSkeletonNode(skeleton);
+    //renderSkeletonNode(skeleton);
     glBegin(GL_LINES);
      glColor3f(0.4, 0.4, 0.4);
      renderOneBone(skeleton);
     glEnd();
   }
+#endif //notused
 
   // Now, we'll render the 3d mesh on the screen
   if (! meshToMove->triangleListCompiled) {
@@ -626,7 +622,6 @@ void BoneMesh::rebuildNormals()
   for (int i=0; i < vertices; i++) {
     vertex[i]->iniNormal.normalize();
   }
-
   projectLight();
 }
 
@@ -1138,9 +1133,9 @@ void BoneVertex::read(char *filename, float scale)
 
 void BoneVertex::readFromFile(FILE *fp, float scale)
 {
-  char nameCurrent[512];
+  char name[512];
 
-  readStr(fp, nameCurrent);
+  readStr(fp, name);
 
   float posx = readFloat(fp) * scale;
   float posy = readFloat(fp) * scale;
@@ -1150,7 +1145,7 @@ void BoneVertex::readFromFile(FILE *fp, float scale)
   float axisy = readFloat(fp);
   float axisz = readFloat(fp);
 
-  setName(nameCurrent);
+  setName(name);
   setIniPos(posx, posy, posz);
   setIniRot(angle, axisx, axisy, axisz);
 
@@ -1160,7 +1155,6 @@ void BoneVertex::readFromFile(FILE *fp, float scale)
     addBone(tmp);
     tmp->readFromFile(fp, scale);
   }
-
   compileChildList();
 }
 
@@ -1233,7 +1227,7 @@ void Vertex::compileLinkList()
 
 //---------------------------------------------------------------------------
 
-// Construct / destruct
+/** Constructor / destructor */
 BoneTriangle::BoneTriangle()
 {
   vertex1 = NULL;
@@ -1246,7 +1240,7 @@ BoneTriangle::BoneTriangle()
 
 BoneTriangle::~BoneTriangle() {}
 
-// Accessing datas
+/** Accessing datas */
 void BoneTriangle::addVertex(Vertex *_vertex, int index, float u=-1, float v=-1)
 {
   if (( u == -1 ) && ( v == -1 )) {
