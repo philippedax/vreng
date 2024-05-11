@@ -424,6 +424,7 @@ void Humanoid::changePermanent(float lasting)
       p = bapline;
       num_frame = atoi(p);
       //echo("num_frame: %d", num_frame);
+      //body->play();				// plays bap frame
 
       // values
       p = strchr(bapline, ' ');
@@ -433,15 +434,15 @@ void Humanoid::changePermanent(float lasting)
       for (int i=1; i <= num_params; i++) {
         if (! bap->isBit(i)) continue;
         if (i >= TR_VERTICAL && i <= TR_FRONTAL) {	// 170..172 translations
-          bap->setBap(i, static_cast<float>(atof(p)));	// / TR_DIV)));	// magic formula (300)
+          bap->setBap(i, static_cast<float>(atof(p)));	// / TR_DIV)));	//magic formula:300
         }
         else {  // angles
           switch (baptype) {
           case TYPE_BAP_V31:
-            bap->setBap(i, static_cast<float>((atof(p) / BAPV31_DIV))); // magic formula (1745)
+            bap->setBap(i, static_cast<float>((atof(p) / BAPV31_DIV))); //magic formula:1745
             break;
           case TYPE_BAP_V32:
-            bap->setBap(i, static_cast<float>((atof(p) / BAPV32_DIV))); // magic formula (555)
+            bap->setBap(i, static_cast<float>((atof(p) / BAPV32_DIV))); //magic formula:555
             break;
           }
           //echo("bap: p=%s ba[%d]=%.2f", p, i, bap->getBap(i));
@@ -454,15 +455,15 @@ void Humanoid::changePermanent(float lasting)
         case TYPE_BAP_V31: case TYPE_BAP_V32: 
           for (int i=1; i <= num_params; i++) {
             if (! bap->isBit(i)) continue;
-            //echo("play bap: %d (%.2f)", i, bap->getBap(i));
+            echo("playbap: %d: %d (%.2f)", num_frame, i, bap->getBap(i));
           }
-          body->play();					// plays bap frame
+          body->play();				// plays bap frame
           break;
         case TYPE_FAP_V20: case TYPE_FAP_V21:
           for (int i=1; i <= NUM_FAPS; i++) {
             if (! bap->isBit(i)) continue;
-            //echo("play fap: %d (%.2f)", i, bap->getFap(i));
             if (body->v3d) {
+              //echo("play fap: %d (%.2f)", i, bap->getFap(i));
               body->v3d->play(i, bap->getFap(i));	// plays fap frame
             }
           }
@@ -476,10 +477,10 @@ void Humanoid::changePermanent(float lasting)
         if (! p) break;		// end of frame
         p++;			// next value
       }
-      //struct timeval to;
-      //to.tv_sec = 0;
-      //to.tv_usec = 200000; //::g.pref.frame_delay;     // 20ms -> 50 fps
-      //select(0, 0, 0, 0, &to);
+      struct timeval to;
+      to.tv_sec = 0;
+      to.tv_usec = 200000; //::g.pref.frame_delay;     // 20ms -> 50 fps
+      select(0, 0, 0, 0, &to);
     } while ((num_frame + 1) < nbr_frames) ;
 
     hdr_frame = true;
@@ -487,6 +488,7 @@ void Humanoid::changePermanent(float lasting)
     //echo("end frames");
   } // local playing
 
+  // debug
   //angle = 10;
   //body->animArm(-angle, 0, 0);	// arm left flexion : OK
   //body->animArm(+angle, 1, 0);	// arm right flexion : OK
