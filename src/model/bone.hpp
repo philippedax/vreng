@@ -516,7 +516,7 @@ class Vertex {
   // Acces aux champs de transformation initiaux
   void compileLinkList();
 
-private:
+ private:
   void defaults();
 };
 
@@ -526,7 +526,7 @@ private:
  * BoneLink class
  */
 class BoneLink {
-public:
+ public:
   Vertex *vertex;		///< vertex.
   BoneVertex *boneVertex;	///< BoneVertex.
   float weight;			///< weight.
@@ -537,10 +537,10 @@ public:
   virtual ~BoneLink();
   /**< Destructor. */
 
-  virtual void setVertex(Vertex *Vertex);
-  virtual void setBoneVertex(BoneVertex *BoneVertex);
-  virtual void notifyTarget();
-  virtual void setWeight(float weight);
+  void setVertex(Vertex *Vertex);
+  void setBoneVertex(BoneVertex *BoneVertex);
+  void notifyTarget();
+  void setWeight(float weight);
 };
 
 //---------------------------------------------------------------------------
@@ -566,12 +566,12 @@ class BoneTriangle {
   virtual ~BoneTriangle();
 
   // Accessing datas
-  virtual void addVertex(Vertex *vertex, int index, float u, float v);
+  void addVertex(Vertex *vertex, int index, float u, float v);
 
   void rebuildNormal();
 
-  //virtual void setColor(float r=0.5, float g=0.5, float b=0.5, float a=1);
-  virtual void setColor(float r, float g, float b, float a);
+  //void setColor(float r=0.5, float g=0.5, float b=0.5, float a=1);
+  void setColor(float r, float g, float b, float a);
 };
 
 //---------------------------------------------------------------------------
@@ -604,19 +604,19 @@ class BoneMesh : public Bonename {
   virtual ~BoneMesh();
 
   // Actions sur les champs
-  virtual void addVertex(Vect3D & position);
-  virtual void addVertex(Vect3D * position);
-  virtual void addVertex(float ox, float oy, float oz);
-  virtual void addTriangle(int index1, int index2, int index3);
+  void addVertex(Vect3D & position);
+  void addVertex(Vect3D * position);
+  void addVertex(float ox, float oy, float oz);
+  void addTriangle(int index1, int index2, int index3);
 
   // Fonctions internes
   void compileVertexList();
   void compileTriangleList();
 
   // Modification du mesh
-  virtual void rebuildNormals();
-  virtual void scale (float sx, float sy, float sz);
-  virtual void projectLight();
+  void rebuildNormals();
+  void scale (float sx, float sy, float sz);
+  void projectLight();
 };
 
 //---------------------------------------------------------------------------
@@ -641,7 +641,6 @@ class BoneMesh : public Bonename {
  */
 
 class Bone {
-
  public:
 
   /* What we'll animate */
@@ -658,24 +657,24 @@ class Bone {
   virtual ~Bone();	///< Destructor
 
   // Accessing datas
-  virtual void registerMesh(BoneMesh *mesh);
-  virtual void registerSkeleton(BoneVertex *root);
+  void registerMesh(BoneMesh *mesh);
+  void registerSkeleton(BoneVertex *root);
 
   // Operations on both mesh and skeleton
-  virtual void scale(float sx, float sy, float sz);
+  void scale(float sx, float sy, float sz);
 
   // List compilation
-  virtual void compileLinkList();
-  virtual void emptyLinkList();
-  virtual void generateLinkList();
+  void compileLinkList();
+  void emptyLinkList();
+  void generateLinkList();
   float getLength(Vertex *vertex, BoneVertex *node);
   float getWeight(Vertex *vertex, BoneVertex *node);
 
   // Rendering and animating the mesh and skeleton
-  virtual void render();
-  virtual void renderSkeletonNode(BoneVertex *node);
-  virtual void animate();
-  virtual void animateSkeletonNode(BoneVertex *node);
+  void render();
+  void renderSkeletonNode(BoneVertex *node);
+  void animate();
+  void animateSkeletonNode(BoneVertex *node);
 
   static void readV3Dfile(BoneMesh *result, BoneVertex *skeletonRoot, char *filename, float size = 1.);
 
