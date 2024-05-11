@@ -45,7 +45,7 @@ Bone::~Bone()
 {
   //dax this line is correct, but temporally commented because
   //dax a segfault occurs later in the removeLink destructor
-  //dax crash// emptyLinkList();
+  //dax emptyLinkList();
 }
 
 //-----------------
@@ -125,7 +125,7 @@ void getDistanceFromAndOnBone(Vertex *vertex, BoneVertex *a, BoneVertex *b, floa
   *dist = (*dist > 0.00000001 ? *dist : 0.00000001);
 }
 
-inline float Bone::getWeight(Vertex *vertex, BoneVertex *node)
+float Bone::getWeight(Vertex *vertex, BoneVertex *node)
 {
   float result = 0;
   float dist, time;
@@ -305,7 +305,6 @@ void renderLocalCoordinate2() // This is for selected node
    glVertex3f(0, 0, __AXIS_SIZE__);	// Z
   glEnd();
 }
-#endif //notused
 
 void renderOneBone(BoneVertex *node)
 {
@@ -321,6 +320,7 @@ void renderOneBone(BoneVertex *node)
     renderOneBone(node->child[i]);
   }
 }
+#endif //notused
 
 // Main rendering method, will draw the skeleton and the mesh
 void Bone::render()
@@ -448,7 +448,7 @@ void Bone::animate()
 }
 
 // Recursive part of the animating
-inline void Bone::animateSkeletonNode(BoneVertex *node)
+void Bone::animateSkeletonNode(BoneVertex *node)
 {
   // The first time, the link list won't be compiled for this node so we'll dot it
   if (! node->linkListCompiled) node->compileLinkList();
@@ -1133,7 +1133,7 @@ void BoneVertex::read(char *filename, float scale)
 
 void BoneVertex::readFromFile(FILE *fp, float scale)
 {
-  char name[512];
+  char name[128];
 
   readStr(fp, name);
 
