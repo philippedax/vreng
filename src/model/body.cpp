@@ -840,10 +840,10 @@ void Body::setColors(float *_skin, float *_cloth)
   }
 }
 
-/** Animates all body's articulations - called from humanoid.cpp with server */
+/** Animates all body's articulations - called from humanoid.cpp */
 void Body::play()
 {
-  if (!bap) return;
+  if (! bap) return;
 
   if (bap->isBit(PELVIC_TILT))		chest->abduct(bap->getBap(PELVIC_TILT));
   if (bap->isBit(PELVIC_TORSION))	chest->torsion(bap->getBap(PELVIC_TORSION));

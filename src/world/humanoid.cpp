@@ -458,6 +458,7 @@ void Humanoid::changePermanent(float lasting)
             echo("playbap: %d: %d (%.2f)", num_frame, i, bap->getBap(i));
           }
           body->play();				// plays bap frame
+          render();
           break;
         case TYPE_FAP_V20: case TYPE_FAP_V21:
           for (int i=1; i <= NUM_FAPS; i++) {
@@ -467,6 +468,7 @@ void Humanoid::changePermanent(float lasting)
               body->v3d->play(i, bap->getFap(i));	// plays fap frame
             }
           }
+          render();
           break;
         default:
           //echo("baptype: %d", baptype);
