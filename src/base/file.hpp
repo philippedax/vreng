@@ -41,12 +41,15 @@ class File {
   static void closeFile(FILE *f);
 
   int read_char(FILE *f);
-  int read_short(FILE *f);
-  int read_long(FILE *f);
-  float read_float(FILE *f);
   int read_short_le(FILE *f);
+  int read_short_be(FILE *f);
+  int read_short(FILE *f);
   int read_long_le(FILE *f);
+  int read_long_be(FILE *f);
+  int read_long(FILE *f);
   float read_float_le(FILE *f);
+  float read_float_be(FILE *f);
+  float read_float(FILE *f);
   int read_string(FILE *f, char *s, int maxlen);
   void read_buf(FILE *f, char *s, int len);
   void skip(FILE *f, int skiplen);

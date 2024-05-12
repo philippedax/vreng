@@ -24,6 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "file.hpp"
+#include "endian.hpp"
 #include "stat.hpp"	// opn_file cls_file
 
 
@@ -98,22 +99,25 @@ int File::read_char(FILE *f)
   return c;
 }
 
-/** Reads a short in big-endian */
-int File::read_short(FILE *f)
-{
-  return (read_char(f)<<8) | read_char(f);
-}
-
 /** Reads a short in little-endian */
 int File::read_short_le(FILE *f)
 {
   return (read_char(f)) | (read_char(f)<<8);
 }
 
-/** Reads a long in big-endian */
-int File::read_long(FILE *f)
+/** Reads a short in big-endian */
+int File::read_short_be(FILE *f)
 {
-  return (read_char(f)<<24) | (read_char(f)<<16) | (read_char(f)<<8) | read_char(f);
+  return (read_char(f)<<8) | read_char(f);
+}
+
+/** Reads a short */
+int File::read_short(FILE *f)
+{
+  if (Endian::littleEndian())
+    return (read_short_le(f));
+  else
+    return (read_short_be(f));
 }
 
 /** Reads a long in little-endian */
@@ -122,10 +126,25 @@ int File::read_long_le(FILE *f)
   return (read_char(f)) | (read_char(f)<<8) | (read_char(f)<<16) | (read_char(f)<<24);
 }
 
-/** Reads a float in big-endian */
-float File::read_float(FILE *f)
+/** Reads a long in big-endian */
+int File::read_long_be(FILE *f)
 {
-  int v = read_long(f);
+  return (read_char(f)<<24) | (read_char(f)<<16) | (read_char(f)<<8) | read_char(f);
+}
+
+/** Reads a long */
+int File::read_long(FILE *f)
+{
+  if (Endian::littleEndian())
+    return (read_long_le(f));
+  else
+    return (read_long_be(f));
+}
+
+/** Reads a float in big-endian */
+float File::read_float_be(FILE *f)
+{
+  int v = read_long_be(f);
   return static_cast<float>(*(float *)&v);
 }
 
@@ -134,6 +153,15 @@ float File::read_float_le(FILE *f)
 {
   int v = read_long_le(f);
   return (float) *(float *)&v;
+}
+
+/** Reads a float */
+float File::read_float(FILE *f)
+{
+  if (Endian::littleEndian())
+    return (read_float_le(f));
+  else
+    return (read_float_be(f));
 }
 
 /** Reads a string */

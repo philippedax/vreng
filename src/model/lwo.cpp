@@ -73,8 +73,8 @@ void Lwo::readSurf(class File *file, FILE *f, int nbytes)
 
   /* read values */
   while (nbytes > 0) {
-    int id = file->read_long(f);
-    int len = file->read_short(f);
+    int id = file->read_long_be(f);
+    int len = file->read_short_be(f);
     nbytes -= 6 + len + len%2;
 
     switch (id) {
@@ -106,7 +106,7 @@ void Lwo::readPols(class File *file, FILE *f, int nbytes)
     lface = face + nbf++;
 
     /* number of points in this face */
-    lface->index_count = file->read_short(f);
+    lface->index_count = file->read_short_be(f);
     nbytes -= 2;
 
     /* allocate space for points */
@@ -115,21 +115,21 @@ void Lwo::readPols(class File *file, FILE *f, int nbytes)
 
     /* read points in */
     for (int i=0; i < lface->index_count; i++) {
-      lface->index[i] = file->read_short(f);
+      lface->index[i] = file->read_short_be(f);
       nbytes -= 2;
     }
 
     /* read surface material */
-    lface->material = file->read_short(f);
+    lface->material = file->read_short_be(f);
     nbytes -= 2;
 
     /* skip over detail polygons */
     if (lface->material < 0) {
       lface->material = -lface->material;
-      int det_cnt = file->read_short(f);
+      int det_cnt = file->read_short_be(f);
       nbytes -= 2;
       while (det_cnt-- > 0) {
-	int cnt = file->read_short(f);
+	int cnt = file->read_short_be(f);
 	file->skip(f, cnt*2+2);
 	nbytes -= cnt*2+2;
       }
@@ -148,9 +148,9 @@ void Lwo::readPnts(class File *file, FILE *f, int nbytes)
   vertex = new float[vertex_count * 3];
   if (! vertex) { error("can't alloc vertex"); return; }
   for (int i=0; i < vertex_count; i++) {
-    vertex[i*3+0] = file->read_float(f);
-    vertex[i*3+1] = file->read_float(f);
-    vertex[i*3+2] = file->read_float(f);
+    vertex[i*3+0] = file->read_float_be(f);
+    vertex[i*3+1] = file->read_float_be(f);
+    vertex[i*3+2] = file->read_float_be(f);
   }
 }
 
@@ -168,15 +168,15 @@ void Lwo::httpReader(void *_lwo, Http *http)
   }
 
   /* check for headers */
-  if (cache->read_long(f) != ID_FORM) {
+  if (cache->read_long_be(f) != ID_FORM) {
     error("lwoReader: error ID_FORM");
     cache->close();
     delete cache;
     return;
   }
-  int32_t form_bytes = cache->read_long(f);
+  int32_t form_bytes = cache->read_long_be(f);
   int32_t read_bytes = 4;
-  if (cache->read_long(f) != ID_LWOB) {
+  if (cache->read_long_be(f) != ID_LWOB) {
     error("lwoReader: not a LWOB file");
     cache->close();
     delete cache;
@@ -185,8 +185,8 @@ void Lwo::httpReader(void *_lwo, Http *http)
 
   /* read chunks */
   while (read_bytes < form_bytes) {
-    int32_t  chunk  = cache->read_long(f);
-    int32_t  nbytes = cache->read_long(f);
+    int32_t  chunk  = cache->read_long_be(f);
+    int32_t  nbytes = cache->read_long_be(f);
     read_bytes += 8 + nbytes + nbytes%2;
     switch (chunk) {
       case ID_PNTS: lwo->readPnts(cache, f, nbytes); break;
