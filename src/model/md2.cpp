@@ -90,24 +90,24 @@ bool Md2::readFile(class File *file, FILE *f)
   tHeader md2_hdr;
   int32_t o = 0;	// offset in file
 
-  // read in little endian format (read_long_le)
+  // read in little endian format (read_long)
   file->read_buf(f, md2_hdr.ident, 4); o+=4;
-  md2_hdr.version = file->read_long_le(f); o+=4;
-  md2_hdr.skinwidth = file->read_long_le(f); o+=4;
-  md2_hdr.skinheight = file->read_long_le(f); o+=4;
-  md2_hdr.framesize = file->read_long_le(f); o+=4;
-  md2_hdr.num_skins = file->read_long_le(f); o+=4;
-  md2_hdr.num_xyz = file->read_long_le(f); o+=4;
-  md2_hdr.num_st = file->read_long_le(f); o+=4;
-  md2_hdr.num_tris = file->read_long_le(f); o+=4;
-  md2_hdr.num_glcmds = file->read_long_le(f); o+=4;
-  md2_hdr.num_frames = file->read_long_le(f); o+=4;
-  md2_hdr.ofs_skins = file->read_long_le(f); o+=4;
-  md2_hdr.ofs_st = file->read_long_le(f); o+=4;
-  md2_hdr.ofs_tris = file->read_long_le(f); o+=4;
-  md2_hdr.ofs_frames = file->read_long_le(f); o+=4;
-  md2_hdr.ofs_glcmds = file->read_long_le(f); o+=4;
-  md2_hdr.ofs_end = file->read_long_le(f); o+=4;
+  md2_hdr.version = file->read_long(f); o+=4;
+  md2_hdr.skinwidth = file->read_long(f); o+=4;
+  md2_hdr.skinheight = file->read_long(f); o+=4;
+  md2_hdr.framesize = file->read_long(f); o+=4;
+  md2_hdr.num_skins = file->read_long(f); o+=4;
+  md2_hdr.num_xyz = file->read_long(f); o+=4;
+  md2_hdr.num_st = file->read_long(f); o+=4;
+  md2_hdr.num_tris = file->read_long(f); o+=4;
+  md2_hdr.num_glcmds = file->read_long(f); o+=4;
+  md2_hdr.num_frames = file->read_long(f); o+=4;
+  md2_hdr.ofs_skins = file->read_long(f); o+=4;
+  md2_hdr.ofs_st = file->read_long(f); o+=4;
+  md2_hdr.ofs_tris = file->read_long(f); o+=4;
+  md2_hdr.ofs_frames = file->read_long(f); o+=4;
+  md2_hdr.ofs_glcmds = file->read_long(f); o+=4;
+  md2_hdr.ofs_end = file->read_long(f); o+=4;
 
   /* check if this is really a .md2 file */
   if (strncmp(md2_hdr.ident, "IDP2", 4)) return false;
@@ -146,12 +146,12 @@ int32_t Md2::getFrames(tHeader *md2_hdr, class File *file, FILE *f)
   for (int fr=0; fr < numframes; fr++) {
     tVec3 scale, origin;
 
-    scale.x = file->read_float_le(f); o +=4;
-    scale.y = file->read_float_le(f); o +=4;
-    scale.z = file->read_float_le(f); o +=4;
-    origin.x = file->read_float_le(f); o +=4;
-    origin.y = file->read_float_le(f); o +=4;
-    origin.z = file->read_float_le(f); o +=4;
+    scale.x = file->read_float(f); o +=4;
+    scale.y = file->read_float(f); o +=4;
+    scale.z = file->read_float(f); o +=4;
+    origin.x = file->read_float(f); o +=4;
+    origin.y = file->read_float(f); o +=4;
+    origin.z = file->read_float(f); o +=4;
     file->read_buf(f, frames[fr].name, 16); o +=16;
 
     frames[fr].vert_table = new tVertex[md2_hdr->num_xyz];
@@ -193,7 +193,7 @@ int32_t Md2::getGLCmds(tHeader *md2_hdr, class File *file, FILE *f)
 
   int32_t glcmd, o;
 
-  for (o = 0, glcmd = 0; (glcmd = file->read_long_le(f)) != 0; ) {
+  for (o = 0, glcmd = 0; (glcmd = file->read_long(f)) != 0; ) {
     int32_t nb_verts;
 
     o += 4;
@@ -207,12 +207,12 @@ int32_t Md2::getGLCmds(tHeader *md2_hdr, class File *file, FILE *f)
 
     /* gets the texture information */
     for (int i=0; i < nb_verts; i++) {
-      _texinfo->s = file->read_float_le(f); o+=4;
-      _texinfo->t = file->read_float_le(f); o+=4;
+      _texinfo->s = file->read_float(f); o+=4;
+      _texinfo->t = file->read_float(f); o+=4;
       _texinfo++;
 
       /* we keep the vertex index */
-      glcmd = file->read_long_le(f); o+=4;
+      glcmd = file->read_long(f); o+=4;
       *(glcmds_copy++) = glcmd;	// copy the vertex index
     }
   }
