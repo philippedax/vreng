@@ -432,7 +432,7 @@ class BoneVertex : public Bonename {
 
   // I/O functions
   void read(char *filename, float size = 1.);
-  void readFromFile(FILE *file, float scale = 1.);
+  void readSkeleton(FILE *file, float scale = 1.);
 };
 
 // Reading part

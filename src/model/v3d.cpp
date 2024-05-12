@@ -778,10 +778,11 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float 
   FILE *fp = file->open(filename, "rb");
   if (fp == NULL) return;
 
-  trace(DBG_MAN, "readV3Dfile: reading mesh and skeleton from V3D file %s", filename);
+  //echo("readV3Dfile: reading mesh and skeleton from V3D file %s", filename);
 
   // Reading name
   char name[512];
+
   readStr(fp, name);
   result->setName(name);
 
@@ -793,7 +794,7 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float 
     float z = readFloat(fp) * scale;
     result->addVertex(x, y, z);
   }
-  trace(DBG_MAN, "v3d: Vertices added: %i", vertices);
+  //echo("v3d: Vertices added: %i", vertices);
 
   int facets = readInt(fp);
   for (int i=0; i < facets; i++) {
@@ -817,14 +818,14 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float 
     triangle->u3 = readFloat(fp);
     triangle->v3 = readFloat(fp);
   }
-  trace(DBG_MAN, "v3d: Faces added   : %i", facets);
+  //echo("v3d: Faces added   : %i", facets);
 
   // Reading skeleton
-  skel->readFromFile(fp, scale);
+  skel->readSkeleton(fp, scale);
   result->rebuildNormals();
   file->close();
   delete file;
-  trace(DBG_MAN, "skeleton added");
+  //echo("skeleton added");
 }
 
 

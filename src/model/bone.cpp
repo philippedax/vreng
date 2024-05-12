@@ -1126,12 +1126,12 @@ void BoneVertex::read(char *filename, float scale)
     return;
   }
 
-  readFromFile(fp, scale);
+  readSkeleton(fp, scale);
   file->close();
   delete file;
 }
 
-void BoneVertex::readFromFile(FILE *fp, float scale)
+void BoneVertex::readSkeleton(FILE *fp, float scale)
 {
   char name[128];
 
@@ -1153,7 +1153,7 @@ void BoneVertex::readFromFile(FILE *fp, float scale)
   for (int i=0; i < n; i++) {
     BoneVertex *tmp = new BoneVertex();
     addBone(tmp);
-    tmp->readFromFile(fp, scale);
+    tmp->readSkeleton(fp, scale);
   }
   compileChildList();
 }
