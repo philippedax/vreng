@@ -781,42 +781,43 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float 
   //echo("readV3Dfile: reading mesh and skeleton from V3D file %s", filename);
 
   // Reading name
-  char name[512];
+  char name[128];
 
   readStr(fp, name);
+  //echo("v3d: %s", name);
   result->setName(name);
 
   // Reading vertices
   int vertices = readInt(fp);
   for (int i=0; i < vertices; i++) {
-    float x = readFloat(fp) * scale;
-    float y = readFloat(fp) * scale;
-    float z = readFloat(fp) * scale;
+    float x = file->read_float_be(fp) * scale;
+    float y = file->read_float_be(fp) * scale;
+    float z = file->read_float_be(fp) * scale;
     result->addVertex(x, y, z);
   }
   //echo("v3d: Vertices added: %i", vertices);
 
-  int facets = readInt(fp);
+  int facets = file->read_long_be(fp);
   for (int i=0; i < facets; i++) {
     // Reading indices
-    int index1 = readInt(fp);
-    int index2 = readInt(fp);
-    int index3 = readInt(fp);
+    int index1 = file->read_long_be(fp);
+    int index2 = file->read_long_be(fp);
+    int index3 = file->read_long_be(fp);
     result->addTriangle(index1, index2, index3);
     BoneTriangle *triangle = result->triangleList.getElemAt(i);
     // Reading color
-    float r = readFloat(fp);
-    float g = readFloat(fp);
-    float b = readFloat(fp);
-    float a = readFloat(fp);
+    float r = file->read_float_be(fp);
+    float g = file->read_float_be(fp);
+    float b = file->read_float_be(fp);
+    float a = file->read_float_be(fp);
     triangle->setColor(r, g, b, a);
     // Reading texture coordinantes
-    triangle->u1 = readFloat(fp);
-    triangle->v1 = readFloat(fp);
-    triangle->u2 = readFloat(fp);
-    triangle->v2 = readFloat(fp);
-    triangle->u3 = readFloat(fp);
-    triangle->v3 = readFloat(fp);
+    triangle->u1 = file->read_float_be(fp);
+    triangle->v1 = file->read_float_be(fp);
+    triangle->u2 = file->read_float_be(fp);
+    triangle->v2 = file->read_float_be(fp);
+    triangle->u3 = file->read_float_be(fp);
+    triangle->v3 = file->read_float_be(fp);
   }
   //echo("v3d: Faces added   : %i", facets);
 

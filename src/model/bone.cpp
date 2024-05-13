@@ -1136,6 +1136,7 @@ void BoneVertex::readSkeleton(FILE *fp, float scale)
   char name[128];
 
   readStr(fp, name);
+  //echo("bone: %s", name);
 
   float posx = readFloat(fp) * scale;
   float posy = readFloat(fp) * scale;
