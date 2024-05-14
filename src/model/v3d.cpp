@@ -123,7 +123,7 @@ void V3d::reader(void *_url, Http *http)
   }
 }
 
-/** Download list of v3d url */
+/** Downloads list of v3d url */
 void V3d::v3dreader(void *_v3d, Http *http)
 {
   V3d *v3d = static_cast<V3d *>(_v3d);
@@ -151,6 +151,7 @@ void V3d::v3dreader(void *_v3d, Http *http)
   delete cache;
 }
 
+/** Changes Face */
 void V3d::change()
 {
   if (! indexed) return;
@@ -166,6 +167,7 @@ void V3d::change()
   load(urlv3d);
 }
 
+/** Loads V3D file */
 void V3d::load(const char *url)
 {
   BoneMesh   *newmesh = new BoneMesh();
@@ -177,7 +179,7 @@ void V3d::load(const char *url)
   }
   Http::httpOpen(url, reader, (void *)url, 0);
 
-  readV3Dfile(newmesh, newroot, cachefile);
+  readV3D(newmesh, newroot, cachefile);
 
   bone.registerMesh(newmesh);
   bone.registerSkeleton(newroot);
@@ -189,6 +191,7 @@ void V3d::load(const char *url)
   root = newroot;
 }
 
+/** Renders the face */
 void V3d::render()
 {
   if (! mesh) return;
@@ -198,6 +201,7 @@ void V3d::render()
   }
 }
 
+/** Anims head */
 void V3d::animHead(float angle, int x, int y, int z)
 {
   BoneVertex *bone;
@@ -212,6 +216,7 @@ void V3d::animHead(float angle, int x, int y, int z)
     error("headRoot not found");
 }
 
+/** Anims nose */
 void V3d::animNose(float angle, const char *_side)
 {
   BoneVertex *bone;
@@ -228,6 +233,7 @@ void V3d::animNose(float angle, const char *_side)
     error("noseRoot not found");
 }
 
+/** Anims eyeball */
 void V3d::animEyeBall(float angle, const char *_side, int dir)
 {
   BoneVertex *bone;
@@ -247,6 +253,7 @@ void V3d::animEyeBall(float angle, const char *_side, int dir)
     error("%s not found", _side);
 }
 
+/** Anims eye lid */
 void V3d::animEyeLid(float angle, const char *root1, const char *lid, const char *left, const char *right)
 {
   BoneVertex *bone;
@@ -279,6 +286,7 @@ void V3d::animEyeLid(float angle, const char *root1, const char *lid, const char
     error("%s not found", root1);
 }
 
+/** Anims eye brow */
 void V3d::animEyeBrow(float angle, const char *_root, const char *_side)
 {
   BoneVertex *bone;
@@ -300,6 +308,7 @@ void V3d::animEyeBrow(float angle, const char *_root, const char *_side)
     error("%s not found", _side);
 }
 
+/** Anims lip */
 void V3d::animLip(float angle, const char *_side)
 {
   BoneVertex *bone;
@@ -327,25 +336,25 @@ void V3d::play(int fapn, int a)
   switch (fapn) {
 
   case VISEME:			// 1
-    //if (a) echo("VISEME %s", e_not_implemented);
+    if (a) echo("VISEME %s", e_not_implemented);
     break;
   case EXPRESSION:		// 2
-    //if (a) echo("EXPRESSION %s", e_not_implemented);
+    if (a) echo("EXPRESSION %s", e_not_implemented);
     break;
   case OPEN_JAW:		// 3
-    //if (a) echo("OPEN_JAW %s", e_not_implemented);
+    if (a) echo("OPEN_JAW %s", e_not_implemented);
     break;
   case LOWER_T_MIDLIP:		// 4
     //if (a) echo("LOWER_T_MIDLIP %s a=%d", e_not_implemented, a);
     break;
   case RAISE_B_MIDLIP:		// 5
-    //if (a) echo("RAISE_B_MIDLIP %s a=%d", e_not_implemented, a);
+    if (a) echo("RAISE_B_MIDLIP %s a=%d", e_not_implemented, a);
     break;
   case STRETCH_L_CORNERLIP:	// 6
     //if (a) echo("STRETCH_L_CORNERLIP %s a=%d", e_not_implemented, a);
     break;
   case STRETCH_R_CORNERLIP:	// 7
-    //if (a) echo("STRETCH_R_CORNERLIP %s a=%d", e_not_implemented, a);
+    if (a) echo("STRETCH_R_CORNERLIP %s a=%d", e_not_implemented, a);
     break;
   case LOWER_T_LIP_LM:		// 8
     if (a) //echo("LOWER_T_LIP_LM a=%d", a);
@@ -365,22 +374,22 @@ void V3d::play(int fapn, int a)
     break;
   case RAISE_L_CORNERLIP:	// 12
   case RAISE_R_CORNERLIP:	// 13
-    //if (a) echo("RAISE_CORNERLIP %s a=%d", e_not_implemented, a);
+    if (a) echo("RAISE_CORNERLIP %s a=%d", e_not_implemented, a);
     break;
   case THRUST_JAW:		// 14
-    //if (a) echo("THRUST_JAW %s a=%d", e_not_implemented, a);
+    if (a) echo("THRUST_JAW %s a=%d", e_not_implemented, a);
     break;
   case SHIFT_JAW:		// 15
-    //if (a) echo("SHIFT_JAW %s a=%d", e_not_implemented, a);
+    if (a) echo("SHIFT_JAW %s a=%d", e_not_implemented, a);
     break;
   case PUSH_B_LIP:		// 16
-    //if (a) echo("PUSH_B_LIP %s a=%d", e_not_implemented, a);
+    if (a) echo("PUSH_B_LIP %s a=%d", e_not_implemented, a);
     break;
   case PUSH_T_LIP:		// 17
-    //if (a) echo("PUSH_T_LIP %s a=%d", e_not_implemented, a);
+    if (a) echo("PUSH_T_LIP %s a=%d", e_not_implemented, a);
     break;
   case DEPRESS_CHIN:		// 18 menton
-    //if (a) echo("DEPRESS_CHIN %s a=%d", e_not_implemented, a);
+    if (a) echo("DEPRESS_CHIN %s a=%d", e_not_implemented, a);
     break;
   case CLOSE_T_L_EYELID:	// 19
     animEyeLid(a, eyeLeftRoot, eyeLeftTopRoot, eyeLeftTopL, eyeLeftTopR);
@@ -395,28 +404,28 @@ void V3d::play(int fapn, int a)
     animEyeLid(a, eyeRightRoot, eyeRightBotRoot, eyeRightBotL, eyeRightBotR);
     break;
   case YAW_L_EYEBALL:		// 23
-    //if (a) echo("YAW_L_EYEBALL %s a=%d", e_not_implemented, a);
+    if (a) echo("YAW_L_EYEBALL %s a=%d", e_not_implemented, a);
     //dax animEyeBall(a, eyeLeftRoot, 0);
     break;
   case YAW_R_EYEBALL:		// 24
-    //if (a) echo("YAW_R_EYEBALL %s a=%d", e_not_implemented, a);
+    if (a) echo("YAW_R_EYEBALL %s a=%d", e_not_implemented, a);
     //dax animEyeBall(a, eyeRightRoot, 0);
     break;
   case PITCH_L_EYEBALL:		// 25
-    //if (a) echo("PITCH_L_EYEBALL %s a=%d", e_not_implemented, a);
+    if (a) echo("PITCH_L_EYEBALL %s a=%d", e_not_implemented, a);
     //dax animEyeBall(a, eyeLeftRoot, 1);
     break;
   case PITCH_R_EYEBALL:		// 26
-    //if (a) echo("PITCH_R_EYEBALL %s a=%d", e_not_implemented, a);
+    if (a) echo("PITCH_R_EYEBALL %s a=%d", e_not_implemented, a);
     //dax animEyeBall(a, eyeRightRoot, 1);
     break;
   case THRUST_L_EYEBALL:	// 27
   case THRUST_R_EYEBALL:	// 28
-    //if (a) echo("THRUST_EYEBALL %s a=%d", e_not_implemented, a);
+    if (a) echo("THRUST_EYEBALL %s a=%d", e_not_implemented, a);
     break;
   case DILATE_L_PUPIL:		// 29
   case DILATE_R_PUPIL:		// 30
-    //if (a) echo("DILATE_PUPIL %s a=%d", e_not_implemented, a);
+    if (a) echo("DILATE_PUPIL %s a=%d", e_not_implemented, a);
     break;
   case RAISE_L_I_EYEBROW:	// 31
     if (a) //echo("RAISE_L_I_EYEBROW a=%d", a);
@@ -443,25 +452,25 @@ void V3d::play(int fapn, int a)
     animEyeBrow(a, browRightRoot, browRightR);
     break;
   case SQUEEZE_L_EYEBROW:	// 37
-    //if (a) echo("SQUEEZE_L_EYEBROW %s a=%d", e_not_implemented, a);
+    if (a) echo("SQUEEZE_L_EYEBROW %s a=%d", e_not_implemented, a);
     break;
   case SQUEEZE_R_EYEBROW:	// 38
-    //if (a) echo("SQUEEZE_R_EYEBROW %s a=%d", e_not_implemented, a);
+    if (a) echo("SQUEEZE_R_EYEBROW %s a=%d", e_not_implemented, a);
     break;
   case PUFF_L_CHEEK:		// 39
   case PUFF_R_CHEEK:		// 40
-    //if (a) echo("PUFF_CHEEK %s", e_not_implemented);
+    if (a) echo("PUFF_CHEEK %s", e_not_implemented);
     break;
   case LIFT_L_CHEEK:		// 41
   case LIFT_R_CHEEK:		// 42
-    //if (a) echo("LIFT_CHEEK %s", e_not_implemented);
+    if (a) echo("LIFT_CHEEK %s", e_not_implemented);
     break;
   case SHIFT_TONGUE_TIP:	// 43
   case RAISE_TONGUE_TIP:	// 44
   case THRUST_TONGUE_TIP:	// 45
   case RAISE_TONGUE:		// 46
   case TONGUE_ROLL:		// 47
-    //if (a) echo("TONGUE %s", e_not_implemented);
+    if (a) echo("TONGUE %s", e_not_implemented);
     break;
   case HEAD_PITCH:		// 48
     if (a) //echo("HEAD_PITCH a=%d", a);
@@ -476,16 +485,16 @@ void V3d::play(int fapn, int a)
     animHead(a, 0, 0, 1);	// maybe
     break;
   case LOWER_T_MIDLIP_O:	// 51
-    //if (a) echo("LOWER_T_MIDLIP_O %s a=%d", e_not_implemented, a);
+    if (a) echo("LOWER_T_MIDLIP_O %s a=%d", e_not_implemented, a);
     break;
   case RAISE_B_MIDLIP_O:	// 52
-    //if (a) echo("RAISE_B_MIDLIP_O %s a=%d", e_not_implemented, a);
+    if (a) echo("RAISE_B_MIDLIP_O %s a=%d", e_not_implemented, a);
     break;
   case STRETCH_L_CORNERLIP_O:	// 53
-    //if (a) echo("STRETCH_L_CORNERLIP_O %s a=%d", e_not_implemented, a);
+    if (a) echo("STRETCH_L_CORNERLIP_O %s a=%d", e_not_implemented, a);
     break;
   case STRETCH_R_CORNERLIP_O:	// 54
-    //if (a) echo("STRETCH_R_CORNERLIP_O %s a=%d", e_not_implemented, a);
+    if (a) echo("STRETCH_R_CORNERLIP_O %s a=%d", e_not_implemented, a);
     break;
   case LOWER_T_LIP_LM_O:	// 55
     if (a) //echo("LOWER_T_LIP_LM_O a=%d", a);
@@ -504,10 +513,10 @@ void V3d::play(int fapn, int a)
     animLip(a, lipsBotR);
     break;
   case RAISE_L_CORNERLIP_O:	// 59
-    //if (a) echo("RAISE_L_CORNERLIP_O %s a=%d", e_not_implemented, a);
+    if (a) echo("RAISE_L_CORNERLIP_O %s a=%d", e_not_implemented, a);
     break;
   case RAISE_R_CORNERLIP_O:	// 60
-    //if (a) echo("RAISE_R_CORNERLIP_O %s a=%d", e_not_implemented, a);
+    if (a) echo("RAISE_R_CORNERLIP_O %s a=%d", e_not_implemented, a);
     break;
   case STRETCH_L_NOSE:		// 61
     if (a) //echo("STRETCH_L_NOSE a=%d", a);
@@ -518,16 +527,16 @@ void V3d::play(int fapn, int a)
     animNose(a, noseRight);
     break;
   case RAISE_NOSE:		// 63
-    //if (a) echo("RAISE_NOSE %s", e_not_implemented);
+    if (a) echo("RAISE_NOSE %s", e_not_implemented);
     break;
   case BEND_NOSE:		// 64
-    //if (a) echo("BEND_NOSE %s", e_not_implemented);
+    if (a) echo("BEND_NOSE %s", e_not_implemented);
     break;
   case RAISE_L_EAR:		// 65
   case RAISE_R_EAR:		// 66
   case PULL_L_EAR:		// 67
   case PULL_R_EAR:		// 68
-    //if (a) echo("EAR %s", e_not_implemented);
+    if (a) echo("EAR %s", e_not_implemented);
     break;
   default:
     error("bad fap number=%d", fapn);
@@ -771,14 +780,14 @@ void V3d::changeFace(Humanoid *o, void *d, time_t s, time_t u)
 
 //---------------------------------------------------------------------------
 
-//-- V3D internal format parser
-void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float scale)
+/** V3D internal format parser */
+void V3d::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scale)
 {
   File *file = new File();
   FILE *fp = file->open(filename, "rb");
   if (fp == NULL) return;
 
-  //echo("readV3Dfile: reading mesh and skeleton from V3D file %s", filename);
+  //echo("readV3D: reading mesh and skeleton from V3D file %s", filename);
 
   // Reading name
   char name[128];
@@ -832,7 +841,7 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float 
 
 #if 0 //notused --------------------------------------------------------------------
 
-void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filename)
+void V3d::writeV3D(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filename)
 {
   File *file = new File();
   FILE *fp = file->open(filename, "wb");
@@ -843,7 +852,7 @@ void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filena
 
   int i, index1, index2, index3;
 
-  trace(DBG_FORCE, "writeV3Dfile: writing mesh and skeleton to V3D file");
+  //echo("writeV3D: writing mesh and skeleton to V3D file");
 
   // Writing name
   writeString(fp, outMesh->getName());
@@ -855,7 +864,7 @@ void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filena
     writeFloat(fp, outMesh->vertex[i]->iniPosition.y);
     writeFloat(fp, outMesh->vertex[i]->iniPosition.z);
   }
-  trace(DBG_FORCE, "           Vertices added: %i", outMesh->vertices);
+  //echo("           Vertices added: %i", outMesh->vertices);
 
   // Writing triangles
   writeInt(fp, outMesh->triangles);
@@ -883,19 +892,19 @@ void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filena
     writeFloat(fp, outMesh->triangle[i]->u3);
     writeFloat(fp, outMesh->triangle[i]->v3);
   }
-  trace(DBG_FORCE, "           Faces added   : %i", outMesh->triangles);
+  //echo("           Faces added   : %i", outMesh->triangles);
 
   // Writing skeleton
   skeletonRoot->writeToFile(fp);
-  trace(DBG_FORCE, "           Skeleton added!");
+  //echo("           Skeleton added!");
   file->close();
   delete file;
 }
 
 void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float centerx, float centery, float centerz, int colorMask)
 {
-  trace(DBG_MAN, "Creating TRI mesh with vrml file");
-  trace(DBG_MAN, "           Filename      : [%s]", filename);
+  //echo("Creating TRI mesh with vrml file");
+  //echo("           Filename      : [%s]", filename);
 
   char endLine = '\0';
   char skippedText[1024];
@@ -914,8 +923,9 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
   File *file2 = new File();
   fp = file2->open(filename, "rt");
   strcpy(skippedText, "");
-  while ((strcmp(skippedText, "point") != 0) && (!feof(fp)))
+  while ((strcmp(skippedText, "point") != 0) && (!feof(fp))) {
     fscanf(fp, "%s", skippedText);
+  }
   if (!feof(fp)) {
     fscanf(fp, "%s\n", skippedText);
     endLine = '\0';
@@ -924,7 +934,7 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
       result->addVertex(centerx + x * size, centery + y * size, centerz + z * size);
       vertices ++;
     }
-    trace(DBG_MAN, "           Vertices added: %i", vertices);
+    //echo("           Vertices added: %i", vertices);
   }
   file2->close();
   delete file2;
@@ -933,8 +943,9 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
   File *file3 = new File();
   fp = file3->open(filename, "rt");
   strcpy(skippedText, "");
-  while ((strcmp(skippedText, "coordIndex") != 0) && (!feof(fp)))
+  while ((strcmp(skippedText, "coordIndex") != 0) && (!feof(fp))) {
     fscanf(fp, "%s", skippedText);
+  }
   if (!feof(fp)) {
     fscanf(fp, "%s", skippedText);
     endLine = '\0';
@@ -943,7 +954,7 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
       result->addTriangle(index1, index2, index3);
       facets ++;
     }
-    trace(DBG_MAN, "           Faces added   : %i", facets);
+    //echo("           Faces added   : %i", facets);
   }
   file3->close();
   delete file3;
@@ -986,8 +997,9 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
   File *file5 = new File();
   fp = file5->open(filename, "rt");
   strcpy(skippedText, "");
-  while ((strcmp(skippedText, "texCoord") != 0) && (!feof(fp)))
+  while ((strcmp(skippedText, "texCoord") != 0) && (!feof(fp))) {
     fscanf(fp, "%s", skippedText);
+  }
   if (!feof(fp)) {
     Vertex * vertex;
     float u,v;

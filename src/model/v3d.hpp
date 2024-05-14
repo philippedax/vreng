@@ -90,7 +90,7 @@ class V3d {
   void animNose(float angle, const char *_side);
   void animHead(float angle, int x, int y, int z);
 
-  static void readV3Dfile(BoneMesh *result, BoneVertex *skeletonRoot, char *filename, float size = 1.);
+  static void readV3D(BoneMesh *result, BoneVertex *skeletonRoot, char *filename, float size = 1.);
 
  private:
   static void reader(void *_url, Http *http);
