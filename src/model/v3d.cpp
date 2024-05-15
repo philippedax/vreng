@@ -164,6 +164,7 @@ void V3d::change()
     error("change: BUG! urlv3d=%02x", urlv3d[0]);
     return;
   }
+  echo("urlv3d: %s", urlv3d);
   load(urlv3d);
 }
 
