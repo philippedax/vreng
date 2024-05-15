@@ -1,7 +1,7 @@
 package fr.enst.vreng;
 
 /**
- * Generated from ../../../src/world/objects.cpp at Sat Apr 20 17:33:23 2024
+ * Generated from ../../../src/world/objects.cpp at Wed May 15 11:18:43 2024
  */
 public class ObjectTypes {
 
@@ -85,7 +85,7 @@ public class ObjectTypes {
 	public static final int OBJ_Slider     = 78;
 	public static final int OBJ_Bumper     = 79;
 	public static final int OBJ_Accessory  = 80;
-	public static final int OBJ_Face       = 81;
+	public static final int OBJ_Head       = 81;
 	public static final int OBJ_Firework   = 82;
 	public static final int OBJ_Fractal    = 83;
 	public static final int OBJ_Human      = 84;

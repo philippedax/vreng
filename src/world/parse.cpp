@@ -50,7 +50,7 @@ static const struct sAlias aliases[] = {
   { "ftp",        "download" },
   { "animx3d",    "carousel" },
   { "android",    "humanoid" },
-  { "head",       "face" },
+  { "face",       "head" },
   { "travelator", "travolator" },
   { NULL, NULL }
 };

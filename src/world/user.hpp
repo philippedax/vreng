@@ -63,7 +63,7 @@ class User: public WO {
   class Human *human;		///< Human avatar
   class Guy *guy;		///< Guy avatar
   class Humanoid *humanoid;	///< Humanoid avatar
-  class Face *face;		///< Head avatar
+  class Head *head;		///< Head avatar
   
  protected:
   friend class WO;

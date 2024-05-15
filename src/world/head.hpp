@@ -18,23 +18,23 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-// face.hpp
+// head.hpp
 //---------------------------------------------------------------------------
-#ifndef FACE_HPP
-#define FACE_HPP
+#ifndef HEAD_HPP
+#define HEAD_HPP
 
 #include "wobject.hpp"
 
-#define FACE_TYPE	81
-#define FACE_NAME	"Face"
+#define HEAD_TYPE	81
+#define HEAD_NAME	"Head"
 
 #define LWO_SCALE	0.0028
 #define _3DS_SCALE	0.0220
 
 /**
- * Face class
+ * Head class
  */
-class Face: public WO {
+class Head: public WO {
  protected:
   bool visible;
   uint8_t model_e;			///< types of model
@@ -73,9 +73,9 @@ class Face: public WO {
 
   static void funcs();	///< init funclist
 
-  Face(char *l);		///< Constructor.
-  Face(class User *user, void *d, time_t s, time_t u); ///< Constructor from User.
-  Face(class User *user, const char *url, const float *skin); ///< Constructor from User.
+  Head(char *l);		///< Constructor.
+  Head(class User *user, void *d, time_t s, time_t u); ///< Constructor from User.
+  Head(class User *user, const char *url, const float *skin); ///< Constructor from User.
 
   static WO * (creator)(char *l);
   /**< Creation from a file */
