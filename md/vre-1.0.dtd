@@ -27,9 +27,9 @@
 	carousel | cauldron | clip | clock | cloth | cloud |
 	doc | door | download | dress | drone |
 	entry | escalator |
-	face | fire | firework | flag | fog | fountain | fractal |
+	fire | firework | flag | fog | fountain | fractal |
 	gate | ground | guide | guy | 
-	hairs | halo | hat | host | human | humanoid
+	hairs | halo | hat | head | host | human | humanoid
 	lift | light | local |
 	mech | mirage | mirror | model | movie | music |
 	particle | plane |
@@ -205,14 +205,6 @@
 <!ATTLIST escalator	length	NMTOKEN "0">
 <!ATTLIST escalator	speed	NMTOKEN "0.5">
 
-<!ELEMENT face		EMPTY>
-<!ATTLIST face		pos	NMTOKENS #REQUIRED>
-<!ATTLIST face		name	NMTOKEN #IMPLIED>
-<!ATTLIST face		descr	NMTOKENS #IMPLIED>
-<!ATTLIST face		url	CDATA #REQUIRED>
-<!ATTLIST face		scale	NMTOKEN "1">
-<!ATTLIST face		color	NMTOKENS "1 .75 .7">
-
 <!ELEMENT fire		EMPTY>
 <!ATTLIST fire		pos	NMTOKENS #REQUIRED>
 <!ATTLIST fire		name	NMTOKEN #IMPLIED>
@@ -311,6 +303,14 @@
 <!ATTLIST hat		name	NMTOKEN #IMPLIED>
 <!ATTLIST hat		descr	NMTOKENS #IMPLIED>
 <!ATTLIST hat		model	(tophat | boiler | redhat | chinese | country | clown) #IMPLIED>
+
+<!ELEMENT head		EMPTY>
+<!ATTLIST head		pos	NMTOKENS #REQUIRED>
+<!ATTLIST head		name	NMTOKEN #IMPLIED>
+<!ATTLIST head		descr	NMTOKENS #IMPLIED>
+<!ATTLIST head		url	CDATA #REQUIRED>
+<!ATTLIST head		scale	NMTOKEN "1">
+<!ATTLIST head		color	NMTOKENS "1 .75 .7">
 
 <!ELEMENT host		(solid+)>
 <!ATTLIST host		pos	NMTOKENS #REQUIRED>
