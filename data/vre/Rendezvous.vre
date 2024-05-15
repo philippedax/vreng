@@ -1,7 +1,7 @@
 <!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://www.vreng.enst.fr/dtd/vre-1.0.dtd">
 <vre version="8.0" profile="Interactive">
 
-<head>
+<meta>
 <meta name="filename" content="Rendezvous.vre"/>
 <meta name="description" content="The default World where everyone meets everybody and can go everywhere at everytime"/>
 <meta name="author" content="Philippe Dax"/>
@@ -9,7 +9,7 @@
 <meta name="revised" content="26 April 2005"/>
 <meta name="revised" content="7 January 2007"/>
 <meta name="url" content="http://www.vreng.enst.fr/vre/Rendezvous.vre"/>
-</head>
+</meta>
 
 <scene>
 
@@ -701,7 +701,7 @@ amplitude="1" freq="1" phase="1">
 -->
 
 <!-- carousel x3d -->
-<carousel name="carousel" pos="0 2 .5" dim="1 1 1" url="/x3d/tutorial.x3d"></carousel>
+<carousel name="carousel" pos="0 2 .5" url="/x3d/tutorial.x3d"> <solid dim="1 1 1" /></carousel>
 
 <!-- model liberty -->
 <!--

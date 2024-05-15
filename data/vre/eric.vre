@@ -2,13 +2,13 @@
 
 <vre version="7.2" profile="Interactive">
 
-<head>
+<meta>
 <meta name="filename" content="eric.vre"/>
 <meta name="author" content="Eric Varadaradjou"/>
 <meta name="description" content="The world of Eric Varadaradjou"/>
 <meta name="created" content="avril 2005"/>
 <meta name="revised" content="january 2007"/>
-</head>
+</meta>
 
 <scene>
 

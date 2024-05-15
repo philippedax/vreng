@@ -2,10 +2,10 @@
 
 <vre version="7.2" profile="Interactive">
 
-<head>
+<meta>
 <meta name="filename" content="beach.vre"/>
 <meta name="author" content="Philippe Dax"/>
-</head>
+</meta>
 
 <scene>
 

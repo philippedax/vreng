@@ -2,11 +2,11 @@
 
 <vre version="6.8" profile="Interactive">
 
-<head>
+<meta>
 <meta name="filename" content="desktops.vre"/>
 <meta name="description" content="Desktops using VNC"/>
 <meta name="author" content="Philippe Dax"/>
-</head>
+</meta>
 
 <scene>
 

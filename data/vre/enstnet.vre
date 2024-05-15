@@ -1,9 +1,9 @@
 <!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "/dtd/vre-1.0.dtd" >
 <vre profile="Interactive"> 
 
-<head> 
+<meta> 
  <meta name="filename" content="enstnet.vre"/>
-</head> 
+</meta> 
 <scene>
 <wall name="underground" pos="0 0 -12.25 0"> 
  <solid dim="300 300 0.25" zp="/gif/water1.gif" /> 

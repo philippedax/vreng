@@ -1,12 +1,12 @@
 <!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
 <vre profile="Interactive">
 
-<head>
+<meta>
 <meta name="filename" content="dax.vre"/>
 <meta name="keyword" content="vre"/>
 <meta name="description" content="Dax's office"/>
 <meta name="author" content="Philippe Dax"/>
-</head>
+</meta>
 
 <scene>
 

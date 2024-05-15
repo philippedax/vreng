@@ -3,10 +3,10 @@
 
 <vre profile="Interactive">
 
-<head>
+<meta>
 <meta name="filename" content="pyramid.vre"/>
 <meta name="author" content="Loic Baud"/>
-</head>
+</meta>
 
 <scene>
 

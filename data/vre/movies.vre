@@ -1,8 +1,8 @@
 <!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05 2002//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
 <vre version="8.0" profile="Interactive">
-<head>
+<meta>
 <meta name="filename" content="movies.vre"/>
-</head>
+</meta>
 
 <scene>
 
