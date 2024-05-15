@@ -488,7 +488,7 @@ amplitude="1" freq="1" phase="1">
 <guy name="guy3"    pos="10.5 3.5 .75 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset" sex="0"> <solid shape="bbox" dim=".3 .2 1.8" /></guy>
 <model name="man4" pos="10.0 4.0 .80 0.5">   <solid shape="man"  dim=".3 .2 1.70" scale=".9" /></model>
 
-<!-- faces -->
+<!-- head -->
 <model name="head1" pos="11.0 4.0 1.47 1.5 1.57"  url="/lwo/head.lwo" scale=".0028"></model>
 <model name="head2" pos="10.5 4.5 -.15 1.0 -1.57" url="/obj/head.obj" scale=".96"></model>
 <model name="head3" pos="10.5 3.5 -.05 -1.5 0.00" url="/off/head.off" color="pink"></model>
@@ -524,18 +524,18 @@ amplitude="1" freq="1" phase="1">
 <hairs pos="5 2 1.60" scale=".0028" url="/lwo/head.lwo"> <solid shape="bbox" dim=".2 .2 .2" /></hairs>
 -->
 
-<!-- face -->
+<!-- head -->
 <!-- lwo
-<face pos="5 2 1.55" url="/lwo/head.lwo"> <solid shape="bbox" dim=".1 .1 .2" /></face>
+<head pos="5 2 1.55" url="/lwo/head.lwo"> <solid shape="bbox" dim=".1 .1 .2" /></head>
 -->
 <!-- 3ds
-<face pos="5 2 1.55" url="/3ds/head.3ds"> <solid shape="bbox" dim=".1 .1 .2" /></face>
+<head pos="5 2 1.55" url="/3ds/head.3ds"> <solid shape="bbox" dim=".1 .1 .2" /></head>
 -->
 <!-- obj
-<face pos="5 2 1.55" url="/obj/head.obj" color="lightblue"> <solid shape="bbox" dim=".1 .1 .2" /></face>
+<head pos="5 2 1.55" url="/obj/head.obj" color="lightblue"> <solid shape="bbox" dim=".1 .1 .2" /></head>
 -->
 <!-- off
-<face pos="5 2 1.55" url="/off/head.off" color="chocolate"> <solid shape="bbox" dim=".1 .1 .2" /></face>
+<head pos="5 2 1.55" url="/off/head.off" color="chocolate"> <solid shape="bbox" dim=".1 .1 .2" /></head>
 -->
 
 <!-- toupie -->
