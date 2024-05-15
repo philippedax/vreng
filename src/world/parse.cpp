@@ -174,16 +174,6 @@ int Parse::parseLine(char *_line, int *ptag_type)
       return TAG_ENDVRE;
     }
 
-    // check <head> </head>
-    else if ((! stringcmp(ptok, "head"))) {
-      FREE(line);
-      if (! inscene) return TAG_HEAD;
-    }
-    else if ((! stringcmp(ptok, "/head"))) {
-      FREE(line);
-      if (! inscene) return TAG_HEAD;
-    }
-
     // check <meta ... />
     else if ((! stringcmp(ptok, "meta"))) {
       FREE(line);
@@ -355,10 +345,6 @@ int Parse::parseVreFile(char *buf, int buflen)
           DELETE2(line);
           bol = eol + 1;	// begin of next line
           continue;
-        case TAG_HEAD:
-          DELETE2(line);
-          bol = eol + 1;	// begin of next line
-          continue;
         case TAG_META:
 	  if ((p = strstr(line, "=\"refresh\""))) {
             World::current()->persistent = false;
@@ -366,6 +352,7 @@ int Parse::parseVreFile(char *buf, int buflen)
 	  if ((p = strstr(line, "/>"))) {
             DELETE2(line);
           }
+          bol = eol + 1;	// begin of next line
           break;
         case TAG_COMMENT:
 	  if ((p = strstr(line, "-->"))) {
