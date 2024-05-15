@@ -174,6 +174,16 @@ int Parse::parseLine(char *_line, int *ptag_type)
       return TAG_ENDVRE;
     }
 
+    // check <head> ... </head>>
+    else if ((! stringcmp(ptok, "head"))) {
+      FREE(line);
+      return TAG_HEAD;
+    }
+    else if ((! stringcmp(ptok, "/head"))) {
+      FREE(line);
+      return TAG_HEAD;
+    }
+
     // check <meta ... />
     else if ((! stringcmp(ptok, "meta"))) {
       FREE(line);
@@ -342,6 +352,10 @@ int Parse::parseVreFile(char *buf, int buflen)
       switch (tag) {
         case TAG_DOCTYPE:
         case TAG_BEGINVRE:
+          DELETE2(line);
+          bol = eol + 1;	// begin of next line
+          continue;
+        case TAG_HEAD:
           DELETE2(line);
           bol = eol + 1;	// begin of next line
           continue;
