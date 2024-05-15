@@ -14,6 +14,11 @@ The rules for this file:
 
 ++ 9 [2024/04]
 == 9.4 (2024/04)
+-- 9.4.6
+	- rename face.*pp to head.*pp
+	- replace <head> by <meta>
+	(2024/05/15, Philippe Dax)
+
 -- 9.4.5
 	- dates yy/mm in ChangeLog
 	(2024/04/03, Philippe Dax)
