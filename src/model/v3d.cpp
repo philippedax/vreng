@@ -333,7 +333,7 @@ void V3d::animLip(float angle, const char *_side)
 /** Plays a fap */
 void V3d::play(int fapn, int a)
 {
-  //echo("fap: %d %d", fapn, a);
+  echo("fap: %d %d", fapn, a);
   switch (fapn) {
 
   case VISEME:			// 1
@@ -346,7 +346,7 @@ void V3d::play(int fapn, int a)
     if (a) echo("OPEN_JAW %s", e_not_implemented);
     break;
   case LOWER_T_MIDLIP:		// 4
-    //if (a) echo("LOWER_T_MIDLIP %s a=%d", e_not_implemented, a);
+    if (a) echo("LOWER_T_MIDLIP %s a=%d", e_not_implemented, a);
     break;
   case RAISE_B_MIDLIP:		// 5
     if (a) echo("RAISE_B_MIDLIP %s a=%d", e_not_implemented, a);
@@ -554,25 +554,25 @@ void V3d::play()
   // --- Lips management ---
   // == smile then sulk
   if ( moveMouth ) {
-    if ((bone = root->findBone(lipsRoot)) != NULL) {
+    if ((bone = root->findBone(lipsRoot))) {
       Vect3D smileDelta(0, cos(angle/10.0) / 4.0, 0);
       float smile = 20 * cos(angle / 10.0);
-      if ((bone = root->findBone(lipsTopL)) != NULL) {
+      if ((bone = root->findBone(lipsTopL))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
         bone->setRot(smile, 0,0,1);
       }
-      if ((bone = root->findBone(lipsTopR)) != NULL) {
+      if ((bone = root->findBone(lipsTopR))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
         bone->setRot(-smile, 0,0,1);
       }
-      if ((bone = root->findBone(lipsBotL)) != NULL) {
+      if ((bone = root->findBone(lipsBotL))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
         bone->setRot(smile, 0,0,1);
       }
-      if ((bone = root->findBone(lipsBotR)) != NULL) {
+      if ((bone = root->findBone(lipsBotR))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
         bone->setRot(-smile, 0,0,1);
@@ -581,15 +581,15 @@ void V3d::play()
   }
   // == smile
   if ( moveSmile ) {
-    if ((bone = root->findBone(lipsRoot)) != NULL) {
+    if ((bone = root->findBone(lipsRoot))) {
       Vect3D smileDelta(0, cos(angle/10.0) / 4.0, 0);
       float smile = 20 * cos(angle / 10.0);
-      if ((bone = root->findBone(lipsTopL)) != NULL) {
+      if ((bone = root->findBone(lipsTopL))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
         bone->setRot(smile, 0,0,1);
       }
-      if ((bone = root->findBone(lipsTopR)) != NULL) {
+      if ((bone = root->findBone(lipsTopR))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
         bone->setRot(-smile, 0,0,1);
@@ -598,15 +598,15 @@ void V3d::play()
   }
   // == sulk
   if ( moveSulk ) {
-    if ((bone = root->findBone(lipsRoot)) != NULL) {
+    if ((bone = root->findBone(lipsRoot))) {
       Vect3D smileDelta(0, cos(angle/10.0) / 4.0, 0);
       float smile = 20 * cos(angle / 10.0);
-      if ((bone = root->findBone(lipsBotL)) != NULL) {
+      if ((bone = root->findBone(lipsBotL))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
         bone->setRot(smile, 0,0,1);
       }
-      if ((bone = root->findBone(lipsBotR)) != NULL) {
+      if ((bone = root->findBone(lipsBotR))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
         bone->setRot(-smile, 0,0,1);
@@ -617,31 +617,31 @@ void V3d::play()
   // --- Left eye management ---
   // == eye glance
   if ( moveEyeL ) {
-    if ((bone = root->findBone(eyeLeftRoot)) != NULL) {
+    if ((bone = root->findBone(eyeLeftRoot))) {
       float eyeLeftScale = (1 - cos(angle / 20.0)) / 2.0;
       if ((bone = root->findBone(eyeLeftBotRoot)) != NULL) {
         bone->resetPos();
         bone->setScale(1, eyeLeftScale, 1);
         bone->setRot(-(1-eyeLeftScale)*20.0, 1,0,0);
       }
-      if ((bone = root->findBone(eyeLeftTopRoot)) != NULL) {
+      if ((bone = root->findBone(eyeLeftTopRoot))) {
         bone->resetPos();
         bone->setScale(1, eyeLeftScale, 1);
         bone->setRot((1-eyeLeftScale)*20.0, 1,0,0);
       }
-      if ((bone = root->findBone(eyeLeftTopL)) != NULL) {
+      if ((bone = root->findBone(eyeLeftTopL))) {
         bone->resetPos();
         bone->setScale(1, eyeLeftScale, 1);
       }
-      if ((bone = root->findBone(eyeLeftTopR)) != NULL) {
+      if ((bone = root->findBone(eyeLeftTopR))) {
         bone->resetPos();
         bone->setScale(1, eyeLeftScale, 1);
       }
-      if ((bone = root->findBone(eyeLeftBotL)) != NULL) {
+      if ((bone = root->findBone(eyeLeftBotL))) {
         bone->resetPos();
         bone->setScale(1, eyeLeftScale, 1);
       }
-      if ((bone = root->findBone(eyeLeftBotR)) != NULL) {
+      if ((bone = root->findBone(eyeLeftBotR))) {
         bone->resetPos();
         bone->setScale(1, eyeLeftScale, 1);
       }
@@ -651,33 +651,33 @@ void V3d::play()
   // --- Right eye management ---
   // eye move
   if ( moveEyeR ) {
-    if ((bone = root->findBone(eyeRightRoot)) != NULL) {
+    if ((bone = root->findBone(eyeRightRoot))) {
       float eyeRightScale = (1 + cos(angle / 5.0)) / 20.0;
-      if ((bone = root->findBone(browRightRoot)) != NULL) {
+      if ((bone = root->findBone(browRightRoot))) {
         bone->resetPos();
         bone->setTrans(0, eyeRightScale / 2.0, 0);
       }
-      if ((bone = root->findBone(eyeRightBotRoot)) != NULL) {
+      if ((bone = root->findBone(eyeRightBotRoot))) {
         bone->resetPos();
         bone->setTrans(0, eyeRightScale / 2.0, 0);
       }
-      if ((bone = root->findBone(eyeRightTopRoot)) != NULL) {
+      if ((bone = root->findBone(eyeRightTopRoot))) {
         bone->resetPos();
         bone->setTrans(0, eyeRightScale, 0);
       }
-      if ((bone = root->findBone(eyeRightTopL)) != NULL) {
+      if ((bone = root->findBone(eyeRightTopL))) {
         bone->resetPos();
         bone->setTrans(0, eyeRightScale, 0);
       }
-      if ((bone = root->findBone(eyeRightTopR)) != NULL) {
+      if ((bone = root->findBone(eyeRightTopR))) {
         bone->resetPos();
         bone->setTrans(0, eyeRightScale, 0);
       }
-      if ((bone = root->findBone(eyeRightBotL)) != NULL) {
+      if ((bone = root->findBone(eyeRightBotL))) {
         bone->resetPos();
         bone->setTrans(0, eyeRightScale / 2.0, 0);
       }
-      if ((bone = root->findBone(eyeRightBotR)) != NULL) {
+      if ((bone = root->findBone(eyeRightBotR))) {
         bone->resetPos();
         bone->setTrans(0, eyeRightScale / 2.0, 0);
       }
@@ -687,13 +687,13 @@ void V3d::play()
   // --- Nose management ---
   // == resserement narines
   if ( moveNose ) {
-    if ((bone = root->findBone(noseRoot)) != NULL) {
+    if ((bone = root->findBone(noseRoot))) {
       float noseScale = 1 - cos(angle / 16.0) / 4.0;
-      if ((bone = root->findBone(noseLeft)) != NULL) {
+      if ((bone = root->findBone(noseLeft))) {
         bone->resetPos();
         bone->setScale(noseScale, 1, 1);
       }
-      if ((bone = root->findBone(noseRight)) != NULL) {
+      if ((bone = root->findBone(noseRight))) {
         bone->resetPos();
         bone->setScale(noseScale, 1, 1);
       }
@@ -702,22 +702,22 @@ void V3d::play()
 
   // --- Root management ---
   if ( moveYes ) {
-    if ((bone = root->findBone(headRoot)) != NULL)
+    if ((bone = root->findBone(headRoot)))
       bone->setRot(10 * sin(angle/50.0), 1, 0, 0);
   }
   if ( moveNo ) {
-    if ((bone = root->findBone(headRoot)) != NULL)
+    if ((bone = root->findBone(headRoot)))
       bone->setRot(10 * sin(angle/50.0), 0, 1, 0);
   }
 
 #undef BROW_MOTION
 #ifdef BROW_MOTION
   float browRightScale = cos(angle / 5.0);
-  if ((bone = root->findBone(browRightRoot)) != NULL) {
+  if ((bone = root->findBone(browRightRoot))) {
     bone->resetPos();
     bone->setTrans(0, browRightScale / 25.0, 0);
   }
-  if ((bone = root->findBone(browRightL)) != NULL) {
+  if ((bone = root->findBone(browRightL))) {
     bone->resetPos();
     bone->setRot(10 * browRightScale, 0,0,1);
     bone->setTrans(0, browRightScale / 25.0, 0);
