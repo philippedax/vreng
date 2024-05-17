@@ -18,7 +18,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-// v3d.hpp
+// face.hpp
 //
 // Author   : This file has been written by Yann Renard
 // Copyright: This file is totaly free and you may distribute
@@ -28,8 +28,8 @@
 //            about it :) Please mail me...
 //            be glad to know about it, please mail me myself_yr@hotmail.com
 //---------------------------------------------------------------------------
-#ifndef V3D_HPP
-#define V3D_HPP
+#ifndef FACE_HPP
+#define FACE_HPP
 
 #include "wobject.hpp"
 #include "bone.hpp"	// The bone class
@@ -37,9 +37,9 @@
 class Http;
 
 /**
- * V3d class
+ * Face class
  */
-class V3d {
+class Face {
   friend class Body;		///< SCALE
   friend class Humanoid;	///< actions
 
@@ -66,9 +66,9 @@ class V3d {
   Bone bone;		///< bone animator
 
  public:
-  V3d();			///< Constructor
-  V3d(const char *urlindex);	///< Constructor
-  virtual ~V3d();		///< Destructor
+  Face();			///< Constructor
+  Face(const char *urlindex);	///< Constructor
+  virtual ~Face();		///< Destructor
 
   virtual void render();
   /**< Render the face */
@@ -94,7 +94,7 @@ class V3d {
 
  private:
   static void reader(void *_url, Http *http);
-  static void v3dreader(void *_o, Http *http);
+  static void facereader(void *_o, Http *http);
 
   // GUI callbacks
   static void changeMoveYes(class Humanoid *o, void *d, time_t s, time_t u);

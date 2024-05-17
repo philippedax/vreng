@@ -26,7 +26,7 @@
 #include "humanoid.hpp"
 #include "world.hpp"	// current
 #include "body.hpp"	// Body
-#include "v3d.hpp"	// V3d
+#include "face.hpp"	// Face
 #include "channel.hpp"	// getGroup
 #include "socket.hpp"	// openStream
 #include "nsl.hpp"	// my_gethostbyname
@@ -115,8 +115,8 @@ void Humanoid::inits()
   body->draw();
 
   if (*head_url) {
-    body->v3d = new V3d();
-    body->v3d->load(head_url);
+    body->face = new Face();
+    body->face->load(head_url);
   }
   if (head_url) delete[] head_url;
 
@@ -299,8 +299,8 @@ void Humanoid::changePermanent(float lasting)
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
-        if (bap->isBit(i) && body->v3d) {
-          body->v3d->play(i, bap->getFap(i)); // play fap frame
+        if (bap->isBit(i) && body->face) {
+          body->face->play(i, bap->getFap(i)); // play fap frame
         }
       }
       break;
@@ -339,8 +339,8 @@ void Humanoid::changePermanent(float lasting)
     //TODO: predictive interpollation
     }
   }
-  else if ((sdtcp > 0) && body->v3d) {
-    body->v3d->play();		// local animation
+  else if ((sdtcp > 0) && body->face) {
+    body->face->play();		// local animation
   }
   else if (sdtcp <= 0) {
     //
@@ -463,9 +463,9 @@ void Humanoid::changePermanent(float lasting)
         case TYPE_FAP_V20: case TYPE_FAP_V21:
           for (int i=1; i <= NUM_FAPS; i++) {
             if (! bap->isBit(i)) continue;
-            if (body->v3d) {
+            if (body->face) {
               //echo("play fap: %d (%.2f)", i, bap->getFap(i));
-              body->v3d->play(i, bap->getFap(i));	// plays fap frame
+              body->face->play(i, bap->getFap(i));	// plays fap frame
             }
           }
           render();
@@ -745,9 +745,9 @@ void Humanoid::funcs()
   setActionFunc(HUMANOID_TYPE, 12, _Action surp_cb, "Surp");
   setActionFunc(HUMANOID_TYPE, 13, _Action jag_cb, "Jag");
   setActionFunc(HUMANOID_TYPE, 14, _Action reset_cb, "Reset");
-  setActionFunc(HUMANOID_TYPE, 15, _Action V3d::changeFace, "New");
-  setActionFunc(HUMANOID_TYPE, 16, _Action V3d::changeMoveYes, "Yes");
-  setActionFunc(HUMANOID_TYPE, 17, _Action V3d::changeMoveNo, "No");
-  setActionFunc(HUMANOID_TYPE, 18, _Action V3d::changeMoveEyeL, "EyeL");
-  setActionFunc(HUMANOID_TYPE, 19, _Action V3d::changeMoveMouth, "Mouth");
+  setActionFunc(HUMANOID_TYPE, 15, _Action Face::changeFace, "New");
+  setActionFunc(HUMANOID_TYPE, 16, _Action Face::changeMoveYes, "Yes");
+  setActionFunc(HUMANOID_TYPE, 17, _Action Face::changeMoveNo, "No");
+  setActionFunc(HUMANOID_TYPE, 18, _Action Face::changeMoveEyeL, "EyeL");
+  setActionFunc(HUMANOID_TYPE, 19, _Action Face::changeMoveMouth, "Mouth");
 }

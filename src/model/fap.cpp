@@ -23,12 +23,10 @@
 // Fap handling
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "v3d.hpp"
-#include "humanoid.hpp"
 #include "fap.hpp"
+#include "humanoid.hpp"
 #include "body.hpp"	// body
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// setCachePath, open
-#include "bone.hpp"	// V3d
+#include "bone.hpp"	// Bone
 
 

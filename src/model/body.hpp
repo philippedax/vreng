@@ -566,7 +566,7 @@ class Body {
 
   struct sJP jp;		///< jointpoints.
   class Bap *bap;		///< bap ptr.
-  class V3d *v3d;		///< v3d ptr.
+  class Face *face;		///< face ptr.
   class WO *wobject;		///< wobject ptr.
 
   Body();

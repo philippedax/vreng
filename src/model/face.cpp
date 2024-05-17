@@ -18,9 +18,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-// v3d.cpp
+// face.cpp
 //
-// V3D Loader
+// Face management
 //
 // Author   : This file has been written by Yann Renard
 // Copyright: This file is totaly free and you may distribute
@@ -30,13 +30,13 @@
 //            be glad to know about it, please mail me  myself_yr@hotmail.com
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "v3d.hpp"
+#include "face.hpp"
 #include "humanoid.hpp"
 #include "fap.hpp"
 #include "body.hpp"	// body
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// setCachePath, open
-#include "bone.hpp"	// V3d
+#include "bone.hpp"	// BoneMesh, BoneSkel
 
 
 static const char headRoot[]		= "root";
@@ -68,10 +68,10 @@ static const char lipsTopR[]		= "lipsTopR";
 static const char lipsBotL[]		= "lipsBotL";
 static const char lipsBotR[]		= "lipsBotR";
 
-const float V3d::SCALE = 0.075;	///< 3/400
+const float Face::SCALE = 0.075;	///< 3/400
 
 
-V3d::V3d()
+Face::Face()
 {
   mesh = NULL;
   root = NULL;
@@ -87,7 +87,7 @@ V3d::V3d()
   cachefile[0] = '\0';
 }
 
-V3d::V3d(const char *urls)
+Face::Face(const char *urls)
 {
   mesh = NULL;
   root = NULL;
@@ -102,11 +102,11 @@ V3d::V3d(const char *urls)
   indexed = true;
   cachefile[0] = '\0';
   urlList.empty();
-  Http::httpOpen(urls, v3dreader, this, 0);
+  Http::httpOpen(urls, facereader, this, 0);
   currentUrl = rand() % urlList.count();
 }
 
-V3d::~V3d()
+Face::~Face()
 {
   if (mesh) delete mesh;
   mesh = NULL;
@@ -115,7 +115,7 @@ V3d::~V3d()
 }
 
 /** Caching file */
-void V3d::reader(void *_url, Http *http)
+void Face::reader(void *_url, Http *http)
 {
   if (! http) {
     error("reader: unable to open http connection");
@@ -123,12 +123,12 @@ void V3d::reader(void *_url, Http *http)
   }
 }
 
-/** Downloads list of v3d url */
-void V3d::v3dreader(void *_v3d, Http *http)
+/** Downloads list of face url */
+void Face::facereader(void *_face, Http *http)
 {
-  V3d *v3d = static_cast<V3d *>(_v3d);
+  Face *face = static_cast<Face *>(_face);
   if (! http) {
-    error("v3dreader: unable to open http connection");
+    error("facereader: unable to open http connection");
     return;
   }
 
@@ -142,40 +142,40 @@ void V3d::v3dreader(void *_v3d, Http *http)
     return;
   }
   while (cache->nextLine(f, line)) {
-    char *v3durl = strdup(line);
-    //echo("v3dreader: add url=%s", v3durl);
-    v3d->urlList.addElement(v3durl);
-    free(v3durl);
+    char *faceurl = strdup(line);
+    //echo("facereader: add url=%s", faceurl);
+    face->urlList.addElement(faceurl);
+    free(faceurl);
   }
   cache->close();
   delete cache;
 }
 
 /** Changes Face */
-void V3d::change()
+void Face::change()
 {
   if (! indexed) return;
 
   currentUrl++;
   currentUrl %= urlList.count();
-  char *urlv3d = urlList.getElemAt(currentUrl);
-  echo("change: urlv3d=%s", urlv3d);
-  if (! isascii(urlv3d[0])) {
-    error("change: BUG! urlv3d=%02x", urlv3d[0]);
+  char *urlface = urlList.getElemAt(currentUrl);
+  echo("change: urlface=%s", urlface);
+  if (! isascii(urlface[0])) {
+    error("change: BUG! urlface=%02x", urlface[0]);
     return;
   }
-  echo("urlv3d: %s", urlv3d);
-  load(urlv3d);
+  echo("urlface: %s", urlface);
+  load(urlface);
 }
 
 /** Loads V3D file */
-void V3d::load(const char *url)
+void Face::load(const char *url)
 {
   BoneMesh   *newmesh = new BoneMesh();
   BoneVertex *newroot = new BoneVertex();
 
   if (Cache::setCachePath(url, cachefile) == 0) {
-    error("V3d load: file=%s url=%s", cachefile, url);
+    error("Face load: file=%s url=%s", cachefile, url);
     return;
   }
   Http::httpOpen(url, reader, (void *)url, 0);
@@ -193,7 +193,7 @@ void V3d::load(const char *url)
 }
 
 /** Renders the face */
-void V3d::render()
+void Face::render()
 {
   if (! mesh) return;
   if (bone.meshToMove && bone.skeleton) {
@@ -203,7 +203,7 @@ void V3d::render()
 }
 
 /** Anims head */
-void V3d::animHead(float angle, int x, int y, int z)
+void Face::animHead(float angle, int x, int y, int z)
 {
   BoneVertex *bone;
 
@@ -218,7 +218,7 @@ void V3d::animHead(float angle, int x, int y, int z)
 }
 
 /** Anims nose */
-void V3d::animNose(float angle, const char *_side)
+void Face::animNose(float angle, const char *_side)
 {
   BoneVertex *bone;
   float scale = 1 - cos(angle / 16.) / 4.;
@@ -235,7 +235,7 @@ void V3d::animNose(float angle, const char *_side)
 }
 
 /** Anims eyeball */
-void V3d::animEyeBall(float angle, const char *_side, int dir)
+void Face::animEyeBall(float angle, const char *_side, int dir)
 {
   BoneVertex *bone;
   float scale = 1 - cos(angle / 16.) /* / 2. */;
@@ -255,7 +255,7 @@ void V3d::animEyeBall(float angle, const char *_side, int dir)
 }
 
 /** Anims eye lid */
-void V3d::animEyeLid(float angle, const char *root1, const char *lid, const char *left, const char *right)
+void Face::animEyeLid(float angle, const char *root1, const char *lid, const char *left, const char *right)
 {
   BoneVertex *bone;
   float scale = (1 - cos(angle / 10.)) /* / 2 */;
@@ -288,7 +288,7 @@ void V3d::animEyeLid(float angle, const char *root1, const char *lid, const char
 }
 
 /** Anims eye brow */
-void V3d::animEyeBrow(float angle, const char *_root, const char *_side)
+void Face::animEyeBrow(float angle, const char *_root, const char *_side)
 {
   BoneVertex *bone;
   float scale = cos(angle / 5.0);
@@ -310,7 +310,7 @@ void V3d::animEyeBrow(float angle, const char *_root, const char *_side)
 }
 
 /** Anims lip */
-void V3d::animLip(float angle, const char *_side)
+void Face::animLip(float angle, const char *_side)
 {
   BoneVertex *bone;
 
@@ -331,7 +331,7 @@ void V3d::animLip(float angle, const char *_side)
 }
 
 /** Plays a fap */
-void V3d::play(int fapn, int a)
+void Face::play(int fapn, int a)
 {
   echo("fap: %d %d", fapn, a);
   switch (fapn) {
@@ -545,7 +545,7 @@ void V3d::play(int fapn, int a)
 }
 
 /** Plays animations */
-void V3d::play()
+void Face::play()
 {
   static float angle = 0;
   angle += 5.;
@@ -725,64 +725,64 @@ void V3d::play()
 #endif
 }
 
-void V3d::changeMoveYes(Humanoid *o, void *d, time_t s, time_t u)
+void Face::changeMoveYes(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->v3d)
-    o->body->v3d->moveYes = ! o->body->v3d->moveYes;
+  if (o->body->face)
+    o->body->face->moveYes = ! o->body->face->moveYes;
 }
 
-void V3d::changeMoveNo(Humanoid *o, void *d, time_t s, time_t u)
+void Face::changeMoveNo(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->v3d)
-    o->body->v3d->moveNo = ! o->body->v3d->moveNo;
+  if (o->body->face)
+    o->body->face->moveNo = ! o->body->face->moveNo;
 }
 
-void V3d::changeMoveMouth(Humanoid *o, void *d, time_t s, time_t u)
+void Face::changeMoveMouth(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->v3d)
-    o->body->v3d->moveMouth = ! o->body->v3d->moveMouth;
+  if (o->body->face)
+    o->body->face->moveMouth = ! o->body->face->moveMouth;
 }
 
-void V3d::changeMoveSmile(Humanoid *o, void *d, time_t s, time_t u)
+void Face::changeMoveSmile(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->v3d)
-    o->body->v3d->moveSmile = ! o->body->v3d->moveSmile;
+  if (o->body->face)
+    o->body->face->moveSmile = ! o->body->face->moveSmile;
 }
 
-void V3d::changeMoveSulk(Humanoid *o, void *d, time_t s, time_t u)
+void Face::changeMoveSulk(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->v3d)
-    o->body->v3d->moveSulk = ! o->body->v3d->moveSulk;
+  if (o->body->face)
+    o->body->face->moveSulk = ! o->body->face->moveSulk;
 }
 
-void V3d::changeMoveEyeR(Humanoid *o, void *d, time_t s, time_t u)
+void Face::changeMoveEyeR(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->v3d)
-    o->body->v3d->moveEyeR = ! o->body->v3d->moveEyeR;
+  if (o->body->face)
+    o->body->face->moveEyeR = ! o->body->face->moveEyeR;
 }
 
-void V3d::changeMoveEyeL(Humanoid *o, void *d, time_t s, time_t u)
+void Face::changeMoveEyeL(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->v3d)
-    o->body->v3d->moveEyeL = ! o->body->v3d->moveEyeL;
+  if (o->body->face)
+    o->body->face->moveEyeL = ! o->body->face->moveEyeL;
 }
 
-void V3d::changeMoveNose(Humanoid *o, void *d, time_t s, time_t u)
+void Face::changeMoveNose(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->v3d)
-    o->body->v3d->moveNose = ! o->body->v3d->moveNose;
+  if (o->body->face)
+    o->body->face->moveNose = ! o->body->face->moveNose;
 }
 
-void V3d::changeFace(Humanoid *o, void *d, time_t s, time_t u)
+void Face::changeFace(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->v3d)
-    o->body->v3d->change();
+  if (o->body->face)
+    o->body->face->change();
 }
 
 //---------------------------------------------------------------------------
 
 /** V3D internal format parser */
-void V3d::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scale)
+void Face::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scale)
 {
   File *file = new File();
   FILE *fp = file->open(filename, "rb");
@@ -794,7 +794,7 @@ void V3d::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scal
   char name[128];
 
   readStr(fp, name);
-  //echo("v3d: %s", name);
+  //echo("face: %s", name);
   result->setName(name);
 
   // Reading vertices
@@ -805,7 +805,7 @@ void V3d::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scal
     float z = file->read_float_be(fp) * scale;
     result->addVertex(x, y, z);
   }
-  //echo("v3d: Vertices added: %i", vertices);
+  //echo("face: Vertices added: %i", vertices);
 
   int facets = file->read_long_be(fp);
   for (int i=0; i < facets; i++) {
@@ -829,7 +829,7 @@ void V3d::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scal
     triangle->u3 = file->read_float_be(fp);
     triangle->v3 = file->read_float_be(fp);
   }
-  //echo("v3d: Faces added   : %i", facets);
+  //echo("face: Faces added   : %i", facets);
 
   // Reading skeleton
   skel->readSkeleton(fp, scale);
@@ -842,7 +842,7 @@ void V3d::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scal
 
 #if 0 //notused --------------------------------------------------------------------
 
-void V3d::writeV3D(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filename)
+void Face::writeV3D(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filename)
 {
   File *file = new File();
   FILE *fp = file->open(filename, "wb");
@@ -902,7 +902,7 @@ void V3d::writeV3D(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filename)
   delete file;
 }
 
-void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float centerx, float centery, float centerz, int colorMask)
+void Face::readVRMLfile(BoneMesh *result, char *filename, float size, float centerx, float centery, float centerz, int colorMask)
 {
   //echo("Creating TRI mesh with vrml file");
   //echo("           Filename      : [%s]", filename);

@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "body.hpp"
-#include "v3d.hpp"	// V3d::SCALE
+#include "face.hpp"	// Face::SCALE
 #include "http.hpp"	// Http
 #include "texture.hpp"	// open
 #include "format.hpp"	// getModelByUrl
@@ -554,7 +554,7 @@ void Body::init()
   drawparts = 0;
   bodyparts = NULL;
   url = NULL;
-  v3d = NULL;
+  face = NULL;
   jp.x = NULL;
   jp.y = NULL;
   jp.z = NULL;
@@ -629,7 +629,7 @@ Body::~Body()
   if (jp.x) delete[] jp.x;
   if (jp.y) delete[] jp.y;
   if (jp.z) delete[] jp.z;
-  if (v3d) delete v3d;
+  if (face) delete face;
   if (url) delete[] url;
 }
 
@@ -1249,7 +1249,7 @@ void Body::display(uint8_t part)
   }
 }
 
-/** Displays body and v3d face */
+/** Displays body and face face */
 void Body::display()
 {
   // Hips
@@ -1316,7 +1316,7 @@ void Body::display()
      transN(LOWER_NECK);
      display(NECK);
      // Head
-     if (! v3d) {
+     if (! face) {
        //echo("head display");
        display(HEAD);
      }
@@ -1330,12 +1330,12 @@ void Body::display()
       //rotX(C1_TILT, head->a_flexion());
       //rotY(C1_ROLL, head->a_abduct());
       //rotZ(C1_TORSION, head->a_torsion());
-      if (v3d) {
-        glScalef(V3d::SCALE, V3d::SCALE, V3d::SCALE);
+      if (face) {
+        glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
         glTranslatef(0, 0.9, -0.9);
         glRotatef(90, 1,0,0);
-        //echo("v3d display");
-        v3d->render();	// YR
+        //echo("face display");
+        face->render();	// YR
       }
       transP(UPPER_NECK);
       rotX(C1_TILT, model);
