@@ -197,8 +197,9 @@ void Face::load(const char *url)
 void Face::render()
 {
   if (! mesh) return;
+
   if (bone.meshToMove && bone.skeleton) {
-    bone.animate();
+    //dax bone.animate();
     bone.render();
   }
 }

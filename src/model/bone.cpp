@@ -38,7 +38,7 @@ Bone::Bone()
   skeleton = NULL;
   link = NULL;
   links = 0;
-  linkListCompiled = 0;
+  compiled = 0;
 }
 
 Bone::~Bone()
@@ -66,8 +66,8 @@ void Bone::registerSkeleton(BoneVertex *_skel)
 // Operations on both mesh and skeleton
 void Bone::scale(float sx, float sy, float sz)
 {
-  if (meshToMove == NULL) return;
-  if ( skeleton  == NULL) return;
+  if (! meshToMove) return;
+  if (! skeleton)   return;
 
   meshToMove->scale(sx, sy, sz);
   skeleton->scale(sx, sy, sz);
@@ -79,12 +79,12 @@ void Bone::scale(float sx, float sy, float sz)
 void Bone::compileLinkList()
 {
   link = linkList.getNiceTable(&links);
-  linkListCompiled = 1;
+  compiled = 1;
 }
 
 void Bone::emptyLinkList()
 {
-  if (! linkListCompiled) compileLinkList();
+  if (! compiled) compileLinkList();
 
   for (int i=0; i < links; i++) {
     delete link[i];
@@ -130,7 +130,7 @@ float Bone::getWeight(Vertex *vertex, BoneVertex *node)
   float result = 0;
   float dist, time;
 
-  if (node->father != NULL) {
+  if (node->father) {
     getDistanceFromAndOnBone(vertex, node->father, node, &time, &dist);
     result += (time) / (dist * dist);
   }
@@ -150,11 +150,11 @@ void normalize(BoneLink **tempLink, int tempLinks)
   float totalWeight = 0;
 
   for (int i=0; i < tempLinks; i++) {
-    if (tempLink[i] != NULL)
+    if (tempLink[i])
       totalWeight += tempLink[i]->weight;
   }
   for (int i=0; i < tempLinks; i++) {
-    if (tempLink[i] != NULL)
+    if (tempLink[i])
       tempLink[i]->weight /= totalWeight;
   }
 }
@@ -164,8 +164,8 @@ void normalize(BoneLink **tempLink, int tempLinks)
 void Bone::generateLinkList()
 {
   // We need both meshToMove and skeleton !
-  if (meshToMove == NULL) return; // To avoid NULL pointer exception
-  if ( skeleton  == NULL) return; // To avoid NULL pointer exception
+  if (! meshToMove) return; // To avoid NULL pointer exception
+  if (! skeleton)   return; // To avoid NULL pointer exception
 
   BoneVertex *tempnode;
   tempnode = skeleton->findBone("root");
@@ -257,88 +257,10 @@ void Bone::generateLinkList()
   //echo("selected links: [%2.2f%%]", (links*100.) / (meshToMove->vertices * nodes));
 }
 
-#if 0 //notused
-// The render part of this file has been written very quickly, for tests only !
-#define __AXIS_SIZE__ 0.5f
-
-// Local coordinate system rendering
-// Origin is white
-// x axis is red
-// y axis is green
-// z axis is blue
-void renderLocalCoordinate1() // This is for unselected node
-{
-  glColor3f(1, 1, 1);
-  glBegin(GL_POINTS);
-   glVertex3f(0,0,0);			// O
-  glEnd();
-
-  glBegin(GL_LINES);
-   glColor3f(1, 0, 0);
-   glVertex3f(0, 0, 0);
-   glVertex3f(__AXIS_SIZE__, 0, 0);	// X
-   glColor3f(0, 1, 0);
-   glVertex3f(0, 0, 0);
-   glVertex3f(0, __AXIS_SIZE__, 0);	// Y
-   glColor3f(0, 0, 1);
-   glVertex3f(0, 0, 0);
-   glVertex3f(0, 0, __AXIS_SIZE__);	// Z
-  glEnd();
-}
-
-void renderLocalCoordinate2() // This is for selected node
-{
-  glColor3f(1, 1, 1);
-  glBegin(GL_POINTS);
-   glVertex3f(0,0,0);			// O
-  glEnd();
-
-  glBegin(GL_LINES);
-   glColor3f(1, 1, 0);
-   glVertex3f(0, 0, 0);
-   glVertex3f(__AXIS_SIZE__, 0, 0);	// X
-   glColor3f(0, 1, 1);
-   glVertex3f(0, 0, 0);
-   glVertex3f(0, __AXIS_SIZE__, 0);	// Y
-   glColor3f(1, 0, 1);
-   glVertex3f(0, 0, 0);
-   glVertex3f(0, 0, __AXIS_SIZE__);	// Z
-  glEnd();
-}
-
-void renderOneBone(BoneVertex *node)
-{
-  if (node->father != NULL) {
-    Vect3D nullvect(0, 0, 0);
-    Vect3D fPos = node->father->curMatrix * nullvect;
-    Vect3D tPos = node->curMatrix * nullvect;
-
-    glVertex3f(fPos.x, fPos.y, fPos.z);
-    glVertex3f(tPos.x, tPos.y, tPos.z);
-  }
-  for (int i=0; i < node->children; i++) {
-    renderOneBone(node->child[i]);
-  }
-}
-#endif //notused
-
 // Main rendering method, will draw the skeleton and the mesh
 void Bone::render()
 {
-#if 0 //notused
-  // First we draw the skeleton with local coordinates
-  if (axisRendering) {
-    glPointSize(5.0);
-    glDisable(GL_LIGHTING);
-    glDisable(GL_COLOR_MATERIAL);
-    glDisable(GL_TEXTURE_2D);
-    //renderSkeletonNode(skeleton);
-    glBegin(GL_LINES);
-     glColor3f(0.4, 0.4, 0.4);
-     renderOneBone(skeleton);
-    glEnd();
-  }
-#endif //notused
+  //echo("render bone");
 
   // Now, we'll render the 3d mesh on the screen
   if (! meshToMove->triangleListCompiled) {
@@ -386,102 +308,6 @@ void Bone::render()
   }
   glEnd();
   glDisable(GL_TEXTURE_2D);
-}
-
-// Recursive part of rendering the skeleton
-void Bone::renderSkeletonNode(BoneVertex *node)
-{
-#if 0 //dax
-  if (selectedNodeName == NULL) return;
-
-  glPushMatrix();
-  glTranslatef(node->curPosition.x, node->curPosition.y, node->curPosition.z);
-  glRotatef(node->curAngle, node->curAxis.x, node->curAxis.y, node->curAxis.z);
-
-  if (! strcmp(selectedNodeName, node->name))
-    renderLocalCoordinate2();
-  else
-    renderLocalCoordinate1();
-
-  // Look at the children of this node
-  for (int i=0; i < node->children; i++) {
-    renderSkeletonNode(node->child[i]);
-  }
-  glPopMatrix();
-#endif
-}
-
-// Here comes the morphing part of this code
-// This will animate the object
-void Bone::animate()
-{
-#if 0 //dax
-  if (! boneEditing) {
-    // First we reset to 0,0,0 all the vertices of the mesh
-    for (int i=0; i < meshToMove->vertices; i++) {
-      Vertex *curVertex = meshToMove->vertex[i];
-      if (curVertex->links != 0) {
-        curVertex->curPosition.reset();
-        curVertex->curNormal.reset();
-      }
-      else {
-        curVertex->curPosition = curVertex->iniPosition;
-        curVertex->curNormal   = curVertex->iniNormal;
-      }
-    }
-
-    // Then we generate the current matrix of each part of the skeleton
-    glPushMatrix();
-     glLoadIdentity();
-     skeleton->generateCurrentMatrix();
-    glPopMatrix();
-
-    // And now we can perform the recursive calls to create our new 3d mesh
-    animateSkeletonNode(skeleton);
-  }
-  else
-#endif
-  for (int i=0; i < meshToMove->vertices; i++) {
-    meshToMove->vertex[i]->curPosition = meshToMove->vertex[i]->iniPosition;
-    meshToMove->vertex[i]->curNormal   = meshToMove->vertex[i]->iniNormal;
-  }
-}
-
-// Recursive part of the animating
-void Bone::animateSkeletonNode(BoneVertex *node)
-{
-  // The first time, the link list won't be compiled for this node so we'll dot it
-  if (! node->linkListCompiled) node->compileLinkList();
-
-  BoneLink *zeLink;
-  Vertex *zeVertex;
-  Vect3D tempPos, normal;
-
-  // We now look at each link in this node and find the related vertex
-  for (int i=0; i < node->links; i++) {
-    zeLink = node->link[i];
-    zeVertex = zeLink->vertex;
-
-    // Now that we have M1 ( Initial matrix for this node )
-    //                  M2 ( Current matrix for this node )
-    //              and  w ( Weight of this link for the vertex )
-    // We increase newPosition as follozs :
-    //    newPosition += w . M2 . M1-1 . iniPosition
-    // Since the weight are normalized to 100% [0.0f .. 1.0f], we
-    // should have a normalized result (means no scaling here) for all
-    // the vertices
-
-    tempPos  = zeVertex->iniPosition;
-    tempPos *= node->iniMatrixInverted;
-    tempPos *= node->curMatrix;
-    tempPos *= zeLink->weight;
-    zeVertex->curPosition += tempPos;
-  }
-
-  // And now, we'll add the other links actions
-  for (int i=0; i < node->children; i++) {
-    animateSkeletonNode(node->child[i]);
-  }
 }
 
 //-----------------
@@ -749,7 +575,7 @@ BoneVertex::BoneVertex()
   childListCompiled = 0;
   link     = NULL;
   links    = 0;
-  linkListCompiled = 0;
+  compiled = 0;
 
   influenceScaleFactor = 1;
 }
@@ -769,7 +595,7 @@ BoneVertex::BoneVertex(Vect3D &position, float angle, Vect3D &axis)
   childListCompiled = 0;
   link     = NULL;
   links    = 0;
-  linkListCompiled = 0;
+  compiled = 0;
 }
 
 BoneVertex::BoneVertex(Vect3D *position, float angle, Vect3D *axis)
@@ -787,7 +613,7 @@ BoneVertex::BoneVertex(Vect3D *position, float angle, Vect3D *axis)
   childListCompiled = 0;
   link     = NULL;
   links    = 0;
-  linkListCompiled = 0;
+  compiled = 0;
 }
 
 BoneVertex::~BoneVertex()
@@ -800,7 +626,7 @@ BoneVertex::~BoneVertex()
   childList.empty();
 
   // Now, delete the selected links for this node
-  if (! linkListCompiled) compileLinkList();
+  if (! compiled) compileLinkList();
   for (int i=0; i < links; i++) {
     //dax-segfault delete link[i];
   }
@@ -976,12 +802,12 @@ BoneVertex *BoneVertex::findBone(const char *name)
 
   if (! childListCompiled) compileChildList();
 
-  if (strcmp(name, getName()) == 0) {
+  if (! strcmp(name, getName())) {
     result = this;
   }
   else {
     int i=0;
-    while ((result == NULL) && (i < children)) {
+    while ((! result) && (i < children)) {
       result = child[i++]->findBone(name);
     }
   }
@@ -992,14 +818,14 @@ BoneVertex *BoneVertex::findBone(const char *name)
 void BoneVertex::addLink(BoneLink *link)
 {
   linkList.addElement(link);
-  linkListCompiled = 0;
+  compiled = 0;
 }
 
 // Removing a link
 void BoneVertex::removeLink(BoneLink *link)
 {
   linkList.removeElement(link);
-  linkListCompiled = 0;
+  compiled = 0;
 }
 
 // Compiling the lists
@@ -1012,7 +838,7 @@ void BoneVertex::compileChildList()
 void BoneVertex::compileLinkList()
 {
   link = linkList.getNiceTable(&links);
-  linkListCompiled = 1;
+  compiled = 1;
 }
 
 // Generating the initial matrix for this node
@@ -1121,11 +947,10 @@ void BoneVertex::read(char *filename, float scale)
 {
   File *file = new File();
   FILE *fp = file->open(filename, "rb");
-  if (fp == NULL) {
+  if (! fp) {
     error("BoneVertex::read unable to open: [%s]", filename);
     return;
   }
-
   readSkeleton(fp, scale);
   file->close();
   delete file;
@@ -1159,6 +984,8 @@ void BoneVertex::readSkeleton(FILE *fp, float scale)
   compileChildList();
 }
 
+//---------------------------------------------------------------------------
+
 Vertex::Vertex()
 {
   defaults();
@@ -1189,7 +1016,7 @@ void Vertex::defaults()
 {
   link  = NULL;
   links = 0;
-  linkListCompiled = 0;
+  compiled = 0;
   iniNormal.reset();
   curNormal.reset();
   u = -1.;
@@ -1211,19 +1038,19 @@ void Vertex::setPosition(Vect3D *position)
 void Vertex::addLink(BoneLink *link)
 {
   linkList.addElement(link);
-  linkListCompiled = 0;
+  compiled = 0;
 }
 
 void Vertex::removeLink(BoneLink *link)
 {
   //dax-segfault linkList.removeElement(link);
-  linkListCompiled = 0;
+  compiled = 0;
 }
 
 void Vertex::compileLinkList()
 {
   link = linkList.getNiceTable(&links);
-  linkListCompiled = 1;
+  compiled = 1;
 }
 
 //---------------------------------------------------------------------------

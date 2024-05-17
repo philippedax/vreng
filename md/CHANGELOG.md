@@ -15,6 +15,8 @@ The rules for this file:
 ++ 9 [2024/04]
 == 9.4 (2024/04)
 -- 9.4.6
+	- add v3d.*pp
+	- rename v3d.*pp to face.*pp
 	- rename face.*pp to head.*pp
 	- replace <head> by <meta>
 	(2024/05/15, Philippe Dax)

@@ -464,7 +464,7 @@ void Humanoid::changePermanent(float lasting)
           for (int i=1; i <= NUM_FAPS; i++) {
             if (! bap->isBit(i)) continue;
             if (body->face) {
-              //echo("play fap: %d (%.2f)", i, bap->getFap(i));
+              echo("playfap: %d: %d (%.2f)", num_frame, i, bap->getFap(i));
               body->face->play(i, bap->getFap(i));	// plays fap frame
             }
           }

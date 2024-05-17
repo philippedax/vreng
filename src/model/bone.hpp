@@ -361,7 +361,7 @@ class BoneVertex : public Bonename {
   BoneList < BoneLink > linkList;
   BoneLink **link;
   int links;
-  int linkListCompiled;
+  int compiled;
 
   // -> Saves of the matrices
   float iniMatrix[16];
@@ -493,7 +493,7 @@ class Vertex {
   BoneList <BoneLink> linkList;
   BoneLink **link;
   int links;
-  int linkListCompiled;
+  int compiled;
 
   // -> Coordonnees de mapping
   float u,v;
@@ -639,7 +639,6 @@ class BoneMesh : public Bonename {
  *   myBone.render ();
  *   ... end loop ...
  */
-
 class Bone {
  public:
 
@@ -651,7 +650,7 @@ class Bone {
   BoneList <BoneLink> linkList;
   BoneLink **link;
   int links;
-  int linkListCompiled;
+  int compiled;
 
   Bone();		///< Constructor
   virtual ~Bone();	///< Destructor
@@ -672,11 +671,9 @@ class Bone {
 
   // Rendering and animating the mesh and skeleton
   void render();
-  void renderSkeletonNode(BoneVertex *node);
-  void animate();
-  void animateSkeletonNode(BoneVertex *node);
-
-  static void readV3Dfile(BoneMesh *result, BoneVertex *skeletonRoot, char *filename, float size = 1.);
+  //notused void renderSkeletonNode(BoneVertex *node);
+  //notused void animate();
+  //notused void animateSkeletonNode(BoneVertex *node);
 
  private:
   void addNodeAndChildren(BoneVertex *boneVertex, BoneList < BoneVertex > *list);
