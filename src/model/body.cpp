@@ -1334,7 +1334,7 @@ void Body::display()
         glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
         glTranslatef(0, 0.9, -0.9);
         glRotatef(90, 1,0,0);
-        echo("face display");
+        //echo("face display");
         face->render();	// YR
       }
       transP(UPPER_NECK);
