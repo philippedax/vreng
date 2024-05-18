@@ -746,8 +746,8 @@ void Humanoid::funcs()
   setActionFunc(HUMANOID_TYPE, 13, _Action jag_cb, "Jag");
   setActionFunc(HUMANOID_TYPE, 14, _Action reset_cb, "Reset");
   setActionFunc(HUMANOID_TYPE, 15, _Action Face::changeFace, "New");
-  setActionFunc(HUMANOID_TYPE, 16, _Action Face::changeMoveYes, "Yes");
-  setActionFunc(HUMANOID_TYPE, 17, _Action Face::changeMoveNo, "No");
-  setActionFunc(HUMANOID_TYPE, 18, _Action Face::changeMoveEyeL, "EyeL");
-  setActionFunc(HUMANOID_TYPE, 19, _Action Face::changeMoveMouth, "Mouth");
+  setActionFunc(HUMANOID_TYPE, 16, _Action Face::Yes, "Yes");
+  setActionFunc(HUMANOID_TYPE, 17, _Action Face::No, "No");
+  setActionFunc(HUMANOID_TYPE, 18, _Action Face::EyeL, "EyeL");
+  setActionFunc(HUMANOID_TYPE, 19, _Action Face::Smile, "Smile");
 }

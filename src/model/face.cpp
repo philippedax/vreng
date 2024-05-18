@@ -188,8 +188,8 @@ void Face::load(const char *url)
   bone.generateLinkList();
 
   if (mesh) delete mesh;
-  mesh = newmesh;
   if (root) delete root;
+  mesh = newmesh;
   root = newroot;
 }
 
@@ -209,12 +209,20 @@ void Face::animHead(float angle, int x, int y, int z)
 {
   BoneVertex *bone;
 
-  // 0,1,0 pitch (yes)
-  // 1,0,0 yaw   (no)
-  // 0,0,1 roll  (maybe)
+  //
+  //  Y
+  //  |
+  //  .-> X
+  //  /
+  // Z
+  //
+  // 1,0,0 X yaw   (no)
+  // 0,1,0 Y pitch (yes)
+  // 0,0,1 Z roll  (maybe)
+
   //echo("animHead: angle=%.2f", angle);
   if ((bone = root->findBone(headRoot)))
-    bone->setRot(sin(angle/50) *10 , x, y, z);
+    bone->setRot(sin(angle/50)*10 , x, y, z);
   else
     error("headRoot not found");
 }
@@ -223,7 +231,7 @@ void Face::animHead(float angle, int x, int y, int z)
 void Face::animNose(float angle, const char *_side)
 {
   BoneVertex *bone;
-  float scale = 1 - cos(angle / 16) / 4;
+  float scale = 1 - cos(angle/16) / 4;
 
   //echo("animNose: angle=%.2f scale=%.2f", angle, scale);
   if ((bone = root->findBone(noseRoot))) {
@@ -240,16 +248,16 @@ void Face::animNose(float angle, const char *_side)
 void Face::animEyeBall(float angle, const char *_side, int dir)
 {
   BoneVertex *bone;
-  float scale = 1 - cos(angle / 16) /* / 2 */;
+  float scale = 1 - cos(angle/16) /* / 2 */;
 
   //echo("animEyeBall: angle=%.2f scale=%.2f dir=%d", angle, scale, dir);
     if ((bone = root->findBone(_side))) {
       bone->resetPos();
       bone->setScale(scale, 1, 1);
       if (dir)
-        bone->setRot((1-scale) * 20, 0,1,0);	// pitch
+        bone->setRot((1-scale)*20, 0,1,0);	// pitch
       else
-        bone->setRot((1-scale) * 20, 1,0,0);	// yaw
+        bone->setRot((1-scale)*20, 1,0,0);	// yaw
       bone->resetPos();
     }
   else
@@ -260,7 +268,7 @@ void Face::animEyeBall(float angle, const char *_side, int dir)
 void Face::animEyeLid(float angle, const char *root1, const char *lid, const char *left, const char *right)
 {
   BoneVertex *bone;
-  float scale = (1 - cos(angle / 10)) /* / 2 */;
+  float scale = (1 - cos(angle/10)) /* / 2 */;
 
   if ((bone = root->findBone(root1))) {
     if ((bone = root->findBone(lid))) {
@@ -272,7 +280,7 @@ void Face::animEyeLid(float angle, const char *root1, const char *lid, const cha
       //echo("animEyeLid: angle=%.2f scale=%.2f rot=%.2f", angle, scale, sign*(1-scale)*20);
       bone->resetPos();
       bone->setScale(1, scale, 1);
-      bone->setRot(sign * (1-scale) * 20, 1,0,0);
+      bone->setRot(sign*(1-scale)*20, 1,0,0);
     }
     else
       error("%s not found", lid);
@@ -293,19 +301,19 @@ void Face::animEyeLid(float angle, const char *root1, const char *lid, const cha
 void Face::animEyeBrow(float angle, const char *_root, const char *_side)
 {
   BoneVertex *bone;
-  float scale = cos(angle / 5.0);
+  float scale = cos(angle/5);
 
   //echo("animEyeBrow: angle=%.2f scale=%.2f", angle, scale);
   if ((bone = root->findBone(_root))) {
     bone->resetPos();
-    bone->setTrans(0, scale / 25, 0);
+    bone->setTrans(0, scale/25, 0);
   }
   else
     error("%s not found", _root);
   if ((bone = root->findBone(_side))) {
     bone->resetPos();
-    bone->setRot(scale * 10, 0,0,1);
-    bone->setTrans(0, scale / 25, 0);
+    bone->setRot(scale*10, 0,0,1);
+    bone->setTrans(0, scale/25, 0);
   }
   else
     error("%s not found", _side);
@@ -317,8 +325,8 @@ void Face::animLip(float angle, const char *_side)
   BoneVertex *bone;
 
   if ((bone = root->findBone(lipsRoot))) {
-    Vect3D delta(0, cos(angle/ 10) / 4, 0);
-    //dax float smile = cos(angle / 10) * 20;
+    Vect3D delta(0, cos(angle/10) / 4, 0);
+    //dax float smile = cos(angle/10)*20;
 
     //echo("animLip: angle=%.2f smile=%.2f", angle, smile);
     if ((bone = root->findBone(_side))) {
@@ -558,8 +566,8 @@ void Face::play()
   if ( moveMouth ) {
     echo("moveMouse");
     if ((bone = root->findBone(lipsRoot))) {
-      Vect3D smileDelta(0, cos(angle/10.0) / 4.0, 0);
-      float smile = 20 * cos(angle / 10.0);
+      Vect3D smileDelta(0, cos(angle/10) / 4, 0);
+      float smile = 20*cos(angle/10);
       if ((bone = root->findBone(lipsTopL))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
@@ -586,8 +594,8 @@ void Face::play()
   if ( moveSmile ) {
     echo("moveSmile");
     if ((bone = root->findBone(lipsRoot))) {
-      Vect3D smileDelta(0, cos(angle/10.0) / 4.0, 0);
-      float smile = 20 * cos(angle / 10.0);
+      Vect3D smileDelta(0, cos(angle/10) / 4, 0);
+      float smile = 20*cos(angle/10);
       if ((bone = root->findBone(lipsTopL))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
@@ -603,8 +611,8 @@ void Face::play()
   // == sulk
   if ( moveSulk ) {
     if ((bone = root->findBone(lipsRoot))) {
-      Vect3D smileDelta(0, cos(angle/10.0) / 4.0, 0);
-      float smile = 20 * cos(angle / 10.0);
+      Vect3D smileDelta(0, cos(angle/10) / 4, 0);
+      float smile = 20*cos(angle/10);
       if ((bone = root->findBone(lipsBotL))) {
         bone->resetPos();
         bone->setTrans(smileDelta);
@@ -623,16 +631,16 @@ void Face::play()
   if ( moveEyeL ) {
     echo("moveEyeL");
     if ((bone = root->findBone(eyeLeftRoot))) {
-      float eyeLeftScale = (1 - cos(angle / 20.0)) / 2.0;
-      if ((bone = root->findBone(eyeLeftBotRoot)) != NULL) {
+      float eyeLeftScale = (1 - cos(angle/20)) / 2;
+      if ((bone = root->findBone(eyeLeftBotRoot))) {
         bone->resetPos();
         bone->setScale(1, eyeLeftScale, 1);
-        bone->setRot(-(1-eyeLeftScale)*20.0, 1,0,0);
+        bone->setRot(-(1-eyeLeftScale)*20, 1,0,0);
       }
       if ((bone = root->findBone(eyeLeftTopRoot))) {
         bone->resetPos();
         bone->setScale(1, eyeLeftScale, 1);
-        bone->setRot((1-eyeLeftScale)*20.0, 1,0,0);
+        bone->setRot((1-eyeLeftScale)*20, 1,0,0);
       }
       if ((bone = root->findBone(eyeLeftTopL))) {
         bone->resetPos();
@@ -658,14 +666,14 @@ void Face::play()
   if ( moveEyeR ) {
     echo("moveEyeR");
     if ((bone = root->findBone(eyeRightRoot))) {
-      float eyeRightScale = (1 + cos(angle / 5.0)) / 20.0;
+      float eyeRightScale = (1 + cos(angle/5)) / 20;
       if ((bone = root->findBone(browRightRoot))) {
         bone->resetPos();
-        bone->setTrans(0, eyeRightScale / 2.0, 0);
+        bone->setTrans(0, eyeRightScale/2, 0);
       }
       if ((bone = root->findBone(eyeRightBotRoot))) {
         bone->resetPos();
-        bone->setTrans(0, eyeRightScale / 2.0, 0);
+        bone->setTrans(0, eyeRightScale/2, 0);
       }
       if ((bone = root->findBone(eyeRightTopRoot))) {
         bone->resetPos();
@@ -681,11 +689,11 @@ void Face::play()
       }
       if ((bone = root->findBone(eyeRightBotL))) {
         bone->resetPos();
-        bone->setTrans(0, eyeRightScale / 2.0, 0);
+        bone->setTrans(0, eyeRightScale/2, 0);
       }
       if ((bone = root->findBone(eyeRightBotR))) {
         bone->resetPos();
-        bone->setTrans(0, eyeRightScale / 2.0, 0);
+        bone->setTrans(0, eyeRightScale/2, 0);
       }
     }
   }
@@ -695,7 +703,7 @@ void Face::play()
   if ( moveNose ) {
     echo("moveNose");
     if ((bone = root->findBone(noseRoot))) {
-      float noseScale = 1 - cos(angle / 16.0) / 4.0;
+      float noseScale = 1 - cos(angle/16) / 4;
       if ((bone = root->findBone(noseLeft))) {
         bone->resetPos();
         bone->setScale(noseScale, 1, 1);
@@ -710,71 +718,71 @@ void Face::play()
   // --- Root management ---
   if ( moveYes ) {
     if ((bone = root->findBone(headRoot)))
-      bone->setRot(10 * sin(angle/50.0), 1, 0, 0);
+      bone->setRot(10*sin(angle/50), 1,0,0);
   }
   if ( moveNo ) {
     if ((bone = root->findBone(headRoot)))
-      bone->setRot(10 * sin(angle/50.0), 0, 1, 0);
+      bone->setRot(10*sin(angle/50), 0,1,0);
   }
 
 #undef BROW_MOTION
 #ifdef BROW_MOTION
-  float browRightScale = cos(angle / 5.0);
+  float browRightScale = cos(angle/5);
   if ((bone = root->findBone(browRightRoot))) {
     bone->resetPos();
-    bone->setTrans(0, browRightScale / 25.0, 0);
+    bone->setTrans(0, browRightScale/25, 0);
   }
   if ((bone = root->findBone(browRightL))) {
     bone->resetPos();
-    bone->setRot(10 * browRightScale, 0,0,1);
-    bone->setTrans(0, browRightScale / 25.0, 0);
+    bone->setRot(10*browRightScale, 0,0,1);
+    bone->setTrans(0, browRightScale/25, 0);
   }
 #endif
 }
 
-void Face::changeMoveYes(Humanoid *o, void *d, time_t s, time_t u)
+void Face::Yes(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveYes = ! o->body->face->moveYes;
 }
 
-void Face::changeMoveNo(Humanoid *o, void *d, time_t s, time_t u)
+void Face::No(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveNo = ! o->body->face->moveNo;
 }
 
-void Face::changeMoveMouth(Humanoid *o, void *d, time_t s, time_t u)
+void Face::Mouth(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveMouth = ! o->body->face->moveMouth;
 }
 
-void Face::changeMoveSmile(Humanoid *o, void *d, time_t s, time_t u)
+void Face::Smile(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveSmile = ! o->body->face->moveSmile;
 }
 
-void Face::changeMoveSulk(Humanoid *o, void *d, time_t s, time_t u)
+void Face::Sulk(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveSulk = ! o->body->face->moveSulk;
 }
 
-void Face::changeMoveEyeR(Humanoid *o, void *d, time_t s, time_t u)
+void Face::EyeR(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveEyeR = ! o->body->face->moveEyeR;
 }
 
-void Face::changeMoveEyeL(Humanoid *o, void *d, time_t s, time_t u)
+void Face::EyeL(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveEyeL = ! o->body->face->moveEyeL;
 }
 
-void Face::changeMoveNose(Humanoid *o, void *d, time_t s, time_t u)
+void Face::Nose(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveNose = ! o->body->face->moveNose;

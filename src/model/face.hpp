@@ -95,14 +95,14 @@ class Face {
   static void facereader(void *_o, Http *http);
 
   // GUI callbacks
-  static void changeMoveYes(class Humanoid *o, void *d, time_t s, time_t u);
-  static void changeMoveNo(class Humanoid *o, void *d, time_t s, time_t u);
-  static void changeMoveMouth(class Humanoid *o, void *d, time_t s, time_t u);
-  static void changeMoveSmile(class Humanoid *o, void *d, time_t s, time_t u);
-  static void changeMoveSulk(class Humanoid *o, void *d, time_t s, time_t u);
-  static void changeMoveEyeR(class Humanoid *o, void *d, time_t s, time_t u);
-  static void changeMoveEyeL(class Humanoid *o, void *d, time_t s, time_t u);
-  static void changeMoveNose(class Humanoid *o, void *d, time_t s, time_t u);
+  static void Yes(class Humanoid *o, void *d, time_t s, time_t u);
+  static void No(class Humanoid *o, void *d, time_t s, time_t u);
+  static void Mouth(class Humanoid *o, void *d, time_t s, time_t u);
+  static void Smile(class Humanoid *o, void *d, time_t s, time_t u);
+  static void Sulk(class Humanoid *o, void *d, time_t s, time_t u);
+  static void EyeR(class Humanoid *o, void *d, time_t s, time_t u);
+  static void EyeL(class Humanoid *o, void *d, time_t s, time_t u);
+  static void Nose(class Humanoid *o, void *d, time_t s, time_t u);
   static void changeFace(class Humanoid *o, void *d, time_t s, time_t u);
 };
 
