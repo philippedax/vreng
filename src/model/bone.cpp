@@ -267,7 +267,7 @@ void Bone::render()
     meshToMove->compileTriangleList();
   }
 
-  BoneTriangle *triangle;
+  BoneTriangle *tri;
   Vect3D *v1, *v2, *v3;
   Vect3D *n1, *n2, *n3;
   Vect3D *normal;
@@ -275,6 +275,7 @@ void Bone::render()
   glColor3f(0.7, 0.7, 0.8);
   // glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
+  glPushMatrix();
   glEnable(GL_LIGHTING);
   glEnable(GL_COLOR_MATERIAL);
   glColorMaterial(GL_FRONT, GL_DIFFUSE);
@@ -283,31 +284,33 @@ void Bone::render()
   glBegin(GL_TRIANGLES);
 
   for (int j=0; j < meshToMove->triangles; j++) {
-    triangle = meshToMove->triangle[j];
-    v1 = &triangle->vertex1->curPosition;
-    v2 = &triangle->vertex2->curPosition;
-    v3 = &triangle->vertex3->curPosition;
-    glColor3f(triangle->R, triangle->G, triangle->B);
-    glColor3f(triangle->r, triangle->g, triangle->b);
-    normal = &triangle->iniNormal;
+    tri = meshToMove->triangle[j];
+    v1 = &tri->vertex1->curPosition;
+    v2 = &tri->vertex2->curPosition;
+    v3 = &tri->vertex3->curPosition;
+    //echo("RGB: %.1f %.1f %.1f rgb: %.1f %.1f %.1f", tri->R,tri->G,tri->B,tri->r,tri->g,tri->b);
+    //dax glColor3f(tri->R, tri->G, tri->B);
+    glColor3f(tri->r, tri->g, tri->b);
+    normal = &tri->iniNormal;
 
-    n1 = &triangle->vertex1->curNormal;
-    n2 = &triangle->vertex2->curNormal;
-    n3 = &triangle->vertex3->curNormal;
+    n1 = &tri->vertex1->curNormal;
+    n2 = &tri->vertex2->curNormal;
+    n3 = &tri->vertex3->curNormal;
 
     glNormal3f(normal->x, normal->y, normal->z);
-    //tex glTexCoord2f(triangle->u1, triangle->v1);
+    //tex glTexCoord2f(tri->u1, tri->v1);
     glNormal3f(n1->x, n1->y, n1->z);
     glVertex3f(v1->x, v1->y, v1->z);
-    //tex glTexCoord2f(triangle->u2, triangle->v2);
+    //tex glTexCoord2f(tri->u2, tri->v2);
     glNormal3f(n2->x, n2->y, n2->z);
     glVertex3f(v2->x, v2->y, v2->z);
-    //tex glTexCoord2f(triangle->u3, triangle->v3);
+    //tex glTexCoord2f(tri->u3, tri->v3);
     glNormal3f(n3->x, n3->y, n3->z);
     glVertex3f(v3->x, v3->y, v3->z);
   }
   glEnd();
   glDisable(GL_TEXTURE_2D);
+  glPopMatrix();
 }
 
 //-----------------
