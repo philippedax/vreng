@@ -93,7 +93,7 @@ void V3d::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scal
   //echo("face: Faces added   : %i", facets);
 
   // Reading skeleton
-  skel->readSkeleton(fp, scale);
+  skel->readSkel(fp, scale);
   result->rebuildNormals();
   file->close();
   delete file;

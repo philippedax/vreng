@@ -48,8 +48,7 @@ class Face {
 
   BoneList < char > urlList;	///< list of v3d faces url
 
-  int currentUrl;	///< current url
-  GLint textureId;	///< texture id
+  uint8_t curl;		///< current url
   bool indexed;		///< flag if url index
   bool moveYes;		///< flag move yes
   bool moveNo;		///< flag move no
@@ -59,11 +58,11 @@ class Face {
   bool moveEyeL;	///< flag move left eye
   bool moveEyeR;	///< flag move right eye
   bool moveNose;	///< flag love nose
-  char cachefile[64];	///< file path in cache
+  char pathfile[64];	///< file path in cache
 
   BoneMesh *mesh;	///< mesh
   BoneVertex *root;	///< bone root
-  Bone bone;		///< bone animator
+  Bone boneanim;	///< bone animator
 
  public:
   Face();			///< Constructor

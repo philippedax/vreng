@@ -56,10 +56,10 @@ void Bone::registerMesh(BoneMesh *_mesh)
   trace(DBG_MAN, " Registered as movable mesh: [%s]", _mesh->getName());
 }
 
-void Bone::registerSkeleton(BoneVertex *_skel)
+void Bone::registerSkel(BoneVertex *_skel)
 {
   skeleton = _skel;
-  trace(DBG_MAN, " Registered as skeleton: [%s]", _skel->getName());
+  trace(DBG_MAN, " Registered as skel: [%s]", _skel->getName());
 }
 
 //--------------------------------------
@@ -954,12 +954,12 @@ void BoneVertex::read(char *filename, float scale)
     error("BoneVertex::read unable to open: [%s]", filename);
     return;
   }
-  readSkeleton(fp, scale);
+  readSkel(fp, scale);
   file->close();
   delete file;
 }
 
-void BoneVertex::readSkeleton(FILE *fp, float scale)
+void BoneVertex::readSkel(FILE *fp, float scale)
 {
   char name[128];
 
@@ -982,7 +982,7 @@ void BoneVertex::readSkeleton(FILE *fp, float scale)
   for (int i=0; i < n; i++) {
     BoneVertex *tmp = new BoneVertex();
     addBone(tmp);
-    tmp->readSkeleton(fp, scale);
+    tmp->readSkel(fp, scale);
   }
   compileChildList();
 }

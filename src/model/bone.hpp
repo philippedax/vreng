@@ -432,7 +432,7 @@ class BoneVertex : public Bonename {
 
   // I/O functions
   void read(char *filename, float size = 1.);
-  void readSkeleton(FILE *file, float scale = 1.);
+  void readSkel(FILE *file, float scale = 1.);
 };
 
 // Reading part
@@ -631,7 +631,7 @@ class BoneMesh : public Bonename {
  *
  * Typical use of this class :
  *   myBone.registerMesh ( oneMesh );
- *   myBone.registerSkeleton ( oneSkeleton );
+ *   myBone.registerSkel ( oneSkeleton );
  *   myBone.compileLinkList ();
  *   ... in loop ...
  *     change skeleton current pos
@@ -657,7 +657,7 @@ class Bone {
 
   // Accessing datas
   void registerMesh(BoneMesh *mesh);
-  void registerSkeleton(BoneVertex *root);
+  void registerSkel(BoneVertex *root);
 
   // Operations on both mesh and skeleton
   void scale(float sx, float sy, float sz);
