@@ -102,7 +102,7 @@ template <class BoneElem> class BoneNode {
  *            void  addList (BoneList * list)
  *            void  removeElement (int index)
  *            void  removeElement (BoneElem * ptr)
- *            BoneElem * getElemAt (int index)
+ *            BoneElem * getElement (int index)
  *            BoneElem ** getNiceTable (int * count)
  */
 template <class BoneElem> class BoneList {
@@ -184,7 +184,7 @@ template <class BoneElem> class BoneList {
 
   // Fonction d'acces a un element de la liste retourne NULL si
   // l'index est inferieur a 0 ou superieur au nombre d'elements
-  BoneElem *getElemAt(int index) {
+  BoneElem *getElement(int index) {
     BoneNode<BoneElem> *curNode = listHead;
     BoneElem *result = NULL;
     while (curNode && index > 0) {
@@ -418,7 +418,7 @@ class BoneVertex : public Bonename {
   void setBone(BoneVertex *Father);
   void addBone(BoneVertex *newChild);
   void removeBone(const char *Name);
-  BoneVertex *findBone(const char *Name);
+  BoneVertex *getBone(const char *Name);
 
   // Link list managing
   void addLink(BoneLink *link);

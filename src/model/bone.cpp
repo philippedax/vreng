@@ -168,13 +168,13 @@ void Bone::generateLinkList()
   if (! skeleton)   return; // To avoid NULL pointer exception
 
   BoneVertex *tempnode;
-  tempnode = skeleton->findBone("root");
+  tempnode = skeleton->getBone("root");
   if (tempnode)
     tempnode->influenceScaleFactor = 10.;
-  tempnode = skeleton->findBone("lipsRoot");
+  tempnode = skeleton->getBone("lipsRoot");
   if (tempnode)
     tempnode->influenceScaleFactor = 10.;
-  tempnode = skeleton->findBone("frontRoot");
+  tempnode = skeleton->getBone("frontRoot");
   if (tempnode)
     tempnode->influenceScaleFactor = 10.;
 
@@ -789,7 +789,7 @@ void BoneVertex::addBone(BoneVertex *newChild)
 // Removing a child and its children
 void BoneVertex::removeBone(const char *name)
 {
-  BoneVertex *tmp = findBone(name);
+  BoneVertex *tmp = getBone(name);
   if (tmp == NULL) return;
   if (tmp == this) return;
 
@@ -799,7 +799,7 @@ void BoneVertex::removeBone(const char *name)
 }
 
 // Finding a boneVertex in the tree using its name
-BoneVertex *BoneVertex::findBone(const char *name)
+BoneVertex *BoneVertex::getBone(const char *name)
 {
   BoneVertex *result = NULL;
 
@@ -811,7 +811,7 @@ BoneVertex *BoneVertex::findBone(const char *name)
   else {
     int i=0;
     while ((! result) && (i < children)) {
-      result = child[i++]->findBone(name);
+      result = child[i++]->getBone(name);
     }
   }
   return result;

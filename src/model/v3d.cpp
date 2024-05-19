@@ -31,11 +31,8 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "v3d.hpp"
-#include "face.hpp"
-#include "body.hpp"	// body
-#include "file.hpp"	// open, close
-#include "http.hpp"	// httpOpen
 #include "bone.hpp"	// BoneMesh, BoneVertex
+#include "file.hpp"	// open, close
 
 
 V3d::V3d()
@@ -75,13 +72,15 @@ void V3d::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scal
     int index2 = file->read_long_be(fp);
     int index3 = file->read_long_be(fp);
     result->addTriangle(index1, index2, index3);
-    BoneTriangle *triangle = result->triangleList.getElemAt(i);
+    BoneTriangle *triangle = result->triangleList.getElement(i);
+
     // Reading color
     float r = file->read_float_be(fp);
     float g = file->read_float_be(fp);
     float b = file->read_float_be(fp);
     float a = file->read_float_be(fp);
     triangle->setColor(r, g, b, a);
+
     // Reading texture coordinantes
     triangle->u1 = file->read_float_be(fp);
     triangle->v1 = file->read_float_be(fp);

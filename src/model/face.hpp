@@ -82,12 +82,12 @@ class Face {
   void load(const char *url);
   /**< Load the face */
 
-  void animEyeBall(float angle, const char *_side, int dir);
-  void animEyeLid(float angle, const char *root1, const char *root2, const char *left, const char *right);
-  void animEyeBrow(float angle, const char *_root, const char *_side);
-  void animLip(float angle, const char *_side);
-  void animNose(float angle, const char *_side);
-  void animHead(float angle, int x, int y, int z);
+  void animHead(float a, int x, int y, int z);
+  void animEyeBall(float a, const char *side, int dir);
+  void animEyeLid(float a, const char *root1, const char *root2, const char *left, const char *right);
+  void animEyeBrow(float a, const char *_root, const char *side);
+  void animLip(float a, const char *side);
+  void animNose(float a, const char *side);
 
  private:
   static void facereader(void *_o, Http *http);
