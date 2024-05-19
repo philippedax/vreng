@@ -35,7 +35,7 @@
 class Humanoid: public WO {
  private:
   // VAPS values
-  static const uint16_t VAPS_BUFSIZ = 8192;	///< buffer line.
+  static const uint16_t VAPS_BUFSIZ = 8192;		///< buffer baplines.
   static const uint16_t VAPS_PORT   = DEF_VAPS_PORT;	///< vaps port.
 
   float cloth[3];		///< cloth color.

@@ -73,6 +73,6 @@ clean:
 
 .PHONY: notice
 notice:
-	@echo -- Java libraries up to date \($(COLLECTOR_JAR)\)
+	@echo -- up to date
 
 endif

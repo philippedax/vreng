@@ -110,18 +110,9 @@ Face::Face(const char *urls)
 Face::~Face()
 {
   if (mesh) delete mesh;
-  mesh = NULL;
   if (root) delete root;
+  mesh = NULL;
   root = NULL;
-}
-
-/** Caching file */
-void Face::reader(void *_url, Http *http)
-{
-  if (! http) {
-    error("reader: unable to open http connection");
-    return;
-  }
 }
 
 /** Downloads list of face url */
@@ -129,7 +120,6 @@ void Face::facereader(void *_face, Http *http)
 {
   Face *face = static_cast<Face *>(_face);
   if (! http) {
-    error("facereader: unable to open http connection");
     return;
   }
 
@@ -160,7 +150,7 @@ void Face::change()
   currentUrl++;
   currentUrl %= urlList.count();
   char *urlface = urlList.getElemAt(currentUrl);
-  echo("change: urlface=%s", urlface);
+  echo("change: %d/%d urlface=%s", currentUrl, urlList.count(), urlface);
   if (! isascii(urlface[0])) {
     error("change: BUG! urlface=%02x", urlface[0]);
     return;
@@ -179,7 +169,6 @@ void Face::load(const char *url)
     error("Face load: file=%s url=%s", cachefile, url);
     return;
   }
-  Http::httpOpen(url, reader, (void *)url, 0);
 
   V3d::readV3D(newmesh, newroot, cachefile);
 

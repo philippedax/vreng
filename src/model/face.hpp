@@ -91,7 +91,6 @@ class Face {
   void animHead(float angle, int x, int y, int z);
 
  private:
-  static void reader(void *_url, Http *http);
   static void facereader(void *_o, Http *http);
 
   // GUI callbacks

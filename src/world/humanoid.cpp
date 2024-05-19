@@ -43,6 +43,8 @@ static const char DEF_BODY_URL[] = "/body/man.body";
 static float skin[] = {1, .75, .7}; // skin color
 static uint8_t vaps_offset_port = Humanoid::VAPS_OFFSET_PORT;
 
+#define DEF_FACES_URL "/v3d/faces.index"
+
 
 /** Creates from a fileline */
 WO * Humanoid::creator(char *l)
@@ -115,7 +117,8 @@ void Humanoid::inits()
   body->draw();
 
   if (*head_url) {
-    body->face = new Face();
+    //body->face = new Face();
+    body->face = new Face(DEF_FACES_URL);
     body->face->load(head_url);
   }
   if (head_url) delete[] head_url;
