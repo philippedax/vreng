@@ -55,10 +55,13 @@ WO * Humanoid::creator(char *l)
 /** Sets default values */
 void Humanoid::defaults()
 {
-  head_url = new char[URL_LEN];
-  memset(head_url, 0, URL_LEN);
+  vaps = new char[URL_LEN];
   strcpy(vaps, DEF_VAPS_SERVER);	// default server
   strcpy(name.url, DEF_BODY_URL);	// default body
+  face_url = new char[URL_LEN];
+  memset(face_url, 0, URL_LEN);
+  bapline = new char[VAPS_BUFSIZ];
+  memset(bapline, 0, VAPS_BUFSIZ);
 
   for (int i=0; i<3; i++) cloth[i] = skin[i];
 }
@@ -72,8 +75,8 @@ void Humanoid::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "body="))   l = parseString(l, name.url, "body");	//body
-    else if (! stringcmp(l, "head="))   l = parseString(l, head_url, "head");	//head
-    else if (! stringcmp(l, "face="))   l = parseString(l, head_url, "face");	//head
+    else if (! stringcmp(l, "head="))   l = parseString(l, face_url, "head");	//head
+    else if (! stringcmp(l, "face="))   l = parseString(l, face_url, "face");	//head
     else if (! stringcmp(l, "color="))  l = parseVector3f(l, cloth, "color");	//color
     else if (! stringcmp(l, "server=")) l = parseString(l, vaps, "server");	//server
   }
@@ -116,12 +119,12 @@ void Humanoid::inits()
   body->load(name.url);
   body->draw();
 
-  if (*head_url) {
-    //body->face = new Face();
-    body->face = new Face(DEF_FACES_URL);
-    body->face->load(head_url);
+  if (*face_url) {
+    //body->face = new Face();			// onlyone face
+    body->face = new Face(DEF_FACES_URL);	// multiple faces
+    body->face->load(face_url);
   }
-  if (head_url) delete[] head_url;
+  if (face_url) delete[] face_url;
 
   vaps_offset_port += 2;
   vaps_port = Channel::getPort(World::current()->getChan()) + vaps_offset_port;
@@ -152,7 +155,7 @@ Humanoid::Humanoid()
 /** Renders */
 void Humanoid::render()
 {
-  if (localuser->humanoid && ! localuser->isVisible()) return;
+  //if (localuser->humanoid && ! localuser->isVisible()) return;
 
   body->render(pos);
 }
@@ -256,7 +259,6 @@ int Humanoid::readFrame()
     return 0;				// nothing to read
   }
 
-  memset(bapline, 0, VAPS_BUFSIZ);
   socklen_t slen = sizeof(struct sockaddr_in);
   int len;
   // receives a bap line
@@ -342,9 +344,11 @@ void Humanoid::changePermanent(float lasting)
     //TODO: predictive interpollation
     }
   }
+
   else if ((sdtcp > 0) && body->face) {
     body->face->play();		// local animation
   }
+
   else if (sdtcp <= 0) {
     //
     // local playing
@@ -353,8 +357,11 @@ void Humanoid::changePermanent(float lasting)
     //
     //echo("get local frame");
     static bool hdr_frame = true;
+    static bool mask_frame = false;
+    static bool value_frame = false;
     char ch;
-    char *p = NULL;
+    char *pap = NULL;
+    char *eol = NULL;
     int c = 0;
     uint8_t baptype = 0;
     int nbr_frames = 0;
@@ -363,16 +370,19 @@ void Humanoid::changePermanent(float lasting)
     //echo("bapfile: %s", bapfile);
 
     if (hdr_frame) {
-      //baphdr
-      memset(bapline, 0, sizeof(bapline));
+      //
+      // baphdr
+      //
+      memset(bapline, 0, 128);
       for (c = 0; (ch = bapfile[c]) != '\n'; c++) {
         bapline[c] = ch;
       }
       bapfile += (c + 1);	// + eol
+
       //echo("baphdr: %s (%d)", bapline, c);
-      p = strrchr(bapline, ' ');
-      if (p)
-        nbr_frames = atoi(++p);
+      pap = strrchr(bapline, ' ');
+      if (pap)
+        nbr_frames = atoi(++pap);
       baptype = bap->parse(bapline);	// parse hdr_frame
       switch (baptype) {
       case TYPE_BAP_V31:
@@ -389,111 +399,139 @@ void Humanoid::changePermanent(float lasting)
       //echo("baptype: %d", baptype);
       //echo("nbr_frames: %d", nbr_frames);
       hdr_frame = false;
+      mask_frame = true;
     }
 
+    //
     // data bap
+    //
+
     do {
-      //bapmask
-      memset(bapline, 0, sizeof(bapline));
-      for (c = 0; (ch = bapfile[c]) != '\n'; c++) {
-        bapline[c] = ch;
-      }
-      bapfile += (c + 1);
-      //echo("bapmask: %s (%d)", bapline, c);
-      // masks
-      p = bapline;
-      for (int i=1; i <= num_params; i++) {
-        if (p) {
-          switch (*p) {
-          case '0': bap->setBit(i, 0); break;
-          case '1': bap->setBit(i, 1); break;
-          }
-          p = strchr(p, ' ');
-          if (! p) break;	// no mask
-          p++;	// skip space
-        } 
-        else
-          break;
-      } 
-
-      //bapvalues
-      memset(bapline, 0, sizeof(bapline));
-      for (c = 0; (ch = bapfile[c]) != '\n'; c++) {
-        bapline[c] = ch;
-      }
-      bapfile += (c + 1);
-
-      // num_frame
-      p = bapline;
-      num_frame = atoi(p);
-      //echo("num_frame: %d", num_frame);
-      //body->play();				// plays bap frame
-
-      // values
-      p = strchr(bapline, ' ');
-      if (! p) break;	// no values
-      p++;		// first value
-      //echo("values: %s", p);
-      for (int i=1; i <= num_params; i++) {
-        if (! bap->isBit(i)) continue;
-        if (i >= TR_VERTICAL && i <= TR_FRONTAL) {	// 170..172 translations
-          bap->setBap(i, static_cast<float>(atof(p)));	// / TR_DIV)));	//magic formula:300
-        }
-        else {  // angles
-          switch (baptype) {
-          case TYPE_BAP_V31:
-            bap->setBap(i, static_cast<float>((atof(p) / BAPV31_DIV))); //magic formula:1745
-            break;
-          case TYPE_BAP_V32:
-            bap->setBap(i, static_cast<float>((atof(p) / BAPV32_DIV))); //magic formula:555
-            break;
-          }
-          //echo("bap: p=%s ba[%d]=%.2f", p, i, bap->getBap(i));
-        }
-
+      if (mask_frame) {
         //
-        // play frame
+        // bapmask
         //
-        switch (baptype) {
-        case TYPE_BAP_V31: case TYPE_BAP_V32: 
+        memset(bapline, 0, 128);
+        do {
+          for (c = 0; (ch = bapfile[c]) != '\n'; c++) {
+            bapline[c] = ch;
+          }
+          bapfile += (c + 1);
+          eol = bapline + c;
+          pap = bapline;
+
+          //echo("bapmask: %s", bapline);
+          // masks
           for (int i=1; i <= num_params; i++) {
-            if (! bap->isBit(i)) continue;
-            echo("playbap: %d: %d (%.2f)", num_frame, i, bap->getBap(i));
-          }
-          body->play();				// plays bap frame
-          render();
-          break;
-        case TYPE_FAP_V20: case TYPE_FAP_V21:
-          for (int i=1; i <= NUM_FAPS; i++) {
-            if (! bap->isBit(i)) continue;
-            if (body->face) {
-              echo("playfap: %d: %d (%.2f)", num_frame, i, bap->getFap(i));
-              body->face->play(i, bap->getFap(i));	// plays fap frame
-            }
-          }
-          render();
-          break;
-        default:
-          //echo("baptype: %d", baptype);
-          break;
-        }
-        //echo("mask: %d (%.2f)", i, bap->getBap(i));
-        p = strchr(p, ' ');	// skip space
-        if (! p) break;		// end of frame
-        p++;			// next value
+            if (pap) {
+              switch (*pap) {
+              case '0': bap->setBit(i, 0); break;
+              case '1': bap->setBit(i, 1); break;
+              }
+              pap = strchr(pap, ' ');
+              if (! pap) break;	// no more mask
+              pap++;		// skip space for next mask
+            } 
+            else {
+              break;		// no more mask
+            } 
+          } 
+        } while (pap < eol);
+        mask_frame = false;
+        value_frame = true;
       }
+  
+      if (value_frame) {
+        //
+        // bapvalues
+        //
+        memset(bapline, 0, 128);
+        do {
+          for (c = 0; (ch = bapfile[c]) != '\n'; c++) {
+            bapline[c] = ch;
+          }
+          bapfile += (c + 1);
+          eol = bapline + c;
+          pap = bapline;
+
+          // num_frame
+          num_frame = atoi(pap);
+          //echo("num_frame: %d", num_frame);
+          pap++;
+
+          // values
+          pap = strchr(bapline, ' ');
+          if (! pap) break;	// no more values
+          pap++;		// first value
+          echo("bapvalue: %s", pap);
+          for (int i=1; i <= num_params; i++) {
+            if (! bap->isBit(i)) continue;	// no mask
+            if (i >= TR_VERTICAL && i <= TR_FRONTAL) {		// distance - 170..172 trans
+              bap->setBap(i, static_cast<float>(atof(pap)));	// / TR_DIV)));	//magic formula:300
+            }
+            else {  // angle
+              switch (baptype) {
+              case TYPE_BAP_V31:
+                bap->setBap(i, static_cast<float>((atof(pap) / BAPV31_DIV))); //magic formula:1745
+                break;
+              case TYPE_BAP_V32:
+                bap->setBap(i, static_cast<float>((atof(pap) / BAPV32_DIV))); //magic formula:555
+                break;
+              }
+              //echo("bap: pap=%s ba[%d]=%.2f", pap, i, bap->getBap(i));
+            }
+
+            //
+            // play param
+            //
+            switch (baptype) {
+            case TYPE_BAP_V31: case TYPE_BAP_V32: 
+              for (int i=1; i <= num_params; i++) {
+                if (! bap->isBit(i)) continue;
+                if (num_frame) {	// hack
+                  echo("playbap: %d: %d (%.2f)", num_frame, i, bap->getBap(i));
+                  body->play();			// plays bap param
+                  render();
+                }
+              }
+              break;
+            case TYPE_FAP_V20: case TYPE_FAP_V21:
+              for (int i=1; i <= NUM_FAPS; i++) {
+                if (! bap->isBit(i)) continue;
+                if (body->face) {
+                  echo("playfap: %d: %d (%.2f)", num_frame, i, bap->getFap(i));
+                  body->face->play(i, bap->getFap(i));	// plays fap param
+                  render();
+                }
+              }
+              break;
+            default:
+              //echo("baptype: %d", baptype);
+              break;
+            }
+            //echo("mask: %d (%.2f)", i, bap->getBap(i));
+            pap = strchr(pap, ' ');	// skip space for next value
+            if (! pap) break;		// no more value -> end of values
+            pap++;			// next value
+          }
+        } while (pap < eol);
+      }
+
+      // tempo 20 ms
       struct timeval to;
       to.tv_sec = 0;
-      to.tv_usec = 200000; //::g.pref.frame_delay;     // 20ms -> 50 fps
+      to.tv_usec = 200000;		// ::g.pref.frame_delay; // 20ms -> 50 fps
       select(0, 0, 0, 0, &to);
     } while ((num_frame + 1) < nbr_frames) ;
 
+    value_frame = false;
+    mask_frame = false;
     hdr_frame = true;
     state = INACTIVE;
-    //echo("end frames");
+    //echo("end of frames");
   } // local playing
 
-  // debug
+  // testing
   //angle = 10;
   //body->animArm(-angle, 0, 0);	// arm left flexion : OK
   //body->animArm(+angle, 1, 0);	// arm right flexion : OK

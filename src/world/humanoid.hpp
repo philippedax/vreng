@@ -38,36 +38,28 @@ class Humanoid: public WO {
   static const uint16_t VAPS_BUFSIZ = 8192;		///< buffer baplines.
   static const uint16_t VAPS_PORT   = DEF_VAPS_PORT;	///< vaps port.
 
-  float cloth[3];		///< cloth color.
-  char *head_url;		///< head url.
   int sdtcp;			///< fd tcp.
   int sdudp;			///< fd udp.
   int ipmode;			///< IP mode.
   struct sockaddr_in tcpsa;	///< sa tcp.
   struct sockaddr_in udpsa;	///< sa udp.
   struct ip_mreq mreq;		///< mreq.
-  bool usercontrol;		///< control by user.
+  bool usercontrol;		///< controled by user.
+  char *face_url;		///< face url.
+  float cloth[3];		///< cloth color.
   uint16_t vaps_port;		///< vaps server port.
-  char vaps[64];		///< vaps server name.
+  char *vaps;			///< vaps server name.
   char *bapfile;		///< content of bap file
+  char *bapline;		///< bap/fap line.
+
+  enum { UNICAST, MULTICAST };
+  enum { INACTIVE, PLAYING, LISTENING };
 
  public:
-  static const uint8_t VAPS_OFFSET_PORT = 10;	///< offset port.
-
   class Body *body;		///< body ptr.
   class Bap *bap;		///< bap ptr.
-  char bapline[VAPS_BUFSIZ];	///< bap/fap line.
 
-  enum {
-    INACTIVE,
-    PLAYING,
-    LISTENING
-  };
-
-  enum {
-    UNICAST,
-    MULTICAST
-  };
+  static const uint8_t VAPS_OFFSET_PORT = 10;		///< offset port.
 
   static const OClass oclass;	///< class variable.
 
@@ -78,6 +70,9 @@ class Humanoid: public WO {
   Humanoid(char *l);
   Humanoid();
   /**< Constructor. */
+
+  virtual ~Humanoid() {}
+  /**< Desructor. */
 
   static WO * (creator)(char *l);
   /**< Creates from fileline. */
@@ -129,7 +124,7 @@ class Humanoid: public WO {
 
   //char * toPlay(const char *str);
 
-  // plays gestures
+  // Plays gestures
   void hi();
   void bye();
   void ask();
