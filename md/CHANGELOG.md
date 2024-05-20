@@ -15,6 +15,7 @@ The rules for this file:
 ++ 9 [2024/04]
 == 9.4 (2024/04)
 -- 9.4.6
+	- rewrite playing local bap
 	- add v3d.*pp
 	- rename v3d.*pp to face.*pp
 	- rename face.*pp to head.*pp
