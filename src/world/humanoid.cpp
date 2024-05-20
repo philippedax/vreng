@@ -456,14 +456,14 @@ void Humanoid::changePermanent(float lasting)
 
           // num_frame
           num_frame = atoi(pap);
-          //echo("num_frame: %d", num_frame);
+          echo("num_frame: %d", num_frame);
           pap++;
 
           // values
           pap = strchr(bapline, ' ');
           if (! pap) break;	// no more values
           pap++;		// first value
-          echo("bapvalue: %s", pap);
+          //echo("bapvalue: %s", pap);
           for (int i=1; i <= num_params; i++) {
             if (! bap->isBit(i)) continue;	// no mask
             if (i >= TR_VERTICAL && i <= TR_FRONTAL) {		// distance - 170..172 trans
