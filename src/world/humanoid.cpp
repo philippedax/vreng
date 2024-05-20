@@ -456,7 +456,7 @@ void Humanoid::changePermanent(float lasting)
 
           // num_frame
           num_frame = atoi(pap);
-          echo("num_frame: %d", num_frame);
+          //echo("num_frame: %d", num_frame);
           pap++;
 
           // values
