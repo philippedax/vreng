@@ -155,7 +155,7 @@ Humanoid::Humanoid()
 /** Renders */
 void Humanoid::render()
 {
-  //if (localuser->humanoid && ! localuser->isVisible()) return;
+  if (localuser->humanoid && ! localuser->isVisible()) return;
 
   body->render(pos);
 }
