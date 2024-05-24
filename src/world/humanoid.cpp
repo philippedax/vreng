@@ -377,8 +377,9 @@ void Humanoid::changePermanent(float lasting)
 
       //echo("baphdr: %s (%d)", bapline, c);
       p = strrchr(bapline, ' ');
-      if (p)
+      if (p) {
         bapframes = atoi(++p);
+      }
       baptype = bap->parse(bapline);
       switch (baptype) {
       case TYPE_BAP_V31:
