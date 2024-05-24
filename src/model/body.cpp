@@ -198,6 +198,7 @@ int Forearm::init()
 void Forearm::flexion(float a)
 {
   aflexion = a;
+  echo("forearm: %.1f", a);
 }
 
 void Forearm::torsion(float a)
@@ -234,6 +235,7 @@ void Arm::flexion(float a)
 {
   //dax aflexion = -a;
   aflexion = a;
+  echo("arm: %.0f", a);
 }
 
 void Arm::abduct(float a)
@@ -1233,6 +1235,7 @@ void Body::rotZ(int side, float angle)
 /** Displays a part of the body */
 void Body::display(uint8_t part)
 {
+  glPushMatrix();
   if (part < MAX_PARTS) {
     glMaterialfv(GL_FRONT, GL_DIFFUSE, bodyparts[part].color);
     if (bodyparts[part].texid) {
@@ -1247,6 +1250,7 @@ void Body::display(uint8_t part)
 
     glDisable(GL_TEXTURE_2D);
   }
+  glPopMatrix();
 }
 
 /** Displays body and face face */
@@ -1565,6 +1569,7 @@ void Body::render(Pos& pos)
 
    display();
 
+   //glFlush();
    glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
 }

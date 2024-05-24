@@ -35,7 +35,7 @@
 Bap::Bap()
 {
   baptype = 0;
-  num_params = 0;
+  params = 0;
 
   // set all values to 0
   for (int i=0; i <= NUM_BAPS_V32; i++) {
@@ -97,110 +97,102 @@ void Bap::setFap(int param, float val)
   faps[param] = val;
 }
 
-/** Parse a bap line */
+/** Parses a bap line - returns baptype else if error 0 */
 uint8_t Bap::parse(char *bapline)
 {
   if (! strcmp(bapline, ""))  return 0;  // discard empty bapline
   else if (bapline[0] == '#') return 0;  // discard comment bapline
 
   char *l = NULL;
-  static uint16_t nbr_frames;
-  uint16_t num_frame = 0;
-  //float vreng_rate;
-  //float bap_rate;
-  //float ratio_rate;
+  uint16_t frame = 0;
 
   //echo("parse: %s", bapline);
   l = strtok(bapline, " ");
   if (! stringcmp(l, HEAD_BAP_V31)) {		// Bap3.1 Header
-    num_params = NUM_BAPS_V31;
-    resetBit(num_params);
+    params = NUM_BAPS_V31;
+    resetBit(params);
     baptype = TYPE_BAP_V31;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
-    nbr_frames = atoi(l);
+    frames = atoi(l);
     return baptype;
   }
   else if (! stringcmp(l, HEAD_BAP_V32)) {	// Bap3.2 Header
-    num_params = NUM_BAPS_V32;
-    resetBit(num_params);
+    params = NUM_BAPS_V32;
+    resetBit(params);
     baptype = TYPE_BAP_V32;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
-    nbr_frames = atoi(l);
-    //bap_rate = static_cast<float>(atof(l));
-    //vreng_rate = ::g.times.getRate();
-    //ratio_rate = vreng_rate / bap_rate;
-    //echo("parse bap3.2: num_params=%d vreng_rate=%.2f bap_rate=%.2f ratio_rate=%.2f", num_params, vreng_rate, bap_rate, ratio_rate);
+    frames = atoi(l);
     return baptype;
   }
   else if (! stringcmp(l, HEAD_FAP_V20)) {	// Fap2.0 Header
-    num_params = NUM_FAPS;
-    resetBit(num_params);
+    params = NUM_FAPS;
+    resetBit(params);
     baptype = TYPE_FAP_V20;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
-    nbr_frames = atoi(l);
+    frames = atoi(l);
     return baptype;
   }
   else if (! stringcmp(l, HEAD_FAP_V21)) {	// Fap2.1 Header
-    num_params = NUM_FAPS;
-    resetBit(num_params);
+    params = NUM_FAPS;
+    resetBit(params);
     baptype = TYPE_FAP_V21;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
-    nbr_frames = atoi(l);
+    frames = atoi(l);
     return baptype;
   }
 
-  // masks and values
+  // masks
   else {
     if (baptype == TYPE_BAP_V31 || baptype == TYPE_BAP_V32) {
-      for (int i=1; i <= num_params; i++) {
+      for (int i=1; i <= params; i++) {
         if (l) {
           bits[i] = atoi(l);  // set all the mask values
           l = strtok(NULL, " ");
         }
       }
 
-      //echo("parse: num_frame=%s", l);
-      num_frame = atoi(l);
+      //echo("parse: frame=%s", l);
+      frame = atoi(l);
 
-      for (int i=1; i <= num_params; i++) {
+      for (int i=1; i <= params; i++) {
         if (bits[i] == 0) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
 
         if (i >= TR_VERTICAL && i <= TR_FRONTAL)	// translations
-          baps[i] = static_cast<float>(atof(l));		// magic formula (300)
+          baps[i] = static_cast<float>(atof(l));	// magic formula (300)
         else {  	// angles
-          if (num_params == NUM_BAPS_V32)
+          if (params == NUM_BAPS_V32)
             baps[i] = static_cast<float>(atof(l) / BAPV32_DIV);	// magic formula (555) //GB
           else
             baps[i] = static_cast<float>(atof(l) / BAPV31_DIV);	// magic formula (1745)
         }
-        trace(DBG_MAN, "bap: l=%s baps[%d]=%.1f", l, i, baps[i]);
+        //echo("bap: l=%s baps[%d]=%.1f", l, i, baps[i]);
       }
-      if (num_frame + 1 == nbr_frames) {
+      if (frame < frames) {
         //echo("end of bap frames");
         return 0;
       }
     }
     else if (baptype == TYPE_FAP_V20 || baptype == TYPE_FAP_V21) {
-      for (int i=1; i <= num_params; i++) {
+      for (int i=1; i <= params; i++) {
         if (l) {
           bits[i] = atoi(l);  // set all the mask values
           l = strtok(NULL, " ");
         }
       }
 
-      //echo("parse fap: num_frame=%s", l);
-      num_frame = atoi(l);
+      //echo("parse fap: frame=%s", l);
+      frame = atoi(l);
 
-      for (int i=1; i <= num_params; i++) {
+      for (int i=1; i <= params; i++) {
         if (bits[i] == 0) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
         if (baptype == TYPE_FAP_V20)
@@ -208,7 +200,7 @@ uint8_t Bap::parse(char *bapline)
         else
           faps[i] = static_cast<float>(atof(l) / FAPV21_DIV);		// fap formula
       }
-      if (num_frame + 1 == nbr_frames) {
+      if (frame < frames) {
         //echo("end of fap frames");
         return 0;
       }

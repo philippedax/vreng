@@ -188,10 +188,19 @@ extern const char surp_fap[];
  */
 class Bap {
  private:
-  uint16_t num_params;	///< number of params
-  uint8_t baptype;	///< stream type bap-3.1, bap-3.2, fap
+  uint8_t bits[NUM_BAPS_V32 + 1];	///< bap/fap bit mask
+  float baps[NUM_BAPS_V32 + 1];		///< baps angles
+  float faps[NUM_FAPS + 1];		///< faps angles
+  //float baplast[NUM_BAPS_V32 + 1];	///< last baps angles
+
+  void resetBit(int n);
+  /**< Resets bit mask */
 
  public:
+  uint16_t params;	///< number of params
+  uint16_t frames;	///< number of frames
+  uint8_t baptype;	///< stream type bap-3.1, bap-3.2, fap
+
   Bap();		///< constructor
   virtual ~Bap(){}	///< destructor
 
@@ -215,15 +224,6 @@ class Bap {
   /**< Gets a Fap angle indexed by param */
 
   void setFap(int param, float val);
-
- private:
-  uint8_t bits[NUM_BAPS_V32 + 1];	///< bap/fap bit mask
-  float baps[NUM_BAPS_V32 + 1];		///< baps angles
-  float faps[NUM_FAPS + 1];		///< faps angles
-  //float baplast[NUM_BAPS_V32 + 1];	///< last baps angles
-
-  void resetBit(int num);
-  /**< Resets bit mask */
 };
 
 #endif

@@ -49,6 +49,10 @@ class Humanoid: public WO {
   float cloth[3];		///< cloth color.
   uint16_t vaps_port;		///< vaps server port.
   char *vaps;			///< vaps server name.
+  uint8_t baptype;		///< current bap type
+  uint8_t bapframes;		///< number of frames
+  uint8_t bapframe;		///< seq number of frame
+  uint16_t bapparams;		///< number of parameters
   char *bapfile;		///< content of bap file
   char *bapline;		///< bap/fap line.
 
