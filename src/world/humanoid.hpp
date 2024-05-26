@@ -126,6 +126,9 @@ class Humanoid: public WO {
   int readFrame();
   /**< Reads a frame from the vaps server. */
 
+  void getLine();
+  /**< Gets current line */
+
   //char * toPlay(const char *str);
 
   // Plays gestures

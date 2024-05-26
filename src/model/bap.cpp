@@ -54,9 +54,9 @@ uint8_t Bap::getType() const
 }
 
 /** Resets bit masks */
-void Bap::resetBit(int num)
+void Bap::resetBit(int params)
 {
-  for (int i=0; i <= num; i++) {
+  for (int i=0; i <= params; i++) {
     bits[i] = 0;
   }
 }
@@ -68,9 +68,9 @@ bool Bap::isBit(int param) const
 }
 
 /** Sets bit mask */
-void Bap::setBit(int param, uint8_t val)
+void Bap::setBit(int param, uint8_t bit)
 {
-  bits[param] = val;
+  bits[param] = bit;
 }
 
 /** Gets bap value */
@@ -82,7 +82,16 @@ float Bap::getBap(int param) const
 /** Sets bap value */
 void Bap::setBap(int param, float val)
 {
-  baps[param] = val;
+  switch(baptype) {
+  case TYPE_BAP_V31:
+    baps[param] = val / BAPV31_DIV;	// magic formula: 1745
+    break;
+  case TYPE_BAP_V32:
+    baps[param] = val / BAPV32_DIV;	// magic formula: 555
+    break;
+  default:
+    baps[param] = val;
+  }
 }
 
 /** Gets fap value */
@@ -211,4 +220,22 @@ uint8_t Bap::parse(char *bapline)
     }
   }
   return baptype;  // frame ready to play
+}
+
+/** Gets params */
+uint16_t Bap::getParams()
+{
+  switch(baptype) {
+  case TYPE_BAP_V31:
+    params = NUM_BAPS_V31;
+    break;
+  case TYPE_BAP_V32:
+    params = NUM_BAPS_V32;
+    break;
+  case TYPE_FAP_V20:
+  case TYPE_FAP_V21:
+    params = NUM_FAPS;
+    break;
+  }
+  return params;
 }

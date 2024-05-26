@@ -275,6 +275,20 @@ int Humanoid::readFrame()
   return 1;	// bap is present
 }
 
+/** Gets line */
+void Humanoid::getLine()
+{
+  char k;
+  int c;
+
+  memset(bapline, 0, 128);
+  for (c = 0; (k = bapfile[c]) != '\n'; c++) {
+    bapline[c] = k;
+  }
+  bapline[c] = '\0';
+  bapfile += (c + 1);     // next record
+}
+
 /** System of equations handling permanent motion */
 void Humanoid::changePermanent(float lasting)
 {
@@ -360,41 +374,24 @@ void Humanoid::changePermanent(float lasting)
     // get frame from local string bapfile (see gestures.hpp)
     //
     echo("get local bapframe");
-    char k;
     char *p = NULL;
-    int c = 0;
 
     if (! bapframes) {
       //
       // baphdr
       //
-      memset(bapline, 0, 128);
-      for (c = 0; (k = bapfile[c]) != '\n'; c++) {
-        bapline[c] = k;
-      }
-      bapline[c] = '\0';
-      bapfile += (c + 1);	// points next record
-
+      getLine();
       //echo("baphdr: %s (%d)", bapline, c);
+
       p = strrchr(bapline, ' ');
       if (p) {
         bapframes = atoi(++p);
       }
       baptype = bap->parse(bapline);
-      switch (baptype) {
-      case TYPE_BAP_V31:
-        bapparams = NUM_BAPS_V31;
-        break;
-      case TYPE_BAP_V32: 
-        bapparams = NUM_BAPS_V32;
-        break;
-      case TYPE_FAP_V20: 
-      case TYPE_FAP_V21: 
-        bapparams = NUM_FAPS;
-        break;
-      }
+      bapparams = bap->getParams();
       //echo("baptype: %d", baptype);
       //echo("bapframes: %d", bapframes);
+      echo("bapparams: %d", bapparams);
       return;
     }
 
@@ -402,107 +399,89 @@ void Humanoid::changePermanent(float lasting)
     // data bap
     //
 
-    if (bapframes) {
-      //
-      // bapmasks
-      //
-      memset(bapline, 0, 128);
-      for (c = 0; (k = bapfile[c]) != '\n'; c++) {
-        bapline[c] = k;
-      }
-      bapline[c] = '\0';
-      bapfile += (c + 1);	// next record
-      p = bapline;
-      echo("bapmask: %s", bapline);
+    //do {
+     if (bapframes) {
+        //
+        // bapmasks
+        //
+        getLine();
+        echo("bapmask: %s", bapline);
 
-      // masks
-      for (int i=1; i <= bapparams; i++) {
-        if (p) {
-          switch (*p) {
-          case '0': bap->setBit(i, 0); break;
-          case '1': bap->setBit(i, 1); break;
-          }
-          p = strchr(p, ' ');
-          if (! p) break;	// no more mask
-          p++;			// next mask
-        } 
-        else {
-          break;		// no more mask
+        // masks
+        p = bapline;
+        for (int i=1; i <= bapparams; i++) {
+          if (p) {
+            switch (*p) {
+            case '0': bap->setBit(i, 0); break;
+            case '1': bap->setBit(i, 1); break;
+            }
+            p = strchr(p, ' ');
+            if (! p) break;	// no more mask
+            p++;			// next mask
+          } 
+          else {
+            break;		// no more mask
+          } 
         } 
       } 
-    }
 
-    //
-    // bapvalues
-    //
-    memset(bapline, 0, 128);
-    for (c = 0; (k = bapfile[c]) != '\n'; c++) {
-      bapline[c] = k;
-    }
-    bapline[c] = '\0';
-    bapfile += (c + 1);		// next record
-    p = bapline;
-
-    // bapframe
-    bapframe = atoi(bapline);
-    echo("bapframe: %d", bapframe);
-
-    // values
-    p = strchr(bapline, ' ');
-    if (! p) {
-      echo("empty value");
-      goto endbap;		// no more values
-    }
-    p++;			// first value
-    //echo("bapvalue: %s", p);
-
-    for (int i=1; i <= bapparams; i++) {
-      if (! bap->isBit(i)) continue;			// no mask
-      if (i >= TR_VERTICAL && i <= TR_FRONTAL) {	// distance - 170..172 trans
-        bap->setBap(i, static_cast<float> (atof(p)));	// / TR_DIV)));	//magic formula:300
-      }
-      else {						// angle
-        switch (baptype) {
-        case TYPE_BAP_V31:
-          bap->setBap(i, static_cast<float> ((atof(p) / BAPV31_DIV))); //magic formula:1745
-          break;
-        case TYPE_BAP_V32:
-          bap->setBap(i, static_cast<float> ((atof(p) / BAPV32_DIV))); //magic formula:555
-          break;
-        }
-      }
       //
-      // play bapparam
+      // bapvalues
       //
-      switch (baptype) {
-      case TYPE_BAP_V31: case TYPE_BAP_V32: 
-        for (int i=1; i <= bapparams; i++) {
-          if (! bap->isBit(i)) continue;
-          echo("playbap: %d: %d (%.1f)", bapframe, i, bap->getBap(i));
-	  body->play();					// plays bapparam
-        }
-        break;
-      case TYPE_FAP_V20: case TYPE_FAP_V21:
-        for (int i=1; i <= NUM_FAPS; i++) {
-          if (! bap->isBit(i)) continue;
-          if (body->face) {
-            echo("playfap: %d: %d (%.1f)", bapframe, i, bap->getFap(i));
-            body->face->play(i, bap->getFap(i));	// plays fapparam
-          }
-        }
-        break;
-      default:
-        //error("bad baptype: %d", baptype);
-        break;
-      }
-      p = strchr(p, ' ');	// skip space for next value
+      getLine();
+
+      // bapframe
+      bapframe = atoi(bapline);
+      echo("bapframe: %d", bapframe);
+
+      // values
+      p = strchr(bapline, ' ');
       if (! p) {
-        echo("end values");
-        return;			// no more value -> end of values
+        echo("empty value");
+        goto endbap;		// no more values
       }
-      p++;			// next value
-      echo("next value: %s", p);
-    }
+      p++;			// first value
+      //echo("bapvalue: %s", p);
+
+      for (int i=1; i <= bapparams; i++) {
+        if (! bap->isBit(i)) continue;			// no mask
+        bap->setBap(i, static_cast<float> (atof(p)));
+        //
+        // play bapparam
+        //
+        switch (baptype) {
+        case TYPE_BAP_V31: case TYPE_BAP_V32: 
+          for (int i=1; i <= bapparams; i++) {
+            if (! bap->isBit(i)) continue;
+            echo("playbap: %d: %d (%.1f)", bapframe, i, bap->getBap(i));
+	    body->play();				// plays bapparam
+          }
+          break;
+        case TYPE_FAP_V20: case TYPE_FAP_V21:
+          for (int i=1; i <= NUM_FAPS; i++) {
+            if (! bap->isBit(i)) continue;
+            if (body->face) {
+              echo("playfap: %d: %d (%.1f)", bapframe, i, bap->getFap(i));
+              body->face->play(i, bap->getFap(i));	// plays fapparam
+            }
+          }
+          break;
+        default:
+          //error("bad baptype: %d", baptype);
+          break;
+        }
+        p = strchr(p, ' ');	// skip space for next value
+        if (! p) {
+          echo("end of values");
+          return;		// end of values -> next frame
+        }
+        else {
+          p++;			// next value
+          echo("next value: %s", p);
+          //return;
+        }
+      }
+    //} while (bapframe < bapframes) ;
 
 #if 1 //dax
     // tempo 10 ms
@@ -514,7 +493,7 @@ void Humanoid::changePermanent(float lasting)
 
 endbap:
     state = INACTIVE;
-    //echo("end of frames");
+    echo("end of frames");
   } // local playing
 
   bapframes = 0;
