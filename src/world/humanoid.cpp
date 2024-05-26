@@ -306,7 +306,6 @@ void Humanoid::changePermanent(float lasting)
     updatePosition();
   }
 
-  echo("changepermanent");
   if ((sdtcp > 0) && readFrame()) {		// from vaps server
     // bap is ready to be played
     //echo("bapline: %s", bapline);
@@ -373,7 +372,7 @@ void Humanoid::changePermanent(float lasting)
     //
     // get frame from local string bapfile (see gestures.hpp)
     //
-    echo("get local bapframe");
+    //echo("get local bapframe");
     char *p = NULL;
 
     if (! bapframes) {
@@ -391,7 +390,7 @@ void Humanoid::changePermanent(float lasting)
       bapparams = bap->getParams();
       //echo("baptype: %d", baptype);
       //echo("bapframes: %d", bapframes);
-      echo("bapparams: %d", bapparams);
+      //echo("bapparams: %d", bapparams);
       return;
     }
 
@@ -399,89 +398,86 @@ void Humanoid::changePermanent(float lasting)
     // data bap
     //
 
-    //do {
-     if (bapframes) {
-        //
-        // bapmasks
-        //
-        getLine();
-        echo("bapmask: %s", bapline);
-
-        // masks
-        p = bapline;
-        for (int i=1; i <= bapparams; i++) {
-          if (p) {
-            switch (*p) {
-            case '0': bap->setBit(i, 0); break;
-            case '1': bap->setBit(i, 1); break;
-            }
-            p = strchr(p, ' ');
-            if (! p) break;	// no more mask
-            p++;			// next mask
-          } 
-          else {
-            break;		// no more mask
-          } 
-        } 
-      } 
-
+    if (bapframes) {
       //
-      // bapvalues
+      // bapmasks
       //
       getLine();
+      //echo("bapmask: %s", bapline);
 
-      // bapframe
-      bapframe = atoi(bapline);
-      echo("bapframe: %d", bapframe);
-
-      // values
-      p = strchr(bapline, ' ');
-      if (! p) {
-        echo("empty value");
-        goto endbap;		// no more values
-      }
-      p++;			// first value
-      //echo("bapvalue: %s", p);
-
+      // masks
+      p = bapline;
       for (int i=1; i <= bapparams; i++) {
-        if (! bap->isBit(i)) continue;			// no mask
-        bap->setBap(i, static_cast<float> (atof(p)));
-        //
-        // play bapparam
-        //
-        switch (baptype) {
-        case TYPE_BAP_V31: case TYPE_BAP_V32: 
-          for (int i=1; i <= bapparams; i++) {
-            if (! bap->isBit(i)) continue;
-            echo("playbap: %d: %d (%.1f)", bapframe, i, bap->getBap(i));
-	    body->play();				// plays bapparam
+        if (p) {
+          switch (*p) {
+          case '0': bap->setBit(i, 0); break;
+          case '1': bap->setBit(i, 1); break;
           }
-          break;
-        case TYPE_FAP_V20: case TYPE_FAP_V21:
-          for (int i=1; i <= NUM_FAPS; i++) {
-            if (! bap->isBit(i)) continue;
-            if (body->face) {
-              echo("playfap: %d: %d (%.1f)", bapframe, i, bap->getFap(i));
-              body->face->play(i, bap->getFap(i));	// plays fapparam
-            }
-          }
-          break;
-        default:
-          //error("bad baptype: %d", baptype);
-          break;
-        }
-        p = strchr(p, ' ');	// skip space for next value
-        if (! p) {
-          echo("end of values");
-          return;		// end of values -> next frame
-        }
+          p = strchr(p, ' ');
+          if (! p) break;	// no more mask
+          p++;			// next mask
+        } 
         else {
-          p++;			// next value
-          echo("next value: %s", p);
-          //return;
+          break;		// no more mask
+        } 
+      } 
+    } 
+
+    //
+    // bapvalues
+    //
+    getLine();
+
+    // bapframe
+    bapframe = atoi(bapline);
+    //echo("bapframe: %d", bapframe);
+
+    // values
+    p = strchr(bapline, ' ');
+    if (! p) {
+      //error("empty value");
+      goto endbap;		// no more values
+    }
+    p++;			// first value
+    //echo("bapvalue: %s", p);
+
+    for (int i=1; i <= bapparams; i++) {
+      if (! bap->isBit(i)) continue;			// no mask
+      bap->setBap(i, static_cast<float> (atof(p)));
+      //
+      // play bapparam
+      //
+      switch (baptype) {
+      case TYPE_BAP_V31: case TYPE_BAP_V32: 
+        for (int i=1; i <= bapparams; i++) {
+          if (! bap->isBit(i)) continue;
+          //echo("playbap: %d: %d (%.1f)", bapframe, i, bap->getBap(i));
+          body->play();					// plays bapparam
         }
+        break;
+      case TYPE_FAP_V20: case TYPE_FAP_V21:
+        for (int i=1; i <= NUM_FAPS; i++) {
+          if (! bap->isBit(i)) continue;
+          if (body->face) {
+            //echo("playfap: %d: %d (%.1f)", bapframe, i, bap->getFap(i));
+            body->face->play(i, bap->getFap(i));	// plays fapparam
+          }
+        }
+        break;
+      default:
+        //error("bad baptype: %d", baptype);
+        break;
       }
-    //} while (bapframe < bapframes) ;
+      p = strchr(p, ' ');	// skip space for next value
+      if (! p) {
+        //echo("end of values");
+        return;		// end of values -> next frame
+      }
+      else {
+        p++;			// next value
+        //echo("next value: %s", p);
+      }
+    }
 
 #if 1 //dax
     // tempo 10 ms
@@ -493,7 +489,7 @@ void Humanoid::changePermanent(float lasting)
 
 endbap:
     state = INACTIVE;
-    echo("end of frames");
+    //echo("end of frames");
   } // local playing
 
   bapframes = 0;

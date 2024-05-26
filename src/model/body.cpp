@@ -198,7 +198,7 @@ int Forearm::init()
 void Forearm::flexion(float a)
 {
   aflexion = a;
-  echo("forearm: %.1f", a);
+  //echo("forearm: %.1f", a);
 }
 
 void Forearm::torsion(float a)
@@ -235,7 +235,7 @@ void Arm::flexion(float a)
 {
   //dax aflexion = -a;
   aflexion = a;
-  echo("arm: %.0f", a);
+  //echo("arm: %.0f", a);
 }
 
 void Arm::abduct(float a)
