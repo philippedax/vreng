@@ -90,7 +90,7 @@ void Bap::setBap(int param, float val)
     baps[param] = val / BAPV32_DIV;	// magic formula: 555
     break;
   default:
-    baps[param] = val;
+    baps[param] = val / TR_DIV;		// magic formila: 300
   }
 }
 

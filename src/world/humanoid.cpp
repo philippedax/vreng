@@ -479,11 +479,11 @@ void Humanoid::changePermanent(float lasting)
       }
     }
 
-#if 1 //dax
-    // tempo 10 ms
+#if 0 //dax
+    // tempo 20 ms
     struct timeval to;
     to.tv_sec = 0;
-    to.tv_usec = 100000;	// ::g.pref.frame_delay; // 10ms -> 100 fps
+    to.tv_usec = 200000;	// ::g.pref.frame_delay; // 10ms -> 100 fps
     select(0, 0, 0, 0, &to);
 #endif
 

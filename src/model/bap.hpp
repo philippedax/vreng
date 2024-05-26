@@ -35,7 +35,7 @@
 #define TYPE_BAP_V31    31      // 3.1
 #define TYPE_BAP_V32    32      // 3.2
 
-#define TR_DIV		300.f   // I can explain why
+#define TR_DIV		300	// can't explain why
 #define BAPV32_DIV	555     // 180/1e5
 #define BAPV31_DIV	1745    // 180/PI*1e5
 
