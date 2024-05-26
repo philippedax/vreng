@@ -654,11 +654,6 @@ void Humanoid::surp()
   bapfile = const_cast<char *>(surp_fap);
 }
 
-void Humanoid::jag()
-{
-  sendPlay("jag.fap");
-}
-
 void Humanoid::pause_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
 {
   humanoid->pause();
@@ -729,11 +724,6 @@ void Humanoid::surp_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
   humanoid->surp();
 }
 
-void Humanoid::jag_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{
-  humanoid->jag();
-}
-
 /** functions initialization */
 void Humanoid::funcs()
 {
@@ -750,11 +740,10 @@ void Humanoid::funcs()
   setActionFunc(HUMANOID_TYPE, 10, _Action joy_cb, "Joy");
   setActionFunc(HUMANOID_TYPE, 11, _Action sad_cb, "Sad");
   setActionFunc(HUMANOID_TYPE, 12, _Action surp_cb, "Surp");
-  setActionFunc(HUMANOID_TYPE, 13, _Action jag_cb, "Jag");
-  setActionFunc(HUMANOID_TYPE, 14, _Action reset_cb, "Reset");
-  setActionFunc(HUMANOID_TYPE, 15, _Action Face::changeFace, "New");
-  setActionFunc(HUMANOID_TYPE, 16, _Action Face::Yes, "Yes");
-  setActionFunc(HUMANOID_TYPE, 17, _Action Face::No, "No");
-  setActionFunc(HUMANOID_TYPE, 18, _Action Face::EyeL, "EyeL");
-  setActionFunc(HUMANOID_TYPE, 19, _Action Face::Smile, "Smile");
+  setActionFunc(HUMANOID_TYPE, 13, _Action reset_cb, "Reset");
+  setActionFunc(HUMANOID_TYPE, 14, _Action Face::changeFace, "New");
+  setActionFunc(HUMANOID_TYPE, 15, _Action Face::Yes, "Yes");
+  setActionFunc(HUMANOID_TYPE, 16, _Action Face::No, "No");
+  setActionFunc(HUMANOID_TYPE, 17, _Action Face::EyeL, "EyeL");
+  setActionFunc(HUMANOID_TYPE, 18, _Action Face::Smile, "Smile");
 }

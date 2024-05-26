@@ -144,7 +144,6 @@ class Humanoid: public WO {
   void joy();
   void sad();
   void surp();
-  void jag();
   void reset();
 
   // GUI callbacks
@@ -161,7 +160,6 @@ class Humanoid: public WO {
   static void joy_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void sad_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void surp_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
-  static void jag_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void reset_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
 };
 
