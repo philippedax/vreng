@@ -84,13 +84,18 @@ void Bap::setBap(int param, float val)
 {
   switch(baptype) {
   case TYPE_BAP_V31:
-    baps[param] = val / BAPV31_DIV;	// magic formula: 1745
+    baps[param] = val/BAPV31_DIV;	// magic formula: 1745
     break;
   case TYPE_BAP_V32:
-    baps[param] = val / BAPV32_DIV;	// magic formula: 555
+    baps[param] = val/BAPV32_DIV;	// magic formula: 555
     break;
   default:
-    baps[param] = val / TR_DIV;		// magic formila: 300
+    if (param >= TR_VERTICAL && param <= TR_FRONTAL) {	// 170..172 translations
+      baps[param] = val/TR_DIV;		// magic formila: 300
+    }
+    else {
+      baps[param] = val;		// magic formila: 300
+    }
   }
 }
 

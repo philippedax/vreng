@@ -984,7 +984,7 @@ void Body::animLeg(float a, uint8_t side, uint8_t axis)
   switch (side) {
   case 0:
     switch (axis) {
-    case 0: thigh_l->flexion(a); break; //bap->setBap(L_HIP_FLEXION, a);
+    case 0: thigh_l->flexion(a); break;
     case 1: thigh_l->abduct(a); break;
     case 2: thigh_l->torsion(a); break;
     }
