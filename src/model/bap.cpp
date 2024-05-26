@@ -83,7 +83,8 @@ float Bap::getBap(int param) const
 void Bap::setBap(int param, float val)
 {
   if (param >= TR_VERTICAL && param <= TR_FRONTAL) {	// 170..172 translations
-    baps[param] = val/TR_DIV;		// magic formila: 300
+    baps[param] = val;
+    //baps[param] = val/TR_DIV;		// magic formula: 300
   }
   else {
     switch(baptype) {
