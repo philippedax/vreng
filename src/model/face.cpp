@@ -41,6 +41,7 @@
 
 #include <algorithm>
 #include <list>
+#include <vector>
 
 
 static const char headRoot[]		= "root";
@@ -105,15 +106,19 @@ Face::Face(const char *urls)
   moveNose = false;
   indexed = true;
   pathfile[0] = '\0';
-  //dax urlList.empty();
-  urlList.clear();
+
+  urlList.empty();
+  //dax urlList.clear();
   nburl = 0;
   Http::httpOpen(urls, facesreader, this, 0);
-  //dax nburl = urlList.count();
-  nburl = urlList.size();
+  nburl = urlList.count();
+  //dax nburl = urlList.size();
   curl = rand() % nburl;
   //echo("nburl: %d %d", nburl, curl);
-  //dax curl = rand() % urlList.count();
+  curl = rand() % urlList.count();
+  //dax for (vector<char*>::iterator it = urlList.begin(); it != urlList.end(); ++it) {
+  //dax   echo("list: %s", *it);
+  //dax }
 }
 
 Face::~Face()
@@ -141,13 +146,9 @@ void Face::facesreader(void *_face, Http *http)
     return;
   }
   while (cache->nextLine(f, url)) {
-    if  (strlen(url) < 2) {
-      error("url: url=%02x %02x", url[0], url[1]);
-      break;
-    }
     //echo("facesreader: add %s", url);
-    //dax face->urlList.addElement(url);
-    face->urlList.push_back(url);
+    face->urlList.addElement(url);
+    //dax face->urlList.push_back(url);
   }
   cache->close();
   delete cache;
@@ -158,28 +159,29 @@ void Face::change()
 {
   if (! indexed) return;
 
-  uint8_t idx = 0;
+  //dax uint8_t idx = 0;
   curl++;
   curl %= nburl;
-  //dax curl %= urlList.count();
-  //dax char *url = urlList.getElement(curl);
-  char *url = new char[URL_LEN];
-  for (list<char*>::iterator it = urlList.begin(); it != urlList.end(); ++it) {
-    if (idx == curl) {
-      strcpy(url, *it);
-      echo("found: %s %d", *it, idx);
-      break;
-    }
-    idx++;
-  }
+  curl %= urlList.count();
+  char *url = urlList.getElement(curl);
+  //dax char *url = new char[URL_LEN];
+  //dax for (vector<char*>::iterator it = urlList.begin(); it != urlList.end(); ++it) {
+  //dax   echo("list: %s", *it);
+  //dax   if (idx == curl) {
+  //dax     strcpy(url, *it);
+  //dax     echo("found: %s %d", *it, idx);
+  //dax     break;
+  //dax   }
+  //dax   idx++;
+  //dax }
   echo("change: %d/%d url=%s", curl, nburl, url);
   if (! isascii(url[0])) {
-    error("change: BUG! url=%02x", url[0]);
+    error("change: BUG! url=%02x %02x", url[0], url[1]);
     return;
   }
-  //echo("url: %s", url);
+  //dax echo("url: %s", url);
   load(url);
-  delete [] url;
+  //dax delete [] url;
 }
 
 /** Loads V3D file */

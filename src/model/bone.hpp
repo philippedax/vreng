@@ -94,7 +94,7 @@ template <class BoneElem> class BoneNode {
  *
  * Class BoneList:
  * la classe liste est la classe principale de gestion de la liste chainee.
- * Il stocke les noeuds contenant les pointeurs sur elements a la queu leu leu
+ * Elle stocke les noeuds contenant les pointeurs sur elements a la queu leu leu
  * en commencant par 'listHead'
  * Methodes : void  empty (void)
  *            int   count (void)
@@ -112,7 +112,7 @@ template <class BoneElem> class BoneList {
   BoneNode <BoneElem> *listEnd;		///< Queue de la liste chainee
   BoneElem            **element;	///< Table contenant les pointeurs sur element lors de la compilation de la liste en tableau
   int                  elements;	///< Nombre d'elements dans la table lors de la compilation de la liste en tableau
-  int                  built;	///< Masque disant si la liste est compilee ou non
+  int                  built;		///< Masque disant si la liste est compilee ou non
 
   BoneNode <BoneElem> *getFirstNode() { return listHead; }
   /**< Recherche du premier noeud de la liste */
@@ -127,13 +127,13 @@ template <class BoneElem> class BoneList {
   void rebuild() {
     if (built) return;
 
-    BoneNode <BoneElem> *curNode = listHead;
+    BoneNode <BoneElem> *node = listHead;
 
     elements = count();
     FREE(element);
-    element = (BoneElem **) malloc (elements * sizeof(BoneElem *));
-    for (int i=0; i<elements; i++, curNode = curNode->getNext()) {
-      element[i] = curNode->getElem();
+    element = (BoneElem **) malloc(elements * sizeof(BoneElem *));
+    for (int i=0; i<elements; i++, node = node->getNext()) {
+      element[i] = node->getElem();
     }
     built = 1;
   }
@@ -141,10 +141,10 @@ template <class BoneElem> class BoneList {
   /** Fonction recursive de vidage de la liste, il
    * s'agit d'appeler le vidage du fils puis de liberer le fils
    */
-  void recursiveEmpty(BoneNode <BoneElem> *curNode) {
-    if (curNode) {
-      recursiveEmpty(curNode->getNext());
-      delete curNode;
+  void recursiveEmpty(BoneNode <BoneElem> *node) {
+    if (node) {
+      recursiveEmpty(node->getNext());
+      delete node;
     }
   }
 
@@ -173,10 +173,10 @@ template <class BoneElem> class BoneList {
 
   // Comptage du nombre d'elements de la liste
   int count() {
-    BoneNode <BoneElem> *curNode = listHead;
+    BoneNode <BoneElem> *node = listHead;
     int n = 0;
-    while (curNode) {
-      curNode = curNode->getNext();
+    while (node) {
+      node = node->getNext();
       n++;
     }
     return n;
@@ -185,14 +185,14 @@ template <class BoneElem> class BoneList {
   // Fonction d'acces a un element de la liste retourne NULL si
   // l'index est inferieur a 0 ou superieur au nombre d'elements
   BoneElem *getElement(int index) {
-    BoneNode<BoneElem> *curNode = listHead;
+    BoneNode<BoneElem> *node = listHead;
     BoneElem *result = NULL;
-    while (curNode && index > 0) {
-      curNode = curNode->getNext();
+    while (node && index > 0) {
+      node = node->getNext();
       index--;
     }
-    if (curNode && index == 0)
-      result = curNode->getElem();
+    if (node && index == 0)
+      result = node->getElem();
     return result;
   }
 
@@ -235,7 +235,7 @@ template <class BoneElem> class BoneList {
     if (! listHead) return;
 
     BoneNode<BoneElem> *prevNode;
-    BoneNode<BoneElem> *curNode;
+    BoneNode<BoneElem> *node;
     BoneNode<BoneElem> *nextNode;
 
     if (index == 0) { // Cas particulier de la tete
@@ -245,15 +245,15 @@ template <class BoneElem> class BoneList {
       listHead = nextNode;
     }
     else { // Autre cas
-      curNode = listHead;
-      while ((index > 0) && curNode) {
-        curNode = curNode->getNext();
+      node = listHead;
+      while ((index > 0) && node) {
+        node = node->getNext();
         index--;
       }
-      if (curNode) {
-        nextNode = curNode->getNext();
-        prevNode = curNode->getPrev();
-        delete curNode;
+      if (node) {
+        nextNode = node->getNext();
+        prevNode = node->getPrev();
+        delete node;
         if (nextNode) nextNode->setPrev(prevNode);
         if (prevNode) prevNode->setNext(nextNode);
       }
@@ -267,7 +267,7 @@ template <class BoneElem> class BoneList {
     if (! listHead) return;
 
     BoneNode<BoneElem> *prevNode;
-    BoneNode<BoneElem> *curNode;
+    BoneNode<BoneElem> *node;
     BoneNode<BoneElem> *nextNode;
 
     if (ptr == listHead->getElem()) { // Cas particulier de la tete
@@ -277,14 +277,14 @@ template <class BoneElem> class BoneList {
       listHead = nextNode;
     }
     else { // Autre cas
-      curNode = listHead;
-      while ((curNode) && (curNode->getElem() != ptr)) {
-        curNode = curNode->getNext();
+      node = listHead;
+      while ((node) && (node->getElem() != ptr)) {
+        node = node->getNext();
       }
-      if (curNode) {
-        nextNode = curNode->getNext();
-        prevNode = curNode->getPrev();
-        delete curNode;
+      if (node) {
+        nextNode = node->getNext();
+        prevNode = node->getPrev();
+        delete node;
         if (nextNode) nextNode->setPrev(prevNode);
         if (prevNode) prevNode->setNext(nextNode);
       }
@@ -337,8 +337,6 @@ class Bonename {
 class BoneVertex : public Bonename {
  public:
 
-  // Datas in the bone vertex class
-
   // -> Position at the begining
   Vect3D iniPosition;
   float  iniAngle;
@@ -358,7 +356,7 @@ class BoneVertex : public Bonename {
 
   // -> Links management
   // (a link is defined by a bone vertex, a vertex of the mesh and a weight)
-  BoneList < BoneLink > linkList;
+  BoneList <BoneLink> linkList;
   BoneLink **link;
   int links;
   int compiled;
@@ -580,7 +578,6 @@ class BoneTriangle {
  * BoneMesh class
  */
 class BoneMesh : public Bonename {
-
  public:
 
   // Gestion des sommets
@@ -676,7 +673,7 @@ class Bone {
   //notused void animateSkeletonNode(BoneVertex *node);
 
  private:
-  void addNodeAndChildren(BoneVertex *boneVertex, BoneList < BoneVertex > *list);
+  void addNodeAndChildren(BoneVertex *boneVertex, BoneList <BoneVertex> *list);
 };
 
 #endif

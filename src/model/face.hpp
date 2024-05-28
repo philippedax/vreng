@@ -35,6 +35,7 @@
 #include "bone.hpp"	// The bone class
 
 #include <list>
+#include <vector>
 
 class Http;
 
@@ -45,11 +46,11 @@ class Face {
   friend class Body;		///< SCALE
   friend class Humanoid;	///< actions
 
- protected:
+ private:
   static const float SCALE;
 
-  //dax BoneList < char > urlList;	///< list of v3d faces url
-  std::list <char*> urlList;	///< list of v3d faces url
+  BoneList <char> urlList;///< list of v3d faces url
+  //dax std::vector<char*> urlList;	///< list of v3d faces url
 
   uint8_t curl;		///< current url
   uint8_t nburl;	///< number of urls
