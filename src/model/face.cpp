@@ -39,6 +39,9 @@
 #include "cache.hpp"	// setCachePath, open
 #include "bone.hpp"	// BoneMesh, BoneSkel
 
+#include <algorithm>
+#include <list>
+
 
 static const char headRoot[]		= "root";
 static const char lipsRoot[]		= "lipsRoot";
@@ -102,9 +105,15 @@ Face::Face(const char *urls)
   moveNose = false;
   indexed = true;
   pathfile[0] = '\0';
-  urlList.empty();
-  Http::httpOpen(urls, facereader, this, 0);
-  curl = rand() % urlList.count();
+  //dax urlList.empty();
+  urlList.clear();
+  nburl = 0;
+  Http::httpOpen(urls, facesreader, this, 0);
+  //dax nburl = urlList.count();
+  nburl = urlList.size();
+  curl = rand() % nburl;
+  //echo("nburl: %d %d", nburl, curl);
+  //dax curl = rand() % urlList.count();
 }
 
 Face::~Face()
@@ -115,15 +124,14 @@ Face::~Face()
   root = NULL;
 }
 
-/** Downloads list of face url */
-void Face::facereader(void *_face, Http *http)
+/** Downloads list of face url - static */
+void Face::facesreader(void *_face, Http *http)
 {
   Face *face = static_cast<Face *>(_face);
   if (! http) {
     return;
   }
-
-  char line[URL_LEN];
+  char url[URL_LEN];
 
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);
@@ -132,11 +140,14 @@ void Face::facereader(void *_face, Http *http)
     delete cache;
     return;
   }
-  while (cache->nextLine(f, line)) {
-    char *faceurl = strdup(line);
-    //echo("facereader: add url=%s", faceurl);
-    face->urlList.addElement(faceurl);
-    free(faceurl);
+  while (cache->nextLine(f, url)) {
+    if  (strlen(url) < 2) {
+      error("url: url=%02x %02x", url[0], url[1]);
+      break;
+    }
+    //echo("facesreader: add %s", url);
+    //dax face->urlList.addElement(url);
+    face->urlList.push_back(url);
   }
   cache->close();
   delete cache;
@@ -147,16 +158,28 @@ void Face::change()
 {
   if (! indexed) return;
 
+  uint8_t idx = 0;
   curl++;
-  curl %= urlList.count();
-  char *urlface = urlList.getElement(curl);
-  //echo("change: %d/%d urlface=%s", curl, urlList.count(), urlface);
-  if (! isascii(urlface[0])) {
-    error("change: BUG! urlface=%02x", urlface[0]);
+  curl %= nburl;
+  //dax curl %= urlList.count();
+  //dax char *url = urlList.getElement(curl);
+  char *url = new char[URL_LEN];
+  for (list<char*>::iterator it = urlList.begin(); it != urlList.end(); ++it) {
+    if (idx == curl) {
+      strcpy(url, *it);
+      echo("found: %s %d", *it, idx);
+      break;
+    }
+    idx++;
+  }
+  echo("change: %d/%d url=%s", curl, nburl, url);
+  if (! isascii(url[0])) {
+    error("change: BUG! url=%02x", url[0]);
     return;
   }
-  echo("urlface: %s", urlface);
-  load(urlface);
+  //echo("url: %s", url);
+  load(url);
+  delete [] url;
 }
 
 /** Loads V3D file */

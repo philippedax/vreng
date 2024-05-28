@@ -34,6 +34,8 @@
 #include "wobject.hpp"
 #include "bone.hpp"	// The bone class
 
+#include <list>
+
 class Http;
 
 /**
@@ -46,9 +48,11 @@ class Face {
  protected:
   static const float SCALE;
 
-  BoneList < char > urlList;	///< list of v3d faces url
+  //dax BoneList < char > urlList;	///< list of v3d faces url
+  std::list <char*> urlList;	///< list of v3d faces url
 
   uint8_t curl;		///< current url
+  uint8_t nburl;	///< number of urls
   bool indexed;		///< flag if url index
   bool moveYes;		///< flag move yes
   bool moveNo;		///< flag move no
@@ -90,7 +94,7 @@ class Face {
   void animNose(float a, const char *side);
 
  private:
-  static void facereader(void *_o, Http *http);
+  static void facesreader(void *_o, Http *http);
 
   // GUI callbacks
   static void Yes(class Humanoid *o, void *d, time_t s, time_t u);
