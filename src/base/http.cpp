@@ -531,8 +531,8 @@ int Http::read_char()
   return http_buf[http_pos++];
 }
 
-/** Returns a block and its size */
-uint32_t Http::read_buf(char *buf, int maxlen)
+/** Returns a block and its size else 0 if eof */
+int Http::read_buf(char *buf, int maxlen)
 {
   int32_t siz = http_len - http_pos;
 
@@ -547,7 +547,7 @@ uint32_t Http::read_buf(char *buf, int maxlen)
     int r = httpRead(buf+siz, maxlen-siz);
     if (r == 0) {
       http_eof = true;
-      return -1;	// http eof
+      return 0;	// http eof
     }
     uint32_t size = siz + r;
     return size;

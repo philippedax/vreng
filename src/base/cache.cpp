@@ -127,8 +127,7 @@ http_reread:
     //
     // reads and writes the remaining
     //
-    while (! http->heof()) {
-      http->read_buf(buf, 1);
+    while (http->read_buf(buf, 1)) {
       fwrite(buf, 1, 1, fpw);
     }
     fflush(fpw);

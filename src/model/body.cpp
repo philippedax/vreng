@@ -1188,7 +1188,7 @@ void Body::rotX(int side, uint8_t model)
   int sign = (side >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef( sign * bap->getBap(abs(side)), 1,0,0); break;
-  case MODEL_OBJ: glRotatef(-sign * bap->getBap(abs(side)), 0,1,0); break;
+  case MODEL_OBJ: glRotatef(+sign * bap->getBap(abs(side)), 0,1,0); break;
   }
 }
 

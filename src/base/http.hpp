@@ -121,7 +121,7 @@ class Http {
   bool nextLine(char *line);
   /**< Gets nextline. */
 
-  uint32_t read_buf(char *buf, int maxlen);
+  int read_buf(char *buf, int maxlen);
   /**< Gets a block. */
 
   //notused int32_t read_int();
