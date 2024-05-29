@@ -188,7 +188,7 @@ int File::read_string(FILE *f, char *str, int maxlen)
 }
 
 /** Reads a bloc */
-void File::read_buf(FILE *f, char *buf, int len)
+int File::read_buf(FILE *f, char *buf, int len)
 {
   int c;
   int cnt = 0;
@@ -199,6 +199,7 @@ void File::read_buf(FILE *f, char *buf, int len)
     cnt++;
     len--;
   } while (len != 0) ;
+  return cnt;
 }
 
 /** Skips an offset */

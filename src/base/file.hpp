@@ -51,8 +51,8 @@ class File {
   float read_float_be(FILE *f);
   float read_float(FILE *f);
   int read_string(FILE *f, char *s, int maxlen);
-  void read_buf(FILE *f, char *s, int len);
-  void skip(FILE *f, int skiplen);
+  int read_buf(FILE *f, char *s, int len);
+  void skip(FILE *f, int offset);
   bool nextLine(FILE *f, char *line);
 };
 
