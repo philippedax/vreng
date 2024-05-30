@@ -26,7 +26,7 @@
 #include "cache.hpp"
 #include "file.hpp"	// open, close
 #include "url.hpp"	// abs
-#include "http.hpp"	// read_buf
+#include "http.hpp"	// readHttp
 #include "env.hpp"	// ::g.env.cache
 #include "pref.hpp"	// ::g.pref.refresh
 #include "str.hpp"	// stringcmp
@@ -113,7 +113,7 @@ http_reread:
     //
     // checks if the head of the downloaded file is valid
     //
-    http->read_buf(buf, 14);	// read head to check if correct
+    http->readHttp(buf, 14);	// read head to check if correct
     if (strncmp(buf, "<!DOCTYPE HTML", 14) == 0) {	// hack!!!
       // Httpd-err occured (404)
       fileout->close();
@@ -127,7 +127,7 @@ http_reread:
     //
     // reads and writes the remaining
     //
-    while (http->read_buf(buf, 1)) {
+    while (http->readHttp(buf, 1)) {
       fwrite(buf, 1, 1, fpw);
     }
     fflush(fpw);
@@ -198,7 +198,7 @@ FILE * Cache::openCache(const char *url, Http *http)
     // writes the file into the cache FIXED!!!
     char buf[4];
     while (! http->heof()) {
-      http->read_buf(buf, 4);
+      http->readHttp(buf, 4);
       fwrite(buf, 4, 1, fp);
     }
     fflush(fp);
