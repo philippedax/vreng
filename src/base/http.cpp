@@ -21,7 +21,7 @@
 //
 // http.cpp
 //
-// Http operations
+// Http I/Os operations
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "http.hpp"
@@ -122,10 +122,10 @@ int Http::putfifo()
 
   /* start new thread */
   Vpthread_t tid;
-  return pthread_create(&tid, NULL, Http::connection, static_cast<void *>(this));
+  return pthread_create(&tid, NULL, Http::connection, static_cast<void *> (this));
 
 #else
-  Http::connection(static_cast<void *>(this));
+  Http::connection(static_cast<void *> (this));
   return 0;
 #endif
 }
@@ -202,7 +202,7 @@ int Http::httpOpen(const char *url,
       return http->putfifo();		// yes, put it into fifo
     }
     else {
-      connection(static_cast<void *>(http));	// it's not a thread
+      connection(static_cast<void *> (http));	// it's not a thread
       ::g.timer.image.stop();
     }
   }
@@ -212,7 +212,7 @@ int Http::httpOpen(const char *url,
 /** Makes a http connection */
 void * Http::connection(void *_http)
 {
-  Http *http = static_cast<Http *>(_http);
+  Http *http = static_cast<Http *> (_http);
 
   checkProxy();
 
@@ -421,7 +421,7 @@ httpretry:
                 //echo("mime=%s %s", p, http->url);
                 // only for textures
                 if (http->handle && strcmp(p, "plain")) {
-                  Texture *tex = static_cast<Texture *>(http->handle);
+                  Texture *tex = static_cast<Texture *> (http->handle);
                   tex->setMime(p);
                 }
               }
@@ -500,7 +500,7 @@ int Http::httpRead(char *pbuf, int maxl)
 // Http IOs methods
 //
 
-static uint8_t http_buf[BUFSIZ];
+static char    http_buf[BUFSIZ];
 static int32_t http_pos = 0;
 static int32_t http_len = 0;
 static bool    http_eof = false;
@@ -518,12 +518,12 @@ bool Http::heof()
   return http_eof;
 }
 
-/** Returns a byte */
+/** Returns a http byte */
 int Http::read_char()
 {
   if (http_pos >= http_len) {	// eob
     http_pos = 0;
-    if ((http_len = httpRead(reinterpret_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead((http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
       return 0;		// http eof
     }
@@ -539,7 +539,7 @@ int Http::read_buf(char *buf, int maxlen)
   if (siz >= maxlen) {
     memcpy(buf, http_buf, maxlen);
     http_pos += maxlen;
-    return static_cast<uint32_t>(maxlen);
+    return maxlen;
   }
   else {
     memcpy(buf, http_buf, siz);
@@ -628,7 +628,7 @@ int Http::getChar()
 {
   if (http_pos >= http_len) {	// eob
     http_pos = 0;
-    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return 0;		// http eof
     }
@@ -647,7 +647,7 @@ int32_t Http::read_int()
   int32_t val;
 
   if (http_pos >= http_len) {
-    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return 0;		// http eof
     }
@@ -655,7 +655,7 @@ int32_t Http::read_int()
   }
   val = http_buf[http_pos++];
   if (http_pos >= http_len) {
-    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return 0;		// http eof
     }
@@ -663,7 +663,7 @@ int32_t Http::read_int()
   }
   val |= (http_buf[http_pos++] << 8);
   if (http_pos >= http_len) {
-    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return 0;		// http eof
     }
@@ -671,7 +671,7 @@ int32_t Http::read_int()
   }
   val |= (http_buf[http_pos++] << 16);
   if (http_pos >= http_len) {
-    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return 0;		// http eof
     }
@@ -691,7 +691,7 @@ int32_t Http::read_long()
 float Http::read_float()
 {
   int32_t n = read_long();
-  return static_cast<float>(*((float *) &n));
+  return static_cast<float> (*((float *) &n));
 }
 
 /** Returns a short */
@@ -737,7 +737,7 @@ uint32_t Http::skip(int32_t skiplen)
   else {
     skiplen -= ptr;
     while (skiplen > 0) {
-      if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
+      if ((http_len = httpRead(http_buf, sizeof(http_buf))) == 0) {
         break;
       }
       if (skiplen >= http_len) {
@@ -760,7 +760,7 @@ int Http::fread(char *pbuf, int size, int nitems)
 
   while (len > 0) {
     if (http_pos >= http_len) {
-      if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) < 0) {
+      if ((http_len = httpRead(http_buf, sizeof(http_buf))) < 0) {
         http_eof = true;
         return (nitems - (len / size));
       }
