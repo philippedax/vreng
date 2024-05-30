@@ -21,7 +21,7 @@
 //
 // http.cpp
 //
-// Http operations
+// Http I/Os operations
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "http.hpp"
@@ -122,10 +122,10 @@ int Http::putfifo()
 
   /* start new thread */
   Vpthread_t tid;
-  return pthread_create(&tid, NULL, Http::connection, static_cast<void *>(this));
+  return pthread_create(&tid, NULL, Http::connection, static_cast<void *> (this));
 
 #else
-  Http::connection(static_cast<void *>(this));
+  Http::connection(static_cast<void *> (this));
   return 0;
 #endif
 }
@@ -202,7 +202,7 @@ int Http::httpOpen(const char *url,
       return http->putfifo();		// yes, put it into fifo
     }
     else {
-      connection(static_cast<void *>(http));	// it's not a thread
+      connection(static_cast<void *> (http));	// it's not a thread
       ::g.timer.image.stop();
     }
   }
@@ -212,7 +212,7 @@ int Http::httpOpen(const char *url,
 /** Makes a http connection */
 void * Http::connection(void *_http)
 {
-  Http *http = static_cast<Http *>(_http);
+  Http *http = static_cast<Http *> (_http);
 
   checkProxy();
 
@@ -421,7 +421,7 @@ httpretry:
                 //echo("mime=%s %s", p, http->url);
                 // only for textures
                 if (http->handle && strcmp(p, "plain")) {
-                  Texture *tex = static_cast<Texture *>(http->handle);
+                  Texture *tex = static_cast<Texture *> (http->handle);
                   tex->setMime(p);
                 }
               }
@@ -691,7 +691,7 @@ int32_t Http::read_long()
 float Http::read_float()
 {
   int32_t n = read_long();
-  return static_cast<float>(*((float *) &n));
+  return static_cast<float> (*((float *) &n));
 }
 
 /** Returns a short */
