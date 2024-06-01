@@ -78,7 +78,7 @@ class Face {
   /**< Render the face */
 
   void play();
-  void play(int fapn, int value);
+  void play(int fapn, float angle);
   /**< Animates the face */
 
   void change();

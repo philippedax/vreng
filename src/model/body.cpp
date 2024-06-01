@@ -155,16 +155,19 @@ int Hand::init()
 void Hand::flexion(float a)
 {
   aflexion = a;
+  echo("f-hand: %.0f", a);
 }
 
 void Hand::abduct(float a)
 {
   aabduct = a;
+  echo("a-hand: %.0f", a);
 }
 
 void Hand::torsion(float a)
 {
   atorsion = a;
+  echo("t-hand: %.0f", a);
 }
 
 float Hand::a_flexion() const
@@ -198,12 +201,13 @@ int Forearm::init()
 void Forearm::flexion(float a)
 {
   aflexion = a;
-  //echo("forearm: %.1f", a);
+  echo("f-fore: %.0f", a);
 }
 
 void Forearm::torsion(float a)
 {
   atorsion = a;
+  echo("t-fore: %.0f", a);
 }
 
 float Forearm::a_flexion() const
@@ -235,19 +239,21 @@ void Arm::flexion(float a)
 {
   //dax aflexion = -a;
   aflexion = a;
-  //echo("arm: %.0f", a);
+  echo("f-arm: %.0f", a);
 }
 
 void Arm::abduct(float a)
 {
   //dax aabduct = a - 90;
   aabduct = a;
+  echo("a-arm: %.0f", a);
 }
 
 void Arm::torsion(float a)
 {
   //dax atorsion = a + 90;
   atorsion = a;
+  echo("t-arm: %.0f", a);
 }
 
 float Arm::a_flexion() const
@@ -281,11 +287,13 @@ int Shoulder::init()
 void Shoulder::flexion(float a)
 {
   aflexion = a;
+  echo("f-shoul: %.0f", a);
 }
 
 void Shoulder::abduct(float a)
 {
   aabduct = a;
+  echo("a-shoul: %.0f", a);
 }
 
 float Shoulder::a_flexion() const
@@ -313,16 +321,19 @@ int HeadBody::init()
 void HeadBody::flexion(float a)
 {
   aflexion = a;
+  echo("f-head: %.0f", a);
 }
 
 void HeadBody::abduct(float a)
 {
   aabduct = a;
+  echo("a-head: %.0f", a);
 }
 
 void HeadBody::torsion(float a)
 {
   atorsion = a;
+  echo("t-head: %.0f", a);
 }
 
 float HeadBody::a_flexion() const
@@ -356,16 +367,19 @@ int Neck::init()
 void Neck::flexion(float a)
 {
   aflexion = a;
+  echo("f-neck: %.0f", a);
 }
 
 void Neck::abduct(float a)
 {
   aabduct = a;
+  echo("a-neck: %.0f", a);
 }
 
 void Neck::torsion(float a)
 {
   atorsion = a;
+  echo("t-neck: %.0f", a);
 }
 
 float Neck::a_flexion() const
