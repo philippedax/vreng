@@ -34,8 +34,8 @@
 #define TYPE_FAP_V20	20	// 2.0
 #define TYPE_FAP_V21	21	// 2.1
 
-#define FAPV20_DIV	20	// I can explain why
-#define FAPV21_DIV	1	// I can explain why
+#define FAPV20_DIV	20	// I can't explain why
+#define FAPV21_DIV	1	// I can't explain why
 
 // FAP names
 #define VISEME			1

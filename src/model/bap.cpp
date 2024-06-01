@@ -89,10 +89,16 @@ void Bap::setBap(int param, float val)
   else {
     switch(baptype) {
     case TYPE_BAP_V31:
-      baps[param] = val/BAPV31_DIV;	// magic formula: 1745
+      baps[param] = val/BAPV31_DIV;	// magic formula: 1745 (PI * 100000 / 180)
       break;
     case TYPE_BAP_V32:
-      baps[param] = val/BAPV32_DIV;	// magic formula: 555
+      baps[param] = val/BAPV32_DIV;	// magic formula: 555 (100000 / 180)
+      break;
+    case TYPE_FAP_V20:
+      faps[param] = val/FAPV20_DIV;	// magic formula: 20
+      break;
+    case TYPE_FAP_V21:
+      faps[param] = val/FAPV21_DIV;	// magic formula: 1
       break;
     default:
       baps[param] = val;
@@ -211,9 +217,9 @@ uint8_t Bap::parse(char *bapline)
         if (bits[i] == 0) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
         if (baptype == TYPE_FAP_V20)
-          faps[i] = static_cast<float>(atof(l) / FAPV20_DIV);		// fap formula
+          faps[i] = static_cast<float>(atof(l) / FAPV20_DIV);	// fap formula
         else
-          faps[i] = static_cast<float>(atof(l) / FAPV21_DIV);		// fap formula
+          faps[i] = static_cast<float>(atof(l) / FAPV21_DIV);	// fap formula
       }
       if (frame < frames) {
         //echo("end of fap frames");
