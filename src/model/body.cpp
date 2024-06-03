@@ -30,6 +30,7 @@
 #include "format.hpp"	// getModelByUrl
 #include "user.hpp"	// localuser
 #include "cache.hpp"	// open, close
+#include "pref.hpp"	// dbgtrace
 
 
 const float Phalanx2::PHALANX2_LEN = 0.012;	// default phalanx2 length
@@ -155,19 +156,19 @@ int Hand::init()
 void Hand::flexion(float a)
 {
   aflexion = a;
-  echo("f-hand: %.0f", a);
+  if (::g.pref.dbgtrace) echo("f-hand: %.0f", a);
 }
 
 void Hand::abduct(float a)
 {
   aabduct = a;
-  echo("a-hand: %.0f", a);
+  if (::g.pref.dbgtrace) echo("a-hand: %.0f", a);
 }
 
 void Hand::torsion(float a)
 {
   atorsion = a;
-  echo("t-hand: %.0f", a);
+  if (::g.pref.dbgtrace) echo("t-hand: %.0f", a);
 }
 
 float Hand::a_flexion() const
@@ -201,13 +202,13 @@ int Forearm::init()
 void Forearm::flexion(float a)
 {
   aflexion = a;
-  echo("f-fore: %.0f", a);
+  if (::g.pref.dbgtrace) echo("f-fore: %.0f", a);
 }
 
 void Forearm::torsion(float a)
 {
   atorsion = a;
-  echo("t-fore: %.0f", a);
+  if (::g.pref.dbgtrace) echo("t-fore: %.0f", a);
 }
 
 float Forearm::a_flexion() const
@@ -239,21 +240,21 @@ void Arm::flexion(float a)
 {
   //dax aflexion = -a;
   aflexion = a;
-  echo("f-arm: %.0f", a);
+  if (::g.pref.dbgtrace) echo("f-arm: %.0f", a);
 }
 
 void Arm::abduct(float a)
 {
   //dax aabduct = a - 90;
   aabduct = a;
-  echo("a-arm: %.0f", a);
+  if (::g.pref.dbgtrace) echo("a-arm: %.0f", a);
 }
 
 void Arm::torsion(float a)
 {
   //dax atorsion = a + 90;
   atorsion = a;
-  echo("t-arm: %.0f", a);
+  if (::g.pref.dbgtrace) echo("t-arm: %.0f", a);
 }
 
 float Arm::a_flexion() const
@@ -367,19 +368,19 @@ int Neck::init()
 void Neck::flexion(float a)
 {
   aflexion = a;
-  echo("f-neck: %.0f", a);
+  if (::g.pref.dbgtrace) echo("f-neck: %.0f", a);
 }
 
 void Neck::abduct(float a)
 {
   aabduct = a;
-  echo("a-neck: %.0f", a);
+  if (::g.pref.dbgtrace) echo("a-neck: %.0f", a);
 }
 
 void Neck::torsion(float a)
 {
   atorsion = a;
-  echo("t-neck: %.0f", a);
+  if (::g.pref.dbgtrace) echo("t-neck: %.0f", a);
 }
 
 float Neck::a_flexion() const

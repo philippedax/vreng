@@ -94,12 +94,6 @@ void Bap::setBap(int param, float val)
     case TYPE_BAP_V32:
       baps[param] = val/BAPV32_DIV;	// magic formula: 555 (100000 / 180)
       break;
-    case TYPE_FAP_V20:
-      faps[param] = val/FAPV20_DIV;	// magic formula: 20
-      break;
-    case TYPE_FAP_V21:
-      faps[param] = val/FAPV21_DIV;	// magic formula: 1
-      break;
     default:
       baps[param] = val;
     }
@@ -115,10 +109,19 @@ float Bap::getFap(int param) const
 /** Sets fap value */
 void Bap::setFap(int param, float val)
 {
-  faps[param] = val;
+  switch(baptype) {
+  case TYPE_FAP_V20:
+    faps[param] = val/FAPV20_DIV;	// magic formula: 20
+    break;
+  case TYPE_FAP_V21:
+    faps[param] = val/FAPV21_DIV;	// magic formula: 1
+    break;
+  default:
+    faps[param] = val;
+  }
 }
 
-/** Parses a bap line - returns baptype else if error 0 */
+/** Parses a bap line - returns baptype else if error 0 - bapline will be tokenized */
 uint8_t Bap::parse(char *bapline)
 {
   if (! strcmp(bapline, ""))  return 0;  // discard empty bapline

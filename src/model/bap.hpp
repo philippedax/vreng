@@ -36,8 +36,8 @@
 #define TYPE_BAP_V32    32      // 3.2
 
 #define TR_DIV		300	// can't explain why
-#define BAPV32_DIV	555     // 180/1e5
-#define BAPV31_DIV	1745    // 180/PI*1e5
+#define BAPV32_DIV	555     // 1e5 / 180
+#define BAPV31_DIV	1745    // PI*1e5 / 180
 
 // MPEG4 Bap parameters
 #define	PELVIC_TILT		1
