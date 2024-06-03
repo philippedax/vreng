@@ -697,11 +697,6 @@ void Humanoid::test_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
   humanoid->test();
 }
 
-void Humanoid::reset_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{
-  humanoid->reset();
-}
-
 void Humanoid::eyes_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
 {
   humanoid->eyes();
@@ -738,10 +733,9 @@ void Humanoid::funcs()
   setActionFunc(HUMANOID_TYPE, 10, _Action joy_cb, "Joy");
   setActionFunc(HUMANOID_TYPE, 11, _Action sad_cb, "Sad");
   setActionFunc(HUMANOID_TYPE, 12, _Action surp_cb, "Surp");
-  setActionFunc(HUMANOID_TYPE, 13, _Action reset_cb, "Reset");
-  setActionFunc(HUMANOID_TYPE, 14, _Action Face::changeFace, "New");
-  setActionFunc(HUMANOID_TYPE, 15, _Action Face::Yes, "Yes");
-  setActionFunc(HUMANOID_TYPE, 16, _Action Face::No, "No");
-  setActionFunc(HUMANOID_TYPE, 17, _Action Face::EyeL, "EyeL");
-  setActionFunc(HUMANOID_TYPE, 18, _Action Face::Smile, "Smile");
+  setActionFunc(HUMANOID_TYPE, 13, _Action Face::changeFace, "New");
+  setActionFunc(HUMANOID_TYPE, 14, _Action Face::Yes, "Yes");
+  setActionFunc(HUMANOID_TYPE, 15, _Action Face::No, "No");
+  setActionFunc(HUMANOID_TYPE, 16, _Action Face::EyeL, "EyeL");
+  setActionFunc(HUMANOID_TYPE, 17, _Action Face::Smile, "Smile");
 }
