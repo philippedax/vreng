@@ -27,6 +27,8 @@
 #include "cache.hpp"	// open, close
 #include "texture.hpp"	// Texture
 
+#include <X11/xpm.h>	// xpmimage
+
 
 Img * Img::loadXPM(void *_tex, ImageReader read_func)
 {
