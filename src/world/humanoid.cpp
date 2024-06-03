@@ -381,17 +381,13 @@ void Humanoid::changePermanent(float lasting)
       getLine();
       echo("baphdr: %s", bapline);
 
-      p = strchr(bapline, ' ');
-      echo("bapname: %s", ++p);
       p = strrchr(bapline, ' ');
       if (p) {
         bapframes = atoi(++p);
       }
       baptype = bap->parse(bapline);	// warning bapline is now tokenized
-      echo("baptype: %d", baptype);
+      //echo("baptype: %d", baptype);
       bapparams = bap->getParams();
-      echo("bapparams: %d", bapparams);
-      echo("bapframes: %d", bapframes);
       return;
     }
 
@@ -425,12 +421,12 @@ newbap:
 
     // bapframe
     bapframe = atoi(bapline);
-    echo("bapframe: %d", bapframe);
+    //echo("bapframe: %d", bapframe);
 
     // values
     p = strchr(bapline, ' ');
     if (! p) {
-      error("empty value");
+      //error("empty value");
       //return;
       goto newbap;		// no more values
     }
@@ -447,7 +443,7 @@ newbap:
         value = (float) atof(p);
       }
       else {
-        error("err seq");
+        //error("err seq");
         goto newbap;
       }
       switch (baptype) {
@@ -467,7 +463,7 @@ newbap:
       }
       p = strchr(p, ' ');	// skip space for next value
       if (! p) {
-        echo("end of values");
+        //echo("end of values");
         //return;		// end of values -> next frame
       }
       else {
@@ -475,6 +471,7 @@ newbap:
         //echo("next value: %s", p);
       }
       if (bapframe == bapframes) {
+        echo("end of frames");
         goto endbap;
       }
     }
