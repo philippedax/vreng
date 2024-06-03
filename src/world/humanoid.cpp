@@ -697,6 +697,11 @@ void Humanoid::test_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
   humanoid->test();
 }
 
+void Humanoid::reset_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->reset();
+}
+
 void Humanoid::eyes_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
 {
   humanoid->eyes();
@@ -738,4 +743,5 @@ void Humanoid::funcs()
   setActionFunc(HUMANOID_TYPE, 15, _Action Face::No, "No");
   setActionFunc(HUMANOID_TYPE, 16, _Action Face::EyeL, "EyeL");
   setActionFunc(HUMANOID_TYPE, 17, _Action Face::Smile, "Smile");
+  setActionFunc(HUMANOID_TYPE, 18, _Action reset_cb, "Reset");
 }
