@@ -131,10 +131,6 @@ class Hand {
 
   void torsion(float a);
   /**< Turn hand */
-
-  float a_flexion() const;
-  float a_abduct() const;
-  float a_torsion() const;
 };
 
 /**
@@ -162,9 +158,6 @@ class Forearm {
 
   void torsion(float a);
   /**< Turn elbow */
-
-  float a_flexion() const;
-  float a_torsion() const;
 };
 
 /**
@@ -225,9 +218,6 @@ class Shoulder {
 
   void abduct(float distance);
   /**< Raise shoulder */
-
-  float a_flexion() const;
-  float a_abduct() const;
 };
 
 /**
@@ -257,10 +247,6 @@ class HeadBody {
 
   void torsion(float a);
   /**< Turn head */
-
-  float a_flexion() const;
-  float a_abduct() const;
-  float a_torsion() const;
 };
 
 /**
@@ -291,10 +277,6 @@ class Neck {
 
   void torsion(float a);
   /**< Turn neck */
-
-  float a_flexion() const;
-  float a_abduct() const;
-  float a_torsion() const;
 };
 
 /**
@@ -324,10 +306,6 @@ class Foot {
 
   void torsion(float a);
   /**< Turn foot */
-
-  float a_flexion() const;
-  float a_abduct() const;
-  float a_torsion() const;
 };
 
 /**
@@ -354,9 +332,6 @@ class Shin {
 
   void torsion(float a);
   /**< Turn knee */
-
-  float a_flexion() const;
-  float a_torsion() const;
 };
 
 /**
@@ -387,10 +362,6 @@ class Thigh {
 
   void torsion(float a);
   /**< Turn thigh */
-
-  float a_flexion() const;
-  float a_abduct() const;
-  float a_torsion() const;
 };
 
 /**
@@ -421,10 +392,6 @@ class Chest {
 
   void torsion(float a);
   /**< Turn chest */
-
-  float a_flexion() const;
-  float a_abduct() const;
-  float a_torsion() const;
 };
 
 

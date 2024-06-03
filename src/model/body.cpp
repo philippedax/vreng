@@ -171,21 +171,6 @@ void Hand::torsion(float a)
   if (::g.pref.dbgtrace) echo("t-hand: %.0f", a);
 }
 
-float Hand::a_flexion() const
-{
-  return aflexion;
-}
-
-float Hand::a_abduct() const
-{
-  return aabduct;
-}
-
-float Hand::a_torsion() const
-{
-  return atorsion;
-}
-
 /** Forearm / Elbow */
 Forearm::Forearm(Hand *_hand)
 {
@@ -209,16 +194,6 @@ void Forearm::torsion(float a)
 {
   atorsion = a;
   if (::g.pref.dbgtrace) echo("t-fore: %.0f", a);
-}
-
-float Forearm::a_flexion() const
-{
-  return aflexion;
-}
-
-float Forearm::a_torsion() const
-{
-  return atorsion;
 }
 
 /** Arm */
@@ -288,23 +263,13 @@ int Shoulder::init()
 void Shoulder::flexion(float a)
 {
   aflexion = a;
-  echo("f-shoul: %.0f", a);
+  if (::g.pref.dbgtrace) echo("f-shoul: %.0f", a);
 }
 
 void Shoulder::abduct(float a)
 {
   aabduct = a;
-  echo("a-shoul: %.0f", a);
-}
-
-float Shoulder::a_flexion() const
-{
-  return aflexion;
-}
-
-float Shoulder::a_abduct() const
-{
-  return aabduct;
+  if (::g.pref.dbgtrace) echo("a-shoul: %.0f", a);
 }
 
 /** HeadBody */
@@ -322,34 +287,19 @@ int HeadBody::init()
 void HeadBody::flexion(float a)
 {
   aflexion = a;
-  echo("f-head: %.0f", a);
+  if (::g.pref.dbgtrace) echo("f-head: %.0f", a);
 }
 
 void HeadBody::abduct(float a)
 {
   aabduct = a;
-  echo("a-head: %.0f", a);
+  if (::g.pref.dbgtrace) echo("a-head: %.0f", a);
 }
 
 void HeadBody::torsion(float a)
 {
   atorsion = a;
-  echo("t-head: %.0f", a);
-}
-
-float HeadBody::a_flexion() const
-{
-  return aflexion;
-}
-
-float HeadBody::a_abduct() const
-{
-  return aabduct;
-}
-
-float HeadBody::a_torsion() const
-{
-  return atorsion;
+  if (::g.pref.dbgtrace) echo("t-head: %.0f", a);
 }
 
 /** Neck */
@@ -383,21 +333,6 @@ void Neck::torsion(float a)
   if (::g.pref.dbgtrace) echo("t-neck: %.0f", a);
 }
 
-float Neck::a_flexion() const
-{
-  return aflexion;
-}
-
-float Neck::a_abduct() const
-{
-  return aabduct;
-}
-
-float Neck::a_torsion() const
-{
-  return atorsion;
-}
-
 /** Foot / Ankle */
 Foot::Foot()
 {
@@ -425,21 +360,6 @@ void Foot::torsion(float a)
   atorsion = -a;
 }
 
-float Foot::a_flexion() const
-{
-  return aflexion;
-}
-
-float Foot::a_abduct() const
-{
-  return aabduct;
-}
-
-float Foot::a_torsion() const
-{
-  return atorsion;
-}
-
 /** Shin / Knee */
 Shin::Shin(Foot *_foot)
 {
@@ -461,16 +381,6 @@ void Shin::flexion(float a)
 void Shin::torsion(float a)
 {
   atorsion = -a;
-}
-
-float Shin::a_flexion() const
-{
-  return aflexion;
-}
-
-float Shin::a_torsion() const
-{
-  return atorsion;
 }
 
 /** Thigh / Hip */
@@ -501,21 +411,6 @@ void Thigh::torsion(float a)
   atorsion = a;
 }
 
-float Thigh::a_flexion() const
-{
-  return aflexion;
-}
-
-float Thigh::a_abduct() const
-{
-  return aabduct;
-}
-
-float Thigh::a_torsion() const
-{
-  return atorsion;
-}
-
 /** Chest */
 Chest::Chest()
 {
@@ -535,21 +430,6 @@ void Chest::abduct(float a)
 void Chest::torsion(float a)
 {
   atorsion = a;
-}
-
-float Chest::a_flexion() const
-{
-  return aflexion;
-}
-
-float Chest::a_abduct() const
-{
-  return aabduct;
-}
-
-float Chest::a_torsion() const
-{
-  return atorsion;
 }
 
 /** Body */
@@ -1277,9 +1157,6 @@ void Body::display()
    rotX(PELVIC_TILT, model);
    rotY(PELVIC_ROLL, model);
    rotZ(PELVIC_TORSION, model);
-   //rotX(PELVIC_TILT, chest->a_flexion());
-   //rotY(PELVIC_ROLL, chest->a_abduct());
-   //rotZ(PELVIC_TORSION, chest->a_torsion());
    transN(PELVIC);
    display(HIPS);
 
@@ -1307,9 +1184,6 @@ void Body::display()
     rotX(T5_TILT, model);
     rotY(T5_ROLL, model);
     rotZ(T5_TORSION, model);
-    //rotX(T5_TILT, chest->a_flexion());
-    //rotY(T5_ROLL, chest->a_abduct());
-    //rotZ(T5_TORSION, chest->a_torsion());
     transN(SPINAL);
     display(CHEST);
     // Collar
@@ -1329,9 +1203,6 @@ void Body::display()
      rotX(C4_TILT, model);
      rotY(C4_ROLL, model);
      rotZ(C4_TORSION, model);
-     //rotX(C4_TILT, neck->a_flexion());
-     //rotY(C4_ROLL, neck->a_abduct());
-     //rotZ(C4_TORSION, neck->a_torsion());
      transN(LOWER_NECK);
      display(NECK);
      // Head
@@ -1346,9 +1217,6 @@ void Body::display()
       rotX(C1_TILT, model);
       rotY(C1_ROLL, model);
       rotZ(C1_TORSION, model);
-      //rotX(C1_TILT, head->a_flexion());
-      //rotY(C1_ROLL, head->a_abduct());
-      //rotZ(C1_TORSION, head->a_torsion());
       if (face) {
         glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
         glTranslatef(0, 0.9, -0.9);
@@ -1360,9 +1228,6 @@ void Body::display()
       rotX(C1_TILT, model);
       rotY(C1_ROLL, model);
       rotZ(C1_TORSION, model);
-      //rotX(C1_TILT, head->a_flexion());
-      //rotY(C1_ROLL, head->a_abduct());
-      //rotZ(C1_TORSION, head->a_torsion());
       transN(UPPER_NECK);
      glPopMatrix(); 	// head
     glPopMatrix(); 	// neck
@@ -1387,8 +1252,6 @@ void Body::display()
       transP(L_ELBOW);
       rotY(-L_ELBOW_FLEXION, model);	// -
       rotZ(+L_ELBOW_TORSION, model);	// -
-      //rotY(+L_ELBOW_FLEXION,  forearm_l->a_flexion());	// -
-      //rotZ(+L_ELBOW_TORSION, forearm_l->a_torsion());	// -
       transN(L_ELBOW);
       display(L_FOREARM);
 
@@ -1398,9 +1261,6 @@ void Body::display()
        rotX(L_WRIST_FLEXION, model);
        rotY(L_WRIST_PIVOT, model);
        rotZ(L_WRIST_TORSION, model);
-       //rotX(L_WRIST_FLEXION,  hand_l->a_flexion());
-       //rotY(L_WRIST_PIVOT, hand_l->a_abduct());
-       //rotZ(L_WRIST_TORSION, hand_l->a_torsion());
        transN(L_WRIST);
        display(L_HAND);
 
@@ -1428,8 +1288,6 @@ void Body::display()
       transP(R_ELBOW);
       rotY(R_ELBOW_FLEXION, model);
       rotZ(+R_ELBOW_TORSION, model);	// -
-      //rotY(L_ELBOW_FLEXION,  forearm_r->a_flexion());
-      //rotZ(L_ELBOW_TORSION, forearm_r->a_torsion());
       transN(R_ELBOW);
       display(R_FOREARM);
 
@@ -1439,9 +1297,6 @@ void Body::display()
        rotX(R_WRIST_FLEXION, model);
        rotY(R_WRIST_PIVOT, model);
        rotZ(R_WRIST_TORSION, model);
-       //rotX(R_WRIST_FLEXION,  hand_r->a_flexion());
-       //rotX(R_WRIST_PIVOT,  hand_r->a_abduct());
-       //rotZ(R_WRIST_TORSION, hand_r->a_torsion());
        transN(R_WRIST);
        display(R_HAND);
 
@@ -1492,9 +1347,6 @@ void Body::display()
    rotX(L_HIP_FLEXION, model);
    rotY(L_HIP_ABDUCT, model);
    rotZ(L_HIP_TORSION, model);
-   //rotX(L_HIP_FLEXION, thigh_l->a_flexion());
-   //rotY(L_HIP_ABDUCT, thigh_l->a_abduct());
-   //rotZ(L_HIP_TORSION, thigh_l->a_torsion());
    transN(L_HIP);
    display(L_THIGH);
 
@@ -1503,8 +1355,6 @@ void Body::display()
     transP(L_KNEE);
     rotX(L_KNEE_FLEXION, model);
     rotZ(L_KNEE_TORSION, model);
-    //rotX(-L_KNEE_FLEXION, shin_l->a_flexion());	// -
-    //rotZ(L_KNEE_TORSION, shin_l->a_torsion());
     transN(L_KNEE);
     display(L_SHIN);
 
@@ -1513,8 +1363,6 @@ void Body::display()
      transP(L_ANKLE);
      rotX(L_ANKLE_FLEXION, model);
      rotZ(L_ANKLE_TORSION, model);
-     //rotX(L_ANKLE_FLEXION, foot_l->a_flexion());
-     //rotZ(L_ANKLE_TORSION, foot_l->a_torsion());
      transN(L_ANKLE);
      display(L_FOOT);
     glPopMatrix();
@@ -1527,9 +1375,6 @@ void Body::display()
    rotX(R_HIP_FLEXION, model);
    rotY(R_HIP_ABDUCT, model);
    rotZ(R_HIP_TORSION, model);
-   //rotX(L_HIP_FLEXION, thigh_r->a_flexion());
-   //rotY(L_HIP_ABDUCT, thigh_r->a_abduct());
-   //rotZ(L_HIP_TORSION, thigh_r->a_torsion());
    transN(R_HIP);
    display(R_THIGH);
 
@@ -1538,8 +1383,6 @@ void Body::display()
     transP(R_KNEE);
     rotX(R_KNEE_FLEXION, model);
     rotZ(R_KNEE_TORSION, model);
-    //rotX(-R_KNEE_FLEXION, shin_r->a_flexion());	// -
-    //rotZ(R_KNEE_TORSION, shin_r->a_torsion());
     transN(R_KNEE);
     display(R_SHIN);
 
@@ -1548,8 +1391,6 @@ void Body::display()
      transP(R_ANKLE);
      rotX(R_ANKLE_FLEXION, model);
      rotZ(R_ANKLE_TORSION, model);
-     //rotX(R_ANKLE_FLEXION, foot_r->a_flexion());
-     //rotZ(R_ANKLE_TORSION, foot_r->a_torsion());
      transN(R_ANKLE);
      display(R_FOOT);
     glPopMatrix();
