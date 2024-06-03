@@ -188,10 +188,10 @@ extern const char surp_fap[];
  */
 class Bap {
  private:
-  uint8_t bits[NUM_BAPS_V32 + 1];	///< bap/fap bit mask
-  float baps[NUM_BAPS_V32 + 1];		///< baps angles
-  float faps[NUM_FAPS + 1];		///< faps angles
-  //float baplast[NUM_BAPS_V32 + 1];	///< last baps angles
+  uint8_t bits[NUM_BAPS_V32 + 2];	///< bap/fap bit mask
+  float baps[NUM_BAPS_V32 + 2];		///< baps angles
+  float faps[NUM_FAPS + 2];		///< faps angles
+  //float baplast[NUM_BAPS_V32 + 2];	///< last baps angles
 
   void resetBit(int n);
   /**< Resets bit mask */

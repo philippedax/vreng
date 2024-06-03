@@ -421,9 +421,9 @@ newbap:
         } 
       } 
     } 
+    getLine();			// frame + values
 
     // bapframe
-    getLine();
     bapframe = atoi(bapline);
     echo("bapframe: %d", bapframe);
 
@@ -445,6 +445,10 @@ newbap:
       //
       if (p) {
         value = (float) atof(p);
+      }
+      else {
+        error("err seq");
+        goto newbap;
       }
       switch (baptype) {
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
