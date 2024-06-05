@@ -50,10 +50,10 @@ class Humanoid: public WO {
   uint16_t vaps_port;		///< vaps server port.
   char *vaps;			///< vaps server name.
   uint8_t baptype;		///< current bap type
-  uint8_t bapframes;		///< number of frames
-  uint8_t bapframe;		///< seq number of frame
+  uint16_t bapframes;		///< number of frames
+  uint16_t bapframe;		///< seq number of frame
   uint16_t bapparams;		///< number of parameters
-  char *bapfile;		///< content of bap file
+  char *bapstring;		///< content in bap file
   char *bapline;		///< bap/fap line.
 
   enum { UNICAST, MULTICAST };
@@ -126,7 +126,7 @@ class Humanoid: public WO {
   int readFrame();
   /**< Reads a frame from the vaps server. */
 
-  void getLine();
+  int getLine();
   /**< Gets current line */
 
   //char * toPlay(const char *str);

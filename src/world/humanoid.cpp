@@ -108,7 +108,7 @@ void Humanoid::inits()
 
   sdudp = -1;
   sdtcp = -1;
-  bapfile = NULL;
+  bapstring = NULL;
   baptype = 0;
   bapframes = 0;
   bapparams = 0;
@@ -275,18 +275,20 @@ int Humanoid::readFrame()
   return 1;	// bap is present
 }
 
-/** Gets line */
-void Humanoid::getLine()
+/** Gets current bap line - progresses bapstring */
+int Humanoid::getLine()
 {
   char k;
   int c;
 
   memset(bapline, 0, 128);
-  for (c = 0; (k = bapfile[c]) != '\n'; c++) {
+  for (c = 0; (k = bapstring[c]) != '\n' && k; c++) {
     bapline[c] = k;
   }
   bapline[c] = '\0';
-  bapfile += (c + 1);		// point on next line
+  bapstring += (c + 1);		// points on next line
+  //if (k == 0) return 0;	// end of string
+  return c;
 }
 
 /** System of equations handling permanent motion */
@@ -370,16 +372,17 @@ void Humanoid::changePermanent(float lasting)
     //
     // local playing
     //
-    // get frame from local string bapfile (see gestures.hpp)
+    // get frame from local string bapstring (see gestures.hpp)
     //
     char *p = NULL;
+    int len = 0;
 
     if (! baptype) {		// check if is header line
       //
-      // baphdr
+      // bap hdr
       //
-      getLine();
-      echo("baphdr: %s", bapline);
+      len = getLine();
+      echo("baphdr: %s (%d)", bapline, len);
 
       p = strrchr(bapline, ' ');
       if (p) {
@@ -395,15 +398,18 @@ void Humanoid::changePermanent(float lasting)
     // data bap
     //
 newbap:
-    getLine();
+    // we expect a masks line
+    len = getLine();
+    if (len == 0) {
+      error("missing masks");
+      goto endbap;
+    }
 
     if (baptype) {
       //
-      // bapmasks
-      //
-      //echo("bapmask: %s", bapline);
-
       // masks
+      //
+      //echo("masks: %s", bapline);
       p = bapline;
       for (int i=1; i <= bapparams; i++) {
         if (p) {
@@ -417,33 +423,39 @@ newbap:
         } 
       } 
     } 
-    getLine();			// frame + values
 
-    // bapframe
+    // we expect a frame number + values
+    len = getLine();		// frame + values
+    if (len == 0) {
+      error("missing values");
+      goto endbap;
+    }
+    //echo("line: %s", bapline);
+
+    // frame number
     bapframe = atoi(bapline);
     //echo("bapframe: %d", bapframe);
 
     // values
     p = strchr(bapline, ' ');
     if (! p) {
-      //error("empty value");
+      error("empty value");
       //return;
       goto newbap;		// no more values
     }
-    p++;			// first value
-    //echo("bapvalue: %s", p);
+    p++;			// points on first value
 
     for (int i=1; i <= bapparams; i++) {
       float value = 0;
-      if (! bap->isBit(i)) continue;			// no mask
+      if (! bap->isBit(i)) continue;		// no mask
       //
-      // play bapparam
+      // play bap param
       //
       if (p) {
         value = (float) atof(p);
       }
       else {
-        //error("err seq");
+        error("bad value");
         goto newbap;
       }
       switch (baptype) {
@@ -464,15 +476,13 @@ newbap:
       p = strchr(p, ' ');	// skip space for next value
       if (! p) {
         //echo("end of values");
-        //return;		// end of values -> next frame
       }
       else {
         p++;			// next value
         //echo("next value: %s", p);
       }
-      if (bapframe == bapframes) {
-        echo("end of frames");
-        goto endbap;
+      if (bapframe + 1 == bapframes) {
+        //echo("done frames %d", bapframe);
       }
     }
 
@@ -485,13 +495,13 @@ newbap:
 #endif
 
 endbap:
-    if (bapframe == bapframes) {
-      state = INACTIVE;
+    if (bapframe + 1 == bapframes) {
       //echo("end of frames");
       bapframes = 0;
       bapparams = 0;
       baptype = 0;
-      bapfile = NULL;
+      bapstring = NULL;
+      state = INACTIVE;
     }
   } // local playing
 
@@ -569,87 +579,87 @@ void Humanoid::reset()
 void Humanoid::pause()
 {
   sendPlay("pause.bap");
-  bapfile = const_cast<char *>(pause_bap);
+  bapstring = const_cast<char *>(pause_bap);
 }
 
 /** Plays hi */
 void Humanoid::hi()
 {
   sendPlay("hi.bap");
-  bapfile = const_cast<char *>(hi_bap);
+  bapstring = const_cast<char *>(hi_bap);
 }
 
 /** Plays bye */
 void Humanoid::bye()
 {
   sendPlay("bye.bap");
-  bapfile = const_cast<char *>(bye_bap);
+  bapstring = const_cast<char *>(bye_bap);
 }
 
 /** Plays ask */
 void Humanoid::ask()
 {
   sendPlay("ask.bap");
-  bapfile = const_cast<char *>(ask_bap);
+  bapstring = const_cast<char *>(ask_bap);
 }
 
 /** Plays sit */
 void Humanoid::sit()
 {
   sendPlay("sit.bap");
-  bapfile = const_cast<char *>(sit_bap);
+  bapstring = const_cast<char *>(sit_bap);
 }
 
 /** Plays show */
 void Humanoid::show()
 {
   sendPlay("show.bap");
-  bapfile = const_cast<char *>(show_bap);
+  bapstring = const_cast<char *>(show_bap);
 }
 
 /** Plays clap */
 void Humanoid::clap()
 {
   sendPlay("clap.bap");
-  bapfile = const_cast<char *>(clap_bap);
+  bapstring = const_cast<char *>(clap_bap);
 }
 
 /** Plays nak */
 void Humanoid::nak()
 {
   sendPlay("nak.bap");
-  bapfile = const_cast<char *>(nak_bap);
+  bapstring = const_cast<char *>(nak_bap);
 }
 
 /** Plays test */
 void Humanoid::test()
 {
   sendPlay("test.bap");
-  bapfile = const_cast<char *>(test_bap);
+  bapstring = const_cast<char *>(test_bap);
 }
 
 void Humanoid::eyes()
 {
   sendPlay("eyes.fap");
-  bapfile = const_cast<char *>(eyes_fap);
+  bapstring = const_cast<char *>(eyes_fap);
 }
 
 void Humanoid::joy()
 {
   sendPlay("joy.fap");
-  bapfile = const_cast<char *>(joy_fap);
+  bapstring = const_cast<char *>(joy_fap);
 }
 
 void Humanoid::sad()
 {
   sendPlay("sad.fap");
-  bapfile = const_cast<char *>(sad_fap);
+  bapstring = const_cast<char *>(sad_fap);
 }
 
 void Humanoid::surp()
 {
   sendPlay("surp.fap");
-  bapfile = const_cast<char *>(surp_fap);
+  bapstring = const_cast<char *>(surp_fap);
 }
 
 void Humanoid::pause_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
