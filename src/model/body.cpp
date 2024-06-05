@@ -1235,6 +1235,8 @@ void Body::display()
      glPopMatrix(); 	// head
     glPopMatrix(); 	// neck
 
+    // Left side
+
     // Left arm
     glPushMatrix();	//  Left Shoulder -> Left Arm
      transP(L_SHOULDER);
@@ -1267,9 +1269,46 @@ void Body::display()
        transN(L_WRIST);
        display(L_HAND);
 
+#if 0 // left fingers
+       glPushMatrix();	//  Left fingers
+       glPushMatrix();	//  Left thumb
+        transP(L_THUMB);
+        rotX(L_THUMB_FLEXION1, model);
+        transN(L_THUMB);
+        display(L_THUMB);
+       glPopMatrix();
+       glPushMatrix();	//  Left index
+        transP(L_INDEX);
+        rotX(L_INDEX_FLEXION1, model);
+        transN(L_INDEX);
+        display(L_INDEX);
+       glPopMatrix();
+       glPushMatrix();	//  Left middle
+        transP(L_MIDDLE);
+        rotX(L_MIDDLE_FLEXION1, model);
+        transN(L_MIDDLE);
+        display(L_MIDDLE);
+       glPopMatrix();
+       glPushMatrix();	//  Left ring
+        transP(L_RING);
+        rotX(L_RING_FLEXION1, model);
+        transN(L_RING);
+        display(L_RING);
+       glPopMatrix();
+       glPushMatrix();	//  Left pinky
+        transP(L_PINKY);
+        rotX(L_PINKY_FLEXION1, model);
+        transN(L_PINKY);
+        display(L_PINKY);
+       glPopMatrix();
+       glPopMatrix();
+#endif // left fingers
+
       glPopMatrix();
      glPopMatrix();
     glPopMatrix();	// l_shoulder
+
+    // Right side
 
     // Right arm
     glPushMatrix();	//  Right Shoulder -> Right Arm
@@ -1303,40 +1342,40 @@ void Body::display()
        transN(R_WRIST);
        display(R_HAND);
 
-#if 0 //dax fingers
+#if 0 // right fingers
        glPushMatrix();	//  Right fingers
        glPushMatrix();	//  Right thumb
         transP(R_THUMB);
         rotX(R_THUMB_FLEXION1, model);
         transN(R_THUMB);
-        //display(R_THUMB);
+        display(R_THUMB);
        glPopMatrix();
        glPushMatrix();	//  Right index
         transP(R_INDEX);
         rotX(R_INDEX_FLEXION1, model);
         transN(R_INDEX);
-        //display(R_INDEX);
+        display(R_INDEX);
        glPopMatrix();
        glPushMatrix();	//  Right middle
         transP(R_MIDDLE);
         rotX(R_MIDDLE_FLEXION1, model);
         transN(R_MIDDLE);
-        //display(R_MIDDLE);
+        display(R_MIDDLE);
        glPopMatrix();
        glPushMatrix();	//  Right ring
         transP(R_RING);
         rotX(R_RING_FLEXION1, model);
         transN(R_RING);
-        //display(R_RING);
+        display(R_RING);
        glPopMatrix();
        glPushMatrix();	//  Right pinky
         transP(R_PINKY);
         rotX(R_PINKY_FLEXION1, model);
         transN(R_PINKY);
-        //ddisplay(R_PINKY);
+        display(R_PINKY);
        glPopMatrix();
        glPopMatrix();
-#endif //fingers
+#endif // right fingers
 
       glPopMatrix();
      glPopMatrix();
