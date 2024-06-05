@@ -111,6 +111,7 @@ int Phalanx::init()
 void Phalanx::flexion(float a)
 {
   aflexion = a;
+  if (::g.pref.dbgtrace) echo("f-phal: %.0f", a);
 }
 
 /** Finger */
@@ -129,11 +130,13 @@ int Finger::init()
 void Finger::flexion(float a)
 {
   aflexion = a;
+  if (::g.pref.dbgtrace) echo("f-fing: %.0f", a);
 }
 
 void Finger::abduct(float a)
 {
   aabduct = a;
+  if (::g.pref.dbgtrace) echo("t-fing: %.0f", a);
 }
 
 /** Hand */
