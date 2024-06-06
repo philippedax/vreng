@@ -461,12 +461,12 @@ newbap:
       switch (baptype) {
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
         bap->setBap(i, value);			// set bap value
-        //echo("playbap: %d: %d (%.1f)", bapframe, i, bap->getBap(i));
+        //echo("playbap: %d: %d (%.0f)", bapframe, i, bap->getBap(i));
         body->play();				// plays bapparam
         break;
       case TYPE_FAP_V20: case TYPE_FAP_V21:
         bap->setFap(i, value);			// set fap value
-        //echo("playfap: %d: %d (%.1f)", bapframe, i, bap->getFap(i));
+        //echo("playfap: %d: %d (%.0f)", bapframe, i, bap->getFap(i));
         body->face->play(i, bap->getFap(i));	// plays fapparam
         break;
       default:
