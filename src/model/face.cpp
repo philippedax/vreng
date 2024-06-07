@@ -207,6 +207,7 @@ void Face::render()
   if (! mesh) return;
 
   if (boneanim.meshToMove && boneanim.skeleton) {
+    echo("render face");
     //dax boneanim.animate();
     boneanim.render();
   }

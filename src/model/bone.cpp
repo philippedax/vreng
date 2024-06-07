@@ -261,38 +261,34 @@ void Bone::generateLinkList()
 void Bone::render()
 {
   //echo("render bone");
-
-  // Now, we'll render the 3d mesh on the screen
+  // Now, we'll render the 3d mesh
   if (! meshToMove->triangleListCompiled) {
     meshToMove->compileTriangleList();
   }
 
   BoneTriangle *tri;
+  Vect3D *normal;
   Vect3D *v1, *v2, *v3;
   Vect3D *n1, *n2, *n3;
-  Vect3D *normal;
 
   glColor3f(0.7, 0.7, 0.8);
-  // glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-  glPushMatrix();
+  //glPushMatrix();
   glEnable(GL_LIGHTING);
   glEnable(GL_COLOR_MATERIAL);
   glColorMaterial(GL_FRONT, GL_DIFFUSE);
-  //tex glEnable(GL_TEXTURE_2D);
-  //tex glDisable(GL_COLOR_MATERIAL);
-  glBegin(GL_TRIANGLES);
 
+  glBegin(GL_TRIANGLES);
   for (int j=0; j < meshToMove->triangles; j++) {
     tri = meshToMove->triangle[j];
     v1 = &tri->vertex1->curPosition;
     v2 = &tri->vertex2->curPosition;
     v3 = &tri->vertex3->curPosition;
     //echo("RGB: %.1f %.1f %.1f rgb: %.1f %.1f %.1f", tri->R,tri->G,tri->B,tri->r,tri->g,tri->b);
-    //dax glColor3f(tri->R, tri->G, tri->B);
-    glColor3f(tri->r, tri->g, tri->b);
-    normal = &tri->iniNormal;
+    glColor3f(tri->R, tri->G, tri->B);
+    //dax glColor3f(tri->r, tri->g, tri->b);
 
+    normal = &tri->iniNormal;
     n1 = &tri->vertex1->curNormal;
     n2 = &tri->vertex2->curNormal;
     n3 = &tri->vertex3->curNormal;
@@ -301,16 +297,14 @@ void Bone::render()
     //tex glTexCoord2f(tri->u1, tri->v1);
     glNormal3f(n1->x, n1->y, n1->z);
     glVertex3f(v1->x, v1->y, v1->z);
-    //tex glTexCoord2f(tri->u2, tri->v2);
     glNormal3f(n2->x, n2->y, n2->z);
     glVertex3f(v2->x, v2->y, v2->z);
-    //tex glTexCoord2f(tri->u3, tri->v3);
     glNormal3f(n3->x, n3->y, n3->z);
     glVertex3f(v3->x, v3->y, v3->z);
   }
   glEnd();
   glDisable(GL_TEXTURE_2D);
-  glPopMatrix();
+  //glPopMatrix();
 }
 
 //-----------------
