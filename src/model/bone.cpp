@@ -76,7 +76,7 @@ void Bone::scale(float sx, float sy, float sz)
 
 //------------------
 // Links management
-void Bone::compileLinkList()
+void Bone::makeLinkList()
 {
   link = linkList.getNiceTable(&links);
   compiled = 1;
@@ -84,14 +84,14 @@ void Bone::compileLinkList()
 
 void Bone::emptyLinkList()
 {
-  if (! compiled) compileLinkList();
+  if (! compiled) makeLinkList();
 
   for (int i=0; i < links; i++) {
     delete link[i];
   }
 
   linkList.empty();
-  compileLinkList();
+  makeLinkList();
 }
 
 float Bone::getLength(Vertex *vertex, BoneVertex *node)
@@ -106,7 +106,7 @@ float Bone::getLength(Vertex *vertex, BoneVertex *node)
   return distance.length();
 }
 
-void getDistanceFromAndOnBone(Vertex *vertex, BoneVertex *a, BoneVertex *b, float *time, float *dist)
+void getDist(Vertex *vertex, BoneVertex *a, BoneVertex *b, float *time, float *dist)
 {
   Vect3D nullvect(0, 0, 0);
   Vect3D aPosition = a->iniMatrix * nullvect;
@@ -131,12 +131,12 @@ float Bone::getWeight(Vertex *vertex, BoneVertex *node)
   float dist, time;
 
   if (node->father) {
-    getDistanceFromAndOnBone(vertex, node->father, node, &time, &dist);
+    getDist(vertex, node->father, node, &time, &dist);
     result += (time) / (dist * dist);
   }
 
   for (int i=0; i < node->children; i++) {
-    getDistanceFromAndOnBone(vertex, node->child[i], node, &time, &dist);
+    getDist(vertex, node->child[i], node, &time, &dist);
     result += (time) / (dist * dist);
   }
 
@@ -145,17 +145,17 @@ float Bone::getWeight(Vertex *vertex, BoneVertex *node)
   return result;
 }
 
-void normalize(BoneLink **tempLink, int tempLinks)
+void normalize(BoneLink **tlink, int tlinks)
 {
   float totalWeight = 0;
 
-  for (int i=0; i < tempLinks; i++) {
-    if (tempLink[i])
-      totalWeight += tempLink[i]->weight;
+  for (int i=0; i < tlinks; i++) {
+    if (tlink[i])
+      totalWeight += tlink[i]->weight;
   }
-  for (int i=0; i < tempLinks; i++) {
-    if (tempLink[i])
-      tempLink[i]->weight /= totalWeight;
+  for (int i=0; i < tlinks; i++) {
+    if (tlink[i])
+      tlink[i]->weight /= totalWeight;
   }
 }
 
@@ -170,20 +170,20 @@ void Bone::generateLinkList()
   BoneVertex *tempnode;
   tempnode = skeleton->getBone("root");
   if (tempnode)
-    tempnode->influenceScaleFactor = 10.;
+    tempnode->influenceScaleFactor = 10;
   tempnode = skeleton->getBone("lipsRoot");
   if (tempnode)
-    tempnode->influenceScaleFactor = 10.;
+    tempnode->influenceScaleFactor = 10;
   tempnode = skeleton->getBone("frontRoot");
   if (tempnode)
-    tempnode->influenceScaleFactor = 10.;
+    tempnode->influenceScaleFactor = 10;
 
   // We start link generation with an empty link list of course
   emptyLinkList();
 
   // If the mesh has not compiled hos vertices list, we'll do it
   if (! meshToMove->vertexListCompiled)
-    meshToMove->compileVertexList();
+    meshToMove->makeVertexList();
 
   // First, we need to generate the initial matrices for all the nodes of the skeleton
   glPushMatrix();
@@ -202,57 +202,57 @@ void Bone::generateLinkList()
   //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   // Now we'll go throw each vertex of the mesh calculating
   // the weight of this node
-  BoneList <BoneLink> tempLinkList;
-  BoneLink **tempLink;
+  BoneList <BoneLink> tlinkList;
+  BoneLink **tlink;
   BoneLink *temp;
-  int  tempLinks;
+  int  tlinks;
 
   for (int i=0; i < meshToMove->vertices; i++) {
-    tempLinkList.empty();
+    tlinkList.empty();
     for (int j=0; j < nodes; j++) {
       // And create a link between the vertex and the node with an influence
       // proportional to the inverse of the distance ( so far vertices
       // will be less influenced by the node than near vertices )
       temp = new BoneLink(meshToMove->vertex[i], node[j], getWeight(meshToMove->vertex[i], node[j]));
       // We now save this new link in our list
-      tempLinkList.addElement(temp);
+      tlinkList.addElement(temp);
     }
-    tempLink = tempLinkList.getNiceTable(&tempLinks);
+    tlink = tlinkList.getNiceTable(&tlinks);
 
     // Now sorting the links per weight
-    for (int j=1; j < tempLinks; j++) {
-      temp = tempLink[j];
+    for (int j=1; j < tlinks; j++) {
+      temp = tlink[j];
       int k = j;
-      while ((k > 0) && (tempLink[k-1]->weight < temp->weight)) {
-	tempLink[k] = tempLink[k-1];
+      while ((k > 0) && (tlink[k-1]->weight < temp->weight)) {
+	tlink[k] = tlink[k-1];
 	k--;
       }
-      tempLink[k] = temp;
+      tlink[k] = temp;
     }
     // Now removing unsignificant links
-    float seuil = 0.3 * tempLink[0]->weight;
-    for (int j=0; j < tempLinks; j++) {
-      if (tempLink[j]->weight < seuil) {
-        delete tempLink[j];
-        tempLink[j] = NULL;
+    float seuil = 0.3 * tlink[0]->weight;
+    for (int j=0; j < tlinks; j++) {
+      if (tlink[j]->weight < seuil) {
+        delete tlink[j];
+        tlink[j] = NULL;
       }
     }
     // Record the selected links in the list
-    normalize(tempLink, tempLinks);
-    for (int j=0; j < tempLinks; j++) {
-      if (tempLink[j])
-        linkList.addElement(tempLink[j]);
+    normalize(tlink, tlinks);
+    for (int j=0; j < tlinks; j++) {
+      if (tlink[j])
+        linkList.addElement(tlink[j]);
     }
   }
 
   // Now that we have all the links, we may compile the link list in here
-  compileLinkList();
+  makeLinkList();
 
   for (int i=0; i < links; i++) {
     link[i]->notifyTarget();
   }
   for (int i=0; i < meshToMove->vertices; i++) {
-    meshToMove->vertex[i]->compileLinkList();
+    meshToMove->vertex[i]->makeLinkList();
   }
   //echo("selected links: [%2.2f%%]", (links*100.) / (meshToMove->vertices * nodes));
 }
@@ -263,7 +263,7 @@ void Bone::render()
   //echo("render bone");
   // Now, we'll render the 3d mesh
   if (! meshToMove->triangleListCompiled) {
-    meshToMove->compileTriangleList();
+    meshToMove->makeTriangleList();
   }
 
   BoneTriangle *tri;
@@ -311,7 +311,7 @@ void Bone::render()
 // Private methods
 void Bone::addNodeAndChildren(BoneVertex *boneVertex, BoneList <BoneVertex> *list)
 {
-  if (! boneVertex->childListCompiled) boneVertex->compileChildList();
+  if (! boneVertex->childListCompiled) boneVertex->makeChildList();
 
   list->addElement(boneVertex);
 
@@ -376,8 +376,8 @@ BoneMesh::BoneMesh()
 
 BoneMesh::~BoneMesh()
 {
-  if (! vertexListCompiled) compileVertexList();
-  if (! triangleListCompiled) compileTriangleList();
+  if (! vertexListCompiled) makeVertexList();
+  if (! triangleListCompiled) makeTriangleList();
 
   for (int i=0; i < vertices; i++) delete vertex[i];
   for (int j=0; j < triangles; j++) delete triangle[j];
@@ -403,7 +403,7 @@ void BoneMesh::addVertex(float ox, float oy, float oz)
 
 void BoneMesh::addTriangle(int index1, int index2, int index3)
 {
-  if (! vertexListCompiled) compileVertexList();
+  if (! vertexListCompiled) makeVertexList();
 
   BoneTriangle * tri = new BoneTriangle();
   tri->addVertex(vertex[index1], index1, -1, -1);
@@ -416,7 +416,7 @@ void BoneMesh::addTriangle(int index1, int index2, int index3)
 
 void BoneMesh::scale(float sx, float sy, float sz)
 {
-  if (! vertexListCompiled) compileVertexList();
+  if (! vertexListCompiled) makeVertexList();
 
   for (int i=0; i < vertices; i++) {
     vertex[i]->iniPosition.x *= sx;
@@ -430,8 +430,8 @@ void BoneMesh::scale(float sx, float sy, float sz)
 
 void BoneMesh::rebuildNormals()
 {
-  if (! vertexListCompiled) compileVertexList();
-  if (! triangleListCompiled) compileTriangleList();
+  if (! vertexListCompiled) makeVertexList();
+  if (! triangleListCompiled) makeTriangleList();
 
   for (int i=0; i < vertices; i++) {
     vertex[i]->iniNormal.reset();
@@ -450,7 +450,7 @@ void BoneMesh::rebuildNormals()
 
 void BoneMesh::projectLight()
 {
-  if (! triangleListCompiled) compileTriangleList();
+  if (! triangleListCompiled) makeTriangleList();
 
   Vect3D lightdir(0,0,1);
   Vect3D lightdiff(1,1,1);
@@ -477,13 +477,13 @@ void BoneMesh::projectLight()
   }
 }
 
-void BoneMesh::compileVertexList()
+void BoneMesh::makeVertexList()
 {
   vertex = vertexList.getNiceTable(&vertices);
   vertexListCompiled = 1;
 }
 
-void BoneMesh::compileTriangleList()
+void BoneMesh::makeTriangleList()
 {
   triangle = triangleList.getNiceTable(&triangles);
   triangleListCompiled = 1;
@@ -616,14 +616,14 @@ BoneVertex::BoneVertex(Vect3D *position, float angle, Vect3D *axis)
 BoneVertex::~BoneVertex()
 {
   // first delete all the children
-  if (! childListCompiled) compileChildList();
+  if (! childListCompiled) makeChildList();
   for (int i=0; i < children; i++) {
     delete child[i];
   }
   childList.empty();
 
   // Now, delete the selected links for this node
-  if (! compiled) compileLinkList();
+  if (! compiled) makeLinkList();
   for (int i=0; i < links; i++) {
     //dax-segfault delete link[i];
   }
@@ -752,7 +752,7 @@ void BoneVertex::setScale(float scale)
 // Modifying the node and its children (definitive)
 void BoneVertex::scale(float sx, float sy, float sz)
 {
-  if (! childListCompiled) compileChildList();
+  if (! childListCompiled) makeChildList();
 
   iniPosition.x *= sx;
   iniPosition.y *= sy;
@@ -797,7 +797,7 @@ BoneVertex *BoneVertex::getBone(const char *name)
 {
   BoneVertex *result = NULL;
 
-  if (! childListCompiled) compileChildList();
+  if (! childListCompiled) makeChildList();
 
   if (! strcmp(name, getName())) {
     result = this;
@@ -826,13 +826,13 @@ void BoneVertex::removeLink(BoneLink *link)
 }
 
 // Compiling the lists
-void BoneVertex::compileChildList()
+void BoneVertex::makeChildList()
 {
   child = childList.getNiceTable(&children);
   childListCompiled = 1;
 }
 
-void BoneVertex::compileLinkList()
+void BoneVertex::makeLinkList()
 {
   link = linkList.getNiceTable(&links);
   compiled = 1;
@@ -842,7 +842,7 @@ void BoneVertex::compileLinkList()
 void BoneVertex::generateIniMatrix()
 {
   // First, we'll need to know all the childs
-  if (! childListCompiled) compileChildList();
+  if (! childListCompiled) makeChildList();
 
   glPushMatrix();
 
@@ -902,7 +902,7 @@ void BoneVertex::generateIniMatrix()
 // Now let's have a look to the current matrix, same code as above
 void BoneVertex::generateCurrentMatrix()
 {
-  if (! childListCompiled) compileChildList();
+  if (! childListCompiled) makeChildList();
 
   glPushMatrix();
 
@@ -978,7 +978,7 @@ void BoneVertex::readSkel(FILE *fp, float scale)
     addBone(tmp);
     tmp->readSkel(fp, scale);
   }
-  compileChildList();
+  makeChildList();
 }
 
 //---------------------------------------------------------------------------
@@ -1044,7 +1044,7 @@ void Vertex::removeLink(BoneLink *link)
   compiled = 0;
 }
 
-void Vertex::compileLinkList()
+void Vertex::makeLinkList()
 {
   link = linkList.getNiceTable(&links);
   compiled = 1;

@@ -124,7 +124,8 @@ template <class BoneElem> class BoneList {
    * Cette methode ne s'execute que si la liste a ete modifiee
    * dans la passe (addElement ou removeElement).
    */
-  void rebuild() {
+  void rebuild()
+  {
     if (built) return;
 
     BoneNode <BoneElem> *node = listHead;
@@ -141,7 +142,8 @@ template <class BoneElem> class BoneList {
   /** Fonction recursive de vidage de la liste, il
    * s'agit d'appeler le vidage du fils puis de liberer le fils
    */
-  void recursiveEmpty(BoneNode <BoneElem> *node) {
+  void recursiveEmpty(BoneNode <BoneElem> *node)
+  {
     if (node) {
       recursiveEmpty(node->getNext());
       delete node;
@@ -149,8 +151,8 @@ template <class BoneElem> class BoneList {
   }
 
  public:
-
-  BoneList() {
+  BoneList()
+  {
     listHead = NULL;
     listEnd  = NULL;
     element  = NULL;
@@ -163,7 +165,8 @@ template <class BoneElem> class BoneList {
   ///< Le destructeur vide la liste de son contenu
 
   // Vidage de la liste enleve les noeuds un par un et efface le tableau compile
-  void empty() {
+  void empty()
+  {
     recursiveEmpty(listHead);
     listHead = NULL;
     listEnd  = NULL;
@@ -172,7 +175,8 @@ template <class BoneElem> class BoneList {
   }
 
   // Comptage du nombre d'elements de la liste
-  int count() {
+  int count()
+  {
     BoneNode <BoneElem> *node = listHead;
     int n = 0;
     while (node) {
@@ -184,7 +188,8 @@ template <class BoneElem> class BoneList {
 
   // Fonction d'acces a un element de la liste retourne NULL si
   // l'index est inferieur a 0 ou superieur au nombre d'elements
-  BoneElem *getElement(int index) {
+  BoneElem *getElement(int index)
+  {
     BoneNode<BoneElem> *node = listHead;
     BoneElem *result = NULL;
     while (node && index > 0) {
@@ -197,7 +202,8 @@ template <class BoneElem> class BoneList {
   }
 
   // Ajouter un element dans la liste, cet element est ajoute en queue de liste
-  void addElement(BoneElem *elem) {
+  void addElement(BoneElem *elem)
+  {
     BoneNode<BoneElem> *newNode = new BoneNode<BoneElem>();
     newNode->setElement(elem);
 
@@ -214,7 +220,8 @@ template <class BoneElem> class BoneList {
   }
 
   // Ajouter une liste dans cette liste
-  void addList(BoneList *list) {
+  void addList(BoneList *list)
+  {
     BoneNode<BoneElem> *newNode = list->getFirstNode();
 
     if (! listHead) {
@@ -231,7 +238,8 @@ template <class BoneElem> class BoneList {
 
   // Enlever un element dans la liste, tous les elements
   // suivants remontent d'un rang
-  void removeElement(int index) {
+  void removeElement(int index)
+  {
     if (! listHead) return;
 
     BoneNode<BoneElem> *prevNode;
@@ -263,7 +271,8 @@ template <class BoneElem> class BoneList {
 
   // Enlever un element dans la liste, tous les elements
   // suivants remontent d'un rang
-  void removeElement(BoneElem *ptr) {
+  void removeElement(BoneElem *ptr)
+  {
     if (! listHead) return;
 
     BoneNode<BoneElem> *prevNode;
@@ -294,7 +303,8 @@ template <class BoneElem> class BoneList {
 
   // Compilation de la liste en un tableau. Cette methode
   // retourne le nombre d'elements dans la variable count
-  BoneElem **getNiceTable(int *count) {
+  BoneElem **getNiceTable(int *count)
+  {
     if (! built) rebuild();
     if (count) *count = elements;
     return element;
@@ -423,8 +433,8 @@ class BoneVertex : public Bonename {
   void removeLink(BoneLink *link);
 
   // Intern functions to compile the lists... should be private maybe ?
-  void compileChildList();
-  void compileLinkList();
+  void makeChildList();
+  void makeLinkList();
   void generateIniMatrix(); // needs glPush / glPop and glLoadIdentity at the begining
   void generateCurrentMatrix(); // needs glPush / glPop and glLoadIdentity at the begining
 
@@ -512,7 +522,7 @@ class Vertex {
   void removeLink(BoneLink *link);
 
   // Acces aux champs de transformation initiaux
-  void compileLinkList();
+  void makeLinkList();
 
  private:
   void defaults();
@@ -607,8 +617,8 @@ class BoneMesh : public Bonename {
   void addTriangle(int index1, int index2, int index3);
 
   // Fonctions internes
-  void compileVertexList();
-  void compileTriangleList();
+  void makeVertexList();
+  void makeTriangleList();
 
   // Modification du mesh
   void rebuildNormals();
@@ -629,7 +639,7 @@ class BoneMesh : public Bonename {
  * Typical use of this class :
  *   myBone.registerMesh ( oneMesh );
  *   myBone.registerSkel ( oneSkeleton );
- *   myBone.compileLinkList ();
+ *   myBone.makeLinkList ();
  *   ... in loop ...
  *     change skeleton current pos
  *   myBone.animate ();
@@ -660,7 +670,7 @@ class Bone {
   void scale(float sx, float sy, float sz);
 
   // List compilation
-  void compileLinkList();
+  void makeLinkList();
   void emptyLinkList();
   void generateLinkList();
   float getLength(Vertex *vertex, BoneVertex *node);
