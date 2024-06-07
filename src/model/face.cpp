@@ -228,7 +228,7 @@ void Face::animHead(float a, int x, int y, int z)
 {
   BoneVertex *bone;
 
-  //echo("animHead: a=%.2f", a);
+  echo("animHead: a=%.0f", a);
   if ((bone = root->getBone(headRoot)))
     bone->setRot(sin(a/50)*10 , x, y, z);
   else
@@ -241,7 +241,7 @@ void Face::animNose(float a, const char *s)
   BoneVertex *bone;
   float scale = 1 - cos(a/16) / 4;
 
-  //echo("animNose: a=%.2f scale=%.2f", a, scale);
+  echo("animNose: a=%.0f s=%.0f", a, scale);
   if ((bone = root->getBone(noseRoot))) {
     if ((bone = root->getBone(s))) {
       bone->resetPos();
@@ -258,7 +258,7 @@ void Face::animEyeBall(float a, const char *s, int d)
   BoneVertex *bone;
   float scale = 1 - cos(a/16) /* / 2 */;
 
-  //echo("animEyeBall: a=%.2f scale=%.2f d=%d", a, scale, d);
+  echo("animEyeBall: a=%.0f s=%.0f d=%d", a, scale, d);
   if ((bone = root->getBone(s))) {
     bone->resetPos();
     bone->setScale(scale, 1, 1);
@@ -285,7 +285,7 @@ void Face::animEyeLid(float a, const char *root1, const char *lid, const char *l
         sign = 1;
       else
         sign = -1;
-      //echo("animEyeLid: a=%.2f scale=%.2f rot=%.2f", a, scale, sign*(1-scale)*20);
+      echo("animEyeLid: a=%.0f s=%.0f rot=%.0f", a, scale, sign*(1-scale)*20);
       bone->resetPos();
       bone->setScale(1, scale, 1);
       bone->setRot(sign*(1-scale)*20, 1,0,0);
@@ -311,7 +311,7 @@ void Face::animEyeBrow(float a, const char *_root, const char *s)
   BoneVertex *bone;
   float scale = cos(a/5);
 
-  //echo("animEyeBrow: a=%.2f scale=%.2f", a, scale);
+  echo("animEyeBrow: a=%.0f s=%.0f", a, scale);
   if ((bone = root->getBone(_root))) {
     bone->resetPos();
     bone->setTrans(0, scale/25, 0);
@@ -334,9 +334,9 @@ void Face::animLip(float a, const char *s)
 
   if ((bone = root->getBone(lipsRoot))) {
     Vect3D delta(0, cos(a/10) / 4, 0);
-    //dax float smile = cos(a/10)*20;
+    float smile = cos(a/10)*20;
 
-    //echo("animLip: a=%.2f smile=%.2f", a, smile);
+    echo("animLip: a=%.0f smile=%.0f", a, smile);
     if ((bone = root->getBone(s))) {
       bone->resetPos();
       bone->setTrans(delta);
@@ -376,19 +376,19 @@ void Face::play(int fap, float a)
     //if (a) echo("STRETCH_R_CORNERLIP %s a=%.0f", e_not_implemented, a);
     break;
   case LOWER_T_LIP_LM:		// 8
-    if (a) echo("%d LOWER_T_LIP_LM a=%.0f", fap, a);
+    //if (a) echo("%d LOWER_T_LIP_LM a=%.0f", fap, a);
     animLip(a, lipsTopL);
     break;
   case LOWER_T_LIP_RM:		// 9
-    if (a) echo("%d LOWER_T_LIP_RM a=%.0f", fap, a);
+    //if (a) echo("%d LOWER_T_LIP_RM a=%.0f", fap, a);
     animLip(a, lipsTopR);
     break;
   case RAISE_B_LIP_LM:		// 10
-    if (a) echo("%d LOWER_B_LIP_LM a=%.0f", fap, a);
+    //if (a) echo("%d LOWER_B_LIP_LM a=%.0f", fap, a);
     animLip(a, lipsBotL);
     break;
   case RAISE_B_LIP_RM:		// 11
-    if (a) echo("%d LOWER_B_LIP_RM a=%.0f", fap, a);
+    //if (a) echo("%d LOWER_B_LIP_RM a=%.0f", fap, a);
     animLip(a, lipsBotR);
     break;
   case RAISE_L_CORNERLIP:	// 12
@@ -411,19 +411,19 @@ void Face::play(int fap, float a)
     //if (a) echo("DEPRESS_CHIN %s a=%.0f", e_not_implemented, a);
     break;
   case CLOSE_T_L_EYELID:	// 19
-    if (a) echo("%d CLOSE_T_L_EYELID a=%.0f", fap, a);
+    //if (a) echo("%d CLOSE_T_L_EYELID a=%.0f", fap, a);
     animEyeLid(a, eyeLeftRoot, eyeLeftTopRoot, eyeLeftTopL, eyeLeftTopR);
     break;
   case CLOSE_T_R_EYELID:	// 20
-    if (a) echo("%d CLOSE_T_R_EYELID a=%.0f", fap, a);
+    //if (a) echo("%d CLOSE_T_R_EYELID a=%.0f", fap, a);
     animEyeLid(a, eyeRightRoot, eyeRightTopRoot, eyeRightTopL, eyeRightTopR);
     break;
   case CLOSE_B_L_EYELID:	// 21
-    if (a) echo("%d CLOSE_B_L_EYELID a=%.0f", fap, a);
+    //if (a) echo("%d CLOSE_B_L_EYELID a=%.0f", fap, a);
     animEyeLid(a, eyeLeftRoot, eyeLeftBotRoot, eyeLeftBotL, eyeLeftBotR);
     break;
   case CLOSE_B_R_EYELID:	// 22
-    if (a) echo("%d CLOSE_B_R_EYELID a=%.0f", fap, a);
+    //if (a) echo("%d CLOSE_B_R_EYELID a=%.0f", fap, a);
     animEyeLid(a, eyeRightRoot, eyeRightBotRoot, eyeRightBotL, eyeRightBotR);
     break;
   case YAW_L_EYEBALL:		// 23
@@ -451,27 +451,27 @@ void Face::play(int fap, float a)
     //if (a) echo("DILATE_PUPIL %s a=%.0f", e_not_implemented, a);
     break;
   case RAISE_L_I_EYEBROW:	// 31
-    if (a) echo("%d RAISE_L_I_EYEBROW a=%.0f", fap, a);
+    //if (a) echo("%d RAISE_L_I_EYEBROW a=%.0f", fap, a);
     animEyeBrow(a, browLeftRoot, browRightL);
     break;
   case RAISE_R_I_EYEBROW:	// 32
-    if (a) echo("%d RAISE_R_I_EYEBROW a=%.0f", fap, a);
+    //if (a) echo("%d RAISE_R_I_EYEBROW a=%.0f", fap, a);
     animEyeBrow(a, browRightRoot, browRightR);
     break;
   case RAISE_L_M_EYEBROW:	// 33
-    if (a) echo("%d RAISE_L_M_EYEBROW a=%.0f", fap, a);
+    //if (a) echo("%d RAISE_L_M_EYEBROW a=%.0f", fap, a);
     animEyeBrow(a, browLeftRoot, browRightL);
     break;
   case RAISE_R_M_EYEBROW:	// 34
-    if (a) echo("%d RAISE_R_M_EYEBROW a=%.0f", fap, a);
+    //if (a) echo("%d RAISE_R_M_EYEBROW a=%.0f", fap, a);
     animEyeBrow(a, browRightRoot, browRightR);
     break;
   case RAISE_L_O_EYEBROW:	// 35
-    if (a) echo("%d RAISE_L_O_EYEBROW a=%.0f", fap, a);
+    //if (a) echo("%d RAISE_L_O_EYEBROW a=%.0f", fap, a);
     animEyeBrow(a, browLeftRoot, browRightL);
     break;
   case RAISE_R_O_EYEBROW:	// 36
-    if (a) echo("%d RAISE_R_O_EYEBROW a=%.0f", fap, a);
+    //if (a) echo("%d RAISE_R_O_EYEBROW a=%.0f", fap, a);
     animEyeBrow(a, browRightRoot, browRightR);
     break;
   case SQUEEZE_L_EYEBROW:	// 37
@@ -496,15 +496,15 @@ void Face::play(int fap, float a)
     //if (a) echo("TONGUE %s", e_not_implemented);
     break;
   case HEAD_PITCH:		// 48
-    if (a) echo("%d HEAD_PITCH a=%.0f", fap, a);
+    //if (a) echo("%d HEAD_PITCH a=%.0f", fap, a);
     animHead(a, 0, 1, 0);	// yes
     break;
   case HEAD_YAW:		// 49
-    if (a) echo("%d HEAD_YAW a=%.0f", fap, a);
+    //if (a) echo("%d HEAD_YAW a=%.0f", fap, a);
     animHead(a, 1, 0, 0);	// no
     break;
   case HEAD_ROLL:		// 50
-    if (a) echo("%d HEAD_ROLL a=%.0f", fap, a);
+    //if (a) echo("%d HEAD_ROLL a=%.0f", fap, a);
     animHead(a, 0, 0, 1);	// maybe
     break;
   case LOWER_T_MIDLIP_O:	// 51
@@ -520,19 +520,19 @@ void Face::play(int fap, float a)
     //if (a) echo("STRETCH_R_CORNERLIP_O %s a=%.0f", e_not_implemented, a);
     break;
   case LOWER_T_LIP_LM_O:	// 55
-    if (a) echo("%d LOWER_T_LIP_LM_O a=%.0f", fap, a);
+    //if (a) echo("%d LOWER_T_LIP_LM_O a=%.0f", fap, a);
     animLip(a, lipsTopL);
     break;
   case LOWER_T_LIP_RM_O:	// 56
-    if (a) echo("%d LOWER_T_LIP_RM_O a=%.0f", fap, a);
+    //if (a) echo("%d LOWER_T_LIP_RM_O a=%.0f", fap, a);
     animLip(a, lipsTopR);
     break;
   case RAISE_B_LIP_LM_O:	// 57
-    if (a) echo("%d RAISE_B_LIP_LM_O a=%.0f", fap, a);
+    //if (a) echo("%d RAISE_B_LIP_LM_O a=%.0f", fap, a);
     animLip(a, lipsBotL);
     break;
   case RAISE_B_LIP_RM_O:	// 58
-    if (a) echo("%d RAISE_B_LIP_RM_O a=%.0f", fap, a);
+    //if (a) echo("%d RAISE_B_LIP_RM_O a=%.0f", fap, a);
     animLip(a, lipsBotR);
     break;
   case RAISE_L_CORNERLIP_O:	// 59
@@ -542,11 +542,11 @@ void Face::play(int fap, float a)
     //if (a) echo("RAISE_R_CORNERLIP_O %s a=%.0f", e_not_implemented, a);
     break;
   case STRETCH_L_NOSE:		// 61
-    if (a) echo("%d STRETCH_L_NOSE a=%.0f", fap, a);
+    //if (a) echo("%d STRETCH_L_NOSE a=%.0f", fap, a);
     animNose(a, noseLeft);
     break;
   case STRETCH_R_NOSE:		// 62
-    if (a) echo("%d STRETCH_R_NOSE a=%.0f", fap, a);
+    //if (a) echo("%d STRETCH_R_NOSE a=%.0f", fap, a);
     animNose(a, noseRight);
     break;
   case RAISE_NOSE:		// 63
