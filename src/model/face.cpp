@@ -198,7 +198,7 @@ void Face::load(const char *url)
 
   boneanim.registerMesh(mesh);
   boneanim.registerSkel(root);
-  boneanim.generateLinkList();
+  boneanim.genLinkList();
 }
 
 /** Renders the face */
@@ -206,8 +206,8 @@ void Face::render()
 {
   if (! mesh) return;
 
-  if (boneanim.meshToMove && boneanim.skeleton) {
-    echo("render face");
+  if (boneanim.mesh && boneanim.skel) {
+    //echo("render face");
     //dax boneanim.animate();
     boneanim.render();
   }

@@ -100,8 +100,8 @@ template <class BoneElem> class BoneNode {
  *            int   count (void)
  *            void  addElement (BoneElem *elem)
  *            void  addList (BoneList * list)
- *            void  removeElement (int index)
- *            void  removeElement (BoneElem * ptr)
+ *            void  delElement (int index)
+ *            void  delElement (BoneElem * ptr)
  *            BoneElem * getElement (int index)
  *            BoneElem ** getNiceTable (int * count)
  */
@@ -122,7 +122,7 @@ template <class BoneElem> class BoneList {
 
   /** Compilation de la liste chainee en tableau
    * Cette methode ne s'execute que si la liste a ete modifiee
-   * dans la passe (addElement ou removeElement).
+   * dans la passe (addElement ou delElement).
    */
   void rebuild()
   {
@@ -238,7 +238,7 @@ template <class BoneElem> class BoneList {
 
   // Enlever un element dans la liste, tous les elements
   // suivants remontent d'un rang
-  void removeElement(int index)
+  void delElement(int index)
   {
     if (! listHead) return;
 
@@ -271,7 +271,7 @@ template <class BoneElem> class BoneList {
 
   // Enlever un element dans la liste, tous les elements
   // suivants remontent d'un rang
-  void removeElement(BoneElem *ptr)
+  void delElement(BoneElem *ptr)
   {
     if (! listHead) return;
 
@@ -425,18 +425,18 @@ class BoneVertex : public Bonename {
   // Children list managing
   void setBone(BoneVertex *Father);
   void addBone(BoneVertex *newChild);
-  void removeBone(const char *Name);
+  void delBone(const char *Name);
   BoneVertex *getBone(const char *Name);
 
   // Link list managing
   void addLink(BoneLink *link);
-  void removeLink(BoneLink *link);
+  void delLink(BoneLink *link);
 
   // Intern functions to compile the lists... should be private maybe ?
   void makeChildList();
   void makeLinkList();
-  void generateIniMatrix(); // needs glPush / glPop and glLoadIdentity at the begining
-  void generateCurrentMatrix(); // needs glPush / glPop and glLoadIdentity at the begining
+  void genIniMatrix();		// needs glPush / glPop and glLoadIdentity at the begining
+  void genCurrentMatrix();	// needs glPush / glPop and glLoadIdentity at the begining
 
   // I/O functions
   void read(char *filename, float size = 1.);
@@ -519,7 +519,7 @@ class Vertex {
 
   // Gestion des liens
   void addLink(BoneLink *link);
-  void removeLink(BoneLink *link);
+  void delLink(BoneLink *link);
 
   // Acces aux champs de transformation initiaux
   void makeLinkList();
@@ -650,8 +650,8 @@ class Bone {
  public:
 
   /* What we'll animate */
-  BoneMesh *meshToMove;
-  BoneVertex *skeleton;
+  BoneMesh *mesh;
+  BoneVertex *skel;
 
   /* Links management */
   BoneList <BoneLink> linkList;
@@ -672,7 +672,7 @@ class Bone {
   // List compilation
   void makeLinkList();
   void emptyLinkList();
-  void generateLinkList();
+  void genLinkList();
   float getLength(Vertex *vertex, BoneVertex *node);
   float getWeight(Vertex *vertex, BoneVertex *node);
 

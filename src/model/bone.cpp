@@ -34,8 +34,8 @@
 
 Bone::Bone()
 {
-  meshToMove = NULL;
-  skeleton = NULL;
+  mesh = NULL;
+  skel = NULL;
   link = NULL;
   links = 0;
   compiled = 0;
@@ -44,7 +44,7 @@ Bone::Bone()
 Bone::~Bone()
 {
   //dax this line is correct, but temporally commented because
-  //dax a segfault occurs later in the removeLink destructor
+  //dax a segfault occurs later in the delLink destructor
   //dax emptyLinkList();
 }
 
@@ -52,26 +52,26 @@ Bone::~Bone()
 // Accessing datas
 void Bone::registerMesh(BoneMesh *_mesh)
 {
-  meshToMove = _mesh;
-  trace(DBG_MAN, " Registered as movable mesh: [%s]", _mesh->getName());
+  mesh = _mesh;
+  //echo("registered as movable mesh: [%s]", _mesh->getName());
 }
 
 void Bone::registerSkel(BoneVertex *_skel)
 {
-  skeleton = _skel;
-  trace(DBG_MAN, " Registered as skel: [%s]", _skel->getName());
+  skel = _skel;
+  //echo("registered as skel: [%s]", _skel->getName());
 }
 
 //--------------------------------------
-// Operations on both mesh and skeleton
+// Operations on both mesh and skel
 void Bone::scale(float sx, float sy, float sz)
 {
-  if (! meshToMove) return;
-  if (! skeleton)   return;
+  if (! mesh) return;
+  if (! skel) return;
 
-  meshToMove->scale(sx, sy, sz);
-  skeleton->scale(sx, sy, sz);
-  generateLinkList();
+  mesh->scale(sx, sy, sz);
+  skel->scale(sx, sy, sz);
+  genLinkList();
 }
 
 //------------------
@@ -161,42 +161,42 @@ void normalize(BoneLink **tlink, int tlinks)
 
 // -> Will call the method to generate links and then update the weight
 // and optionally remove unsignificant links (that would speed down the cpu)
-void Bone::generateLinkList()
+void Bone::genLinkList()
 {
-  // We need both meshToMove and skeleton !
-  if (! meshToMove) return; // To avoid NULL pointer exception
-  if (! skeleton)   return; // To avoid NULL pointer exception
+  // We need both mesh and skel !
+  if (! mesh) return; // to avoid NULL pointer exception
+  if (! skel) return; // to avoid NULL pointer exception
 
-  BoneVertex *tempnode;
-  tempnode = skeleton->getBone("root");
-  if (tempnode)
-    tempnode->influenceScaleFactor = 10;
-  tempnode = skeleton->getBone("lipsRoot");
-  if (tempnode)
-    tempnode->influenceScaleFactor = 10;
-  tempnode = skeleton->getBone("frontRoot");
-  if (tempnode)
-    tempnode->influenceScaleFactor = 10;
+  BoneVertex *tnode;
+  tnode = skel->getBone("root");
+  if (tnode)
+    tnode->influenceScaleFactor = 10;
+  tnode = skel->getBone("lipsRoot");
+  if (tnode)
+    tnode->influenceScaleFactor = 10;
+  tnode = skel->getBone("frontRoot");
+  if (tnode)
+    tnode->influenceScaleFactor = 10;
 
-  // We start link generation with an empty link list of course
+  // we start link generation with an empty link list of course
   emptyLinkList();
 
   // If the mesh has not compiled hos vertices list, we'll do it
-  if (! meshToMove->vertexListCompiled)
-    meshToMove->makeVertexList();
+  if (! mesh->vertexListCompiled)
+    mesh->makeVertexList();
 
-  // First, we need to generate the initial matrices for all the nodes of the skeleton
+  // First, we need to generate the initial matrices for all the nodes of the skel
   glPushMatrix();
    glLoadIdentity();
-   skeleton->generateIniMatrix();
+   skel->genIniMatrix();
   glPopMatrix();
 
-  // We'll store the skeleton nodes into a list
+  // We'll store the skel nodes into a list
   BoneList <BoneVertex> nodeList;
   BoneVertex **node;
   int nodes;
 
-  addNodeAndChildren(skeleton, &nodeList);
+  addNodeAndChildren(skel, &nodeList);
   node = nodeList.getNiceTable(&nodes);
 
   //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -207,13 +207,14 @@ void Bone::generateLinkList()
   BoneLink *temp;
   int  tlinks;
 
-  for (int i=0; i < meshToMove->vertices; i++) {
+  for (int i=0; i < mesh->vertices; i++) {
     tlinkList.empty();
     for (int j=0; j < nodes; j++) {
       // And create a link between the vertex and the node with an influence
       // proportional to the inverse of the distance ( so far vertices
       // will be less influenced by the node than near vertices )
-      temp = new BoneLink(meshToMove->vertex[i], node[j], getWeight(meshToMove->vertex[i], node[j]));
+      temp = new BoneLink(mesh->vertex[i], node[j], getWeight(mesh->vertex[i], node[j]));
+
       // We now save this new link in our list
       tlinkList.addElement(temp);
     }
@@ -251,19 +252,19 @@ void Bone::generateLinkList()
   for (int i=0; i < links; i++) {
     link[i]->notifyTarget();
   }
-  for (int i=0; i < meshToMove->vertices; i++) {
-    meshToMove->vertex[i]->makeLinkList();
+  for (int i=0; i < mesh->vertices; i++) {
+    mesh->vertex[i]->makeLinkList();
   }
-  //echo("selected links: [%2.2f%%]", (links*100.) / (meshToMove->vertices * nodes));
+  //echo("selected links: [%2.2f%%]", (links*100.) / (mesh->vertices * nodes));
 }
 
-// Main rendering method, will draw the skeleton and the mesh
+// Main rendering method, will draw the skel and the mesh
 void Bone::render()
 {
   //echo("render bone");
   // Now, we'll render the 3d mesh
-  if (! meshToMove->triangleListCompiled) {
-    meshToMove->makeTriangleList();
+  if (! mesh->triangleListCompiled) {
+    mesh->makeTriangleList();
   }
 
   BoneTriangle *tri;
@@ -279,8 +280,8 @@ void Bone::render()
   glColorMaterial(GL_FRONT, GL_DIFFUSE);
 
   glBegin(GL_TRIANGLES);
-  for (int j=0; j < meshToMove->triangles; j++) {
-    tri = meshToMove->triangle[j];
+  for (int j=0; j < mesh->triangles; j++) {
+    tri = mesh->triangle[j];
     v1 = &tri->vertex1->curPosition;
     v2 = &tri->vertex2->curPosition;
     v3 = &tri->vertex3->curPosition;
@@ -333,19 +334,19 @@ BoneLink::BoneLink(Vertex *_vertex, BoneVertex *_boneVertex = NULL, float _weigh
 
 BoneLink::~BoneLink()
 {
-  if (vertex) vertex->removeLink(this);
-  if (boneVertex) boneVertex->removeLink(this);
+  if (vertex) vertex->delLink(this);
+  if (boneVertex) boneVertex->delLink(this);
 }
 
 void BoneLink::setVertex(Vertex *_vertex)
 {
-  if (vertex) vertex->removeLink(this);
+  if (vertex) vertex->delLink(this);
   vertex = _vertex;
 }
 
 void BoneLink::setBoneVertex(BoneVertex *_boneVertex)
 {
-  if (boneVertex) boneVertex->removeLink(this);
+  if (boneVertex) boneVertex->delLink(this);
   boneVertex = _boneVertex;
 }
 
@@ -781,13 +782,13 @@ void BoneVertex::addBone(BoneVertex *newChild)
 }
 
 // Removing a child and its children
-void BoneVertex::removeBone(const char *name)
+void BoneVertex::delBone(const char *name)
 {
   BoneVertex *tmp = getBone(name);
   if (tmp == NULL) return;
   if (tmp == this) return;
 
-  childList.removeElement(tmp);
+  childList.delElement(tmp);
   childListCompiled = 0;
   delete tmp;
 }
@@ -819,9 +820,9 @@ void BoneVertex::addLink(BoneLink *link)
 }
 
 // Removing a link
-void BoneVertex::removeLink(BoneLink *link)
+void BoneVertex::delLink(BoneLink *link)
 {
-  linkList.removeElement(link);
+  linkList.delElement(link);
   compiled = 0;
 }
 
@@ -839,7 +840,7 @@ void BoneVertex::makeLinkList()
 }
 
 // Generating the initial matrix for this node
-void BoneVertex::generateIniMatrix()
+void BoneVertex::genIniMatrix()
 {
   // First, we'll need to know all the childs
   if (! childListCompiled) makeChildList();
@@ -893,14 +894,14 @@ void BoneVertex::generateIniMatrix()
 
   // Now, let's do the same for children :)
   for (int i=0; i < children; i++) {
-    child[i]->generateIniMatrix();
+    child[i]->genIniMatrix();
   }
 
   glPopMatrix();
 }
 
 // Now let's have a look to the current matrix, same code as above
-void BoneVertex::generateCurrentMatrix()
+void BoneVertex::genCurrentMatrix()
 {
   if (! childListCompiled) makeChildList();
 
@@ -933,7 +934,7 @@ void BoneVertex::generateCurrentMatrix()
 
   // And now, just generate the childrem matrices
   for (int i=0; i < children; i++) {
-    child[i]->generateCurrentMatrix();
+    child[i]->genCurrentMatrix();
   }
 
   glPopMatrix();
@@ -1038,9 +1039,9 @@ void Vertex::addLink(BoneLink *link)
   compiled = 0;
 }
 
-void Vertex::removeLink(BoneLink *link)
+void Vertex::delLink(BoneLink *link)
 {
-  //dax-segfault linkList.removeElement(link);
+  //dax-segfault linkList.delElement(link);
   compiled = 0;
 }
 
