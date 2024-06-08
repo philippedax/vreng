@@ -66,8 +66,8 @@ class Face {
   char pathfile[64];	///< file path in cache
 
   BoneMesh *mesh;	///< mesh
-  BoneVertex *root;	///< bone root
-  Bone boneanim;	///< bone animator
+  BoneVertex *skel;	///< bone root
+  Bone *boneanim;	///< bone animator
 
  public:
   Face();			///< Constructor
