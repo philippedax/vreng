@@ -776,16 +776,16 @@ void Body::play()
   if (bap->isBit(R_WRIST_PIVOT))	hand_r->flexion(bap->getBap(R_WRIST_PIVOT));
   if (bap->isBit(L_WRIST_TORSION))	hand_l->torsion(bap->getBap(L_WRIST_TORSION));
   if (bap->isBit(R_WRIST_TORSION))	hand_r->torsion(bap->getBap(R_WRIST_TORSION));
-  if (bap->isBit(L_THUMB_FLEXION1))	fingers_l[0]->abduct(bap->getBap(L_THUMB_FLEXION1));
-  if (bap->isBit(R_THUMB_FLEXION1))	fingers_l[0]->abduct(bap->getBap(R_THUMB_FLEXION1));
-  if (bap->isBit(L_INDEX_FLEXION1))	fingers_l[1]->abduct(bap->getBap(L_INDEX_FLEXION1));
-  if (bap->isBit(R_INDEX_FLEXION1))	fingers_l[1]->abduct(bap->getBap(R_INDEX_FLEXION1));
-  if (bap->isBit(L_MIDDLE_FLEXION1))	fingers_l[2]->abduct(bap->getBap(L_MIDDLE_FLEXION1));
-  if (bap->isBit(R_MIDDLE_FLEXION1))	fingers_l[2]->abduct(bap->getBap(R_MIDDLE_FLEXION1));
-  if (bap->isBit(L_RING_FLEXION1))	fingers_l[3]->abduct(bap->getBap(L_RING_FLEXION1));
-  if (bap->isBit(R_RING_FLEXION1))	fingers_l[3]->abduct(bap->getBap(R_RING_FLEXION1));
-  if (bap->isBit(L_PINKY_FLEXION1))	fingers_l[4]->abduct(bap->getBap(L_PINKY_FLEXION1));
-  if (bap->isBit(R_PINKY_FLEXION1))	fingers_r[4]->abduct(bap->getBap(R_PINKY_FLEXION1));
+  if (bap->isBit(L_THUMB1_FLEXION))	fingers_l[0]->abduct(bap->getBap(L_THUMB1_FLEXION));
+  if (bap->isBit(R_THUMB1_FLEXION))	fingers_l[0]->abduct(bap->getBap(R_THUMB1_FLEXION));
+  if (bap->isBit(L_INDEX1_FLEXION))	fingers_l[1]->abduct(bap->getBap(L_INDEX1_FLEXION));
+  if (bap->isBit(R_INDEX1_FLEXION))	fingers_l[1]->abduct(bap->getBap(R_INDEX1_FLEXION));
+  if (bap->isBit(L_MIDDLE1_FLEXION))	fingers_l[2]->abduct(bap->getBap(L_MIDDLE1_FLEXION));
+  if (bap->isBit(R_MIDDLE1_FLEXION))	fingers_l[2]->abduct(bap->getBap(R_MIDDLE1_FLEXION));
+  if (bap->isBit(L_RING1_FLEXION))	fingers_l[3]->abduct(bap->getBap(L_RING1_FLEXION));
+  if (bap->isBit(R_RING1_FLEXION))	fingers_l[3]->abduct(bap->getBap(R_RING1_FLEXION));
+  if (bap->isBit(L_PINKY1_FLEXION))	fingers_l[4]->abduct(bap->getBap(L_PINKY1_FLEXION));
+  if (bap->isBit(R_PINKY1_FLEXION))	fingers_r[4]->abduct(bap->getBap(R_PINKY1_FLEXION));
   if (bap->isBit(C1_ROLL))		head->flexion(bap->getBap(C1_ROLL));
   if (bap->isBit(C1_TORSION))		head->torsion(bap->getBap(C1_TORSION));
   if (bap->isBit(C1_TILT))		head->abduct(bap->getBap(C1_TILT));
@@ -1273,31 +1273,31 @@ void Body::display()
        glPushMatrix();	//  Left fingers
        glPushMatrix();	//  Left thumb
         transP(L_THUMB);
-        rotX(L_THUMB_FLEXION1, model);
+        rotX(L_THUMB1_FLEXION, model);
         transN(L_THUMB);
         display(L_THUMB);
        glPopMatrix();
        glPushMatrix();	//  Left index
         transP(L_INDEX);
-        rotX(L_INDEX_FLEXION1, model);
+        rotX(L_INDEX1_FLEXION, model);
         transN(L_INDEX);
         display(L_INDEX);
        glPopMatrix();
        glPushMatrix();	//  Left middle
         transP(L_MIDDLE);
-        rotX(L_MIDDLE_FLEXION1, model);
+        rotX(L_MIDDLE1_FLEXION, model);
         transN(L_MIDDLE);
         display(L_MIDDLE);
        glPopMatrix();
        glPushMatrix();	//  Left ring
         transP(L_RING);
-        rotX(L_RING_FLEXION1, model);
+        rotX(L_RING1_FLEXION, model);
         transN(L_RING);
         display(L_RING);
        glPopMatrix();
        glPushMatrix();	//  Left pinky
         transP(L_PINKY);
-        rotX(L_PINKY_FLEXION1, model);
+        rotX(L_PINKY1_FLEXION, model);
         transN(L_PINKY);
         display(L_PINKY);
        glPopMatrix();
@@ -1346,31 +1346,31 @@ void Body::display()
        glPushMatrix();	//  Right fingers
        glPushMatrix();	//  Right thumb
         transP(R_THUMB);
-        rotX(R_THUMB_FLEXION1, model);
+        rotX(R_THUMB1_FLEXION, model);
         transN(R_THUMB);
         display(R_THUMB);
        glPopMatrix();
        glPushMatrix();	//  Right index
         transP(R_INDEX);
-        rotX(R_INDEX_FLEXION1, model);
+        rotX(R_INDEX1_FLEXION, model);
         transN(R_INDEX);
         display(R_INDEX);
        glPopMatrix();
        glPushMatrix();	//  Right middle
         transP(R_MIDDLE);
-        rotX(R_MIDDLE_FLEXION1, model);
+        rotX(R_MIDDLE_FLEXION, model);
         transN(R_MIDDLE);
         display(R_MIDDLE);
        glPopMatrix();
        glPushMatrix();	//  Right ring
         transP(R_RING);
-        rotX(R_RING_FLEXION1, model);
+        rotX(R_RING1_FLEXION, model);
         transN(R_RING);
         display(R_RING);
        glPopMatrix();
        glPushMatrix();	//  Right pinky
         transP(R_PINKY);
-        rotX(R_PINKY_FLEXION1, model);
+        rotX(R_PINKY1_FLEXION, model);
         transN(R_PINKY);
         display(R_PINKY);
        glPopMatrix();

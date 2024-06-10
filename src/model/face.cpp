@@ -222,8 +222,8 @@ void Face::render()
 //  /
 // Z
 //
-// 1,0,0 X yaw   (yes)
-// 0,1,0 Y pitch (no)
+// 1,0,0 X yaw   (no)
+// 0,1,0 Y pitch (yes)
 // 0,0,1 Z roll  (maybe)
 
 /** Anims head */
@@ -239,14 +239,14 @@ void Face::animHead(float a, int x, int y, int z)
 }
 
 /** Anims nose */
-void Face::animNose(float a, const char *s)
+void Face::animNose(float a, const char *b)
 {
   BoneVertex *bone;
   float scale = 1 - cos(a/16) / 4;
 
   echo("animNose: a=%.0f s=%.0f", a, scale);
   if ((bone = skel->getBone(nose))) {
-    if ((bone = skel->getBone(s))) {
+    if ((bone = skel->getBone(b))) {
       bone->resetPos();
       bone->setScale(scale, 1, 1);
     }
@@ -256,13 +256,13 @@ void Face::animNose(float a, const char *s)
 }
 
 /** Anims eyeball */
-void Face::animEyeBall(float a, const char *s, int d)
+void Face::animEyeBall(float a, const char *b, int d)
 {
   BoneVertex *bone;
   float scale = 1 - cos(a/16) /* / 2 */;
 
   echo("animEyeBall: a=%.0f s=%.0f d=%d", a, scale, d);
-  if ((bone = skel->getBone(s))) {
+  if ((bone = skel->getBone(b))) {
     bone->resetPos();
     bone->setScale(scale, 1, 1);
     if (d)
@@ -272,7 +272,7 @@ void Face::animEyeBall(float a, const char *s, int d)
     bone->resetPos();
   }
   else
-    error("%s not found", s);
+    error("%s not found", b);
 }
 
 /** Anims eye lid */
@@ -309,7 +309,7 @@ void Face::animEyeLid(float a, const char *root, const char *lid, const char *le
 }
 
 /** Anims eye brow */
-void Face::animEyeBrow(float a, const char *_root, const char *s)
+void Face::animEyeBrow(float a, const char *_root, const char *b)
 {
   BoneVertex *bone;
   float scale = cos(a/5);
@@ -321,17 +321,17 @@ void Face::animEyeBrow(float a, const char *_root, const char *s)
   }
   else
     error("%s not found", _root);
-  if ((bone = skel->getBone(s))) {
+  if ((bone = skel->getBone(b))) {
     bone->resetPos();
     bone->setRot(scale*10, 0,0,1);
     bone->setTrans(0, scale/25, 0);
   }
   else
-    error("%s not found", s);
+    error("%s not found", b);
 }
 
 /** Anims lip */
-void Face::animLip(float a, const char *s)
+void Face::animLip(float a, const char *b)
 {
   BoneVertex *bone;
 
@@ -340,7 +340,7 @@ void Face::animLip(float a, const char *s)
     //dax float smile = cos(a/10)*20;
 
     echo("animLip: a=%.0f", a);
-    if ((bone = skel->getBone(s))) {
+    if ((bone = skel->getBone(b))) {
       bone->resetPos();
       bone->setTrans(delta);
       //dax bone->setRot(smile, 0,0,1);
