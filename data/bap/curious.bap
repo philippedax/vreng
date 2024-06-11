@@ -1,29 +1,4 @@
-# BAP file, by Tolga K. Capin, Joaquim Esmerado (capin@lig.di.epfl.ch, jle@lig.di.epfl.ch)
-# EPFL-LIG, Switzerland
-# February 16, 1998.
-############################ HEADER DESCRIPTION ###############################
-#Header record :
-#       Version number:3.1
-#       Sequence base name: note:body feature filename= <basename>.bff,
-#       video filename= <basename>.vid, separate image filenames=
-#       <basename>.nnnnn.img, audio filename= <basename>.aud,
-#       FAP filename = <basename>.fap, FDP filename = <basename>.fdp,
-#       BAP filename = <basename>.bap, BDP filename = <basename>.bdp
-#       Frame rate:     fps (note that this may be equal to the video field
-#       rate since interlace has no meaning here)
-#       Sequence length: Nframe
-#BAP mask: one 0 or 1 for each of the possible 169 BAPs (masked or unmasked) indicating
-#whether it is used. The BAP mask precedes each BAP data line on a separate line.
-################# BAP DATA DESCRIPTION ##########################
-#Each frame  is described as one line of integer BAP values starting with the
-#frame number. The BAP mask in the header indicates which
-#BAP groups are included. The 169 parameter values are defined
-#in MPEG doc N2068 (Page 22). A zero value for any
-#BAP indicates a body in default position.
-#Example:
-#<frame number> <pelvic_tilt><pelvic_torsion>...<l5tilt>
-#Header description
-3.1 _curious.TRK 30 113
+3.1 curious.bap 30 113
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 0 -8726 -8726 8726 8726 
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
