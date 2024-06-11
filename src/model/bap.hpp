@@ -39,7 +39,7 @@
 #define BAPV32_DIV	555     // 1e5 / 180
 #define BAPV31_DIV	1745    // PI*1e5 / 180
 
-// MPEG4 Bap parameters
+// MPEG4 V31 Bap parameters (#186)
 #define	PELVIC_TILT		1	// pelvic
 #define	PELVIC_TORSION		2
 #define	PELVIC_ROLL		3
