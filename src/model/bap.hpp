@@ -27,7 +27,7 @@
 
 
 #define NUM_BAPS_V31	186	// number of baps (Mpeg4 BAP-V3.1 specif)
-#define NUM_BAPS_V32	296	// number of baps (Mpeg4 BAP-V3.2 specif)
+#define NUM_BAPS_V32	186	// number of baps (Mpeg4 BAP-V3.2 specif)
 
 // MPEG4 BAP types
 #define HEAD_BAP_V31    "3.1"

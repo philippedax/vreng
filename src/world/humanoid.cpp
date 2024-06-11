@@ -111,7 +111,7 @@ void Humanoid::inits()
   bapstring = NULL;
   baptype = 0;
   bapframes = 0;
-  bapparams = 0;
+  bapparams = 186;
 
   body = new Body();
   body->wobject = this;

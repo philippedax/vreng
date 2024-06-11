@@ -242,8 +242,6 @@ uint16_t Bap::getParams()
 {
   switch(baptype) {
   case TYPE_BAP_V31:
-    params = NUM_BAPS_V31;
-    break;
   case TYPE_BAP_V32:
     params = NUM_BAPS_V32;
     break;
