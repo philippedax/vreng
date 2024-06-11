@@ -15,6 +15,8 @@ The rules for this file:
 ++ 9 [2024/04]
 == 9.4 (2024/04)
 -- 9.4.6
+	- fix bap parameters to 186
+	(2024/06/11, Philippe Dax)
 	- rewrite playing local bap
 	- add v3d.*pp
 	- rename v3d.*pp to face.*pp
