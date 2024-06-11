@@ -227,7 +227,7 @@
 #define	RT_BODY_ROLL		185
 #define	RT_BODY_TILT		186
 
-/* externs */
+/* externs from gestures.hpp */
 extern const char pause_bap[];
 extern const char hi_bap[];
 extern const char bye_bap[];
@@ -236,12 +236,14 @@ extern const char show_bap[];
 extern const char sit_bap[];
 extern const char clap_bap[];
 extern const char nak_bap[];
+extern const char bof_bap[];
+extern const char curious_bap[];
 extern const char test_bap[];
-extern const char reset_bap[];
 extern const char eyes_fap[];
 extern const char joy_fap[];
 extern const char sad_fap[];
 extern const char surp_fap[];
+extern const char reset_bap[];
 
 /**
  * Bap class
