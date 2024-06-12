@@ -315,7 +315,7 @@ void Humanoid::changePermanent(float lasting)
 
     switch (baptype) {
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
-      for (int i=1; i <= NUM_BAPS_V32; i++) {
+      for (int i=1; i <= NUM_BAPS; i++) {
         if (! bap->isBit(i)) continue;
         //echo("play: %d (%.2f)", i, bap->getBap(i));
       }

@@ -38,7 +38,7 @@ Bap::Bap()
   params = 0;
 
   // set all values to 0
-  for (int i=0; i <= NUM_BAPS_V32; i++) {
+  for (int i=0; i <= NUM_BAPS; i++) {
     baps[i] = 0;
     bits[i] = 0;
   }
@@ -133,7 +133,7 @@ uint8_t Bap::parse(char *bapline)
   //echo("parse: %s", bapline);
   l = strtok(bapline, " ");
   if (! stringcmp(l, HEAD_BAP_V31)) {		// Bap3.1 Header
-    params = NUM_BAPS_V31;
+    params = NUM_BAPS;
     resetBit(params);
     baptype = TYPE_BAP_V31;
     l = strtok(NULL, " ");
@@ -143,7 +143,7 @@ uint8_t Bap::parse(char *bapline)
     return baptype;
   }
   else if (! stringcmp(l, HEAD_BAP_V32)) {	// Bap3.2 Header
-    params = NUM_BAPS_V32;
+    params = NUM_BAPS;
     resetBit(params);
     baptype = TYPE_BAP_V32;
     l = strtok(NULL, " ");
@@ -193,7 +193,7 @@ uint8_t Bap::parse(char *bapline)
         if (i >= TR_VERTICAL && i <= TR_FRONTAL)	// translations
           baps[i] = static_cast<float>(atof(l));	// magic formula (300)
         else {  	// angles
-          if (params == NUM_BAPS_V32)
+          if (baptype == TYPE_BAP_V32)
             baps[i] = static_cast<float>(atof(l) / BAPV32_DIV);	// magic formula (555) //GB
           else
             baps[i] = static_cast<float>(atof(l) / BAPV31_DIV);	// magic formula (1745)
@@ -243,7 +243,7 @@ uint16_t Bap::getParams()
   switch(baptype) {
   case TYPE_BAP_V31:
   case TYPE_BAP_V32:
-    params = NUM_BAPS_V32;
+    params = NUM_BAPS;
     break;
   case TYPE_FAP_V20:
   case TYPE_FAP_V21:

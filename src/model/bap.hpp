@@ -26,8 +26,7 @@
 #include "fap.hpp"	// NUM_FAPS
 
 
-#define NUM_BAPS_V31	186	// number of baps (Mpeg4 BAP-V3.1 specif)
-#define NUM_BAPS_V32	186	// number of baps (Mpeg4 BAP-V3.2 specif)
+#define NUM_BAPS	186	// number of baps (Mpeg4 BAP-V3.1 specif)
 
 // MPEG4 BAP types
 #define HEAD_BAP_V31    "3.1"
@@ -252,10 +251,9 @@ extern const char reset_bap[];
  */
 class Bap {
  private:
-  uint8_t bits[NUM_BAPS_V32 + 2];	///< bap/fap bit mask
-  float baps[NUM_BAPS_V32 + 2];		///< baps angles
-  float faps[NUM_FAPS + 2];		///< faps angles
-  //float baplast[NUM_BAPS_V32 + 2];	///< last baps angles
+  uint8_t bits[NUM_BAPS + 2];	///< bap/fap bit mask
+  float baps[NUM_BAPS + 2];	///< baps angles
+  float faps[NUM_FAPS + 2];	///< faps angles
 
   void resetBit(int n);
   /**< Resets bit mask */
