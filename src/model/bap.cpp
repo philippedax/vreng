@@ -28,8 +28,6 @@
 #include "format.hpp"	// MODEL_*
 #include "str.hpp"	// stringcmp
 
-#include "gestures.hpp"	// gestures
-
 
 /** Constructor */
 Bap::Bap()

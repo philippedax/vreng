@@ -34,6 +34,7 @@
 #include "timer.hpp"	// rate
 #include "user.hpp"	// localuser
 #include "bap.hpp"	// setBit, setBap
+#include "gestures.hpp"	// *_bap
 
 
 const OClass Humanoid::oclass(HUMANOID_TYPE, "Humanoid", Humanoid::creator);
