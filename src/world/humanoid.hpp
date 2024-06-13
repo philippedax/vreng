@@ -140,6 +140,7 @@ class Humanoid: public WO {
   void clap();
   void nak();
   void bof();
+  void pivot();
   void curi();
   void test();
   void eyes();
@@ -158,6 +159,7 @@ class Humanoid: public WO {
   static void clap_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void nak_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void bof_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void pivot_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void curi_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void test_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void eyes_cb(Humanoid *humanoid, void *d, time_t s, time_t u);

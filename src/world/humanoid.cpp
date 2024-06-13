@@ -639,6 +639,13 @@ void Humanoid::bof()
   bapstring = const_cast<char *>(bof_bap);
 }
 
+/** Plays pivot */
+void Humanoid::pivot()
+{
+  sendPlay("pivot.bap");
+  bapstring = const_cast<char *>(pivot_bap);
+}
+
 /** Plays curi */
 void Humanoid::curi()
 {
@@ -727,6 +734,11 @@ void Humanoid::bof_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
   humanoid->bof();
 }
 
+void Humanoid::pivot_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->pivot();
+}
+
 void Humanoid::curi_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
 {
   humanoid->curi();
@@ -765,19 +777,20 @@ void Humanoid::funcs()
   setActionFunc(HUMANOID_TYPE, 2, _Action bye_cb, "Bye");
   setActionFunc(HUMANOID_TYPE, 3, _Action ask_cb, "Ask");
   setActionFunc(HUMANOID_TYPE, 4, _Action sit_cb, "Sit");
-  setActionFunc(HUMANOID_TYPE, 5, _Action show_cb, "Show");
+  setActionFunc(HUMANOID_TYPE, 5, _Action show_cb, "SPivot");
   setActionFunc(HUMANOID_TYPE, 6, _Action clap_cb, "Clap");
   setActionFunc(HUMANOID_TYPE, 7, _Action nak_cb, "Nak");
   setActionFunc(HUMANOID_TYPE, 8, _Action bof_cb, "Bof");
-  setActionFunc(HUMANOID_TYPE, 9, _Action curi_cb, "Curi");
-  setActionFunc(HUMANOID_TYPE, 10, _Action eyes_cb, "Eyes");
-  setActionFunc(HUMANOID_TYPE, 11, _Action joy_cb, "Joy");
-  setActionFunc(HUMANOID_TYPE, 12, _Action sad_cb, "Sad");
-  setActionFunc(HUMANOID_TYPE, 13, _Action surp_cb, "Surp");
-  setActionFunc(HUMANOID_TYPE, 14, _Action Face::changeFace, "New");
-  setActionFunc(HUMANOID_TYPE, 15, _Action Face::Yes, "Yes");
-  setActionFunc(HUMANOID_TYPE, 16, _Action Face::No, "No");
-  setActionFunc(HUMANOID_TYPE, 17, _Action Face::EyeL, "EyeL");
-  setActionFunc(HUMANOID_TYPE, 18, _Action Face::Smile, "Smile");
-  setActionFunc(HUMANOID_TYPE, 19, _Action reset_cb, "Reset");
+  setActionFunc(HUMANOID_TYPE, 9, _Action pivot_cb, "Pivot");
+  setActionFunc(HUMANOID_TYPE, 10, _Action curi_cb, "Curi");
+  setActionFunc(HUMANOID_TYPE, 11, _Action eyes_cb, "Eyes");
+  setActionFunc(HUMANOID_TYPE, 12, _Action joy_cb, "Joy");
+  setActionFunc(HUMANOID_TYPE, 13, _Action sad_cb, "Sad");
+  setActionFunc(HUMANOID_TYPE, 14, _Action surp_cb, "Surp");
+  setActionFunc(HUMANOID_TYPE, 15, _Action Face::changeFace, "New");
+  setActionFunc(HUMANOID_TYPE, 16, _Action Face::Yes, "Yes");
+  setActionFunc(HUMANOID_TYPE, 17, _Action Face::No, "No");
+  setActionFunc(HUMANOID_TYPE, 18, _Action Face::EyeL, "EyeL");
+  setActionFunc(HUMANOID_TYPE, 19, _Action Face::Smile, "Smile");
+  setActionFunc(HUMANOID_TYPE, 20, _Action reset_cb, "Reset");
 }
