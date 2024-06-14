@@ -745,62 +745,62 @@ void Body::play()
 {
   if (! bap) return;
 
-  if (bap->isBit(PELVIC_TILT))		chest->abduct(bap->getBap(PELVIC_TILT));
-  if (bap->isBit(PELVIC_TORSION))	chest->torsion(bap->getBap(PELVIC_TORSION));
-  if (bap->isBit(PELVIC_ROLL))		chest->flexion(bap->getBap(PELVIC_ROLL));
-  if (bap->isBit(L_HIP_FLEXION))	thigh_l->flexion(bap->getBap(L_HIP_FLEXION));
-  if (bap->isBit(R_HIP_FLEXION))	thigh_r->flexion(bap->getBap(R_HIP_FLEXION));
-  if (bap->isBit(L_HIP_ABDUCT))		thigh_l->abduct(bap->getBap(L_HIP_ABDUCT));
-  if (bap->isBit(R_HIP_ABDUCT))		thigh_r->abduct(bap->getBap(R_HIP_ABDUCT));
-  if (bap->isBit(L_HIP_TORSION))	thigh_l->torsion(bap->getBap(L_HIP_TORSION));
-  if (bap->isBit(R_HIP_TORSION))	thigh_r->torsion(bap->getBap(R_HIP_TORSION));
-  if (bap->isBit(L_KNEE_FLEXION))	shin_l->flexion(bap->getBap(L_KNEE_FLEXION));
-  if (bap->isBit(R_KNEE_FLEXION))	shin_r->flexion(bap->getBap(R_KNEE_FLEXION));
-  if (bap->isBit(L_KNEE_TORSION))	shin_l->torsion(bap->getBap(L_KNEE_TORSION));
-  if (bap->isBit(R_KNEE_TORSION))	shin_r->torsion(bap->getBap(R_KNEE_TORSION));
-  if (bap->isBit(L_ANKLE_FLEXION))	foot_l->flexion(bap->getBap(L_ANKLE_FLEXION));
-  if (bap->isBit(R_ANKLE_FLEXION))	foot_r->flexion(bap->getBap(R_ANKLE_FLEXION));
-  if (bap->isBit(L_ANKLE_TORSION))	foot_l->torsion(bap->getBap(L_ANKLE_TORSION));
-  if (bap->isBit(R_ANKLE_TORSION))	foot_r->torsion(bap->getBap(R_ANKLE_TORSION));
-  if (bap->isBit(L_SHOULDER_FLEXION))	arm_l->flexion(bap->getBap(L_SHOULDER_FLEXION));
-  if (bap->isBit(R_SHOULDER_FLEXION))	arm_r->flexion(bap->getBap(R_SHOULDER_FLEXION));
-  if (bap->isBit(L_SHOULDER_ABDUCT))	arm_l->abduct(bap->getBap(L_SHOULDER_ABDUCT));
-  if (bap->isBit(R_SHOULDER_ABDUCT))	arm_r->abduct(bap->getBap(R_SHOULDER_ABDUCT));
-  if (bap->isBit(L_SHOULDER_TORSION))	arm_l->torsion(bap->getBap(L_SHOULDER_TORSION));
-  if (bap->isBit(R_SHOULDER_TORSION))	arm_r->torsion(bap->getBap(R_SHOULDER_TORSION));
-  if (bap->isBit(L_ELBOW_FLEXION))	forearm_l->flexion(bap->getBap(L_ELBOW_FLEXION));
-  if (bap->isBit(R_ELBOW_FLEXION))	forearm_r->flexion(bap->getBap(R_ELBOW_FLEXION));
-  if (bap->isBit(L_WRIST_FLEXION))	hand_l->abduct(bap->getBap(L_WRIST_FLEXION));
-  if (bap->isBit(R_WRIST_FLEXION))	hand_r->abduct(bap->getBap(R_WRIST_FLEXION));
-  if (bap->isBit(L_WRIST_PIVOT))	hand_l->flexion(bap->getBap(L_WRIST_PIVOT));
-  if (bap->isBit(R_WRIST_PIVOT))	hand_r->flexion(bap->getBap(R_WRIST_PIVOT));
-  if (bap->isBit(L_WRIST_TORSION))	hand_l->torsion(bap->getBap(L_WRIST_TORSION));
-  if (bap->isBit(R_WRIST_TORSION))	hand_r->torsion(bap->getBap(R_WRIST_TORSION));
-  if (bap->isBit(L_THUMB1_FLEXION))	fingers_l[0]->abduct(bap->getBap(L_THUMB1_FLEXION));
-  if (bap->isBit(R_THUMB1_FLEXION))	fingers_l[0]->abduct(bap->getBap(R_THUMB1_FLEXION));
-  if (bap->isBit(L_INDEX1_FLEXION))	fingers_l[1]->abduct(bap->getBap(L_INDEX1_FLEXION));
-  if (bap->isBit(R_INDEX1_FLEXION))	fingers_l[1]->abduct(bap->getBap(R_INDEX1_FLEXION));
-  if (bap->isBit(L_MIDDLE1_FLEXION))	fingers_l[2]->abduct(bap->getBap(L_MIDDLE1_FLEXION));
-  if (bap->isBit(R_MIDDLE1_FLEXION))	fingers_l[2]->abduct(bap->getBap(R_MIDDLE1_FLEXION));
-  if (bap->isBit(L_RING1_FLEXION))	fingers_l[3]->abduct(bap->getBap(L_RING1_FLEXION));
-  if (bap->isBit(R_RING1_FLEXION))	fingers_l[3]->abduct(bap->getBap(R_RING1_FLEXION));
-  if (bap->isBit(L_PINKY1_FLEXION))	fingers_l[4]->abduct(bap->getBap(L_PINKY1_FLEXION));
-  if (bap->isBit(R_PINKY1_FLEXION))	fingers_r[4]->abduct(bap->getBap(R_PINKY1_FLEXION));
-  if (bap->isBit(C1_ROLL))		head->flexion(bap->getBap(C1_ROLL));
-  if (bap->isBit(C1_TORSION))		head->torsion(bap->getBap(C1_TORSION));
-  if (bap->isBit(C1_TILT))		head->abduct(bap->getBap(C1_TILT));
-  if (bap->isBit(C4_ROLL))		neck->flexion(bap->getBap(C4_ROLL));
-  if (bap->isBit(C4_TORSION))		neck->torsion(bap->getBap(C4_TORSION));
-  if (bap->isBit(C4_TILT))		neck->abduct(bap->getBap(C4_TILT));
-  if (bap->isBit(T1_ROLL))		neck->flexion(bap->getBap(T1_ROLL));
-  if (bap->isBit(T1_TORSION))		neck->torsion(bap->getBap(T1_TORSION));
-  if (bap->isBit(T1_TILT))		neck->abduct(bap->getBap(T1_TILT));
-  if (bap->isBit(TR_VERTICAL))		tz = bap->getBap(TR_VERTICAL) / TR_DIV;
-  if (bap->isBit(TR_LATERAL))		ty = bap->getBap(TR_LATERAL) / TR_DIV;
-  if (bap->isBit(TR_FRONTAL))		tx = bap->getBap(TR_FRONTAL) / TR_DIV;
-  if (bap->isBit(RT_BODY_TURN))		rz = bap->getBap(RT_BODY_TURN);
-  if (bap->isBit(RT_BODY_ROLL))		rx = bap->getBap(RT_BODY_ROLL);
-  if (bap->isBit(RT_BODY_TILT))		ry = bap->getBap(RT_BODY_TILT);
+  if (bap->isBit(PELVIC_TILT))		chest->abduct(bap->get(PELVIC_TILT));
+  if (bap->isBit(PELVIC_TORSION))	chest->torsion(bap->get(PELVIC_TORSION));
+  if (bap->isBit(PELVIC_ROLL))		chest->flexion(bap->get(PELVIC_ROLL));
+  if (bap->isBit(L_HIP_FLEXION))	thigh_l->flexion(bap->get(L_HIP_FLEXION));
+  if (bap->isBit(R_HIP_FLEXION))	thigh_r->flexion(bap->get(R_HIP_FLEXION));
+  if (bap->isBit(L_HIP_ABDUCT))		thigh_l->abduct(bap->get(L_HIP_ABDUCT));
+  if (bap->isBit(R_HIP_ABDUCT))		thigh_r->abduct(bap->get(R_HIP_ABDUCT));
+  if (bap->isBit(L_HIP_TORSION))	thigh_l->torsion(bap->get(L_HIP_TORSION));
+  if (bap->isBit(R_HIP_TORSION))	thigh_r->torsion(bap->get(R_HIP_TORSION));
+  if (bap->isBit(L_KNEE_FLEXION))	shin_l->flexion(bap->get(L_KNEE_FLEXION));
+  if (bap->isBit(R_KNEE_FLEXION))	shin_r->flexion(bap->get(R_KNEE_FLEXION));
+  if (bap->isBit(L_KNEE_TORSION))	shin_l->torsion(bap->get(L_KNEE_TORSION));
+  if (bap->isBit(R_KNEE_TORSION))	shin_r->torsion(bap->get(R_KNEE_TORSION));
+  if (bap->isBit(L_ANKLE_FLEXION))	foot_l->flexion(bap->get(L_ANKLE_FLEXION));
+  if (bap->isBit(R_ANKLE_FLEXION))	foot_r->flexion(bap->get(R_ANKLE_FLEXION));
+  if (bap->isBit(L_ANKLE_TORSION))	foot_l->torsion(bap->get(L_ANKLE_TORSION));
+  if (bap->isBit(R_ANKLE_TORSION))	foot_r->torsion(bap->get(R_ANKLE_TORSION));
+  if (bap->isBit(L_SHOULDER_FLEXION))	arm_l->flexion(bap->get(L_SHOULDER_FLEXION));
+  if (bap->isBit(R_SHOULDER_FLEXION))	arm_r->flexion(bap->get(R_SHOULDER_FLEXION));
+  if (bap->isBit(L_SHOULDER_ABDUCT))	arm_l->abduct(bap->get(L_SHOULDER_ABDUCT));
+  if (bap->isBit(R_SHOULDER_ABDUCT))	arm_r->abduct(bap->get(R_SHOULDER_ABDUCT));
+  if (bap->isBit(L_SHOULDER_TORSION))	arm_l->torsion(bap->get(L_SHOULDER_TORSION));
+  if (bap->isBit(R_SHOULDER_TORSION))	arm_r->torsion(bap->get(R_SHOULDER_TORSION));
+  if (bap->isBit(L_ELBOW_FLEXION))	forearm_l->flexion(bap->get(L_ELBOW_FLEXION));
+  if (bap->isBit(R_ELBOW_FLEXION))	forearm_r->flexion(bap->get(R_ELBOW_FLEXION));
+  if (bap->isBit(L_WRIST_FLEXION))	hand_l->abduct(bap->get(L_WRIST_FLEXION));
+  if (bap->isBit(R_WRIST_FLEXION))	hand_r->abduct(bap->get(R_WRIST_FLEXION));
+  if (bap->isBit(L_WRIST_PIVOT))	hand_l->flexion(bap->get(L_WRIST_PIVOT));
+  if (bap->isBit(R_WRIST_PIVOT))	hand_r->flexion(bap->get(R_WRIST_PIVOT));
+  if (bap->isBit(L_WRIST_TORSION))	hand_l->torsion(bap->get(L_WRIST_TORSION));
+  if (bap->isBit(R_WRIST_TORSION))	hand_r->torsion(bap->get(R_WRIST_TORSION));
+  if (bap->isBit(L_THUMB1_FLEXION))	fingers_l[0]->flexion(bap->get(L_THUMB1_FLEXION));
+  if (bap->isBit(R_THUMB1_FLEXION))	fingers_l[0]->flexion(bap->get(R_THUMB1_FLEXION));
+  if (bap->isBit(L_INDEX1_FLEXION))	fingers_l[1]->flexion(bap->get(L_INDEX1_FLEXION));
+  if (bap->isBit(R_INDEX1_FLEXION))	fingers_l[1]->flexion(bap->get(R_INDEX1_FLEXION));
+  if (bap->isBit(L_MIDDLE1_FLEXION))	fingers_l[2]->flexion(bap->get(L_MIDDLE1_FLEXION));
+  if (bap->isBit(R_MIDDLE1_FLEXION))	fingers_l[2]->flexion(bap->get(R_MIDDLE1_FLEXION));
+  if (bap->isBit(L_RING1_FLEXION))	fingers_l[3]->flexion(bap->get(L_RING1_FLEXION));
+  if (bap->isBit(R_RING1_FLEXION))	fingers_l[3]->flexion(bap->get(R_RING1_FLEXION));
+  if (bap->isBit(L_PINKY1_FLEXION))	fingers_l[4]->flexion(bap->get(L_PINKY1_FLEXION));
+  if (bap->isBit(R_PINKY1_FLEXION))	fingers_r[4]->flexion(bap->get(R_PINKY1_FLEXION));
+  if (bap->isBit(C1_ROLL))		head->flexion(bap->get(C1_ROLL));
+  if (bap->isBit(C1_TORSION))		head->torsion(bap->get(C1_TORSION));
+  if (bap->isBit(C1_TILT))		head->abduct(bap->get(C1_TILT));
+  if (bap->isBit(C4_ROLL))		neck->flexion(bap->get(C4_ROLL));
+  if (bap->isBit(C4_TORSION))		neck->torsion(bap->get(C4_TORSION));
+  if (bap->isBit(C4_TILT))		neck->abduct(bap->get(C4_TILT));
+  if (bap->isBit(T1_ROLL))		neck->flexion(bap->get(T1_ROLL));
+  if (bap->isBit(T1_TORSION))		neck->torsion(bap->get(T1_TORSION));
+  if (bap->isBit(T1_TILT))		neck->abduct(bap->get(T1_TILT));
+  if (bap->isBit(TR_VERTICAL))		{ tz = bap->get(TR_VERTICAL); if(::g.pref.dbgtrace) echo("tv: %.0f", tz); /*tz=0;*/ }
+  if (bap->isBit(TR_LATERAL))		{ ty = bap->get(TR_LATERAL); if(::g.pref.dbgtrace) echo("tl: %.0f", ty); /*ty=0;*/ }
+  if (bap->isBit(TR_FRONTAL))		{ tx = bap->get(TR_FRONTAL); if(::g.pref.dbgtrace) echo("tf: %.0f", tx); /*tx=0;*/ }
+  if (bap->isBit(RT_BODY_TURN))		{ rz = bap->get(RT_BODY_TURN); if(::g.pref.dbgtrace) echo("tu: %.0f", rz); }
+  if (bap->isBit(RT_BODY_ROLL))		{ rx = bap->get(RT_BODY_ROLL); if(::g.pref.dbgtrace) echo("ro: %.0f", rx); /*rx=0;*/ }
+  if (bap->isBit(RT_BODY_TILT))		{ ry = bap->get(RT_BODY_TILT); if(::g.pref.dbgtrace) echo("ti: %.0f", ry); }
 }
 
 void Body::animReset()
@@ -989,63 +989,63 @@ void Body::animHand(float a, uint8_t side, uint8_t axis)
 void Body::anim(int param)
 {
   switch (param) {
-  case PELVIC_TILT:		chest->abduct(bap->getBap(PELVIC_TILT)); break;
-  case PELVIC_TORSION:		chest->torsion(bap->getBap(PELVIC_TORSION)); break;
-  case PELVIC_ROLL:		chest->flexion(bap->getBap(PELVIC_ROLL)); break;
+  case PELVIC_TILT:		chest->abduct(bap->get(PELVIC_TILT)); break;
+  case PELVIC_TORSION:		chest->torsion(bap->get(PELVIC_TORSION)); break;
+  case PELVIC_ROLL:		chest->flexion(bap->get(PELVIC_ROLL)); break;
 
-  case L_HIP_FLEXION:		thigh_l->flexion(bap->getBap(L_HIP_FLEXION)); break;
-  case R_HIP_FLEXION:		thigh_r->flexion(bap->getBap(R_HIP_FLEXION)); break;
-  case L_HIP_ABDUCT:		thigh_l->abduct(bap->getBap(L_HIP_ABDUCT)); break;
-  case R_HIP_ABDUCT:		thigh_r->abduct(bap->getBap(R_HIP_ABDUCT)); break;
-  case L_HIP_TORSION:		thigh_l->torsion(bap->getBap(L_HIP_TORSION)); break;
-  case R_HIP_TORSION:		thigh_r->torsion(bap->getBap(R_HIP_TORSION)); break;
+  case L_HIP_FLEXION:		thigh_l->flexion(bap->get(L_HIP_FLEXION)); break;
+  case R_HIP_FLEXION:		thigh_r->flexion(bap->get(R_HIP_FLEXION)); break;
+  case L_HIP_ABDUCT:		thigh_l->abduct(bap->get(L_HIP_ABDUCT)); break;
+  case R_HIP_ABDUCT:		thigh_r->abduct(bap->get(R_HIP_ABDUCT)); break;
+  case L_HIP_TORSION:		thigh_l->torsion(bap->get(L_HIP_TORSION)); break;
+  case R_HIP_TORSION:		thigh_r->torsion(bap->get(R_HIP_TORSION)); break;
 
-  case L_KNEE_FLEXION:		shin_l->flexion(bap->getBap(L_KNEE_FLEXION)); break;
-  case R_KNEE_FLEXION:		shin_r->flexion(bap->getBap(R_KNEE_FLEXION)); break;
-  case L_KNEE_TORSION:		shin_l->torsion(bap->getBap(L_KNEE_TORSION)); break;
-  case R_KNEE_TORSION:		shin_r->torsion(bap->getBap(R_KNEE_TORSION)); break;
+  case L_KNEE_FLEXION:		shin_l->flexion(bap->get(L_KNEE_FLEXION)); break;
+  case R_KNEE_FLEXION:		shin_r->flexion(bap->get(R_KNEE_FLEXION)); break;
+  case L_KNEE_TORSION:		shin_l->torsion(bap->get(L_KNEE_TORSION)); break;
+  case R_KNEE_TORSION:		shin_r->torsion(bap->get(R_KNEE_TORSION)); break;
 
-  case L_ANKLE_FLEXION:		foot_l->flexion(bap->getBap(L_ANKLE_FLEXION)); break;
-  case R_ANKLE_FLEXION:		foot_r->flexion(bap->getBap(R_ANKLE_FLEXION)); break;
-  case L_ANKLE_TORSION:		foot_l->torsion(bap->getBap(L_ANKLE_TORSION)); break;
-  case R_ANKLE_TORSION:		foot_r->torsion(bap->getBap(R_ANKLE_TORSION)); break;
+  case L_ANKLE_FLEXION:		foot_l->flexion(bap->get(L_ANKLE_FLEXION)); break;
+  case R_ANKLE_FLEXION:		foot_r->flexion(bap->get(R_ANKLE_FLEXION)); break;
+  case L_ANKLE_TORSION:		foot_l->torsion(bap->get(L_ANKLE_TORSION)); break;
+  case R_ANKLE_TORSION:		foot_r->torsion(bap->get(R_ANKLE_TORSION)); break;
 
-  case L_SHOULDER_FLEXION:	arm_l->flexion(bap->getBap(L_SHOULDER_FLEXION)); break;
-  case R_SHOULDER_FLEXION:	arm_r->flexion(bap->getBap(R_SHOULDER_FLEXION)); break;
-  case L_SHOULDER_ABDUCT:	arm_l->abduct(bap->getBap(L_SHOULDER_ABDUCT)); break;
-  case R_SHOULDER_ABDUCT:	arm_r->abduct(bap->getBap(R_SHOULDER_ABDUCT)); break;
-  case L_SHOULDER_TORSION:	arm_l->torsion(bap->getBap(L_SHOULDER_TORSION)); break;
-  case R_SHOULDER_TORSION:	arm_r->torsion(bap->getBap(R_SHOULDER_TORSION)); break;
+  case L_SHOULDER_FLEXION:	arm_l->flexion(bap->get(L_SHOULDER_FLEXION)); break;
+  case R_SHOULDER_FLEXION:	arm_r->flexion(bap->get(R_SHOULDER_FLEXION)); break;
+  case L_SHOULDER_ABDUCT:	arm_l->abduct(bap->get(L_SHOULDER_ABDUCT)); break;
+  case R_SHOULDER_ABDUCT:	arm_r->abduct(bap->get(R_SHOULDER_ABDUCT)); break;
+  case L_SHOULDER_TORSION:	arm_l->torsion(bap->get(L_SHOULDER_TORSION)); break;
+  case R_SHOULDER_TORSION:	arm_r->torsion(bap->get(R_SHOULDER_TORSION)); break;
 
-  case L_ELBOW_FLEXION:		forearm_l->flexion(bap->getBap(L_ELBOW_FLEXION)); break;
-  case R_ELBOW_FLEXION:		forearm_r->flexion(bap->getBap(R_ELBOW_FLEXION)); break;
+  case L_ELBOW_FLEXION:		forearm_l->flexion(bap->get(L_ELBOW_FLEXION)); break;
+  case R_ELBOW_FLEXION:		forearm_r->flexion(bap->get(R_ELBOW_FLEXION)); break;
 
-  case L_WRIST_FLEXION:		hand_l->abduct(bap->getBap(L_WRIST_FLEXION)); break;
-  case R_WRIST_FLEXION:		hand_r->abduct(bap->getBap(R_WRIST_FLEXION)); break;
-  case L_WRIST_PIVOT:		hand_l->flexion(bap->getBap(L_WRIST_PIVOT)); break;
-  case R_WRIST_PIVOT:		hand_r->flexion(bap->getBap(R_WRIST_PIVOT)); break;
-  case L_WRIST_TORSION:		hand_l->torsion(bap->getBap(L_WRIST_TORSION)); break;
-  case R_WRIST_TORSION:		hand_r->torsion(bap->getBap(R_WRIST_TORSION)); break;
+  case L_WRIST_FLEXION:		hand_l->abduct(bap->get(L_WRIST_FLEXION)); break;
+  case R_WRIST_FLEXION:		hand_r->abduct(bap->get(R_WRIST_FLEXION)); break;
+  case L_WRIST_PIVOT:		hand_l->flexion(bap->get(L_WRIST_PIVOT)); break;
+  case R_WRIST_PIVOT:		hand_r->flexion(bap->get(R_WRIST_PIVOT)); break;
+  case L_WRIST_TORSION:		hand_l->torsion(bap->get(L_WRIST_TORSION)); break;
+  case R_WRIST_TORSION:		hand_r->torsion(bap->get(R_WRIST_TORSION)); break;
 
-  case C1_ROLL:			head->flexion(bap->getBap(C1_ROLL)); break;
-  case C1_TILT:			head->abduct(bap->getBap(C1_TILT)); break;
-  case C1_TORSION:		head->torsion(bap->getBap(C1_TORSION)); break;
+  case C1_ROLL:			head->flexion(bap->get(C1_ROLL)); break;
+  case C1_TILT:			head->abduct(bap->get(C1_TILT)); break;
+  case C1_TORSION:		head->torsion(bap->get(C1_TORSION)); break;
 
-  case C4_ROLL:			neck->flexion(bap->getBap(C4_ROLL)); break;
-  case C4_TILT:			neck->abduct(bap->getBap(C4_TILT)); break;
-  case C4_TORSION:		neck->torsion(bap->getBap(C4_TORSION)); break;
+  case C4_ROLL:			neck->flexion(bap->get(C4_ROLL)); break;
+  case C4_TILT:			neck->abduct(bap->get(C4_TILT)); break;
+  case C4_TORSION:		neck->torsion(bap->get(C4_TORSION)); break;
 
-  case T1_ROLL:			neck->flexion(bap->getBap(T1_ROLL)); break;
-  case T1_TILT:			neck->abduct(bap->getBap(T1_TILT)); break;
-  case T1_TORSION:		neck->torsion(bap->getBap(T1_TORSION)); break;
+  case T1_ROLL:			neck->flexion(bap->get(T1_ROLL)); break;
+  case T1_TILT:			neck->abduct(bap->get(T1_TILT)); break;
+  case T1_TORSION:		neck->torsion(bap->get(T1_TORSION)); break;
 
-  case TR_VERTICAL:		tz = bap->getBap(TR_VERTICAL) / TR_DIV; break;
-  case TR_LATERAL:		ty = bap->getBap(TR_LATERAL) / TR_DIV; break;
-  case TR_FRONTAL:		tx = bap->getBap(TR_FRONTAL) / TR_DIV; break;
+  case TR_VERTICAL:		tz = bap->get(TR_VERTICAL); break;
+  case TR_LATERAL:		ty = bap->get(TR_LATERAL); break;
+  case TR_FRONTAL:		tx = bap->get(TR_FRONTAL); break;
 
-  case RT_BODY_TURN:		rz = bap->getBap(RT_BODY_TURN); break;
-  case RT_BODY_ROLL:		rx = bap->getBap(RT_BODY_ROLL); break;
-  case RT_BODY_TILT:		ry = bap->getBap(RT_BODY_TILT); break;
+  case RT_BODY_TURN:		rz = bap->get(RT_BODY_TURN); break;
+  case RT_BODY_ROLL:		rx = bap->get(RT_BODY_ROLL); break;
+  case RT_BODY_TILT:		ry = bap->get(RT_BODY_TILT); break;
   }
 }
 #endif //notused
@@ -1085,8 +1085,8 @@ void Body::rotX(int side, uint8_t model)
 {
   int sign = (side >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef( sign * bap->getBap(abs(side)), 1,0,0); break;
-  case MODEL_OBJ: glRotatef(+sign * bap->getBap(abs(side)), 0,1,0); break;
+  case MODEL_OFF: glRotatef( sign * bap->get(abs(side)), 1,0,0); break;
+  case MODEL_OBJ: glRotatef(+sign * bap->get(abs(side)), 0,1,0); break;
   }
 }
 
@@ -1095,8 +1095,8 @@ void Body::rotY(int side, uint8_t model)
 {
   int sign = (side >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef(sign * bap->getBap(abs(side)), 0,1,0); break;
-  case MODEL_OBJ: glRotatef(sign * bap->getBap(abs(side)), 1,0,0); break;
+  case MODEL_OFF: glRotatef(sign * bap->get(abs(side)), 0,1,0); break;
+  case MODEL_OBJ: glRotatef(sign * bap->get(abs(side)), 1,0,0); break;
   }
 }
 
@@ -1105,8 +1105,8 @@ void Body::rotZ(int side, uint8_t model)
 {
   int sign = (side >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef(sign * bap->getBap(abs(side)), 0,0,1); break;
-  case MODEL_OBJ: glRotatef(sign * bap->getBap(abs(side)), 0,0,1); break;
+  case MODEL_OFF: glRotatef(sign * bap->get(abs(side)), 0,0,1); break;
+  case MODEL_OBJ: glRotatef(sign * bap->get(abs(side)), 0,0,1); break;
   }
 }
 

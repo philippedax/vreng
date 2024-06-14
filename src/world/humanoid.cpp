@@ -318,14 +318,14 @@ void Humanoid::changePermanent(float lasting)
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
       for (int i=1; i <= NUM_BAPS; i++) {
         if (! bap->isBit(i)) continue;
-        //echo("play: %d (%.2f)", i, bap->getBap(i));
+        //echo("play: %d (%.2f)", i, bap->get(i));
       }
       body->play();		// plays bapframe
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
         if (bap->isBit(i) && body->face) {
-          body->face->play(i, bap->getFap(i)); // play fapframe
+          body->face->play(i, bap->get(i));	// play fapframe
         }
       }
       break;
@@ -462,13 +462,13 @@ newbap:
       switch (baptype) {
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
         bap->setBap(i, value);			// set bap value
-        //echo("playbap: %d: %d (%.0f)", bapframe, i, bap->getBap(i));
+        //echo("playbap: %d: %d (%.0f)", bapframe, i, bap->get(i));
         body->play();				// plays bapparam
         break;
       case TYPE_FAP_V20: case TYPE_FAP_V21:
         bap->setFap(i, value);			// set fap value
-        //echo("playfap: %d: %d (%.0f)", bapframe, i, bap->getFap(i));
-        body->face->play(i, bap->getFap(i));	// plays fapparam
+        //echo("playfap: %d: %d (%.0f)", bapframe, i, bap->get(i));
+        body->face->play(i, bap->get(i));	// plays fapparam
         break;
       default:
         //error("bad baptype: %d", baptype);

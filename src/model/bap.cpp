@@ -32,7 +32,7 @@
 /** Constructor */
 Bap::Bap()
 {
-  baptype = 0;
+  type = 0;
   params = 0;
 
   // set all values to 0
@@ -48,7 +48,7 @@ Bap::Bap()
 /** Gets type of bap */
 uint8_t Bap::getType() const
 {
-  return baptype;
+  return type;
 }
 
 /** Resets bit masks */
@@ -72,20 +72,29 @@ void Bap::setBit(int param, uint8_t bit)
 }
 
 /** Gets bap value */
-float Bap::getBap(int param) const
+float Bap::get(int param) const
 {
-  return baps[param];
+  switch(type) {
+  case TYPE_BAP_V31:
+  case TYPE_BAP_V32:
+    return baps[param];
+  case TYPE_FAP_V20:
+  case TYPE_FAP_V21:
+    return faps[param];
+  default:
+    return baps[param];
+  }
 }
 
 /** Sets bap value */
 void Bap::setBap(int param, float val)
 {
   if (param >= TR_VERTICAL && param <= TR_FRONTAL) {	// 170..172 translations
-    baps[param] = val;
-    //baps[param] = val/TR_DIV;		// magic formula: 300
+    //baps[param] = val;
+    baps[param] = val/TR_DIV;		// magic formula: 300
   }
   else {
-    switch(baptype) {
+    switch(type) {
     case TYPE_BAP_V31:
       baps[param] = val/BAPV31_DIV;	// magic formula: 1745 (PI * 100000 / 180)
       break;
@@ -107,7 +116,7 @@ float Bap::getFap(int param) const
 /** Sets fap value */
 void Bap::setFap(int param, float val)
 {
-  switch(baptype) {
+  switch(type) {
   case TYPE_FAP_V20:
     faps[param] = val/FAPV20_DIV;	// magic formula: 20
     break;
@@ -119,7 +128,7 @@ void Bap::setFap(int param, float val)
   }
 }
 
-/** Parses a bap line - returns baptype else if error 0 - bapline will be tokenized */
+/** Parses a bap line - returns type else if error 0 - bapline will be tokenized */
 uint8_t Bap::parse(char *bapline)
 {
   if (! strcmp(bapline, ""))  return 0;  // discard empty bapline
@@ -133,47 +142,47 @@ uint8_t Bap::parse(char *bapline)
   if (! stringcmp(l, HEAD_BAP_V31)) {		// Bap3.1 Header
     params = NUM_BAPS;
     resetBit(params);
-    baptype = TYPE_BAP_V31;
+    type = TYPE_BAP_V31;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     frames = atoi(l);
-    return baptype;
+    return type;
   }
   else if (! stringcmp(l, HEAD_BAP_V32)) {	// Bap3.2 Header
     params = NUM_BAPS;
     resetBit(params);
-    baptype = TYPE_BAP_V32;
+    type = TYPE_BAP_V32;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     frames = atoi(l);
-    return baptype;
+    return type;
   }
   else if (! stringcmp(l, HEAD_FAP_V20)) {	// Fap2.0 Header
     params = NUM_FAPS;
     resetBit(params);
-    baptype = TYPE_FAP_V20;
+    type = TYPE_FAP_V20;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     frames = atoi(l);
-    return baptype;
+    return type;
   }
   else if (! stringcmp(l, HEAD_FAP_V21)) {	// Fap2.1 Header
     params = NUM_FAPS;
     resetBit(params);
-    baptype = TYPE_FAP_V21;
+    type = TYPE_FAP_V21;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     frames = atoi(l);
-    return baptype;
+    return type;
   }
 
   // masks
   else {
-    if (baptype == TYPE_BAP_V31 || baptype == TYPE_BAP_V32) {
+    if (type == TYPE_BAP_V31 || type == TYPE_BAP_V32) {
       for (int i=1; i <= params; i++) {
         if (l) {
           bits[i] = atoi(l);  // set all the mask values
@@ -189,9 +198,9 @@ uint8_t Bap::parse(char *bapline)
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
 
         if (i >= TR_VERTICAL && i <= TR_FRONTAL)	// translations
-          baps[i] = static_cast<float>(atof(l));	// magic formula (300)
+          baps[i] = static_cast<float>(atof(l)) / TR_DIV;	// magic formula (300)
         else {  	// angles
-          if (baptype == TYPE_BAP_V32)
+          if (type == TYPE_BAP_V32)
             baps[i] = static_cast<float>(atof(l) / BAPV32_DIV);	// magic formula (555) //GB
           else
             baps[i] = static_cast<float>(atof(l) / BAPV31_DIV);	// magic formula (1745)
@@ -203,7 +212,7 @@ uint8_t Bap::parse(char *bapline)
         return 0;
       }
     }
-    else if (baptype == TYPE_FAP_V20 || baptype == TYPE_FAP_V21) {
+    else if (type == TYPE_FAP_V20 || type == TYPE_FAP_V21) {
       for (int i=1; i <= params; i++) {
         if (l) {
           bits[i] = atoi(l);  // set all the mask values
@@ -217,7 +226,7 @@ uint8_t Bap::parse(char *bapline)
       for (int i=1; i <= params; i++) {
         if (bits[i] == 0) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
-        if (baptype == TYPE_FAP_V20)
+        if (type == TYPE_FAP_V20)
           faps[i] = static_cast<float>(atof(l) / FAPV20_DIV);	// fap formula
         else
           faps[i] = static_cast<float>(atof(l) / FAPV21_DIV);	// fap formula
@@ -228,17 +237,17 @@ uint8_t Bap::parse(char *bapline)
       }
     }
     else {
-      echo("parse: unknown type=%d", baptype);
+      echo("parse: unknown type=%d", type);
       return 0;
     }
   }
-  return baptype;  // frame ready to play
+  return type;  // frame ready to play
 }
 
 /** Gets params */
 uint16_t Bap::getParams()
 {
-  switch(baptype) {
+  switch(type) {
   case TYPE_BAP_V31:
   case TYPE_BAP_V32:
     params = NUM_BAPS;

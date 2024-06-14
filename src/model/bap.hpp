@@ -244,7 +244,7 @@ class Bap {
  public:
   uint16_t params;	///< number of params
   uint16_t frames;	///< number of frames
-  uint8_t baptype;	///< stream type bap-3.1, bap-3.2, fap
+  uint8_t type;		///< stream type bap-3.1, bap-3.2, fap
 
   Bap();		///< constructor
   virtual ~Bap(){}	///< destructor
@@ -260,7 +260,7 @@ class Bap {
 
   void setBit(int param, uint8_t val);
 
-  float getBap(int param) const;
+  float get(int param) const;
   /**< Gets a Bap angle indexed by param */
 
   void setBap(int param, float val);
