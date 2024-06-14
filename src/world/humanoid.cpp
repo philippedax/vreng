@@ -635,8 +635,10 @@ void Humanoid::nak()
 /** Plays bof */
 void Humanoid::bof()
 {
-  sendPlay("bof.bap");
-  bapstring = const_cast<char *>(bof_bap);
+  //sendPlay("bof.bap");
+  //bapstring = const_cast<char *>(bof_bap);
+  sendPlay("rami.bap");
+  bapstring = const_cast<char *>(rami_bap);
 }
 
 /** Plays pivot */
@@ -777,7 +779,7 @@ void Humanoid::funcs()
   setActionFunc(HUMANOID_TYPE, 2, _Action bye_cb, "Bye");
   setActionFunc(HUMANOID_TYPE, 3, _Action ask_cb, "Ask");
   setActionFunc(HUMANOID_TYPE, 4, _Action sit_cb, "Sit");
-  setActionFunc(HUMANOID_TYPE, 5, _Action show_cb, "SPivot");
+  setActionFunc(HUMANOID_TYPE, 5, _Action show_cb, "Show");
   setActionFunc(HUMANOID_TYPE, 6, _Action clap_cb, "Clap");
   setActionFunc(HUMANOID_TYPE, 7, _Action nak_cb, "Nak");
   setActionFunc(HUMANOID_TYPE, 8, _Action bof_cb, "Bof");
