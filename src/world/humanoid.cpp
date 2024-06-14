@@ -635,10 +635,10 @@ void Humanoid::nak()
 /** Plays bof */
 void Humanoid::bof()
 {
-  //sendPlay("bof.bap");
-  //bapstring = const_cast<char *>(bof_bap);
-  sendPlay("rami.bap");
-  bapstring = const_cast<char *>(rami_bap);
+  sendPlay("bof.bap");
+  bapstring = const_cast<char *>(bof_bap);
+  //sendPlay("rami.bap");
+  //bapstring = const_cast<char *>(rami_bap);
 }
 
 /** Plays pivot */
