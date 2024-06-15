@@ -234,9 +234,9 @@
  */
 class Bap {
  private:
-  uint8_t bits[NUM_BAPS + 2];	///< bap/fap bit mask
-  float baps[NUM_BAPS + 2];	///< baps angles
-  float faps[NUM_FAPS + 2];	///< faps angles
+  uint8_t bits[NUM_BAPS + 1];	///< bap/fap bit mask
+  float baps[NUM_BAPS + 1];	///< baps angles
+  float faps[NUM_FAPS + 1];	///< faps angles
 
   void resetBit(int n);
   /**< Resets bit mask */
@@ -247,7 +247,7 @@ class Bap {
   uint8_t type;		///< stream type bap-3.1, bap-3.2, fap
 
   Bap();		///< constructor
-  virtual ~Bap(){}	///< destructor
+  virtual ~Bap(){};	///< destructor
 
   uint8_t getType() const;
   /**< Returns stream type */
@@ -263,7 +263,7 @@ class Bap {
   float get(int param) const;
   /**< Gets a Bap angle indexed by param */
 
-  void setBap(int param, float val);
+  void set(int param, float val);
   /**< Sets bap value */
 
   float getFap(int param) const;

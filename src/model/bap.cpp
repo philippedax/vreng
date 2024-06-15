@@ -36,11 +36,11 @@ Bap::Bap()
   params = 0;
 
   // set all values to 0
-  for (int i=0; i <= NUM_BAPS; i++) {
+  for (int i=1; i <= NUM_BAPS; i++) {
     baps[i] = 0;
     bits[i] = 0;
   }
-  for (int i=0; i <= NUM_FAPS; i++) {
+  for (int i=1; i <= NUM_FAPS; i++) {
     faps[i] = 0;
   }
 }
@@ -54,7 +54,7 @@ uint8_t Bap::getType() const
 /** Resets bit masks */
 void Bap::resetBit(int params)
 {
-  for (int i=0; i <= params; i++) {
+  for (int i=1; i <= params; i++) {
     bits[i] = 0;
   }
 }
@@ -87,10 +87,9 @@ float Bap::get(int param) const
 }
 
 /** Sets bap value */
-void Bap::setBap(int param, float val)
+void Bap::set(int param, float val)
 {
-  if (param >= TR_VERTICAL && param <= TR_FRONTAL) {	// 170..172 translations
-    //baps[param] = val;
+  if (param >= TR_VERTICAL && param <= TR_FRONTAL) {	// body translations
     baps[param] = val/TR_DIV;		// magic formula: 300
   }
   else {
@@ -100,6 +99,12 @@ void Bap::setBap(int param, float val)
       break;
     case TYPE_BAP_V32:
       baps[param] = val/BAPV32_DIV;	// magic formula: 555 (100000 / 180)
+      break;
+    case TYPE_FAP_V20:
+      faps[param] = val/FAPV20_DIV;	// magic formula: 20
+      break;
+    case TYPE_FAP_V21:
+      faps[param] = val/FAPV21_DIV;	// magic formula: 1
       break;
     default:
       baps[param] = val;
@@ -137,46 +142,46 @@ uint8_t Bap::parse(char *bapline)
   char *l = NULL;
   uint16_t frame = 0;
 
-  //echo("parse: %s", bapline);
+  //echo("bapparse: %s", bapline);
   l = strtok(bapline, " ");
   if (! stringcmp(l, HEAD_BAP_V31)) {		// Bap3.1 Header
     params = NUM_BAPS;
     resetBit(params);
-    type = TYPE_BAP_V31;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     frames = atoi(l);
+    type = TYPE_BAP_V31;
     return type;
   }
   else if (! stringcmp(l, HEAD_BAP_V32)) {	// Bap3.2 Header
     params = NUM_BAPS;
     resetBit(params);
-    type = TYPE_BAP_V32;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     frames = atoi(l);
+    type = TYPE_BAP_V32;
     return type;
   }
   else if (! stringcmp(l, HEAD_FAP_V20)) {	// Fap2.0 Header
     params = NUM_FAPS;
     resetBit(params);
-    type = TYPE_FAP_V20;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     frames = atoi(l);
+    type = TYPE_FAP_V20;
     return type;
   }
   else if (! stringcmp(l, HEAD_FAP_V21)) {	// Fap2.1 Header
     params = NUM_FAPS;
     resetBit(params);
-    type = TYPE_FAP_V21;
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     frames = atoi(l);
+    type = TYPE_FAP_V21;
     return type;
   }
 
@@ -189,8 +194,7 @@ uint8_t Bap::parse(char *bapline)
           l = strtok(NULL, " ");
         }
       }
-
-      //echo("parse: frame=%s", l);
+      //echo("bapparse: frame=%s", l);
       frame = atoi(l);
 
       for (int i=1; i <= params; i++) {
@@ -205,10 +209,10 @@ uint8_t Bap::parse(char *bapline)
           else
             baps[i] = static_cast<float>(atof(l) / BAPV31_DIV);	// magic formula (1745)
         }
-        //echo("bap: l=%s baps[%d]=%.1f", l, i, baps[i]);
+        //echo("bapparse: l=%s baps[%d]=%.1f", l, i, baps[i]);
       }
       if (frame < frames) {
-        //echo("end of bap frames");
+        //echo("bapparse: end of bap frames");
         return 0;
       }
     }
@@ -219,8 +223,7 @@ uint8_t Bap::parse(char *bapline)
           l = strtok(NULL, " ");
         }
       }
-
-      //echo("parse fap: frame=%s", l);
+      //echo("bapparse fap: frame=%s", l);
       frame = atoi(l);
 
       for (int i=1; i <= params; i++) {
@@ -232,12 +235,12 @@ uint8_t Bap::parse(char *bapline)
           faps[i] = static_cast<float>(atof(l) / FAPV21_DIV);	// fap formula
       }
       if (frame < frames) {
-        //echo("end of fap frames");
+        //echo("bapparse: end of fap frames");
         return 0;
       }
     }
     else {
-      echo("parse: unknown type=%d", type);
+      echo("bapparse: unknown type=%d", type);
       return 0;
     }
   }
@@ -256,6 +259,8 @@ uint16_t Bap::getParams()
   case TYPE_FAP_V21:
     params = NUM_FAPS;
     break;
+  default:
+    params = 0;
   }
   return params;
 }

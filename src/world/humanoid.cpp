@@ -383,7 +383,7 @@ void Humanoid::changePermanent(float lasting)
       // bap hdr
       //
       len = getLine();
-      echo("baphdr: %s (%d)", bapline, len);
+      echo("baphdr: %s", bapline);
 
       p = strrchr(bapline, ' ');
       if (p) {
@@ -461,12 +461,12 @@ newbap:
       }
       switch (baptype) {
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
-        bap->setBap(i, value);			// set bap value
+        bap->set(i, value);			// set bap value
         //echo("playbap: %d: %d (%.0f)", bapframe, i, bap->get(i));
         body->play();				// plays bapparam
         break;
       case TYPE_FAP_V20: case TYPE_FAP_V21:
-        bap->setFap(i, value);			// set fap value
+        bap->set(i, value);			// set fap value
         //echo("playfap: %d: %d (%.0f)", bapframe, i, bap->get(i));
         body->face->play(i, bap->get(i));	// plays fapparam
         break;
