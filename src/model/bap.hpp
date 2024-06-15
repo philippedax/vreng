@@ -266,12 +266,6 @@ class Bap {
   void set(int param, float val);
   /**< Sets bap value */
 
-  float getFap(int param) const;
-  /**< Gets a Fap angle indexed by param */
-
-  void setFap(int param, float val);
-  /**< Sets fap value */
-
   uint16_t getParams();
   /**< Gets params number */
 };
