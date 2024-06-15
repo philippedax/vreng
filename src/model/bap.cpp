@@ -37,8 +37,8 @@ Bap::Bap()
 
   // set all values to 0
   for (int i=1; i <= NUM_BAPS; i++) {
-    baps[i] = 0;
-    bits[i] = 0;
+    values[i] = 0;
+    masks[i] = 0;
   }
 }
 
@@ -52,20 +52,20 @@ uint8_t Bap::getType() const
 void Bap::resetBit(int params)
 {
   for (int i=1; i <= params; i++) {
-    bits[i] = 0;
+    masks[i] = 0;
   }
 }
 
 /** Checks bit mask */
 bool Bap::isBit(int param) const
 {
-  return bits[param];
+  return masks[param];
 }
 
 /** Sets bit mask */
 void Bap::setBit(int param, uint8_t bit)
 {
-  bits[param] = bit;
+  masks[param] = bit;
 }
 
 /** Gets bap value */
@@ -74,12 +74,12 @@ float Bap::get(int param) const
   switch(type) {
   case TYPE_BAP_V31:
   case TYPE_BAP_V32:
-    return baps[param];
+    return values[param];
   case TYPE_FAP_V20:
   case TYPE_FAP_V21:
-    return baps[param];
+    return values[param];
   default:
-    return baps[param];
+    return values[param];
   }
 }
 
@@ -87,24 +87,24 @@ float Bap::get(int param) const
 void Bap::set(int param, float val)
 {
   if (param >= TR_VERTICAL && param <= TR_FRONTAL) {	// body translations
-    baps[param] = val/TR_DIV;		// magic formula: 300
+    values[param] = val/TR_DIV;		// magic formula: 300
   }
   else {
     switch(type) {
     case TYPE_BAP_V31:
-      baps[param] = val/BAPV31_DIV;	// magic formula: 1745 (PI * 100000 / 180)
+      values[param] = val/BAPV31_DIV;	// magic formula: 1745 (PI * 100000 / 180)
       break;
     case TYPE_BAP_V32:
-      baps[param] = val/BAPV32_DIV;	// magic formula: 555 (100000 / 180)
+      values[param] = val/BAPV32_DIV;	// magic formula: 555 (100000 / 180)
       break;
     case TYPE_FAP_V20:
-      baps[param] = val/FAPV20_DIV;	// magic formula: 20
+      values[param] = val/FAPV20_DIV;	// magic formula: 20
       break;
     case TYPE_FAP_V21:
-      baps[param] = val/FAPV21_DIV;	// magic formula: 1
+      values[param] = val/FAPV21_DIV;	// magic formula: 1
       break;
     default:
-      baps[param] = val;
+      values[param] = val;
     }
   }
 }
@@ -166,7 +166,7 @@ uint8_t Bap::parse(char *bapline)
     if (type == TYPE_BAP_V31 || type == TYPE_BAP_V32) {
       for (int i=1; i <= params; i++) {
         if (l) {
-          bits[i] = atoi(l);  // set all the mask values
+          masks[i] = atoi(l);  // set all the mask values
           l = strtok(NULL, " ");
         }
       }
@@ -174,10 +174,10 @@ uint8_t Bap::parse(char *bapline)
       frame = atoi(l);
 
       for (int i=1; i <= params; i++) {
-        if (bits[i] == 0) continue;
+        if (masks[i] == 0) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
         set(i, static_cast<float>(atof(l)));
-        //echo("bapparse: l=%s baps[%d]=%.1f", l, i, baps[i]);
+        //echo("bapparse: l=%s values[%d]=%.1f", l, i, values[i]);
       }
       if (frame < frames) {
         //echo("bapparse: end of bap frames");
@@ -187,7 +187,7 @@ uint8_t Bap::parse(char *bapline)
     else if (type == TYPE_FAP_V20 || type == TYPE_FAP_V21) {
       for (int i=1; i <= params; i++) {
         if (l) {
-          bits[i] = atoi(l);  // set all the mask values
+          masks[i] = atoi(l);  // set all the mask values
           l = strtok(NULL, " ");
         }
       }
@@ -195,7 +195,7 @@ uint8_t Bap::parse(char *bapline)
       frame = atoi(l);
 
       for (int i=1; i <= params; i++) {
-        if (bits[i] == 0) continue;
+        if (masks[i] == 0) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
         set(i, static_cast<float>(atof(l)));
       }

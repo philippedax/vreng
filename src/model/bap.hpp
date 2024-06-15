@@ -60,14 +60,14 @@
 #define	R_SUBTALAR		19
 #define	L_MID_FOOT		20
 #define	R_MID_FOOT		21
-#define	L_TOE_FLEXION		22
+#define	L_TOE_FLEXION		22	// toe
 #define	R_TOE_FLEXION		23
 #define	L_CLAV_ABDUCT		24	// clavicule
 #define	R_CLAV_ABDUCT		25
 #define	L_CLAV_ROTATE		26
 #define	R_CLAV_ROTATE		27
-#define	L_SCAP_ABDUCT		28
-#define	R_SCAP_ABDUCT		29	// scapulaire
+#define	L_SCAP_ABDUCT		28	// scapular
+#define	R_SCAP_ABDUCT		29
 #define	L_SCAP_ROTATE		30
 #define	R_SCAP_ROTATE		31
 #define	L_SHOULDER_FLEXION	32	// shoulder
@@ -234,12 +234,12 @@
  */
 class Bap {
  private:
-  uint8_t bits[NUM_BAPS + 1];	///< bap/fap bit mask
-  float baps[NUM_BAPS + 1];	///< baps angles
+  uint8_t type;			///< stream type bap-3.1, bap-3.2, fap
+  uint16_t params;		///< number of params
+  uint16_t frames;		///< number of frames
+  uint8_t masks[NUM_BAPS + 1];	///< bap/fap bit mask
+  float values[NUM_BAPS + 1];	///< baps angles
   //float faps[NUM_FAPS + 1];	///< faps angles
-  uint16_t params;	///< number of params
-  uint16_t frames;	///< number of frames
-  uint8_t type;		///< stream type bap-3.1, bap-3.2, fap
 
   void resetBit(int n);
   /**< Resets bit mask */
