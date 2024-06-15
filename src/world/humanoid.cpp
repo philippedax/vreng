@@ -431,17 +431,15 @@ newbap:
       error("missing values");
       goto endbap;
     }
-    //echo("line: %s", bapline);
 
-    // frame number
+    // frame sequence number
     bapframe = atoi(bapline);
     //echo("bapframe: %d", bapframe);
 
     // values
     p = strchr(bapline, ' ');
     if (! p) {
-      error("empty value");
-      //return;
+      if (::g.pref.dbgtrace) echo("empty value");
       goto newbap;		// no more values
     }
     p++;			// points on first value
@@ -456,19 +454,19 @@ newbap:
         value = (float) atof(p);
       }
       else {
-        error("bad value");
+        if (::g.pref.dbgtrace) error("bad value");
         goto newbap;
       }
       switch (baptype) {
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
         bap->set(i, value);			// set bap value
         //echo("playbap: %d: %d (%.0f)", bapframe, i, bap->get(i));
-        body->play();				// plays bapparam
+        body->play();				// plays bap
         break;
       case TYPE_FAP_V20: case TYPE_FAP_V21:
         bap->set(i, value);			// set fap value
         //echo("playfap: %d: %d (%.0f)", bapframe, i, bap->get(i));
-        body->face->play(i, bap->get(i));	// plays fapparam
+        body->face->play(i, bap->get(i));	// plays fap
         break;
       default:
         //error("bad baptype: %d", baptype);
