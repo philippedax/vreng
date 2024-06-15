@@ -40,9 +40,6 @@ Bap::Bap()
     baps[i] = 0;
     bits[i] = 0;
   }
-  for (int i=1; i <= NUM_FAPS; i++) {
-    faps[i] = 0;
-  }
 }
 
 /** Gets type of bap */
@@ -80,7 +77,7 @@ float Bap::get(int param) const
     return baps[param];
   case TYPE_FAP_V20:
   case TYPE_FAP_V21:
-    return faps[param];
+    return baps[param];
   default:
     return baps[param];
   }
@@ -101,10 +98,10 @@ void Bap::set(int param, float val)
       baps[param] = val/BAPV32_DIV;	// magic formula: 555 (100000 / 180)
       break;
     case TYPE_FAP_V20:
-      faps[param] = val/FAPV20_DIV;	// magic formula: 20
+      baps[param] = val/FAPV20_DIV;	// magic formula: 20
       break;
     case TYPE_FAP_V21:
-      faps[param] = val/FAPV21_DIV;	// magic formula: 1
+      baps[param] = val/FAPV21_DIV;	// magic formula: 1
       break;
     default:
       baps[param] = val;
@@ -179,15 +176,7 @@ uint8_t Bap::parse(char *bapline)
       for (int i=1; i <= params; i++) {
         if (bits[i] == 0) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
-
-        if (i >= TR_VERTICAL && i <= TR_FRONTAL)	// translations
-          baps[i] = static_cast<float>(atof(l)) / TR_DIV;	// magic formula (300)
-        else {  	// angles
-          if (type == TYPE_BAP_V32)
-            baps[i] = static_cast<float>(atof(l) / BAPV32_DIV);	// magic formula (555) //GB
-          else
-            baps[i] = static_cast<float>(atof(l) / BAPV31_DIV);	// magic formula (1745)
-        }
+        set(i, static_cast<float>(atof(l)));
         //echo("bapparse: l=%s baps[%d]=%.1f", l, i, baps[i]);
       }
       if (frame < frames) {
@@ -208,10 +197,7 @@ uint8_t Bap::parse(char *bapline)
       for (int i=1; i <= params; i++) {
         if (bits[i] == 0) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
-        if (type == TYPE_FAP_V20)
-          faps[i] = static_cast<float>(atof(l) / FAPV20_DIV);	// fap formula
-        else
-          faps[i] = static_cast<float>(atof(l) / FAPV21_DIV);	// fap formula
+        set(i, static_cast<float>(atof(l)));
       }
       if (frame < frames) {
         //echo("bapparse: end of fap frames");

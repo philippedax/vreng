@@ -236,16 +236,15 @@ class Bap {
  private:
   uint8_t bits[NUM_BAPS + 1];	///< bap/fap bit mask
   float baps[NUM_BAPS + 1];	///< baps angles
-  float faps[NUM_FAPS + 1];	///< faps angles
+  //float faps[NUM_FAPS + 1];	///< faps angles
+  uint16_t params;	///< number of params
+  uint16_t frames;	///< number of frames
+  uint8_t type;		///< stream type bap-3.1, bap-3.2, fap
 
   void resetBit(int n);
   /**< Resets bit mask */
 
  public:
-  uint16_t params;	///< number of params
-  uint16_t frames;	///< number of frames
-  uint8_t type;		///< stream type bap-3.1, bap-3.2, fap
-
   Bap();		///< constructor
   virtual ~Bap(){};	///< destructor
 
