@@ -499,7 +499,7 @@ endbap:
     if (bapframe + 1 == bapframes) {
       //echo("end of frames");
       bapframes = 0;
-      bapparams = 0;
+      bapparams = 186;
       baptype = 0;
       bapstring = NULL;
       state = INACTIVE;
