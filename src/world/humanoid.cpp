@@ -383,7 +383,7 @@ void Humanoid::changePermanent(float lasting)
       // bap hdr
       //
       len = getLine();
-      echo("baphdr: %s", bapline);
+      if (::g.pref.dbgtrace) echo("baphdr: %s", bapline);
 
       p = strrchr(bapline, ' ');
       if (p) {
