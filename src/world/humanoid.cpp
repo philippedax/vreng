@@ -109,15 +109,15 @@ void Humanoid::inits()
 
   sdudp = -1;
   sdtcp = -1;
+  bap = new Bap();
   bapstring = NULL;
-  baptype = 0;
-  bapframes = 0;
-  bapparams = 186;
+  bap->type = 0;
+  bap->frames = 0;
+  bap->params = 186;
 
   body = new Body();
   body->wobject = this;
 
-  bap = new Bap();
   body->bap = bap;
   body->setColors(skin, cloth);
   body->load(name.url);
@@ -330,9 +330,7 @@ void Humanoid::changePermanent(float lasting)
       }
       break;
     case 0:	// end of frames
-      //
       // for tests only !!!
-      //
       //body->animHead(+30, 0);		// head flexion front : OK
       //body->animHead(+30, 1);		// head abduct
       //body->animHead(+30, 2);		// head torsion right : OK
@@ -344,18 +342,16 @@ void Humanoid::changePermanent(float lasting)
       //body->animChest(-30, 1);	// chest abduct right : OK
       //body->animChest(-30, 2);	// chest torsion left : OK
       //for (int i=0; i<30; i++) {
-      //body->animArm(-i, 0, 0);	// arm left flexion : OK
-      //body->animArm(+i, 1, 0);	// arm right flexion : OK
-      //body->animForearm(-2*i, 0, 0);	// forearm left flexion front : OK
-      //body->animForearm(+2*i, 1, 0);	// forearm right flexion front : OK
+      //  body->animArm(-i, 0, 0);	// arm left flexion : OK
+      //  body->animArm(+i, 1, 0);	// arm right flexion : OK
+      //  body->animForearm(-2*i, 0, 0);// forearm left flexion front : OK
+      //  body->animForearm(+2*i, 1, 0);// forearm right flexion front : OK
       //}
       //body->animLeg(-30, 0, 0);	// leg left front flexion : OK
       //body->animLeg(+30, 0, 1);	// leg left abduct back : OK
       //body->animLeg(-30, 1, 2);	// leg right torsion ext : OK
       //body->animFoot(-30, 1, 2);	// foot right torsion ext : NO
-
       render();
-
        state = INACTIVE;
        angle = 0;
       break;
@@ -378,7 +374,7 @@ void Humanoid::changePermanent(float lasting)
     char *p = NULL;
     int len = 0;
 
-    if (! baptype) {		// check if is header line
+    if (! bap->type) {		// check if is header line
       //
       // bap hdr
       //
@@ -387,11 +383,11 @@ void Humanoid::changePermanent(float lasting)
 
       p = strrchr(bapline, ' ');
       if (p) {
-        bapframes = atoi(++p);
+        bap->frames = atoi(++p);
       }
-      baptype = bap->parse(bapline);	// warning bapline is now tokenized
-      //echo("baptype: %d", baptype);
-      bapparams = bap->getParams();
+      bap->type = bap->parse(bapline);	// warning bapline is now tokenized
+      //echo("baptype: %d", bap->type);
+      bap->params = bap->getParams();
       return;
     }
 
@@ -406,13 +402,13 @@ newbap:
       goto endbap;
     }
 
-    if (baptype) {
+    if (bap->type) {
       //
       // masks
       //
       //echo("masks: %s", bapline);
       p = bapline;
-      for (int i=1; i <= bapparams; i++) {
+      for (int i=1; i <= bap->params; i++) {
         if (p) {
           switch (*p) {
           case '0': bap->setBit(i, 0); break;
@@ -444,7 +440,7 @@ newbap:
     }
     p++;			// points on first value
 
-    for (int i=1; i <= bapparams; i++) {
+    for (int i=1; i <= bap->params; i++) {
       float value = 0;
       if (! bap->isBit(i)) continue;		// no mask
       //
@@ -457,7 +453,7 @@ newbap:
         if (::g.pref.trace) error("bad value");
         goto newbap;
       }
-      switch (baptype) {
+      switch (bap->type) {
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
         bap->set(i, value);			// set bap value
         //echo("playbap: %d: %d (%.0f)", bapframe, i, bap->get(i));
@@ -469,7 +465,7 @@ newbap:
         body->face->play(i, bap->get(i));	// plays fap
         break;
       default:
-        //error("bad baptype: %d", baptype);
+        //error("bad baptype: %d", bap->type);
         break;
       }
       p = strchr(p, ' ');	// skip space for next value
@@ -480,7 +476,7 @@ newbap:
         p++;			// next value
         //echo("next value: %s", p);
       }
-      if (bapframe + 1 == bapframes) {
+      if (bapframe + 1 == bap->frames) {
         //echo("done frames %d", bapframe);
       }
     }
@@ -494,18 +490,18 @@ newbap:
 #endif
 
 endbap:
-    if (bapframe + 1 == bapframes) {
+    if (bapframe + 1 == bap->frames) {
       //echo("end of frames");
-      bapframes = 0;
-      bapparams = 186;
-      baptype = 0;
+      bap->frames = 0;
+      bap->params = 186;
+      bap->type = 0;
       bapstring = NULL;
       state = INACTIVE;
     }
   } // local playing
 
   // testing
-  //angle = 10;
+  angle = 10;
   //body->animArm(-angle, 0, 0);	// arm left flexion : OK
   //body->animArm(+angle, 1, 0);	// arm right flexion : OK
   //body->animForearm(-2*angle, 0, 0);	// forearm left flexion front : OK
