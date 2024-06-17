@@ -52,7 +52,7 @@ extern const char *e_tool;
 extern const char *e_not_implemented;
 extern const char *e_bad_type;
 
-
+// functions
 void fatal(const char *s, ...);
 void warning(const char *s, ...);
 void notice(const char *s, ...);
@@ -64,12 +64,8 @@ void progression(char c);
 void endprogression();
 
 FILE * writelog(const char *s, ...);
-
 void printlog();
-
 void fopenlog(FILE *f, const char *name);
 void fcloselog(FILE *f);
-
-//notused void closelog(FILE *fl);
 
 #endif

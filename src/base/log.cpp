@@ -187,12 +187,5 @@ void fopenlog(FILE *f, const char *name)
 
 void fcloselog(FILE *f)
 {
-  //file->close();
+  fclose(f);
 }
-
-#if 0 //notused
-void closelog(FILE *fl)
-{
-  //file->close();
-}
-#endif //notused

@@ -304,7 +304,7 @@ FILE * openStats(const char * statsfile)
   return NULL;
 }
 
-/* returns current line os stats */
+/** returns current line of stats */
 bool getStats(FILE* f, char *line)
 {
   if (fgets(line, 128, f)) {
@@ -316,7 +316,7 @@ bool getStats(FILE* f, char *line)
 
 void statLog()
 {
-  if (flog != (FILE *) NULL) {
+  if (flog) {
     fcloselog(flog);
     printlog();
   }
