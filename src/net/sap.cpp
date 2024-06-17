@@ -104,7 +104,7 @@ void * Sap::listener(void *arg)
 #if !defined(HAVE_LIBPTHREAD)
 void Sap::here(int sig)
 {
-  //trace(DBG_FORCE, "sapHere: sig=%d", sig);
+  //trace1(DBG_FORCE, "sapHere: sig=%d", sig);
   signal(SIGUSR1, SIG_DFL);
   ::g.pref.reflector = false;	// no reflector needed, we are on the MBone
   //dax Channel::switchChannel();

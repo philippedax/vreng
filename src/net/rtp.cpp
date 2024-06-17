@@ -334,7 +334,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
         rtcp_sr_t sr;
         Source *pso;
 
-        trace(DBG_RTP, "Got SR: length=%d len=%d", length<<2, len);
+        trace1(DBG_RTP, "Got SR: length=%d len=%d", length<<2, len);
         memcpy(&sr, pkt+len, sizeof(rtcp_sr_t));
         if ((pso = Source::getSource(ntohl(sr.ssrc))) != NULL) {
           pso->sr = sr;
@@ -352,7 +352,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
         end = (rtcp_t *) ((uint32_t *) p + (length<<2) + sizeof(rtcp_common_t));
         memcpy(&ssrc, p, sizeof(ssrc));
         p += sizeof(ssrc);
-        trace(DBG_RTP, "Got SDES: ssrc=%x pkt_len=%d length=%d len=%d p=%x",
+        trace1(DBG_RTP, "Got SDES: ssrc=%x pkt_len=%d length=%d len=%d p=%x",
               ntohl(ssrc), pkt_len, length<<2, len, p);
 
         if ((pso = Source::getSource(ntohl(ssrc))) != NULL) { // source found
@@ -361,7 +361,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
 
           /* parses SDES chunks */
           while (p < (uint8_t *) end) {
-            trace(DBG_RTP, "SDES: sitem=%p p=%p end=%p", sitem, p, end);
+            trace1(DBG_RTP, "SDES: sitem=%p p=%p end=%p", sitem, p, end);
             sitem->si_type = *p++;
             sitem->si_len = *p++;
             if (sitem->si_str == NULL) {	// asumption
@@ -370,16 +370,16 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
             }
             memcpy(sitem->si_str, p, sitem->si_len);
             sitem->si_str[sitem->si_len] = 0; // now string null terminated
-            trace(DBG_RTP, "SDES: %s [%d]", sitem->si_str, sitem->si_len);
+            trace1(DBG_RTP, "SDES: %s [%d]", sitem->si_str, sitem->si_len);
             p += sitem->si_len;	// next item
             if (*p == RTCP_SDES_END) {
-              trace(DBG_RTP, "end SDES: p=%p end=%p", p, end);
+              trace1(DBG_RTP, "end SDES: p=%p end=%p", p, end);
               break;	// end of SDES packet
             }
 
             if (sitem->si_next == NULL) {
               /* alloc next item */
-              trace(DBG_RTP, "alloc new item");
+              trace1(DBG_RTP, "alloc new item");
               sitem->si_next = new SdesItem[1];
               sitem->si_next->si_type = 0;
               sitem->si_next->si_len = 0;
@@ -387,7 +387,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
               sitem->si_next->si_next = NULL;
             }
             sitem = sitem->si_next;
-            trace(DBG_RTP, "SDES: sitem=%p", sitem);
+            trace1(DBG_RTP, "SDES: sitem=%p", sitem);
           }
         }
         len += (length << 2);
@@ -397,7 +397,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
      /* receives a BYE */
       case RTCP_BYE: {
         memcpy(&ssrc, pkt+len, sizeof(ssrc));
-        trace(DBG_RTP, "Got BYE: ssrc=%x", ntohl(ssrc));
+        trace1(DBG_RTP, "Got BYE: ssrc=%x", ntohl(ssrc));
         if (pchan)
           pchan->session->deleteSource(ntohl(ssrc));
         len += (length << 2);
@@ -406,14 +406,14 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
 
      /* receives a APP */
       case RTCP_APP:
-        trace(DBG_RTP, "Got APP");
+        trace1(DBG_RTP, "Got APP");
 
      /* receives something unknown */
       default:
         len += (length << 2);
         error("Got RTCP unknown type: pt=%u, pkt_len=%d len=%d",
                          rtcp_hdr.pt, pkt_len, len);
-        trace(DBG_FORCE, "%02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
+        trace1(DBG_FORCE, "%02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
                          pkt[0], pkt[1], pkt[2], pkt[3],
                          pkt[4], pkt[5], pkt[6], pkt[7],
                          pkt[8], pkt[9], pkt[10], pkt[11]);

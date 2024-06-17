@@ -135,7 +135,7 @@ VSql * VSql::init()
       vsql = NULL;
     }
   }
-  trace(DBG_INIT, "vsql init: %d", r);
+  trace1(DBG_INIT, "vsql init: %d", r);
   return vsql;
 }
 

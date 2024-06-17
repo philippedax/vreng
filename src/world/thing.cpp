@@ -157,7 +157,7 @@ void Thing::changePermanent(float lasting)
   static float lastz = 0;
 
   if (state == DROPPED) {
-    trace(DBG_WO, "thingChangePermanent: x=%.2f y=%.2f z=%.2f ttl=%.2f lasting=%.2f", pos.x, pos.y, pos.z, move.ttl, lasting);
+    trace1(DBG_WO, "thingChangePermanent: x=%.2f y=%.2f z=%.2f ttl=%.2f lasting=%.2f", pos.x, pos.y, pos.z, move.ttl, lasting);
     lastz = pos.z;
     /* drop this thing by gravity */
     pos.z -= lasting * GRAVITY;
@@ -185,7 +185,7 @@ void Thing::dropIntoBasket(Thing *thing, void *d, time_t s, time_t u)
     thing->updatePersist(); // mark deleted
   }
   // then add to Basket
-  //trace(DBG_FORCE, "addToCart: (%s,%s)", thing->objectName(), pref->user);
+  //trace1(DBG_FORCE, "addToCart: (%s,%s)", thing->objectName(), pref->user);
   localuser->cart->addToCart(thing);
 }
 

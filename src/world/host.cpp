@@ -79,7 +79,7 @@ void Host::connect(Host *host, void *d, time_t s, time_t u)
     h++;
   else		// host
     h = host->name.url;
-  trace(DBG_TOOL, "connect: to %s", h);
+  trace1(DBG_TOOL, "connect: to %s", h);
   Xterm::start(h);
 }
 

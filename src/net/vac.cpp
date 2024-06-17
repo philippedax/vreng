@@ -166,7 +166,7 @@ bool Vac::getList()
   }
   if (cache) delete[] cache;
   Socket::closeStream(sdvac);
-  trace(DBG_INIT, "VacC initialized");
+  trace1(DBG_INIT, "VacC initialized");
   return true;
 }
 
@@ -206,7 +206,7 @@ bool Vac::resolveWorldUrl(const char *url, char *chanstr)
         strcpy(vac->channel, line);
         vac->next = NULL;
         wlast->next = vac;
-        //trace(DBG_FORCE, "resolveWorld: channel=%s", vac->channel);
+        //trace1(DBG_FORCE, "resolveWorld: channel=%s", vac->channel);
       }
     }
     Socket::closeStream(sdvac);

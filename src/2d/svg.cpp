@@ -64,7 +64,7 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
   }
   width = svgimage->width;
   height = svgimage->height;
-  trace(DBG_2D, "loadSVG: w=%d h=%d", width, height);
+  trace1(DBG_2D, "loadSVG: w=%d h=%d", width, height);
 
   // allocs img
   Img *img = new Img(width, height, Img::RGBA);

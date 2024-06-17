@@ -676,7 +676,7 @@ WO * WO::getObject(const char *name)
   char fullname[OBJNAME_LEN];
   sprintf(fullname, "%s@%s", name, World::current()->getName());
   uint32_t hval = hash_name(fullname);
-  trace(DBG_WO, "getObject: hval=%d name=%s", hval, fullname);
+  trace1(DBG_WO, "getObject: hval=%d name=%s", hval, fullname);
   while (hval) {
     if (*(hashtable[hval].name) == '\0') {
       return NULL;          // not found
@@ -1221,7 +1221,7 @@ void WO::show(const char *name)
 {
   for (list<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     if (! strcmp((*it)->name.current, name)) {
-      trace(DBG_FORCE, "%s p=%.2f,%.2f,%.2f it=%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
+      trace1(DBG_FORCE, "%s p=%.2f,%.2f,%.2f it=%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
             name,
             (*it)->pos.x, (*it)->pos.y, (*it)->pos.z,
             (*it)->pos.ax, (*it)->pos.az,

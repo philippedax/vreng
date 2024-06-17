@@ -122,7 +122,7 @@ void User::setPosition()
   Entry *entry = Entry::current();
   if (entry) {
     entry->query(this);
-    trace(DBG_INIT, "new entry: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
+    trace1(DBG_INIT, "new entry: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
     //echo("entry: %.1f %.1f %.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
   } 
 }
@@ -244,7 +244,7 @@ void User::geometry()
     sprintf(mensuration, "shape=\"guy\" dim=\"%f %f %f\"", width, depth, height);
   }
   sprintf(s, "%s />", mensuration);
-  trace(DBG_WO, "User: s=%s", s);
+  trace1(DBG_WO, "User: s=%s", s);
   parseSolid(s);
 
   // avatar's head
@@ -972,7 +972,7 @@ void User::disableGravity()
 void User::get_username(User *pu, Payload *pp)
 {
   pp->getPayload("s", pu->objectName());
-  trace(DBG_WO, "get_username=%s", pu->objectName());
+  trace1(DBG_WO, "get_username=%s", pu->objectName());
 }
 
 void User::u_get_xy(WO *po, Payload *pp)

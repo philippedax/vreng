@@ -169,7 +169,7 @@ void Gate::enter()
         strcpy(chan, DEF_VRE_CHANNEL);	// forced to the default
       }
     }
-    trace(DBG_IPMC, "enter: getChannel=%s url=%s", chan, new_url);
+    trace1(DBG_IPMC, "enter: getChannel=%s url=%s", chan, new_url);
   }
 #endif //USE_VACS
 
@@ -182,7 +182,7 @@ void Gate::enter()
   World::enter(new_url, new_chan, World::NEW);	// enter in this world
 
   Channel::join(new_chan);
-  trace(DBG_IPMC, "enter: join channel=%s url=%s", new_chan, new_url);
+  trace1(DBG_IPMC, "enter: join channel=%s url=%s", new_chan, new_url);
 
   if (audioactive) Audio::start(new_chan);
   if (new_chan)

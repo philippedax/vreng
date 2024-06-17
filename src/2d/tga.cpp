@@ -81,7 +81,7 @@ Img * Img::loadTGA(void *_tex, ImageReader read_func)
     delete cache;
     return NULL;
   }
-  trace(DBG_2D, "loadTGA: w=%d h=%d c=%d", width, height, bpp);
+  trace1(DBG_2D, "loadTGA: w=%d h=%d c=%d", width, height, bpp);
   size = width * height * bpp;
 
   Img *img = new Img(width, height, Img::RGB);

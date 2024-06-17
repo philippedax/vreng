@@ -81,7 +81,7 @@ int Payload::putPayload(const char *format, ...)
 
   va_start(ap, format);
   len = idx;	// "rewrite" mode rather than "append"
-  trace(DBG_NET, "putPayload: idx=%d", idx);
+  trace1(DBG_NET, "putPayload: idx=%d", idx);
 
   /* Parse format */
   while (*format) {
@@ -500,7 +500,7 @@ int Payload::sendPayload(const struct sockaddr_in *to)
     error("sendpayload: bad vrep_version=%d", vrep);
     return -1;
   }
-  trace(DBG_NET, "S: %02x%02x%02x%02x/%02x", hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
+  trace1(DBG_NET, "S: %02x%02x%02x%02x/%02x", hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
 
   /*
    * finds the file descriptor
@@ -652,12 +652,12 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
    * check if valid payload header
    */
   if (pkt_len != rtp_hdr_size + vrep_hdr_size + vrep_len || vrep_len < vrep_hdr_size) {
-    trace(DBG_NET, "R: %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
+    trace1(DBG_NET, "R: %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
                     pkt[0], pkt[1], pkt[2], pkt[3],
                     pkt[4], pkt[5], pkt[6], pkt[7],
                     pkt[8], pkt[9], pkt[10], pkt[11]);
-    trace(DBG_NET, "R: %02x%02x%02x%02x/%02x", hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
-    trace(DBG_NET, "wrong packet size, pkt_len=%d vrep_len=%d", pkt_len, vrep_len);
+    trace1(DBG_NET, "R: %02x%02x%02x%02x/%02x", hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
+    trace1(DBG_NET, "wrong packet size, pkt_len=%d vrep_len=%d", pkt_len, vrep_len);
     return -2;	// unknown packet type
   }
 
@@ -686,7 +686,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
   NetObj *pn;
   if ((pn = noid.getNetObj()) == NULL) {
     // delta on an unknown object
-    trace(DBG_NET, "inDelta sendQuery on: %s, from=%s, p=%d, v=%d", noid.getNoid(), inet4_ntop(&from->sin_addr), prop_id, vers_id);
+    trace1(DBG_NET, "inDelta sendQuery on: %s, from=%s, p=%d, v=%d", noid.getNoid(), inet4_ntop(&from->sin_addr), prop_id, vers_id);
     // send a Query to the sender in unicast
     noid.sendQuery(from);
     return;
@@ -739,7 +739,7 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   }
   if (noid.getNetObj()) return;  // local copy already exists -> ignore this request
 
-  trace(DBG_NET, "inCreate: nobj=%s (type=%d), perm=%d", noid.getNoid(), type_id, perm);
+  trace1(DBG_NET, "inCreate: nobj=%s (type=%d), perm=%d", noid.getNoid(), type_id, perm);
   //dump(stderr);
 
   //
@@ -787,7 +787,7 @@ void Payload::incomingQuery(const struct sockaddr_in *from)
     error("inQuery: port_id null");
     return;
   }
-  trace(DBG_NET, "inQuery: nobj=%s from=%s", noid.getNoid(), inet4_ntop(&from->sin_addr));
+  trace1(DBG_NET, "inQuery: nobj=%s from=%s", noid.getNoid(), inet4_ntop(&from->sin_addr));
 
   NetObj *pn;
   if ((pn = noid.getNetObj()) == NULL) {
@@ -811,7 +811,7 @@ void Payload::incomingDelete(const struct sockaddr_in *from)
     return;
   }
 
-  trace(DBG_NET, "inDelete: nobj=%s from=%s", noid.getNoid(), inet4_ntop(&from->sin_addr));
+  trace1(DBG_NET, "inDelete: nobj=%s from=%s", noid.getNoid(), inet4_ntop(&from->sin_addr));
 
   NetObj *pn;
   if ((pn = noid.getNetObj())) {
@@ -824,7 +824,7 @@ void Payload::incomingUnknown(const struct sockaddr_in *from, int size)
 {
   error("InUnknown: size=%d from %lx/%x", size, ntohl(from->sin_addr.s_addr), ntohs(from->sin_port));
   if (size) {
-    trace(DBG_NET,
+    trace1(DBG_NET,
           "%02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
           data[0], data[1], data[2], data[3],
           data[4], data[5], data[6], data[7],

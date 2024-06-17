@@ -90,7 +90,7 @@ void Noid::sendQuery(const struct sockaddr_in *to)
   Payload pp;
 
   pp.putPayload("cn", VREP_QUERY, this);
-  trace(DBG_NET, "sendQuery: nobj=%s to=%s", getNoid(), inet4_ntop(&to->sin_addr));
+  trace1(DBG_NET, "sendQuery: nobj=%s to=%s", getNoid(), inet4_ntop(&to->sin_addr));
   pp.sendPayload(to);
 }
 
@@ -100,6 +100,6 @@ void Noid::sendDelete(const struct sockaddr_in *to)
   Payload pp;
 
   pp.putPayload("cn", VREP_DELETE, this);
-  trace(DBG_NET, "sendDelete: nobj=%s to=%s", getNoid(), inet4_ntop( &to->sin_addr));
+  trace1(DBG_NET, "sendDelete: nobj=%s to=%s", getNoid(), inet4_ntop( &to->sin_addr));
   pp.sendPayload(to);
 }

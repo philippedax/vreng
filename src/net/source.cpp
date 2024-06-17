@@ -73,7 +73,7 @@ Source * Source::getSource(uint32_t _ssrc)
     pchan->session->source = new Source(_ssrc);
 
     pchan->session->incrSources();
-    trace(DBG_RTP, "getSource: create source=%p", pchan->session->source);
+    trace1(DBG_RTP, "getSource: create source=%p", pchan->session->source);
     return pchan->session->source;
   }
   else {

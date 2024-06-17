@@ -53,7 +53,7 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
     url += 5;
   }
   else {	// incomplete url
-    trace(DBG_HTTP, "relative url: %s", url);
+    trace1(DBG_HTTP, "relative url: %s", url);
     strcpy(scheme, "http");
     strcpy(host, ::g.server);
     if (*url != '/') {

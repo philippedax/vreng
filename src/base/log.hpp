@@ -56,7 +56,7 @@ extern const char *e_bad_type;
 void fatal(const char *s, ...);
 void warning(const char *s, ...);
 void notice(const char *s, ...);
-void trace(int mask, const char *s, ...);
+void trace1(int mask, const char *s, ...);
 void trace2(int mask, const char *s, ...);
 void error(const char *s, ...);
 void echo(const char *s, ...);

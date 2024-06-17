@@ -307,7 +307,7 @@ Icon::Icon(User *user, void *d)
   // document's owner
   setOwner();
 
-  trace(DBG_WO, "Icon: url=%s icon=%s name=%s owner=%s", name.url, tex, objectName(), ownerName());
+  trace1(DBG_WO, "Icon: url=%s icon=%s name=%s owner=%s", name.url, tex, objectName(), ownerName());
 
   if (action) {
     if      (! stringcmp(action, "pin"))   pin(this, NULL, 0L, 0L);
@@ -520,7 +520,7 @@ void Icon::get_url(Icon *icon, Payload *pp)
 {
   if (icon) {
     pp->getPayload("s", icon->name.url);
-    trace(DBG_WO, "get_url: %s", icon->name.url);
+    trace1(DBG_WO, "get_url: %s", icon->name.url);
   }
 }
 
@@ -534,7 +534,7 @@ void Icon::get_tex(Icon *icon, Payload *pp)
   if (icon) {
     icon->tex = new char[URL_LEN];
     pp->getPayload("s", icon->tex);
-    if (icon->tex) trace(DBG_WO, "get_tex: %s", icon->tex);
+    if (icon->tex) trace1(DBG_WO, "get_tex: %s", icon->tex);
   }
 }
 
@@ -547,7 +547,7 @@ void Icon::get_gname(Icon *icon, Payload *pp)
 {
   if (icon) {
     pp->getPayload("s", icon->objectName());
-    if (icon->objectName()) trace(DBG_WO,"get_gname: %s", icon->objectName());
+    if (icon->objectName()) trace1(DBG_WO,"get_gname: %s", icon->objectName());
   }
 }
 

@@ -330,7 +330,7 @@ int Parse::parseVreFile(char *buf, int buflen)
       memcpy(line, workline + bol, eol - bol);
       line[eol - bol] = '\0';
       if (line[eol - bol - 1] == '\r') line[eol - bol - 1] = '\0';	// WIN32
-      //trace(DBG_FORCE, "line %d: %s %d %d", numline, line, eol, bol);
+      //trace1(DBG_FORCE, "line %d: %s %d %d", numline, line, eol, bol);
 
       // discard empty lines
       if (*line == '\0') {
@@ -395,14 +395,14 @@ int Parse::parseVreFile(char *buf, int buflen)
           else {
             strcpy(line, "pop ");	// </local>
           }
-          //trace(DBG_FORCE, "LOCAL: type=%d line=%s", tag_type, line);
+          //trace1(DBG_FORCE, "LOCAL: type=%d line=%s", tag_type, line);
           if ((wobject = OClass::creatorInstance(tag_type, line)) == NULL) {
 	    return -1;
           }
           break;
 
         case TAG_OBJECT:
-          //trace(DBG_FORCE, "object %d: type=%d line=%s", numline, tag_type, line);
+          //trace1(DBG_FORCE, "object %d: type=%d line=%s", numline, tag_type, line);
           // check end of the object </...>
           char closetag[TAG_LEN + 4];
           sprintf(closetag, "</%s>", tagobj);

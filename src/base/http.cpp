@@ -160,7 +160,7 @@ void Http::init()
 {
   initMutex(&nbsimcon_mutex);
   nbsimcon = 0;
-  trace(DBG_INIT, "Http initialized");
+  trace1(DBG_INIT, "Http initialized");
 }
 
 /** Opens a HTTP transaction, returns -1 if error - static */
@@ -367,7 +367,7 @@ httpretry:
               int herr, hmajor, hminor;
 
               sscanf(httpheader, "HTTP/%d.%d %d", &hmajor, &hminor, &herr);
-              trace(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
+              trace1(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
                     herr, hmajor, hminor, httpheader+12, http->url);
 
               switch (herr) {
@@ -605,7 +605,7 @@ void Http::checkProxy()
       strcpy(hostproxy, ++p);
     }
     proxy = 1;
-    trace(DBG_HTTP, "proxy=%s:%d", hostproxy, portproxy);
+    trace1(DBG_HTTP, "proxy=%s:%d", hostproxy, portproxy);
   }
   p = (::g.pref.noproxystr) ? ::g.pref.noproxystr : getenv(NO_PROXY);
   if (p && *p) {

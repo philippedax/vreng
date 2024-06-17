@@ -185,7 +185,7 @@ int VNCSoc::connectRFB()
   sa.sin_port = htons(port);
   sa.sin_addr.s_addr = htonl(ipaddr);
 
-  trace(DBG_VNC, "connectRFB: connecting to %s:%i %x",
+  trace1(DBG_VNC, "connectRFB: connecting to %s:%i %x",
                  servername, ntohs(sa.sin_port), ntohl(sa.sin_addr.s_addr));
 
   struct timeval timeout;      

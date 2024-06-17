@@ -111,7 +111,7 @@ World::World()
     return;		// manager case, not in list
   }
   num = universe->worldcnt++;
-  trace(DBG_WO, "World: num=%d", num);
+  trace1(DBG_WO, "World: num=%d", num);
 
   addList();
 }
@@ -341,7 +341,7 @@ void World::compute(time_t sec, time_t usec)
     return;
 
   case LOADED:
-    trace(DBG_WO, "compute: world loaded");
+    trace1(DBG_WO, "compute: world loaded");
     if (localuser) {
       localuser->move.perm_sec = sec;
       localuser->move.perm_usec = usec;
@@ -409,7 +409,7 @@ bool World::call(World *w)
     setChan(w->chan);
   }
   else {
-    trace(DBG_IPMC, "call: leave chan=%s", w->chan);
+    trace1(DBG_IPMC, "call: leave chan=%s", w->chan);
     if (Channel::current()) {
       delete Channel::current();	// leave current channel
     }
@@ -420,9 +420,9 @@ bool World::call(World *w)
     Channel::getGroup(chan, grpstr);
     group = inet_addr(grpstr);
 
-    trace(DBG_IPMC, "call: join chan=%s", chan);
+    trace1(DBG_IPMC, "call: join chan=%s", chan);
     if (Channel::join(chan) == 0) {	// join previous channel
-      trace(DBG_IPMC, "call: can't join chan=%s", chan);
+      trace1(DBG_IPMC, "call: can't join chan=%s", chan);
       return false;	// fail
     }
     setChan(chan);
@@ -743,7 +743,7 @@ void World::init(const char *url)
   if (! ::g.pref.gravity) ::g.gui.pauseAvatar();
 
   world->setState(LOADED);
-  trace(DBG_INIT, "World %s initialized", world->getName());
+  trace1(DBG_INIT, "World %s initialized", world->getName());
 
   Entry *entry = new Entry();
   entry->query(user);
@@ -758,7 +758,7 @@ void World::init(const char *url)
 /** Quits the current World */
 void World::quit()
 {
-  trace(DBG_WO, "quit %s", getName());
+  trace1(DBG_WO, "quit %s", getName());
   state = STOPPED;
 
   //
@@ -835,7 +835,7 @@ void World::quit()
 /** Enters in a new World - static */
 World * World::enter(const char *url, const char *chanstr, bool isnew)
 {
-  trace(DBG_WO, "world enter");
+  trace1(DBG_WO, "world enter");
 
   // cleanup
   clearLists();
@@ -899,7 +899,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     //
     // world to downloaded
     //
-    trace(DBG_WO, "enter: downloading world url=%s", url);
+    trace1(DBG_WO, "enter: downloading world url=%s", url);
     //world->universe->startWheel();
     if (Http::httpOpen(url, reader, (void *)url, 0) < 0) {
       error("enter: bad download: url=%s", url);
@@ -949,7 +949,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   // create clock
   world->clock = new Clock();	// internal clock
 
-  trace(DBG_WO, "enter: world %s loaded: ", world->name);
+  trace1(DBG_WO, "enter: world %s loaded: ", world->name);
   world->setState(LOADED);// downloaded
 
   return world;

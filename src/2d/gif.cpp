@@ -267,7 +267,7 @@ static int gifReadBlocks(GifInfo *g)
       gifReadExtension(g);
       break;
     default:
-      trace(DBG_2D, "gifReadBlocks: ch=%02x off=%d(0x%x)", c, offset, offset);
+      trace1(DBG_2D, "gifReadBlocks: ch=%02x off=%d(0x%x)", c, offset, offset);
       return -10;
     }
   }

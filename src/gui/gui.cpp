@@ -63,7 +63,7 @@ void Gui::createWidgets()
 {
   widgets = new Widgets(this);  // creates the widgets of the GUI
 
-  trace(DBG_INIT, "Gui initialized");
+  trace1(DBG_INIT, "Gui initialized");
 }
 
 /** Shows Widgets */

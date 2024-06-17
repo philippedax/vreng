@@ -80,7 +80,7 @@ void notice(const char *s, ...)
   ::g.gui.writeMessage("notice", NULL, buf);
 }
 
-void trace(int dbgmask, const char *s, ...)
+void trace1(int dbgmask, const char *s, ...)
 {
   va_list ap;
 

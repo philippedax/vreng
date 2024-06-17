@@ -260,7 +260,7 @@ UBox& Widgets::createMenubar()
 
 static void functionMenu(Widgets*)
 {
-  trace(DBG_FORCE, "functionMenu OK");
+  trace1(DBG_FORCE, "functionMenu OK");
 }
 
 /** Adds dynamic menus */
@@ -522,7 +522,7 @@ void Widgets::homeCB()
   char chan_str[CHAN_LEN];
 
   sprintf(chan_str, "%s/%u/%d", Universe::current()->grpstr, Universe::current()->port, Channel::currentTtl());
-  trace(DBG_IPMC, "home: goto %s at %s", ::g.url, chan_str);
+  trace1(DBG_IPMC, "home: goto %s at %s", ::g.url, chan_str);
 
   World::current()->quit();
   delete Channel::current();  // delete Channel

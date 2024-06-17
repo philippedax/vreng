@@ -405,7 +405,7 @@ void Hairs::reader(void *_lwo, Http *http)
       sp = ftell(fp);
       while (l > 0) {
         getSTRING(fp, str, &l);
-        trace(DBG_MOD, "str=%s", str);
+        trace1(DBG_MOD, "str=%s", str);
         //if (l<0) { error("bad SRFS size"); return; }
       }
       fseek(fp,sp,0);
@@ -633,7 +633,7 @@ void Hairs::reader(void *_lwo, Http *http)
       //echo("end chunk ------------ sid=%s len=%d l=%d", sid, len, l);
     }
   } //end while
-  trace(DBG_MOD, "end obj file: nbs=%d nbf=%d nbp=%d pt=%d len=%d", lwo->nbs, lwo->nbf, lwo->nbp, lwo->pt, len);
+  trace1(DBG_MOD, "end obj file: nbs=%d nbf=%d nbp=%d pt=%d len=%d", lwo->nbs, lwo->nbf, lwo->nbp, lwo->pt, len);
 
   if (lwo->nbf) {
     HVertex *pv =  lwo->pt;

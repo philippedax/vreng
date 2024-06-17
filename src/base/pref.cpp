@@ -149,7 +149,7 @@ void Pref::init(int argc, char **argv, const char* pref_file)
   //echo("preffile: %s",pref_file);
   initPrefs(pref_file);  // ::g.env.prefs());
   parse(argc, argv);
-  trace(DBG_INIT, "Pref initialized");
+  trace1(DBG_INIT, "Pref initialized");
 }
 
 /** parses options in command line */
@@ -494,22 +494,22 @@ void Pref::initPrefs(const char* pref_file)
     if (stringcmp(p1, "world") == 0) {
       my_vrestr = new char[strlen(p2) + 1];
       strcpy(my_vrestr, p2);
-      trace(DBG_INIT, "vre = %s", p2);
+      trace1(DBG_INIT, "vre = %s", p2);
     }
     else if (stringcmp(p1, "width") == 0) {
       my_widthstr = new char[strlen(p2) + 1];
       strcpy(my_widthstr, p2);
-      trace(DBG_INIT, "width = %s", p2);
+      trace1(DBG_INIT, "width = %s", p2);
     }
     else if (stringcmp(p1, "depth") == 0) {
       my_depthstr = new char[strlen(p2) + 1];
       strcpy(my_depthstr, p2);
-      trace(DBG_INIT, "depth = %s", p2);
+      trace1(DBG_INIT, "depth = %s", p2);
     }
     else if (stringcmp(p1, "height") == 0) {
       my_heightstr = new char[strlen(p2) + 1];
       strcpy(my_heightstr, p2);
-      trace(DBG_INIT, "height = %s", p2);
+      trace1(DBG_INIT, "height = %s", p2);
     }
     else if (stringcmp(p1, "mapfront") == 0 || stringcmp(p1, "mapface") == 0) {
       my_mapfrontstr = new char[strlen(p2) + 1];
@@ -530,7 +530,7 @@ void Pref::initPrefs(const char* pref_file)
     else if (stringcmp(p1, "model") == 0) {
       my_avatar = new char[strlen(p2) + 1];
       strcpy(my_avatar, p2);
-      trace(DBG_INIT, "model = %s", p2);
+      trace1(DBG_INIT, "model = %s", p2);
     }
     else if (stringcmp(p1, "face") == 0) {
       my_facestr = new char[strlen(p2) + 1];
@@ -555,12 +555,12 @@ void Pref::initPrefs(const char* pref_file)
     else if (stringcmp(p1, "color") == 0) {
       my_colorstr = new char[strlen(p2) + 1];
       strcpy(my_colorstr, p2);
-      trace(DBG_INIT, "color = %s", p2);
+      trace1(DBG_INIT, "color = %s", p2);
     }
     else if (stringcmp(p1, "baps") == 0) {
       my_bapsstr = new char[strlen(p2) + 1];
       strcpy(my_bapsstr, p2);
-      trace(DBG_INIT, "baps = %s", p2);
+      trace1(DBG_INIT, "baps = %s", p2);
     }
     else if (stringcmp(p1, "http_proxy") == 0) {
       httpproxystr = new char[strlen(p2) + 1];

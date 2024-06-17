@@ -295,7 +295,7 @@ int Cache::download(const char *_url, char *filename, const char arg[])
       }
       unlink(filename); // remove empty file
     }
-    trace(DBG_TOOL, "download: download %s in %s", url, filename);
+    trace1(DBG_TOOL, "download: download %s in %s", url, filename);
   }
 #if HAVE_CURL
   return Url::curl(url, filename, arg);

@@ -155,7 +155,7 @@ void Cart::leave(WO *po)
     po->vsql = vsql;		// copy it into the object
     vsql->deleteRow(po, CART_NAME, po->objectName(), "");
     vsql->insertRow(po);
-    trace(DBG_SQL, "leaveFromCart: %s", po->objectName());
+    trace1(DBG_SQL, "leaveFromCart: %s", po->objectName());
   }
 
   // declare the object creation to the network
@@ -182,7 +182,7 @@ void Cart::removeFromCart(WO *po)
   vsql = new VSql();     // first take the VSql handle;
   if (vsql) {
     vsql->deleteRow(po, CART_NAME, po->objectName(), "");
-    trace(DBG_SQL, "removeFromCart: %s", po->objectName());
+    trace1(DBG_SQL, "removeFromCart: %s", po->objectName());
   }
 
   if (number) number--;

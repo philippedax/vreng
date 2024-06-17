@@ -82,7 +82,7 @@ NetObj::NetObj(WO *po, uint8_t nprop, uint16_t oid)
   char str[80];
   sprintf(str, "%d/%d", type, oid);
   setNetName(str, state);     // net objname
-  trace(DBG_NET, "NetObj: str=%s %s", str, pobject->objectName());
+  trace1(DBG_NET, "NetObj: str=%s %s", str, pobject->objectName());
 }
 
 /** Creates volatile NetObj */
@@ -192,7 +192,7 @@ void NetObj::initProperties(bool _responsible)
 
   uint8_t np = NetProperty::getProperties(type);
   if (!np) return;
-  trace(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, pobject->objectName(), np, _responsible);
+  trace1(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, pobject->objectName(), np, _responsible);
 
   netprop = new NetProperty[np];
 
@@ -413,7 +413,7 @@ void NetObj::sendCreate(const struct sockaddr_in *to)
     pp.putPayload("h", netprop[i].version);
   }
 
-  trace(DBG_NET, "sendCreate: nobj=%s to=%s", noid.getNoid(), inet4_ntop(&to->sin_addr));
+  trace1(DBG_NET, "sendCreate: nobj=%s to=%s", noid.getNoid(), inet4_ntop(&to->sin_addr));
   pp.sendPayload(to);
 #if 0 //pddebug
   pp.dumpPayload(stderr);
@@ -473,7 +473,7 @@ void NetObj::sendDelete(const struct sockaddr_in *to)
   Payload pp;
 
   pp.putPayload("cn", VREP_DELETE, noid);
-  trace(DBG_NET, "sendDelete: nobj=%s to=%s", noid.getNoid(), inet4_ntop(&to->sin_addr));
+  trace1(DBG_NET, "sendDelete: nobj=%s to=%s", noid.getNoid(), inet4_ntop(&to->sin_addr));
   pp.sendPayload(to);
 }
 
