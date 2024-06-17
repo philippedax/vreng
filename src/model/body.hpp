@@ -457,6 +457,12 @@ class Body {
     MAX_JP
   };
 
+  enum {
+    FLEXION = 0,
+    ABDUCT,
+    TORSION
+  };
+
   uint8_t drawparts;		///< number of drawable parts
   uint8_t model;		///< model type used (Off, Obj,...)
   GLint dlist;			///< body display-list

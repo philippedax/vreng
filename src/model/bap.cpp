@@ -49,7 +49,7 @@ uint8_t Bap::getType() const
 }
 
 /** Resets bit masks */
-void Bap::resetBit(int params)
+void Bap::resetMask(int params)
 {
   for (int i=1; i <= params; i++) {
     masks[i] = 0;
@@ -57,13 +57,13 @@ void Bap::resetBit(int params)
 }
 
 /** Checks bit mask */
-bool Bap::isBit(int param) const
+bool Bap::isMask(int param) const
 {
   return masks[param];
 }
 
 /** Sets bit mask */
-void Bap::setBit(int param, uint8_t bit)
+void Bap::setMask(int param, uint8_t bit)
 {
   masks[param] = bit;
 }
@@ -122,7 +122,7 @@ uint8_t Bap::parse(char *bapline)
   l = strtok(bapline, " ");
   if (! stringcmp(l, HEAD_BAP_V31)) {		// Bap3.1 Header
     params = NUM_BAPS;
-    resetBit(params);
+    resetMask(params);
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
@@ -132,7 +132,7 @@ uint8_t Bap::parse(char *bapline)
   }
   else if (! stringcmp(l, HEAD_BAP_V32)) {	// Bap3.2 Header
     params = NUM_BAPS;
-    resetBit(params);
+    resetMask(params);
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
@@ -142,7 +142,7 @@ uint8_t Bap::parse(char *bapline)
   }
   else if (! stringcmp(l, HEAD_FAP_V20)) {	// Fap2.0 Header
     params = NUM_FAPS;
-    resetBit(params);
+    resetMask(params);
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
@@ -152,7 +152,7 @@ uint8_t Bap::parse(char *bapline)
   }
   else if (! stringcmp(l, HEAD_FAP_V21)) {	// Fap2.1 Header
     params = NUM_FAPS;
-    resetBit(params);
+    resetMask(params);
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");

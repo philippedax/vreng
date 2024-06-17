@@ -33,7 +33,7 @@
 #include "pref.hpp"	// reflector
 #include "timer.hpp"	// rate
 #include "user.hpp"	// localuser
-#include "bap.hpp"	// setBit, setBap
+#include "bap.hpp"	// setMask, get, set
 #include "gestures.hpp"	// *_bap
 
 
@@ -317,14 +317,14 @@ void Humanoid::changePermanent(float lasting)
     switch (baptype) {
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
       for (int i=1; i <= NUM_BAPS; i++) {
-        if (! bap->isBit(i)) continue;
+        if (! bap->isMask(i)) continue;
         //echo("play: %d (%.2f)", i, bap->get(i));
       }
       body->play();		// plays bapframe
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
-        if (bap->isBit(i) && body->face) {
+        if (bap->isMask(i) && body->face) {
           body->face->play(i, bap->get(i));	// play fapframe
         }
       }
@@ -411,8 +411,8 @@ newbap:
       for (int i=1; i <= bap->params; i++) {
         if (p) {
           switch (*p) {
-          case '0': bap->setBit(i, 0); break;
-          case '1': bap->setBit(i, 1); break;
+          case '0': bap->setMask(i, 0); break;
+          case '1': bap->setMask(i, 1); break;
           }
           p = strchr(p, ' ');
           if (! p) break;	// no more mask
@@ -442,7 +442,7 @@ newbap:
 
     for (int i=1; i <= bap->params; i++) {
       float value = 0;
-      if (! bap->isBit(i)) continue;		// no mask
+      if (! bap->isMask(i)) continue;		// no mask
       //
       // play bap param
       //
