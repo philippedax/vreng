@@ -57,7 +57,7 @@ class Pref {
   bool silent;		///< audio silent
   bool progress;	///< show progression
   bool stats;		///< show stats
-  bool dbgtrace;	///< show trace
+  bool trace;		///< show trace
   bool loghttpd;	///< show loghttpd
   bool tview;		///< thirdpersonn view
   bool sql;		///< trace sql table

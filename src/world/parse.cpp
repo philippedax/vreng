@@ -29,7 +29,7 @@
 #include "solid.hpp"	// Solid
 #include "color.hpp"	// getRGB
 #include "timer.hpp"	// timer
-#include "pref.hpp"	// g.pref.dbgtrace
+#include "pref.hpp"	// g.pref.trace
 #include "str.hpp"	// stringcmp
 
 
@@ -427,7 +427,7 @@ int Parse::parseVreFile(char *buf, int buflen)
 	    if (*attr == '>') {
 	      ++attr;
             }
-            //debug if (::g.pref.dbgtrace) echo("[%d] %s", tag_type, line);
+            //debug if (::g.pref.trace) echo("[%d] %s", tag_type, line);
             progression('o');
             ::g.timer.object.start();
             // call the creator() method of this object with object attributes

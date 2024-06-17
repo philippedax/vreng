@@ -383,7 +383,7 @@ void Humanoid::changePermanent(float lasting)
       // bap hdr
       //
       len = getLine();
-      if (::g.pref.dbgtrace) echo("baphdr: %s", bapline);
+      if (::g.pref.trace) echo("baphdr: %s", bapline);
 
       p = strrchr(bapline, ' ');
       if (p) {
@@ -439,7 +439,7 @@ newbap:
     // values
     p = strchr(bapline, ' ');
     if (! p) {
-      if (::g.pref.dbgtrace) echo("empty value");
+      if (::g.pref.trace) echo("empty value");
       goto newbap;		// no more values
     }
     p++;			// points on first value
@@ -454,7 +454,7 @@ newbap:
         value = (float) atof(p);
       }
       else {
-        if (::g.pref.dbgtrace) error("bad value");
+        if (::g.pref.trace) error("bad value");
         goto newbap;
       }
       switch (baptype) {

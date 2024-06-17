@@ -601,7 +601,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   GLuint *psel = selbuf;
 
   for (int hit=0; hit < hits; hit++) {
-    if (::g.pref.dbgtrace) {
+    if (::g.pref.trace) {
       echo("hit: %d/%d num=%d min=%ud name=%s/%s",
             hit, hits, psel[3], psel[1],
             WO::byNum(psel[3])->typeName(),
@@ -619,7 +619,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
     int n = depth % hits;
     objnum_nearest = hitlist[n][3];
     if (hits > 1) next = hitlist[1][3];
-    if (::g.pref.dbgtrace) {
+    if (::g.pref.trace) {
       if (hits > 1) {
         echo("nearest: %d/%s next %d/%s",
               objnum_nearest, WO::byNum(objnum_nearest)->objectName(),

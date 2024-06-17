@@ -104,7 +104,7 @@ Pref::Pref()
   progress = false;
   expand = false;
   bbox = false;
-  dbgtrace = false;
+  trace = false;
   refresh = false;
   loghttpd = false;
   tview = false;
@@ -270,7 +270,7 @@ void Pref::parse(int argc, char **argv)
         silent = false;
         break;
       case 't':
-        dbgtrace = true;
+        trace = true;
         break;
       case 'u':
         ::g.universe = strdup(optarg);

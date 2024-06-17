@@ -30,7 +30,7 @@
 #include "format.hpp"	// getModelByUrl
 #include "user.hpp"	// localuser
 #include "cache.hpp"	// open, close
-#include "pref.hpp"	// dbgtrace
+#include "pref.hpp"	// trace
 
 
 const float Phalanx2::PHALANX2_LEN = 0.012;	// default phalanx2 length
@@ -111,7 +111,7 @@ int Phalanx::init()
 void Phalanx::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.dbgtrace) echo("f-phal: %.0f", a);
+  if (::g.pref.trace) echo("f-phal: %.0f", a);
 }
 
 /** Finger */
@@ -130,13 +130,13 @@ int Finger::init()
 void Finger::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.dbgtrace) echo("f-fing: %.0f", a);
+  if (::g.pref.trace) echo("f-fing: %.0f", a);
 }
 
 void Finger::abduct(float a)
 {
   aabduct = a;
-  if (::g.pref.dbgtrace) echo("t-fing: %.0f", a);
+  if (::g.pref.trace) echo("t-fing: %.0f", a);
 }
 
 /** Hand */
@@ -159,19 +159,19 @@ int Hand::init()
 void Hand::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.dbgtrace) echo("f-hand: %.0f", a);
+  if (::g.pref.trace) echo("f-hand: %.0f", a);
 }
 
 void Hand::abduct(float a)
 {
   aabduct = a;
-  if (::g.pref.dbgtrace) echo("a-hand: %.0f", a);
+  if (::g.pref.trace) echo("a-hand: %.0f", a);
 }
 
 void Hand::torsion(float a)
 {
   atorsion = a;
-  if (::g.pref.dbgtrace) echo("t-hand: %.0f", a);
+  if (::g.pref.trace) echo("t-hand: %.0f", a);
 }
 
 /** Forearm / Elbow */
@@ -190,13 +190,13 @@ int Forearm::init()
 void Forearm::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.dbgtrace) echo("f-fore: %.0f", a);
+  if (::g.pref.trace) echo("f-fore: %.0f", a);
 }
 
 void Forearm::torsion(float a)
 {
   atorsion = a;
-  if (::g.pref.dbgtrace) echo("t-fore: %.0f", a);
+  if (::g.pref.trace) echo("t-fore: %.0f", a);
 }
 
 /** Arm */
@@ -218,21 +218,21 @@ void Arm::flexion(float a)
 {
   //dax aflexion = -a;
   aflexion = a;
-  if (::g.pref.dbgtrace) echo("f-arm: %.0f", a);
+  if (::g.pref.trace) echo("f-arm: %.0f", a);
 }
 
 void Arm::abduct(float a)
 {
   //dax aabduct = a - 90;
   aabduct = a;
-  if (::g.pref.dbgtrace) echo("a-arm: %.0f", a);
+  if (::g.pref.trace) echo("a-arm: %.0f", a);
 }
 
 void Arm::torsion(float a)
 {
   //dax atorsion = a + 90;
   atorsion = a;
-  if (::g.pref.dbgtrace) echo("t-arm: %.0f", a);
+  if (::g.pref.trace) echo("t-arm: %.0f", a);
 }
 
 float Arm::a_flexion() const
@@ -266,13 +266,13 @@ int Shoulder::init()
 void Shoulder::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.dbgtrace) echo("f-shoul: %.0f", a);
+  if (::g.pref.trace) echo("f-shoul: %.0f", a);
 }
 
 void Shoulder::abduct(float a)
 {
   aabduct = a;
-  if (::g.pref.dbgtrace) echo("a-shoul: %.0f", a);
+  if (::g.pref.trace) echo("a-shoul: %.0f", a);
 }
 
 /** HeadBody */
@@ -290,19 +290,19 @@ int HeadBody::init()
 void HeadBody::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.dbgtrace) echo("f-head: %.0f", a);
+  if (::g.pref.trace) echo("f-head: %.0f", a);
 }
 
 void HeadBody::abduct(float a)
 {
   aabduct = a;
-  if (::g.pref.dbgtrace) echo("a-head: %.0f", a);
+  if (::g.pref.trace) echo("a-head: %.0f", a);
 }
 
 void HeadBody::torsion(float a)
 {
   atorsion = a;
-  if (::g.pref.dbgtrace) echo("t-head: %.0f", a);
+  if (::g.pref.trace) echo("t-head: %.0f", a);
 }
 
 /** Neck */
@@ -321,19 +321,19 @@ int Neck::init()
 void Neck::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.dbgtrace) echo("f-neck: %.0f", a);
+  if (::g.pref.trace) echo("f-neck: %.0f", a);
 }
 
 void Neck::abduct(float a)
 {
   aabduct = a;
-  if (::g.pref.dbgtrace) echo("a-neck: %.0f", a);
+  if (::g.pref.trace) echo("a-neck: %.0f", a);
 }
 
 void Neck::torsion(float a)
 {
   atorsion = a;
-  if (::g.pref.dbgtrace) echo("t-neck: %.0f", a);
+  if (::g.pref.trace) echo("t-neck: %.0f", a);
 }
 
 /** Foot / Ankle */
@@ -795,12 +795,12 @@ void Body::play()
   if (bap->isBit(T1_ROLL))		neck->flexion(bap->get(T1_ROLL));
   if (bap->isBit(T1_TORSION))		neck->torsion(bap->get(T1_TORSION));
   if (bap->isBit(T1_TILT))		neck->abduct(bap->get(T1_TILT));
-  if (bap->isBit(TR_VERTICAL))		{ tz = bap->get(TR_VERTICAL); if(::g.pref.dbgtrace) echo("tv: %.0f", tz); /*tz=0;*/ }
-  if (bap->isBit(TR_LATERAL))		{ ty = bap->get(TR_LATERAL); if(::g.pref.dbgtrace) echo("tl: %.0f", ty); /*ty=0;*/ }
-  if (bap->isBit(TR_FRONTAL))		{ tx = bap->get(TR_FRONTAL); if(::g.pref.dbgtrace) echo("tf: %.0f", tx); /*tx=0;*/ }
-  if (bap->isBit(RT_BODY_TURN))		{ rz = bap->get(RT_BODY_TURN); if(::g.pref.dbgtrace) echo("tu: %.0f", rz); }
-  if (bap->isBit(RT_BODY_ROLL))		{ rx = bap->get(RT_BODY_ROLL); if(::g.pref.dbgtrace) echo("ro: %.0f", rx); /*rx=0;*/ }
-  if (bap->isBit(RT_BODY_TILT))		{ ry = bap->get(RT_BODY_TILT); if(::g.pref.dbgtrace) echo("ti: %.0f", ry); }
+  if (bap->isBit(TR_VERTICAL))		{ tz = bap->get(TR_VERTICAL); if(::g.pref.trace) echo("tv: %.0f", tz); /*tz=0;*/ }
+  if (bap->isBit(TR_LATERAL))		{ ty = bap->get(TR_LATERAL); if(::g.pref.trace) echo("tl: %.0f", ty); /*ty=0;*/ }
+  if (bap->isBit(TR_FRONTAL))		{ tx = bap->get(TR_FRONTAL); if(::g.pref.trace) echo("tf: %.0f", tx); /*tx=0;*/ }
+  if (bap->isBit(RT_BODY_TURN))		{ rz = bap->get(RT_BODY_TURN); if(::g.pref.trace) echo("tu: %.0f", rz); }
+  if (bap->isBit(RT_BODY_ROLL))		{ rx = bap->get(RT_BODY_ROLL); if(::g.pref.trace) echo("ro: %.0f", rx); /*rx=0;*/ }
+  if (bap->isBit(RT_BODY_TILT))		{ ry = bap->get(RT_BODY_TILT); if(::g.pref.trace) echo("ti: %.0f", ry); }
 }
 
 void Body::animReset()

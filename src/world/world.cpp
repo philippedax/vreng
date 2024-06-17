@@ -777,7 +777,7 @@ void World::quit()
   for (vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
-    if (::g.pref.dbgtrace) echo("del: %s", (*it)->objectName());
+    if (::g.pref.trace) echo("del: %s", (*it)->objectName());
     if (! strlen((*it)->objectName())) continue;	// avoid segfault
     (*it)->quit();	// sometimes segfault FIXME!!!
     delete *it;
@@ -786,7 +786,7 @@ void World::quit()
 
   // mobile objects
   for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if (::g.pref.dbgtrace) echo("del: %s", (*it)->objectName());
+    if (::g.pref.trace) echo("del: %s", (*it)->objectName());
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
     if ((*it)->deleted) continue;
@@ -849,7 +849,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   if (find(url) && isnew) {
     world = find(url);	// existing world
     worldList = swap(world);
-    if (::g.pref.dbgtrace) echo("enter: world=%s (%d)", world->name, isnew);
+    if (::g.pref.trace) echo("enter: world=%s (%d)", world->name, isnew);
     if (world->guip) {
       ::g.gui.updateWorld(world, NEW);
     }

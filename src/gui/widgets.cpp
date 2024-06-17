@@ -482,7 +482,7 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   objinfo[0].name = classname;
   if (currentname == NULL) currentname = const_cast<char *>("");
   objinfo[1].name = currentname;
-  if (::g.pref.dbgtrace) echo("pointed: %s.%s", classname, currentname);
+  if (::g.pref.trace) echo("pointed: %s.%s", classname, currentname);
 
   // get actions of this object
   int i = 0;
