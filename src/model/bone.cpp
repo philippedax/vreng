@@ -308,12 +308,11 @@ void Bone::render()
   //glPopMatrix();
 }
 
-//-----------------
 // Private methods
 void Bone::addNodeAndChildren(BoneVertex *boneVertex, BoneList <BoneVertex> *list)
 {
-  if (! boneVertex->childListCompiled) boneVertex->makeChildList();
-
+  if (! boneVertex->childListCompiled)
+    boneVertex->makeChildList();
   list->addElement(boneVertex);
 
   for (int i=0; i < boneVertex->children; i++) {
@@ -674,7 +673,7 @@ void BoneVertex::setIniRot(float angle, float axisx, float axisy, float axisz)
   curAxis     =  Vect3D(axisx, axisy, axisz);
 }
 
-// And... Accessing animation position datas
+// Accessing animation position datas
 void BoneVertex::setPos(Vect3D &position)
 {
   curPosition =  position;
@@ -959,7 +958,6 @@ void BoneVertex::readSkel(FILE *fp, float scale)
   char name[128];
 
   readStr(fp, name);
-  //echo("bone: %s", name);
 
   float posx = readFloat(fp) * scale;
   float posy = readFloat(fp) * scale;
@@ -1106,4 +1104,3 @@ void BoneTriangle::setColor(float _r=0.5, float _g=0.5, float _b=0.5, float _a=1
   b = B = _b;
   a = A = _a;
 }
-
