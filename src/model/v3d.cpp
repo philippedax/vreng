@@ -72,7 +72,7 @@ void V3d::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scal
     int index2 = file->read_long_be(fp);
     int index3 = file->read_long_be(fp);
     result->addTriangle(index1, index2, index3);
-    BoneTriangle *triangle = result->triangleList.getElement(i);
+    BoneTriangle *triangle = result->triangleList.getElemAt(i);
 
     // Reading color
     float r = file->read_float_be(fp);

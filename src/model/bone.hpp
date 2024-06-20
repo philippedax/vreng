@@ -143,7 +143,7 @@ template <class BoneElem> class BoneNode {
  *            void  addList (BoneList * list)
  *            void  delElement (int index)
  *            void  delElement (BoneElem * ptr)
- *            BoneElem * getElement (int index)
+ *            BoneElem * getElemAt (int index)
  *            BoneElem ** getNiceTable (int * count)
  */
 template <class BoneElem> class BoneList {
@@ -229,7 +229,7 @@ template <class BoneElem> class BoneList {
 
   // Fonction d'acces a un element de la liste retourne NULL si
   // l'index est inferieur a 0 ou superieur au nombre d'elements
-  BoneElem *getElement(int index)
+  BoneElem *getElemAt(int index)
   {
     BoneNode<BoneElem> *node = listHead;
     BoneElem *result = NULL;

@@ -163,7 +163,7 @@ void Face::change()
   curl++;
   curl %= nburl;
   curl %= urlList.count();
-  char *url = urlList.getElement(curl);
+  char *url = urlList.getElemAt(curl);
   //dax char *url = new char[URL_LEN];
   //dax for (vector<char*>::iterator it = urlList.begin(); it != urlList.end(); ++it) {
   //dax   echo("list: %s", *it);
