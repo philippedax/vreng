@@ -235,7 +235,7 @@ void BoneAnimator::genLinkList()
       // will be less influenced by the node than near vertices )
       temp = new BoneLink(mesh->vertex[i], node[j], getWeight(mesh->vertex[i], node[j]));
       // We now save this new link in our list
-      temporaryLinkList.addElement(temp);
+      temporaryLinkList.addElem(temp);
     }
     temporaryLink = temporaryLinkList.getNiceTable(&temporaryLinks);
 
@@ -260,7 +260,7 @@ void BoneAnimator::genLinkList()
     // Record the selected links in the list
     normalize (temporaryLink, temporaryLinks);
     for (int j=0; j<temporaryLinks; j++) {
-      if (temporaryLink[j] != NULL) linkList.addElement(temporaryLink[j]);
+      if (temporaryLink[j] != NULL) linkList.addElem(temporaryLink[j]);
     }
   }
 
@@ -532,7 +532,7 @@ void BoneAnimator::addNodeAndChildren(BoneVertex *boneVertex, BoneList < BoneVer
 {
   if (! boneVertex->childListCompiled) boneVertex->compileChildList();
 
-  list->addElement(boneVertex);
+  list->addElem(boneVertex);
 
   for (int i=0; i < boneVertex->children; i++) {
     addNodeAndChildren(boneVertex->child[i], list);

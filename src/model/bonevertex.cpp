@@ -250,7 +250,7 @@ void BoneVertex::setFather(BoneVertex *zeFather)
 // Adding children
 void BoneVertex::addChild(BoneVertex *newChild)
 {
-  childList.addElement(newChild);
+  childList.addElem(newChild);
   newChild->setFather(this);
   childListCompiled = 0;
 }
@@ -258,13 +258,13 @@ void BoneVertex::addChild(BoneVertex *newChild)
 // Removing a child and its children
 void BoneVertex::removeChild(const char *zeName)
 {
-  BoneVertex *tmp = getBone(zeName);
-  if (tmp == NULL) return;
-  if (tmp == this) return;
+  BoneVertex *b = getBone(zeName);
+  if (b == NULL) return;
+  if (b == this) return;
 
-  childList.removeElement(tmp);
+  childList.delElem(b);
   childListCompiled = 0;
-  delete tmp;
+  delete b;
 }
 
 // Finding a boneVertex in the tree using its name
@@ -287,14 +287,14 @@ BoneVertex *BoneVertex::getBone(const char *zeName)
 // Adding a link
 void BoneVertex::addLink(BoneLink *zeLink)
 {
-  linkList.addElement(zeLink);
+  linkList.addElem(zeLink);
   linkListCompiled = 0;
 }
 
 // Removing a link
 void BoneVertex::removeLink(BoneLink *zeLink)
 {
-  linkList.removeElement(zeLink);
+  linkList.delElem(zeLink);
   linkListCompiled = 0;
 }
 
@@ -322,26 +322,26 @@ void BoneVertex::generateInitialMatrix()
   // Now I let OpenGL calculate the matrix
   glTranslatef(initialPosition.x, initialPosition.y, initialPosition.z);
   glRotatef   (initialAngle, initialAxis.x , initialAxis.y, initialAxis.z);
-  // I save it
+  // save it
   glGetFloatv (GL_MODELVIEW_MATRIX, initialMatrix);
 
   // Here is a nice matrix inversion
-  // 1. tmp gets the transposed rotation part of the matrix
-  float tmp[16];
-  tmp[0] = initialMatrix[ 0]; tmp[4] = initialMatrix[ 1]; tmp[ 8] = initialMatrix[ 2]; tmp[12] = 0;
-  tmp[1] = initialMatrix[ 4]; tmp[5] = initialMatrix[ 5]; tmp[ 9] = initialMatrix[ 6]; tmp[13] = 0;
-  tmp[2] = initialMatrix[ 8]; tmp[6] = initialMatrix[ 9]; tmp[10] = initialMatrix[10]; tmp[14] = 0;
-  tmp[3] = 0;                 tmp[7] = 0;                 tmp[11] = 0;                 tmp[15] = 1;
-  // 2. tmpVect gets an inverted translation from the matrix
-  Vect3D tmpVect(-initialMatrix[12], -initialMatrix[13], -initialMatrix[14]);
-  // 3. tmpVect is to be done in the inverted coordinate system so multiply
-  tmpVect = tmp * tmpVect;
+  // 1. m gets the transposed rotation part of the matrix
+  float m[16];
+  m[0] = initialMatrix[ 0]; m[4] = initialMatrix[ 1]; m[ 8] = initialMatrix[ 2]; m[12] = 0;
+  m[1] = initialMatrix[ 4]; m[5] = initialMatrix[ 5]; m[ 9] = initialMatrix[ 6]; m[13] = 0;
+  m[2] = initialMatrix[ 8]; m[6] = initialMatrix[ 9]; m[10] = initialMatrix[10]; m[14] = 0;
+  m[3] = 0;                 m[7] = 0;                 m[11] = 0;                 m[15] = 1;
+  // 2. v gets an inverted translation from the matrix
+  Vect3D v(-initialMatrix[12], -initialMatrix[13], -initialMatrix[14]);
+  // 3. v is to be done in the inverted coordinate system so multiply
+  v = m * v;
   // 4. now we have the nice inverted matrix :)
-  tmp[12] = tmpVect.x;
-  tmp[13] = tmpVect.y;
-  tmp[14] = tmpVect.z;
+  m[12] = v.x;
+  m[13] = v.y;
+  m[14] = v.z;
   // 5. Stores it !
-  for (int j=0; j<16 ; j++) initialMatrixInverted[j] = tmp[j];
+  for (int j=0; j<16 ; j++) initialMatrixInverted[j] = m[j];
 
   // Now, store the rotation matrices (for normals computation)
   int off=0;
@@ -444,9 +444,9 @@ void BoneVertex::readFromFile(FILE *fp, float scale)
 
   int cpt = readInt(fp); // Number of children
   for (int i=0; i<cpt; i++) {
-    BoneVertex *tmp = new BoneVertex();
-    addChild(tmp);
-    tmp->readFromFile(fp);
+    BoneVertex *bv = new BoneVertex();
+    addChild(bv);
+    bv->readFromFile(fp);
   }
 
   compileChildList();
@@ -563,13 +563,13 @@ void Vertex::setPosition(Vect3D *zePosition)
 
 void Vertex::addLink(BoneLink *zeLink)
 {
-  linkList.addElement(zeLink);
+  linkList.addElem(zeLink);
   linkListCompiled = 0;
 }
 
 void Vertex::removeLink(BoneLink *zeLink)
 {
-  linkList.removeElement(zeLink);
+  linkList.delElem(zeLink);
   linkListCompiled = 0;
 }
 

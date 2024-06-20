@@ -147,7 +147,7 @@ void Face::facesreader(void *_face, Http *http)
   }
   while (cache->nextLine(f, url)) {
     //echo("facesreader: add %s", url);
-    face->urlList.addElement(url);
+    face->urlList.addElem(url);
     //dax face->urlList.push_back(url);
   }
   cache->close();

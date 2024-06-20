@@ -90,10 +90,10 @@ template <class BoneElem> class BoneNode {
  * en commencant par 'listHead'
  * Methodes : void  empty (void)
  *            int   count (void)
- *            void  addElement (BoneElem * zeElement)
+ *            void  addElem (BoneElem * zeElement)
  *            void  addList (BoneList * zeList)
- *            void  removeElement (int index)
- *            void  removeElement (BoneElem * ptr)
+ *            void  delElem (int index)
+ *            void  delElem (BoneElem * ptr)
  *            BoneElem * getElemAt (int index)
  *            BoneElem ** getNiceTable (int * count)
  */
@@ -113,9 +113,10 @@ template <class BoneElem> class BoneList {
 
   /** Compilation de la liste chainee en tableau
    * Cette methode ne s'execute que si la liste a ete modifiee
-   * dans la passe (addElement ou removeElement).
+   * dans la passe (addElem ou delElem).
    */
-  inline void rebuild() {
+  inline void rebuild()
+  {
     if (built) return;
 
     BoneNode <BoneElem> *currentNode = listHead;
@@ -131,7 +132,8 @@ template <class BoneElem> class BoneList {
   /** Fonction recursive de vidage de la liste, il
    * s'agit de d'appeler le vidage du fils puis de liberer le fils
    */
-  inline void recursiveEmpty(BoneNode <BoneElem> *currentNode) {
+  inline void recursiveEmpty(BoneNode <BoneElem> *currentNode)
+  {
     if (currentNode) {
       recursiveEmpty(currentNode->getNext());
       delete currentNode;
@@ -153,7 +155,8 @@ template <class BoneElem> class BoneList {
   ///< Le destructeur vide la liste de son contenu
 
   // Vidage de la liste enleve les noeuds un par un et efface le tableau compile
-  inline void empty() {
+  inline void empty()
+  {
     recursiveEmpty(listHead);
     listHead = NULL;
     listEnd  = NULL;
@@ -164,7 +167,8 @@ template <class BoneElem> class BoneList {
   }
 
   // Comptage du nombre d'elements de la liste
-  inline int count() {
+  inline int count()
+  {
     BoneNode <BoneElem> *currentNode = listHead;
     int result = 0;
     while (currentNode) {
@@ -176,7 +180,8 @@ template <class BoneElem> class BoneList {
 
   // Fonction d'acces a un element de la liste retourne NULL si
   // l'index est inferieur a 0 ou superieur au nombre d'elements
-  inline BoneElem *getElemAt(int index) {
+  inline BoneElem *getElemAt(int index)
+  {
     BoneNode<BoneElem> *currentNode = listHead;
     BoneElem *result = NULL;
     while (currentNode && index > 0) {
@@ -189,7 +194,8 @@ template <class BoneElem> class BoneList {
   }
 
   // Ajouter un element dans la liste, cet element est ajoute en queue de liste
-  inline void addElement(BoneElem *zeElement) {
+  inline void addElem(BoneElem *zeElement)
+  {
     BoneNode<BoneElem> *newNode = new BoneNode<BoneElem>();
     newNode->setElement(zeElement);
 
@@ -206,7 +212,8 @@ template <class BoneElem> class BoneList {
   }
 
   // Ajouter une liste dans cette liste
-  inline void addList(BoneList *zeList) {
+  inline void addList(BoneList *zeList)
+  {
     BoneNode<BoneElem> *newNode = zeList->getFirstNode();
 
     if (listHead == NULL) {
@@ -221,9 +228,9 @@ template <class BoneElem> class BoneList {
     built = 0;
   }
 
-  // Enlever un element dans la liste, tous les elements
-  // suivants remontent d'un rang
-  inline void removeElement(int index) {
+  // Enlever un element dans la liste, tous les elements suivants remontent d'un rang
+  inline void delElem(int index)
+  {
     if (listHead == NULL) return;
 
     BoneNode<BoneElem> *prevNode;
@@ -253,9 +260,9 @@ template <class BoneElem> class BoneList {
     built = 0;
   }
 
-  // Enlever un element dans la liste, tous les elements
-  // suivants remontent d'un rang
-  inline void removeElement(BoneElem *ptr) {
+  // Enlever un element dans la liste, tous les elements suivants remontent d'un rang
+  inline void delElem(BoneElem *ptr)
+  {
     if (listHead == NULL) return;
 
     BoneNode<BoneElem> *prevNode;

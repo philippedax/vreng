@@ -54,19 +54,19 @@ BoneMesh::~BoneMesh()
 
 void BoneMesh::addVertex(Vect3D & zePosition)
 {
-  vertexList.addElement(new Vertex(zePosition));
+  vertexList.addElem(new Vertex(zePosition));
   vertexListCompiled = 0;
 }
 
 void BoneMesh::addVertex(Vect3D * zePosition)
 {
-  vertexList.addElement(new Vertex(zePosition));
+  vertexList.addElem(new Vertex(zePosition));
   vertexListCompiled = 0;
 }
 
 void BoneMesh::addVertex(float ox, float oy, float oz)
 {
-  vertexList.addElement(new Vertex(ox, oy, oz));
+  vertexList.addElem(new Vertex(ox, oy, oz));
   vertexListCompiled = 0;
 }
 
@@ -79,7 +79,7 @@ void BoneMesh::addTriangle(int index1, int index2, int index3)
   tri->addVertex(vertex[index2], index2, -1, -1);
   tri->addVertex(vertex[index3], index3, -1, -1);
 
-  triangleList.addElement(tri);
+  triangleList.addElem(tri);
   triangleListCompiled = 0;
 }
 

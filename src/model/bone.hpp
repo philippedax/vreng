@@ -139,10 +139,10 @@ template <class BoneElem> class BoneNode {
  * en commencant par 'listHead'
  * Methodes : void  empty (void)
  *            int   count (void)
- *            void  addElement (BoneElem *elem)
+ *            void  addElem (BoneElem *elem)
  *            void  addList (BoneList * list)
- *            void  delElement (int index)
- *            void  delElement (BoneElem * ptr)
+ *            void  delElem (int index)
+ *            void  delElem (BoneElem * ptr)
  *            BoneElem * getElemAt (int index)
  *            BoneElem ** getNiceTable (int * count)
  */
@@ -163,7 +163,7 @@ template <class BoneElem> class BoneList {
 
   /** Compilation de la liste chainee en tableau
    * Cette methode ne s'execute que si la liste a ete modifiee
-   * dans la passe (addElement ou delElement).
+   * dans la passe (addElem ou delElem).
    */
   void rebuild()
   {
@@ -243,7 +243,7 @@ template <class BoneElem> class BoneList {
   }
 
   // Ajouter un element dans la liste, cet element est ajoute en queue de liste
-  void addElement(BoneElem *elem)
+  void addElem(BoneElem *elem)
   {
     BoneNode<BoneElem> *newNode = new BoneNode<BoneElem>();
     newNode->setElement(elem);
@@ -277,9 +277,8 @@ template <class BoneElem> class BoneList {
     built = 0;
   }
 
-  // Enlever un element dans la liste, tous les elements
-  // suivants remontent d'un rang
-  void delElement(int index)
+  // Enlever un element dans la liste, tous les elements suivants remontent d'un rang
+  void delElem(int index)
   {
     if (! listHead) return;
 
@@ -310,9 +309,8 @@ template <class BoneElem> class BoneList {
     built = 0;
   }
 
-  // Enlever un element dans la liste, tous les elements
-  // suivants remontent d'un rang
-  void delElement(BoneElem *ptr)
+  // Enlever un element dans la liste, tous les elements suivants remontent d'un rang
+  void delElem(BoneElem *ptr)
   {
     if (! listHead) return;
 
@@ -388,12 +386,12 @@ class Bonename {
 class BoneVertex : public Bonename {
  public:
   // -> Position at the begining
-  Vect3D iniPosition;
+  Vect3D iniPos;
   float  iniAngle;
   Vect3D iniAxis;
 
   // -> Position during the animation
-  Vect3D curPosition;
+  Vect3D curPos;
   float  curAngle;
   Vect3D curAxis;
 
@@ -402,7 +400,7 @@ class BoneVertex : public Bonename {
   BoneVertex **child;
   BoneVertex *father;
   int children;
-  int childListCompiled;
+  int childListDone;
 
   // -> Links management
   // (a link is defined by a bone vertex, a vertex of the mesh and a weight)
@@ -476,11 +474,11 @@ class BoneVertex : public Bonename {
   void makeChildList();
   void makeLinkList();
   void genIniMatrix();		// needs glPush / glPop and glLoadIdentity at the begining
-  void genCurrentMatrix();	// needs glPush / glPop and glLoadIdentity at the begining
+  void genCurrMatrix();		// needs glPush / glPop and glLoadIdentity at the begining
 
   // I/O functions
-  void read(char *filename, float size = 1.);
-  void readSkel(FILE *file, float scale = 1.);
+  void read(char *filename, float size = 1);
+  void readSkel(FILE *file, float scale = 1);
 };
 
 //---------------------------------------------------------------------------
@@ -491,8 +489,8 @@ class BoneVertex : public Bonename {
 class Vertex {
  public:
   // Champs de la classe vertex
-  Vect3D iniPosition;
-  Vect3D curPosition;
+  Vect3D iniPos;
+  Vect3D curPos;
   Vect3D iniNormal;
   Vect3D curNormal;
 
@@ -513,8 +511,8 @@ class Vertex {
   virtual ~Vertex() {}
 
   // Acces aux champs
-  void setPosition(Vect3D &position);
-  void setPosition(Vect3D *position);
+  void setPos(Vect3D &position);
+  void setPos(Vect3D *position);
 
   // Gestion des liens
   void addLink(BoneLink *link);
@@ -591,13 +589,13 @@ class BoneMesh : public Bonename {
   BoneList <Vertex> vertexList;
   Vertex **vertex;
   int vertices;
-  int vertexListCompiled;
+  int vertexListDone;
 
   // Gestion des faces triangulaires
   BoneList<BoneTriangle> triangleList;
   BoneTriangle **triangle;
   int triangles;
-  int triangleListCompiled;
+  int triangleListDone;
 
   // Infos de boite englobante
   float minx, miny, minz;
