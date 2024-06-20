@@ -318,7 +318,7 @@ void Humanoid::changePermanent(float lasting)
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
       for (int i=1; i <= NUM_BAPS; i++) {
         if (! bap->isMask(i)) continue;
-        //echo("play: %d (%.2f)", i, bap->get(i));
+        //echo("play: %d (%.0f)", i, bap->get(i));
       }
       body->play();		// plays bapframe
       break;

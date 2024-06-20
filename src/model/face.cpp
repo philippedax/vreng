@@ -231,7 +231,7 @@ void Face::animHead(float a, int x, int y, int z)
 {
   BoneVertex *bone;
 
-  echo("animHead: a=%.0f", a);
+  echo("Head: a=%.0f", a);
   if ((bone = skel->getBone(head)))
     bone->setRot(sin(a/50)*10 , x, y, z);
   else
@@ -244,7 +244,7 @@ void Face::animNose(float a, const char *b)
   BoneVertex *bone;
   float scale = 1 - cos(a/16) / 4;
 
-  echo("animNose: a=%.0f s=%.0f", a, scale);
+  echo("Nose: a=%.0f s=%.0f", a, scale);
   if ((bone = skel->getBone(nose))) {
     if ((bone = skel->getBone(b))) {
       bone->resetPos();
@@ -261,7 +261,7 @@ void Face::animEyeBall(float a, const char *b, int d)
   BoneVertex *bone;
   float scale = 1 - cos(a/16) /* / 2 */;
 
-  echo("animEyeBall: a=%.0f s=%.0f d=%d", a, scale, d);
+  echo("eyeball: a=%.0f s=%.0f d=%d", a, scale, d);
   if ((bone = skel->getBone(b))) {
     bone->resetPos();
     bone->setScale(scale, 1, 1);
@@ -288,7 +288,7 @@ void Face::animEyeLid(float a, const char *root, const char *lid, const char *le
         sign = 1;
       else
         sign = -1;
-      echo("animEyeLid: a=%.0f s=%.0f rot=%.0f", a, scale, sign*(1-scale)*20);
+      echo("eyelid: a=%.0f s=%.0f rot=%.0f", a, scale, sign*(1-scale)*20);
       bone->resetPos();
       bone->setScale(1, scale, 1);
       bone->setRot(sign*(1-scale)*20, 1,0,0);
@@ -314,7 +314,7 @@ void Face::animEyeBrow(float a, const char *_root, const char *b)
   BoneVertex *bone;
   float scale = cos(a/5);
 
-  echo("animEyeBrow: a=%.0f s=%.0f", a, scale);
+  echo("eyebrow: a=%.0f s=%.1f", a, scale);
   if ((bone = skel->getBone(_root))) {
     bone->resetPos();
     bone->setTrans(0, scale/25, 0);
@@ -339,7 +339,7 @@ void Face::animLip(float a, const char *b)
     Vect3D delta(0, cos(a/10) / 4, 0);
     //dax float smile = cos(a/10)*20;
 
-    echo("animLip: a=%.0f", a);
+    echo("lip: a=%.0f d=%.1f", a, cos(a/10/4));
     if ((bone = skel->getBone(b))) {
       bone->resetPos();
       bone->setTrans(delta);

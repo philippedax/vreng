@@ -274,38 +274,41 @@ void Bone::render()
 
   glColor3f(0.7, 0.7, 0.8);
 
-  //glPushMatrix();
-  glEnable(GL_LIGHTING);
+  glPushMatrix();
+  //glEnable(GL_LIGHTING);
+  //glEnable(GL_TEXTURE_2D);
   glEnable(GL_COLOR_MATERIAL);
   glColorMaterial(GL_FRONT, GL_DIFFUSE);
 
   glBegin(GL_TRIANGLES);
   for (int j=0; j < mesh->triangles; j++) {
     tri = mesh->triangle[j];
+    //echo("RGB: %.1f %.1f %.1f rgb: %.1f %.1f %.1f", tri->R,tri->G,tri->B,tri->r,tri->g,tri->b);
+    glColor3f(tri->R, tri->G, tri->B);
+    //glTexCoord2f(tri->u1, tri->v1);
+    normal = &tri->iniNormal;
+    glNormal3f(normal->x, normal->y, normal->z);
+
+    // vertexes
     v1 = &tri->vertex1->curPos;
     v2 = &tri->vertex2->curPos;
     v3 = &tri->vertex3->curPos;
-    //echo("RGB: %.1f %.1f %.1f rgb: %.1f %.1f %.1f", tri->R,tri->G,tri->B,tri->r,tri->g,tri->b);
-    glColor3f(tri->R, tri->G, tri->B);
-    //dax glColor3f(tri->r, tri->g, tri->b);
+    glVertex3f(v1->x, v1->y, v1->z);
+    glVertex3f(v2->x, v2->y, v2->z);
+    glVertex3f(v3->x, v3->y, v3->z);
 
-    normal = &tri->iniNormal;
+    // normals
     n1 = &tri->vertex1->curNormal;
     n2 = &tri->vertex2->curNormal;
     n3 = &tri->vertex3->curNormal;
-
-    glNormal3f(normal->x, normal->y, normal->z);
-    //tex glTexCoord2f(tri->u1, tri->v1);
-    glNormal3f(n1->x, n1->y, n1->z);
-    glVertex3f(v1->x, v1->y, v1->z);
-    glNormal3f(n2->x, n2->y, n2->z);
-    glVertex3f(v2->x, v2->y, v2->z);
-    glNormal3f(n3->x, n3->y, n3->z);
-    glVertex3f(v3->x, v3->y, v3->z);
+    //glNormal3f(n1->x, n1->y, n1->z);
+    //glNormal3f(n2->x, n2->y, n2->z);
+    //glNormal3f(n3->x, n3->y, n3->z);
   }
   glEnd();
-  glDisable(GL_TEXTURE_2D);
-  //glPopMatrix();
+  //glDisable(GL_TEXTURE_2D);
+  //glDisable(GL_LIGHTING);
+  glPopMatrix();
 }
 
 // Private methods
