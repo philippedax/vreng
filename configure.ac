@@ -115,6 +115,7 @@ if test "${GCC}" = "yes"; then
   CXXFLAGS="${CXXFLAGS} -Wall" ## -Wno-deprecated -Wno-reserved-user-defined-literal" -Wno-macro-redefined -fpermissive -fno-strict-aliasing -Wno-c++11-extensions -Wno-invalid-offsetof -Wno-unused-variable -Wno-deprecated-declarations -Wno-write-strings -Wno-address -Wno-unknown-pragmas -Wno-literal-suffix -Wno-misleading-indentation
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS=`echo ${LDFLAGS}   | sed -e 's/-O2//'`
+  LDFLAGS="${LDFLAGS} -Wl,-keep_dwarf_unwind -Wl,-no_compact_unwind"
 fi
 
 

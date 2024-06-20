@@ -14,8 +14,9 @@
  * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
  * ***********************************************************************/
 
-#ifndef _unumber_hpp_
-#define	_unumber_hpp_ 1
+#ifndef UNUMBER_HPP
+#define	UNUMBER_HPP
+
 #include <iostream>
 #include <ubit/unode.hpp>
 namespace ubit {
