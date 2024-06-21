@@ -42,7 +42,7 @@
 
 static int32_t nbsimcon;		// current number of simultaneous connections
 static Vpthread_mutex_t nbsimcon_mutex;	// lock on the global variable simcon
-static tWaitFifo *fifofirst, *fifolast;	// variables protected by nbsimcon_mutex
+static tWaitFifo *fifofirst = NULL, *fifolast = NULL;	// variables protected by nbsimcon_mutex
 static uint8_t proxy=0, noproxy=0;
 static uint16_t portproxy;
 static char *domnoproxy, *hostproxy;
