@@ -113,9 +113,9 @@ Face::Face(const char *urls)
   Http::httpOpen(urls, facesreader, this, 0);
   nburl = urlList.count();
   //dax nburl = urlList.size();
-  curl = rand() % nburl;
-  //echo("nburl: %d %d", nburl, curl);
-  curl = rand() % urlList.count();
+  iurl = rand() % nburl;
+  //echo("nburl: %d/%d", iurl, nburl);
+  iurl = rand() % urlList.count();
   //dax for (vector<char*>::iterator it = urlList.begin(); it != urlList.end(); ++it) {
   //dax   echo("list: %s", *it);
   //dax }
@@ -160,21 +160,23 @@ void Face::change()
   if (! indexed) return;
 
   //dax uint8_t idx = 0;
-  curl++;
-  curl %= nburl;
-  curl %= urlList.count();
-  char *url = urlList.getElemAt(curl);
+
+  iurl++;
+  iurl %= nburl;
+  iurl %= urlList.count();
+  char *url = urlList.getElemAt(iurl);
+
   //dax char *url = new char[URL_LEN];
   //dax for (vector<char*>::iterator it = urlList.begin(); it != urlList.end(); ++it) {
   //dax   echo("list: %s", *it);
-  //dax   if (idx == curl) {
+  //dax   if (idx == iurl) {
   //dax     strcpy(url, *it);
   //dax     echo("found: %s %d", *it, idx);
   //dax     break;
   //dax   }
   //dax   idx++;
   //dax }
-  echo("change: %d/%d url=%s", curl, nburl, url);
+  echo("change: %d/%d url=%s", iurl, nburl, url);
   if (! isascii(url[0])) {
     error("change: BUG! url=%02x %02x", url[0], url[1]);
     return;
@@ -196,11 +198,11 @@ void Face::load(const char *url)
   }
   V3d::readV3D(mesh, skel, pathfile);
 
-  boneanim = new Bone();
+  bone = new Bone();
 
-  boneanim->registerMesh(mesh);
-  boneanim->registerSkel(skel);
-  boneanim->genLinkList();
+  bone->registerMesh(mesh);
+  bone->registerSkel(skel);
+  bone->genLinkList();
 }
 
 /** Renders the face */
@@ -208,10 +210,8 @@ void Face::render()
 {
   if (! mesh) return;
 
-  if (boneanim->mesh) {
-    //echo("render face");
-    //dax boneanim->animate();
-    boneanim->render();
+  if (bone->mesh) {
+    bone->render();
   }
 }
 
@@ -229,11 +229,11 @@ void Face::render()
 /** Anims head */
 void Face::animHead(float a, int x, int y, int z)
 {
-  BoneVertex *bone;
+  BoneVertex *bv;
 
   echo("Head: a=%.0f", a);
-  if ((bone = skel->getBone(head)))
-    bone->setRot(sin(a/50)*10 , x, y, z);
+  if ((bv = skel->getBone(head)))
+    bv->setRot(sin(a/50)*10 , x, y, z);
   else
     error("head not found");
 }
@@ -241,14 +241,14 @@ void Face::animHead(float a, int x, int y, int z)
 /** Anims nose */
 void Face::animNose(float a, const char *b)
 {
-  BoneVertex *bone;
+  BoneVertex *bv;
   float scale = 1 - cos(a/16) / 4;
 
-  echo("Nose: a=%.0f s=%.0f", a, scale);
-  if ((bone = skel->getBone(nose))) {
-    if ((bone = skel->getBone(b))) {
-      bone->resetPos();
-      bone->setScale(scale, 1, 1);
+  echo("Nose: a=%.0f s=%.1f", a, scale);
+  if ((bv = skel->getBone(nose))) {
+    if ((bv = skel->getBone(b))) {
+      bv->resetPos();
+      bv->setScale(scale, 1, 1);
     }
   }
   else
@@ -258,18 +258,18 @@ void Face::animNose(float a, const char *b)
 /** Anims eyeball */
 void Face::animEyeBall(float a, const char *b, int d)
 {
-  BoneVertex *bone;
+  BoneVertex *bv;
   float scale = 1 - cos(a/16) /* / 2 */;
 
-  echo("eyeball: a=%.0f s=%.0f d=%d", a, scale, d);
-  if ((bone = skel->getBone(b))) {
-    bone->resetPos();
-    bone->setScale(scale, 1, 1);
+  echo("eyeball: a=%.0f s=%.1f d=%d", a, scale, d);
+  if ((bv = skel->getBone(b))) {
+    bv->resetPos();
+    bv->setScale(scale, 1, 1);
     if (d)
-      bone->setRot((1-scale)*20, 0,1,0);	// pitch
+      bv->setRot((1-scale)*20, 0,1,0);	// pitch
     else
-      bone->setRot((1-scale)*20, 1,0,0);	// yaw
-    bone->resetPos();
+      bv->setRot((1-scale)*20, 1,0,0);	// yaw
+    bv->resetPos();
   }
   else
     error("%s not found", b);
@@ -278,30 +278,30 @@ void Face::animEyeBall(float a, const char *b, int d)
 /** Anims eye lid */
 void Face::animEyeLid(float a, const char *root, const char *lid, const char *left, const char *right)
 {
-  BoneVertex *bone;
+  BoneVertex *bv;
   float scale = (1 - cos(a/10)) /* / 2 */;
 
-  if ((bone = skel->getBone(root))) {
-    if ((bone = skel->getBone(lid))) {
+  if ((bv = skel->getBone(root))) {
+    if ((bv = skel->getBone(lid))) {
       int sign;
       if (! strcmp(lid, eyeLeftTop) || ! strcmp(lid, eyeRightTop))
         sign = 1;
       else
         sign = -1;
-      echo("eyelid: a=%.0f s=%.0f rot=%.0f", a, scale, sign*(1-scale)*20);
-      bone->resetPos();
-      bone->setScale(1, scale, 1);
-      bone->setRot(sign*(1-scale)*20, 1,0,0);
+      echo("eyelid: a=%.0f s=%.1f r=%.0f", a, scale, sign*(1-scale)*20);
+      bv->resetPos();
+      bv->setScale(1, scale, 1);
+      bv->setRot(sign*(1-scale)*20, 1,0,0);
     }
     else
       error("%s not found", lid);
-    if ((bone = skel->getBone(left))) {
-      bone->resetPos();
-      bone->setScale(1, scale, 1);
+    if ((bv = skel->getBone(left))) {
+      bv->resetPos();
+      bv->setScale(1, scale, 1);
     }
-    if ((bone = skel->getBone(right))) {
-      bone->resetPos();
-      bone->setScale(1, scale, 1);
+    if ((bv = skel->getBone(right))) {
+      bv->resetPos();
+      bv->setScale(1, scale, 1);
     }
   }
   else
@@ -311,20 +311,20 @@ void Face::animEyeLid(float a, const char *root, const char *lid, const char *le
 /** Anims eye brow */
 void Face::animEyeBrow(float a, const char *_root, const char *b)
 {
-  BoneVertex *bone;
+  BoneVertex *bv;
   float scale = cos(a/5);
 
   echo("eyebrow: a=%.0f s=%.1f", a, scale);
-  if ((bone = skel->getBone(_root))) {
-    bone->resetPos();
-    bone->setTrans(0, scale/25, 0);
+  if ((bv = skel->getBone(_root))) {
+    bv->resetPos();
+    bv->setTrans(0, scale/25, 0);
   }
   else
     error("%s not found", _root);
-  if ((bone = skel->getBone(b))) {
-    bone->resetPos();
-    bone->setRot(scale*10, 0,0,1);
-    bone->setTrans(0, scale/25, 0);
+  if ((bv = skel->getBone(b))) {
+    bv->resetPos();
+    bv->setRot(scale*10, 0,0,1);
+    bv->setTrans(0, scale/25, 0);
   }
   else
     error("%s not found", b);
@@ -333,18 +333,18 @@ void Face::animEyeBrow(float a, const char *_root, const char *b)
 /** Anims lip */
 void Face::animLip(float a, const char *b)
 {
-  BoneVertex *bone;
+  BoneVertex *bv;
 
-  if ((bone = skel->getBone(lips))) {
+  if ((bv = skel->getBone(lips))) {
     Vect3D delta(0, cos(a/10) / 4, 0);
     //dax float smile = cos(a/10)*20;
 
     echo("lip: a=%.0f d=%.1f", a, cos(a/10/4));
-    if ((bone = skel->getBone(b))) {
-      bone->resetPos();
-      bone->setTrans(delta);
-      //dax bone->setRot(smile, 0,0,1);
-      bone->setRot(a, 0,0,1);
+    if ((bv = skel->getBone(b))) {
+      bv->resetPos();
+      bv->setTrans(delta);
+      //dax bv->setRot(smile, 0,0,1);
+      bv->setRot(a, 0,0,1);
     }
   }
   else
@@ -575,69 +575,69 @@ void Face::play()
   static float a = 0;
   a += 5.;
 
-  BoneVertex *bone;
+  BoneVertex *bv;
 
   // --- Lips management ---
   // == smile then sulk
   if ( moveMouth ) {
     echo("moveMouse");
-    if ((bone = skel->getBone(lips))) {
+    if ((bv = skel->getBone(lips))) {
       Vect3D delta(0, cos(a/10) / 4, 0);
       float smile = 20*cos(a/10);
-      if ((bone = skel->getBone(lipsTopL))) {
-        bone->resetPos();
-        bone->setTrans(delta);
-        bone->setRot(smile, 0,0,1);
+      if ((bv = skel->getBone(lipsTopL))) {
+        bv->resetPos();
+        bv->setTrans(delta);
+        bv->setRot(smile, 0,0,1);
       }
-      if ((bone = skel->getBone(lipsTopR))) {
-        bone->resetPos();
-        bone->setTrans(delta);
-        bone->setRot(-smile, 0,0,1);
+      if ((bv = skel->getBone(lipsTopR))) {
+        bv->resetPos();
+        bv->setTrans(delta);
+        bv->setRot(-smile, 0,0,1);
       }
-      if ((bone = skel->getBone(lipsBotL))) {
-        bone->resetPos();
-        bone->setTrans(delta);
-        bone->setRot(smile, 0,0,1);
+      if ((bv = skel->getBone(lipsBotL))) {
+        bv->resetPos();
+        bv->setTrans(delta);
+        bv->setRot(smile, 0,0,1);
       }
-      if ((bone = skel->getBone(lipsBotR))) {
-        bone->resetPos();
-        bone->setTrans(delta);
-        bone->setRot(-smile, 0,0,1);
+      if ((bv = skel->getBone(lipsBotR))) {
+        bv->resetPos();
+        bv->setTrans(delta);
+        bv->setRot(-smile, 0,0,1);
       }
     }
   }
   // == smile
   if ( moveSmile ) {
     echo("moveSmile");
-    if ((bone = skel->getBone(lips))) {
+    if ((bv = skel->getBone(lips))) {
       Vect3D delta(0, cos(a/10) / 4, 0);
       float smile = 20*cos(a/10);
-      if ((bone = skel->getBone(lipsTopL))) {
-        bone->resetPos();
-        bone->setTrans(delta);
-        bone->setRot(smile, 0,0,1);
+      if ((bv = skel->getBone(lipsTopL))) {
+        bv->resetPos();
+        bv->setTrans(delta);
+        bv->setRot(smile, 0,0,1);
       }
-      if ((bone = skel->getBone(lipsTopR))) {
-        bone->resetPos();
-        bone->setTrans(delta);
-        bone->setRot(-smile, 0,0,1);
+      if ((bv = skel->getBone(lipsTopR))) {
+        bv->resetPos();
+        bv->setTrans(delta);
+        bv->setRot(-smile, 0,0,1);
       }
     }
   }
   // == sulk
   if ( moveSulk ) {
-    if ((bone = skel->getBone(lips))) {
+    if ((bv = skel->getBone(lips))) {
       Vect3D delta(0, cos(a/10) / 4, 0);
       float smile = 20*cos(a/10);
-      if ((bone = skel->getBone(lipsBotL))) {
-        bone->resetPos();
-        bone->setTrans(delta);
-        bone->setRot(smile, 0,0,1);
+      if ((bv = skel->getBone(lipsBotL))) {
+        bv->resetPos();
+        bv->setTrans(delta);
+        bv->setRot(smile, 0,0,1);
       }
-      if ((bone = skel->getBone(lipsBotR))) {
-        bone->resetPos();
-        bone->setTrans(delta);
-        bone->setRot(-smile, 0,0,1);
+      if ((bv = skel->getBone(lipsBotR))) {
+        bv->resetPos();
+        bv->setTrans(delta);
+        bv->setRot(-smile, 0,0,1);
       }
     }
   }
@@ -646,33 +646,33 @@ void Face::play()
   // == eye glance
   if ( moveEyeL ) {
     echo("moveEyeL");
-    if ((bone = skel->getBone(eyeLeft))) {
+    if ((bv = skel->getBone(eyeLeft))) {
       float eyeLeftScale = (1 - cos(a/20)) / 2;
-      if ((bone = skel->getBone(eyeLeftBot))) {
-        bone->resetPos();
-        bone->setScale(1, eyeLeftScale, 1);
-        bone->setRot(-(1-eyeLeftScale)*20, 1,0,0);
+      if ((bv = skel->getBone(eyeLeftBot))) {
+        bv->resetPos();
+        bv->setScale(1, eyeLeftScale, 1);
+        bv->setRot(-(1-eyeLeftScale)*20, 1,0,0);
       }
-      if ((bone = skel->getBone(eyeLeftTop))) {
-        bone->resetPos();
-        bone->setScale(1, eyeLeftScale, 1);
-        bone->setRot((1-eyeLeftScale)*20, 1,0,0);
+      if ((bv = skel->getBone(eyeLeftTop))) {
+        bv->resetPos();
+        bv->setScale(1, eyeLeftScale, 1);
+        bv->setRot((1-eyeLeftScale)*20, 1,0,0);
       }
-      if ((bone = skel->getBone(eyeLeftTopL))) {
-        bone->resetPos();
-        bone->setScale(1, eyeLeftScale, 1);
+      if ((bv = skel->getBone(eyeLeftTopL))) {
+        bv->resetPos();
+        bv->setScale(1, eyeLeftScale, 1);
       }
-      if ((bone = skel->getBone(eyeLeftTopR))) {
-        bone->resetPos();
-        bone->setScale(1, eyeLeftScale, 1);
+      if ((bv = skel->getBone(eyeLeftTopR))) {
+        bv->resetPos();
+        bv->setScale(1, eyeLeftScale, 1);
       }
-      if ((bone = skel->getBone(eyeLeftBotL))) {
-        bone->resetPos();
-        bone->setScale(1, eyeLeftScale, 1);
+      if ((bv = skel->getBone(eyeLeftBotL))) {
+        bv->resetPos();
+        bv->setScale(1, eyeLeftScale, 1);
       }
-      if ((bone = skel->getBone(eyeLeftBotR))) {
-        bone->resetPos();
-        bone->setScale(1, eyeLeftScale, 1);
+      if ((bv = skel->getBone(eyeLeftBotR))) {
+        bv->resetPos();
+        bv->setScale(1, eyeLeftScale, 1);
       }
     }
   }
@@ -681,35 +681,35 @@ void Face::play()
   // eye move
   if ( moveEyeR ) {
     echo("moveEyeR");
-    if ((bone = skel->getBone(eyeRight))) {
+    if ((bv = skel->getBone(eyeRight))) {
       float eyeRightScale = (1 + cos(a/5)) / 20;
-      if ((bone = skel->getBone(browRight))) {
-        bone->resetPos();
-        bone->setTrans(0, eyeRightScale/2, 0);
+      if ((bv = skel->getBone(browRight))) {
+        bv->resetPos();
+        bv->setTrans(0, eyeRightScale/2, 0);
       }
-      if ((bone = skel->getBone(eyeRightBot))) {
-        bone->resetPos();
-        bone->setTrans(0, eyeRightScale/2, 0);
+      if ((bv = skel->getBone(eyeRightBot))) {
+        bv->resetPos();
+        bv->setTrans(0, eyeRightScale/2, 0);
       }
-      if ((bone = skel->getBone(eyeRightTop))) {
-        bone->resetPos();
-        bone->setTrans(0, eyeRightScale, 0);
+      if ((bv = skel->getBone(eyeRightTop))) {
+        bv->resetPos();
+        bv->setTrans(0, eyeRightScale, 0);
       }
-      if ((bone = skel->getBone(eyeRightTopL))) {
-        bone->resetPos();
-        bone->setTrans(0, eyeRightScale, 0);
+      if ((bv = skel->getBone(eyeRightTopL))) {
+        bv->resetPos();
+        bv->setTrans(0, eyeRightScale, 0);
       }
-      if ((bone = skel->getBone(eyeRightTopR))) {
-        bone->resetPos();
-        bone->setTrans(0, eyeRightScale, 0);
+      if ((bv = skel->getBone(eyeRightTopR))) {
+        bv->resetPos();
+        bv->setTrans(0, eyeRightScale, 0);
       }
-      if ((bone = skel->getBone(eyeRightBotL))) {
-        bone->resetPos();
-        bone->setTrans(0, eyeRightScale/2, 0);
+      if ((bv = skel->getBone(eyeRightBotL))) {
+        bv->resetPos();
+        bv->setTrans(0, eyeRightScale/2, 0);
       }
-      if ((bone = skel->getBone(eyeRightBotR))) {
-        bone->resetPos();
-        bone->setTrans(0, eyeRightScale/2, 0);
+      if ((bv = skel->getBone(eyeRightBotR))) {
+        bv->resetPos();
+        bv->setTrans(0, eyeRightScale/2, 0);
       }
     }
   }
@@ -718,40 +718,40 @@ void Face::play()
   // == resserement narines
   if ( moveNose ) {
     echo("moveNose");
-    if ((bone = skel->getBone(nose))) {
+    if ((bv = skel->getBone(nose))) {
       float noseScale = 1 - cos(a/16) / 4;
-      if ((bone = skel->getBone(noseLeft))) {
-        bone->resetPos();
-        bone->setScale(noseScale, 1, 1);
+      if ((bv = skel->getBone(noseLeft))) {
+        bv->resetPos();
+        bv->setScale(noseScale, 1, 1);
       }
-      if ((bone = skel->getBone(noseRight))) {
-        bone->resetPos();
-        bone->setScale(noseScale, 1, 1);
+      if ((bv = skel->getBone(noseRight))) {
+        bv->resetPos();
+        bv->setScale(noseScale, 1, 1);
       }
     }
   }
 
   // --- Head management ---
   if ( moveYes ) {
-    if ((bone = skel->getBone(head)))
-      bone->setRot(10*sin(a/50), 0,1,0);
+    if ((bv = skel->getBone(head)))
+      bv->setRot(10*sin(a/50), 0,1,0);
   }
   if ( moveNo ) {
-    if ((bone = skel->getBone(head)))
-      bone->setRot(10*sin(a/50), 1,0,0);
+    if ((bv = skel->getBone(head)))
+      bv->setRot(10*sin(a/50), 1,0,0);
   }
 
 #undef BROW_MOTION
 #ifdef BROW_MOTION
   float browRightScale = cos(a/5);
-  if ((bone = skel->getBone(browRight))) {
-    bone->resetPos();
-    bone->setTrans(0, browRightScale/25, 0);
+  if ((bv = skel->getBone(browRight))) {
+    bv->resetPos();
+    bv->setTrans(0, browRightScale/25, 0);
   }
-  if ((bone = skel->getBone(browRightL))) {
-    bone->resetPos();
-    bone->setRot(10*browRightScale, 0,0,1);
-    bone->setTrans(0, browRightScale/25, 0);
+  if ((bv = skel->getBone(browRightL))) {
+    bv->resetPos();
+    bv->setRot(10*browRightScale, 0,0,1);
+    bv->setTrans(0, browRightScale/25, 0);
   }
 #endif
 }

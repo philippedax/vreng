@@ -52,7 +52,7 @@ class Face {
   BoneList <char> urlList;///< list of v3d faces url
   //dax std::vector<char*> urlList;	///< list of v3d faces url
 
-  uint8_t curl;		///< current url
+  uint8_t iurl;		///< current index url
   uint8_t nburl;	///< number of urls
   bool indexed;		///< flag if url index
   bool moveYes;		///< flag move yes
@@ -67,14 +67,14 @@ class Face {
 
   BoneMesh *mesh;	///< mesh
   BoneVertex *skel;	///< bone root
-  Bone *boneanim;	///< bone animator
+  Bone *bone;		///< bone animator
 
  public:
   Face();			///< Constructor
   Face(const char *urlindex);	///< Constructor
   virtual ~Face();		///< Destructor
 
-  virtual void render();
+  void render();
   /**< Render the face */
 
   void play();
