@@ -710,12 +710,12 @@ void BoneVertex::setRot(float angle, float axisx, float axisy, float axisz)
 
 // Accessing current position datas (during animation)
 // with relative values (realtive to initial position)
-void BoneVertex::resetPos()
+void BoneVertex::setPos()
 {
   curPos = iniPos;
 }
 
-void BoneVertex::resetRot()
+void BoneVertex::setRot()
 {
   curAngle = iniAngle;
   curAxis  = iniAxis;

@@ -448,8 +448,8 @@ class BoneVertex : public Bonename {
 
   // Accessing current position datas (during animation)
   // with relative values (realtive to initial position)
-  void resetPos();
-  void resetRot();
+  void setPos();
+  void setRot();
   void setTrans(Vect3D &delta);
   void setTrans(Vect3D *delta);
   void setTrans(float dx, float dy, float dz);
