@@ -139,12 +139,12 @@ template <class BoneElem> class BoneNode {
  * en commencant par 'listHead'
  * Methodes : void  empty (void)
  *            int   count (void)
- *            void  addElem (BoneElem *elem)
+ *            void  add (BoneElem *elem)
  *            void  addList (BoneList * list)
- *            void  delElem (int index)
- *            void  delElem (BoneElem * ptr)
+ *            void  del (int index)
+ *            void  del (BoneElem * ptr)
  *            BoneElem * getElemAt (int index)
- *            BoneElem ** getNiceTable (int * count)
+ *            BoneElem ** getTable (int * count)
  */
 template <class BoneElem> class BoneList {
 
@@ -163,7 +163,7 @@ template <class BoneElem> class BoneList {
 
   /** Compilation de la liste chainee en tableau
    * Cette methode ne s'execute que si la liste a ete modifiee
-   * dans la passe (addElem ou delElem).
+   * dans la passe (add ou del).
    */
   void rebuild()
   {
@@ -243,7 +243,7 @@ template <class BoneElem> class BoneList {
   }
 
   // Ajouter un element dans la liste, cet element est ajoute en queue de liste
-  void addElem(BoneElem *elem)
+  void add(BoneElem *elem)
   {
     BoneNode<BoneElem> *newNode = new BoneNode<BoneElem>();
     newNode->setElement(elem);
@@ -278,7 +278,7 @@ template <class BoneElem> class BoneList {
   }
 
   // Enlever un element dans la liste, tous les elements suivants remontent d'un rang
-  void delElem(int index)
+  void del(int index)
   {
     if (! listHead) return;
 
@@ -310,7 +310,7 @@ template <class BoneElem> class BoneList {
   }
 
   // Enlever un element dans la liste, tous les elements suivants remontent d'un rang
-  void delElem(BoneElem *ptr)
+  void del(BoneElem *ptr)
   {
     if (! listHead) return;
 
@@ -342,7 +342,7 @@ template <class BoneElem> class BoneList {
 
   // Compilation de la liste en un tableau. Cette methode
   // retourne le nombre d'elements dans la variable count
-  BoneElem **getNiceTable(int *count)
+  BoneElem **getTable(int *count)
   {
     if (! built) rebuild();
     if (count) *count = elements;
@@ -400,7 +400,7 @@ class BoneVertex : public Bonename {
   BoneVertex **child;
   BoneVertex *father;
   int children;
-  int childListDone;
+  int childDone;
 
   // -> Links management
   // (a link is defined by a bone vertex, a vertex of the mesh and a weight)
@@ -589,13 +589,13 @@ class BoneMesh : public Bonename {
   BoneList <Vertex> vertexList;
   Vertex **vertex;
   int vertices;
-  int vertexListDone;
+  int vertexDone;
 
   // Gestion des faces triangulaires
   BoneList<BoneTriangle> triangleList;
   BoneTriangle **triangle;
   int triangles;
-  int triangleListDone;
+  int triangleDone;
 
   // Infos de boite englobante
   float minx, miny, minz;

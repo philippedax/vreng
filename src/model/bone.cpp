@@ -78,7 +78,7 @@ void Bone::scale(float sx, float sy, float sz)
 // Links management
 void Bone::makeLinkList()
 {
-  link = linkList.getNiceTable(&links);
+  link = linkList.getTable(&links);
   compiled = 1;
 }
 
@@ -101,7 +101,7 @@ float Bone::getLength(Vertex *vertex, BoneVertex *node)
   // First calculate the node's absolute position
   Vect3D nodePosition = node->iniMatrix * nullvect;
 
-  // Then for each vertex, try to find the distance to the node
+  // then for each vertex, try to find the distance to the node
   Vect3D distance = nodePosition - vertex->iniPos;
   return distance.length();
 }
@@ -163,7 +163,7 @@ void normalize(BoneLink **tlink, int tlinks)
 // and optionally remove unsignificant links (that would speed down the cpu)
 void Bone::genLinkList()
 {
-  // We need both mesh and skel !
+  // we need both mesh and skel !
   if (! mesh) return; // to avoid NULL pointer exception
   if (! skel) return; // to avoid NULL pointer exception
 
@@ -181,27 +181,25 @@ void Bone::genLinkList()
   // we start link generation with an empty link list of course
   emptyLinkList();
 
-  // If the mesh has not compiled hos vertices list, we'll do it
-  if (! mesh->vertexListDone)
+  // if the mesh has not compiled hos vertices list, we'll do it
+  if (! mesh->vertexDone)
     mesh->makeVertexList();
 
-  // First, we need to generate the initial matrices for all the nodes of the skel
+  // first, we need to generate the initial matrices for all the nodes of the skel
   glPushMatrix();
    glLoadIdentity();
    skel->genIniMatrix();
   glPopMatrix();
 
-  // We'll store the skel nodes into a list
+  // we'll store the skel nodes into a list
   BoneList <BoneVertex> nodeList;
   BoneVertex **node;
   int nodes;
 
   addNodeAndChildren(skel, &nodeList);
-  node = nodeList.getNiceTable(&nodes);
+  node = nodeList.getTable(&nodes);
 
-  //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  // Now we'll go throw each vertex of the mesh calculating
-  // the weight of this node
+  // now we'll go throw each vertex of the mesh calculating the weight of this node
   BoneList <BoneLink> tlinkList;
   BoneLink **tlink;
   BoneLink *temp;
@@ -210,17 +208,17 @@ void Bone::genLinkList()
   for (int i=0; i < mesh->vertices; i++) {
     tlinkList.empty();
     for (int j=0; j < nodes; j++) {
-      // And create a link between the vertex and the node with an influence
+      // create a link between the vertex and the node with an influence
       // proportional to the inverse of the distance ( so far vertices
       // will be less influenced by the node than near vertices )
       temp = new BoneLink(mesh->vertex[i], node[j], getWeight(mesh->vertex[i], node[j]));
 
-      // We now save this new link in our list
-      tlinkList.addElem(temp);
+      // we now save this new link in our list
+      tlinkList.add(temp);
     }
-    tlink = tlinkList.getNiceTable(&tlinks);
+    tlink = tlinkList.getTable(&tlinks);
 
-    // Now sorting the links per weight
+    // now sorting the links per weight
     for (int j=1; j < tlinks; j++) {
       temp = tlink[j];
       int k = j;
@@ -230,7 +228,7 @@ void Bone::genLinkList()
       }
       tlink[k] = temp;
     }
-    // Now removing unsignificant links
+    // removing unsignificant links
     float seuil = 0.3 * tlink[0]->weight;
     for (int j=0; j < tlinks; j++) {
       if (tlink[j]->weight < seuil) {
@@ -238,15 +236,15 @@ void Bone::genLinkList()
         tlink[j] = NULL;
       }
     }
-    // Record the selected links in the list
+    // record the selected links in the list
     normalize(tlink, tlinks);
     for (int j=0; j < tlinks; j++) {
       if (tlink[j])
-        linkList.addElem(tlink[j]);
+        linkList.add(tlink[j]);
     }
   }
 
-  // Now that we have all the links, we may compile the link list in here
+  // now that we have all the links, we may compile the link list in here
   makeLinkList();
 
   for (int i=0; i < links; i++) {
@@ -262,8 +260,8 @@ void Bone::genLinkList()
 void Bone::render()
 {
   //echo("render bone");
-  // Now, we'll render the 3d mesh
-  if (! mesh->triangleListDone) {
+  // now, we'll render the 3d mesh
+  if (! mesh->triangleDone) {
     mesh->makeTriangleList();
   }
 
@@ -314,9 +312,9 @@ void Bone::render()
 // Private methods
 void Bone::addNodeAndChildren(BoneVertex *boneVertex, BoneList <BoneVertex> *list)
 {
-  if (! boneVertex->childListDone)
+  if (! boneVertex->childDone)
     boneVertex->makeChildList();
-  list->addElem(boneVertex);
+  list->add(boneVertex);
 
   for (int i=0; i < boneVertex->children; i++) {
     addNodeAndChildren(boneVertex->child[i], list);
@@ -369,57 +367,57 @@ BoneMesh::BoneMesh()
 {
   vertex = NULL;
   vertices = 0;
-  vertexListDone = 0;
+  vertexDone = 0;
   triangle = NULL;
   triangles = 0;
-  triangleListDone = 0;
+  triangleDone = 0;
 
   setName(const_cast<char*> (" Mesh NoName "));
 }
 
 BoneMesh::~BoneMesh()
 {
-  if (! vertexListDone) makeVertexList();
-  if (! triangleListDone) makeTriangleList();
+  if (! vertexDone) makeVertexList();
+  if (! triangleDone) makeTriangleList();
 
   for (int i=0; i < vertices; i++) delete vertex[i];
   for (int j=0; j < triangles; j++) delete triangle[j];
 }
 
-void BoneMesh::addVertex(Vect3D &position)
+void BoneMesh::addVertex(Vect3D &pos)
 {
-  vertexList.addElem(new Vertex(position));
-  vertexListDone = 0;
+  vertexList.add(new Vertex(pos));
+  vertexDone = 0;
 }
 
-void BoneMesh::addVertex(Vect3D *position)
+void BoneMesh::addVertex(Vect3D *pos)
 {
-  vertexList.addElem(new Vertex(position));
-  vertexListDone = 0;
+  vertexList.add(new Vertex(pos));
+  vertexDone = 0;
 }
 
 void BoneMesh::addVertex(float ox, float oy, float oz)
 {
-  vertexList.addElem(new Vertex(ox, oy, oz));
-  vertexListDone = 0;
+  vertexList.add(new Vertex(ox, oy, oz));
+  vertexDone = 0;
 }
 
 void BoneMesh::addTriangle(int index1, int index2, int index3)
 {
-  if (! vertexListDone) makeVertexList();
+  if (! vertexDone) makeVertexList();
 
   BoneTriangle * tri = new BoneTriangle();
   tri->addVertex(vertex[index1], index1, -1, -1);
   tri->addVertex(vertex[index2], index2, -1, -1);
   tri->addVertex(vertex[index3], index3, -1, -1);
 
-  triangleList.addElem(tri);
-  triangleListDone = 0;
+  triangleList.add(tri);
+  triangleDone = 0;
 }
 
 void BoneMesh::scale(float sx, float sy, float sz)
 {
-  if (! vertexListDone) makeVertexList();
+  if (! vertexDone) makeVertexList();
 
   for (int i=0; i < vertices; i++) {
     vertex[i]->iniPos.x *= sx;
@@ -433,8 +431,8 @@ void BoneMesh::scale(float sx, float sy, float sz)
 
 void BoneMesh::rebuildNormals()
 {
-  if (! vertexListDone) makeVertexList();
-  if (! triangleListDone) makeTriangleList();
+  if (! vertexDone) makeVertexList();
+  if (! triangleDone) makeTriangleList();
 
   for (int i=0; i < vertices; i++) {
     vertex[i]->iniNormal.reset();
@@ -453,7 +451,7 @@ void BoneMesh::rebuildNormals()
 
 void BoneMesh::projectLight()
 {
-  if (! triangleListDone) makeTriangleList();
+  if (! triangleDone) makeTriangleList();
 
   Vect3D lightdir(0,0,1);
   Vect3D lightdiff(1,1,1);
@@ -482,16 +480,16 @@ void BoneMesh::projectLight()
 
 void BoneMesh::makeVertexList()
 {
-  vertex = vertexList.getNiceTable(&vertices);
-  vertexListDone = 1;
+  vertex = vertexList.getTable(&vertices);
+  vertexDone = 1;
 }
 
 void BoneMesh::makeTriangleList()
 {
-  triangle = triangleList.getNiceTable(&triangles);
-  triangleListDone = 1;
+  triangle = triangleList.getTable(&triangles);
+  triangleDone = 1;
 
-  // Moving textureCoordinate vertex up to face
+  // moving textureCoordinate vertex up to face
   for (int i=0; i < triangles; i++) {
     if (triangle[i]->vertex1->u != -1) {
       if (triangle[i]->vertex1->v != -1) {
@@ -572,7 +570,7 @@ BoneVertex::BoneVertex()
   child    = NULL;
   father   = NULL;
   children = 0;
-  childListDone = 0;
+  childDone = 0;
   link     = NULL;
   links    = 0;
   compiled = 0;
@@ -580,37 +578,37 @@ BoneVertex::BoneVertex()
   influenceScaleFactor = 1;
 }
 
-BoneVertex::BoneVertex(Vect3D &position, float angle, Vect3D &axis)
+BoneVertex::BoneVertex(Vect3D &pos, float angle, Vect3D &axis)
 {
-  iniPos = position;
+  iniPos = pos;
   iniAngle = angle;
   iniAxis  = axis;
-  curPos = position;
+  curPos = pos;
   curAngle = angle;
   curAxis  = axis;
 
   child    = NULL;
   father   = NULL;
   children = 0;
-  childListDone = 0;
+  childDone = 0;
   link     = NULL;
   links    = 0;
   compiled = 0;
 }
 
-BoneVertex::BoneVertex(Vect3D *position, float angle, Vect3D *axis)
+BoneVertex::BoneVertex(Vect3D *pos, float angle, Vect3D *axis)
 {
-  iniPos = *position;
+  iniPos = *pos;
   iniAngle =  angle;
   iniAxis  = *axis;
-  curPos = *position;
+  curPos = *pos;
   curAngle =  angle;
   curAxis  = *axis;
 
   child    = NULL;
   father   = NULL;
   children = 0;
-  childListDone = 0;
+  childDone = 0;
   link     = NULL;
   links    = 0;
   compiled = 0;
@@ -619,13 +617,13 @@ BoneVertex::BoneVertex(Vect3D *position, float angle, Vect3D *axis)
 BoneVertex::~BoneVertex()
 {
   // first delete all the children
-  if (! childListDone) makeChildList();
+  if (! childDone) makeChildList();
   for (int i=0; i < children; i++) {
     delete child[i];
   }
   childList.empty();
 
-  // Now, delete the selected links for this node
+  // delete the selected links for this node
   if (! compiled) makeLinkList();
   for (int i=0; i < links; i++) {
     //dax-segfault delete link[i];
@@ -633,17 +631,17 @@ BoneVertex::~BoneVertex()
   linkList.empty();
 }
 
-// Accessing initial position datas
-void BoneVertex::setIniPos(Vect3D &position)
+// Accessing initial pos datas
+void BoneVertex::setIniPos(Vect3D &pos)
 {
-  iniPos =  position;
-  curPos =  position;
+  iniPos = pos;
+  curPos = pos;
 }
 
-void BoneVertex::setIniPos(Vect3D *position)
+void BoneVertex::setIniPos(Vect3D *pos)
 {
-  iniPos = *position;
-  curPos = *position;
+  iniPos = *pos;
+  curPos = *pos;
 }
 
 void BoneVertex::setIniPos(float ox, float oy, float oz)
@@ -677,14 +675,14 @@ void BoneVertex::setIniRot(float angle, float axisx, float axisy, float axisz)
 }
 
 // Accessing animation position datas
-void BoneVertex::setPos(Vect3D &position)
+void BoneVertex::setPos(Vect3D &pos)
 {
-  curPos =  position;
+  curPos = pos;
 }
 
-void BoneVertex::setPos(Vect3D *position)
+void BoneVertex::setPos(Vect3D *pos)
 {
-  curPos = *position;
+  curPos = *pos;
 }
 
 void BoneVertex::setPos(float ox, float oy, float oz)
@@ -755,7 +753,7 @@ void BoneVertex::setScale(float scale)
 // Modifying the node and its children (definitive)
 void BoneVertex::scale(float sx, float sy, float sz)
 {
-  if (! childListDone) makeChildList();
+  if (! childDone) makeChildList();
 
   iniPos.x *= sx;
   iniPos.y *= sy;
@@ -770,17 +768,17 @@ void BoneVertex::scale(float sx, float sy, float sz)
 }
 
 // Updating the father of this boneVertex
-void BoneVertex::setBone(BoneVertex *_father)
+void BoneVertex::setBone(BoneVertex *bv)
 {
-  father = _father;
+  father = bv;
 }
 
 // Adding children
-void BoneVertex::addBone(BoneVertex *newChild)
+void BoneVertex::addBone(BoneVertex *child)
 {
-  childList.addElem(newChild);
-  newChild->setBone(this);
-  childListDone = 0;
+  childList.add(child);
+  child->setBone(this);
+  childDone = 0;
 }
 
 // Removing a child and its children
@@ -790,8 +788,8 @@ void BoneVertex::delBone(const char *name)
   if (! b) return;
   if (b == this) return;
 
-  childList.delElem(b);
-  childListDone = 0;
+  childList.del(b);
+  childDone = 0;
   delete b;
 }
 
@@ -800,7 +798,7 @@ BoneVertex *BoneVertex::getBone(const char *name)
 {
   BoneVertex *res = NULL;
 
-  if (! childListDone) makeChildList();
+  if (! childDone) makeChildList();
 
   if (! strcmp(name, getName())) {
     res = this;
@@ -817,27 +815,27 @@ BoneVertex *BoneVertex::getBone(const char *name)
 // Adding a link
 void BoneVertex::addLink(BoneLink *link)
 {
-  linkList.addElem(link);
+  linkList.add(link);
   compiled = 0;
 }
 
 // Removing a link
 void BoneVertex::delLink(BoneLink *link)
 {
-  linkList.delElem(link);
+  linkList.del(link);
   compiled = 0;
 }
 
 // Compiling the lists
 void BoneVertex::makeChildList()
 {
-  child = childList.getNiceTable(&children);
-  childListDone = 1;
+  child = childList.getTable(&children);
+  childDone = 1;
 }
 
 void BoneVertex::makeLinkList()
 {
-  link = linkList.getNiceTable(&links);
+  link = linkList.getTable(&links);
   compiled = 1;
 }
 
@@ -845,17 +843,17 @@ void BoneVertex::makeLinkList()
 void BoneVertex::genIniMatrix()
 {
   // First, we'll need to know all the childs
-  if (! childListDone) makeChildList();
+  if (! childDone) makeChildList();
 
   glPushMatrix();
 
-  // Now I let OpenGL calculate the matrix
+  // let OpenGL calculate the matrix
   glTranslatef(iniPos.x, iniPos.y, iniPos.z);
   glRotatef(iniAngle, iniAxis.x, iniAxis.y, iniAxis.z);
   // save it
   glGetFloatv(GL_MODELVIEW_MATRIX, iniMatrix);
 
-  // Here is a nice matrix inversion
+  // here is a nice matrix inversion
   // 1. m gets the transposed rotation part of the matrix
   float m[16];
   m[0] = iniMatrix[ 0]; m[4] = iniMatrix[ 1]; m[ 8] = iniMatrix[ 2]; m[12] = 0;
@@ -875,7 +873,7 @@ void BoneVertex::genIniMatrix()
     iniMatrixInverted[j] = m[j];
   }
 
-  // Now, store the rotation matrices (for normals computation)
+  // store the rotation matrices (for normals computation)
   int off = 0;
   for (int i=0; i<4; i++) {
     for (int j=0; j<4; j++, off++) {
@@ -894,7 +892,7 @@ void BoneVertex::genIniMatrix()
     }
   }
 
-  // Now, let's do the same for children :)
+  // let's do the same for children :)
   for (int i=0; i < children; i++) {
     child[i]->genIniMatrix();
   }
@@ -902,10 +900,10 @@ void BoneVertex::genIniMatrix()
   glPopMatrix();
 }
 
-// Now let's have a look to the current matrix, same code as above
+// let's have a look to the current matrix, same code as above
 void BoneVertex::genCurrMatrix()
 {
-  if (! childListDone) makeChildList();
+  if (! childDone) makeChildList();
 
   glPushMatrix();
 
@@ -913,7 +911,7 @@ void BoneVertex::genCurrMatrix()
   glRotatef(curAngle, curAxis.x , curAxis.y, curAxis.z);
   glGetFloatv(GL_MODELVIEW_MATRIX, curMatrix);
 
-  // Now we have the current transformation matrix,
+  // we have the current transformation matrix,
   // we'll extract the rotation part so we can
   // move the normals of the mesh correctly to update the lighting !
   curRotMatrix[ 0] = curMatrix[ 0];
@@ -933,7 +931,7 @@ void BoneVertex::genCurrMatrix()
   curRotMatrix[14] = 0;
   curRotMatrix[15] = 1;
 
-  // And now, just generate the childrem matrices
+  // and now, just generate the childrem matrices
   for (int i=0; i < children; i++) {
     child[i]->genCurrMatrix();
   }
@@ -989,17 +987,17 @@ Vertex::Vertex()
   defaults();
 }
 
-Vertex::Vertex(Vect3D &position)
+Vertex::Vertex(Vect3D &pos)
 {
-  iniPos = position;
-  curPos = position;
+  iniPos = pos;
+  curPos = pos;
   defaults();
 }
 
-Vertex::Vertex(Vect3D *position)
+Vertex::Vertex(Vect3D *pos)
 {
-  iniPos = *position;
-  curPos = *position;
+  iniPos = *pos;
+  curPos = *pos;
   defaults();
 }
 
@@ -1021,33 +1019,33 @@ void Vertex::defaults()
   v = -1;
 }
 
-void Vertex::setPos(Vect3D &position)
+void Vertex::setPos(Vect3D &pos)
 {
-  iniPos =  position;
-  curPos =  position;
+  iniPos = pos;
+  curPos = pos;
 }
 
-void Vertex::setPos(Vect3D *position)
+void Vertex::setPos(Vect3D *pos)
 {
-  iniPos = *position;
-  curPos = *position;
+  iniPos = *pos;
+  curPos = *pos;
 }
 
 void Vertex::addLink(BoneLink *link)
 {
-  linkList.addElem(link);
+  linkList.add(link);
   compiled = 0;
 }
 
 void Vertex::delLink(BoneLink *link)
 {
-  //dax-segfault linkList.delElem(link);
+  //dax-segfault linkList.del(link);
   compiled = 0;
 }
 
 void Vertex::makeLinkList()
 {
-  link = linkList.getNiceTable(&links);
+  link = linkList.getTable(&links);
   compiled = 1;
 }
 
@@ -1061,7 +1059,7 @@ BoneTriangle::BoneTriangle()
   vertex3 = NULL;
   iniNormal.reset();
   curNormal.reset();
-  setColor(0.5, 0.5, 0.5, 1);
+  setColor(.5, .5, .5, 1);
 }
 
 BoneTriangle::~BoneTriangle() {}
