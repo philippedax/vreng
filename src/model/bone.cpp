@@ -279,21 +279,22 @@ void Bone::render()
   glColorMaterial(GL_FRONT, GL_DIFFUSE);
 
   glBegin(GL_TRIANGLES);
-  for (int j=0; j < mesh->triangles; j++) {
+  for (int i=0; i < mesh->triangles; i++) {
     tri = mesh->triangle[j];
-    //echo("RGB: %.1f %.1f %.1f rgb: %.1f %.1f %.1f", tri->R,tri->G,tri->B,tri->r,tri->g,tri->b);
     glColor3f(tri->R, tri->G, tri->B);
     //glTexCoord2f(tri->u1, tri->v1);
     normal = &tri->iniNormal;
     glNormal3f(normal->x, normal->y, normal->z);
 
     // vertexes
+    //echo("RGB: %.1f %.1f %.1f rgb: %.1f %.1f %.1f", tri->R,tri->G,tri->B,tri->r,tri->g,tri->b);
     v1 = &tri->vertex1->curPos;
     v2 = &tri->vertex2->curPos;
     v3 = &tri->vertex3->curPos;
     glVertex3f(v1->x, v1->y, v1->z);
     glVertex3f(v2->x, v2->y, v2->z);
     glVertex3f(v3->x, v3->y, v3->z);
+    //echo("%.1f %.1f %.1f, %.1f %.1f %.1f, %.1f %.1f %.1f", v1->x, v1->y, v1->z, v2->x, v2->y, v2->z, v3->x, v3->y, v3->z);
 
     // normals
     n1 = &tri->vertex1->curNormal;
