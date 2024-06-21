@@ -127,8 +127,8 @@ int my_inet_pton(int af, const char *name, void *addr)
 #if HAVE_INET_PTON
   return inet_pton(af, name, addr);
 #else
-  *((int *)addr) = inet_addr(name);
-  return (int) addr;
+  *(static_cast<int *> (addr)) = inet_addr(name);
+  return static_cast<int> (addr);	// else return 1
 #endif
 }
 
