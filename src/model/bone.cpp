@@ -280,14 +280,13 @@ void Bone::render()
 
   glBegin(GL_TRIANGLES);
   for (int i=0; i < mesh->triangles; i++) {
-    tri = mesh->triangle[j];
+    tri = mesh->triangle[i];
     glColor3f(tri->R, tri->G, tri->B);
     //glTexCoord2f(tri->u1, tri->v1);
     normal = &tri->iniNormal;
     glNormal3f(normal->x, normal->y, normal->z);
 
     // vertexes
-    //echo("RGB: %.1f %.1f %.1f rgb: %.1f %.1f %.1f", tri->R,tri->G,tri->B,tri->r,tri->g,tri->b);
     v1 = &tri->vertex1->curPos;
     v2 = &tri->vertex2->curPos;
     v3 = &tri->vertex3->curPos;

@@ -488,13 +488,13 @@ fi
 AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_FORK
-#AC_FUNC_MALLOC
-#AC_FUNC_REALLOC
 AC_FUNC_SELECT_ARGTYPES
 AC_FUNC_STAT
 AC_FUNC_UTIME_NULL
 AC_FUNC_VPRINTF
 AC_FUNC_STRTOD
+##AC_FUNC_MALLOC
+##AC_FUNC_REALLOC
 
 AC_CHECK_FUNCS([ getuid getpid getcwd getpwuid gethostname gethostid gethostbyaddr gethostbyname gethostbyname_r getservbyname getipnodebyname getipnodebyaddr getaddrinfo freehostent inet_pton inet_ntoa inet_ntop isascii gettimeofday memcpy memmove memset mkdir pow sqrt strcasecmp strchr strrchr strstr strcasecmp strerror strdup strtol strpbrk utime fcntl floor select poll socket setrlimit waitpid readdir getopt getopt_long uname rand random drand48 lrand48 usleep fpsetmask nice setlocale alarm ftime sysinfo ])
 
@@ -1681,7 +1681,7 @@ if test "${with_ocaml:=no}" = "yes"; then
 !EOL
 ${OCAMLOPT} -output-obj conftestml.ml -o conftest_ml.o
   AC_CHECK_LIB([asmrun], [caml_startup], [LIBS="$LIBS"],,
-               [conftest_ml.o ${OCAML_LIB} -lasmrun -ldl])
+               [conftest_ml.o ${OCAML_LIB} -lasmrun])
   if test "$ac_cv_lib_asmrun_caml_startup" = "yes" ; then
     AC_DEFINE(HAVE_OCAML)
     am_ocaml="yes"
