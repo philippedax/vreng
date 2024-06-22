@@ -461,17 +461,13 @@ void Body::init()
   jp.z = NULL;
   model = 0;
 
-  tx = ty = tz = rx = ry = rz = 0;
-  bscale = B_SCALE;
+  tx = ty = tz = 0;	// position in space
+  rx = ry = rz = 0;	// orientation in space
+  bscale = B_SCALE;	// scale factor
 
-  for (int i=0; i<10 ; i++) {
-    phalanx2[i] = new Phalanx2();
-    phalanx[i] = new Phalanx(phalanx2[i]);
-  }
-  for (int i=0; i<5 ; i++) {
-    fingers_r[i] = new Finger(phalanx[i]);
-    fingers_l[i] = new Finger(phalanx[i+5]);
-  }
+  //
+  // articulation instances
+  //
   head =       new HeadBody();
   neck =       new Neck(head);
   hand_l =     new Hand(fingers_l);
@@ -489,6 +485,14 @@ void Body::init()
   thigh_l =    new Thigh(shin_l);
   thigh_r =    new Thigh(shin_r);
   chest =      new Chest();
+  for (int i=0; i<5 ; i++) {
+    fingers_r[i] = new Finger(phalanx[i]);
+    fingers_l[i] = new Finger(phalanx[i+5]);
+  }
+  for (int i=0; i<10 ; i++) {
+    phalanx2[i] = new Phalanx2();
+    phalanx[i] = new Phalanx(phalanx2[i]);
+  }
 
   for (int i=0; i<3 ; i++) {
     skin[i] = 1;
@@ -1167,7 +1171,7 @@ void Body::display(uint8_t part)
 /** Displays body and face face */
 void Body::display()
 {
-  // Hips
+  // Pelvic
   glPushMatrix();	//  Pelvic (Body Bottom)
    transP(PELVIC);
    rotX(PELVIC_TILT, model);
@@ -1237,10 +1241,10 @@ void Body::display()
         glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
         glTranslatef(0, 0.9, -0.9);
         glRotatef(90, 1,0,0);
-        //if (bap->isFap()) {
-          //echo("face display");
-          face->render();	// YR
-        //}
+
+        //echo("face display");
+        face->render();	// YR
+
       }
       transP(UPPER_NECK);
       rotX(C1_TILT, model);
