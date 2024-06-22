@@ -234,8 +234,9 @@
  */
 class Bap {
  private:
-  uint8_t masks[1 + NUM_BAPS];	///< bap/fap bit mask
-  float values[1 + NUM_BAPS];	///< baps angles
+  bool masks[1 + NUM_BAPS];		///< bap/fap bit mask
+  float bapvalues[1 + NUM_BAPS];	///< baps angles
+  float fapvalues[1 + NUM_FAPS];	///< baps angles
 
   void resetMask(int n);
   /**< Resets bit mask */
@@ -251,13 +252,17 @@ class Bap {
   uint8_t getType() const;
   /**< Returns stream type */
 
+  bool isBap() const;
+  bool isFap() const;
+
   uint8_t parse(char *line);
   /**< Parses and reads header and data of a frame */
 
-  bool isMask(int param) const;
+  bool isBapMask(int param) const;
+  bool isFapMask(int param) const;
   /**< Checks bit indexed by param */
 
-  void setMask(int param, uint8_t val);
+  void setMask(int param, bool val);
 
   float get(int param) const;
   /**< Gets a Bap angle indexed by param */

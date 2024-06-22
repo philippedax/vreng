@@ -37,8 +37,12 @@ Bap::Bap()
 
   // set all values to 0
   for (int i=1; i <= NUM_BAPS; i++) {
-    values[i] = 0;
-    masks[i] = 0;
+    bapvalues[i] = 0;
+    masks[i] = false;
+  }
+  for (int i=1; i <= NUM_FAPS; i++) {
+    fapvalues[i] = 0;
+    masks[i] = false;
   }
 }
 
@@ -48,22 +52,54 @@ uint8_t Bap::getType() const
   return type;
 }
 
+/** Is Bap ? */
+bool Bap::isBap() const
+{
+  switch(type) {
+  case TYPE_BAP_V32:
+  case TYPE_BAP_V31:
+    return true;
+  default:
+    return false;
+  }
+}
+
+/** Is Fap ? */
+bool Bap::isFap() const
+{
+  switch(type) {
+  case TYPE_FAP_V20:
+  case TYPE_FAP_V21:
+    return true;
+  default:
+    return false;
+  }
+}
+
 /** Resets bit masks */
 void Bap::resetMask(int params)
 {
   for (int i=1; i <= params; i++) {
-    masks[i] = 0;
+    masks[i] = false;
   }
 }
 
-/** Checks bit mask */
-bool Bap::isMask(int param) const
+/** Checks bap mask */
+bool Bap::isBapMask(int param) const
 {
+  if (! isBap()) return false;
+  return masks[param];
+}
+
+/** Checks fap mask */
+bool Bap::isFapMask(int param) const
+{
+  if (! isFap()) return false;
   return masks[param];
 }
 
 /** Sets bit mask */
-void Bap::setMask(int param, uint8_t bit)
+void Bap::setMask(int param, bool bit)
 {
   masks[param] = bit;
 }
@@ -74,12 +110,12 @@ float Bap::get(int param) const
   switch(type) {
   case TYPE_BAP_V31:
   case TYPE_BAP_V32:
-    return values[param];
+    return bapvalues[param];
   case TYPE_FAP_V20:
   case TYPE_FAP_V21:
-    return values[param];
+    return fapvalues[param];
   default:
-    return values[param];
+    return 0;
   }
 }
 
@@ -87,24 +123,22 @@ float Bap::get(int param) const
 void Bap::set(int param, float val)
 {
   if (param >= TR_VERTICAL && param <= TR_FRONTAL) {	// body translations
-    values[param] = val/TR_DIV;		// magic formula: 300
+    bapvalues[param] = val/TR_DIV;		// magic formula: 300
   }
   else {
     switch(type) {
     case TYPE_BAP_V31:
-      values[param] = val/BAPV31_DIV;	// magic formula: 1745 (PI * 100000 / 180)
+      bapvalues[param] = val/BAPV31_DIV;	// magic formula: 1745 (PI * 100000 / 180)
       break;
     case TYPE_BAP_V32:
-      values[param] = val/BAPV32_DIV;	// magic formula: 555 (100000 / 180)
+      bapvalues[param] = val/BAPV32_DIV;	// magic formula: 555 (100000 / 180)
       break;
     case TYPE_FAP_V20:
-      values[param] = val/FAPV20_DIV;	// magic formula: 20
+      fapvalues[param] = val/FAPV20_DIV;	// magic formula: 20
       break;
     case TYPE_FAP_V21:
-      values[param] = val/FAPV21_DIV;	// magic formula: 1
+      fapvalues[param] = val/FAPV21_DIV;	// magic formula: 1
       break;
-    default:
-      values[param] = val;
     }
   }
 }
@@ -166,7 +200,7 @@ uint8_t Bap::parse(char *bapline)
     if (type == TYPE_BAP_V31 || type == TYPE_BAP_V32) {
       for (int i=1; i <= params; i++) {
         if (l) {
-          masks[i] = atoi(l);  // set all the mask values
+          masks[i] = atoi(l);  // set all the masks bits
           l = strtok(NULL, " ");
         }
       }
@@ -174,7 +208,7 @@ uint8_t Bap::parse(char *bapline)
       frame = atoi(l);
 
       for (int i=1; i <= params; i++) {
-        if (masks[i] == 0) continue;
+        if (masks[i] == false) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
         set(i, static_cast<float>(atof(l)));
         //echo("bapparse: l=%s values[%d]=%.1f", l, i, values[i]);
@@ -187,7 +221,7 @@ uint8_t Bap::parse(char *bapline)
     else if (type == TYPE_FAP_V20 || type == TYPE_FAP_V21) {
       for (int i=1; i <= params; i++) {
         if (l) {
-          masks[i] = atoi(l);  // set all the mask values
+          masks[i] = atoi(l);  // set all the masks bits
           l = strtok(NULL, " ");
         }
       }
@@ -195,7 +229,7 @@ uint8_t Bap::parse(char *bapline)
       frame = atoi(l);
 
       for (int i=1; i <= params; i++) {
-        if (masks[i] == 0) continue;
+        if (masks[i] == false) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
         set(i, static_cast<float>(atof(l)));
       }
