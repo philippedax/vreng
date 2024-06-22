@@ -318,13 +318,14 @@ void Humanoid::changePermanent(float lasting)
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
       for (int i=1; i <= NUM_BAPS; i++) {
         if (! bap->isBapMask(i)) continue;
-        //echo("play: %d (%.0f)", i, bap->get(i));
+        //echo("playbap: %d (%.0f)", i, bap->get(i));
       }
       body->play();		// plays bapframe
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
         if (bap->isFapMask(i) && body->face) {
+          echo("playfap: %d (%.0f)", i, bap->get(i));
           body->face->play(i, bap->get(i));	// play fapframe
         }
       }
@@ -442,7 +443,8 @@ newbap:
 
     for (int i=1; i <= bap->params; i++) {
       float value = 0;
-      if (! bap->isBapMask(i)) continue;		// no mask
+      if (bap->isBap() && ! bap->isBapMask(i)) continue;	// no bap mask
+      if (bap->isFap() && ! bap->isFapMask(i)) continue;	// no fap mask
       //
       // play bap param
       //
