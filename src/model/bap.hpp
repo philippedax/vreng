@@ -40,185 +40,185 @@
 
 // MPEG4 V31 Bap parameters (#186)
 #define	PELVIC_TILT		1	// pelvic
-#define	PELVIC_TORSION		2
+#define	PELVIC_TORS		2
 #define	PELVIC_ROLL		3
-#define	L_HIP_FLEXION		4	// hip
-#define	R_HIP_FLEXION		5
-#define	L_HIP_ABDUCT		6
-#define	R_HIP_ABDUCT		7
-#define	L_HIP_TORSION		8
-#define	R_HIP_TORSION		9
-#define	L_KNEE_FLEXION		10	// knee
-#define	R_KNEE_FLEXION		11
-#define	L_KNEE_TORSION		12
-#define	R_KNEE_TORSION		13
-#define	L_ANKLE_FLEXION		14	// ankle
-#define	R_ANKLE_FLEXION		15
-#define	L_ANKLE_TORSION		16
-#define	R_ANKLE_TORSION		17
-#define	L_SUBTALAR		18	// foot
+#define	L_HIP_FLEX		4	// hip / anche
+#define	R_HIP_FLEX		5
+#define	L_HIP_ABDU		6
+#define	R_HIP_ABDU		7
+#define	L_HIP_TORS		8
+#define	R_HIP_TORS		9
+#define	L_KNEE_FLEX		10	// knee / genou
+#define	R_KNEE_FLEX		11
+#define	L_KNEE_TORS		12
+#define	R_KNEE_TORS		13
+#define	L_ANKLE_FLEX		14	// ankle / cheville
+#define	R_ANKLE_FLEX		15
+#define	L_ANKLE_TORS		16
+#define	R_ANKLE_TORS		17
+#define	L_SUBTALAR		18	// foot / pied
 #define	R_SUBTALAR		19
 #define	L_MID_FOOT		20
 #define	R_MID_FOOT		21
-#define	L_TOE_FLEXION		22	// toe
-#define	R_TOE_FLEXION		23
-#define	L_CLAV_ABDUCT		24	// clavicule
-#define	R_CLAV_ABDUCT		25
+#define	L_TOE_FLEX		22	// toe / orteil
+#define	R_TOE_FLEX		23
+#define	L_CLAV_ABDU		24	// clavicule
+#define	R_CLAV_ABDU		25
 #define	L_CLAV_ROTATE		26
 #define	R_CLAV_ROTATE		27
-#define	L_SCAP_ABDUCT		28	// scapular
-#define	R_SCAP_ABDUCT		29
+#define	L_SCAP_ABDU		28	// scapular
+#define	R_SCAP_ABDU		29
 #define	L_SCAP_ROTATE		30
 #define	R_SCAP_ROTATE		31
-#define	L_SHOULDER_FLEXION	32	// shoulder
-#define	R_SHOULDER_FLEXION	33
-#define	L_SHOULDER_ABDUCT	34
-#define	R_SHOULDER_ABDUCT	35
-#define	L_SHOULDER_TORSION	36
-#define	R_SHOULDER_TORSION	37
-#define	L_ELBOW_FLEXION		38	// elbow
-#define	R_ELBOW_FLEXION		39
-#define	L_ELBOW_TORSION		40
-#define	R_ELBOW_TORSION		41
-#define	L_WRIST_FLEXION		42	// wrist
-#define	R_WRIST_FLEXION		43
+#define	L_SHOULDER_FLEX		32	// shoulder / epaule
+#define	R_SHOULDER_FLEX		33
+#define	L_SHOULDER_ABDU		34
+#define	R_SHOULDER_ABDU		35
+#define	L_SHOULDER_TORS		36
+#define	R_SHOULDER_TORS		37
+#define	L_ELBOW_FLEX		38	// elbow / coude
+#define	R_ELBOW_FLEX		39
+#define	L_ELBOW_TORS		40
+#define	R_ELBOW_TORS		41
+#define	L_WRIST_FLEX		42	// wrist / poignet
+#define	R_WRIST_FLEX		43
 #define	L_WRIST_PIVOT		44
 #define	R_WRIST_PIVOT		45
-#define	L_WRIST_TORSION		46
-#define	R_WRIST_TORSION		47
-#define	SKULLBASE_ROLL		48	// skull
-#define	SKULLBASE_TORSION	49
+#define	L_WRIST_TORS		46
+#define	R_WRIST_TORS		47
+#define	SKULLBASE_ROLL		48	// skull / crane
+#define	SKULLBASE_TORS		49
 #define	SKULLBASE_TILT		50
-#define	C1_ROLL			51	// cervicales
-#define	C1_TORSION		52
+#define	C1_ROLL			51	// cervical
+#define	C1_TORS			52
 #define	C1_TILT			53
 #define	C2_ROLL			54
-#define	C2_TORSION		55
+#define	C2_TORS			55
 #define	C2_TILT			56
 #define	C3_ROLL			57
-#define	C3_TORSION		58
+#define	C3_TORS			58
 #define	C3_TILT			59
 #define	C4_ROLL			60
-#define	C4_TORSION		61
+#define	C4_TORS			61
 #define	C4_TILT			62
 #define	C5_ROLL			63
-#define	C5_TORSION		64
+#define	C5_TORS			64
 #define	C5_TILT			65
 #define	C6_ROLL			66
-#define	C6_TORSION		67
+#define	C6_TORS			67
 #define	C6_TILT			68
 #define	C7_ROLL			69
-#define	C7_TORSION		70
+#define	C7_TORS			70
 #define	C7_TILT			71
-#define	T1_ROLL			72	// torsales
-#define	T1_TORSION		73
+#define	T1_ROLL			72	// thoracics / dorsales
+#define	T1_TORS			73
 #define	T1_TILT			74
 #define	T2_ROLL			75
-#define	T2_TORSION		76
+#define	T2_TORS			76
 #define	T2_TILT			77
 #define	T3_ROLL			78
-#define	T3_TORSION		79
+#define	T3_TORS			79
 #define	T3_TILT			80
 #define	T4_ROLL			81
-#define	T4_TORSION		82
+#define	T4_TORS			82
 #define	T4_TILT			83
 #define	T5_ROLL			84
-#define	T5_TORSION		85
+#define	T5_TORS			85
 #define	T5_TILT			86
 #define	T6_ROLL			87
-#define	T6_TORSION		88
+#define	T6_TORS			88
 #define	T6_TILT			89
 #define	T7_ROLL			90
-#define	T7_TORSION		91
+#define	T7_TORS			91
 #define	T7_TILT			92
 #define	T8_ROLL			93
-#define	T8_TORSION		94
+#define	T8_TORS			94
 #define	T8_TILT			95
 #define	T9_ROLL			96
-#define	T9_TORSION		97
+#define	T9_TORS			97
 #define	T9_TILT			98
 #define	T10_ROLL		99
-#define	T10_TORSION		100
+#define	T10_TORS		100
 #define	T10_TILT		101
 #define	T11_ROLL		102
-#define	T11_TORSION		103
+#define	T11_TORS		103
 #define	T11_TILT		104
 #define	T12_ROLL		105
-#define	T12_TORSION		106
+#define	T12_TORS		106
 #define	T12_TILT		107
 #define	L1_ROLL			108	// lombaires
-#define	L1_TORSION		109
+#define	L1_TORS			109
 #define	L1_TILT			110
 #define	L2_ROLL			111
-#define	L2_TORSION		112
+#define	L2_TORS			112
 #define	L2_TILT			113
 #define	L3_ROLL			114
-#define	L3_TORSION		115
+#define	L3_TORS			115
 #define	L3_TILT			116
 #define	L4_ROLL			117
-#define	L4_TORSION		118
+#define	L4_TORS			118
 #define	L4_TILT			119
 #define	L5_ROLL			120
-#define	L5_TORSION		121
+#define	L5_TORS			121
 #define	L5_TILT			122
-#define L_PINKY0_FLEXION	123	// pinky
-#define R_PINKY0_FLEXION	124
-#define L_PINKY1_FLEXION	125
-#define R_PINKY1_FLEXION	126
+#define L_PINKY0_FLEX		123	// pinky / oriculaire
+#define R_PINKY0_FLEX		124
+#define L_PINKY1_FLEX		125
+#define R_PINKY1_FLEX		126
 #define L_PINKY1_PIVOT		127
 #define R_PINKY1_PIVOT		128
 #define L_PINKY1_TWIST		129
 #define R_PINKY1_TWIST		130
-#define L_PINKY2_FLEXION	131
-#define R_PINKY2_FLEXION	132
-#define L_PINKY3_FLEXION	133
-#define R_PINKY3_FLEXION	134
-#define L_RING0_FLEXION		135	// ring
-#define R_RING0_FLEXION		136
-#define L_RING1_FLEXION		137
-#define R_RING1_FLEXION		138
+#define L_PINKY2_FLEX		131
+#define R_PINKY2_FLEX		132
+#define L_PINKY3_FLEX		133
+#define R_PINKY3_FLEX		134
+#define L_RING0_FLEX		135	// ring / annulaire
+#define R_RING0_FLEX		136
+#define L_RING1_FLEX		137
+#define R_RING1_FLEX		138
 #define L_RING1_PIVOT		139
 #define R_RING1_PIVOT		140
 #define L_RING1_TWIST		141
 #define R_RING1_TWIST		142
-#define L_RING2_FLEXION		143
-#define R_RING2_FLEXION		144
-#define L_RING3_FLEXION		145
-#define R_RING3_FLEXION		146
-#define L_MIDDLE0_FLEXION	147	// middle
-#define R_MIDDLE0_FLEXION	148
-#define L_MIDDLE1_FLEXION	149
-#define R_MIDDLE1_FLEXION	150
+#define L_RING2_FLEX		143
+#define R_RING2_FLEX		144
+#define L_RING3_FLEX		145
+#define R_RING3_FLEX		146
+#define L_MIDDLE0_FLEX		147	// middle / majeur
+#define R_MIDDLE0_FLEX		148
+#define L_MIDDLE1_FLEX		149
+#define R_MIDDLE1_FLEX		150
 #define L_MIDDLE1_PIVOT		151
 #define R_MIDDLE1_PIVOT		152
 #define L_MIDDLE1_TWIST		153
 #define R_MIDDLE1_TWIST		154
-#define L_MIDDLE2_FLEXION	155
-#define R_MIDDLE2_FLEXION	156
-#define L_MIDDLE3_FLEXION	157
-#define R_MIDDLE3_FLEXION	158
-#define L_INDEX0_FLEXION	159	// index
-#define R_INDEX0_FLEXION	160
-#define L_INDEX1_FLEXION	161
-#define R_INDEX1_FLEXION	162
+#define L_MIDDLE2_FLEX		155
+#define R_MIDDLE2_FLEX		156
+#define L_MIDDLE3_FLEX		157
+#define R_MIDDLE3_FLEX		158
+#define L_INDEX0_FLEX		159	// index
+#define R_INDEX0_FLEX		160
+#define L_INDEX1_FLEX		161
+#define R_INDEX1_FLEX		162
 #define L_INDEX1_PIVOT		163
 #define R_INDEX1_PIVOT		164
 #define L_INDEX1_TWIST		165
 #define R_INDEX1_TWIST		166
-#define L_INDEX2_FLEXION	167
-#define R_INDEX2_FLEXION	168
-#define L_INDEX3_FLEXION	169
-#define R_INDEX3_FLEXION	170
-#define L_THUMB1_FLEXION	171	// thumb
-#define R_THUMB1_FLEXION	172
+#define L_INDEX2_FLEX		167
+#define R_INDEX2_FLEX		168
+#define L_INDEX3_FLEX		169
+#define R_INDEX3_FLEX		170
+#define L_THUMB1_FLEX		171	// thumb / pouce
+#define R_THUMB1_FLEX		172
 #define L_THUMB1_PIVOT		173
 #define R_THUMB1_PIVOT		174
 #define L_THUMB1_TWIST		175
 #define R_THUMB1_TWIST		176
-#define L_THUMB2_FLEXION	177
-#define R_THUMB2_FLEXION	178
-#define L_THUMB3_FLEXION	179
-#define R_THUMB3_FLEXION	180
+#define L_THUMB2_FLEX		177
+#define R_THUMB2_FLEX		178
+#define L_THUMB3_FLEX		179
+#define R_THUMB3_FLEX		180
 #define	TR_VERTICAL		181	// body translations
 #define	TR_LATERAL		182
 #define	TR_FRONTAL		183
