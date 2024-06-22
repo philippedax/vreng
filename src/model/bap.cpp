@@ -35,7 +35,18 @@ Bap::Bap()
   type = 0;
   params = 0;
 
-  // set all values to 0
+  reset();
+}
+
+/** Gets type of bap */
+uint8_t Bap::getType() const
+{
+  return type;
+}
+
+/** Resets masks and values */
+void Bap::reset()
+{
   for (int i=1; i <= NUM_BAPS; i++) {
     bapvalues[i] = 0;
     masks[i] = false;
@@ -44,12 +55,6 @@ Bap::Bap()
     fapvalues[i] = 0;
     masks[i] = false;
   }
-}
-
-/** Gets type of bap */
-uint8_t Bap::getType() const
-{
-  return type;
 }
 
 /** Is Bap ? */
@@ -64,10 +69,34 @@ bool Bap::isBap() const
   }
 }
 
+/** Is Bap ? */
+bool Bap::isBap(uint8_t _type) const
+{
+  switch(_type) {
+  case TYPE_BAP_V32:
+  case TYPE_BAP_V31:
+    return true;
+  default:
+    return false;
+  }
+}
+
 /** Is Fap ? */
 bool Bap::isFap() const
 {
   switch(type) {
+  case TYPE_FAP_V20:
+  case TYPE_FAP_V21:
+    return true;
+  default:
+    return false;
+  }
+}
+
+/** Is Fap ? */
+bool Bap::isFap(uint8_t _type) const
+{
+  switch(_type) {
   case TYPE_FAP_V20:
   case TYPE_FAP_V21:
     return true;
@@ -197,7 +226,7 @@ uint8_t Bap::parse(char *bapline)
 
   // masks
   else {
-    if (type == TYPE_BAP_V31 || type == TYPE_BAP_V32) {
+    if (isBap(type)) {
       for (int i=1; i <= params; i++) {
         if (l) {
           masks[i] = atoi(l);  // set all the masks bits
@@ -210,7 +239,7 @@ uint8_t Bap::parse(char *bapline)
       for (int i=1; i <= params; i++) {
         if (masks[i] == false) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
-        set(i, static_cast<float>(atof(l)));
+        set(i, static_cast<float> (atof(l)));
         //echo("bapparse: l=%s values[%d]=%.1f", l, i, values[i]);
       }
       if (frame < frames) {
@@ -218,7 +247,7 @@ uint8_t Bap::parse(char *bapline)
         return 0;
       }
     }
-    else if (type == TYPE_FAP_V20 || type == TYPE_FAP_V21) {
+    else if (isFap(type)) {
       for (int i=1; i <= params; i++) {
         if (l) {
           masks[i] = atoi(l);  // set all the masks bits
@@ -231,7 +260,7 @@ uint8_t Bap::parse(char *bapline)
       for (int i=1; i <= params; i++) {
         if (masks[i] == false) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
-        set(i, static_cast<float>(atof(l)));
+        set(i, static_cast<float> (atof(l)));
       }
       if (frame < frames) {
         //echo("bapparse: end of fap frames");

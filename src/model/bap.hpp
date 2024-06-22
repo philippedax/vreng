@@ -238,12 +238,15 @@ class Bap {
   float bapvalues[1 + NUM_BAPS];	///< baps angles
   float fapvalues[1 + NUM_FAPS];	///< baps angles
 
+  void reset();
+  /**< Resets masks and values */
+
   void resetMask(int n);
   /**< Resets bit mask */
 
  public:
-  uint8_t type;			///< stream type bap-3.1, bap-3.2, fap
-  uint16_t params;		///< number of params
+  uint8_t type;			///< stream type bap-3.1, bap-3.2, fap-2.1, fap-2.0
+  uint16_t params;		///< number of params (186 or 68)
   uint16_t frames;		///< number of frames
 
   Bap();			///< constructor
@@ -253,7 +256,9 @@ class Bap {
   /**< Returns stream type */
 
   bool isBap() const;
+  bool isBap(uint8_t _type) const;
   bool isFap() const;
+  bool isFap(uint8_t _type) const;
 
   uint8_t parse(char *line);
   /**< Parses and reads header and data of a frame */

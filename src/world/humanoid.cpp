@@ -317,14 +317,14 @@ void Humanoid::changePermanent(float lasting)
     switch (baptype) {
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
       for (int i=1; i <= NUM_BAPS; i++) {
-        if (bap->isBap() && ! bap->isBapMask(i)) continue;
+        if (bap->isBap(baptype) && ! bap->isBapMask(i)) continue;
         //echo("playbap: %d (%.0f)", i, bap->get(i));
       }
       body->play();		// plays bapframe
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
-        if (bap->isFap() && ! bap->isFapMask(i)) continue;
+        if (bap->isFap(baptype) && ! bap->isFapMask(i)) continue;
         //echo("playfap: %d (%.0f)", i, bap->get(i));
         body->face->play(i, bap->get(i));	// play fapframe
       }
@@ -411,8 +411,8 @@ newbap:
       for (int i=1; i <= bap->params; i++) {
         if (p) {
           switch (*p) {
-          case '0': bap->setMask(i, 0); break;
-          case '1': bap->setMask(i, 1); break;
+          case '0': bap->setMask(i, false); break;
+          case '1': bap->setMask(i, true); break;
           }
           p = strchr(p, ' ');
           if (! p) break;	// no more mask
@@ -454,20 +454,18 @@ newbap:
         if (::g.pref.trace) error("bad value");
         goto newbap;
       }
-      switch (bap->type) {
-      case TYPE_BAP_V31: case TYPE_BAP_V32: 
+      if (bap->isBap(bap->type)) {
         bap->set(i, value);			// set bap value
         //echo("playbap: %d: %d (%.0f)", bapframe, i, bap->get(i));
         body->play();				// plays bap
-        break;
-      case TYPE_FAP_V20: case TYPE_FAP_V21:
+      }
+      if (bap->isFap(bap->type)) {
         bap->set(i, value);			// set fap value
         //echo("playfap: %d: %d (%.0f)", bapframe, i, bap->get(i));
         body->face->play(i, bap->get(i));	// plays fap
-        break;
-      default:
+      }
+      else {
         //error("bad baptype: %d", bap->type);
-        break;
       }
       p = strchr(p, ' ');	// skip space for next value
       if (! p) {
