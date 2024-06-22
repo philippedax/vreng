@@ -108,7 +108,7 @@ TOOL_LIB  = -L$(SRC)/tool  $(SRC)/tool/libtool.a
 VNC_LIB   = -L$(SRC)/vnc   $(SRC)/vnc/libvnc.a
 UBIT_LIB  = -L$(SRC)/ubit  $(SRC)/ubit/libubit.a
 if ENABLE_OCAML
-AI_LIB    = -L$(SRC)/ai    $(SRC)/ai/libai.a @OCAML_LIB@ -lasmrun $(SRC)/ai/libai.a -lunix -lasmrun -ldl
+AI_LIB    = -L$(SRC)/ai    $(SRC)/ai/libai.a @OCAML_LIB@ -lasmrun $(SRC)/ai/libai.a -lunix -lasmrun
 endif
 
 CORE_LIBS = $(BASE_LIB) $(GUI_LIB) $(WORLD_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(UBIT_LIB) $(AI_LIB)
