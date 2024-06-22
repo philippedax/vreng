@@ -820,6 +820,7 @@ void Body::play()
   if (bap->isBapMask(RT_BODY_TILT))	{ry = bap->get(RT_BODY_TILT); TRAC echo("ti: %.0f", ry);}
 }
 
+#if 0 //notused
 void Body::animReset()
 {
   animHead(0, 0);
@@ -862,6 +863,7 @@ void Body::animReset()
   animHand(0, 0, 2);
   animHand(0, 1, 2);
 }
+#endif //notused
 
 void Body::animHead(float a, uint8_t axis)
 {

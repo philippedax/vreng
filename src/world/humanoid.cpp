@@ -475,7 +475,7 @@ newbap:
         p++;			// next value
         //echo("next value: %s", p);
       }
-      if (bapframe + 1 == bap->frames) {
+      if (bapframe + 1 >= bap->frames) {
         //echo("done frames %d", bapframe);
       }
     }
