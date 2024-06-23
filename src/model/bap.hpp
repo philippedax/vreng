@@ -242,9 +242,6 @@ class Bap {
   void reset();
   /**< Resets masks and values */
 
-  void resetMask(int n);
-  /**< Resets bit mask */
-
  public:
   uint8_t type;			///< stream type bap-3.1, bap-3.2, fap-2.1, fap-2.0
   uint16_t params;		///< number of params (186 or 68)
@@ -260,6 +257,9 @@ class Bap {
   bool isBap(uint8_t _type) const;
   bool isFap() const;
   bool isFap(uint8_t _type) const;
+
+  void resetMasks();
+  /**< Resets bit mask */
 
   uint8_t parse(char *line);
   /**< Parses and reads header and data of a frame */

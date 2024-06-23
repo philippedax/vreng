@@ -104,7 +104,7 @@ bool Bap::isFap(uint8_t _type) const
 }
 
 /** Resets bit masks */
-void Bap::resetMask(int params)
+void Bap::resetMasks()
 {
   for (int i=1; i <= NUM_BAPS; i++) {
     bapmasks[i] = false;
@@ -188,7 +188,7 @@ uint8_t Bap::parse(char *bapline)
   l = strtok(bapline, " ");
   if (! stringcmp(l, HEAD_BAP_V31)) {		// Bap3.1 Header
     params = NUM_BAPS;
-    resetMask(params);
+    resetMasks();
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
@@ -198,7 +198,7 @@ uint8_t Bap::parse(char *bapline)
   }
   else if (! stringcmp(l, HEAD_BAP_V32)) {	// Bap3.2 Header
     params = NUM_BAPS;
-    resetMask(params);
+    resetMasks();
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
@@ -208,7 +208,7 @@ uint8_t Bap::parse(char *bapline)
   }
   else if (! stringcmp(l, HEAD_FAP_V20)) {	// Fap2.0 Header
     params = NUM_FAPS;
-    resetMask(params);
+    resetMasks();
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
@@ -218,7 +218,7 @@ uint8_t Bap::parse(char *bapline)
   }
   else if (! stringcmp(l, HEAD_FAP_V21)) {	// Fap2.1 Header
     params = NUM_FAPS;
-    resetMask(params);
+    resetMasks();
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");

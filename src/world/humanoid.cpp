@@ -489,12 +489,13 @@ newbap:
 #endif
 
 endbap:
-    if (bapframe + 1 == bap->frames) {
+    if (bapframe + 1 >= bap->frames) {
       //echo("end of frames");
       bap->frames = 0;
       bap->params = 186;
       bap->type = 0;
       bapstring = NULL;
+      bap->resetMasks();
       state = INACTIVE;
     }
   } // local playing
