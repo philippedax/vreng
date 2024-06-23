@@ -32,8 +32,8 @@
 #include "cache.hpp"	// open, close
 #include "pref.hpp"	// trace
 
-#define TRAC if(::g.pref.trace)
 #define TRACE(s,v) if(::g.pref.trace) echo("%s: %.0f", s,v);
+
 
 const float Phalanx2::PHALANX2_LEN = 0.012;	// default phalanx2 length
 const float Phalanx::PHALANX_LEN = 0.012;	// default phalanx length
@@ -1112,51 +1112,51 @@ void Body::transN(uint8_t part)
 }
 
 /** Rotates around X axis */
-void Body::rotX(int side, uint8_t model)
+void Body::rotX(int param)
 {
-  int sign = (side >= 0) ?1:-1;
+  int sign = (param >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef( sign * bap->get(abs(side)), 1,0,0); break;
-  case MODEL_OBJ: glRotatef(+sign * bap->get(abs(side)), 0,1,0); break;
+  case MODEL_OFF: glRotatef( sign * bap->get(abs(param)), 1,0,0); break;
+  case MODEL_OBJ: glRotatef(+sign * bap->get(abs(param)), 0,1,0); break;
   }
 }
 
 /** Rotates around Y axis */
-void Body::rotY(int side, uint8_t model)
+void Body::rotY(int param)
 {
-  int sign = (side >= 0) ?1:-1;
+  int sign = (param >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef(sign * bap->get(abs(side)), 0,1,0); break;
-  case MODEL_OBJ: glRotatef(sign * bap->get(abs(side)), 1,0,0); break;
+  case MODEL_OFF: glRotatef(sign * bap->get(abs(param)), 0,1,0); break;
+  case MODEL_OBJ: glRotatef(sign * bap->get(abs(param)), 1,0,0); break;
   }
 }
 
 /** Rotates around Z axis */
-void Body::rotZ(int side, uint8_t model)
+void Body::rotZ(int param)
 {
-  int sign = (side >= 0) ?1:-1;
+  int sign = (param >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef(sign * bap->get(abs(side)), 0,0,1); break;
-  case MODEL_OBJ: glRotatef(sign * bap->get(abs(side)), 0,0,1); break;
+  case MODEL_OFF: glRotatef(sign * bap->get(abs(param)), 0,0,1); break;
+  case MODEL_OBJ: glRotatef(sign * bap->get(abs(param)), 0,0,1); break;
   }
 }
 
 #if 0 //notused
-void Body::rotX(int side, float angle)
+void Body::rotX(int param, float angle)
 {
-  int sign = (side >= 0) ?1:-1;
+  int sign = (param >= 0) ?1:-1;
   glRotatef(sign * angle, 1,0,0);
 }
 
-void Body::rotY(int side, float angle)
+void Body::rotY(int param, float angle)
 {
-  int sign = (side >= 0) ?1:-1;
+  int sign = (param >= 0) ?1:-1;
   glRotatef(sign * angle, 0,1,0);
 }
 
-void Body::rotZ(int side, float angle)
+void Body::rotZ(int param, float angle)
 {
-  int sign = (side >= 0) ?1:-1;
+  int sign = (param >= 0) ?1:-1;
   glRotatef(sign * angle, 0,0,1);
 }
 #endif //notused
@@ -1211,9 +1211,9 @@ void Body::render(Pos& pos)
    // Pelvic
    glPushMatrix();	// pelvic
     transP(PELVIC);
-    rotX(PELVIC_TILT, model);
-    rotY(PELVIC_ROLL, model);
-    rotZ(PELVIC_TORS, model);
+    rotX(PELVIC_TILT);
+    rotY(PELVIC_ROLL);
+    rotZ(PELVIC_TORS);
     transN(PELVIC);
     display(HIPS);
 
@@ -1238,9 +1238,9 @@ void Body::render(Pos& pos)
     // Chest
     glPushMatrix();	//  Spinal -> Chest (thoracic level 5)
      transP(SPINAL);
-     rotX(T5_TILT, model);
-     rotY(T5_ROLL, model);
-     rotZ(T5_TORS, model);
+     rotX(T5_TILT);
+     rotY(T5_ROLL);
+     rotZ(T5_TORS);
      transN(SPINAL);
      display(CHEST);
      // Collar
@@ -1257,9 +1257,9 @@ void Body::render(Pos& pos)
      // Lower Neck
      glPushMatrix();	//  Lower Neck (cervical level 4)
       transP(LOWER_NECK);
-      rotX(C4_TILT, model);
-      rotY(C4_ROLL, model);
-      rotZ(C4_TORS, model);
+      rotX(C4_TILT);
+      rotY(C4_ROLL);
+      rotZ(C4_TORS);
       transN(LOWER_NECK);
       display(NECK);
       // Head
@@ -1271,9 +1271,9 @@ void Body::render(Pos& pos)
       // Upper Neck
       glPushMatrix();	//  Upper Neck -> Head (cervical level 1)
        transP(UPPER_NECK);
-       rotX(C1_TILT, model);
-       rotY(C1_ROLL, model);
-       rotZ(C1_TORS, model);
+       rotX(C1_TILT);
+       rotY(C1_ROLL);
+       rotZ(C1_TORS);
        if (face) {
          glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
          glTranslatef(0, 0.9, -0.9);
@@ -1284,9 +1284,9 @@ void Body::render(Pos& pos)
 
        }
        transP(UPPER_NECK);
-       rotX(C1_TILT, model);
-       rotY(C1_ROLL, model);
-       rotZ(C1_TORS, model);
+       rotX(C1_TILT);
+       rotY(C1_ROLL);
+       rotZ(C1_TORS);
        transN(UPPER_NECK);
       glPopMatrix(); 	// head
      glPopMatrix(); 	// neck
@@ -1300,26 +1300,26 @@ void Body::render(Pos& pos)
       transP(L_SHOULDER);
       if (model == MODEL_OFF)
         glRotatef(-90, 0,0,1);  //FIXME
-      rotX(L_SHOULDER_ABDU, model);
-      rotY(-L_SHOULDER_FLEX, model);	// -
-      rotZ(-L_SHOULDER_TORS, model);	// -
+      rotX(L_SHOULDER_ABDU);
+      rotY(-L_SHOULDER_FLEX);	// -
+      rotZ(-L_SHOULDER_TORS);	// -
       transN(L_SHOULDER);
       display(L_ARM);
 
       // Left forearm
       glPushMatrix();	//  Left Elbow -> Left Forearm
        transP(L_ELBOW);
-       rotY(-L_ELBOW_FLEX, model);	// -
-       rotZ(+L_ELBOW_TORS, model);	// -
+       rotY(-L_ELBOW_FLEX);	// -
+       rotZ(+L_ELBOW_TORS);	// -
        transN(L_ELBOW);
        display(L_FOREARM);
 
        // Left hand
        glPushMatrix();	//  Left Wrist -> Left Hand
         transP(L_WRIST);
-        rotX(L_WRIST_FLEX, model);
-        rotY(L_WRIST_PIVOT, model);
-        rotZ(L_WRIST_TORS, model);
+        rotX(L_WRIST_FLEX);
+        rotY(L_WRIST_PIVOT);
+        rotZ(L_WRIST_TORS);
         transN(L_WRIST);
         display(L_HAND);
 
@@ -1327,31 +1327,31 @@ void Body::render(Pos& pos)
         glPushMatrix();	//  Left fingers
          glPushMatrix();	//  Left thumb
           transP(L_THUMB);
-          rotX(L_THUMB1_FLEX, model);
+          rotX(L_THUMB1_FLEX);
           transN(L_THUMB);
           display(L_THUMB);
          glPopMatrix();
          glPushMatrix();	//  Left index
           transP(L_INDEX);
-          rotX(L_INDEX1_FLEX, model);
+          rotX(L_INDEX1_FLEX);
           transN(L_INDEX);
           display(L_INDEX);
          glPopMatrix();
          glPushMatrix();	//  Left middle
           transP(L_MIDDLE);
-          rotX(L_MIDDLE1_FLEX, model);
+          rotX(L_MIDDLE1_FLEX);
           transN(L_MIDDLE);
           display(L_MIDDLE);
          glPopMatrix();
          glPushMatrix();	//  Left ring
           transP(L_RING);
-          rotX(L_RING1_FLEX, model);
+          rotX(L_RING1_FLEX);
           transN(L_RING);
           display(L_RING);
          glPopMatrix();
          glPushMatrix();	//  Left pinky
           transP(L_PINKY);
-          rotX(L_PINKY1_FLEX, model);
+	  rotX(L_PINKY1_FLEX);
           transN(L_PINKY);
           display(L_PINKY);
          glPopMatrix();
@@ -1371,26 +1371,26 @@ void Body::render(Pos& pos)
       transP(R_SHOULDER);
       if (model == MODEL_OFF)
         glRotatef(90, 0,0,1);	//OK but FIXME
-      rotX(+R_SHOULDER_ABDU, model);	// -
-      rotY(R_SHOULDER_FLEX, model);
-      rotZ(+R_SHOULDER_TORS, model);	// -
+      rotX(+R_SHOULDER_ABDU);	// -
+      rotY(R_SHOULDER_FLEX);
+      rotZ(+R_SHOULDER_TORS);	// -
       transN(R_SHOULDER);
       display(R_ARM);
 
       // Right forearm
       glPushMatrix();	//  Right Elbow -> Right Forearm
        transP(R_ELBOW);
-       rotY(R_ELBOW_FLEX, model);
-       rotZ(+R_ELBOW_TORS, model);	// -
+       rotY(R_ELBOW_FLEX);
+       rotZ(+R_ELBOW_TORS);	// -
        transN(R_ELBOW);
        display(R_FOREARM);
 
        // Right hand
        glPushMatrix();	//  Right Wrist -> Right Hand
         transP(R_WRIST);
-        rotX(R_WRIST_FLEX, model);
-        rotY(R_WRIST_PIVOT, model);
-        rotZ(R_WRIST_TORS, model);
+        rotX(R_WRIST_FLEX);
+        rotY(R_WRIST_PIVOT);
+        rotZ(R_WRIST_TORS);
         transN(R_WRIST);
         display(R_HAND);
 
@@ -1398,31 +1398,31 @@ void Body::render(Pos& pos)
         glPushMatrix();	//  Right fingers
          glPushMatrix();	//  Right thumb
           transP(R_THUMB);
-          rotX(R_THUMB1_FLEX, model);
+          rotX(R_THUMB1_FLEX);
           transN(R_THUMB);
           display(R_THUMB);
          glPopMatrix();
          glPushMatrix();	//  Right index
           transP(R_INDEX);
-          rotX(R_INDEX1_FLEX, model);
+          rotX(R_INDEX1_FLEX);
           transN(R_INDEX);
           display(R_INDEX);
          glPopMatrix();
          glPushMatrix();	//  Right middle
           transP(R_MIDDLE);
-          rotX(R_MIDDLE_FLEX, model);
+          rotX(R_MIDDLE_FLEX);
           transN(R_MIDDLE);
           display(R_MIDDLE);
          glPopMatrix();
          glPushMatrix();	//  Right ring
           transP(R_RING);
-          rotX(R_RING1_FLEX, model);
+          rotX(R_RING1_FLEX);
           transN(R_RING);
           display(R_RING);
          glPopMatrix();
          glPushMatrix();	//  Right pinky
           transP(R_PINKY);
-          rotX(R_PINKY1_FLEX, model);
+          rotX(R_PINKY1_FLEX);
           transN(R_PINKY);
           display(R_PINKY);
          glPopMatrix();
@@ -1441,25 +1441,25 @@ void Body::render(Pos& pos)
     // Left thigh
     glPushMatrix();	//  Left Hip -> Left Thigh
     transP(L_HIP);
-    rotX(L_HIP_FLEX, model);
-    rotY(L_HIP_ABDU, model);
-    rotZ(L_HIP_TORS, model);
+    rotX(L_HIP_FLEX);
+    rotY(L_HIP_ABDU);
+    rotZ(L_HIP_TORS);
     transN(L_HIP);
     display(L_THIGH);
 
     // Left shin
     glPushMatrix();	//  Left Knee -> Left Shin
      transP(L_KNEE);
-     rotX(L_KNEE_FLEX, model);
-     rotZ(L_KNEE_TORS, model);
+     rotX(L_KNEE_FLEX);
+     rotZ(L_KNEE_TORS);
      transN(L_KNEE);
      display(L_SHIN);
 
      // Left foot
      glPushMatrix();	//  Left Ankle -> Left Foot
       transP(L_ANKLE);
-      rotX(L_ANKLE_FLEX, model);
-      rotZ(L_ANKLE_TORS, model);
+      rotX(L_ANKLE_FLEX);
+      rotZ(L_ANKLE_TORS);
       transN(L_ANKLE);
       display(L_FOOT);
      glPopMatrix();	// l_ankle
@@ -1469,25 +1469,25 @@ void Body::render(Pos& pos)
    // Right thigh
    glPushMatrix();	//  Right Hip -> Right Thigh
     transP(R_HIP);
-    rotX(R_HIP_FLEX, model);
-    rotY(R_HIP_ABDU, model);
-    rotZ(R_HIP_TORS, model);
+    rotX(R_HIP_FLEX);
+    rotY(R_HIP_ABDU);
+    rotZ(R_HIP_TORS);
     transN(R_HIP);
     display(R_THIGH);
 
     // Right shin
     glPushMatrix();	//  Right Knee -> Right Shin
      transP(R_KNEE);
-     rotX(R_KNEE_FLEX, model);
-     rotZ(R_KNEE_TORS, model);
+     rotX(R_KNEE_FLEX);
+     rotZ(R_KNEE_TORS);
      transN(R_KNEE);
      display(R_SHIN);
 
      // Right foot
      glPushMatrix();	//  Right Ankle -> Right Foot
       transP(R_ANKLE);
-      rotX(R_ANKLE_FLEX, model);
-      rotZ(R_ANKLE_TORS, model);
+      rotX(R_ANKLE_FLEX);
+      rotZ(R_ANKLE_TORS);
       transN(R_ANKLE);
       display(R_FOOT);
      glPopMatrix();	// r_ankle

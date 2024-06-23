@@ -603,9 +603,9 @@ class Body {
   void transN(uint8_t part);
   /**< Translates reverse from the Joint Point. */
 
-  void rotX(int param, uint8_t model);
-  void rotY(int param, uint8_t model);
-  void rotZ(int param, uint8_t model);
+  void rotX(int param);
+  void rotY(int param);
+  void rotZ(int param);
   /**< Rotates around the Joint Point. */
 
   //notused void rotX(int param, float angle);

@@ -497,6 +497,7 @@ endbap:
       bapstring = NULL;
       bap->resetMasks();
       state = INACTIVE;
+      sleep(5);
     }
   } // local playing
 
