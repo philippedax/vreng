@@ -98,7 +98,6 @@ struct tASEModel {
  * This class holds all the data and function for loading in a .Ase file.
  */
 class Ase {
-
  private:
   tASEModel ASEModel;	///< model ptr
 
@@ -111,7 +110,6 @@ class Ase {
 
  public:
   Ase(const char *url);		///< Constructor
-
   virtual ~Ase();		///< Destructor
 
   void setScale(float scale);
@@ -123,7 +121,7 @@ class Ase {
   GLint displaylist();
   /**< Draws in displaylist */
 
-  virtual void render();
+  void render();
   /**< Model rendering */
 
  private:

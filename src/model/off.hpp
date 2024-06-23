@@ -29,7 +29,6 @@
  * Off class
  */
 class Off {
-
  public:
   Off(float _scale);	///< constructor
   Off(const char *url);	///< constructor
@@ -44,8 +43,8 @@ class Off {
   void setScale(float _scale);
   /**< Sets scale */
 
-  virtual void render(float *color);
-  virtual void render(const Pos &pos, float *color);
+  void render(float *color);
+  void render(const Pos &pos, float *color);
   /**< renders model Off */
 
   static void reader(void *aoff, class Http *http);

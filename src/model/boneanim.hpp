@@ -71,24 +71,24 @@ class BoneAnimator {
   virtual ~BoneAnimator();	///< Destructor
 
   // Accessing datas
-  virtual void registerMesh(BoneMesh *zeMesh);
-  virtual void registerSkeleton(BoneVertex *zeRoot);
+  void registerMesh(BoneMesh *zeMesh);
+  void registerSkeleton(BoneVertex *zeRoot);
 
   // Operations on both mesh and skeleton
-  virtual void scale(float sx, float sy, float sz);
+  void scale(float sx, float sy, float sz);
 
   // List compilation
-  virtual void compileLinkList();
-  virtual void emptyLinkList();
-  virtual void genLinkList();
+  void compileLinkList();
+  void emptyLinkList();
+  void genLinkList();
   inline float getLength(Vertex *vertex, BoneVertex *node);
   inline float getWeight(Vertex *vertex, BoneVertex *node);
 
   // Rendering and animating the mesh and skeleton
-  virtual void render();
-  virtual void renderSkeletonNode(BoneVertex *node);
-  virtual void animate();
-  virtual void animateSkeletonNode(BoneVertex *node);
+  void render();
+  void renderSkeletonNode(BoneVertex *node);
+  void animate();
+  void animateSkeletonNode(BoneVertex *node);
 
  private:
   void addNodeAndChildren(BoneVertex *boneVertex, BoneList < BoneVertex > *list);

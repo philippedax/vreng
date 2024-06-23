@@ -44,9 +44,9 @@ class Bonename {
 
   virtual ~Bonename();
 
-  virtual void setName(char *zeName);
+  void setName(char *zeName);
 
-  virtual char *getName();
+  char *getName();
 };
 
 #endif

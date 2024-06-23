@@ -48,10 +48,10 @@ class BoneLink {
   virtual ~BoneLink();
   /**< Destructor. */
 
-  virtual void setVertex(Vertex *zeVertex);
-  virtual void setBoneVertex(BoneVertex *zeBoneVertex);
-  virtual void notifyTarget();
-  virtual void setWeight(float zeWeight);
+  void setVertex(Vertex *zeVertex);
+  void setBoneVertex(BoneVertex *zeBoneVertex);
+  void notifyTarget();
+  void setWeight(float zeWeight);
 
 };
 

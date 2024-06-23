@@ -54,12 +54,11 @@ class BoneTriangle {
 
   // Accessing datas
   //void addVertex(Vertex *zeVertex, int index, float u=-1, float v=-1);
-  virtual void addVertex(Vertex *zeVertex, int index, float u, float v);
+  void addVertex(Vertex *zeVertex, int index, float u, float v);
 
   void rebuildNormal();
 
-  //virtual void setColor(float r=0.5, float g=0.5, float b=0.5, float a=1);
-  virtual void setColor(float r, float g, float b, float a);
+  void setColor(float r, float g, float b, float a);
 };
 
 #endif

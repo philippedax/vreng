@@ -63,31 +63,31 @@ class BoneMesh : public Bonename {
   virtual ~BoneMesh();
 
   // Actions sur les champs
-  virtual void addVertex(Vect3D & zePosition);
-  virtual void addVertex(Vect3D * zePosition);
-  virtual void addVertex(float ox, float oy, float oz);
-  virtual void addTriangle(int index1, int index2, int index3);
+  void addVertex(Vect3D & zePosition);
+  void addVertex(Vect3D * zePosition);
+  void addVertex(float ox, float oy, float oz);
+  void addTriangle(int index1, int index2, int index3);
 
   // Fonctions internes
   void compileVertexList();
   void compileTriangleList();
 
   // Modification du mesh
-  virtual void rebuildNormals();
-  virtual void scale (float sx, float sy, float sz);
-  virtual void projectLight();
+  void rebuildNormals();
+  void scale (float sx, float sy, float sz);
+  void projectLight();
 
 #if 0 //notused
-  virtual void generateBoundingBox();
-  virtual void flipNormals();
-  virtual void translate(float dx, float dy, float dz); // Definitive action !
-  virtual void mirrorx();
-  virtual void mirrory();
-  virtual void mirrorz();
-  virtual void planarMappingX();
-  virtual void planarMappingY();
-  virtual void planarMappingZ();
-  virtual void cylinderMapping();
+  void generateBoundingBox();
+  void flipNormals();
+  void translate(float dx, float dy, float dz); // Definitive action !
+  void mirrorx();
+  void mirrory();
+  void mirrorz();
+  void planarMappingX();
+  void planarMappingY();
+  void planarMappingZ();
+  void cylinderMapping();
 #endif
 
 };
