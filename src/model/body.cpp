@@ -33,6 +33,7 @@
 #include "pref.hpp"	// trace
 
 #define TRAC if(::g.pref.trace)
+#define TRACE(s,v) if(::g.pref.trace) echo("%s: %.0f", s,v);
 
 const float Phalanx2::PHALANX2_LEN = 0.012;	// default phalanx2 length
 const float Phalanx::PHALANX_LEN = 0.012;	// default phalanx length
@@ -112,7 +113,7 @@ int Phalanx::init()
 void Phalanx::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.trace) echo("f-phal: %.0f", a);
+  TRACE("phal-f", a);
 }
 
 /** Finger */
@@ -131,13 +132,13 @@ int Finger::init()
 void Finger::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.trace) echo("f-fing: %.0f", a);
+  TRACE("fing-f", a);
 }
 
 void Finger::abduct(float a)
 {
   aabduct = a;
-  if (::g.pref.trace) echo("t-fing: %.0f", a);
+  TRACE("fing-a", a);
 }
 
 /** Hand */
@@ -160,19 +161,19 @@ int Hand::init()
 void Hand::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.trace) echo("f-hand: %.0f", a);
+  TRACE("hand-f", a);
 }
 
 void Hand::abduct(float a)
 {
   aabduct = a;
-  if (::g.pref.trace) echo("a-hand: %.0f", a);
+  TRACE("hand-a", a);
 }
 
 void Hand::torsion(float a)
 {
   atorsion = a;
-  if (::g.pref.trace) echo("t-hand: %.0f", a);
+  TRACE("hand-t", a);
 }
 
 /** Forearm / Elbow */
@@ -191,13 +192,13 @@ int Forearm::init()
 void Forearm::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.trace) echo("f-fore: %.0f", a);
+  TRACE("fore-f", a);
 }
 
 void Forearm::torsion(float a)
 {
   atorsion = a;
-  if (::g.pref.trace) echo("t-fore: %.0f", a);
+  TRACE("fore-t", a);
 }
 
 /** Arm */
@@ -219,21 +220,21 @@ void Arm::flexion(float a)
 {
   //dax aflexion = -a;
   aflexion = a;
-  if (::g.pref.trace) echo("f-arm: %.0f", a);
+  TRACE("arm-f", a);
 }
 
 void Arm::abduct(float a)
 {
   //dax aabduct = a - 90;
   aabduct = a;
-  if (::g.pref.trace) echo("a-arm: %.0f", a);
+  TRACE("arm-a", a);
 }
 
 void Arm::torsion(float a)
 {
   //dax atorsion = a + 90;
   atorsion = a;
-  if (::g.pref.trace) echo("t-arm: %.0f", a);
+  TRACE("arm-t", a);
 }
 
 float Arm::a_flexion() const
@@ -267,13 +268,13 @@ int Shoulder::init()
 void Shoulder::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.trace) echo("f-shoul: %.0f", a);
+  TRACE("shou-f", a);
 }
 
 void Shoulder::abduct(float a)
 {
   aabduct = a;
-  if (::g.pref.trace) echo("a-shoul: %.0f", a);
+  TRACE("shou-a", a);
 }
 
 /** HeadBody */
@@ -291,19 +292,19 @@ int HeadBody::init()
 void HeadBody::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.trace) echo("f-head: %.0f", a);
+  TRACE("head-f", a);
 }
 
 void HeadBody::abduct(float a)
 {
   aabduct = a;
-  if (::g.pref.trace) echo("a-head: %.0f", a);
+  TRACE("head-a", a);
 }
 
 void HeadBody::torsion(float a)
 {
   atorsion = a;
-  if (::g.pref.trace) echo("t-head: %.0f", a);
+  TRACE("head-t", a);
 }
 
 /** Neck */
@@ -322,19 +323,19 @@ int Neck::init()
 void Neck::flexion(float a)
 {
   aflexion = a;
-  if (::g.pref.trace) echo("f-neck: %.0f", a);
+  TRACE("neck-f", a);
 }
 
 void Neck::abduct(float a)
 {
   aabduct = a;
-  if (::g.pref.trace) echo("a-neck: %.0f", a);
+  TRACE("neck-a", a);
 }
 
 void Neck::torsion(float a)
 {
   atorsion = a;
-  if (::g.pref.trace) echo("t-neck: %.0f", a);
+  TRACE("neck-t", a);
 }
 
 /** Foot / Ankle */
@@ -352,16 +353,19 @@ int Foot::init()
 void Foot::flexion(float a)
 {
   aflexion = -a;
+  TRACE("foot-f", a);
 }
 
 void Foot::abduct(float a)
 {
   aabduct = -a;
+  TRACE("foot-a", a);
 }
 
 void Foot::torsion(float a)
 {
   atorsion = -a;
+  TRACE("foot-t", a);
 }
 
 /** Shin / Knee */
@@ -380,11 +384,13 @@ int Shin::init()
 void Shin::flexion(float a)
 {
   aflexion = -a;
+  TRACE("shin-f", a);
 }
 
 void Shin::torsion(float a)
 {
   atorsion = -a;
+  TRACE("shin-t", a);
 }
 
 /** Thigh / Hip */
@@ -403,16 +409,19 @@ int Thigh::init()
 void Thigh::flexion(float a)
 {
   aflexion = a;
+  TRACE("thig-f", a);
 }
 
 void Thigh::abduct(float a)
 {
   aabduct = a;
+  TRACE("thig-a", a);
 }
 
 void Thigh::torsion(float a)
 {
   atorsion = a;
+  TRACE("thig-t", a);
 }
 
 /** Chest */
@@ -424,16 +433,19 @@ Chest::Chest()
 void Chest::flexion(float a)
 {
   aflexion = a;
+  TRACE("ches-f", a);
 }
 
 void Chest::abduct(float a)
 {
   aabduct = a;
+  TRACE("ches-a", a);
 }
 
 void Chest::torsion(float a)
 {
   atorsion = a;
+  TRACE("ches-t", a);
 }
 
 /** Body */
@@ -503,14 +515,6 @@ void Body::init()
 /** Destructor */
 Body::~Body()
 {
-  for (int i=0; i<10 ; i++) {
-    if (phalanx2[i]) delete phalanx2[i];
-    if (phalanx[i])  delete phalanx[i];
-  }
-  for (int i=0; i<5 ; i++) {
-    if (fingers_l[i]) delete fingers_l[i];
-    if (fingers_r[i]) delete fingers_r[i];
-  }
   if (hand_l) delete hand_l;
   if (hand_r) delete hand_r;
   if (forearm_l) delete forearm_l;
@@ -528,6 +532,14 @@ Body::~Body()
   if (shin_r) delete shin_r;
   if (foot_l) delete foot_l;
   if (foot_r) delete foot_r;
+  for (int i=0; i<10 ; i++) {
+    if (phalanx2[i]) delete phalanx2[i];
+    if (phalanx[i])  delete phalanx[i];
+  }
+  for (int i=0; i<5 ; i++) {
+    if (fingers_l[i]) delete fingers_l[i];
+    if (fingers_r[i]) delete fingers_r[i];
+  }
 
   if (dlist > 0) glDeleteLists(dlist, drawparts);
   if (bodyparts) delete[] bodyparts;
@@ -553,7 +565,7 @@ char * Body::getTok(char *l, int *tok)
   l = skipEqual(l);
   if (l) *(l-1) = '\0';  // end of token '=', replaced by null terminated
   for (ptab = btokens; *ptab->name != -1 ; ptab++) {
-    if (!strcmp(ptab->name, t)) {
+    if (! strcmp(ptab->name, t)) {
       *tok = ptab->num;
       return l;
     }
