@@ -783,15 +783,15 @@ void Body::play()
   if (bap->isBapMask(L_ANKLE_TORS))	foot_l->torsion(bap->get(L_ANKLE_TORS));
   if (bap->isBapMask(R_ANKLE_TORS))	foot_r->torsion(bap->get(R_ANKLE_TORS));
 
-  if (bap->isBapMask(L_SHOULDER_FLEX))	{arm_l->flexion(bap->get(L_SHOULDER_FLEX)); TRAC echo("arm-f");}
-  if (bap->isBapMask(R_SHOULDER_FLEX))	{arm_r->flexion(bap->get(R_SHOULDER_FLEX)); TRAC echo("arm-f");}
-  if (bap->isBapMask(L_SHOULDER_ABDU))	{arm_l->abduct(bap->get(L_SHOULDER_ABDU)); TRAC echo("arm-a");}
-  if (bap->isBapMask(R_SHOULDER_ABDU))	{arm_r->abduct(bap->get(R_SHOULDER_ABDU)); TRAC echo("arm-a");}
-  if (bap->isBapMask(L_SHOULDER_TORS))	{arm_l->torsion(bap->get(L_SHOULDER_TORS)); TRAC echo("arm-t");}
-  if (bap->isBapMask(R_SHOULDER_TORS))	{arm_r->torsion(bap->get(R_SHOULDER_TORS)); TRAC echo("arm-t");}
+  if (bap->isBapMask(L_SHOULDER_FLEX))	arm_l->flexion(bap->get(L_SHOULDER_FLEX));
+  if (bap->isBapMask(R_SHOULDER_FLEX))	arm_r->flexion(bap->get(R_SHOULDER_FLEX));
+  if (bap->isBapMask(L_SHOULDER_ABDU))	arm_l->abduct(bap->get(L_SHOULDER_ABDU));
+  if (bap->isBapMask(R_SHOULDER_ABDU))	arm_r->abduct(bap->get(R_SHOULDER_ABDU));
+  if (bap->isBapMask(L_SHOULDER_TORS))	arm_l->torsion(bap->get(L_SHOULDER_TORS));
+  if (bap->isBapMask(R_SHOULDER_TORS))	arm_r->torsion(bap->get(R_SHOULDER_TORS));
 
-  if (bap->isBapMask(L_ELBOW_FLEX))	{forearm_l->flexion(bap->get(L_ELBOW_FLEX)); TRAC echo("for-f");}
-  if (bap->isBapMask(R_ELBOW_FLEX))	{forearm_r->flexion(bap->get(R_ELBOW_FLEX)); TRAC echo("for-f");}
+  if (bap->isBapMask(L_ELBOW_FLEX))	forearm_l->flexion(bap->get(L_ELBOW_FLEX));
+  if (bap->isBapMask(R_ELBOW_FLEX))	forearm_r->flexion(bap->get(R_ELBOW_FLEX));
 
   if (bap->isBapMask(L_WRIST_FLEX))	hand_l->abduct(bap->get(L_WRIST_FLEX));
   if (bap->isBapMask(R_WRIST_FLEX))	hand_r->abduct(bap->get(R_WRIST_FLEX));
@@ -811,25 +811,25 @@ void Body::play()
   if (bap->isBapMask(L_PINKY1_FLEX))	fingers_l[4]->flexion(bap->get(L_PINKY1_FLEX));
   if (bap->isBapMask(R_PINKY1_FLEX))	fingers_r[4]->flexion(bap->get(R_PINKY1_FLEX));
 
-  if (bap->isBapMask(C1_ROLL))		{head->flexion(bap->get(C1_ROLL)); TRAC echo("c1roll");}
-  if (bap->isBapMask(C1_TORS))		{head->torsion(bap->get(C1_TORS)); TRAC echo("c1tors");}
-  if (bap->isBapMask(C1_TILT))		{head->abduct(bap->get(C1_TILT)); TRAC echo("c1tilt");}
+  if (bap->isBapMask(C1_ROLL))		head->flexion(bap->get(C1_ROLL));
+  if (bap->isBapMask(C1_TORS))		head->torsion(bap->get(C1_TORS));
+  if (bap->isBapMask(C1_TILT))		head->abduct(bap->get(C1_TILT));
 
-  if (bap->isBapMask(C4_ROLL))		{neck->flexion(bap->get(C4_ROLL)); TRAC echo("c4roll");}
-  if (bap->isBapMask(C4_TORS))		{neck->torsion(bap->get(C4_TORS)); TRAC echo("c4roll");}
-  if (bap->isBapMask(C4_TILT))		{neck->abduct(bap->get(C4_TILT)); TRAC echo("c4tilt");}
+  if (bap->isBapMask(C4_ROLL))		neck->flexion(bap->get(C4_ROLL));
+  if (bap->isBapMask(C4_TORS))		neck->torsion(bap->get(C4_TORS));
+  if (bap->isBapMask(C4_TILT))		neck->abduct(bap->get(C4_TILT));
 
-  if (bap->isBapMask(T1_ROLL))		{neck->flexion(bap->get(T1_ROLL)); TRAC echo("t1roll");}
-  if (bap->isBapMask(T1_TORS))		{neck->torsion(bap->get(T1_TORS)); TRAC echo("t1tors");}
-  if (bap->isBapMask(T1_TILT))		{neck->abduct(bap->get(T1_TILT)); TRAC echo("t1tilt");}
+  if (bap->isBapMask(T1_ROLL))		neck->flexion(bap->get(T1_ROLL));
+  if (bap->isBapMask(T1_TORS))		neck->torsion(bap->get(T1_TORS));
+  if (bap->isBapMask(T1_TILT))		neck->abduct(bap->get(T1_TILT));
 
-  if (bap->isBapMask(TR_VERTICAL))	{tz = bap->get(TR_VERTICAL); TRAC echo("tv: %.0f", tz);}
-  if (bap->isBapMask(TR_LATERAL))	{ty = bap->get(TR_LATERAL); TRAC echo("tl: %.0f", ty);}
-  if (bap->isBapMask(TR_FRONTAL))	{tx = bap->get(TR_FRONTAL); TRAC echo("tf: %.0f", tx);}
+  if (bap->isBapMask(TR_VERTICAL))	{tz = bap->get(TR_VERTICAL); TRACE("tv", tz);}
+  if (bap->isBapMask(TR_LATERAL))	{ty = bap->get(TR_LATERAL); TRACE("tl", ty);}
+  if (bap->isBapMask(TR_FRONTAL))	{tx = bap->get(TR_FRONTAL); TRACE("tf", tx);}
 
-  if (bap->isBapMask(RT_BODY_TURN))	{rz = bap->get(RT_BODY_TURN); TRAC echo("tu: %.0f", rz);}
-  if (bap->isBapMask(RT_BODY_ROLL))	{rx = bap->get(RT_BODY_ROLL); TRAC echo("ro: %.0f", rx);}
-  if (bap->isBapMask(RT_BODY_TILT))	{ry = bap->get(RT_BODY_TILT); TRAC echo("ti: %.0f", ry);}
+  if (bap->isBapMask(RT_BODY_TURN))	{rz = bap->get(RT_BODY_TURN); TRACE("tu", rz);}
+  if (bap->isBapMask(RT_BODY_ROLL))	{rx = bap->get(RT_BODY_ROLL); TRACE("ro", rx);}
+  if (bap->isBapMask(RT_BODY_TILT))	{ry = bap->get(RT_BODY_TILT); TRACE("ti", ry);}
 }
 
 #if 0 //notused
@@ -1182,304 +1182,14 @@ void Body::display(uint8_t part)
   glPopMatrix();
 }
 
-/** Displays body and face face */
-void Body::display()
-{
-  // Pelvic
-  glPushMatrix();	//  Pelvic (Body Bottom)
-   transP(PELVIC);
-   rotX(PELVIC_TILT, model);
-   rotY(PELVIC_ROLL, model);
-   rotZ(PELVIC_TORS, model);
-   transN(PELVIC);
-   display(HIPS);
-
-   // Abdomen
-   if (isLoaded(ABDOMEN)) {
-     glPushMatrix();
-     display(ABDOMEN);
-     glPopMatrix();
-   }
-   // Skirt
-   if (isLoaded(SKIRT)) {
-     glPushMatrix();
-     display(SKIRT);
-     glPopMatrix();
-   }
-   // Belt
-   if (isLoaded(BELT)) {
-     glPushMatrix();
-     display(BELT);
-     glPopMatrix();
-   }
-   // Chest
-   glPushMatrix();	//  Spinal -> Chest (thoracic level 5)
-    transP(SPINAL);
-    rotX(T5_TILT, model);
-    rotY(T5_ROLL, model);
-    rotZ(T5_TORS, model);
-    transN(SPINAL);
-    display(CHEST);
-    // Collar
-    if (isLoaded(L_COLLAR)) {
-      glPushMatrix();
-      display(L_COLLAR);
-      glPopMatrix();
-    }
-    if (isLoaded(R_COLLAR)) {
-      glPushMatrix();
-      display(R_COLLAR);
-      glPopMatrix();
-    }
-    // Lower Neck
-    glPushMatrix();	//  Lower Neck (cervical level 4)
-     transP(LOWER_NECK);
-     rotX(C4_TILT, model);
-     rotY(C4_ROLL, model);
-     rotZ(C4_TORS, model);
-     transN(LOWER_NECK);
-     display(NECK);
-     // Head
-     if (! face) {
-       //echo("head display");
-       display(HEAD);
-     }
-
-     // Upper Neck
-     glPushMatrix();	//  Upper Neck -> Head (cervical level 1)
-      transP(UPPER_NECK);
-      rotX(C1_TILT, model);
-      rotY(C1_ROLL, model);
-      rotZ(C1_TORS, model);
-      if (face) {
-        glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
-        glTranslatef(0, 0.9, -0.9);
-        glRotatef(90, 1,0,0);
-
-        //echo("face display");
-        face->render();	// YR
-
-      }
-      transP(UPPER_NECK);
-      rotX(C1_TILT, model);
-      rotY(C1_ROLL, model);
-      rotZ(C1_TORS, model);
-      transN(UPPER_NECK);
-     glPopMatrix(); 	// head
-    glPopMatrix(); 	// neck
-
-    // Left side
-
-    // Left arm
-    glPushMatrix();	//  Left Shoulder -> Left Arm
-     transP(L_SHOULDER);
-     if (model == MODEL_OFF)
-       glRotatef(-90, 0,0,1);  //FIXME
-     rotX(L_SHOULDER_ABDU, model);
-     rotY(-L_SHOULDER_FLEX, model);	// -
-     rotZ(-L_SHOULDER_TORS, model);	// -
-     //echo("L f:%.0f a:%.0f t:%.0f",arm_l->a_flexion(),arm_l->a_abduct(),arm_l->a_torsion());
-     //rotX(L_SHOULDER_ABDU, arm_l->a_abduct());
-     //rotY(+L_SHOULDER_FLEX,  arm_l->a_flexion());	// -
-     //rotZ(+L_SHOULDER_TORS, arm_l->a_torsion());	// -
-     transN(L_SHOULDER);
-     display(L_ARM);
-
-     // Left forearm
-     glPushMatrix();	//  Left Elbow -> Left Forearm
-      transP(L_ELBOW);
-      rotY(-L_ELBOW_FLEX, model);	// -
-      rotZ(+L_ELBOW_TORS, model);	// -
-      transN(L_ELBOW);
-      display(L_FOREARM);
-
-      // Left hand
-      glPushMatrix();	//  Left Wrist -> Left Hand
-       transP(L_WRIST);
-       rotX(L_WRIST_FLEX, model);
-       rotY(L_WRIST_PIVOT, model);
-       rotZ(L_WRIST_TORS, model);
-       transN(L_WRIST);
-       display(L_HAND);
-
-#if 0 // left fingers
-       glPushMatrix();	//  Left fingers
-       glPushMatrix();	//  Left thumb
-        transP(L_THUMB);
-        rotX(L_THUMB1_FLEX, model);
-        transN(L_THUMB);
-        display(L_THUMB);
-       glPopMatrix();
-       glPushMatrix();	//  Left index
-        transP(L_INDEX);
-        rotX(L_INDEX1_FLEX, model);
-        transN(L_INDEX);
-        display(L_INDEX);
-       glPopMatrix();
-       glPushMatrix();	//  Left middle
-        transP(L_MIDDLE);
-        rotX(L_MIDDLE1_FLEX, model);
-        transN(L_MIDDLE);
-        display(L_MIDDLE);
-       glPopMatrix();
-       glPushMatrix();	//  Left ring
-        transP(L_RING);
-        rotX(L_RING1_FLEX, model);
-        transN(L_RING);
-        display(L_RING);
-       glPopMatrix();
-       glPushMatrix();	//  Left pinky
-        transP(L_PINKY);
-        rotX(L_PINKY1_FLEX, model);
-        transN(L_PINKY);
-        display(L_PINKY);
-       glPopMatrix();
-       glPopMatrix();
-#endif // left fingers
-
-      glPopMatrix();
-     glPopMatrix();
-    glPopMatrix();	// l_shoulder
-
-    // Right side
-
-    // Right arm
-    glPushMatrix();	//  Right Shoulder -> Right Arm
-     transP(R_SHOULDER);
-     if (model == MODEL_OFF)
-       glRotatef(90, 0,0,1);	//OK but FIXME
-     rotX(+R_SHOULDER_ABDU, model);	// -
-     rotY(R_SHOULDER_FLEX, model);
-     rotZ(+R_SHOULDER_TORS, model);	// -
-     //echo("R f:%.0f a:%.0f t:%.0f", arm_r->a_flexion(), arm_r->a_abduct(), arm_r->a_torsion());
-     //rotY(+R_SHOULDER_ABDU,  arm_r->a_abduct());	// -
-     //rotX(R_SHOULDER_FLEX, arm_r->a_flexion());
-     //rotZ(+R_SHOULDER_TORS, arm_r->a_torsion());	// -
-     transN(R_SHOULDER);
-     display(R_ARM);
-
-     // Right forearm
-     glPushMatrix();	//  Right Elbow -> Right Forearm
-      transP(R_ELBOW);
-      rotY(R_ELBOW_FLEX, model);
-      rotZ(+R_ELBOW_TORS, model);	// -
-      transN(R_ELBOW);
-      display(R_FOREARM);
-
-      // Right hand
-      glPushMatrix();	//  Right Wrist -> Right Hand
-       transP(R_WRIST);
-       rotX(R_WRIST_FLEX, model);
-       rotY(R_WRIST_PIVOT, model);
-       rotZ(R_WRIST_TORS, model);
-       transN(R_WRIST);
-       display(R_HAND);
-
-#if 0 // right fingers
-       glPushMatrix();	//  Right fingers
-       glPushMatrix();	//  Right thumb
-        transP(R_THUMB);
-        rotX(R_THUMB1_FLEX, model);
-        transN(R_THUMB);
-        display(R_THUMB);
-       glPopMatrix();
-       glPushMatrix();	//  Right index
-        transP(R_INDEX);
-        rotX(R_INDEX1_FLEX, model);
-        transN(R_INDEX);
-        display(R_INDEX);
-       glPopMatrix();
-       glPushMatrix();	//  Right middle
-        transP(R_MIDDLE);
-        rotX(R_MIDDLE_FLEX, model);
-        transN(R_MIDDLE);
-        display(R_MIDDLE);
-       glPopMatrix();
-       glPushMatrix();	//  Right ring
-        transP(R_RING);
-        rotX(R_RING1_FLEX, model);
-        transN(R_RING);
-        display(R_RING);
-       glPopMatrix();
-       glPushMatrix();	//  Right pinky
-        transP(R_PINKY);
-        rotX(R_PINKY1_FLEX, model);
-        transN(R_PINKY);
-        display(R_PINKY);
-       glPopMatrix();
-       glPopMatrix();
-#endif // right fingers
-
-      glPopMatrix();
-     glPopMatrix();
-    glPopMatrix();	// r_shoulder
-   glPopMatrix();	// spinal
-  glPopMatrix();	// pelvic
-
-  // Left thigh
-  glPushMatrix();	//  Left Hip -> Left Thigh
-   transP(L_HIP);
-   rotX(L_HIP_FLEX, model);
-   rotY(L_HIP_ABDU, model);
-   rotZ(L_HIP_TORS, model);
-   transN(L_HIP);
-   display(L_THIGH);
-
-   // Left shin
-   glPushMatrix();	//  Left Knee -> Left Shin
-    transP(L_KNEE);
-    rotX(L_KNEE_FLEX, model);
-    rotZ(L_KNEE_TORS, model);
-    transN(L_KNEE);
-    display(L_SHIN);
-
-    // Left foot
-    glPushMatrix();	//  Left Ankle -> Left Foot
-     transP(L_ANKLE);
-     rotX(L_ANKLE_FLEX, model);
-     rotZ(L_ANKLE_TORS, model);
-     transN(L_ANKLE);
-     display(L_FOOT);
-    glPopMatrix();
-   glPopMatrix();
-  glPopMatrix();	// l_thigh
-
-  // Right thigh
-  glPushMatrix();	//  Right Hip -> Right Thigh
-   transP(R_HIP);
-   rotX(R_HIP_FLEX, model);
-   rotY(R_HIP_ABDU, model);
-   rotZ(R_HIP_TORS, model);
-   transN(R_HIP);
-   display(R_THIGH);
-
-   // Right shin
-   glPushMatrix();	//  Right Knee -> Right Shin
-    transP(R_KNEE);
-    rotX(R_KNEE_FLEX, model);
-    rotZ(R_KNEE_TORS, model);
-    transN(R_KNEE);
-    display(R_SHIN);
-
-    // Right foot
-    glPushMatrix();	//  Right Ankle -> Right Foot
-     transP(R_ANKLE);
-     rotX(R_ANKLE_FLEX, model);
-     rotZ(R_ANKLE_TORS, model);
-     transN(R_ANKLE);
-     display(R_FOOT);
-    glPopMatrix();
-   glPopMatrix();
-  glPopMatrix();	// r_thigh
-}
-
+/** Renders body and face */
 void Body::render(Pos& pos)
 {
   if (! bap) return;
 
   const float color[] = {.4,.4,.4,1};
 
-  glPushMatrix();
+  glPushMatrix();	// general
    glTranslatef(pos.x + tx, pos.y + ty, pos.z + tz);
    switch (model) {
    case MODEL_OBJ:
@@ -1498,9 +1208,293 @@ void Body::render(Pos& pos)
    glColorMaterial(GL_FRONT, GL_DIFFUSE);
    glEnable(GL_COLOR_MATERIAL);
 
-   display();
+   // Pelvic
+   glPushMatrix();	// pelvic
+    transP(PELVIC);
+    rotX(PELVIC_TILT, model);
+    rotY(PELVIC_ROLL, model);
+    rotZ(PELVIC_TORS, model);
+    transN(PELVIC);
+    display(HIPS);
 
-   //glFlush();
-   glDisable(GL_COLOR_MATERIAL);
+    // Abdomen
+    if (isLoaded(ABDOMEN)) {
+      glPushMatrix();
+      display(ABDOMEN);
+      glPopMatrix();
+    }
+    // Skirt
+    if (isLoaded(SKIRT)) {
+      glPushMatrix();
+      display(SKIRT);
+      glPopMatrix();
+    }
+    // Belt
+    if (isLoaded(BELT)) {
+      glPushMatrix();
+      display(BELT);
+      glPopMatrix();
+    }
+    // Chest
+    glPushMatrix();	//  Spinal -> Chest (thoracic level 5)
+     transP(SPINAL);
+     rotX(T5_TILT, model);
+     rotY(T5_ROLL, model);
+     rotZ(T5_TORS, model);
+     transN(SPINAL);
+     display(CHEST);
+     // Collar
+     if (isLoaded(L_COLLAR)) {
+       glPushMatrix();
+       display(L_COLLAR);
+       glPopMatrix();
+     }
+     if (isLoaded(R_COLLAR)) {
+       glPushMatrix();
+       display(R_COLLAR);
+       glPopMatrix();
+     }
+     // Lower Neck
+     glPushMatrix();	//  Lower Neck (cervical level 4)
+      transP(LOWER_NECK);
+      rotX(C4_TILT, model);
+      rotY(C4_ROLL, model);
+      rotZ(C4_TORS, model);
+      transN(LOWER_NECK);
+      display(NECK);
+      // Head
+      if (! face) {
+        //echo("head display");
+        display(HEAD);
+      }
+
+      // Upper Neck
+      glPushMatrix();	//  Upper Neck -> Head (cervical level 1)
+       transP(UPPER_NECK);
+       rotX(C1_TILT, model);
+       rotY(C1_ROLL, model);
+       rotZ(C1_TORS, model);
+       if (face) {
+         glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
+         glTranslatef(0, 0.9, -0.9);
+         glRotatef(90, 1,0,0);
+
+         //echo("face display");
+         face->render();	// YR
+
+       }
+       transP(UPPER_NECK);
+       rotX(C1_TILT, model);
+       rotY(C1_ROLL, model);
+       rotZ(C1_TORS, model);
+       transN(UPPER_NECK);
+      glPopMatrix(); 	// head
+     glPopMatrix(); 	// neck
+
+     //
+     // Left side
+     //
+
+     // Left arm
+     glPushMatrix();	//  Left Shoulder -> Left Arm
+      transP(L_SHOULDER);
+      if (model == MODEL_OFF)
+        glRotatef(-90, 0,0,1);  //FIXME
+      rotX(L_SHOULDER_ABDU, model);
+      rotY(-L_SHOULDER_FLEX, model);	// -
+      rotZ(-L_SHOULDER_TORS, model);	// -
+      transN(L_SHOULDER);
+      display(L_ARM);
+
+      // Left forearm
+      glPushMatrix();	//  Left Elbow -> Left Forearm
+       transP(L_ELBOW);
+       rotY(-L_ELBOW_FLEX, model);	// -
+       rotZ(+L_ELBOW_TORS, model);	// -
+       transN(L_ELBOW);
+       display(L_FOREARM);
+
+       // Left hand
+       glPushMatrix();	//  Left Wrist -> Left Hand
+        transP(L_WRIST);
+        rotX(L_WRIST_FLEX, model);
+        rotY(L_WRIST_PIVOT, model);
+        rotZ(L_WRIST_TORS, model);
+        transN(L_WRIST);
+        display(L_HAND);
+
+#if 0 // left fingers
+        glPushMatrix();	//  Left fingers
+         glPushMatrix();	//  Left thumb
+          transP(L_THUMB);
+          rotX(L_THUMB1_FLEX, model);
+          transN(L_THUMB);
+          display(L_THUMB);
+         glPopMatrix();
+         glPushMatrix();	//  Left index
+          transP(L_INDEX);
+          rotX(L_INDEX1_FLEX, model);
+          transN(L_INDEX);
+          display(L_INDEX);
+         glPopMatrix();
+         glPushMatrix();	//  Left middle
+          transP(L_MIDDLE);
+          rotX(L_MIDDLE1_FLEX, model);
+          transN(L_MIDDLE);
+          display(L_MIDDLE);
+         glPopMatrix();
+         glPushMatrix();	//  Left ring
+          transP(L_RING);
+          rotX(L_RING1_FLEX, model);
+          transN(L_RING);
+          display(L_RING);
+         glPopMatrix();
+         glPushMatrix();	//  Left pinky
+          transP(L_PINKY);
+          rotX(L_PINKY1_FLEX, model);
+          transN(L_PINKY);
+          display(L_PINKY);
+         glPopMatrix();
+        glPopMatrix();	// left fingers
+#endif // left fingers
+
+       glPopMatrix();	// l_wrist
+      glPopMatrix();	// l_elbow
+     glPopMatrix();	// l_shoulder
+
+     //
+     // Right side
+     //
+
+     // Right arm
+     glPushMatrix();	//  Right Shoulder -> Right Arm
+      transP(R_SHOULDER);
+      if (model == MODEL_OFF)
+        glRotatef(90, 0,0,1);	//OK but FIXME
+      rotX(+R_SHOULDER_ABDU, model);	// -
+      rotY(R_SHOULDER_FLEX, model);
+      rotZ(+R_SHOULDER_TORS, model);	// -
+      transN(R_SHOULDER);
+      display(R_ARM);
+
+      // Right forearm
+      glPushMatrix();	//  Right Elbow -> Right Forearm
+       transP(R_ELBOW);
+       rotY(R_ELBOW_FLEX, model);
+       rotZ(+R_ELBOW_TORS, model);	// -
+       transN(R_ELBOW);
+       display(R_FOREARM);
+
+       // Right hand
+       glPushMatrix();	//  Right Wrist -> Right Hand
+        transP(R_WRIST);
+        rotX(R_WRIST_FLEX, model);
+        rotY(R_WRIST_PIVOT, model);
+        rotZ(R_WRIST_TORS, model);
+        transN(R_WRIST);
+        display(R_HAND);
+
+#if 0 // right fingers
+        glPushMatrix();	//  Right fingers
+         glPushMatrix();	//  Right thumb
+          transP(R_THUMB);
+          rotX(R_THUMB1_FLEX, model);
+          transN(R_THUMB);
+          display(R_THUMB);
+         glPopMatrix();
+         glPushMatrix();	//  Right index
+          transP(R_INDEX);
+          rotX(R_INDEX1_FLEX, model);
+          transN(R_INDEX);
+          display(R_INDEX);
+         glPopMatrix();
+         glPushMatrix();	//  Right middle
+          transP(R_MIDDLE);
+          rotX(R_MIDDLE_FLEX, model);
+          transN(R_MIDDLE);
+          display(R_MIDDLE);
+         glPopMatrix();
+         glPushMatrix();	//  Right ring
+          transP(R_RING);
+          rotX(R_RING1_FLEX, model);
+          transN(R_RING);
+          display(R_RING);
+         glPopMatrix();
+         glPushMatrix();	//  Right pinky
+          transP(R_PINKY);
+          rotX(R_PINKY1_FLEX, model);
+          transN(R_PINKY);
+          display(R_PINKY);
+         glPopMatrix();
+        glPopMatrix();	// right fingers
+#endif // right fingers
+
+       glPopMatrix();	// r_wrist
+      glPopMatrix();	// r_elbow
+     glPopMatrix();	// r_shoulder
+    glPopMatrix();	// spinal
+
+    //
+    // bottom
+    //
+
+    // Left thigh
+    glPushMatrix();	//  Left Hip -> Left Thigh
+    transP(L_HIP);
+    rotX(L_HIP_FLEX, model);
+    rotY(L_HIP_ABDU, model);
+    rotZ(L_HIP_TORS, model);
+    transN(L_HIP);
+    display(L_THIGH);
+
+    // Left shin
+    glPushMatrix();	//  Left Knee -> Left Shin
+     transP(L_KNEE);
+     rotX(L_KNEE_FLEX, model);
+     rotZ(L_KNEE_TORS, model);
+     transN(L_KNEE);
+     display(L_SHIN);
+
+     // Left foot
+     glPushMatrix();	//  Left Ankle -> Left Foot
+      transP(L_ANKLE);
+      rotX(L_ANKLE_FLEX, model);
+      rotZ(L_ANKLE_TORS, model);
+      transN(L_ANKLE);
+      display(L_FOOT);
+     glPopMatrix();	// l_ankle
+    glPopMatrix();	// l_knee
+   glPopMatrix();	// l_thigh
+
+   // Right thigh
+   glPushMatrix();	//  Right Hip -> Right Thigh
+    transP(R_HIP);
+    rotX(R_HIP_FLEX, model);
+    rotY(R_HIP_ABDU, model);
+    rotZ(R_HIP_TORS, model);
+    transN(R_HIP);
+    display(R_THIGH);
+
+    // Right shin
+    glPushMatrix();	//  Right Knee -> Right Shin
+     transP(R_KNEE);
+     rotX(R_KNEE_FLEX, model);
+     rotZ(R_KNEE_TORS, model);
+     transN(R_KNEE);
+     display(R_SHIN);
+
+     // Right foot
+     glPushMatrix();	//  Right Ankle -> Right Foot
+      transP(R_ANKLE);
+      rotX(R_ANKLE_FLEX, model);
+      rotZ(R_ANKLE_TORS, model);
+      transN(R_ANKLE);
+      display(R_FOOT);
+     glPopMatrix();	// r_ankle
+    glPopMatrix();	// r_knee
+   glPopMatrix();	// r_hip
+  glPopMatrix();	// pelvic
+
+  glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
 }

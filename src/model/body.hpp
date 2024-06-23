@@ -568,8 +568,8 @@ class Body {
   //notused /**< Plays a body param (without bap server). */
   //notused void animReset();
 
-  virtual void render(Pos& pos);
-  /**< Renders body and v3d. */
+  void render(Pos& pos);
+  /**< Renders body and v3d face. */
 
 #if 0 //dax OK
   void loadBodyParts(class Http *http);
@@ -590,9 +590,6 @@ class Body {
 
   void draw();
   /**< Draws body's drawable parts in displaylists. */
-
-  void display();
-  /**< Displays body and v3d face. */
 
   void display(uint8_t part);
   /**< Displays a part of the body. */
