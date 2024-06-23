@@ -445,10 +445,10 @@ newbap:
       if (bap->isBap() && ! bap->isBapMask(i)) continue;	// no bap mask
       if (bap->isFap() && ! bap->isFapMask(i)) continue;	// no fap mask
       //
-      // play bap param
+      // play bap/fap param
       //
       if (p) {
-        value = (float) atof(p);
+        value = static_cast<float> (atof(p));
       }
       else {
         if (::g.pref.trace) error("bad value");

@@ -49,11 +49,11 @@ void Bap::reset()
 {
   for (int i=1; i <= NUM_BAPS; i++) {
     bapvalues[i] = 0;
-    masks[i] = false;
+    bapmasks[i] = false;
   }
   for (int i=1; i <= NUM_FAPS; i++) {
     fapvalues[i] = 0;
-    masks[i] = false;
+    fapmasks[i] = false;
   }
 }
 
@@ -69,7 +69,6 @@ bool Bap::isBap() const
   }
 }
 
-/** Is Bap ? */
 bool Bap::isBap(uint8_t _type) const
 {
   switch(_type) {
@@ -93,7 +92,6 @@ bool Bap::isFap() const
   }
 }
 
-/** Is Fap ? */
 bool Bap::isFap(uint8_t _type) const
 {
   switch(_type) {
@@ -108,8 +106,11 @@ bool Bap::isFap(uint8_t _type) const
 /** Resets bit masks */
 void Bap::resetMask(int params)
 {
-  for (int i=1; i <= params; i++) {
-    masks[i] = false;
+  for (int i=1; i <= NUM_BAPS; i++) {
+    bapmasks[i] = false;
+  }
+  for (int i=1; i <= NUM_FAPS; i++) {
+    fapmasks[i] = false;
   }
 }
 
@@ -117,33 +118,35 @@ void Bap::resetMask(int params)
 bool Bap::isBapMask(int param) const
 {
   if (! isBap()) return false;
-  return masks[param];
+  return bapmasks[param];
 }
 
 /** Checks fap mask */
 bool Bap::isFapMask(int param) const
 {
   if (! isFap()) return false;
-  return masks[param];
+  return fapmasks[param];
 }
 
 /** Sets bit mask */
 void Bap::setMask(int param, bool bit)
 {
-  masks[param] = bit;
+  if (isBap())
+    bapmasks[param] = bit;
+  if (isFap())
+    fapmasks[param] = bit;
 }
 
 /** Gets bap value */
 float Bap::get(int param) const
 {
-  switch(type) {
-  case TYPE_BAP_V31:
-  case TYPE_BAP_V32:
+  if (isBap(type)) {
     return bapvalues[param];
-  case TYPE_FAP_V20:
-  case TYPE_FAP_V21:
+  }
+  if (isFap(type)) {
     return fapvalues[param];
-  default:
+  }
+  else {
     return 0;
   }
 }
@@ -229,7 +232,7 @@ uint8_t Bap::parse(char *bapline)
     if (isBap(type)) {
       for (int i=1; i <= params; i++) {
         if (l) {
-          masks[i] = atoi(l);  // set all the masks bits
+          bapmasks[i] = atoi(l);  // set all the masks bits
           l = strtok(NULL, " ");
         }
       }
@@ -237,7 +240,7 @@ uint8_t Bap::parse(char *bapline)
       frame = atoi(l);
 
       for (int i=1; i <= params; i++) {
-        if (masks[i] == false) continue;
+        if (bapmasks[i] == false) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
         set(i, static_cast<float> (atof(l)));
         //echo("bapparse: l=%s values[%d]=%.1f", l, i, values[i]);
@@ -250,7 +253,7 @@ uint8_t Bap::parse(char *bapline)
     else if (isFap(type)) {
       for (int i=1; i <= params; i++) {
         if (l) {
-          masks[i] = atoi(l);  // set all the masks bits
+          fapmasks[i] = atoi(l);  // set all the masks bits
           l = strtok(NULL, " ");
         }
       }
@@ -258,7 +261,7 @@ uint8_t Bap::parse(char *bapline)
       frame = atoi(l);
 
       for (int i=1; i <= params; i++) {
-        if (masks[i] == false) continue;
+        if (fapmasks[i] == false) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
         set(i, static_cast<float> (atof(l)));
       }

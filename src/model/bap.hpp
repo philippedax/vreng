@@ -234,9 +234,10 @@
  */
 class Bap {
  private:
-  bool masks[1 + NUM_BAPS];		///< bap/fap bit mask
+  bool bapmasks[1 + NUM_BAPS];		///< bap bit masks
+  bool fapmasks[1 + NUM_FAPS];		///< fap bit masks
   float bapvalues[1 + NUM_BAPS];	///< baps angles
-  float fapvalues[1 + NUM_FAPS];	///< baps angles
+  float fapvalues[1 + NUM_FAPS];	///< faps angles
 
   void reset();
   /**< Resets masks and values */
