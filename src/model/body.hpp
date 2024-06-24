@@ -46,7 +46,7 @@ class Phalanx2 {
   static const float PHALANX2_LEN;
 
  public:
-  float length;		///< phalanx length
+  float length;			///< phalanx length
 
   Phalanx2();			///< constructor
   virtual ~Phalanx2() {}	///< destructor
@@ -63,7 +63,7 @@ class Phalanx {
   static const float PHALANX_LEN;
 
  public:
-  float length;		///< phalanx length
+  float length;			///< phalanx length
   float aflexion;		///< phalanx flexion angle
   class Phalanx2 *phalanx2;	///< phalanx2 ptr
 
@@ -85,7 +85,7 @@ class Finger {
   static const float FINGER_LEN;
 
  public:
-  float length;		///< finger lenght
+  float length;			///< finger lenght
   float aflexion;		///< finger flexion angle
   float aabduct;		///< finger abduct angle
   class Phalanx *phalanx;	///< phalanx ptr
@@ -111,7 +111,7 @@ class Hand {
   static const float HAND_LEN;
 
  public:
-  float length;		///< hand length
+  float length;			///< hand length
   float aflexion;		///< hand flexion angle
   float aabduct;		///< hand abduct angle
   float atorsion;		///< hand torsion angle
@@ -142,7 +142,7 @@ class Forearm {
   static const float ELBOW_RAD;
 
  public:
-  float length;		///< forearm length
+  float length;			///< forearm length
   float aflexion;		///< elbow flexion angle
   float atorsion;		///< elbow torsion angle
   class Hand *hand;		///< hand ptr
@@ -168,7 +168,7 @@ class Arm {
   static const float ARM_LEN;
 
  public:
-  float length;		///< arm length
+  float length;			///< arm length
   float aflexion;		///< arm flexion angle
   float aabduct;		///< arm abduct angle
   float atorsion;		///< arm torsion angle
@@ -188,10 +188,6 @@ class Arm {
 
   void torsion(float a);
   /**< Turn arm */
-
-  float a_flexion() const;
-  float a_abduct() const;
-  float a_torsion() const;
 };
 
 /**
@@ -202,7 +198,7 @@ class Shoulder {
   static const float SHOULDER_RAD;
 
  public:
-  float radius;		///< shoulder radius
+  float radius;			///< shoulder radius
   float aflexion;		///< shoulder flexion angle
   float aabduct;		///< shoulder abduct angle
   class Arm *arm;		///< arm ptr
@@ -228,7 +224,7 @@ class HeadBody {
   static const float HEAD_RAD;
 
  public:
-  float radius;		///< head radius
+  float radius;			///< head radius
   float aflexion;		///< head flexion angle
   float aabduct;		///< head abduct angle
   float atorsion;		///< head torsion angle
@@ -257,7 +253,7 @@ class Neck {
   static const float NECK_LEN;
 
  public:
-  float length;		///< neck length
+  float length;			///< neck length
   float aflexion;		///< neck flexion angle
   float aabduct;		///< neck abduct angle
   float atorsion;		///< neck torsion angle
@@ -287,7 +283,7 @@ class Foot {
   static const float FOOT_LEN;
 
  public:
-  float length;		///< foot length
+  float length;			///< foot length
   float aflexion;		///< foot flexion angle
   float aabduct;		///< foot abduct angle
   float atorsion;		///< foot torsion angle
@@ -316,7 +312,7 @@ class Shin {
   static const float SHIN_LEN;
 
  public:
-  float length;		///< shin length
+  float length;			///< shin length
   float aflexion;		///< knee flexion angle
   float atorsion;		///< knee torsion angle
   class Foot *foot;		///< foot ptr
@@ -342,7 +338,7 @@ class Thigh {
   static const float THIGH_LEN;
 
  public:
-  float length;		///< thigh length
+  float length;			///< thigh length
   float aflexion;		///< thigh flexion angle
   float aabduct;		///< thigh abduct angle
   float atorsion;		///< thigh torsion angle
@@ -372,7 +368,7 @@ class Chest {
   static const float CHEST_LEN;
 
  public:
-  float length;		///< chest length
+  float length;			///< chest length
   float aflexion;		///< chest flexion angle
   float aabduct;		///< chest abduct angle
   float atorsion;		///< chest torsion angle
@@ -553,15 +549,15 @@ class Body {
   void play();
   /**< Animates a body param (with bap server). */
 
-  void animHead(float deg, uint8_t axis);
-  void animNeck(float deg, uint8_t axis);
-  void animChest(float deg, uint8_t axis);
-  void animLeg(float deg, uint8_t side, uint8_t axis);
-  void animShin(float deg, uint8_t side, uint8_t axis);
-  void animFoot(float deg, uint8_t side, uint8_t axis);
-  void animArm(float deg, uint8_t side, uint8_t axis);
-  void animForearm(float deg, uint8_t side, uint8_t axis);
-  void animHand(float deg, uint8_t side, uint8_t axis);
+  //notused void animHead(float deg, uint8_t axis);
+  //notused void animNeck(float deg, uint8_t axis);
+  //notused void animChest(float deg, uint8_t axis);
+  //notused void animLeg(float deg, uint8_t side, uint8_t axis);
+  //notused void animShin(float deg, uint8_t side, uint8_t axis);
+  //notused void animFoot(float deg, uint8_t side, uint8_t axis);
+  //notused void animArm(float deg, uint8_t side, uint8_t axis);
+  //notused void animForearm(float deg, uint8_t side, uint8_t axis);
+  //notused void animHand(float deg, uint8_t side, uint8_t axis);
   /**x Animation members. */
 
   //notused void anim(int param);
@@ -571,11 +567,7 @@ class Body {
   void render(Pos& pos);
   /**< Renders body and v3d face. */
 
-#if 0 //dax OK
-  void loadBodyParts(class Http *http);
-#else
   void loadBodyParts(FILE *f);
-#endif
   /**< Loads body's drawable parts. */
 
   void setColors(float *_skin, float *_cloth);
@@ -591,8 +583,8 @@ class Body {
   void draw();
   /**< Draws body's drawable parts in displaylists. */
 
-  void display(uint8_t part);
-  /**< Displays a part of the body. */
+  void render(uint8_t part);
+  /**< Renders a part of the body. */
 
   bool isLoaded(uint8_t part);
   /**< Returns true if body part exists. */
@@ -603,14 +595,14 @@ class Body {
   void transN(uint8_t part);
   /**< Translates reverse from the Joint Point. */
 
-  void rotX(int param);
-  void rotY(int param);
-  void rotZ(int param);
+  void rotatX(int param);
+  void rotatY(int param);
+  void rotatZ(int param);
   /**< Rotates around the Joint Point. */
 
-  //notused void rotX(int param, float angle);
-  //notused void rotY(int param, float angle);
-  //notused void rotZ(int param, float angle);
+  //notused void rotatX(int param, float angle);
+  //notused void rotatY(int param, float angle);
+  //notused void rotatZ(int param, float angle);
 
   char * getTok(char *l, int *tok);
   char * skipEqual(char *l);
