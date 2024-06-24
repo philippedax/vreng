@@ -492,7 +492,7 @@ class Vertex {
   Vect3D iniPos;
   Vect3D curPos;
   Vect3D iniNormal;
-  Vect3D curNormal;
+  Vect3D normal;
 
   // -> Liens
   BoneList <BoneLink> linkList;
@@ -560,7 +560,7 @@ class BoneTriangle {
   Vertex *vertex2; float u2, v2; int index2;
   Vertex *vertex3; float u3, v3; int index3;
   Vect3D iniNormal;
-  Vect3D curNormal;
+  Vect3D normal;
   float r, g, b, a; // Initial colors
   float R, G, B, A; // Projected colors
 

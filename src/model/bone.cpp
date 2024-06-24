@@ -270,21 +270,16 @@ void Bone::render()
   Vect3D *v1, *v2, *v3;
   Vect3D *n1, *n2, *n3;
 
-  glColor3f(0.7, 0.7, 0.8);
-
   glPushMatrix();
-  //glEnable(GL_LIGHTING);
   //glEnable(GL_TEXTURE_2D);
-  glEnable(GL_COLOR_MATERIAL);
-  glColorMaterial(GL_FRONT, GL_DIFFUSE);
+  //glEnable(GL_COLOR_MATERIAL);
+  //glColorMaterial(GL_FRONT, GL_DIFFUSE);
 
   glBegin(GL_TRIANGLES);
   for (int i=0; i < mesh->triangles; i++) {
     tri = mesh->triangle[i];
     glColor3f(tri->R, tri->G, tri->B);
     //glTexCoord2f(tri->u1, tri->v1);
-    normal = &tri->iniNormal;
-    glNormal3f(normal->x, normal->y, normal->z);
 
     // vertexes
     v1 = &tri->vertex1->curPos;
@@ -293,19 +288,21 @@ void Bone::render()
     glVertex3f(v1->x, v1->y, v1->z);
     glVertex3f(v2->x, v2->y, v2->z);
     glVertex3f(v3->x, v3->y, v3->z);
-    //echo("%.1f %.1f %.1f, %.1f %.1f %.1f, %.1f %.1f %.1f", v1->x, v1->y, v1->z, v2->x, v2->y, v2->z, v3->x, v3->y, v3->z);
 
     // normals
-    n1 = &tri->vertex1->curNormal;
-    n2 = &tri->vertex2->curNormal;
-    n3 = &tri->vertex3->curNormal;
-    //glNormal3f(n1->x, n1->y, n1->z);
-    //glNormal3f(n2->x, n2->y, n2->z);
-    //glNormal3f(n3->x, n3->y, n3->z);
+    normal = &tri->iniNormal;
+    glNormal3f(normal->x, normal->y, normal->z);
+    n1 = &tri->vertex1->normal;
+    n2 = &tri->vertex2->normal;
+    n3 = &tri->vertex3->normal;
+    glNormal3f(n1->x, n1->y, n1->z);
+    glNormal3f(n2->x, n2->y, n2->z);
+    glNormal3f(n3->x, n3->y, n3->z);
   }
   glEnd();
+
+  //glDisable(GL_COLOR_MATERIAL);
   //glDisable(GL_TEXTURE_2D);
-  //glDisable(GL_LIGHTING);
   glPopMatrix();
 }
 
@@ -1014,7 +1011,7 @@ void Vertex::defaults()
   links = 0;
   compiled = 0;
   iniNormal.reset();
-  curNormal.reset();
+  normal.reset();
   u = -1;
   v = -1;
 }
@@ -1058,7 +1055,7 @@ BoneTriangle::BoneTriangle()
   vertex2 = NULL;
   vertex3 = NULL;
   iniNormal.reset();
-  curNormal.reset();
+  normal.reset();
   setColor(.5, .5, .5, 1);
 }
 
@@ -1094,7 +1091,7 @@ void BoneTriangle::rebuildNormal()
   Vect3D edge2 = vertex1->iniPos - vertex3->iniPos;
   iniNormal.crossProduct(edge1, edge2);
   iniNormal.normalize();
-  curNormal = iniNormal;
+  normal = iniNormal;
 }
 
 void BoneTriangle::setColor(float _r=0.5, float _g=0.5, float _b=0.5, float _a=1)

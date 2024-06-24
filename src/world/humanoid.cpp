@@ -109,6 +109,7 @@ void Humanoid::inits()
 
   sdudp = -1;
   sdtcp = -1;
+
   bap = new Bap();
   bapstring = NULL;
   bap->type = 0;
@@ -320,7 +321,7 @@ void Humanoid::changePermanent(float lasting)
         if (bap->isBap(baptype) && ! bap->isBapMask(i)) continue;
         //echo("playbap: %d (%.0f)", i, bap->get(i));
       }
-      body->play();		// plays bapframe
+      body->play();				// plays bapframe
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
@@ -365,7 +366,7 @@ void Humanoid::changePermanent(float lasting)
     body->face->play();		// local animation
   }
 
-  else if (sdtcp <= 0) {
+  else if (sdtcp <= 0) {	// check if without server VAPS
     //
     // local playing
     //
