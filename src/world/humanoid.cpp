@@ -112,7 +112,7 @@ void Humanoid::inits()
 
   bap = new Bap();
   bapstring = NULL;
-  bap->type = 0;
+  baptype = 0;
   bap->frames = 0;
   bap->params = 186;
 
@@ -370,24 +370,33 @@ void Humanoid::changePermanent(float lasting)
     //
     // local playing
     //
-    // get frame from local string bapstring (see gestures.hpp)
+    // get frame from local bapstring (see gestures.hpp)
     //
     char *p = NULL;
     int len = 0;
 
-    if (! bap->type) {		// check if is header line
+    if (! baptype) {	// check if is header line
       //
       // bap hdr
       //
+      //if (togfirst == false && togcurr == false) {
+        //echo("purge");
+        //return;
+      //}
+
       len = getLine();
+      if (len == 0) {
+        return;
+      }
       if (::g.pref.trace) echo("baphdr: %s", bapline);
 
       p = strrchr(bapline, ' ');
       if (p) {
         bap->frames = atoi(++p);
+        //togcurr = true;
       }
-      bap->type = bap->parse(bapline);	// warning bapline is now tokenized
-      //echo("baptype: %d", bap->type);
+      baptype = bap->parse(bapline);	// warning bapline is now tokenized
+      //echo("baptype: %d", baptype);
       bap->params = bap->getParams();
       return;
     }
@@ -403,7 +412,7 @@ newbap:
       goto endbap;
     }
 
-    if (bap->type) {
+    if (baptype) {
       //
       // masks
       //
@@ -455,18 +464,18 @@ newbap:
         if (::g.pref.trace) error("bad value");
         goto newbap;
       }
-      if (bap->isBap(bap->type)) {
+      if (bap->isBap(baptype)) {
         bap->set(i, value);			// set bap value
         //echo("playbap: %d: %d (%.0f)", bapframe, i, bap->get(i));
         body->play();				// plays bap
       }
-      if (bap->isFap(bap->type)) {
+      if (bap->isFap(baptype)) {
         bap->set(i, value);			// set fap value
         //echo("playfap: %d: %d (%.0f)", bapframe, i, bap->get(i));
         body->face->play(i, bap->get(i));	// plays fap
       }
       else {
-        //error("bad baptype: %d", bap->type);
+        //error("bad baptype: %d", baptype);
       }
       p = strchr(p, ' ');	// skip space for next value
       if (! p) {
@@ -476,9 +485,9 @@ newbap:
         p++;			// next value
         //echo("next value: %s", p);
       }
-      if (bapframe + 1 >= bap->frames) {
-        //echo("done frames %d", bapframe);
-      }
+      //if (bapframe + 1 == bap->frames) {
+       // echo("done frames %d", bapframe);
+      //}
     }
 
 #if 0 //dax
@@ -490,15 +499,15 @@ newbap:
 #endif
 
 endbap:
-    if (bapframe + 1 >= bap->frames) {
+    if (bapframe + 1 == bap->frames) {
       //echo("end of frames");
       bap->frames = 0;
-      bap->params = 186;
-      bap->type = 0;
-      bapstring = NULL;
+      bap->params = 0;
+      baptype = 0;
+      bapstring++;
       bap->resetMasks();
+      //sleep(5);
       state = INACTIVE;
-      sleep(5);
     }
   } // local playing
 

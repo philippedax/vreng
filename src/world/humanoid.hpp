@@ -52,6 +52,7 @@ class Humanoid: public WO {
   uint16_t bapframe;		///< seq number of frame
   char *bapstring;		///< content in bap file
   char *bapline;		///< bap/fap line.
+  uint8_t baptype;		///< current bap type
 
   enum { UNICAST, MULTICAST };
   enum { INACTIVE, PLAYING, LISTENING };
