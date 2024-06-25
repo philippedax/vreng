@@ -113,8 +113,8 @@ void Humanoid::inits()
   bap = new Bap();
   bapstring = NULL;
   baptype = 0;
-  bap->frames = 0;
-  bap->params = 186;
+  bapframes = 0;
+  bapparams = 186;
 
   body = new Body();
   body->wobject = this;
@@ -392,12 +392,11 @@ void Humanoid::changePermanent(float lasting)
 
       p = strrchr(bapline, ' ');
       if (p) {
-        bap->frames = atoi(++p);
-        //togcurr = true;
+        bapframes = atoi(++p);
       }
       baptype = bap->parse(bapline);	// warning bapline is now tokenized
       //echo("baptype: %d", baptype);
-      bap->params = bap->getParams();
+      bapparams = bap->getParams();
       return;
     }
 
@@ -418,7 +417,7 @@ newbap:
       //
       //echo("masks: %s", bapline);
       p = bapline;
-      for (int i=1; i <= bap->params; i++) {
+      for (int i=1; i <= bapparams; i++) {
         if (p) {
           switch (*p) {
           case '0': bap->setMask(i, false); break;
@@ -450,7 +449,7 @@ newbap:
     }
     p++;			// points on first value
 
-    for (int i=1; i <= bap->params; i++) {
+    for (int i=1; i <= bapparams; i++) {
       float value = 0;
       if (bap->isBap() && ! bap->isBapMask(i)) continue;	// no bap mask
       if (bap->isFap() && ! bap->isFapMask(i)) continue;	// no fap mask
@@ -485,9 +484,6 @@ newbap:
         p++;			// next value
         //echo("next value: %s", p);
       }
-      //if (bapframe + 1 == bap->frames) {
-       // echo("done frames %d", bapframe);
-      //}
     }
 
 #if 0 //dax
@@ -499,14 +495,13 @@ newbap:
 #endif
 
 endbap:
-    if (bapframe + 1 == bap->frames) {
+    if (bapframe + 1 == bapframes) {
       //echo("end of frames");
-      bap->frames = 0;
-      bap->params = 0;
+      bapframes = 0;
+      bapparams = 0;
       baptype = 0;
-      bapstring++;
-      bap->resetMasks();
-      //sleep(5);
+      bapstring = NULL;
+      //debug sleep(5);
       state = INACTIVE;
     }
   } // local playing
