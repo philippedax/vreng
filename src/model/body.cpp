@@ -768,6 +768,7 @@ void Body::play()
   if (bap->isBapMask(R_ANKLE_FLEX))	foot_r->flexion(bap->get(R_ANKLE_FLEX));
   if (bap->isBapMask(L_ANKLE_TORS))	foot_l->torsion(bap->get(L_ANKLE_TORS));
   if (bap->isBapMask(R_ANKLE_TORS))	foot_r->torsion(bap->get(R_ANKLE_TORS));
+#endif //notused
 
   if (bap->isBapMask(L_SHOULDER_FLEX))	arm_l->flexion(bap->get(L_SHOULDER_FLEX));
   if (bap->isBapMask(R_SHOULDER_FLEX))	arm_r->flexion(bap->get(R_SHOULDER_FLEX));
@@ -797,6 +798,7 @@ void Body::play()
   if (bap->isBapMask(L_PINKY1_FLEX))	fingers_l[4]->flexion(bap->get(L_PINKY1_FLEX));
   if (bap->isBapMask(R_PINKY1_FLEX))	fingers_r[4]->flexion(bap->get(R_PINKY1_FLEX));
 
+#if 0 //notused
   if (bap->isBapMask(C1_ROLL))		head->flexion(bap->get(C1_ROLL));
   if (bap->isBapMask(C1_TORS))		head->torsion(bap->get(C1_TORS));
   if (bap->isBapMask(C1_TILT))		head->abduct(bap->get(C1_TILT));
@@ -1263,7 +1265,7 @@ void Body::render(Pos& pos)
       if (model == MODEL_OFF)
         glRotatef(-90, 0,0,1);  //OK but FIXME
       rotatX(L_SHOULDER_ABDU);
-      rotatY(-L_SHOULDER_FLEX);	// - why ???
+      rotatY(+L_SHOULDER_FLEX);	// - why ???
       rotatZ(L_SHOULDER_TORS);	//
       transN(L_SHOULDER);
       render(L_ARM);
@@ -1271,7 +1273,7 @@ void Body::render(Pos& pos)
       // Left forearm
       glPushMatrix();	//  Left Elbow -> Left Forearm
        transP(L_ELBOW);
-       rotatY(-L_ELBOW_FLEX);	// - why ???
+       rotatY(+L_ELBOW_FLEX);	// - why ???
        rotatZ(L_ELBOW_TORS);
        transN(L_ELBOW);
        render(L_FOREARM);
