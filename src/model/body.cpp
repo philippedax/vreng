@@ -798,7 +798,6 @@ void Body::play()
   if (bap->isBapMask(L_PINKY1_FLEX))	fingers_l[4]->flexion(bap->get(L_PINKY1_FLEX));
   if (bap->isBapMask(R_PINKY1_FLEX))	fingers_r[4]->flexion(bap->get(R_PINKY1_FLEX));
 
-#if 0 //notused
   if (bap->isBapMask(C1_ROLL))		head->flexion(bap->get(C1_ROLL));
   if (bap->isBapMask(C1_TORS))		head->torsion(bap->get(C1_TORS));
   if (bap->isBapMask(C1_TILT))		head->abduct(bap->get(C1_TILT));
@@ -810,7 +809,6 @@ void Body::play()
   if (bap->isBapMask(T1_ROLL))		neck->flexion(bap->get(T1_ROLL));
   if (bap->isBapMask(T1_TORS))		neck->torsion(bap->get(T1_TORS));
   if (bap->isBapMask(T1_TILT))		neck->abduct(bap->get(T1_TILT));
-#endif //notused
 
   if (bap->isBapMask(TR_VERTICAL))	{tz = bap->get(TR_VERTICAL); TRACE("tv", tz);}
   if (bap->isBapMask(TR_LATERAL))	{ty = bap->get(TR_LATERAL); TRACE("tl", ty);}
@@ -1232,7 +1230,7 @@ void Body::render(Pos& pos)
         render(HEAD);
       }
 
-      // Upper Neck
+      // Haed - Upper Neck
       glPushMatrix();	//  Upper Neck -> Head (cervical level 1)
        transP(UPPER_NECK);
        rotatX(C1_TILT);
@@ -1243,15 +1241,17 @@ void Body::render(Pos& pos)
          glTranslatef(0, 0.9, -0.9);
          glRotatef(90, 1,0,0);
 
+         glPushMatrix();	//  Face
          //echo("face render");
-         face->render();	// YR
+         face->render();	// (YR)
+         glPopMatrix(); 	// face
 
        }
-       transP(UPPER_NECK);
-       rotatX(C1_TILT);
-       rotatY(C1_ROLL);
-       rotatZ(C1_TORS);
-       transN(UPPER_NECK);
+       //transP(UPPER_NECK);
+       //rotatX(C1_TILT);
+       //rotatY(C1_ROLL);
+       //rotatZ(C1_TORS);
+       //transN(UPPER_NECK);
       glPopMatrix(); 	// head
      glPopMatrix(); 	// neck
 

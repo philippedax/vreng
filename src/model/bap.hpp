@@ -89,7 +89,7 @@
 #define	SKULLBASE_ROLL		48	// skull / crane
 #define	SKULLBASE_TORS		49
 #define	SKULLBASE_TILT		50
-#define	C1_ROLL			51	// cervical
+#define	C1_ROLL			51	// cervical / nuque
 #define	C1_TORS			52
 #define	C1_TILT			53
 #define	C2_ROLL			54

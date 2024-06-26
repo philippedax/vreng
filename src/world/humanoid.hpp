@@ -142,6 +142,8 @@ class Humanoid: public WO {
   void bof();
   void pivot();
   void test();
+  void yes();
+  void no();
   void eyes();
   void joy();
   void sad();
@@ -160,6 +162,8 @@ class Humanoid: public WO {
   static void bof_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void pivot_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void test_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void yes_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void no_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void eyes_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void joy_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
   static void sad_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
