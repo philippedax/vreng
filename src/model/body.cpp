@@ -1122,7 +1122,7 @@ void Body::rotatY(int param)
 void Body::rotatZ(int param)
 {
   int sign = (param >= 0) ?1:-1;
-  glRotatef(sign * bap->get(abs(param)), 0,0,1);
+  glRotatef(sign * bap->get(abs(param)) +0, 0,0,1);
 }
 
 /** Renders a part of the body */
@@ -1265,15 +1265,15 @@ void Body::render(Pos& pos)
       if (model == MODEL_OFF)
         glRotatef(-90, 0,0,1);  //OK but FIXME
       rotatX(L_SHOULDER_ABDU);
-      rotatY(+L_SHOULDER_FLEX);	// - why ???
-      rotatZ(L_SHOULDER_TORS);	//
+      rotatY(-L_SHOULDER_FLEX);	// - why ???
+      rotatZ(-L_SHOULDER_TORS);	// - why ???
       transN(L_SHOULDER);
       render(L_ARM);
 
       // Left forearm
       glPushMatrix();	//  Left Elbow -> Left Forearm
        transP(L_ELBOW);
-       rotatY(+L_ELBOW_FLEX);	// - why ???
+       rotatY(-L_ELBOW_FLEX);	// - why ???
        rotatZ(L_ELBOW_TORS);
        transN(L_ELBOW);
        render(L_FOREARM);
@@ -1281,7 +1281,7 @@ void Body::render(Pos& pos)
        // Left hand
        glPushMatrix();	//  Left Wrist -> Left Hand
         transP(L_WRIST);
-        rotatX(L_WRIST_FLEX);
+        rotatX(-L_WRIST_FLEX);
         rotatY(L_WRIST_PIVOT);
         rotatZ(L_WRIST_TORS);
         transN(L_WRIST);
@@ -1335,9 +1335,9 @@ void Body::render(Pos& pos)
       transP(R_SHOULDER);
       if (model == MODEL_OFF)
         glRotatef(90, 0,0,1);	//OK but FIXME
-      rotatX(+R_SHOULDER_ABDU);	// -
+      rotatX(-R_SHOULDER_ABDU);	// - why ???
       rotatY(R_SHOULDER_FLEX);
-      rotatZ(+R_SHOULDER_TORS);	// -
+      rotatZ(-R_SHOULDER_TORS);	// - why ???
       transN(R_SHOULDER);
       render(R_ARM);
 
@@ -1345,14 +1345,14 @@ void Body::render(Pos& pos)
       glPushMatrix();	//  Right Elbow -> Right Forearm
        transP(R_ELBOW);
        rotatY(R_ELBOW_FLEX);
-       rotatZ(+R_ELBOW_TORS);	// -
+       rotatZ(-R_ELBOW_TORS);	// - why ???
        transN(R_ELBOW);
        render(R_FOREARM);
 
        // Right hand
        glPushMatrix();	//  Right Wrist -> Right Hand
         transP(R_WRIST);
-        rotatX(R_WRIST_FLEX);
+        rotatX(-R_WRIST_FLEX);
         rotatY(R_WRIST_PIVOT);
         rotatZ(R_WRIST_TORS);
         transN(R_WRIST);
