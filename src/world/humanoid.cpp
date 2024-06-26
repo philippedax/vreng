@@ -784,7 +784,7 @@ void Humanoid::funcs()
   setActionFunc(HUMANOID_TYPE, 7, _Action nak_cb, "Nak");
   setActionFunc(HUMANOID_TYPE, 8, _Action bof_cb, "Bof");
   setActionFunc(HUMANOID_TYPE, 9, _Action pivot_cb, "Pivot");
-  setActionFunc(HUMANOID_TYPE, 10, _Action curi_cb, "Curi");
+  setActionFunc(HUMANOID_TYPE, 10, _Action test_cb, "Test");
   setActionFunc(HUMANOID_TYPE, 11, _Action eyes_cb, "Eyes");
   setActionFunc(HUMANOID_TYPE, 12, _Action joy_cb, "Joy");
   setActionFunc(HUMANOID_TYPE, 13, _Action sad_cb, "Sad");
