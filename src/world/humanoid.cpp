@@ -648,13 +648,6 @@ void Humanoid::pivot()
   bapstring = const_cast<char *>(pivot_bap);
 }
 
-/** Plays curi */
-void Humanoid::curi()
-{
-  sendPlay("curi.bap");
-  bapstring = const_cast<char *>(curious_bap);
-}
-
 /** Plays test */
 void Humanoid::test()
 {
@@ -739,11 +732,6 @@ void Humanoid::bof_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
 void Humanoid::pivot_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
 {
   humanoid->pivot();
-}
-
-void Humanoid::curi_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{
-  humanoid->curi();
 }
 
 void Humanoid::reset_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
