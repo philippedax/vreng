@@ -157,6 +157,7 @@ void Off::draw()
     int32_t n2 = p[i*6+4];
     int32_t n3 = p[i*6+5];
 
+    // normals + vertexes
     glNormal3f(n[n1*3+0], n[n1*3+1], n[n1*3+2]);
     glVertex3f(v[v1*3+0], v[v1*3+1], v[v1*3+2]);
     glNormal3f(n[n2*3+0], n[n2*3+1], n[n2*3+2]);

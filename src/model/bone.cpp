@@ -280,24 +280,23 @@ void Bone::render()
     tri = mesh->triangle[i];
     glColor3f(tri->R, tri->G, tri->B);
     //glTexCoord2f(tri->u1, tri->v1);
+    normal = &tri->iniNormal;
+    glNormal3f(normal->x, normal->y, normal->z);
 
-    // vertexes
+    // normals and vertexes
     v1 = &tri->vertex1->curPos;
     v2 = &tri->vertex2->curPos;
     v3 = &tri->vertex3->curPos;
-    glVertex3f(v1->x, v1->y, v1->z);
-    glVertex3f(v2->x, v2->y, v2->z);
-    glVertex3f(v3->x, v3->y, v3->z);
-
-    // normals
-    normal = &tri->iniNormal;
-    glNormal3f(normal->x, normal->y, normal->z);
     n1 = &tri->vertex1->normal;
     n2 = &tri->vertex2->normal;
     n3 = &tri->vertex3->normal;
+
     glNormal3f(n1->x, n1->y, n1->z);
+    glVertex3f(v1->x, v1->y, v1->z);
     glNormal3f(n2->x, n2->y, n2->z);
+    glVertex3f(v2->x, v2->y, v2->z);
     glNormal3f(n3->x, n3->y, n3->z);
+    glVertex3f(v3->x, v3->y, v3->z);
   }
   glEnd();
 
