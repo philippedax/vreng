@@ -589,15 +589,15 @@ class Body {
   bool isLoaded(uint8_t part);
   /**< Returns true if body part exists. */
 
-  void transP(uint8_t part);
+  void jpTp(uint8_t part);
   /**< Translates to the Joint Point. */
 
-  void transN(uint8_t part);
+  void jpTn(uint8_t part);
   /**< Translates reverse from the Joint Point. */
 
-  void rotatX(int param);
-  void rotatY(int param);
-  void rotatZ(int param);
+  void jpRX(int param);
+  void jpRY(int param);
+  void jpRZ(int param);
   /**< Rotates around the Joint Point. */
 
   //notused void rotatX(int param, float angle);
