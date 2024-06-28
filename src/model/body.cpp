@@ -1276,7 +1276,7 @@ void Body::render(Pos& pos)
         // Left hand
         glPushMatrix();	//  Left Wrist -> Left Hand
          transP(L_WRIST);
-         rotatX(-L_WRIST_FLEX);
+         rotatX(-L_WRIST_FLEX);	// - why ???
          rotatY(L_WRIST_PIVOT);
          rotatZ(L_WRIST_TORS);
          transN(L_WRIST);
@@ -1347,7 +1347,7 @@ void Body::render(Pos& pos)
         // Right hand
         glPushMatrix();	//  Right Wrist -> Right Hand
          transP(R_WRIST);
-         rotatX(-R_WRIST_FLEX);
+         rotatX(-R_WRIST_FLEX);	// - why ???
          rotatY(R_WRIST_PIVOT);
          rotatZ(R_WRIST_TORS);
          transN(R_WRIST);
