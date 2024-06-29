@@ -51,38 +51,38 @@ const float Thigh::THIGH_LEN = 0.25;		// default thigh length
 const float Chest::CHEST_LEN = 0.30;		// default chest length
 
 static const struct sBodyToken btokens[] = {
-  { "head",     Body::HEAD },
-  { "neck",     Body::NECK },
-  { "chest",    Body::CHEST },
-  { "hip",      Body::HIPS },
-  { "lShldr",   Body::L_ARM },
-  { "lForearm", Body::L_FOREARM },
-  { "lHand",    Body::L_HAND },
-  { "rShldr",   Body::R_ARM },
-  { "rForearm", Body::R_FOREARM },
-  { "rHand",    Body::R_HAND },
-  { "lThigh",   Body::L_THIGH },
-  { "lShin",    Body::L_SHIN },
-  { "lFoot",    Body::L_FOOT },
-  { "rThigh",   Body::R_THIGH },
-  { "rShin",    Body::R_SHIN },
-  { "rFoot",    Body::R_FOOT },
-  { "abdomen",  Body::ABDOMEN },
-  { "lCollar",  Body::L_COLLAR },
-  { "rCollar",  Body::R_COLLAR },
-  { "belt",     Body::BELT },
-  { "lThumb",   Body::L_THUMB },
-  { "lIndex",   Body::L_INDEX },
-  { "lMiddle",  Body::L_MIDDLE },
-  { "lRing",    Body::L_RING },
-  { "lPinky",   Body::L_PINKY },
-  { "rThumb",   Body::R_THUMB },
-  { "rIndex",   Body::R_INDEX },
-  { "rMiddle",  Body::R_MIDDLE },
-  { "rRing",    Body::R_RING },
-  { "rPinky",   Body::R_PINKY },
-  { "skirt",    Body::SKIRT },
-  { "/body",    Body::MAX_PARTS /* -1 */ } // James Addison C++14 compatible
+  { "head",     Body::BD_HEAD },
+  { "neck",     Body::BD_NECK },
+  { "chest",    Body::BD_CHEST },
+  { "hip",      Body::BD_PELVIC },
+  { "lShldr",   Body::BD_ARM_L },
+  { "lForearm", Body::BD_FARM_L },
+  { "lHand",    Body::BD_HAND_L },
+  { "rShldr",   Body::BD_ARM_R },
+  { "rForearm", Body::BD_FARM_R },
+  { "rHand",    Body::BD_HAND_R },
+  { "lThigh",   Body::BD_THIGH_L },
+  { "lShin",    Body::BD_SHIN_L },
+  { "lFoot",    Body::BD_FOOT_L },
+  { "rThigh",   Body::BD_THIGH_R },
+  { "rShin",    Body::BD_SHIN_R },
+  { "rFoot",    Body::BD_FOOT_R },
+  { "abdomen",  Body::BD_ABDOMEN },
+  { "lCollar",  Body::BD_COLLAR_L },
+  { "rCollar",  Body::BD_COLLAR_R },
+  { "belt",     Body::BD_BELT },
+  { "lThumb",   Body::BD_THUMB_L },
+  { "lIndex",   Body::BD_INDEX_L },
+  { "lMiddle",  Body::BD_MIDDLE_L },
+  { "lRing",    Body::BD_RING_L },
+  { "lPinky",   Body::BD_PINKY_L },
+  { "rThumb",   Body::BD_THUMB_R },
+  { "rIndex",   Body::BD_INDEX_R },
+  { "rMiddle",  Body::BD_MIDDLE_R },
+  { "rRing",    Body::BD_RING_R },
+  { "rPinky",   Body::BD_PINKY_R },
+  { "skirt",    Body::BD_SKIRT },
+  { "/body",    Body::BD_MAX_PARTS /* -1 */ } // James Addison C++14 compatible
 };
 
 
@@ -459,7 +459,7 @@ void Body::init()
   jp.z = NULL;
   bd_tx = bd_ty = bd_tz = 0;	// position in space
   bd_rx = bd_ry = bd_rz = 0;	// orientation in space
-  bd_scale = B_SCALE;		// scale factor
+  bd_scale = BD_SCALE;		// scale factor
 
   //
   // articulation instances
@@ -591,13 +591,13 @@ void Body::loadBodyParts(FILE *f)
 
   tex[0] = '\0';
   // alloc bodyparts and joint-points arrays
-  bd_parts = new sBodyParts[MAX_PARTS];
-  jp.x = new float[MAX_PARTS];
-  jp.y = new float[MAX_PARTS];
-  jp.z = new float[MAX_PARTS];
+  bd_parts = new sBodyParts[BD_MAX_PARTS];
+  jp.x = new float[BD_MAX_PARTS];
+  jp.y = new float[BD_MAX_PARTS];
+  jp.z = new float[BD_MAX_PARTS];
 
   // init bodyparts
-  for (int i=0; i < MAX_PARTS; i++) {
+  for (int i=0; i < BD_MAX_PARTS; i++) {
     bd_parts[i].loaded = false;
     bd_parts[i].scale = 1;
     for (int j=0; j<3 ; j++) bd_parts[i].scales[j] = 1;
@@ -610,12 +610,12 @@ void Body::loadBodyParts(FILE *f)
   }
   // set default color
   for (int j=0; j<3 ; j++) {
-    bd_parts[HEAD].color[j] = bd_skin[j];
-    bd_parts[NECK].color[j] = bd_skin[j];
-    bd_parts[L_FOREARM].color[j] = bd_skin[j];
-    bd_parts[R_FOREARM].color[j] = bd_skin[j];
-    bd_parts[L_HAND].color[j] = bd_skin[j];
-    bd_parts[R_HAND].color[j] = bd_skin[j];
+    bd_parts[BD_HEAD].color[j] = bd_skin[j];
+    bd_parts[BD_NECK].color[j] = bd_skin[j];
+    bd_parts[BD_FARM_L].color[j] = bd_skin[j];
+    bd_parts[BD_FARM_R].color[j] = bd_skin[j];
+    bd_parts[BD_HAND_L].color[j] = bd_skin[j];
+    bd_parts[BD_HAND_R].color[j] = bd_skin[j];
   }
 
   // parse first line of <body ...>
@@ -633,13 +633,13 @@ void Body::loadBodyParts(FILE *f)
   }
 
   if (*tex) {
-    for (int i=0; i < MAX_PARTS; i++) {
+    for (int i=0; i < BD_MAX_PARTS; i++) {
       strcpy(bd_parts[i].texurl, tex);
     }
   }
 
   // get body joint points and urls
-  for (int i=0; i < MAX_PARTS; i++) {
+  for (int i=0; i < BD_MAX_PARTS; i++) {
     if (! fgets(jpline, sizeof(jpline), f)) break;
     jpline[strlen(jpline) - 1] = '\0';
     //echo("loadBodyParts: %s", jpline);
@@ -690,11 +690,11 @@ void Body::loadBodyParts(FILE *f)
 
 endloadbody:
   // now we can download all parts
-  for (int i=0; i < MAX_PARTS; i++) {
+  for (int i=0; i < BD_MAX_PARTS; i++) {
     if (bd_parts[i].url[0]) {  // if url exist
-      bd_parts[i].bd_model = Format::getModelByUrl(bd_parts[i].url);
+      bd_parts[i].model = Format::getModelByUrl(bd_parts[i].url);
 
-      switch (bd_parts[i].bd_model) {
+      switch (bd_parts[i].model) {
       case MODEL_OFF:
         bd_parts[i].off = new Off(bd_parts[i].url);
         Http::httpOpen(bd_parts[i].url, Off::reader, bd_parts[i].off, 0);
@@ -711,7 +711,7 @@ endloadbody:
       bd_parts[i].loaded = true;
     }
   }
-  bd_model = bd_parts[0].bd_model;  // keep bd_model used
+  bd_model = bd_parts[0].model;  // keep model used
 }
 
 /** Draws body parts */
@@ -723,7 +723,7 @@ void Body::draw()
   bd_dlist = glGenLists(bd_draws);
   for (int i=0; i < bd_draws && bd_parts[i].loaded ; i++) {
     glNewList(bd_dlist + i, GL_COMPILE);
-    switch (bd_parts[i].bd_model) {
+    switch (bd_parts[i].model) {
       case MODEL_OFF: bd_parts[i].off->draw(); break;
       case MODEL_OBJ: bd_parts[i].obj->draw(); break;
     }
@@ -1068,7 +1068,7 @@ void Body::anim(int param)
 /** Checks if body part is loaded */
 bool Body::isPart(uint8_t part)
 {
-  if (part < MAX_PARTS)
+  if (part < BD_MAX_PARTS)
     return bd_parts[part].loaded;
   return false;
 }
@@ -1077,7 +1077,7 @@ bool Body::isPart(uint8_t part)
 void Body::jpT(int part)
 {
   int sign = (part >= 0) ?1:-1;
-  if (abs(part) < MAX_PARTS) {
+  if (abs(part) < BD_MAX_PARTS) {
     if (bd_model == MODEL_OBJ)
       glTranslatef(sign * jp.y[abs(part)], sign * jp.x[abs(part)], sign * jp.z[abs(part)]);
     else
@@ -1116,7 +1116,7 @@ void Body::jpRZ(int param)
 void Body::render(uint8_t part)
 {
   glPushMatrix();
-  if (part < MAX_PARTS) {
+  if (part < BD_MAX_PARTS) {
     glMaterialfv(GL_FRONT, GL_DIFFUSE, bd_parts[part].color);
     if (bd_parts[part].texid) {
       glEnable(GL_TEXTURE_2D);
@@ -1166,24 +1166,24 @@ void Body::render(Pos& pos)
     jpRY(PELVIC_ROLL);
     jpRZ(PELVIC_TORS);
     jpT(-JP_PELVIC);
-    render(HIPS);
+    render(BD_PELVIC);
 
     // Abdomen
-    if (isPart(ABDOMEN)) {
+    if (isPart(BD_ABDOMEN)) {
       glPushMatrix();
-      render(ABDOMEN);
+      render(BD_ABDOMEN);
       glPopMatrix();
     }
     // Skirt
-    if (isPart(SKIRT)) {
+    if (isPart(BD_SKIRT)) {
       glPushMatrix();
-      render(SKIRT);
+      render(BD_SKIRT);
       glPopMatrix();
     }
     // Belt
-    if (isPart(BELT)) {
+    if (isPart(BD_BELT)) {
       glPushMatrix();
-      render(BELT);
+      render(BD_BELT);
       glPopMatrix();
     }
     // Chest
@@ -1193,16 +1193,16 @@ void Body::render(Pos& pos)
      jpRY(T5_ROLL);
      jpRZ(T5_TORS);
      jpT(-JP_SPINAL);
-     render(CHEST);
+     render(BD_CHEST);
      // Collar
-     if (isPart(L_COLLAR)) {
+     if (isPart(BD_COLLAR_L)) {
        glPushMatrix();
-       render(L_COLLAR);
+       render(BD_COLLAR_L);
        glPopMatrix();
      }
-     if (isPart(R_COLLAR)) {
+     if (isPart(BD_COLLAR_R)) {
        glPushMatrix();
-       render(R_COLLAR);
+       render(BD_COLLAR_R);
        glPopMatrix();
      }
      // Lower Neck
@@ -1212,11 +1212,11 @@ void Body::render(Pos& pos)
       jpRY(C4_ROLL);
       jpRZ(C4_TORS);
       jpT(-JP_LOWER_NECK);
-      render(NECK);
+      render(BD_NECK);
       // Head
       if (! face) {
         //echo("head render");
-        render(HEAD);
+        render(BD_HEAD);
       }
 
       // Haed - Upper Neck
@@ -1255,7 +1255,7 @@ void Body::render(Pos& pos)
        jpRY(-L_SHOULDER_FLEX);	// - why ???
        jpRZ(-L_SHOULDER_TORS);	// - why ???
        jpT(-JP_L_SHOULDER);
-       render(L_ARM);
+       render(BD_ARM_L);
 
        // Left forearm
        glPushMatrix();	//  left elbow -> left forearm
@@ -1263,7 +1263,7 @@ void Body::render(Pos& pos)
         jpRY(-L_ELBOW_FLEX);	// - why ???
         jpRZ(L_ELBOW_TORS);
         jpT(-JP_L_ELBOW);
-        render(L_FOREARM);
+        render(BD_FARM_L);
 
         // Left hand
         glPushMatrix();	//  left wrist -> left hand
@@ -1272,43 +1272,42 @@ void Body::render(Pos& pos)
          jpRY(L_WRIST_PIVOT);
          jpRZ(L_WRIST_TORS);
          jpT(-JP_L_WRIST);
-         render(L_HAND);
-        //glPopMatrix();	// left wrist
+         render(BD_HAND_L);
 
 #if 0 // left fingers
           glPushMatrix();	//  left thumb
            jpT(L_THUMB);
-           jpRX(L_THUMB1_FLEX);
+           jpRX(L_THUMB0_FLEX);
            jpT(-L_THUMB);
-           render(L_THUMB);
+           render(BD_THUMB_L);
           glPopMatrix();
 
           glPushMatrix();	//  left index
            jpT(L_INDEX);
-           jpRX(L_INDEX1_FLEX);
+           jpRX(L_INDEX0_FLEX);
            jpT(-L_INDEX);
-           render(L_INDEX);
+           render(BD_INDEX_L);
           glPopMatrix();
 
           glPushMatrix();	//  left middle
            jpT(L_MIDDLE);
-           jpRX(L_MIDDLE1_FLEX);
+           jpRX(L_MIDDLE0_FLEX);
            jpT(-L_MIDDLE);
-           render(L_MIDDLE);
+           render(BD_MIDDLE_L);
           glPopMatrix();
 
           glPushMatrix();	//  left ring
            jpT(L_RING);
-           jpRX(L_RING1_FLEX);
+           jpRX(L_RING0_FLEX);
            jpT(-L_RING);
-           render(L_RING);
+           render(BD_RING_L);
           glPopMatrix();
 
           glPushMatrix();	//  left pinky
            jpT(L_PINKY);
-	   jpRX(L_PINKY1_FLEX);
+	   jpRX(L_PINKY0_FLEX);
            jpT(-L_PINKY);
-           render(L_PINKY);
+           render(BD_PINKY_L);
           glPopMatrix();	// left pinky
 #endif // left fingers
 
@@ -1329,7 +1328,7 @@ void Body::render(Pos& pos)
        jpRY(R_SHOULDER_FLEX);
        jpRZ(-R_SHOULDER_TORS);	// - why ???
        jpT(-JP_R_SHOULDER);
-       render(R_ARM);
+       render(BD_ARM_R);
 
        // Right forearm
        glPushMatrix();	//  right elbow -> right forearm
@@ -1337,7 +1336,7 @@ void Body::render(Pos& pos)
         jpRY(R_ELBOW_FLEX);
         jpRZ(-R_ELBOW_TORS);	// - why ???
         jpT(-JP_R_ELBOW);
-        render(R_FOREARM);
+        render(BD_FARM_R);
 
         // Right hand
         glPushMatrix();	//  right wrist -> right hand
@@ -1346,43 +1345,42 @@ void Body::render(Pos& pos)
          jpRY(R_WRIST_PIVOT);
          jpRZ(R_WRIST_TORS);
          jpT(-JP_R_WRIST);
-         render(R_HAND);
-        //glPopMatrix();	// right wrist
+         render(BD_HAND_R);
 
 #if 0 // right fingers
           glPushMatrix();	//  right thumb
            jpT(R_THUMB);
-           jpRX(R_THUMB1_FLEX);
+           jpRX(R_THUMB0_FLEX);
            jpT(-R_THUMB);
-           render(R_THUMB);
+           render(BD_THUMB_R);
           glPopMatrix();
 
           glPushMatrix();	//  right index
            jpT(R_INDEX);
-           jpRX(R_INDEX1_FLEX);
+           jpRX(R_INDEX0_FLEX);
            jpT(-R_INDEX);
-           render(R_INDEX);
+           render(BD_INDEX_R);
           glPopMatrix();
 
           glPushMatrix();	//  right middle
            jpT(R_MIDDLE);
-           jpRX(R_MIDDLE1_FLEX);
+           jpRX(R_MIDDLE0_FLEX);
            jpT(-R_MIDDLE);
-           render(R_MIDDLE);
+           render(BD_MIDDLE_R);
           glPopMatrix();
 
           glPushMatrix();	//  right ring
            jpT(R_RING);
-           jpRX(R_RING1_FLEX);
+           jpRX(R_RING0_FLEX);
            jpT(-R_RING);
-           render(R_RING);
+           render(BD_RING_R);
           glPopMatrix();
 
           glPushMatrix();	//  right pinky
            jpT(R_PINKY);
-           jpRX(R_PINKY1_FLEX);
+           jpRX(R_PINKY0_FLEX);
            jpT(-R_PINKY);
-           render(R_PINKY);
+           render(BD_PINKY_R);
           glPopMatrix();	// right pinky
 #endif // right fingers
 
@@ -1402,7 +1400,7 @@ void Body::render(Pos& pos)
      jpRY(L_HIP_ABDU);
      jpRZ(L_HIP_TORS);
      jpT(-JP_L_HIP);
-     render(L_THIGH);
+     render(BD_THIGH_L);
 
      // Left shin
      glPushMatrix();	//  left knee -> left shin
@@ -1410,7 +1408,7 @@ void Body::render(Pos& pos)
       jpRX(L_KNEE_FLEX);
       jpRZ(L_KNEE_TORS);
       jpT(-JP_L_KNEE);
-      render(L_SHIN);
+      render(BD_SHIN_L);
 
       // Left foot
       glPushMatrix();	//  left ankle -> left foot
@@ -1418,7 +1416,7 @@ void Body::render(Pos& pos)
        jpRX(L_ANKLE_FLEX);
        jpRZ(L_ANKLE_TORS);
        jpT(-JP_L_ANKLE);
-       render(L_FOOT);
+       render(BD_FOOT_L);
       glPopMatrix();	// l_ankle
      glPopMatrix();	// l_knee
     glPopMatrix();	// l_thigh
@@ -1430,7 +1428,7 @@ void Body::render(Pos& pos)
      jpRY(R_HIP_ABDU);
      jpRZ(R_HIP_TORS);
      jpT(-JP_R_HIP);
-     render(R_THIGH);
+     render(BD_THIGH_R);
 
      // Right shin
      glPushMatrix();	//  right knee -> right shin
@@ -1438,7 +1436,7 @@ void Body::render(Pos& pos)
       jpRX(R_KNEE_FLEX);
       jpRZ(R_KNEE_TORS);
       jpT(-JP_R_KNEE);
-      render(R_SHIN);
+      render(BD_SHIN_R);
 
       // Right foot
       glPushMatrix();	//  right ankle -> right foot
@@ -1446,7 +1444,7 @@ void Body::render(Pos& pos)
        jpRX(R_ANKLE_FLEX);
        jpRZ(R_ANKLE_TORS);
        jpT(-JP_R_ANKLE);
-       render(R_FOOT);
+       render(BD_FOOT_R);
       glPopMatrix();	// r_ankle
      glPopMatrix();	// r_knee
     glPopMatrix();	// r_hip

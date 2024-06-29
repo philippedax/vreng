@@ -32,9 +32,9 @@
 // Body
 #define B_HEIGHT	1.70
 #ifdef OFF_SCALING	//see off.hpp
-#define B_SCALE		40.41	//0.02476  // 1/40.41
+#define BD_SCALE	40.41	//0.02476  // 1/40.41
 #else
-#define B_SCALE		1
+#define BD_SCALE	1
 #endif
 
 
@@ -395,7 +395,7 @@ class Chest {
  * Body-Parts structure
  */
 struct sBodyParts {
-  uint8_t bd_model;	///< model type used
+  uint8_t model;	///< model type used
   bool loaded;		///< flag loaded or not
   float scale;		///< scale
   float scales[3];	///< scales
@@ -425,13 +425,9 @@ struct sJP {
  * Body class
  */
 class Body {
-  friend class Bap;
   friend class Humanoid;
-  friend class Human;
-  friend class Man;
 
- protected:
-
+ private:
   /* join points numbers */
   enum jp_num {
     JP_UPPER_NECK,	// 0
@@ -493,38 +489,38 @@ class Body {
 
   /* body drawable parts */
   enum body_parts {
-    HEAD,	// 00
-    NECK,	// 01
-    CHEST,	// 02
-    HIPS,	// 03
-    L_ARM,	// 04
-    L_FOREARM,	// 05
-    L_HAND,	// 06
-    R_ARM,	// 07
-    R_FOREARM,	// 08
-    R_HAND,	// 09
-    L_THIGH,	// 10
-    L_SHIN,	// 11
-    L_FOOT,	// 12
-    R_THIGH,	// 13
-    R_SHIN,	// 14
-    R_FOOT,	// 15
-    ABDOMEN,	// 16
-    L_COLLAR,	// 17
-    R_COLLAR,	// 18
-    BELT,	// 19
-    L_THUMB,	// 20
-    L_INDEX,	// 21
-    L_MIDDLE,	// 22
-    L_RING,	// 23
-    L_PINKY,	// 24
-    R_THUMB,	// 25
-    R_INDEX,	// 26
-    R_MIDDLE,	// 27
-    R_RING,	// 28
-    R_PINKY,	// 29
-    SKIRT,	// 30
-    MAX_PARTS	// 31
+    BD_HEAD,		// 00
+    BD_NECK,		// 01
+    BD_CHEST,		// 02
+    BD_PELVIC,		// 03
+    BD_ARM_L,		// 04
+    BD_FARM_L,		// 05
+    BD_HAND_L,		// 06
+    BD_ARM_R,		// 07
+    BD_FARM_R,		// 08
+    BD_HAND_R,		// 09
+    BD_THIGH_L,		// 10
+    BD_SHIN_L,		// 11
+    BD_FOOT_L,		// 12
+    BD_THIGH_R,		// 13
+    BD_SHIN_R,		// 14
+    BD_FOOT_R,		// 15
+    BD_ABDOMEN,		// 16
+    BD_COLLAR_L,	// 17
+    BD_COLLAR_R,	// 18
+    BD_BELT,		// 19
+    BD_THUMB_L,		// 20
+    BD_INDEX_L,		// 21
+    BD_MIDDLE_L,	// 22
+    BD_RING_L,		// 23
+    BD_PINKY_L,		// 24
+    BD_THUMB_R,		// 25
+    BD_INDEX_R,		// 26
+    BD_MIDDLE_R,	// 27
+    BD_RING_R,		// 28
+    BD_PINKY_R,		// 29
+    BD_SKIRT,		// 30
+    BD_MAX_PARTS	// 31
   };
 
   struct sJP jp;		///< jointpoints.
