@@ -471,7 +471,9 @@ newbap:
       if (bap->isFap(baptype)) {
         bap->set(i, value);			// set fap value
         //echo("playfap: %d: %d (%.0f)", bapframe, i, bap->get(i));
-        body->face->play(i, bap->get(i));	// plays fap
+        if (body->face) {
+          body->face->play(i, bap->get(i));	// plays fap
+        }
       }
       else {
         //error("bad baptype: %d", baptype);

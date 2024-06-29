@@ -537,7 +537,7 @@ class Body {
   /**< Inits body. */
 
   void play();
-  /**< Animates a body param (with bap server). */
+  /**< Animates a body param. */
 
   //notused void animHead(float deg, uint8_t axis);
   //notused void animNeck(float deg, uint8_t axis);
@@ -548,8 +548,7 @@ class Body {
   //notused void animArm(float deg, uint8_t side, uint8_t axis);
   //notused void animForearm(float deg, uint8_t side, uint8_t axis);
   //notused void animHand(float deg, uint8_t side, uint8_t axis);
-  /**x Animation members. */
-
+  //notused /**< Animation members. */
   //notused void anim(int param);
   //notused /**< Plays a body param (without bap server). */
   //notused void animReset();
@@ -563,7 +562,7 @@ class Body {
   void setColors(float *_skin, float *_cloth);
   /**< Sets colors for skin and cloth. */
 
- protected:
+ private:
   void load(const char *url);
   /**< Loads body joint points. */
 
@@ -586,10 +585,6 @@ class Body {
   void jpRY(int param);
   void jpRZ(int param);
   /**< Rotates around the Joint Point. */
-
-  //notused void rotatX(int param, float angle);
-  //notused void rotatY(int param, float angle);
-  //notused void rotatZ(int param, float angle);
 
   char * getTok(char *l, int *tok);
   char * skipEqual(char *l);

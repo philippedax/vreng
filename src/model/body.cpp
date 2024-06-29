@@ -54,6 +54,8 @@ static const struct sBodyToken btokens[] = {
   { "head",     Body::BD_HEAD },
   { "neck",     Body::BD_NECK },
   { "chest",    Body::BD_CHEST },
+  { "spinal",	Body::BD_CHEST },
+  { "pelvic",	Body::BD_PELVIC },
   { "hip",      Body::BD_PELVIC },
   { "lShldr",   Body::BD_ARM_L },
   { "lForearm", Body::BD_FARM_L },
@@ -1115,6 +1117,8 @@ void Body::jpRZ(int param)
 /** Renders a part of the body */
 void Body::render(uint8_t part)
 {
+  if (! isPart(part)) return;
+
   glPushMatrix();
   if (part < BD_MAX_PARTS) {
     glMaterialfv(GL_FRONT, GL_DIFFUSE, bd_parts[part].color);
@@ -1169,23 +1173,12 @@ void Body::render(Pos& pos)
     render(BD_PELVIC);
 
     // Abdomen
-    if (isPart(BD_ABDOMEN)) {
-      glPushMatrix();
-      render(BD_ABDOMEN);
-      glPopMatrix();
-    }
+    render(BD_ABDOMEN);
     // Skirt
-    if (isPart(BD_SKIRT)) {
-      glPushMatrix();
-      render(BD_SKIRT);
-      glPopMatrix();
-    }
+    render(BD_SKIRT);
     // Belt
-    if (isPart(BD_BELT)) {
-      glPushMatrix();
-      render(BD_BELT);
-      glPopMatrix();
-    }
+    render(BD_BELT);
+
     // Chest
     glPushMatrix();	//  spinal -> chest (thoracic level 5)
      jpT(JP_SPINAL);
@@ -1194,17 +1187,11 @@ void Body::render(Pos& pos)
      jpRZ(T5_TORS);
      jpT(-JP_SPINAL);
      render(BD_CHEST);
+
      // Collar
-     if (isPart(BD_COLLAR_L)) {
-       glPushMatrix();
-       render(BD_COLLAR_L);
-       glPopMatrix();
-     }
-     if (isPart(BD_COLLAR_R)) {
-       glPushMatrix();
-       render(BD_COLLAR_R);
-       glPopMatrix();
-     }
+     render(BD_COLLAR_L);
+     render(BD_COLLAR_R);
+
      // Lower Neck
      glPushMatrix();	//  lower neck (cervical level 4)
       jpT(JP_LOWER_NECK);
@@ -1213,13 +1200,14 @@ void Body::render(Pos& pos)
       jpRZ(C4_TORS);
       jpT(-JP_LOWER_NECK);
       render(BD_NECK);
+
       // Head
       if (! face) {
         //echo("head render");
         render(BD_HEAD);
       }
 
-      // Haed - Upper Neck
+      // Head - Upper Neck
       glPushMatrix();	//  upper neck -> head (cervical level 1)
       {
        jpT(JP_UPPER_NECK);
@@ -1227,18 +1215,19 @@ void Body::render(Pos& pos)
        jpRY(C1_ROLL);
        jpRZ(C1_TORS);
        if (face) {
-         glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
-         glTranslatef(0, 0.9, -0.9);
-         glRotatef(90, 1,0,0);
+         glPushMatrix();	//  
+          glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
+          glTranslatef(0, 0.9, -0.9);
+          glRotatef(90, 1,0,0);
 
-         glPushMatrix();	//  Face
-          //echo("face render");
-          face->render();	// (YR)
-         glPopMatrix(); 	// face
+          glPushMatrix();	//  Face
+           //echo("face render");
+           face->render();	// (YR)
+          glPopMatrix(); 	// face
+         glPopMatrix();
 
        }
        jpT(-JP_UPPER_NECK);
-       //glPopMatrix(); 	// head
       }
       glPopMatrix(); 	// neck
 
