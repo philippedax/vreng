@@ -395,7 +395,7 @@ class Chest {
  * Body-Parts structure
  */
 struct sBodyParts {
-  uint8_t model;	///< model type used
+  uint8_t bd_model;	///< model type used
   bool loaded;		///< flag loaded or not
   float scale;		///< scale
   float scales[3];	///< scales
@@ -433,41 +433,35 @@ class Body {
  protected:
 
   /* join points numbers */
-  enum {
-    UPPER_NECK,	//
-    LOWER_NECK,	//
-    SPINAL,	//
-    PELVIC,	//
-    L_SHOULDER,	//
-    L_ELBOW,	//
-    L_WRIST,	//
-    R_SHOULDER,	//
-    R_ELBOW,	//
-    R_WRIST,	//
-    L_HIP,	//
-    L_KNEE,	//
-    L_ANKLE,	//
-    R_HIP,	//
-    R_KNEE,	//
-    R_ANKLE,	//
-    MAX_JP
+  enum jp_num {
+    JP_UPPER_NECK,	// 0
+    JP_LOWER_NECK,	// 1
+    JP_SPINAL,		// 2
+    JP_PELVIC,		// 3
+    JP_L_SHOULDER,	// 4
+    JP_L_ELBOW,		// 5
+    JP_L_WRIST,		// 6
+    JP_R_SHOULDER,	// 7
+    JP_R_ELBOW,		// 8
+    JP_R_WRIST,		// 9
+    JP_L_HIP,		// 10
+    JP_L_KNEE,		// 11
+    JP_L_ANKLE,		// 12
+    JP_R_HIP,		// 13
+    JP_R_KNEE,		// 14
+    JP_R_ANKLE,		// 15
+    JP_MAX		// 16
   };
 
-  enum {
-    FLEXION = 0,
-    ABDUCT,
-    TORSION
-  };
-
-  uint8_t drawparts;		///< number of drawable parts
-  uint8_t model;		///< model type used (Off, Obj,...)
-  GLint dlist;			///< body display-list
-  float tx, ty, tz;		///< body translations
-  float rx, ry, rz;		///< body rotations
-  float bscale;			///< body scale factor
-  float skin[3];		///< skin color
-  float cloth[3];		///< cloth color
-  float color[3];		///< color
+  uint8_t bd_draws;		///< number of drawable parts
+  uint8_t bd_model;		///< model type used (Off, Obj,...)
+  GLint bd_dlist;		///< body display-list
+  float bd_tx, bd_ty, bd_tz;	///< body translations
+  float bd_rx, bd_ry, bd_rz;	///< body rotations
+  float bd_scale;		///< body scale factor
+  float bd_skin[3];		///< skin color
+  float bd_cloth[3];		///< cloth color
+  float bd_color[3];		///< color
   char *url;			///< body url
 
   // body parts
@@ -493,7 +487,7 @@ class Body {
   Phalanx2 *phalanx2[10];	///< 10 phalanx2
   Phalanx  *phalanx[10];	///< 10 phalanx
 
-  struct sBodyParts *bodyparts; ///< body parts array
+  struct sBodyParts *bd_parts;	///< body parts array
 
  public:
 
@@ -586,14 +580,11 @@ class Body {
   void render(uint8_t part);
   /**< Renders a part of the body. */
 
-  bool isLoaded(uint8_t part);
+  bool isPart(uint8_t part);
   /**< Returns true if body part exists. */
 
-  void jpTp(uint8_t part);
+  void jpT(int part);
   /**< Translates to the Joint Point. */
-
-  void jpTn(uint8_t part);
-  /**< Translates reverse from the Joint Point. */
 
   void jpRX(int param);
   void jpRY(int param);
