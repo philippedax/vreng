@@ -744,12 +744,13 @@ void Body::setColors(float *_skin, float *_cloth)
   }
 }
 
-/** Animates all body's articulations - called from humanoid.cpp */
+/** Animates all body's articulations - called from humanoid.cpp
+ * usually not well exploited, should be notused !!!
+ */
 void Body::play()
 {
   if (! bap) return;
 
-#if 0 //notused
   if (bap->isBapMask(PELVIC_TILT))	chest->abduct(bap->get(PELVIC_TILT));
   if (bap->isBapMask(PELVIC_TORS))	chest->torsion(bap->get(PELVIC_TORS));
   if (bap->isBapMask(PELVIC_ROLL))	chest->flexion(bap->get(PELVIC_ROLL));
@@ -770,7 +771,6 @@ void Body::play()
   if (bap->isBapMask(R_ANKLE_FLEX))	foot_r->flexion(bap->get(R_ANKLE_FLEX));
   if (bap->isBapMask(L_ANKLE_TORS))	foot_l->torsion(bap->get(L_ANKLE_TORS));
   if (bap->isBapMask(R_ANKLE_TORS))	foot_r->torsion(bap->get(R_ANKLE_TORS));
-#endif //notused
 
   if (bap->isBapMask(L_SHOULDER_FLEX))	arm_l->flexion(bap->get(L_SHOULDER_FLEX));
   if (bap->isBapMask(R_SHOULDER_FLEX))	arm_r->flexion(bap->get(R_SHOULDER_FLEX));
@@ -1002,70 +1002,6 @@ void Body::animHand(float a, uint8_t side, uint8_t axis)
     }
   }
 }
-
-/** Animates body bap articulations - called from humanoid.cpp without server */
-void Body::anim(int param)
-{
-  switch (param) {
-  case PELVIC_TILT:		chest->abduct(bap->get(PELVIC_TILT)); break;
-  case PELVIC_TORS:		chest->torsion(bap->get(PELVIC_TORS)); break;
-  case PELVIC_ROLL:		chest->flexion(bap->get(PELVIC_ROLL)); break;
-
-  case L_HIP_FLEX:		thigh_l->flexion(bap->get(L_HIP_FLEX)); break;
-  case R_HIP_FLEX:		thigh_r->flexion(bap->get(R_HIP_FLEX)); break;
-  case L_HIP_ABDU:		thigh_l->abduct(bap->get(L_HIP_ABDU)); break;
-  case R_HIP_ABDU:		thigh_r->abduct(bap->get(R_HIP_ABDU)); break;
-  case L_HIP_TORS:		thigh_l->torsion(bap->get(L_HIP_TORS)); break;
-  case R_HIP_TORS:		thigh_r->torsion(bap->get(R_HIP_TORS)); break;
-
-  case L_KNEE_FLEX:		shin_l->flexion(bap->get(L_KNEE_FLEX)); break;
-  case R_KNEE_FLEX:		shin_r->flexion(bap->get(R_KNEE_FLEX)); break;
-  case L_KNEE_TORS:		shin_l->torsion(bap->get(L_KNEE_TORS)); break;
-  case R_KNEE_TORS:		shin_r->torsion(bap->get(R_KNEE_TORS)); break;
-
-  case L_ANKLE_FLEX:		foot_l->flexion(bap->get(L_ANKLE_FLEX)); break;
-  case R_ANKLE_FLEX:		foot_r->flexion(bap->get(R_ANKLE_FLEX)); break;
-  case L_ANKLE_TORS:		foot_l->torsion(bap->get(L_ANKLE_TORS)); break;
-  case R_ANKLE_TORS:		foot_r->torsion(bap->get(R_ANKLE_TORS)); break;
-
-  case L_SHOULDER_FLEX:		arm_l->flexion(bap->get(L_SHOULDER_FLEX)); break;
-  case R_SHOULDER_FLEX:		arm_r->flexion(bap->get(R_SHOULDER_FLEX)); break;
-  case L_SHOULDER_ABDU:		arm_l->abduct(bap->get(L_SHOULDER_ABDU)); break;
-  case R_SHOULDER_ABDU:		arm_r->abduct(bap->get(R_SHOULDER_ABDU)); break;
-  case L_SHOULDER_TORS:		arm_l->torsion(bap->get(L_SHOULDER_TORS)); break;
-  case R_SHOULDER_TORS:		arm_r->torsion(bap->get(R_SHOULDER_TORS)); break;
-
-  case L_ELBOW_FLEX:		forearm_l->flexion(bap->get(L_ELBOW_FLEX)); break;
-  case R_ELBOW_FLEX:		forearm_r->flexion(bap->get(R_ELBOW_FLEX)); break;
-
-  case L_WRIST_FLEX:		hand_l->abduct(bap->get(L_WRIST_FLEX)); break;
-  case R_WRIST_FLEX:		hand_r->abduct(bap->get(R_WRIST_FLEX)); break;
-  case L_WRIST_PIVOT:		hand_l->flexion(bap->get(L_WRIST_PIVOT)); break;
-  case R_WRIST_PIVOT:		hand_r->flexion(bap->get(R_WRIST_PIVOT)); break;
-  case L_WRIST_TORS:		hand_l->torsion(bap->get(L_WRIST_TORS)); break;
-  case R_WRIST_TORS:		hand_r->torsion(bap->get(R_WRIST_TORS)); break;
-
-  case C1_ROLL:			head->flexion(bap->get(C1_ROLL)); break;
-  case C1_TILT:			head->abduct(bap->get(C1_TILT)); break;
-  case C1_TORS:			head->torsion(bap->get(C1_TORS)); break;
-
-  case C4_ROLL:			neck->flexion(bap->get(C4_ROLL)); break;
-  case C4_TILT:			neck->abduct(bap->get(C4_TILT)); break;
-  case C4_TORS:			neck->torsion(bap->get(C4_TORS)); break;
-
-  case T1_ROLL:			neck->flexion(bap->get(T1_ROLL)); break;
-  case T1_TILT:			neck->abduct(bap->get(T1_TILT)); break;
-  case T1_TORS:			neck->torsion(bap->get(T1_TORS)); break;
-
-  case TR_VERTICAL:		bd_tz = bap->get(TR_VERTICAL); break;
-  case TR_LATERAL:		bd_ty = bap->get(TR_LATERAL); break;
-  case TR_FRONTAL:		bd_tx = bap->get(TR_FRONTAL); break;
-
-  case RT_BODY_TURN:		bd_rz = bap->get(RT_BODY_TURN); break;
-  case RT_BODY_ROLL:		bd_rx = bap->get(RT_BODY_ROLL); break;
-  case RT_BODY_TILT:		bd_ry = bap->get(RT_BODY_TILT); break;
-  }
-}
 #endif //notused
 
 /** Checks if body part is loaded */
@@ -1236,7 +1172,6 @@ void Body::render(Pos& pos)
       // Left side
       //
 
-      // Left arm
       glPushMatrix();	//  left shoulder -> left arm
        jpT(JP_L_SHOULDER);
        if (bd_model == MODEL_OFF)
@@ -1309,7 +1244,6 @@ void Body::render(Pos& pos)
       // Right side
       //
 
-      // Right arm
       glPushMatrix();	//  right shoulder -> right arm
        jpT(JP_R_SHOULDER);
        if (bd_model == MODEL_OFF)
@@ -1383,61 +1317,58 @@ void Body::render(Pos& pos)
      // bottom
      //
 
-     // Left thigh
+     // Left side
      glPushMatrix();	//  left hip -> left thigh
-     jpT(JP_L_HIP);
-     jpRX(L_HIP_FLEX);
-     jpRY(L_HIP_ABDU);
-     jpRZ(L_HIP_TORS);
-     jpT(-JP_L_HIP);
-     render(BD_THIGH_L);
+      jpT(JP_L_HIP);
+      jpRX(L_HIP_FLEX);
+      jpRY(L_HIP_ABDU);
+      jpRZ(L_HIP_TORS);
+      jpT(-JP_L_HIP);
+      render(BD_THIGH_L);
 
-     // Left shin
-     glPushMatrix();	//  left knee -> left shin
-      jpT(JP_L_KNEE);
-      jpRX(L_KNEE_FLEX);
-      jpRZ(L_KNEE_TORS);
-      jpT(-JP_L_KNEE);
-      render(BD_SHIN_L);
+      glPushMatrix();	//  left knee -> left shin
+       jpT(JP_L_KNEE);
+       jpRX(L_KNEE_FLEX);
+       jpRZ(L_KNEE_TORS);
+       jpT(-JP_L_KNEE);
+       render(BD_SHIN_L);
 
-      // Left foot
-      glPushMatrix();	//  left ankle -> left foot
-       jpT(JP_L_ANKLE);
-       jpRX(L_ANKLE_FLEX);
-       jpRZ(L_ANKLE_TORS);
-       jpT(-JP_L_ANKLE);
-       render(BD_FOOT_L);
-      glPopMatrix();	// l_ankle
-     glPopMatrix();	// l_knee
-    glPopMatrix();	// l_thigh
+       glPushMatrix();	//  left ankle -> left foot
+        jpT(JP_L_ANKLE);
+        jpRX(L_ANKLE_FLEX);
+        jpRZ(L_ANKLE_TORS);
+        jpT(-JP_L_ANKLE);
+        render(BD_FOOT_L);
+       glPopMatrix();	// l_ankle
+      glPopMatrix();	// l_knee
+     glPopMatrix();	// l_thigh
 
-    // Right thigh
-    glPushMatrix();	//  right hip -> right thigh
-     jpT(JP_R_HIP);
-     jpRX(R_HIP_FLEX);
-     jpRY(R_HIP_ABDU);
-     jpRZ(R_HIP_TORS);
-     jpT(-JP_R_HIP);
-     render(BD_THIGH_R);
+     // Right side
+     glPushMatrix();	//  right hip -> right thigh
+      jpT(JP_R_HIP);
+      jpRX(R_HIP_FLEX);
+      jpRY(R_HIP_ABDU);
+      jpRZ(R_HIP_TORS);
+      jpT(-JP_R_HIP);
+      render(BD_THIGH_R);
 
-     // Right shin
-     glPushMatrix();	//  right knee -> right shin
-      jpT(JP_R_KNEE);
-      jpRX(R_KNEE_FLEX);
-      jpRZ(R_KNEE_TORS);
-      jpT(-JP_R_KNEE);
-      render(BD_SHIN_R);
+      glPushMatrix();	//  right knee -> right shin
+       jpT(JP_R_KNEE);
+       jpRX(R_KNEE_FLEX);
+       jpRZ(R_KNEE_TORS);
+       jpT(-JP_R_KNEE);
+       render(BD_SHIN_R);
 
-      // Right foot
-      glPushMatrix();	//  right ankle -> right foot
-       jpT(JP_R_ANKLE);
-       jpRX(R_ANKLE_FLEX);
-       jpRZ(R_ANKLE_TORS);
-       jpT(-JP_R_ANKLE);
-       render(BD_FOOT_R);
-      glPopMatrix();	// r_ankle
-     glPopMatrix();	// r_knee
-    glPopMatrix();	// r_hip
+       glPushMatrix();	//  right ankle -> right foot
+        jpT(JP_R_ANKLE);
+        jpRX(R_ANKLE_FLEX);
+        jpRZ(R_ANKLE_TORS);
+        jpT(-JP_R_ANKLE);
+        render(BD_FOOT_R);
+       glPopMatrix();	// r_ankle
+      glPopMatrix();	// r_knee
+     glPopMatrix();	// r_hip
+    glPopMatrix();	// chest
    glPopMatrix();	// pelvic
 
    glDisable(GL_COLOR_MATERIAL);
