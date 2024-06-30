@@ -434,18 +434,18 @@ class Body {
     JP_LOWER_NECK,	// 1
     JP_SPINAL,		// 2
     JP_PELVIC,		// 3
-    JP_L_SHOULDER,	// 4
-    JP_L_ELBOW,		// 5
-    JP_L_WRIST,		// 6
-    JP_R_SHOULDER,	// 7
-    JP_R_ELBOW,		// 8
-    JP_R_WRIST,		// 9
-    JP_L_HIP,		// 10
-    JP_L_KNEE,		// 11
-    JP_L_ANKLE,		// 12
-    JP_R_HIP,		// 13
-    JP_R_KNEE,		// 14
-    JP_R_ANKLE,		// 15
+    JP_SHOULDER_L,	// 4
+    JP_ELBOW_L,		// 5
+    JP_WRIST_L,		// 6
+    JP_SHOULDER_R,	// 7
+    JP_ELBOW_R,		// 8
+    JP_WRIST_R,		// 9
+    JP_HIP_L,		// 10
+    JP_KNEE_L,		// 11
+    JP_ANKLE_L,		// 12
+    JP_HIP_R,		// 13
+    JP_KNEE_R,		// 14
+    JP_ANKLE_R,		// 15
     JP_MAX		// 16
   };
 
