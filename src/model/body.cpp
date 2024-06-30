@@ -57,8 +57,6 @@ static const struct sBodyToken btokens[] = {
   { "head",     Body::BD_HEAD },
   { "neck",     Body::BD_NECK },
   { "chest",    Body::BD_CHEST },
-  { "spinal",	Body::BD_CHEST },
-  { "pelvic",	Body::BD_PELVIC },
   { "hip",      Body::BD_PELVIC },
   { "lShldr",   Body::BD_ARM_L },
   { "lForearm", Body::BD_FARM_L },
@@ -87,7 +85,7 @@ static const struct sBodyToken btokens[] = {
   { "rRing",    Body::BD_RING_R },
   { "rPinky",   Body::BD_PINKY_R },
   { "skirt",    Body::BD_SKIRT },
-  { "/body",    Body::BD_MAX_PARTS /* -1 */ } // James Addison C++14 compatible
+  { "/body",    Body::BD_PARTS /* bad -1 */ } // James Addison C++14 compatible
 };
 
 
@@ -596,13 +594,13 @@ void Body::loadBodyParts(FILE *f)
 
   tex[0] = '\0';
   // alloc bodyparts and joint-points arrays
-  bd_parts = new sBodyParts[BD_MAX_PARTS];
-  jp.x = new float[BD_MAX_PARTS];
-  jp.y = new float[BD_MAX_PARTS];
-  jp.z = new float[BD_MAX_PARTS];
+  bd_parts = new sBodyParts[BD_PARTS];
+  jp.x = new float[BD_PARTS];
+  jp.y = new float[BD_PARTS];
+  jp.z = new float[BD_PARTS];
 
   // init bodyparts
-  for (int i=0; i < BD_MAX_PARTS; i++) {
+  for (int i=0; i < BD_PARTS; i++) {
     bd_parts[i].loaded = false;
     bd_parts[i].scale = 1;
     for (int j=0; j<3 ; j++) bd_parts[i].scales[j] = 1;
@@ -638,13 +636,13 @@ void Body::loadBodyParts(FILE *f)
   }
 
   if (*tex) {
-    for (int i=0; i < BD_MAX_PARTS; i++) {
+    for (int i=0; i < BD_PARTS; i++) {
       strcpy(bd_parts[i].texurl, tex);
     }
   }
 
   // get body joint points and urls
-  for (int i=0; i < BD_MAX_PARTS; i++) {
+  for (int i=0; i < BD_PARTS; i++) {
     if (! fgets(jpline, sizeof(jpline), f)) break;
     jpline[strlen(jpline) - 1] = '\0';
     //echo("loadBodyParts: %s", jpline);
@@ -695,7 +693,7 @@ void Body::loadBodyParts(FILE *f)
 
 endloadbody:
   // now we can download all parts
-  for (int i=0; i < BD_MAX_PARTS; i++) {
+  for (int i=0; i < BD_PARTS; i++) {
     if (bd_parts[i].url[0]) {  // if url exist
       bd_parts[i].model = Format::getModelByUrl(bd_parts[i].url);
 
@@ -1073,7 +1071,7 @@ void Body::anim(int param)
 /** Checks if body part is loaded */
 bool Body::isPart(uint8_t part)
 {
-  if (part < BD_MAX_PARTS)
+  if (part < BD_PARTS)
     return bd_parts[part].loaded;
   return false;
 }
@@ -1082,7 +1080,7 @@ bool Body::isPart(uint8_t part)
 void Body::jpT(int part)
 {
   int sign = (part >= 0) ?1:-1;
-  if (abs(part) < BD_MAX_PARTS) {
+  if (abs(part) < BD_PARTS) {
     if (bd_model == MODEL_OBJ)
       glTranslatef(sign * jp.y[abs(part)], sign * jp.x[abs(part)], sign * jp.z[abs(part)]);
     else
@@ -1123,7 +1121,7 @@ void Body::render(uint8_t part)
   if (! isPart(part)) return;
 
   glPushMatrix();
-  if (part < BD_MAX_PARTS) {
+  if (part < BD_PARTS) {
     glMaterialfv(GL_FRONT, GL_DIFFUSE, bd_parts[part].color);
     if (bd_parts[part].texid) {
       glEnable(GL_TEXTURE_2D);

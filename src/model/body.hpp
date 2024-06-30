@@ -520,7 +520,7 @@ class Body {
     BD_RING_R,		// 28
     BD_PINKY_R,		// 29
     BD_SKIRT,		// 30
-    BD_MAX_PARTS	// 31
+    BD_PARTS		// 31
   };
 
   struct sJP jp;		///< jointpoints.
