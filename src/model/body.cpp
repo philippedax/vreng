@@ -50,6 +50,9 @@ const float Shin::SHIN_LEN = 0.265;		// default shin length
 const float Thigh::THIGH_LEN = 0.25;		// default thigh length
 const float Chest::CHEST_LEN = 0.30;		// default chest length
 
+//
+// see description: data/body/man.body or data/body/woman.body
+//
 static const struct sBodyToken btokens[] = {
   { "head",     Body::BD_HEAD },
   { "neck",     Body::BD_NECK },
@@ -1266,35 +1269,35 @@ void Body::render(Pos& pos)
 #if 0 // left fingers
           glPushMatrix();	//  left thumb
            jpT(L_THUMB);
-           jpRX(L_THUMB0_FLEX);
+           jpRX(L_THUMB1_FLEX);
            jpT(-L_THUMB);
            render(BD_THUMB_L);
           glPopMatrix();
 
           glPushMatrix();	//  left index
            jpT(L_INDEX);
-           jpRX(L_INDEX0_FLEX);
+           jpRX(L_INDEX1_FLEX);
            jpT(-L_INDEX);
            render(BD_INDEX_L);
           glPopMatrix();
 
           glPushMatrix();	//  left middle
            jpT(L_MIDDLE);
-           jpRX(L_MIDDLE0_FLEX);
+           jpRX(L_MIDDLE1_FLEX);
            jpT(-L_MIDDLE);
            render(BD_MIDDLE_L);
           glPopMatrix();
 
           glPushMatrix();	//  left ring
            jpT(L_RING);
-           jpRX(L_RING0_FLEX);
+           jpRX(L_RING1_FLEX);
            jpT(-L_RING);
            render(BD_RING_L);
           glPopMatrix();
 
           glPushMatrix();	//  left pinky
            jpT(L_PINKY);
-	   jpRX(L_PINKY0_FLEX);
+	   jpRX(L_PINKY1_FLEX);
            jpT(-L_PINKY);
            render(BD_PINKY_L);
           glPopMatrix();	// left pinky
@@ -1339,35 +1342,35 @@ void Body::render(Pos& pos)
 #if 0 // right fingers
           glPushMatrix();	//  right thumb
            jpT(R_THUMB);
-           jpRX(R_THUMB0_FLEX);
+           jpRX(R_THUMB1_FLEX);
            jpT(-R_THUMB);
            render(BD_THUMB_R);
           glPopMatrix();
 
           glPushMatrix();	//  right index
            jpT(R_INDEX);
-           jpRX(R_INDEX0_FLEX);
+           jpRX(R_INDEX1_FLEX);
            jpT(-R_INDEX);
            render(BD_INDEX_R);
           glPopMatrix();
 
           glPushMatrix();	//  right middle
            jpT(R_MIDDLE);
-           jpRX(R_MIDDLE0_FLEX);
+           jpRX(R_MIDDLE1_FLEX);
            jpT(-R_MIDDLE);
            render(BD_MIDDLE_R);
           glPopMatrix();
 
           glPushMatrix();	//  right ring
            jpT(R_RING);
-           jpRX(R_RING0_FLEX);
+           jpRX(R_RING1_FLEX);
            jpT(-R_RING);
            render(BD_RING_R);
           glPopMatrix();
 
           glPushMatrix();	//  right pinky
            jpT(R_PINKY);
-           jpRX(R_PINKY0_FLEX);
+           jpRX(R_PINKY1_FLEX);
            jpT(-R_PINKY);
            render(BD_PINKY_R);
           glPopMatrix();	// right pinky
