@@ -12,10 +12,12 @@ The rules for this file:
 * date and author format: (YYYY/MM/DD, Author).
 ------------------------------------------
 
-++ 9 [2024/04]
-== 9.4 (2024/04)
+++ 9 [2024/07]
+== 9.4 (2024/07)
 -- 9.4.6
-	- fix bap parameters to 186
+	- new syntax of body parts body/avatar.body
+	(2024/07/01, Philippe Dax)
+	- fix number of bap parameters to 186
 	(2024/06/11, Philippe Dax)
 	- rewrite playing local bap
 	- add v3d.*pp
