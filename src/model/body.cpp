@@ -32,9 +32,11 @@
 #include "cache.hpp"	// open, close
 #include "pref.hpp"	// trace
 
+// macro
 #define TRACE(s,v) if(::g.pref.trace) echo("%s: %.0f", s,v);
 
 
+// default const
 const float Phalanx2::PHALANX2_LEN = 0.012;	// default phalanx2 length
 const float Phalanx::PHALANX_LEN = 0.012;	// default phalanx length
 const float Finger::FINGER_LEN = 0.0375;	// default finger length
@@ -50,9 +52,19 @@ const float Shin::SHIN_LEN = 0.265;		// default shin length
 const float Thigh::THIGH_LEN = 0.25;		// default thigh length
 const float Chest::CHEST_LEN = 0.30;		// default chest length
 
+/////////////////////////////////////////////////////////
 //
-// see description: data/body/man.body or data/body/woman.body
+// syntax of data/body/avatar.body :
 //
+// <body>
+// <part jp="x y z" url="/mdl/part.mdl"/>
+// < ... />
+// </body>
+//
+// see examples: data/body/man.body, data/body/woman.body
+//
+/////////////////////////////////////////////////////////
+
 static const struct sBodyToken btokens[] = {
   { "head",		Body::BD_HEAD },
   { "neck",		Body::BD_NECK },
@@ -1129,9 +1141,9 @@ void Body::render(Pos& pos)
    // Pelvic
    glPushMatrix();	// pelvic
     jpT(JP_PELVIC);
-    jpRX(PELVIC_TILT);
-    jpRY(PELVIC_ROLL);
-    jpRZ(PELVIC_TORS);
+     jpRX(PELVIC_TILT);
+     jpRY(PELVIC_ROLL);
+     jpRZ(PELVIC_TORS);
     jpT(-JP_PELVIC);
     render(BD_PELVIC);
 
@@ -1145,9 +1157,9 @@ void Body::render(Pos& pos)
     // Chest
     glPushMatrix();	// spinal -> chest (thoracic level 5)
      jpT(JP_SPINAL);
-     jpRX(T5_TILT);
-     jpRY(T5_ROLL);
-     jpRZ(T5_TORS);
+      jpRX(T5_TILT);
+      jpRY(T5_ROLL);
+      jpRZ(T5_TORS);
      jpT(-JP_SPINAL);
      render(BD_CHEST);
 
@@ -1158,9 +1170,9 @@ void Body::render(Pos& pos)
      // Lower Neck
      glPushMatrix();	// lower neck (cervical level 4)
       jpT(JP_LOWER_NECK);
-      jpRX(C4_TILT);
-      jpRY(C4_ROLL);
-      jpRZ(C4_TORS);
+       jpRX(C4_TILT);
+       jpRY(C4_ROLL);
+       jpRZ(C4_TORS);
       jpT(-JP_LOWER_NECK);
       render(BD_NECK);
 
@@ -1173,9 +1185,9 @@ void Body::render(Pos& pos)
       // Head - Upper Neck
       glPushMatrix();	// upper neck -> head (cervical level 1)
        jpT(JP_UPPER_NECK);
-       jpRX(C1_TILT);
-       jpRY(C1_ROLL);
-       jpRZ(C1_TORS);
+        jpRX(C1_TILT);
+        jpRY(C1_ROLL);
+        jpRZ(C1_TORS);
        if (face) {
          glPushMatrix();	// face
           glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
@@ -1196,57 +1208,57 @@ void Body::render(Pos& pos)
        jpT(JP_SHOULDER_L);
        if (bd_model == MODEL_OFF)
          glRotatef(-90, 0,0,1);  //OK but FIXME
-       jpRX(L_SHOULDER_ABDU);
-       jpRY(-L_SHOULDER_FLEX);	// - why ???
-       jpRZ(-L_SHOULDER_TORS);	// - why ???
+        jpRX(L_SHOULDER_ABDU);
+        jpRY(-L_SHOULDER_FLEX);	// - why ???
+        jpRZ(-L_SHOULDER_TORS);	// - why ???
        jpT(-JP_SHOULDER_L);
        render(BD_ARM_L);
 
        // Left forearm
        glPushMatrix();	// left elbow -> left forearm
         jpT(JP_ELBOW_L);
-        jpRY(-L_ELBOW_FLEX);	// - why ???
-        jpRZ(L_ELBOW_TORS);
+         jpRY(-L_ELBOW_FLEX);	// - why ???
+         jpRZ(L_ELBOW_TORS);
         jpT(-JP_ELBOW_L);
         render(BD_FARM_L);
 
         // Left hand
         glPushMatrix();	// left wrist -> left hand
          jpT(JP_WRIST_L);
-         jpRX(-L_WRIST_FLEX);	// - why ???
-         jpRY(L_WRIST_PIVOT);
-         jpRZ(L_WRIST_TORS);
+          jpRX(-L_WRIST_FLEX);	// - why ???
+          jpRY(L_WRIST_PIVOT);
+          jpRZ(L_WRIST_TORS);
          jpT(-JP_WRIST_L);
          render(BD_HAND_L);
 
 #if 1 // left fingers
           glPushMatrix();	// left thumb
            jpT(JP_WRIST_L);
-           jpRX(L_THUMB1_FLEX);
+            jpRX(L_THUMB1_FLEX);
            jpT(-JP_WRIST_L);
            render(BD_THUMB_L);
           glPopMatrix();
           glPushMatrix();	// left index
            jpT(JP_WRIST_L);
-           jpRX(L_INDEX1_FLEX);
+            jpRX(L_INDEX1_FLEX);
            jpT(-JP_WRIST_L);
            render(BD_INDEX_L);
           glPopMatrix();
           glPushMatrix();	// left middle
            jpT(JP_WRIST_L);
-           jpRX(L_MIDDLE1_FLEX);
+            jpRX(L_MIDDLE1_FLEX);
            jpT(-JP_WRIST_L);
            render(BD_MIDDLE_L);
           glPopMatrix();
           glPushMatrix();	// left ring
            jpT(JP_WRIST_L);
-           jpRX(L_RING1_FLEX);
+            jpRX(L_RING1_FLEX);
            jpT(-JP_WRIST_L);
            render(BD_RING_L);
           glPopMatrix();
           glPushMatrix();	// left pinky
            jpT(JP_WRIST_L);
-	   jpRX(L_PINKY1_FLEX);
+	    jpRX(L_PINKY1_FLEX);
            jpT(-JP_WRIST_L);
            render(BD_PINKY_L);
           glPopMatrix();	// left pinky
@@ -1264,57 +1276,57 @@ void Body::render(Pos& pos)
        jpT(JP_SHOULDER_R);
        if (bd_model == MODEL_OFF)
          glRotatef(90, 0,0,1);	//OK but FIXME
-       jpRX(-R_SHOULDER_ABDU);	// - why ???
-       jpRY(R_SHOULDER_FLEX);
-       jpRZ(-R_SHOULDER_TORS);	// - why ???
+        jpRX(-R_SHOULDER_ABDU);	// - why ???
+        jpRY(R_SHOULDER_FLEX);
+        jpRZ(-R_SHOULDER_TORS);	// - why ???
        jpT(-JP_SHOULDER_R);
        render(BD_ARM_R);
 
        // Right forearm
        glPushMatrix();	// right elbow -> right forearm
         jpT(JP_ELBOW_R);
-        jpRY(R_ELBOW_FLEX);
-        jpRZ(-R_ELBOW_TORS);	// - why ???
+         jpRY(R_ELBOW_FLEX);
+         jpRZ(-R_ELBOW_TORS);	// - why ???
         jpT(-JP_ELBOW_R);
         render(BD_FARM_R);
 
         // Right hand
         glPushMatrix();	// right wrist -> right hand
          jpT(JP_WRIST_R);
-         jpRX(-R_WRIST_FLEX);	// - why ???
-         jpRY(R_WRIST_PIVOT);
-         jpRZ(R_WRIST_TORS);
+          jpRX(-R_WRIST_FLEX);	// - why ???
+          jpRY(R_WRIST_PIVOT);
+          jpRZ(R_WRIST_TORS);
          jpT(-JP_WRIST_R);
          render(BD_HAND_R);
 
 #if 1 // right fingers
           glPushMatrix();	// right thumb
            jpT(JP_WRIST_R);
-           jpRX(R_THUMB1_FLEX);
+            jpRX(R_THUMB1_FLEX);
            jpT(-JP_WRIST_R);
            render(BD_THUMB_R);
           glPopMatrix();
           glPushMatrix();	// right index
            jpT(JP_WRIST_R);
-           jpRX(R_INDEX1_FLEX);
+            jpRX(R_INDEX1_FLEX);
            jpT(-JP_WRIST_R);
            render(BD_INDEX_R);
           glPopMatrix();
           glPushMatrix();	// right middle
            jpT(JP_WRIST_R);
-           jpRX(R_MIDDLE1_FLEX);
+            jpRX(R_MIDDLE1_FLEX);
            jpT(-JP_WRIST_R);
            render(BD_MIDDLE_R);
           glPopMatrix();
           glPushMatrix();	// right ring
            jpT(JP_WRIST_R);
-           jpRX(R_RING1_FLEX);
+            jpRX(R_RING1_FLEX);
            jpT(-JP_WRIST_R);
            render(BD_RING_R);
           glPopMatrix();
           glPushMatrix();	// right pinky
            jpT(JP_WRIST_R);
-           jpRX(R_PINKY1_FLEX);
+            jpRX(R_PINKY1_FLEX);
            jpT(-JP_WRIST_R);
            render(BD_PINKY_R);
           glPopMatrix();	// right pinky
@@ -1332,54 +1344,54 @@ void Body::render(Pos& pos)
      // Left side
      glPushMatrix();	// left hip -> left thigh
       jpT(JP_HIP_L);
-      jpRX(L_HIP_FLEX);
-      jpRY(L_HIP_ABDU);
-      jpRZ(L_HIP_TORS);
+       jpRX(L_HIP_FLEX);
+       jpRY(L_HIP_ABDU);
+       jpRZ(L_HIP_TORS);
       jpT(-JP_HIP_L);
       render(BD_THIGH_L);
 
       glPushMatrix();	// left knee -> left shin
        jpT(JP_KNEE_L);
-       jpRX(L_KNEE_FLEX);
-       jpRZ(L_KNEE_TORS);
+        jpRX(L_KNEE_FLEX);
+        jpRZ(L_KNEE_TORS);
        jpT(-JP_KNEE_L);
        render(BD_SHIN_L);
 
        glPushMatrix();	// left ankle -> left foot
         jpT(JP_ANKLE_L);
-        jpRX(L_ANKLE_FLEX);
-        jpRZ(L_ANKLE_TORS);
+         jpRX(L_ANKLE_FLEX);
+         jpRZ(L_ANKLE_TORS);
         jpT(-JP_ANKLE_L);
         render(BD_FOOT_L);
-       glPopMatrix();	// l_ankle
-      glPopMatrix();	// l_knee
-     glPopMatrix();	// l_thigh
+       glPopMatrix();	// left ankle
+      glPopMatrix();	// left knee
+     glPopMatrix();	// left hip
 
      // Right side
      glPushMatrix();	// right hip -> right thigh
       jpT(JP_HIP_R);
-      jpRX(R_HIP_FLEX);
-      jpRY(R_HIP_ABDU);
-      jpRZ(R_HIP_TORS);
+       jpRX(R_HIP_FLEX);
+       jpRY(R_HIP_ABDU);
+       jpRZ(R_HIP_TORS);
       jpT(-JP_HIP_R);
       render(BD_THIGH_R);
 
       glPushMatrix();	// right knee -> right shin
        jpT(JP_KNEE_R);
-       jpRX(R_KNEE_FLEX);
-       jpRZ(R_KNEE_TORS);
+        jpRX(R_KNEE_FLEX);
+        jpRZ(R_KNEE_TORS);
        jpT(-JP_KNEE_R);
        render(BD_SHIN_R);
 
        glPushMatrix();	// right ankle -> right foot
         jpT(JP_ANKLE_R);
-        jpRX(R_ANKLE_FLEX);
-        jpRZ(R_ANKLE_TORS);
+         jpRX(R_ANKLE_FLEX);
+         jpRZ(R_ANKLE_TORS);
         jpT(-JP_ANKLE_R);
         render(BD_FOOT_R);
-       glPopMatrix();	// r_ankle
-      glPopMatrix();	// r_knee
-     glPopMatrix();	// r_hip
+       glPopMatrix();	// right ankle
+      glPopMatrix();	// right knee
+     glPopMatrix();	// right hip
     glPopMatrix();	// chest
    glPopMatrix();	// pelvic
 
