@@ -1,32 +1,32 @@
 <body scale="1" tex="/gif/skin.gif">
-<head      jp="0      -0.007 1.679"  url="/obj/head.obj" />
-<neck      jp="0       0.017 1.549"  url="/obj/neck.obj" />
-<chest     jp="0      -0.021 1.387"  url="/obj/chest.obj" />
-<hip       jp="0       0.015 0.985"  url="/obj/hip.obj" />
-<lShldr    jp="-0.259 -0.010 1.467"  url="/obj/shoulder_l.obj" />
-<lForearm  jp="-0.483  0.036 1.468"  url="/obj/forearm_l.obj" />
-<lHand     jp="-0.693  0.027 1.463"  url="/obj/hand_l.obj" />
-<rShldr    jp="0.259  -0.010 1.467"  url="/obj/shoulder_r.obj" />
-<rForearm  jp="0.483   0.036 1.468"  url="/obj/forearm_r.obj" />
-<rHand     jp="0.693   0.027 1.463"  url="/obj/hand_r.obj" />
-<lThigh    jp="-0.085  0.006 0.771"  url="/obj/thigh_l.obj" />
-<lShin     jp="-0.078 -0.009 0.303"  url="/obj/shin_l.obj" />
-<lFoot     jp="-0.079 -0.083 0.045"  url="/obj/foot_l.obj" />
-<rThigh    jp="0.085   0.006 0.771"  url="/obj/thigh_r.obj" />
-<rShin     jp="0.078  -0.009 0.303"  url="/obj/shin_r.obj" />
-<rFoot     jp="0.079  -0.083 0.045"  url="/obj/foot_r.obj" />
-<abdomen   jp="0      -0.027 1.185"  url="/obj/abdomen.obj" />
-<lCollar   jp="-0.102 -0.003 1.424"  url="/obj/collar_l.obj" />
-<rCollar   jp="0.102  -0.003 1.424"  url="/obj/collar_r.obj" />
-<skirt     jp="0      -0.031 0.648"  url="/obj/skirt.obj" scale=".9" tex="/png/skirt.png" />
-<lThumb    jp="-0.698  0.032 1.463" />
-<lIndex    jp="-0.703  0.029 1.463" />
-<lMiddle   jp="-0.703  0.027 1.463" />
-<lRing     jp="-0.703  0.026 1.463" />
-<lPinky    jp="-0.703  0.025 1.463" />
-<rThumb    jp="0.703   0.032 1.463" />
-<rIndex    jp="0.703   0.029 1.463" />
-<rMiddle   jp="0.703   0.027 1.463" />
-<rRing     jp="0.703   0.026 1.463" />
-<rPinky    jp="0.703   0.025 1.463" />
+<head		jp="0      -0.007 1.679" url="/obj/head.obj"/>
+<neck		jp="0       0.017 1.549" url="/obj/neck.obj"/>
+<chest		jp="0      -0.021 1.387" url="/obj/chest.obj"/>
+<hip		jp="0       0.015 0.985" url="/obj/hip.obj"/>
+<shoulder-l	jp="-0.259 -0.010 1.467" url="/obj/shoulder_l.obj"/>
+<forearm-l	jp="-0.483  0.036 1.468" url="/obj/forearm_l.obj"/>
+<hand-l		jp="-0.693  0.027 1.463" url="/obj/hand_l.obj"/>
+<shoulder-r	jp="0.259  -0.010 1.467" url="/obj/shoulder_r.obj"/>
+<forearm-r	jp="0.483   0.036 1.468" url="/obj/forearm_r.obj"/>
+<hand-r		jp="0.693   0.027 1.463" url="/obj/hand_r.obj"/>
+<thigh-l	jp="-0.085  0.006 0.771" url="/obj/thigh_l.obj"/>
+<shin-l		jp="-0.078 -0.009 0.303" url="/obj/shin_l.obj"/>
+<foot-l		jp="-0.079 -0.083 0.045" url="/obj/foot_l.obj"/>
+<thigh-r	jp="0.085   0.006 0.771" url="/obj/thigh_r.obj"/>
+<shin-r		jp="0.078  -0.009 0.303" url="/obj/shin_r.obj"/>
+<foot-r		jp="0.079  -0.083 0.045" url="/obj/foot_r.obj"/>
+<abdomen	jp="0      -0.027 1.185" url="/obj/abdomen.obj"/>
+<collar-l	jp="-0.102 -0.003 1.424" url="/obj/collar_l.obj"/>
+<collar-r	jp="0.102  -0.003 1.424" url="/obj/collar_r.obj"/>
+<skirt		jp="0      -0.031 0.648" url="/obj/skirt.obj" scale=".9" tex="/png/skirt.png"/>
+<thumb-l	jp="-0.698  0.032 1.463"/>
+<index-l	jp="-0.703  0.029 1.463"/>
+<middle-l	jp="-0.703  0.027 1.463"/>
+<ring-l		jp="-0.703  0.026 1.463"/>
+<pinky-l	jp="-0.703  0.025 1.463"/>
+<thumb-r	jp="0.703   0.032 1.463"/>
+<index-r	jp="0.703   0.029 1.463"/>
+<middle-r	jp="0.703   0.027 1.463"/>
+<ring-r		jp="0.703   0.026 1.463"/>
+<pinky-r	jp="0.703   0.025 1.463"/>
 </body>
