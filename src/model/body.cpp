@@ -85,6 +85,34 @@ static const struct sBodyToken btokens[] = {
   { "ring-r",		Body::BD_RING_R },
   { "pinky-r",		Body::BD_PINKY_R },
   { "skirt",		Body::BD_SKIRT },
+  //
+  // compatibility with old syntax
+  // in the case where exist in cache
+  //
+  { "lShldr",		Body::BD_ARM_L },
+  { "lForearm",		Body::BD_FARM_L },
+  { "lHand",		Body::BD_HAND_L },
+  { "rShldr",		Body::BD_ARM_R },
+  { "rForearm",		Body::BD_FARM_R },
+  { "rHand",		Body::BD_HAND_R },
+  { "lThigh",		Body::BD_THIGH_L },
+  { "lShin",		Body::BD_SHIN_L },
+  { "lFoot",		Body::BD_FOOT_L },
+  { "rThigh",		Body::BD_THIGH_R },
+  { "rShin",		Body::BD_SHIN_R },
+  { "rFoot",		Body::BD_FOOT_R },
+  { "lCollar",		Body::BD_COLLAR_L },
+  { "rCollar",		Body::BD_COLLAR_R },
+  { "lThumb",		Body::BD_THUMB_L },
+  { "lIndex",		Body::BD_INDEX_L },
+  { "lMiddle",		Body::BD_MIDDLE_L },
+  { "lRing",		Body::BD_RING_L },
+  { "lPinky",		Body::BD_PINKY_L },
+  { "rThumb",		Body::BD_THUMB_R },
+  { "rIndex",		Body::BD_INDEX_R },
+  { "rMiddle",		Body::BD_MIDDLE_R },
+  { "rRing",		Body::BD_RING_R },
+  { "rPinky",		Body::BD_PINKY_R },
   { "/body",		Body::BD_PARTS /* bad -1 */ } // James Addison C++14 compatible
 };
 
