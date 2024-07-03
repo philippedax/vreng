@@ -777,7 +777,6 @@ void World::quit()
   for (vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
-    if (::g.pref.trace) echo("del: %s", (*it)->objectName());
     if (! strlen((*it)->objectName())) continue;	// avoid segfault
     (*it)->quit();	// sometimes segfault FIXME!!!
     delete *it;
@@ -786,7 +785,6 @@ void World::quit()
 
   // mobile objects
   for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if (::g.pref.trace) echo("del: %s", (*it)->objectName());
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
     if ((*it)->deleted) continue;
