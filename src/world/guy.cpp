@@ -109,8 +109,8 @@ void Guy::inits()
 
   draw();
 
-  //dax1 name.url = new char[URL_LEN];
-  strcpy(name.url, DEF_URL_GUY);
+  //name.url = new char[URL_LEN];
+  //strcpy(name.url, DEF_URL_GUY);
   Http::httpOpen(name.url, reader, this, 0);
 
   computeCurve();
@@ -154,6 +154,7 @@ void Guy::reader(void *_guy, Http *http)
     error("can't open %s", http->url);
     return;
   }
+  //echo("url: %s", http->url);
 
   char *l, line[256];
 
