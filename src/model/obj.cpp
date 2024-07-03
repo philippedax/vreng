@@ -40,9 +40,9 @@ Obj::Obj(const char *_url)
 {
   OBJModel.numObjects = 0;
   OBJModel.numMaterials = 0;
-  bObjectHasUV = false;
-  bObjectHasNormal = false;
-  bJustReadAFace = false;
+  hasUV = false;
+  hasNormal = false;
+  justFace = false;
   flgcolor = false;
   for (int i=0; i<4 ; i++) {
     mat_diffuse[i] = 1;
@@ -60,9 +60,9 @@ Obj::Obj(const char *_url, int _flgpart)
 {
   OBJModel.numObjects = 0;
   OBJModel.numMaterials = 0;
-  bObjectHasUV = false;
-  bObjectHasNormal = false;
-  bJustReadAFace = false;
+  hasUV = false;
+  hasNormal = false;
+  justFace = false;
   flgcolor = false;
   for (int i=0; i<4 ; i++) {
     mat_diffuse[i] = 1;
@@ -142,7 +142,7 @@ bool Obj::importTextures()
 int Obj::openTexture(const char *file)
 {
   char *end = strrchr(url, '/');
-  int i=0;
+  int i = 0;
   char urltex[URL_LEN];
 
   for (char *p = url; p != end; i++, p++) urltex[i] = *p;
@@ -161,9 +161,9 @@ float Obj::getScale()
     for (int j=0; j < pobject->numFaces; j++)
       for (int v = 0; v < 3; v++) {
         int vi = pobject->pFaces[j].vertIndex[v];
-        double r= pobject->pVerts[vi].x * pobject->pVerts[vi].x +
-                  pobject->pVerts[vi].y * pobject->pVerts[vi].y +
-                  pobject->pVerts[vi].z * pobject->pVerts[vi].z ;
+        double r = pobject->pVerts[vi].x * pobject->pVerts[vi].x +
+                   pobject->pVerts[vi].y * pobject->pVerts[vi].y +
+                   pobject->pVerts[vi].z * pobject->pVerts[vi].z ;
         if (r > max_radius) max_radius = r;
       }
   }
@@ -250,7 +250,7 @@ GLint Obj::displaylist()
   return dlist;
 }
 
-/** Draws obj */
+/** Draws OBJ */
 void Obj::draw()
 {
   if (!loaded) return;
@@ -291,7 +291,6 @@ bool Obj::importModel(tOBJModel *pmodel)
 
   readFile(pmodel);		// let's read in the info!
   computeNormals(pmodel);	// compute the vertex normals for lighting
-
   return true;
 }
 
@@ -301,90 +300,89 @@ void Obj::readFile(tOBJModel *pmodel)
   char line[256];
 
   while (! feof(fp)) {
-    switch (fgetc(fp)) { // get the beginning character of the current line
-    case 'v':		// check if we just read in a 'v' (vertice/normal/textureCoord)
-      if (bJustReadAFace) fillInObjectInfo(pmodel); // save the last object's info
-      readVertexInfo(); // see if it's a vertex "v", normal "vn", or UV coordinate "vt"
+    switch (fgetc(fp)) {	// get the beginning character of the current line
+    case 'v':			// check if we just read in a 'v' (vertice/normal/textureCoord)
+      if (justFace) fillInfo(pmodel); // save the last object's info
+      readVert();		// see if it's a vertex "v", normal "vn", or UV coordinate "vt"
       break;
-    case 'f':		// check if we just read in a face header ('f')
-      readFaceInfo();
-      bJustReadAFace = true;
+    case 'f':			// check if we just read in a face header ('f')
+      readFace();
+      justFace = true;
       break;
     default:
       fgets(line, sizeof(line), fp);
       break;
     }
   }
-  fillInObjectInfo(pmodel); // we are done reading in the file
+  fillInfo(pmodel);		// we are done reading in the file
 }
 
 /** Reads in the vertex information ("v" vertex : "vt" UVCoord) */
-void Obj::readVertexInfo()
+void Obj::readVert()
 {
-  Vec3 vVertex   = {0};
-  Vec2 vTexCoord = {0};
+  Vec3 vertex   = {0};
+  Vec2 texcoord = {0};
   char line[256];
 
   char ch = fgetc(fp); // next character
 
-  if (ch == ' ') {	// if we get a space it must have been a vertex ("v")
+  if (ch == ' ') {			// if we get a space it must have been a vertex ("v")
     // here we read in a vertice.  the format is "v x y z"
-    fscanf(fp, "%f %f %f", &vVertex.x, &vVertex.y, &vVertex.z);
+    fscanf(fp, "%f %f %f", &vertex.x, &vertex.y, &vertex.z);
     fgets(line, sizeof(line), fp);
-    pVertices.push_back(vVertex);	// add a new vertice to our list
+    pVertices.push_back(vertex);	// add a new vertice to our list
   }
-  else if (ch == 't') {	// a texture coordinate ("vt")
+  else if (ch == 't') {			// a texture coordinate ("vt")
     // the format is "vt u v"
-    fscanf(fp, "%f %f", &vTexCoord.x, &vTexCoord.y);
+    fscanf(fp, "%f %f", &texcoord.x, &texcoord.y);
     fgets(line, sizeof(line), fp);
-    pTextureCoords.push_back(vTexCoord); // add a new texcoord to our list
+    pTextureCoords.push_back(texcoord); // add a new texcoord to our list
 
     // set the flag that tells us this object has texture coordinates.
     // we know that the face information will list the vertice AND UV index.
     // for example, ("f 1 3 2" verses "f 1/1 2/2 3/3")
-    bObjectHasUV = true;
+    hasUV = true;
   }
   else {	// otherwise it's probably a normal so we don't care ("vn")
-    if (ch == 'n') bObjectHasNormal = true;
+    if (ch == 'n') hasNormal = true;
     // we calculate our own normals at the end so we read past them.
     fgets(line, sizeof(line), fp);
   }
 }
 
 /** Reads in the face information ("f") */
-void Obj::readFaceInfo()
+void Obj::readFace()
 {
-  tOBJFace Face;
+  tOBJFace face;
   char line[255];
 
-  if (bObjectHasUV) { // check if this object has texture coordinates
+  if (hasUV) {	// check if this object has texture coordinates
     // here we read in the object's vertex and texture coordinate indices.
-    // the format: "f vertexIndex1/coordIndex1 vertexIndex2/coordIndex2 vertexIndex3/coordIndex3"
-    int vi[4]={0,0,0,0}, ti[4]={0,0,0,0}, ni[4]={0,0,0,0};
+    // the format: "f vertexIdx1/coordIdx1 vertexIdx2/coordIdx2 vertexIdx3/coordIdx3"
+    int vi[4] = {0,0,0,0}, ti[4]={0,0,0,0}, ni[4]={0,0,0,0};
 
     for (int c=0; c < 4; c++) {
-      int r;
-      if (bObjectHasNormal) {
+      if (hasNormal) {
         if (fscanf(fp, "%d/%d/%d", &vi[c], &ti[c], &ni[c]) == 3) {
-          Face.vertIndex[c] = vi[c];
-          Face.coordIndex[c] = ti[c];
+          face.vertIndex[c] = vi[c];
+          face.coordIndex[c] = ti[c];
         }
         else if (fscanf(fp, "%d//%d", &vi[c], &ni[c]) == 2) {
-          Face.vertIndex[c] = vi[c];
+          face.vertIndex[c] = vi[c];
         }
         else {
-          Face.vertIndex[3] = vi[2];
-          Face.coordIndex[3] = ti[2];
+          face.vertIndex[3] = vi[2];
+          face.coordIndex[3] = ti[2];
         }
       }
       else {
-        if ((r = fscanf(fp, "%d/%d", &vi[c], &ti[c])) == 2) {
-          Face.vertIndex[c] = vi[c];
-          Face.coordIndex[c] = ti[c];
+        if (fscanf(fp, "%d/%d", &vi[c], &ti[c]) == 2) {
+          face.vertIndex[c] = vi[c];
+          face.coordIndex[c] = ti[c];
         }
         else {
-          Face.vertIndex[3] = vi[2];
-          Face.coordIndex[3] = ti[2];
+          face.vertIndex[3] = vi[2];
+          face.coordIndex[3] = ti[2];
         }
       }
     }
@@ -392,18 +390,17 @@ void Obj::readFaceInfo()
   else {	// the object does NOT have texture coordinates
     // here we read in just the object's vertex indices.
     // the format: "f vertexIndex1 vertexIndex2 vertexIndex3"
-    fscanf(fp, "%d %d %d", &Face.vertIndex[0], &Face.vertIndex[1], &Face.vertIndex[2]);
+    fscanf(fp, "%d %d %d", &face.vertIndex[0], &face.vertIndex[1], &face.vertIndex[2]);
   }
   fgets(line, sizeof(line), fp);	// purge current line
-  pFaces.push_back(Face);		// add the  face to our face list
+  pFaces.push_back(face);		// add the  face to our face list
 }
 
 /** Fills in the model structure */
-void Obj::fillInObjectInfo(tOBJModel *pmodel)
+void Obj::fillInfo(tOBJModel *pmodel)
 {
   tOBJObject object = {0};
-  int textureOff = 0, vertexOff = 0;
-  int i = 0;
+  int texoff = 0, vtxoff = 0;
 
   // we just finished reading in an object and need to increase the object count.
   pmodel->numObjects++;
@@ -435,8 +432,8 @@ void Obj::fillInObjectInfo(tOBJModel *pmodel)
     pobject->bHasTexture = true;
   }
 
-  for (i=0; i < pobject->numFaces; i++) { // go through all of the faces
-    pobject->pFaces[i] = pFaces[i]; // copy the current face from the temporary list
+  for (int i=0; i < pobject->numFaces; i++) {	// go through all of the faces
+    pobject->pFaces[i] = pFaces[i];		// copy the current face from the temporary list
 
     // if a new object is found in the file, the face and texture indices start
     // from the last index that was used in the last object.  That means that if
@@ -450,11 +447,11 @@ void Obj::fillInObjectInfo(tOBJModel *pmodel)
         // to create the offset we take the current starting point minus 1.
       	// lets say the last object ended at 8.  we would then have 9 here.
         // we want to then subtract 8 from the 9 to get back to 1.
-        vertexOff = pobject->pFaces[0].vertIndex[0] - 1;
+        vtxoff = pobject->pFaces[0].vertIndex[0] - 1;
 
       	// the same goes for texture coordinates, if we have them do the same
       	if (pobject->numTexVertex > 0)
-          textureOff = pobject->pFaces[0].coordIndex[0] - 1; // take the current index
+          texoff = pobject->pFaces[0].coordIndex[0] - 1; // take the current index
       }
     }
     // because the face indices start at 1, we need to minus 1 from them due
@@ -464,14 +461,14 @@ void Obj::fillInObjectInfo(tOBJModel *pmodel)
       // we also need to add the vertex and texture offsets to subtract
       // the total amount necessary for this to work.  The first object
       // will have a offset of 0 for both since it starts at 1.
-      pobject->pFaces[i].vertIndex[j]  -= 1 + vertexOff;
-      pobject->pFaces[i].coordIndex[j] -= 1 + textureOff;
+      pobject->pFaces[i].vertIndex[j]  -= 1 + vtxoff;
+      pobject->pFaces[i].coordIndex[j] -= 1 + texoff;
     }
   }
-  for (i=0; i < pobject->numVerts; i++) { // go through all the vertices in the object
+  for (int i=0; i < pobject->numVerts; i++) { // go through all the vertices in the object
     pobject->pVerts[i] = pVertices[i];  // copy the current vertice from the temporary list
   }
-  for (i=0; i < pobject->numTexVertex; i++) { // go through all of the texture coordinates
+  for (int i=0; i < pobject->numTexVertex; i++) { // go through all of the texture coordinates
     pobject->pTexVerts[i] = pTextureCoords[i]; // copy the current UV coordinate
   }
 
@@ -481,25 +478,24 @@ void Obj::fillInObjectInfo(tOBJModel *pmodel)
   pVertices.clear();
   pFaces.clear();
   pTextureCoords.clear();
-
-  bObjectHasUV   = false;
-  bObjectHasNormal = false;
-  bJustReadAFace = false;
+  hasUV     = false;
+  hasNormal = false;
+  justFace  = false;
 }
 
 /** Computes the normals and vertex normals of the objects */
 void Obj::computeNormals(tOBJModel *pmodel)
 {
-  Vec3 v1, v2, vNormal, vPoly[3];
+  Vec3 v1, v2, vnormal, vpol[3];
 
   if (pmodel->numObjects <= 0) return; // if there are no objects, we can skip
 
-  for (int index = 0; index < pmodel->numObjects; index++) { // for each of the objects
-    tOBJObject *pobject = &(pmodel->pObject[index]); // get the current object
+  for (int idx = 0; idx < pmodel->numObjects; idx++) { // for each of the objects
+    tOBJObject *pobject = &(pmodel->pObject[idx]); // get the current object
 
-    Vec3 *pNormals     = new Vec3 [pobject->numFaces];
-    Vec3 *pTempNormals = new Vec3 [pobject->numFaces];
-    pobject->pNormals  = new Vec3 [pobject->numVerts];
+    Vec3 *pNormals     = new Vec3[pobject->numFaces];
+    Vec3 *tmpNormals   = new Vec3[pobject->numFaces];
+    pobject->pNormals  = new Vec3[pobject->numVerts];
 
     for (int i=0; i < pobject->numFaces; i++) { // go though all of the faces
       // we extract the 3 points of this face
@@ -508,25 +504,25 @@ void Obj::computeNormals(tOBJModel *pmodel)
       int vz = pobject->pFaces[i].vertIndex[2];
       int vc = pobject->numVerts;
       if (vx > vc || vy > vc || vz > vc) {
-        echo("Obj: vx=%d vy=%d vz=%d vc=%d", vx, vy, vz, vc);
+        error("Obj: vx=%d vy=%d vz=%d vc=%d", vx, vy, vz, vc);
         continue;	//dax BUG: segfault
       }
-      vPoly[0] = pobject->pVerts[pobject->pFaces[i].vertIndex[0]];
-      vPoly[1] = pobject->pVerts[pobject->pFaces[i].vertIndex[1]];
-      vPoly[2] = pobject->pVerts[pobject->pFaces[i].vertIndex[2]];
+      vpol[0] = pobject->pVerts[pobject->pFaces[i].vertIndex[0]];
+      vpol[1] = pobject->pVerts[pobject->pFaces[i].vertIndex[1]];
+      vpol[2] = pobject->pVerts[pobject->pFaces[i].vertIndex[2]];
 
       // let's calculate the face normals (get 2 vectors and find the cross product of those 2)
-      v1 = Vec3::subVect(vPoly[0], vPoly[2]); // get the vector of the polygon (we just need 2 sides)
-      v2 = Vec3::subVect(vPoly[2], vPoly[1]); // get a second vector of the polygon
-      vNormal  = Vec3::crossVect(v1, v2);  // return the cross product of the 2 vectors
-      pTempNormals[i] = vNormal;     // save the un-normalized normal for the vertex normals
-      vNormal = Vec3::normVect(vNormal);  // normalize the cross product to give us the polygons normal
-      pNormals[i] = vNormal;         // assign the normal to the list of normals
+      v1 = Vec3::subVect(vpol[0], vpol[2]);	// get the vector of the polygon (we just need 2 sides)
+      v2 = Vec3::subVect(vpol[2], vpol[1]);	// get a second vector of the polygon
+      vnormal = Vec3::crossVect(v1, v2);	// return the cross product of the 2 vectors
+      tmpNormals[i] = vnormal;			// save the un-normalized normal for the vertex normals
+      vnormal = Vec3::normVect(vnormal);	// normalize the cross prod to give us the polygons normal
+      pNormals[i] = vnormal;			// assign the normal to the list of normals
     }
 
-    Vec3 vSum = {0., 0., 0.};
-    Vec3 vZero = vSum;
-    int shared=0;
+    Vec3 vsum = {0., 0., 0.};
+    Vec3 vzero = vsum;
+    int shared = 0;
 
     // get the vertex normals
     for (int i=0; i < pobject->numVerts; i++) {  // go through all of the vertices
@@ -535,19 +531,19 @@ void Obj::computeNormals(tOBJModel *pmodel)
         if (pobject->pFaces[j].vertIndex[0] == i ||
             pobject->pFaces[j].vertIndex[1] == i ||
             pobject->pFaces[j].vertIndex[2] == i) {
-          vSum = Vec3::addVect(vSum, pTempNormals[j]); // add the unnormalized normal of the shared face
+          vsum = Vec3::addVect(vsum, tmpNormals[j]); // add the unnormalized normal of the shared face
           shared++;                // increase the number of shared triangles
         }
       }
       // get the normal by dividing the sum by the shared. we negate so normals pointing out.
-      pobject->pNormals[i] = Vec3::divVect(vSum, float(-shared));
+      pobject->pNormals[i] = Vec3::divVect(vsum, float(-shared));
 
       // normalize the normal for the final vertex normal
       pobject->pNormals[i] = Vec3::normVect(pobject->pNormals[i]);
-      vSum = vZero;                  // reset the sum
+      vsum = vzero;                  // reset the sum
       shared = 0;                    // reset the shared
     }
-    if (pTempNormals) delete[] pTempNormals;
+    if (tmpNormals) delete[] tmpNormals;
     if (pNormals) delete[] pNormals;
   }
 }

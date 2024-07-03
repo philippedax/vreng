@@ -96,7 +96,6 @@ struct tOBJModel
  * Class Obj
  */
 class Obj {
-
  private:
   tOBJModel OBJModel;	///< model
   bool loaded;		///< flag loaded or not
@@ -113,7 +112,6 @@ class Obj {
   int textures[MAX_TEXTURES];
 
  public:
-
   Obj(const char *url);			///< Constructor
   Obj(const char *url, int flgpart);	///< Constructor
 
@@ -150,11 +148,11 @@ class Obj {
   vector<Vec2>  pTextureCoords;
   /**< This is an STL vector that holds a list of UV Coordinates */
 
-  bool bObjectHasUV;
+  bool hasUV;
   /**< This tells us if the current object has texture coordinates */
-  bool bObjectHasNormal;
+  bool hasNormal;
   /**< This tells us if the current object has normal coordinates */
-  bool bJustReadAFace;
+  bool justFace;
   /**< This tells us if we just read in face data so we can keep track of multiple objects */
 
   bool import(FILE *f);
@@ -170,13 +168,13 @@ class Obj {
   void readFile(tOBJModel *pModel);
   /**< This is the main loading loop that gets called in importModel() */
 
-  void readVertexInfo();
+  void readVert();
   /**< This is called in ReadObjFile() if we find a line starting with 'v' */
 
-  void readFaceInfo();
+  void readFace();
   /**< This is called in ReadObjFile() if we find a line starting with 'f' */
 
-  void fillInObjectInfo(tOBJModel *pModel);
+  void fillInfo(tOBJModel *pModel);
   /**< This is called when we are finished loading in the face information */
 
   void computeNormals(tOBJModel *pModel);
