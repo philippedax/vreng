@@ -51,18 +51,18 @@ class Off {
   /**< Off reader */
 
  private:
-  int vn;	///< Vertice number
-  int nn;	///< Normal number
-  int pn;	///< Polygon number
-  float *v;	///< Vertices
-  float *n;	///< Normals
-  int   *p;	///< Polygons
-  float scale;	///< Scale
+  int vn;	///< vertices number
+  int nn;	///< normals number
+  int pn;	///< polygons number
+  float *v;	///< vertices
+  float *n;	///< normals
+  int   *p;	///< polygons
+  float scale;	///< scale
   GLint	dlist;	///< displaylist
   char *url;	///< url .off
 
-  static void getOff3i(char *s, int *a, int *b, int *c);
-  static void getOff3f(char *s, float *a, float *b, float *c, float scale);
+  void get3i(char *s, int *a, int *b, int *c);
+  void get3f(char *s, float *a, float *b, float *c, float scale);
 
   void defaults();
   /** sets default values */

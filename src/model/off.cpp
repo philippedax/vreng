@@ -93,28 +93,29 @@ void Off::reader(void *_off, Http *http)
   }
 
   char line[80];
-  /* Get info header: vertices_number normals_number polygons_number */
-  fgets(line, sizeof(line), f);
-  getOff3i(line, &off->vn, &off->nn, &off->pn);
-  fgets(line, sizeof(line), f);  // skip empty line
 
-  /* Gets vertices */
+  // Gets info header: vertices_number normals_number polygons_number
+  fgets(line, sizeof(line), f);
+  off->get3i(line, &off->vn, &off->nn, &off->pn);
+  fgets(line, sizeof(line), f);  // skip empty
+
+  // Gets vertices
   off->v = new float[3 * off->vn];
   for (int i=0; i < off->vn; i++) {
     fgets(line, sizeof(line), f);
-    getOff3f(line, &off->v[i*3+0], &off->v[i*3+1], &off->v[i*3+2], off->scale);
+    off->get3f(line, &off->v[i*3+0], &off->v[i*3+1], &off->v[i*3+2], off->scale);
   }
-  fgets(line, sizeof(line), f);  // skip empty line
+  fgets(line, sizeof(line), f);  // skip empty
 
-  /* Gets normals */
+  // Gets normals
   off->n = new float[3 * off->nn];
   for (int i=0; i < off->nn; i++) {
     fgets(line, sizeof(line), f);
-    getOff3f(line, &off->n[i*3+0], &off->n[i*3+1], &off->n[i*3+2], off->scale);
+    off->get3f(line, &off->n[i*3+0], &off->n[i*3+1], &off->n[i*3+2], off->scale);
   }
-  fgets(line, sizeof(line), f);  // skip empty line
+  fgets(line, sizeof(line), f);  // skip empty
 
-  /* Gets polygons */
+  // Gets polygons
   off->p = new int[6 * off->pn];
   for (int i=0; i < off->pn; i++) {
     fgets(line, sizeof(line), f);
@@ -125,8 +126,8 @@ void Off::reader(void *_off, Http *http)
         a = j+2;
       if (line[j] == 'n') {
         line[j-1] = 0;
-        getOff3i(&line[a+2], &off->p[i*6+0], &off->p[i*6+1], &off->p[i*6+2]);
-        getOff3i(&line[j+2], &off->p[i*6+3], &off->p[i*6+4], &off->p[i*6+5]);
+        off->get3i(&line[a+2], &off->p[i*6+0], &off->p[i*6+1], &off->p[i*6+2]);
+        off->get3i(&line[j+2], &off->p[i*6+3], &off->p[i*6+4], &off->p[i*6+5]);
         break;
       }
     }
@@ -145,7 +146,7 @@ GLint Off::displaylist()
   return dlist;
 }
 
-/** Draw off */
+/** Draws off */
 void Off::draw()
 {
   glBegin(GL_TRIANGLES);
@@ -201,8 +202,8 @@ void Off::render(const Pos &pos, float *color)
   glPopMatrix();
 }
 
-/** Returns a b c floats */
-void Off::getOff3i(char *s, int *a, int *b, int *c)
+/** Returns a b c ints */
+void Off::get3i(char *s, int *a, int *b, int *c)
 {
   int k = strlen(s);
   int x=0, y=-1, z=-1;
@@ -222,7 +223,7 @@ void Off::getOff3i(char *s, int *a, int *b, int *c)
 }
 
 /** Returns a b c floats */
-void Off::getOff3f(char *s, float *a, float *b, float *c, float scale)
+void Off::get3f(char *s, float *a, float *b, float *c, float scale)
 {
   int k = strlen(s);
   int x=0, y=-1, z=-1;
