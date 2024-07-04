@@ -64,6 +64,7 @@ void Guy::defaults()
   }
 }
 
+/** Parses a vre line */
 void Guy::parser(char *l)
 {
   defaults();
@@ -83,6 +84,7 @@ void Guy::parser(char *l)
   end_while_parse(l);
 }
 
+/** Creates a solid */
 void Guy::geometry()
 {
   char s[128];
@@ -92,6 +94,7 @@ void Guy::geometry()
   parseSolid(s);
 }
 
+/** Sets behaviors */
 void Guy::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
@@ -100,6 +103,7 @@ void Guy::behaviors()
   enableBehavior(SPECIFIC_RENDER);
 }
 
+/** Do specific initializations */
 void Guy::inits()
 {
   initMobileObject(0);
@@ -129,7 +133,6 @@ Guy::Guy(char *l)
 Guy::Guy()
 {
   defaults();
-  name.url = new char[URL_LEN];
   strcpy(name.url, DEF_URL_GUY);
   behaviors();
   geometry();
@@ -160,9 +163,9 @@ void Guy::reader(void *_guy, Http *http)
   fgets(line, sizeof(line), f);		// numjoints
   line[strlen(line) - 1] = '\0';
   guy->numjoints = atoi(line);
-  guy->curve = new tCsetCtrl[guy->numjoints];
+  guy->curve = new tCset[guy->numjoints];
 
-  fgets(line, sizeof(line), f);	 // skip unused line
+  fgets(line, sizeof(line), f);		// skip unused line
 
   for (int j=0; j < guy->numjoints; j++) {
     fgets(line, sizeof(line), f);	// numpoints
@@ -171,7 +174,7 @@ void Guy::reader(void *_guy, Http *http)
     if (pts < 4 || pts > MAX_POINTS) goto abort;
     guy->curve[j].numpoints = pts;
 
-    fgets(line, sizeof(line), f);	// coords
+    fgets(line, sizeof(line), f);	// coords of joinpoints
     line[strlen(line) - 1] = '\0';
     l = strtok(line, " ");
     for (int i=0; i < pts; i++) {
@@ -199,7 +202,7 @@ abort:
   return;
 }
 
-/** Compute curves */
+/** Computes curves */
 void Guy::computeCurve()
 {
   float pointset[3][4];
@@ -253,6 +256,7 @@ void Guy::setPose()
   }
 }
 
+/** Do eaquations when permanently moving */
 void Guy::changePermanent(float lasting)
 {
   if (animing) {
@@ -369,6 +373,7 @@ void Guy::draw_larm()
   glPopMatrix();
 }
 
+/** Draws the Guy into a display-list */
 void Guy::draw()
 {
   if (dlist != -1)
@@ -443,7 +448,7 @@ void Guy::render_leg(bool side)
     glCallList(dlist + ULEG);
    glPopMatrix();
 
-   // jower leg: rotates around the X axis
+   // lower leg: rotates around the X axis
    glTranslatef(0, -(ULEG_H + KNEE_R), 0);
    glRotatef(cycles[side][CSET_LLEG][step], 1, 0, 0);
    glPushMatrix();
@@ -501,6 +506,7 @@ void Guy::render_arm(bool side)
   glPopMatrix();
 }
 
+/** Renders the Guy */
 void Guy::render()
 {
   if (localuser->guy && ! localuser->visible) return;
@@ -565,5 +571,5 @@ void Guy::walking_cb(Guy *guy, void *d, time_t s, time_t u)
 void Guy::funcs()
 {
   setActionFunc(GUY_TYPE, 0, _Action animate_cb, "Anim");
-  //dax setActionFunc(GUY_TYPE, 1, _Action walking_cb, "Walk");
+  //setActionFunc(GUY_TYPE, 1, _Action walking_cb, "Walk");
 }

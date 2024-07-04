@@ -36,8 +36,8 @@ class Http;
 #define MAX_POINTS	34	// 2 end point and 10 in the middle
 
 // body parts
-#define HEAD_R		0.08	// d=16
-#define NECK_H		0.07	// 05
+#define HEAD_R		0.07	// d=14
+#define NECK_H		0.05	// 05
 #define NECK_R		0.04	// d=08
 #define BUST_H		0.60	//
 #define BUST_W		0.22	//
@@ -60,7 +60,7 @@ typedef struct {
   int numpoints;
   float coords[MAX_POINTS];
   float angles[MAX_POINTS];
-} tCsetCtrl;
+} tCset;
 
 
 /**
@@ -90,8 +90,8 @@ class Guy: public WO {
   };
 
   enum {
-    L_SIDE,
-    R_SIDE
+    L_SIDE,	// left
+    R_SIDE	// right
   };
 
   static uint16_t RATE;
@@ -113,7 +113,7 @@ class Guy: public WO {
   bool flying;		///< flying flag
   bool control;		///< control by user
   uint8_t numjoints;	///< joinpoint number
-  tCsetCtrl *curve;	///< series of ctrl points for a joint
+  tCset *curve;		///< series of ctrl points for a jointpoint
   float skin_color[4];  ///< skin color
   float bust_color[4];  ///< bust color
   float legs_color[4];  ///< legs color
