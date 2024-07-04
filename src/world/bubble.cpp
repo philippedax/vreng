@@ -45,7 +45,6 @@ void Bubble::defaults()
   bubtext = NULL;
   text = NULL;
   state = INACTIVE;
-  //dax1 name.url = new char[URL_LEN];
   strcpy(name.url, DEF_URL_TXF);      // font
 }
 

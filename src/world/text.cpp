@@ -54,7 +54,6 @@ void Text::defaults()
   shiftx = shifty = shiftz = shiftaz = shiftax = 0.;
   txf = NULL;
   textstr = new char[MAXLEN];
-  //dax1 name.url = new char[URL_LEN];
   strcpy(name.url, DEF_URL_TXF);	// font's url
   for (int i=0; i<4; i++) {
     color[i] = DEF_COLOR[i];	// color

@@ -797,7 +797,6 @@ char * Parse::parseTranslation(char *ptok, Pos &p)
 char * Parse::parseUrl(char *ptok, char *url)
 {
   //echo("url: %s", ptok);
-  //dax1 url = new char[URL_LEN];
   if (! stringcmp(ptok, "url="))
     return parseString(ptok, url, "url");
   else

@@ -155,7 +155,6 @@ Model::Model(WO *user, char *url, float _scale)
 
   setName();
   setOwner();
-  //dax1 name.url = new char[URL_LEN];
   strcpy(name.url, url);
   loader();
   scale = _scale;
