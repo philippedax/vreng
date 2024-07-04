@@ -29,6 +29,7 @@
 #include "timer.hpp"	// isRate
 #include "user.hpp"	// localuser
 #include "cache.hpp"	// open
+#include "pref.hpp"	// trace
 
 
 const OClass Guy::oclass(GUY_TYPE, "Guy", Guy::creator);
@@ -109,14 +110,12 @@ void Guy::inits()
 
   draw();
 
-  //name.url = new char[URL_LEN];
-  //strcpy(name.url, DEF_URL_GUY);
   Http::httpOpen(name.url, reader, this, 0);
 
   computeCurve();
 }
 
-/** constructor from xml file */
+/** Constructor from vre file */
 Guy::Guy(char *l)
 {
   parser(l);
@@ -126,20 +125,20 @@ Guy::Guy(char *l)
   control = false;
 }
 
-/** constructor from user */
+/** Constructor from user */
 Guy::Guy()
 {
   defaults();
-  control = true;
+  name.url = new char[URL_LEN];
+  strcpy(name.url, DEF_URL_GUY);
   behaviors();
   geometry();
   inits();
+  control = true;
 
   setActionFunc(GUY_TYPE, 1, _Action NULL, "");  // cancel
   setActionFunc(GUY_TYPE, 2, _Action NULL, "");  // cancel
 }
-
-//const char * Guy::getUrl() const { return (const char *) name.url; }
 
 /** Reads curves file */
 void Guy::reader(void *_guy, Http *http)
@@ -158,12 +157,13 @@ void Guy::reader(void *_guy, Http *http)
 
   char *l, line[256];
 
-  fgets(line, sizeof(line), f);	 // numjoints
+  fgets(line, sizeof(line), f);		// numjoints
   line[strlen(line) - 1] = '\0';
   guy->numjoints = atoi(line);
   guy->curve = new tCsetCtrl[guy->numjoints];
 
-  fgets(line, sizeof(line), f);	 // skip mirror_flag
+  fgets(line, sizeof(line), f);	 // skip unused line
+
   for (int j=0; j < guy->numjoints; j++) {
     fgets(line, sizeof(line), f);	// numpoints
     line[strlen(line) - 1] = '\0';
@@ -208,7 +208,6 @@ void Guy::computeCurve()
   float basis[4][4] = { {-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0} };
 
   for (int join=0; join < numjoints; join++) {
-
     for (int i=0; i<4; i++) {
       pointset[2][i] = 0;
     }
@@ -247,7 +246,7 @@ void Guy::setPose()
 {
   for (int i=0; i < numjoints; i++) {
     curve[i].numpoints = 4;
-    curve[i].coords[0] = 0.0; curve[i].angles[0] = 0;
+    curve[i].coords[0] = 0;   curve[i].angles[0] = 0;
     curve[i].coords[1] = 0.2; curve[i].angles[1] = 0;
     curve[i].coords[2] = 0.8; curve[i].angles[2] = 0;
     curve[i].coords[3] = 1.0; curve[i].angles[3] = 0;
@@ -316,7 +315,7 @@ void Guy::draw_uleg()
    Draw::sphere(HIP_R, 16, 16, 0);
   glPopMatrix();
 
-  // thig
+  // thigh
   glPushMatrix();
    glRotatef(90, 1, 0, 0);
    Draw::cylinder(HIP_R, KNEE_R, ULEG_H, 16, 16, 0);
@@ -374,35 +373,36 @@ void Guy::draw()
 {
   if (dlist != -1)
     glDeleteLists(dlist, GUY_PARTS);
+
   dlist = glGenLists(GUY_PARTS);
-  glNewList(dlist+BUST, GL_COMPILE); draw_bust(); glEndList();
-  glNewList(dlist+BREA, GL_COMPILE); draw_brea(); glEndList();
-  glNewList(dlist+NECK, GL_COMPILE); draw_neck(); glEndList();
-  glNewList(dlist+HEAD, GL_COMPILE); draw_head(); glEndList();
-  glNewList(dlist+ULEG, GL_COMPILE); draw_uleg(); glEndList();
-  glNewList(dlist+LLEG, GL_COMPILE); draw_lleg(); glEndList();
-  glNewList(dlist+FOOT, GL_COMPILE); draw_foot(); glEndList();
-  glNewList(dlist+UARM, GL_COMPILE); draw_uarm(); glEndList();
-  glNewList(dlist+LARM, GL_COMPILE); draw_larm(); glEndList();
+  glNewList(dlist + BUST, GL_COMPILE); draw_bust(); glEndList();
+  glNewList(dlist + BREA, GL_COMPILE); draw_brea(); glEndList();
+  glNewList(dlist + NECK, GL_COMPILE); draw_neck(); glEndList();
+  glNewList(dlist + HEAD, GL_COMPILE); draw_head(); glEndList();
+  glNewList(dlist + ULEG, GL_COMPILE); draw_uleg(); glEndList();
+  glNewList(dlist + LLEG, GL_COMPILE); draw_lleg(); glEndList();
+  glNewList(dlist + FOOT, GL_COMPILE); draw_foot(); glEndList();
+  glNewList(dlist + UARM, GL_COMPILE); draw_uarm(); glEndList();
+  glNewList(dlist + LARM, GL_COMPILE); draw_larm(); glEndList();
 }
 
-void Guy::display_bust()
+void Guy::render_bust()
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT, bust_color);
   glPushMatrix();
-   glCallList(dlist+BUST);
+   glCallList(dlist + BUST);
   glPopMatrix();
 }
 
-void Guy::display_neck()
+void Guy::render_neck()
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT, skin_color);
   glPushMatrix();
-   glCallList(dlist+NECK);
+   glCallList(dlist + NECK);
   glPopMatrix();
 }
 
-void Guy::display_brea(bool side)
+void Guy::render_brea(bool side)
 {
   if (sex) {
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, bust_color);
@@ -411,22 +411,22 @@ void Guy::display_brea(bool side)
       glTranslatef(BREA_R*1.5, 0, 0);
      else
       glTranslatef(-BREA_R*1.5, 0, 0);
-     glCallList(dlist+BREA);
+     glCallList(dlist + BREA);
     glPopMatrix();
   }
 }
 
-void Guy::display_head()
+void Guy::render_head()
 {
   if (control && localuser->hasHead()) return;
 
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, skin_color);
   glPushMatrix();
-   glCallList(dlist+HEAD);
+   glCallList(dlist + HEAD);
   glPopMatrix();
 }
 
-void Guy::display_leg(bool side)
+void Guy::render_leg(bool side)
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT, legs_color);
   glPushMatrix();
@@ -437,30 +437,30 @@ void Guy::display_leg(bool side)
      glTranslatef(-BUST_L * BUST_W/2., HIP_R/2, 0);
    }
 
-   // upper leg: rotates around the x axis only
+   // upper leg: rotates around the X axis
    glRotatef(cycles[side][CSET_ULEG][step], 1, 0, 0);
    glPushMatrix();
-    glCallList(dlist+ULEG);
+    glCallList(dlist + ULEG);
    glPopMatrix();
 
-   // jower leg: rotates around the x axis only
+   // jower leg: rotates around the X axis
    glTranslatef(0, -(ULEG_H + KNEE_R), 0);
    glRotatef(cycles[side][CSET_LLEG][step], 1, 0, 0);
    glPushMatrix();
-    glCallList(dlist+LLEG);
+    glCallList(dlist + LLEG);
    glPopMatrix();
 
-   // foot: rotates around the x axis only
+   // foot: rotates around the X axis
    glMaterialfv(GL_FRONT, GL_AMBIENT, feet_color);
    glTranslatef(0, -(ULEG_H + LLEG_H + ANKLE_R)/2, 0);
    glRotatef(cycles[side][CSET_FOOT][step], 1, 0, 0);
    glPushMatrix();
-    glCallList(dlist+FOOT);
+    glCallList(dlist + FOOT);
    glPopMatrix();
   glPopMatrix();
 }
 
-void Guy::display_arm(bool side)
+void Guy::render_arm(bool side)
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT, bust_color);
   glPushMatrix();
@@ -472,9 +472,9 @@ void Guy::display_arm(bool side)
      glTranslatef(-BUST_W + SHOULDER_R/2 +0.03, 0, 0);
    }
 
-   // upper arm: rotates around the x axis only
+   // upper arm: rotates around the X axis
    if (flying) {
-     glRotatef(135, 1, 0, 0);	// x axis
+     glRotatef(135, 1, 0, 0);
    }
    else if (showing && side == R_SIDE) {  // right arm
      glRotatef(90, 1, 0, 0);
@@ -483,10 +483,10 @@ void Guy::display_arm(bool side)
      glRotatef(cycles[side][CSET_UARM][step], 1, 0, 0);
    }
    glPushMatrix();
-    glCallList(dlist+UARM);
+    glCallList(dlist + UARM);
    glPopMatrix();
 
-   // lower arm: rotates around the x axis only
+   // lower arm: rotates around the X axis
    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, skin_color);
    glTranslatef(0, -(UARM_H + ELBOW_R), 0);
    if (flying || (showing && side == R_SIDE)) {
@@ -496,7 +496,7 @@ void Guy::display_arm(bool side)
      glRotatef(cycles[side][CSET_LARM][step], 1, 0, 0);
    }
    glPushMatrix();
-    glCallList(dlist+LARM);
+    glCallList(dlist + LARM);
    glPopMatrix();
   glPopMatrix();
 }
@@ -510,15 +510,15 @@ void Guy::render()
    glRotatef(RAD2DEG(pos.az), 0, 0, 1);
    glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);	// stand up
 
-   display_bust();
-   display_neck();
-   display_brea(0);
-   display_brea(1);
-   display_head();
-   display_leg(0);
-   display_leg(1);
-   display_arm(0);
-   display_arm(1);
+   render_bust();
+   render_neck();
+   render_brea(0);
+   render_brea(1);
+   render_head();
+   render_leg(0);
+   render_leg(1);
+   render_arm(0);
+   render_arm(1);
   glPopMatrix();
 }
 

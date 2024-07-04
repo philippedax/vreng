@@ -128,7 +128,6 @@ class Guy: public WO {
   static void funcs();	///< init funclist.
 
   Guy(char *l);		///< Constructor from file.
-
   Guy();		///< Constructor from localuser (avatar).
 
   static WO * (creator)(char *l);
@@ -178,8 +177,6 @@ class Guy: public WO {
   void setPose();
   /**< unused */
 
-  //const char * getUrl() const;
-
   static void reader(void *oa, Http *http);
   /**< Reads cset files. */
 
@@ -196,12 +193,12 @@ class Guy: public WO {
   void draw_uarm();
   void draw_larm();
 
-  void display_bust();
-  void display_neck();
-  void display_brea(bool side);
-  void display_head();
-  void display_leg(bool side);
-  void display_arm(bool side);
+  void render_bust();
+  void render_neck();
+  void render_brea(bool side);
+  void render_head();
+  void render_leg(bool side);
+  void render_arm(bool side);
 
   // GUI callbacks
   static void animate_cb(Guy *o, void *d, time_t s, time_t u);
