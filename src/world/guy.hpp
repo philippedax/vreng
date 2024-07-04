@@ -36,17 +36,17 @@ class Http;
 #define MAX_POINTS	34	// 2 end point and 10 in the middle
 
 // body parts
-#define HEAD_R		0.07	// d=14
-#define NECK_H		0.05	// 05
-#define NECK_R		0.04	// d=08
+#define HEAD_R		0.08	// d=16
+#define NECK_H		0.07	// 07
+#define NECK_R		0.05	// d=10
 #define BUST_H		0.60	//
 #define BUST_W		0.22	//
 #define BUST_L		0.46	// 52
 #define ULEG_H		0.37	//
-#define LLEG_H		0.37	//
-#define UARM_H		0.30	// 33
-#define LARM_H		0.33	//
-#define ANKLE_R		0.02	//
+#define LLEG_H		0.33	//
+#define UARM_H		0.29	// 33
+#define LARM_H		0.31	//
+#define ANKLE_R		0.04	// d=8
 #define FOOT_H		0.12	//
 #define HIP_R		0.08	// d=16
 #define SHOULDER_R	0.04	// d=8
