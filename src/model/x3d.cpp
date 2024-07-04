@@ -659,19 +659,16 @@ void X3d::render()
     // we change the matrix stack according to the new change of level in the X3D tree
     // and if we switch to a child, we don't touch the current (parent) matrix
     if (shape->level <= prevlevel) {
-      glPopMatrix(); // we remove the matrix of the current shape
-      //glPopAttrib();	//dax1
+      glPopMatrix();	// we remove the matrix of the current shape
       if (shape->level < prevlevel) {
-        glPopMatrix(); // remove the matrix of the previous shape because we went down
-        //glPopAttrib();	//dax1
+        glPopMatrix();	// remove the matrix of the previous shape because we went down
       }
     }
     prevlevel = shape->level;
 
     glPushMatrix();
-    //glPushAttrib(GL_ALL_ATTRIB_BITS);	//dax1
 
-    if (shape->texture) {  //texture is there in priority
+    if (shape->texture) {	// texture is there in priority
       glEnable(GL_TEXTURE_2D);
       glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
       glBindTexture(GL_TEXTURE_2D, shape->texture);
@@ -681,9 +678,8 @@ void X3d::render()
       glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     }
 
-    displayShape(shape); // call the display of the shape
+    displayShape(shape);	// call the display of the shape
 
-    // Reset
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_COLOR_MATERIAL);
 
@@ -698,7 +694,7 @@ void X3d::render()
   }
 }
 
-/* returns the X3DOBJECT index of the primitive */
+/** Returns the X3DOBJECT index of the primitive */
 Primitives X3d::isKnownPrimitive(XMLCSTR vredata)
 {
   for (int i=0; i < KNOWNPRIMITIVESNUMBER; i++) {
@@ -708,7 +704,7 @@ Primitives X3d::isKnownPrimitive(XMLCSTR vredata)
   return X3DNONE;
 }
 
-/* case insensitive comparison */
+/** Case insensitive comparison */
 bool X3d::isEqual(const char* str1, const char* str2)
 {
   if (!str1 || !str2) return false;
@@ -723,7 +719,7 @@ bool X3d::isEqual(const char* str1, const char* str2)
   return true;
 }
 
-/* link between the name parsed in x3d file and the primitive we can draw */
+/** Link between the name parsed in x3d file and the primitive we can draw */
 ShapeToId X3d::knownPrimitives[KNOWNPRIMITIVESNUMBER] = {
   {"Sphere", X3DSPHERE},
   {"Cylinder", X3DCYLINDER},
@@ -732,7 +728,7 @@ ShapeToId X3d::knownPrimitives[KNOWNPRIMITIVESNUMBER] = {
   {"Box", X3DBOX}
 };
 
-/* Sets flashy the X3d object */
+/** Sets flashy the X3d object */
 void X3d::setFlashy()
 {
   flashy = true;
@@ -770,7 +766,7 @@ bool X3dVectors::parseFloats(const string str, float* outputs, uint32_t number)
   return false;
 }
 
-/* returns true if succeeded, false else */
+/** Returns true if succeeded, false else */
 bool X3dVectors::parseFloats(const string str, vector<float>* output)
 {
   vector<vector<float> > temp;
@@ -1047,7 +1043,7 @@ bool X3dInterpolator::initTarget(X3dShape* target, X3DINField field)
   }
 }
 
-/* updates the target values in the shapes according to the time fraction we receive */
+/** Updates the target values in the shapes according to the time fraction we receive */
 void X3dInterpolator::updateValue(float newFraction)
 {
   int index = -1;	// left index of the interpolation key
