@@ -175,7 +175,7 @@ int Humanoid::receiver()
     return 0;
   }
   Socket::bindSocket(sdudp, INADDR_ANY, vaps_port);
-#if 0 //dax
+#if 1 //dax
   if (ipmode == MULTICAST) {
     char group[GROUP_LEN];
     Channel::getGroup(World::current()->getChan(), group);
@@ -216,15 +216,17 @@ int Humanoid::connectVaps(int _ipmode)
   timeout.tv_sec = 10;
   timeout.tv_usec = 0;
 
-  if (setsockopt(sdtcp, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<char *>(&timeout), sizeof(timeout)) < 0)
+  if (setsockopt(sdtcp, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<char *>(&timeout), sizeof(timeout)) < 0) {
     error("setsockopt failed");
+    return 0;
+  }
   if (connect(sdtcp, (const struct sockaddr *) &tcpsa, sizeof(tcpsa)) < 0) {
     //error("connection failed with the vaps server: %s (%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
     sdtcp = -1;
     return 0;
   }
   //echo("connection established with vaps server: %s(%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
-#if 0 //dax
+#if 1 //dax
   ipmode = _ipmode;
   if (ipmode == MULTICAST) {
     char group[GROUP_LEN];
@@ -547,27 +549,6 @@ void Humanoid::quit()
   if (body) delete body;
   body = NULL;
 }
-
-#if 0 //dax wrong!!!
-char * Humanoid::toPlay(const char *str)
-{
-  if (connectVaps(UNICAST)) { // opens a TCP connection
-    sendPlay(str);
-    return NULL;
-  }
-  else {
-    char *newstr = strdup(str);
-    char *p = newstr;
-    p = strchr(newstr, '.');
-    if (p)
-      *p = '_';
-    strcpy(bapline, newstr);
-    free(newstr);
-    state = PLAYING;
-    return bapline;
-  }
-}
-#endif
 
 /** Resets */
 void Humanoid::reset()
