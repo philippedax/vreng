@@ -128,7 +128,6 @@ void World::addList()
     prev = NULL;
   }
   worldList = this;
-  //dumpworldList("debug");
 }
 
 /** Gets current world */
@@ -632,8 +631,6 @@ void World::checkPersist()
 void World::reader(void *_url, Http *http)
 {
   char *url = static_cast<char *>(_url);
-  //char *url = World::current()->url;	// maybe url is corrupted HACK!!!
-  //echo("worldReader: %s %s", _url, url);
   if (! http) {
     error("can't download %s, check access to the remote http server", url);
   }
@@ -854,11 +851,11 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   }
   else if (isnew) {
     //
-    // new world must to be initialized
+    // new world must be initialized
     //
     World *newworld = new World();
 
-    if (! url) {	// sandbox world
+    if (! url) {	// sandbox world without url
       if (newworld->guip) {
         ::g.gui.updateWorld(newworld, NEW);
       }
@@ -878,7 +875,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     newworld->guip = ::g.gui.addWorld(world, NEW);
     world = newworld;
   }
-  else {	// world already exists
+  else {		// world already exists
     world = current();
     if (world->guip) {
       ::g.gui.updateWorld(world, OLD);
@@ -895,7 +892,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   world->setState(LOADING);	// need to download
   if (url) {
     //
-    // world to downloaded
+    // world to download
     //
     trace1(DBG_WO, "enter: downloading world url=%s", url);
     //world->universe->startWheel();
@@ -961,12 +958,10 @@ void World::deleteObjects()
       (*it)->delFromGrid();
     }
     if ((*it)->removed) {
-      //dax objectList.remove(*it);
-      //dax stillList.remove(*it);
       mobileList.remove(*it);
-      //dax8 echo("delete object: %s", (*it)->objectName());
+      if (::g.pref.trace) echo("delete object: %s", (*it)->objectName());
       if ((*it)->deleted) continue;
-      if ( strcmp((*it)->typeName(), "Dart") && strcmp((*it)->typeName(), "Bullet") ) //dax8 Hack! FIXME!
+      if ( strcmp((*it)->typeName(), "Dart") && strcmp((*it)->typeName(), "Bullet") ) // Hack! FIXME!
         delete (*it);	//segfault FIXME!
     }
   }
