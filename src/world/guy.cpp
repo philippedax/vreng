@@ -276,15 +276,17 @@ void Guy::draw_bust()
   glPushMatrix();
    glScalef(.8, 1, .5); // glScalef(BUST_W, BUST_H, ULEG_R);
    glRotatef(-90, 1, 0, 0);
-   Draw::cylinder(HIP_R*2 - 0.05, BUST_W, BUST_H, 16, 16, 0);
+   //Draw::cylinder(HIP_R*2 - 0.05, BUST_W, BUST_H, 16, 16, 0);
+   Draw::cylinder(HIP_R*2, BUST_W, BUST_H, 16, 16, 0);
   glPopMatrix();
 }
 
 void Guy::draw_brea()
 {
   glPushMatrix();
-   glTranslatef(0, BUST_H - NECK_H*3, BREA_R);
-   Draw::sphere(BREA_R, 16, 16, 0);
+   //glTranslatef(0, BUST_H - NECK_H*3, BREA_R);
+   glTranslatef(0, BUST_L, -BREA_R);
+   Draw::cylinder(BREA_R, 0, -BREA_R*1.5, 8, 8, 0);
   glPopMatrix();
 }
 
@@ -293,7 +295,7 @@ void Guy::draw_neck()
   glPushMatrix();
    glTranslatef(0, BUST_H, 0);
    glRotatef(-90, 1, 0, 0);
-   Draw::cylinder(NECK_R, NECK_R, NECK_H, 16, 16, 0);
+   Draw::cylinder(NECK_R, NECK_R, NECK_H, 8, 8, 0);
   glPopMatrix();
 }
 
@@ -310,19 +312,20 @@ void Guy::draw_uleg()
   // knee
   glPushMatrix();
    glTranslatef(0, -(HIP_R + ULEG_H -KNEE_R), 0);
-   Draw::sphere(KNEE_R, 16, 16, 0);
+   Draw::sphere(KNEE_R, 8, 8, 0);
   glPopMatrix();
 
   // hip
   glPushMatrix();
    glTranslatef(0, -HIP_R, 0);
-   Draw::sphere(HIP_R, 16, 16, 0);
+   Draw::sphere(HIP_R, 8, 8, 0);
   glPopMatrix();
 
   // thigh
   glPushMatrix();
    glRotatef(90, 1, 0, 0);
-   Draw::cylinder(HIP_R, KNEE_R, ULEG_H, 16, 16, 0);
+   Draw::sphere(HIP_R, 8, 8, 0);
+   Draw::cylinder(HIP_R, KNEE_R, ULEG_H, 8, 8, 0);
   glPopMatrix();
 }
 
@@ -331,7 +334,7 @@ void Guy::draw_lleg()
   // calf
   glPushMatrix();
    glRotatef(90, 1, 0, 0);
-   Draw::cylinder(KNEE_R, ANKLE_R, LLEG_H, 16, 16, 0);
+   Draw::cylinder(KNEE_R, ANKLE_R, LLEG_H, 8, 8, 0);
   glPopMatrix();
 }
 
@@ -341,8 +344,8 @@ void Guy::draw_foot()
    glTranslatef(0, 0, -ANKLE_R/2);
    Draw::sphere(ANKLE_R, 16, 16, 0);
    glRotatef(180, 1, 0, 0);
-   glScalef(.8, .4, 1);
-   Draw::cylinder(ANKLE_R, ANKLE_R *2/3, FOOT_H, 16, 16, 0);
+   glScalef(1.2, .6, 1);
+   Draw::cylinder(ANKLE_R, ANKLE_R, FOOT_H, 8, 8, 0);
   glPopMatrix();
 }
 
@@ -351,17 +354,17 @@ void Guy::draw_uarm()
   // elbow
   glPushMatrix();
    glTranslatef(0, -(SHOULDER_R + UARM_H), 0);
-   Draw::sphere(ELBOW_R, 16, 16, 0);
+   Draw::sphere(ELBOW_R, 8, 8, 0);
   glPopMatrix();
 
   // shoulder
   glTranslatef(0, -SHOULDER_R, 0);
-  Draw::sphere(SHOULDER_R, 16, 16, 0);
+  Draw::sphere(SHOULDER_R, 8, 8, 0);
 
   // upper arm
   glPushMatrix();
    glRotatef(90, 1, 0, 0);
-   Draw::cylinder(SHOULDER_R, ELBOW_R, UARM_H, 16, 16, 0);
+   Draw::cylinder(SHOULDER_R, ELBOW_R, UARM_H, 8, 8, 0);
   glPopMatrix();
 }
 
@@ -369,7 +372,7 @@ void Guy::draw_larm()
 {
   glPushMatrix();
    glRotatef(90, 1, 0, 0);
-   Draw::cylinder(ELBOW_R, WRIST_R, LARM_H, 16, 16, 0);
+   Draw::cylinder(ELBOW_R, WRIST_R, LARM_H, 8, 8, 0);
   glPopMatrix();
 }
 
@@ -413,9 +416,9 @@ void Guy::render_brea(bool side)
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, bust_color);
     glPushMatrix();
      if (side == L_SIDE)
-      glTranslatef(BREA_R*1.5, 0, 0);
+      glTranslatef(BREA_R, 0, 0);
      else
-      glTranslatef(-BREA_R*1.5, 0, 0);
+      glTranslatef(-BREA_R, 0, 0);
      glCallList(dlist + BREA);
     glPopMatrix();
   }
@@ -436,10 +439,10 @@ void Guy::render_leg(bool side)
   glMaterialfv(GL_FRONT, GL_AMBIENT, legs_color);
   glPushMatrix();
    if (side == L_SIDE) {
-     glTranslatef(BUST_L * BUST_W/2., HIP_R/2, 0);
+     glTranslatef(BUST_W/4., HIP_R/2, 0);
    }
    else {
-     glTranslatef(-BUST_L * BUST_W/2., HIP_R/2, 0);
+     glTranslatef(-BUST_W/4., HIP_R/2, 0);
    }
 
    // upper leg: rotates around the X axis

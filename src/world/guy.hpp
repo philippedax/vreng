@@ -37,8 +37,8 @@ class Http;
 
 // body parts
 #define HEAD_R		0.08	// d=16
-#define NECK_H		0.07	// 07
-#define NECK_R		0.05	// d=10
+#define NECK_H		0.08	// 08
+#define NECK_R		0.04	// d=8
 #define BUST_H		0.60	//
 #define BUST_W		0.22	//
 #define BUST_L		0.46	// 52
