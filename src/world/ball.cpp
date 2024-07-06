@@ -435,4 +435,4 @@ void Ball::funcs()
   setActionFunc(BALL_TYPE, KILL,     _Action destroy_cb, "Destroy");
   setActionFunc(BALL_TYPE, CREATE,   _Action create_cb, "");
   setActionFunc(BALL_TYPE, RECREATE, _Action recreate_cb, "");
-}
+ }

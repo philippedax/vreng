@@ -121,6 +121,17 @@ class Guy: public WO {
   float cycles[2][MAX_JOINTS][CYCLES]; ///< array of angles
 
  public:
+  /* properties */
+  enum {
+    PROPHNAME,
+    PROPXY,
+    PROPZ,
+    PROPAZ,
+    PROPAX,
+    PROPAY,
+    PROPS
+  };
+
   static const OClass oclass;	///< class variable.
 
   const OClass* getOClass() {return &oclass;}
@@ -129,8 +140,12 @@ class Guy: public WO {
 
   Guy(char *l);		///< Constructor from file.
   Guy();		///< Constructor from localuser (avatar).
+  Guy(uint8_t type_id, Noid noid, Payload *pp); ///< Constructor: network replication.
 
   static WO * (creator)(char *l);
+  
+  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
+  /**< Replicates a guy coming from the Network. */
 
   void changePermanent(float lasting);
 
@@ -154,6 +169,10 @@ class Guy: public WO {
 
   void setShowing(bool flag);
   /**< Set showing flag. */
+
+  bool publish(const Pos &oldpos);
+  /**< Publishes to network. */
+
 
  private:
   void parser(char *l);

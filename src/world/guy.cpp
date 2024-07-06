@@ -29,10 +29,11 @@
 #include "timer.hpp"	// isRate
 #include "user.hpp"	// localuser
 #include "cache.hpp"	// open
+#include "netobj.hpp"	// netop
 #include "pref.hpp"	// trace
 
 
-const OClass Guy::oclass(GUY_TYPE, "Guy", Guy::creator);
+const OClass Guy::oclass(GUY_TYPE, "Guy", Guy::creator, Guy::replicator);
 
 uint16_t Guy::RATE = 10;
 uint8_t Guy::GUY_PARTS = 9;
@@ -141,6 +142,25 @@ Guy::Guy()
 
   setActionFunc(GUY_TYPE, 1, _Action NULL, "");  // cancel
   setActionFunc(GUY_TYPE, 2, _Action NULL, "");  // cancel
+}
+
+/** Replication from the network */
+WO * Guy::replicator(uint8_t type_id, Noid noid, Payload *pp)
+{
+  return new Guy(type_id, noid, pp);
+}
+
+Guy::Guy(uint8_t type_id, Noid _noid, Payload *pp)
+{
+  setType(type_id);
+
+  netop = replicate(PROPS, _noid);
+  netop->getAllProperties(pp);
+
+  defaults();
+  geometry();
+  behaviors();
+  initMobileObject(0);
 }
 
 /** Reads curves file */
@@ -254,6 +274,12 @@ void Guy::setPose()
     curve[i].coords[2] = 0.8; curve[i].angles[2] = 0;
     curve[i].coords[3] = 1.0; curve[i].angles[3] = 0;
   }
+}
+
+/** Updates to the network */
+bool Guy::publish(const Pos &oldpos)
+{
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 /** Do eaquations when permanently moving */
@@ -573,6 +599,20 @@ void Guy::walking_cb(Guy *guy, void *d, time_t s, time_t u)
 
 void Guy::funcs()
 {
+  getPropFunc(GUY_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(GUY_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(GUY_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(GUY_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(GUY_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(GUY_TYPE, PROPHNAME, _Payload get_hname);
+
+  putPropFunc(GUY_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(GUY_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(GUY_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(GUY_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(GUY_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(GUY_TYPE, PROPHNAME, _Payload put_hname);
+
   setActionFunc(GUY_TYPE, 0, _Action animate_cb, "Anim");
   //setActionFunc(GUY_TYPE, 1, _Action walking_cb, "Walk");
 }
