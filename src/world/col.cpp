@@ -199,41 +199,38 @@ bool WO::outgoingNeighbor(WO *wo, WO *neighbor)
 }
 
 /**
- * General function to handle intersections
+ * General method to handle intersections
  *
  * Notice: WO *wo is an incomplete copy of *this
  */
 void WO::generalIntersect(WO *wo, OList *vicinity)
 {
-  /* check walls first (maybe expensive) */
-  ingoingWalls(wo);
-
   //
   // check neighbors
   //
   int scans = 0;
   int rescans = 0;
   // held the first object
-  WO *wofirst = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
+  WO *wohead = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
 
   // Scans neighbors for collision discovery
   for (OList *vl = vicinity; vl ; scans++) {
     if (! vl->pobject) {
       vl = vl->next;
-      continue;
-    }  // discard non existant object
+      continue;	// discard non existant object
+    }
 
     WO *neighbor = vl->pobject;
 
-    // Hack-3! Assertion on valid neighbor
+    // Assertion on valid neighbor
     if (! neighbor) {
       vl = vl->next;
       continue;
     }
 
-    // Hack-1! Skip scanning if neighbor has already been seen
-    if ((neighbor == wofirst) && (scans > 1)) {
-      //echo("first=%s scans=%d", wofirst->objectName(), scans);
+    // Stop scanning if neighbor has already been seen
+    if ((neighbor == wohead) && (scans > 1)) {
+      //echo("head=%s scans=%d", wohead->objectName(), scans);
       vl = vl->next;
       continue;
     }
@@ -243,7 +240,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
     }
 
     if (ingoingNeighbor(wo, neighbor)) {
-      // current object intersects and its old instance didn't intersect
+      // current object intersects but its old instance didn't intersect
       switch (neighbor->type) {
       case AOI_TYPE:
         if (this == static_cast<WO *>(localuser)) {
@@ -252,25 +249,19 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
             aoi->aoiEnter();	// avatars: change mcast address
           }
         }
-        else	// other mobile objects: problem of property transfert
+        else	// other mobile objects: problem of properties
           ;
         break;	// avoids a warning
-
       default:
-        if (! neighbor->whenIntersect(this, wo)) {	// call the object itself
+        if (! neighbor->whenIntersect(this, wo)) {	// done by the object itself
           vl = vl->next;
           continue;
         }
 
-        // assertion
-        if (! isValid()) {
-          vl = vl->next;
-          continue;
-        }
-        if (! neighbor->num) {
-          vl = vl->next;
-          continue;
-        }
+        // sanity check
+        //if (! isValid()) { vl = vl->next; continue; }
+        //if (! neighbor->num) { vl = vl->next; continue; }
+
         switch (neighbor->collideBehavior()) {
         case COLLIDE_ONCE: case COLLIDE_GHOST:
           vl = vl->next;
@@ -288,7 +279,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
               continue;
             }
             scans = 0;
-            vl = vicinity;	// not next COLLIDE_EVER ?
+            vl = vicinity;	// not next ?
           }
         }
       }
@@ -300,6 +291,9 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
       vl = vl->next;
     }
   } //end neighbors
+
+  // check walls first (maybe expensive)
+  ingoingWalls(wo);
 }
 
 uint32_t WO::collideBehavior() const
