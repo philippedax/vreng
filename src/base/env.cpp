@@ -103,6 +103,11 @@ const char * Env::prefs() const
   return vrengprefs;
 }
 
+const char * Env::sites() const
+{
+  return vrengsites;
+}
+
 const char * Env::stats() const
 {
   return vrengstats;
@@ -180,6 +185,7 @@ void Env::init()
 #else
     sprintf(dirweb, "%s/public_html", homedir);
 #endif
+    strcpy(vrengsites, dirweb);
     if (stat(dirweb, &bufstat) < 0) {
       echo("website does not exist: %s", dirweb);
       // create $HOME/public_html/ or $HOME/Sites/

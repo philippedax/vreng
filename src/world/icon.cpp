@@ -247,7 +247,7 @@ Icon::Icon(User *user, void *d)
       else {
         // build local ofile in ~/public_html/vreng/
         ofile = new char[URL_LEN];
-#if MACOS
+#if MACOSX
         sprintf(ofile, "%s/Site", getenv("HOME"));
 #else
         sprintf(ofile, "%s/public_html", getenv("HOME"));
