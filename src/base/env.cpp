@@ -103,7 +103,7 @@ const char * Env::prefs() const
   return vrengprefs;
 }
 
-const char * Env::sites() const
+const char * Env::sites()
 {
   return vrengsites;
 }

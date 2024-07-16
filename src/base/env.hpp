@@ -29,6 +29,8 @@
  */
 class Env {
  public:
+  char vrengsites[PATH_LEN];
+
   Env();		///< constructor
   virtual ~Env();	///< destructor
   
@@ -37,7 +39,6 @@ class Env {
   const char * dir() const;
   const char * prefs() const;
   const char * stats() const;
-  const char * sites() const;
   const char * cache() const;
   const char * login() const;
   const char * passwd() const;
@@ -47,6 +48,8 @@ class Env {
   const char * sysname() const;
   const char * relname() const;
   const char * machname() const;
+
+  const char * sites();
   
   void listCache();
   void fillCache();
@@ -65,7 +68,6 @@ class Env {
 
   char vrengcache[PATH_LEN];
   char vrengprefs[PATH_LEN];
-  char vrengsites[PATH_LEN];
   char vrengstats[PATH_LEN];
   char vrengicons[PATH_LEN];
   char vrengworldmarks[PATH_LEN];

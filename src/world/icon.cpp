@@ -247,11 +247,8 @@ Icon::Icon(User *user, void *d)
       else {
         // build local ofile in ~/public_html/vreng/
         ofile = new char[URL_LEN];
-#if MACOSX
-        sprintf(ofile, "%s/Site", getenv("HOME"));
-#else
-        sprintf(ofile, "%s/public_html", getenv("HOME"));
-#endif
+        Env *env = new Env();
+        strcpy(ofile, env->sites());		// public_html or Sites
         if (access(ofile, R_OK|W_OK|X_OK) == 0) {
           strcat(ofile, "/vreng/");
           if (access(ofile, R_OK|W_OK|X_OK) == -1) {
