@@ -203,10 +203,6 @@
 #if defined(HAVE_LIBGLU) && defined(HAVE_GL_GLU_H)
 # define HAVE_GLU 1
 #endif
-#if MACOSX
-# include <GL/glu.h>
-# define HAVE_GLU 1
-#endif
 
 #if HAVE_GLUT_GLUT_H
 # include <glut/glut.h>
