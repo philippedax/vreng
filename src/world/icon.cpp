@@ -247,8 +247,7 @@ Icon::Icon(User *user, void *d)
       else {
         // build local ofile in ~/public_html/vreng/
         ofile = new char[URL_LEN];
-        Env *env = new Env();
-        strcpy(ofile, env->sites());		// public_html or Sites
+        strcpy(ofile, ::g.env.sites());		// public_html or Sites
         if (access(ofile, R_OK|W_OK|X_OK) == 0) {
           strcat(ofile, "/vreng/");
           if (access(ofile, R_OK|W_OK|X_OK) == -1) {
