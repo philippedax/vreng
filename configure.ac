@@ -261,7 +261,7 @@ esac
 libmpeg=mpeg
 LDFLAGS_EXT=""
 
-echo "canonical build: $canonical $build"
+echo "canonical: $build"
 case "$canonical $build" in
 *-*-solaris*)
   AC_DEFINE(SOLARIS)
