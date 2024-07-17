@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #
-# configure.ac for VREng	http://vreng.enst.fr/
+# configure.ac for VREng	https://github.com/philippedax/vreng
 #
 # Written by Philippe Dax, report bugs to philippe.dax@gmail.com
 
@@ -42,8 +42,8 @@ AC_CONFIG_MACRO_DIR(config)
 # canonicalizing cpu:vendor:os
 AC_CANONICAL_HOST([])
 
-if test -f "${ac_aux_dir}canonical"; then
-  canonical="$SHELL ${ac_aux_dir}canonical"
+if test -f "${ac_aux_dir}/canonical"; then
+  canonical="$SHELL ${ac_aux_dir}/canonical"
 fi
 
 AM_INIT_AUTOMAKE([subdir-objects])
