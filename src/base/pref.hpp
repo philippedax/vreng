@@ -86,12 +86,11 @@ class Pref {
   char *mcastproxystr;
   char *sqltable;
 
+ private:
   char *stdcpp;
 
   void parse(int argc, char **argv);
   /**< Parses options in command line */
-  
-  void initPrefs(const char* pref_file);
 };
 
 #endif

@@ -146,8 +146,121 @@ Pref::Pref()
 
 void Pref::init(int argc, char **argv, const char* pref_file)
 {
-  //echo("preffile: %s",pref_file);
-  initPrefs(pref_file);  // ::g.env.prefs());
+  FILE *fp;
+  char *p1, *p2, buf[256];
+
+  File *filein = new File();
+  File *fileout = new File();
+  if ((fp = filein->open(pref_file, "r")) == NULL) {
+    if ((fp = fileout->open(pref_file, "w")) == NULL) {
+      perror("can't create prefs");
+      return;
+    }
+    fputs(def_prefs, fp);
+    fileout->close();
+    delete fileout;
+    if ((fp = filein->open(pref_file, "r")) == NULL) {
+      error("can't read prefs");
+      return;
+    }
+  }
+
+  // read prefs file
+  while (fgets(buf, sizeof(buf), fp)) {
+    if (*buf == '#' || *buf == '\n') {
+      continue;
+    }
+    buf[strlen(buf) - 1] = '\0';
+    p1 = strtok(buf, " \t=");
+    p2 = strtok(NULL, " \t#");
+    if (stringcmp(p1, "world") == 0) {
+      my_vrestr = new char[strlen(p2) + 1];
+      strcpy(my_vrestr, p2);
+      trace1(DBG_INIT, "vre = %s", p2);
+    }
+    else if (stringcmp(p1, "width") == 0) {
+      my_widthstr = new char[strlen(p2) + 1];
+      strcpy(my_widthstr, p2);
+      trace1(DBG_INIT, "width = %s", p2);
+    }
+    else if (stringcmp(p1, "depth") == 0) {
+      my_depthstr = new char[strlen(p2) + 1];
+      strcpy(my_depthstr, p2);
+      trace1(DBG_INIT, "depth = %s", p2);
+    }
+    else if (stringcmp(p1, "height") == 0) {
+      my_heightstr = new char[strlen(p2) + 1];
+      strcpy(my_heightstr, p2);
+      trace1(DBG_INIT, "height = %s", p2);
+    }
+    else if (stringcmp(p1, "mapfront") == 0 || stringcmp(p1, "mapface") == 0) {
+      my_mapfrontstr = new char[strlen(p2) + 1];
+      strcpy(my_mapfrontstr, p2);
+    }
+    else if (stringcmp(p1, "mapback") == 0) {
+      my_mapbackstr = new char[strlen(p2) + 1];
+      strcpy(my_mapbackstr, p2);
+    }
+    else if (stringcmp(p1, "host") == 0) {
+      my_hoststr = new char[strlen(p2) + 1];
+      strcpy(my_hoststr, p2);
+    }
+    else if (stringcmp(p1, "web") == 0) {
+      my_webstr = new char[strlen(p2) + 1];
+      strcpy(my_webstr, p2);
+    }
+    else if (stringcmp(p1, "model") == 0) {
+      my_avatar = new char[strlen(p2) + 1];
+      strcpy(my_avatar, p2);
+      trace1(DBG_INIT, "model = %s", p2);
+    }
+    else if (stringcmp(p1, "face") == 0) {
+      my_facestr = new char[strlen(p2) + 1];
+      strcpy(my_facestr, p2);
+    }
+    else if (stringcmp(p1, "sex") == 0) {
+      my_sexstr = new char[strlen(p2) + 1];
+      strcpy(my_sexstr, p2);
+    }
+    else if (stringcmp(p1, "head") == 0) {
+      my_headstr = new char[strlen(p2) + 1];
+      strcpy(my_headstr, p2);
+    }
+    else if (stringcmp(p1, "skin") == 0) {
+      my_skinstr = new char[strlen(p2) + 1];
+      strcpy(my_skinstr, p2);
+    }
+    else if (stringcmp(p1, "bust") == 0) {
+      my_buststr = new char[strlen(p2) + 1];
+      strcpy(my_buststr, p2);
+    }
+    else if (stringcmp(p1, "color") == 0) {
+      my_colorstr = new char[strlen(p2) + 1];
+      strcpy(my_colorstr, p2);
+      trace1(DBG_INIT, "color = %s", p2);
+    }
+    else if (stringcmp(p1, "baps") == 0) {
+      my_bapsstr = new char[strlen(p2) + 1];
+      strcpy(my_bapsstr, p2);
+      trace1(DBG_INIT, "baps = %s", p2);
+    }
+    else if (stringcmp(p1, "http_proxy") == 0) {
+      httpproxystr = new char[strlen(p2) + 1];
+      strcpy(httpproxystr, p2);
+    }
+    else if (stringcmp(p1, "no_proxy") == 0) {
+      noproxystr = new char[strlen(p2) + 1];
+      strcpy(noproxystr, p2);
+    }
+    else if (stringcmp(p1, "mcast_proxy") == 0) {
+      mcastproxystr = new char[strlen(p2) + 1];
+      strcpy(mcastproxystr, p2);
+    }
+  } //eof
+
+  filein->close();
+  delete filein;
+
   parse(argc, argv);
   trace1(DBG_INIT, "Pref initialized");
 }
@@ -460,122 +573,4 @@ void Pref::parse(int argc, char **argv)
     *argv = new char[10];
     strcpy(*argv, "--help-x");
   }
-}
-
-void Pref::initPrefs(const char* pref_file)
-{
-  FILE *fp;
-  char *p1, *p2, buf[256];
-
-  File *filein = new File();
-  File *fileout = new File();
-  if ((fp = filein->open(pref_file, "r")) == NULL) {
-    if ((fp = fileout->open(pref_file, "w")) == NULL) {
-      perror("can't create prefs");
-      return;
-    }
-    fputs(def_prefs, fp);
-    fileout->close();
-    delete fileout;
-    if ((fp = filein->open(pref_file, "r")) == NULL) {
-      error("can't read prefs");
-      return;
-    }
-  }
-
-  // read prefs file
-  while (fgets(buf, sizeof(buf), fp)) {
-    if (*buf == '#' || *buf == '\n') {
-      continue;
-    }
-    buf[strlen(buf) - 1] = '\0';
-    p1 = strtok(buf, " \t=");
-    p2 = strtok(NULL, " \t#");
-    if (stringcmp(p1, "world") == 0) {
-      my_vrestr = new char[strlen(p2) + 1];
-      strcpy(my_vrestr, p2);
-      trace1(DBG_INIT, "vre = %s", p2);
-    }
-    else if (stringcmp(p1, "width") == 0) {
-      my_widthstr = new char[strlen(p2) + 1];
-      strcpy(my_widthstr, p2);
-      trace1(DBG_INIT, "width = %s", p2);
-    }
-    else if (stringcmp(p1, "depth") == 0) {
-      my_depthstr = new char[strlen(p2) + 1];
-      strcpy(my_depthstr, p2);
-      trace1(DBG_INIT, "depth = %s", p2);
-    }
-    else if (stringcmp(p1, "height") == 0) {
-      my_heightstr = new char[strlen(p2) + 1];
-      strcpy(my_heightstr, p2);
-      trace1(DBG_INIT, "height = %s", p2);
-    }
-    else if (stringcmp(p1, "mapfront") == 0 || stringcmp(p1, "mapface") == 0) {
-      my_mapfrontstr = new char[strlen(p2) + 1];
-      strcpy(my_mapfrontstr, p2);
-    }
-    else if (stringcmp(p1, "mapback") == 0) {
-      my_mapbackstr = new char[strlen(p2) + 1];
-      strcpy(my_mapbackstr, p2);
-    }
-    else if (stringcmp(p1, "host") == 0) {
-      my_hoststr = new char[strlen(p2) + 1];
-      strcpy(my_hoststr, p2);
-    }
-    else if (stringcmp(p1, "web") == 0) {
-      my_webstr = new char[strlen(p2) + 1];
-      strcpy(my_webstr, p2);
-    }
-    else if (stringcmp(p1, "model") == 0) {
-      my_avatar = new char[strlen(p2) + 1];
-      strcpy(my_avatar, p2);
-      trace1(DBG_INIT, "model = %s", p2);
-    }
-    else if (stringcmp(p1, "face") == 0) {
-      my_facestr = new char[strlen(p2) + 1];
-      strcpy(my_facestr, p2);
-    }
-    else if (stringcmp(p1, "sex") == 0) {
-      my_sexstr = new char[strlen(p2) + 1];
-      strcpy(my_sexstr, p2);
-    }
-    else if (stringcmp(p1, "head") == 0) {
-      my_headstr = new char[strlen(p2) + 1];
-      strcpy(my_headstr, p2);
-    }
-    else if (stringcmp(p1, "skin") == 0) {
-      my_skinstr = new char[strlen(p2) + 1];
-      strcpy(my_skinstr, p2);
-    }
-    else if (stringcmp(p1, "bust") == 0) {
-      my_buststr = new char[strlen(p2) + 1];
-      strcpy(my_buststr, p2);
-    }
-    else if (stringcmp(p1, "color") == 0) {
-      my_colorstr = new char[strlen(p2) + 1];
-      strcpy(my_colorstr, p2);
-      trace1(DBG_INIT, "color = %s", p2);
-    }
-    else if (stringcmp(p1, "baps") == 0) {
-      my_bapsstr = new char[strlen(p2) + 1];
-      strcpy(my_bapsstr, p2);
-      trace1(DBG_INIT, "baps = %s", p2);
-    }
-    else if (stringcmp(p1, "http_proxy") == 0) {
-      httpproxystr = new char[strlen(p2) + 1];
-      strcpy(httpproxystr, p2);
-    }
-    else if (stringcmp(p1, "no_proxy") == 0) {
-      noproxystr = new char[strlen(p2) + 1];
-      strcpy(noproxystr, p2);
-    }
-    else if (stringcmp(p1, "mcast_proxy") == 0) {
-      mcastproxystr = new char[strlen(p2) + 1];
-      strcpy(mcastproxystr, p2);
-    }
-  } //eof
-
-  filein->close();
-  delete filein;
 }
