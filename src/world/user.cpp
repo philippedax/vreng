@@ -123,18 +123,18 @@ void User::setPosition()
   if (entry) {
     entry->query(this);
     trace1(DBG_INIT, "new entry: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
-    //echo("entry: %.1f %.1f %.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
+    //echo("entry: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
   } 
 }
 
-/** Checks localuser position if out of bounds */
+/** Checks if localuser position is out of bounds */
 void User::checkPosition()
 {
-  if ( localuser->pos.x>100 || localuser->pos.x<-100 || localuser->pos.y>100 || localuser->pos.y<-100 || localuser->pos.z>100 || localuser->pos.z<-100 ) {
-    echo("localuser->pos: %.1f %.1f %.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
+  if ( pos.x>100 || pos.x<-100 || pos.y>100 || pos.y<-100 || pos.z>100 || pos.z<-100 ) {
+    echo("localuser->pos: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
     echo("reset localuser pos(0 0 2)");
-    localuser->pos.x = localuser->pos.y = 0;
-    localuser->pos.z = 2;
+    pos.x = pos.y = 0;
+    pos.z = 2;
   }
 }
 
@@ -209,7 +209,7 @@ void User::geometry()
   if (pref->my_bapsstr)		baps = strdup(pref->my_bapsstr);
 
   if (isalpha(*avatar)) {	// avatar is defined in ~./.vreng/prefs
-    // 5 available avatar : guy, human, humanoid, box, bbox
+    // 5 available avatars ( guy, human, humanoid, box, bbox )
     if (! strcmp(avatar, "guy")) {
       guy = new Guy();
       sprintf(mensuration, "shape=\"guy\" dim=\"%f %f %f\"", width, depth, height);
@@ -525,17 +525,17 @@ User::~User()
 }
 
 /** Updates local user towards the network */
-bool User::updateToNetwork(const Pos &oldpos)
+bool User::updateToNetwork(const Pos &opos)
 {
   bool change = false;
 
-  if ((pos.x != oldpos.x) || (pos.y != oldpos.y)) {
+  if ((pos.x != opos.x) || (pos.y != opos.y)) {
     netop->declareDelta(PROPXY); change = true;
   }
-  if (ABSF(pos.z - oldpos.z) > DELTAZ) { // if d < 2cm => not sent
+  if (ABSF(pos.z - opos.z) > DELTAZ) { // if d < 2cm => not sent
     netop->declareDelta(PROPZ); change = true;
   }
-  if (pos.az != oldpos.az) {
+  if (pos.az != opos.az) {
     netop->declareDelta(PROPAZ); change = true;
   }
   return change;
@@ -643,7 +643,7 @@ bool User::whenIntersect(WO *pcur, WO *pold)
   switch (pcur->type) {
   case BULLET_TYPE:
   case DART_TYPE:
-    /* projectile intersects user: hit */
+    // projectile intersects user: hit
     if (hit == 0) {
       hit = 1;
       echo("%s:%s hits %s", pcur->typeName(), pcur->objectName(), objectName());
@@ -669,7 +669,7 @@ bool User::whenIntersect(WO *pcur, WO *pold)
     pcur->updatePositionAndGrid(pold);
     break;
   case USER_TYPE:
-    /* user intersects an other user: slide */
+    // user intersects an other user: slide
     pcur->pos.x += GOTHROUGH; // step to shift
     pcur->pos.y += GOTHROUGH;
     pcur->updatePositionAndGrid(pold);
