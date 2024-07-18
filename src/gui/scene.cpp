@@ -43,13 +43,13 @@
 /** Constructor */
 Scene::Scene(Widgets* _gw) :
  gw(*_gw), 
- is_visible(true),		// should be set to false when the window is iconified !
- is_initialized(false),
- is_launched(false),
+ visible(true),			// should be set to false when the window is iconified !
+ initialized(false),
+ launched(false),
  cycles(0),
  net_delay(500)
 {
-  is_hudvisible = true;		// hud visible by default
+  hudvisible = true;		// hud visible by default
   bgcolor = UBackground::blue;
 
   addAttr(bgcolor);
@@ -123,14 +123,14 @@ void Scene::paintCB(UPaintEvent& e)
 {
   GLSection gls(this);
 
-  if (is_initialized) {
+  if (initialized) {
     ::g.render.cameraUser();
   }
-  if (! is_launched) {
+  if (! launched) {
     UAppli::addTimeout(500, 1, ucall(this, &Scene::init));
-    is_launched = true;
+    launched = true;
   }
-  if (! is_visible || ! is_initialized) return;
+  if (! visible || ! initialized) return;
 
   // at least one postponed Key Release event
   if (gw.pendingPostponedKRs()) {
@@ -156,7 +156,7 @@ void Scene::paintCB(UPaintEvent& e)
   trender.stop();
 
   // Displays misc infos in the hud
-  if (is_hudvisible) {
+  if (hudvisible) {
     refreshHud();
     hudbox.show(true);
   }
@@ -184,7 +184,7 @@ void Scene::resizeCB(UResizeEvent& e)
  */
 void Scene::netTimeoutCB()
 {
-  ::netTimeout();  // checks if various updates are needed
+  ::netTimeout();	// checks if various updates are needed
 }
 
 /** Inits the scene */
@@ -210,7 +210,7 @@ void Scene::init()
   net_timer.onAction(ucall(this, &Scene::netTimeoutCB));
   net_timer.start(net_delay, -1);
   message.show(false);
-  is_initialized = true;	// the scene is initialized and ready for rendering
+  initialized = true;		// the scene is initialized and ready for rendering
 }
 
 /** Resizes the scene */
@@ -265,5 +265,5 @@ void Scene::refreshHud()
 /** Toggles the hud */
 void Scene::toggleHud()
 {
-  is_hudvisible ^= 1;
+  hudvisible ^= 1;
 }

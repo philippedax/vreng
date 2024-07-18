@@ -56,10 +56,10 @@ class Scene : public ubit::UBox {
   friend class Gui;		///< cycles net_delay
 
   class Widgets& gw;		///< gui widget
-  bool is_visible;		///< true if visible (not iconified).
-  bool is_initialized;		///< true if initialized
-  bool is_launched;		///< true if initCB launched
-  bool is_hudvisible;		///< true if hud is visible
+  bool visible;			///< true if visible (not iconified).
+  bool initialized;		///< true if initialized
+  bool launched;		///< true if initCB launched
+  bool hudvisible;		///< true if hud is visible
   uint32_t cycles;		///< scenes per sec
   uint32_t net_delay;		///< default is 500ms
   UTimer render_timer,net_timer;///< timers
