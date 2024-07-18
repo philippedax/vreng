@@ -20,10 +20,11 @@
 //---------------------------------------------------------------------------
 // col.cpp
 //
-// Collide handling
+// Collide management
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "wobject.hpp"
+#include "col.hpp"
 #include "matvec.hpp"   // V3 M4
 #include "aoi.hpp"	// AOI_TYPE
 #include "walls.hpp"	// whenIntersect
@@ -31,14 +32,6 @@
 #include "world.hpp"	// current
 #include "olist.hpp"	// OList
 
-
-// intersection cases
-enum {
-  NO_INTER,	// no intersect
-  IN2,		// obj1 inside obj2
-  IN1,		// obj2 inside obj1
-  INTERSECT	// intersect partiel
-};
 
 /** Saves last position and Bounding Box of an object */
 void WO::copyPositionAndBB(Pos &newpos)
