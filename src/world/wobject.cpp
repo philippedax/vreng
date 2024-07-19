@@ -64,7 +64,7 @@ WO::WO()
 
   netop = NULL;
   guip = NULL;
-  inlist = false;
+  pointed = false;
   removed = false;
   deleted = false;
   visible = true;
@@ -1192,8 +1192,8 @@ OList * WO::addListToList(OList *l1, OList *l2)
     }
   }
   else {
-    if (l1->pobject && !(l1->pobject->inlist) && (l1->pobject != this)) {
-      l1->pobject->inlist = true;
+    if (l1->pobject && !(l1->pobject->pointed) && (l1->pobject != this)) {
+      l1->pobject->pointed = true;
       if (l1->next) {
         return  addListToList(l1->next, l1->pobject->addOListOnce(l2));
       }

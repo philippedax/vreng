@@ -55,11 +55,11 @@ void OList::remove()
   }
 }
 
-/** Clears flags "inlist" of all objects in an olist - called by col.cpp */
-void OList::clearIspointed()
+/** Clears flags "pointed" of all objects in an olist - called by col.cpp */
+void OList::clearPointed()
 {
   for (OList *list = this; list && list->pobject; list = list->next) {
-    list->pobject->inlist = false;
+    list->pobject->pointed = false;
   }
 }
 

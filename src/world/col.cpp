@@ -561,7 +561,7 @@ OList * WO::getVicinity(const WO *obj)
   }
 
   if (vl) {
-    vl->clearIspointed();
+    vl->clearPointed();
   }
   return vl;
 }

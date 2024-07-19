@@ -38,7 +38,7 @@ class OList {
   void remove();
   /**< Frees an object list. */
 
-  void clearIspointed();
+  void clearPointed();
   /**< Clears flags "ispointed" of all objects in a list. */
 
   static WO *findObj(uint8_t type_id,uint32_t src_id,uint16_t port_id,uint16_t obj_id);
