@@ -199,37 +199,26 @@ bool WO::outgoingNeighbor(WO *wo, WO *neighbor)
 void WO::generalIntersect(WO *wo, OList *vicinity)
 {
   //
-  // check neighbors
+  // Checks neighbors
   //
+#define NEXTNEIGHBOR { vl=vl->next; continue; }
   int scans = 0;
   int rescans = 0;
   // held the first object
   WO *wohead = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
 
   // Scans neighbors for collision discovery
-  for (OList *vl = vicinity; vl ; scans++) {
-    if (! vl->pobject) {
-      vl = vl->next;
-      continue;	// discard non existant object
-    }
+  for (OList *vl = vicinity; vl ; ) {
+    if (! vl->pobject) NEXTNEIGHBOR 	// discard non existant object
 
     WO *neighbor = vl->pobject;
 
-    // Assertion on valid neighbor
-    if (! neighbor) {
-      vl = vl->next;
-      continue;
-    }
-
     // Stop scanning if neighbor has already been seen
-    if ((neighbor == wohead) && (scans > 1)) {
-      //echo("head=%s scans=%d", wohead->objectName(), scans);
-      vl = vl->next;
-      continue;
+    if ((neighbor == wohead) && (scans >= 1)) {
+      NEXTNEIGHBOR
     }
     if (neighbor->behavior & COLLIDE_NEVER) {
-      vl = vl->next;
-      continue;
+      NEXTNEIGHBOR
     }
 
     if (ingoingNeighbor(wo, neighbor)) {
@@ -247,29 +236,25 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
         break;	// avoids a warning
       default:
         if (! neighbor->whenIntersect(this, wo)) {	// done by the object itself
-          vl = vl->next;
-          continue;
+          NEXTNEIGHBOR
         }
 
         // sanity check
-        //if (! isValid()) { vl = vl->next; continue; }
-        //if (! neighbor->num) { vl = vl->next; continue; }
+        //if (! isValid()) NEXTNEIGHBOR
+        //if (! neighbor->num) NEXTNEIGHBOR
 
         switch (neighbor->collideBehavior()) {
         case COLLIDE_ONCE: case COLLIDE_GHOST:
-          vl = vl->next;
-          continue;
+          NEXTNEIGHBOR
         default:
           if (isBehavior(COLLIDE_GHOST) || isBehavior(COLLIDE_ONCE)) {
-            vl = vl->next;
-            continue;
+            NEXTNEIGHBOR
           }
           else {
             if (rescans++ > 99) {
               echo("collide loop between %s & %s", objectName(), neighbor->objectName());
               scans = rescans = 0;
-              vl = vl->next;
-              continue;
+              NEXTNEIGHBOR
             }
             scans = 0;
             vl = vicinity;	// not next ?
@@ -281,8 +266,9 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
       neighbor->whenIntersectOut(this, wo);		// handled by each object
     }
     if (vl) {
-      vl = vl->next;
+      NEXTNEIGHBOR
     }
+    scans++;
   } //end neighbors
 
   // check walls first (maybe expensive)
