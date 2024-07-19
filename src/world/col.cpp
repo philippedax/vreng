@@ -201,7 +201,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
   //
   // Checks neighbors
   //
-#define NEXTNEIGHBOR { vl=vl->next; continue; }
+#define NEXTNEIGHBOR { vl=vl->next; continue; }	// macro to progress
   int scans = 0;
   int rescans = 0;
   // held the first object
@@ -214,12 +214,8 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
     WO *neighbor = vl->pobject;
 
     // Stop scanning if neighbor has already been seen
-    if ((neighbor == wohead) && (scans >= 1)) {
-      NEXTNEIGHBOR
-    }
-    if (neighbor->behavior & COLLIDE_NEVER) {
-      NEXTNEIGHBOR
-    }
+    if ((neighbor == wohead) && (scans >= 1)) NEXTNEIGHBOR
+    if (neighbor->behavior & COLLIDE_NEVER) NEXTNEIGHBOR
 
     if (ingoingNeighbor(wo, neighbor)) {
       // current object intersects but its old instance didn't intersect
@@ -235,9 +231,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
           ;
         break;	// avoids a warning
       default:
-        if (! neighbor->whenIntersect(this, wo)) {	// done by the object itself
-          NEXTNEIGHBOR
-        }
+        neighbor->whenIntersect(this, wo); 	// done by the object itself
 
         // sanity check
         //if (! isValid()) NEXTNEIGHBOR
@@ -247,9 +241,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
         case COLLIDE_ONCE: case COLLIDE_GHOST:
           NEXTNEIGHBOR
         default:
-          if (isBehavior(COLLIDE_GHOST) || isBehavior(COLLIDE_ONCE)) {
-            NEXTNEIGHBOR
-          }
+          if (isBehavior(COLLIDE_GHOST) || isBehavior(COLLIDE_ONCE)) NEXTNEIGHBOR
           else {
             if (rescans++ > 99) {
               echo("collide loop between %s & %s", objectName(), neighbor->objectName());
@@ -265,9 +257,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
     else if (outgoingNeighbor(wo, neighbor)) {		// current object leaves intersection
       neighbor->whenIntersectOut(this, wo);		// handled by each object
     }
-    if (vl) {
-      NEXTNEIGHBOR
-    }
+    if (vl) NEXTNEIGHBOR
     scans++;
   } //end neighbors
 
