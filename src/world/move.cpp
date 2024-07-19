@@ -233,7 +233,7 @@ void User::changePosition(const float lastings[])
     float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
 
     if (pos.z > 2) {		// hight >2 m
-      // Fly
+      // flying
       if (humanoid) {
         localuser->pos.ay = -a;
       }
@@ -360,15 +360,6 @@ void WO::setLinearSpeed(float lspeed)
   move.lspeed.v[2] = lspeed;
 }
 
-#if 0 //notused
-void WO::setAngularSpeed(float aspeed)
-{
-  move.aspeed.v[0] = aspeed;
-  move.aspeed.v[1] = aspeed;
-  move.aspeed.v[2] = aspeed;
-}
-#endif //notused
-
 /** Disables a permanent movement */
 void WO::disablePermanentMovement()
 {
@@ -431,7 +422,7 @@ void User::userMovement(time_t sec, time_t usec)
   }
 }
 
-/** Elementary imposed movement */
+/** Elementary imposed movement for an object */
 void WO::elemImposedMovement(float dt)
 {
   changePosition(dt);  // handled by each object
@@ -446,7 +437,7 @@ void WO::elemImposedMovement(float dt)
   }
 }
 
-/** Object imposed movement */
+/** Object imposed movement for an object */
 void WO::imposedMovement(time_t sec, time_t usec)
 {
   if (! isValid()) {
@@ -501,7 +492,7 @@ void WO::imposedMovement(time_t sec, time_t usec)
   updatePositionAndGrid(pos);
 }
 
-/** Elementary permanent movement */
+/** Elementary permanent movement for an object */
 void WO::elemPermanentMovement(float dt)
 {
   if (isBehavior(COLLIDE_NEVER)) {
@@ -514,12 +505,12 @@ void WO::elemPermanentMovement(float dt)
 
   changePermanent(dt);		// handled by each object
 
-  updatePosition();
-  checkVicinity(wo);
-  delete wo;
   if (this == localuser) {
     localuser->checkPosition();	// check out-of-bounds
   }
+  updatePosition();
+  checkVicinity(wo);
+  delete wo;
 }
 
 /** Object permanent movement - called by world */
