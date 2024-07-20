@@ -676,64 +676,58 @@ void Widgets::setKey(int key, int ispressed)
 }
 
 /**
- * Converts the X keysym into a Vreng change key (vrkey) and returns
+ * Converts the X keysym into a Vreng key (vrkey) and returns
  * a keymask which is an hexa value for marking released keys in the KRmask
- */
-static long convertKey(long keycode, int keychar, int& vrkey)
+*/
+static long convertKey(const int keysym, int keychar, int& vrkey)
 {
-  long keymask = 0;
   vrkey = 0;
-  
-  if      (keycode == UKey::Up)       { keymask = 1<<0;  vrkey = KEY_FW; }  // move forward
-  else if (keycode == UKey::Down)     { keymask = 1<<1;  vrkey = KEY_BW; }  // move backward
-  else if (keycode == UKey::Left)     { keymask = 1<<2;  vrkey = KEY_LE; }  // turn left
-  else if (keycode == UKey::Right)    { keymask = 1<<3;  vrkey = KEY_RI; }  // turn right
-  else if (keycode == UKey::PageUp)   { keymask = 1<<11; vrkey = KEY_UP; }  // move up
-  else if (keycode == UKey::PageDown) { keymask = 1<<12; vrkey = KEY_DO; }  // move down
-  else if (keycode == UKey::Insert)   { keymask = 1<<6;  vrkey = KEY_MU; }  // roll up
-  else if (keycode == UKey::Delete)   { keymask = 1<<7;  vrkey = KEY_MD; }  // roll down
-  else if (keycode == UKey::Home)     { keymask = 1<<8;  vrkey = KEY_HO; }  // stand up
-  else if (keycode == UKey::End)      { keymask = 1<<13; vrkey = KEY_SP; }  // accelerator
-  else if (keycode == UKey::BackSpace) {
-    Widgets::callAction(User::UA_ASPEEDLESS); return 0;	    // decrease aspeed
-  }
-  else if (keycode == UKey::Tab) {
-    Widgets::callAction(User::UA_ASPEEDMORE); return 0;	    // increase aspeed
-  }
+
+  if      (keysym == UKey::Up) {       vrkey = KEY_FW; return 1<<0; }	// move forward
+  else if (keysym == UKey::Down) {     vrkey = KEY_BW; return 1<<1; }	// move backward
+  else if (keysym == UKey::Left) {     vrkey = KEY_LE; return 1<<2; }	// turn left
+  else if (keysym == UKey::Right) {    vrkey = KEY_RI; return 1<<3; }	// turn right
+  else if (keysym == UKey::PageUp) {   vrkey = KEY_UP; return 1<<11; }	// move up
+  else if (keysym == UKey::PageDown) { vrkey = KEY_DO; return 1<<12; }	// move down
+  else if (keysym == UKey::Insert) {   vrkey = KEY_MU; return 1<<6; }	// roll up
+  else if (keysym == UKey::Delete) {   vrkey = KEY_MD; return 1<<7; }	// roll down
+  else if (keysym == UKey::Home) {     vrkey = KEY_HO; return 1<<8; }	// stand up
+  else if (keysym == UKey::End) {      vrkey = KEY_SP; return 1<<13; }	// accelerator
+  else if (keysym == UKey::BackSpace) { Widgets::callAction(User::UA_ASPEEDLESS); return 0; }	// decrease aspeed
+  else if (keysym == UKey::Tab) {       Widgets::callAction(User::UA_ASPEEDMORE); return 0; }	// increase aspeed
   else {
-    switch (keychar) {
-      case '<': keymask = 1<<4;          vrkey = KEY_ML;  break;    // left translation
-      case '>': keymask = 1<<5;          vrkey = KEY_MR;  break;    // right translation
-      case 'l': keymask = 1<<9;          vrkey = KEY_TL;  break;    // tilt left
-      case 'r': keymask = 1<<10;         vrkey = KEY_TR;  break;    // tilt right
-      case 'u': keymask = 1<<11 | 1<<13; vrkey = KEY_UP;  break;    // up translation
-      case ' ': keymask = 1<<13;         vrkey = KEY_SP;  break;    // accelerator
-      case '=': Widgets::callAction(User::UA_FOVYDEF);    return 0; // original fovy
-      case '-': Widgets::callAction(User::UA_FOVYLESS);   return 0; // decrease fovy
-      case '+': Widgets::callAction(User::UA_FOVYMORE);   return 0; // increase fovy
-      case '.': Widgets::callAction(User::UA_LSPEEDDEF);  return 0; // original lspeed
-      case 's': Widgets::callAction(User::UA_LSPEEDLESS); return 0; // decrease lspeed
-      case 'f': Widgets::callAction(User::UA_LSPEEDMORE); return 0; // increase lspeed
-      case ',': Widgets::callAction(User::UA_ASPEEDDEF);  return 0; // original aspeed
-      case 'b': Widgets::callAction(User::UA_BULLET);     return 0; // launche bullet
-      case 'd': Widgets::callAction(User::UA_DART);       return 0; // launche dart
-      case 'v': Widgets::callAction(User::UA_SWITCHVIEW); return 0; // switch view
-      case 'x': Widgets::callAction(User::UA_TPVIEWROTL); return 0; // rot left
-      case 'c': Widgets::callAction(User::UA_TPVIEWROTR); return 0; // rot right
-      case 'q': Widgets::callAction(User::UA_TPVIEWROTU); return 0; // rot up
-      case 'w': Widgets::callAction(User::UA_TPVIEWROTD); return 0; // rot down
-      case 'p': Widgets::callAction(User::UA_TPVIEWROTN); return 0; // rot near
-      case 'm': Widgets::callAction(User::UA_TPVIEWROTF); return 0; // rot far
-      case 'D': Widgets::callAction(User::UA_PITCHMORE);  return 0; // increase pitch
-      case 'U': Widgets::callAction(User::UA_PITCHLESS);  return 0; // decrease pitch
-      case 'R': Widgets::callAction(User::UA_ROLLMORE);   return 0; // increase roll
-      case 'L': Widgets::callAction(User::UA_ROLLLESS);   return 0; // decrease roll
-      case '^': Widgets::callAction(User::UA_FLYAWAY);    return 0; // flyaway
-      case '$': Widgets::callAction(User::UA_TOLAND);     return 0; // toland
-      default: return 0; 					    // undefined key
+      switch (keychar) {
+      case '<': vrkey = KEY_ML;				  return 1<<4;	// left translation
+      case '>': vrkey = KEY_MR;				  return 1<<5;	// right translation
+      case 'l': vrkey = KEY_TL;				  return 1<<9;	// tilt left
+      case 'r': vrkey = KEY_TR;				  return 1<<10;	// tilt right
+      case 'u': vrkey = KEY_UP;				  return 1<<11;	// up translation
+      case ' ': vrkey = KEY_SP;				  return 1<<13;	// accelerator
+      case '=': Widgets::callAction(User::UA_FOVYDEF);    return 0;	// original fovy
+      case '-': Widgets::callAction(User::UA_FOVYLESS);   return 0;	// decrease fovy
+      case '+': Widgets::callAction(User::UA_FOVYMORE);   return 0;	// increase fovy
+      case '.': Widgets::callAction(User::UA_LSPEEDDEF);  return 0;	// original lspeed
+      case 's': Widgets::callAction(User::UA_LSPEEDLESS); return 0;	// decrease lspeed
+      case 'f': Widgets::callAction(User::UA_LSPEEDMORE); return 0;	// increase lspeed
+      case ',': Widgets::callAction(User::UA_ASPEEDDEF);  return 0;	// original aspeed
+      case 'b': Widgets::callAction(User::UA_BULLET);     return 0;	// launche bullet
+      case 'd': Widgets::callAction(User::UA_DART);       return 0;	// launche dart
+      case 'v': Widgets::callAction(User::UA_SWITCHVIEW); return 0;	// switch view
+      case 'x': Widgets::callAction(User::UA_TPVIEWROTL); return 0;	// rot left
+      case 'c': Widgets::callAction(User::UA_TPVIEWROTR); return 0;	// rot right
+      case 'q': Widgets::callAction(User::UA_TPVIEWROTU); return 0;	// rot up
+      case 'w': Widgets::callAction(User::UA_TPVIEWROTD); return 0;	// rot down
+      case 'p': Widgets::callAction(User::UA_TPVIEWROTN); return 0;	// rot near
+      case 'm': Widgets::callAction(User::UA_TPVIEWROTF); return 0;	// rot far
+      case 'D': Widgets::callAction(User::UA_PITCHMORE);  return 0;	// increase pitch
+      case 'U': Widgets::callAction(User::UA_PITCHLESS);  return 0;	// decrease pitch
+      case 'R': Widgets::callAction(User::UA_ROLLMORE);   return 0;	// increase roll
+      case 'L': Widgets::callAction(User::UA_ROLLLESS);   return 0;	// decrease roll
+      case '^': Widgets::callAction(User::UA_FLYAWAY);    return 0;	// flyaway
+      case '$': Widgets::callAction(User::UA_TOLAND);     return 0;	// toland
     }
   }
-  return keymask;
+  return 0;
 }
 
 /** Use this callback function for handling AUTOREPEAT Key event
@@ -742,7 +736,7 @@ static long convertKey(long keycode, int keychar, int& vrkey)
  * They are processed when coming back to the RenderingWorkProc of the
  * mainLoop if not annulated in the meantime by subsequent Press events.
  */
-void Widgets::processKey(long keysym, int keychar, bool press)
+void Widgets::processKey(const int keysym, int keychar, bool press)
 {
   int vrkey;
   long keymask = convertKey(keysym, keychar, vrkey);

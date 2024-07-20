@@ -119,7 +119,7 @@ friend class Message;
   
   static void callAction(int numaction);
   static void setKey(int key, int is_pressed);  
-  void processKey(long keysym, int keychar, bool is_pressed);
+  void processKey(const int keysym, int keychar, bool is_pressed);
   void flushPostponedKRs();
   bool pendingPostponedKRs() {return (postponedKRmask || postponedKRcount);}
 
