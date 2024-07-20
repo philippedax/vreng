@@ -683,6 +683,9 @@ static long convertKey(const int keysym, int keychar, int& vrkey)
 {
   vrkey = 0;
 
+  // note: here we can't use a switch because keysym (see src/ubit/ukey.hpp)
+  // is not an integral constant expression, so we use if .. else if construction
+
   if      (keysym == UKey::Up) {       vrkey = KEY_FW; return 1<<0; }	// move forward
   else if (keysym == UKey::Down) {     vrkey = KEY_BW; return 1<<1; }	// move backward
   else if (keysym == UKey::Left) {     vrkey = KEY_LE; return 1<<2; }	// turn left
