@@ -172,43 +172,43 @@ void WO::changePositionOneDir(uint8_t move_key, float lasting)
 #endif
   // Navigator
   switch (move_key) {
-    case KEY_AV:  // move forward left
+    case KEY_FW:  // move forward left
       pos.x += lasting * lspeed * cos(pos.az);
       pos.y += lasting * lspeed * sin(pos.az);
       break;
-    case KEY_AR:  // move backward right
+    case KEY_BW:  // move backward right
       pos.x -= lasting * lspeed * cos(pos.az);
       pos.y -= lasting * lspeed * sin(pos.az);
       break;
-    case KEY_SD:  // move forward right
+    case KEY_MR:  // move forward right
       pos.x += lasting * lspeed * sin(pos.az);
       pos.y -= lasting * lspeed * cos(pos.az);
       break;
-    case KEY_SG:  // move backward left
+    case KEY_ML:  // move backward left
       pos.x -= lasting * lspeed * sin(pos.az);
       pos.y += lasting * lspeed * cos(pos.az);
       break;
-    case KEY_DR:  // turn right
+    case KEY_RI:  // turn right
       pos.az -= lasting * aspeed;
       pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
       break;
-    case KEY_GA:  // turn left
+    case KEY_LE:  // turn left
       pos.az += lasting * aspeed;
       pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
       break;
-    case KEY_MT:  // roll backward
+    case KEY_MD:  // roll backward
        pos.ay = MIN(pos.ay + lasting * aspeed, M_2PI_5);
        break;
-    case KEY_DE:  // roll forward
+    case KEY_MU:  // roll forward
       pos.ay = MAX(pos.ay - lasting * aspeed, -M_2PI_5);
       break;
-    case KEY_HZ:  // stand up
+    case KEY_HO:  // stand up
       pos.ay = pos.ax = 0;
       break;
-    case KEY_JU:  // move up
+    case KEY_UP:  // move up
       pos.z += lasting * lspeed;
       break;
-    case KEY_JD:  // move down
+    case KEY_DO:  // move down
       pos.z -= lasting * lspeed;
       break;
     case KEY_TL:  // tilt left
@@ -225,7 +225,7 @@ void User::changePosition(const float lastings[])
 {
   for (int k=0; (k < MAXKEYS); k++) {
     if (lastings[k] > MIN_KEYLASTING) {
-      changePositionOneDir(k, lastings[k] * (kpressed[KEY_VI]+1));
+      changePositionOneDir(k, lastings[k] * (kpressed[KEY_SP]+1));
     }
   }
 

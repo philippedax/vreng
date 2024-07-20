@@ -128,18 +128,18 @@ void Carrier::mouseEvent(int8_t vkey, float last)
 
   echo("carrier: k=%d", vkey);
   switch (vkey) {
-    case KEY_AV: object->pos.x += last*lspeed; break; // ^
-    case KEY_AR: object->pos.x -= last*lspeed; break; // v
-    case KEY_SG: object->pos.y += last*lspeed; break; // <
-    case KEY_SD: object->pos.y -= last*lspeed; break; // >
-    case KEY_JU: object->pos.z += last*lspeed; break; // ^
-    case KEY_JD: object->pos.z -= last*lspeed; break; // V
-    case KEY_GA: object->pos.az += last*lspeed; break; // <-
-    case KEY_DR: object->pos.az -= last*lspeed; break; // ->
+    case KEY_FW: object->pos.x += last*lspeed; break; // ^
+    case KEY_BW: object->pos.x -= last*lspeed; break; // v
+    case KEY_ML: object->pos.y += last*lspeed; break; // <
+    case KEY_MR: object->pos.y -= last*lspeed; break; // >
+    case KEY_UP: object->pos.z += last*lspeed; break; // ^
+    case KEY_DO: object->pos.z -= last*lspeed; break; // V
+    case KEY_LE: object->pos.az += last*lspeed; break; // <-
+    case KEY_RI: object->pos.az -= last*lspeed; break; // ->
     case KEY_TL: object->pos.ax += last*lspeed; break; // <,
     case KEY_TR: object->pos.ax -= last*lspeed; break; // ,>
-    case KEY_MT: object->pos.ay += last*lspeed; break; // ^,
-    case KEY_DE: object->pos.ay -= last*lspeed; break; // ,^
+    case KEY_MU: object->pos.ay += last*lspeed; break; // ^,
+    case KEY_MD: object->pos.ay -= last*lspeed; break; // ,^
   }
   //echo("pos: %.1f %.1f %.1f", object->pos.x,object->pos.y,object->pos.z);
 

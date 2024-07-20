@@ -29,20 +29,20 @@
 
 /* Keys needed by VREng move module */
 enum {
-  KEY_AV,	///< move forward left
-  KEY_AR,	///< move backward right
-  KEY_DR,	///< turn right
-  KEY_GA,	///< turn left
-  KEY_SD,	///< move forward right
-  KEY_SG,	///< move backward left
-  KEY_MT,	///< down backward
-  KEY_DE,	///< down forward
-  KEY_HZ,	///< stand up
-  KEY_JD,	///< move down
-  KEY_JU,	///< move up
+  KEY_FW,	///< move forward
+  KEY_BW,	///< move backward
+  KEY_LE,	///< turn left
+  KEY_RI,	///< turn right
+  KEY_ML,	///< move left
+  KEY_MR,	///< move right
+  KEY_MD,	///< down backward
+  KEY_MU,	///< down forward
+  KEY_HO,	///< stand up
+  KEY_DO,	///< move down
+  KEY_UP,	///< move up
   KEY_TL,	///< tilt left
   KEY_TR,	///< tilt right
-  KEY_VI,	///< speeder
+  KEY_SP,	///< speeder
   MAXKEYS	///< max of keys
 };
 

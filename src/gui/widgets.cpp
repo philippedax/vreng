@@ -684,16 +684,16 @@ static long convertKey(long keycode, int keychar, int& vrkey)
   long keymask = 0;
   vrkey = 0;
   
-  if      (keycode == UKey::Up)       { keymask = 1<<0;  vrkey = KEY_AV; }  // move forward
-  else if (keycode == UKey::Down)     { keymask = 1<<1;  vrkey = KEY_AR; }  // move backward
-  else if (keycode == UKey::Left)     { keymask = 1<<2;  vrkey = KEY_GA; }  // turn left
-  else if (keycode == UKey::Right)    { keymask = 1<<3;  vrkey = KEY_DR; }  // turn right
-  else if (keycode == UKey::PageUp)   { keymask = 1<<11; vrkey = KEY_JU; }  // move up
-  else if (keycode == UKey::PageDown) { keymask = 1<<12; vrkey = KEY_JD; }  // move down
-  else if (keycode == UKey::Insert)   { keymask = 1<<6;  vrkey = KEY_MT; }  // roll up
-  else if (keycode == UKey::Delete)   { keymask = 1<<7;  vrkey = KEY_DE; }  // roll down
-  else if (keycode == UKey::Home)     { keymask = 1<<8;  vrkey = KEY_HZ; }  // stand up
-  else if (keycode == UKey::End)      { keymask = 1<<13; vrkey = KEY_VI; }  // accelerator
+  if      (keycode == UKey::Up)       { keymask = 1<<0;  vrkey = KEY_FW; }  // move forward
+  else if (keycode == UKey::Down)     { keymask = 1<<1;  vrkey = KEY_BW; }  // move backward
+  else if (keycode == UKey::Left)     { keymask = 1<<2;  vrkey = KEY_LE; }  // turn left
+  else if (keycode == UKey::Right)    { keymask = 1<<3;  vrkey = KEY_RI; }  // turn right
+  else if (keycode == UKey::PageUp)   { keymask = 1<<11; vrkey = KEY_UP; }  // move up
+  else if (keycode == UKey::PageDown) { keymask = 1<<12; vrkey = KEY_DO; }  // move down
+  else if (keycode == UKey::Insert)   { keymask = 1<<6;  vrkey = KEY_MU; }  // roll up
+  else if (keycode == UKey::Delete)   { keymask = 1<<7;  vrkey = KEY_MD; }  // roll down
+  else if (keycode == UKey::Home)     { keymask = 1<<8;  vrkey = KEY_HO; }  // stand up
+  else if (keycode == UKey::End)      { keymask = 1<<13; vrkey = KEY_SP; }  // accelerator
   else if (keycode == UKey::BackSpace) {
     Widgets::callAction(User::UA_ASPEEDLESS); return 0;	    // decrease aspeed
   }
@@ -702,12 +702,12 @@ static long convertKey(long keycode, int keychar, int& vrkey)
   }
   else {
     switch (keychar) {
-      case '<': keymask = 1<<4;          vrkey = KEY_SG;  break;    // left translation
-      case '>': keymask = 1<<5;          vrkey = KEY_SD;  break;    // right translation
+      case '<': keymask = 1<<4;          vrkey = KEY_ML;  break;    // left translation
+      case '>': keymask = 1<<5;          vrkey = KEY_MR;  break;    // right translation
       case 'l': keymask = 1<<9;          vrkey = KEY_TL;  break;    // tilt left
       case 'r': keymask = 1<<10;         vrkey = KEY_TR;  break;    // tilt right
-      case 'u': keymask = 1<<11 | 1<<13; vrkey = KEY_JU;  break;    // up translation
-      case ' ': keymask = 1<<13;         vrkey = KEY_VI;  break;    // accelerator
+      case 'u': keymask = 1<<11 | 1<<13; vrkey = KEY_UP;  break;    // up translation
+      case ' ': keymask = 1<<13;         vrkey = KEY_SP;  break;    // accelerator
       case '=': Widgets::callAction(User::UA_FOVYDEF);    return 0; // original fovy
       case '-': Widgets::callAction(User::UA_FOVYLESS);   return 0; // decrease fovy
       case '+': Widgets::callAction(User::UA_FOVYMORE);   return 0; // increase fovy
@@ -1768,22 +1768,22 @@ void Widgets::moveMessage(UMessageEvent &e)
 
   const UStr& arg = *msg;
 
-  if (arg == "left 1")            setKey(KEY_SG, TRUE);
-  else if (arg == "left 0")       setKey(KEY_SG, FALSE);
-  else if (arg == "right 1")      setKey(KEY_SD, TRUE);
-  else if (arg == "right 0")      setKey(KEY_SD, FALSE);
-  else if (arg == "forward 1")    setKey(KEY_AV, TRUE);
-  else if (arg == "forward 0")    setKey(KEY_AV, FALSE);
-  else if (arg == "backward 1")   setKey(KEY_AR, TRUE);
-  else if (arg == "backward 0")   setKey(KEY_AR, FALSE);
-  else if (arg == "up 1")         setKey(KEY_JU, TRUE);
-  else if (arg == "up 0")         setKey(KEY_JU, FALSE);
-  else if (arg == "down 1")       setKey(KEY_JD, TRUE);
-  else if (arg == "down 0")       setKey(KEY_JD, FALSE);
-  else if (arg == "turn_left 1")  setKey(KEY_GA, TRUE);
-  else if (arg == "turn_left 0")  setKey(KEY_GA, FALSE);
-  else if (arg == "turn_right 1") setKey(KEY_DR, TRUE);
-  else if (arg == "turn_right 0") setKey(KEY_DR, FALSE);
+  if (arg == "left 1")            setKey(KEY_ML, TRUE);
+  else if (arg == "left 0")       setKey(KEY_ML, FALSE);
+  else if (arg == "right 1")      setKey(KEY_MR, TRUE);
+  else if (arg == "right 0")      setKey(KEY_MR, FALSE);
+  else if (arg == "forward 1")    setKey(KEY_FW, TRUE);
+  else if (arg == "forward 0")    setKey(KEY_FW, FALSE);
+  else if (arg == "backward 1")   setKey(KEY_BW, TRUE);
+  else if (arg == "backward 0")   setKey(KEY_BW, FALSE);
+  else if (arg == "up 1")         setKey(KEY_UP, TRUE);
+  else if (arg == "up 0")         setKey(KEY_UP, FALSE);
+  else if (arg == "down 1")       setKey(KEY_DO, TRUE);
+  else if (arg == "down 0")       setKey(KEY_DO, FALSE);
+  else if (arg == "turn_left 1")  setKey(KEY_LE, TRUE);
+  else if (arg == "turn_left 0")  setKey(KEY_LE, FALSE);
+  else if (arg == "turn_right 1") setKey(KEY_RI, TRUE);
+  else if (arg == "turn_right 0") setKey(KEY_RI, FALSE);
 }
 
 void Widgets::getMessage(UMessageEvent &e)
