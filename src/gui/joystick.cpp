@@ -56,7 +56,7 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
                       + UOn::select / g.theme.joystickArmColor
                       + "Lock"
                       + utip("Set gravity on/off")
-                      + ucall(int(User::UA_PAUSE), Widgets::callAction)
+                      + ucall(int(User::UA_PAUSE), Widgets::action)
                      ).setSelectable()
               + uitem(g.theme.JoystickUpDown
                       + utip("Drag on the Y axis to move verticaly")

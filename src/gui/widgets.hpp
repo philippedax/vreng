@@ -72,7 +72,6 @@ struct GuiItem : public UButton {
  */
 class Widgets : public ubit::UFrame {
 friend class Message;
-
  public:
   static const int MESSAGES_BOX_WIDTH = 320;
   static const int MESSAGES_BOX_HEIGHT = 150;
@@ -117,13 +116,15 @@ friend class Message;
   class WO* pointedObject(int x, int y, ObjInfo* obji, int depthsel);
   /**< Returns info about the pointed object but do NOT select it */
   
-  static void callAction(int numaction);
+  static void action(int numaction);
+  /**< Applies action */
+
   static void setKey(int key, int is_pressed);  
   void processKey(const int keysym, int keychar, bool is_pressed);
+  /**< Processes key */
+
   void flushPostponedKRs();
   bool pendingPostponedKRs() {return (postponedKRmask || postponedKRcount);}
-
-  // Private members
 
  private:
   friend class Gui;

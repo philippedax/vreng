@@ -224,7 +224,7 @@ void Gui::updateAvatar(User *user)
 
 void Gui::pauseAvatar()
 {
-  widgets->callAction(User::UA_PAUSE);
+  widgets->action(User::UA_PAUSE);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
