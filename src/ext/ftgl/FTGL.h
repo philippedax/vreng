@@ -2,6 +2,8 @@
 #define     __FTGL__
 
 
+#define GL_SILENCE_DEPRECATION	// silence deprecated warnings
+
 typedef double   FTGL_DOUBLE;
 typedef float    FTGL_FLOAT;
 #define FTGL_EXPORT
