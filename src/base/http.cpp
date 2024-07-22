@@ -56,19 +56,17 @@ void Http::begin_thread()
 {
   fifo = NULL;
 #if defined(HAVE_LIBPTHREAD)
-  if (mode > 0) {
-    //echo("-> begin_thread: %s", url);
-    if (fifo) {				// Wait authorization to begin_thread
-      // [[ lock
-      lockMutex(&nbsimcon_mutex);
-      pthread_cond_wait(&fifo->cond, &nbsimcon_mutex);
-      nbsimcon++;			// increments nbsimcon
-      fifofirst = fifo->next;		// removes one element from the fifo
-      if (fifo) delete[] fifo;
-      fifo = NULL;
-      unlockMutex(&nbsimcon_mutex);	// free fifo handling
-      // unlock ]]
-    }
+  //echo("-> begin_thread: %s", url);
+  if (fifo) {				// wait authorization to begin_thread
+    // [[ lock
+    lockMutex(&nbsimcon_mutex);
+    pthread_cond_wait(&fifo->cond, &nbsimcon_mutex);
+    nbsimcon++;				// increments nbsimcon
+    fifofirst = fifo->next;		// removes one element from the fifo
+    if (fifo) delete[] fifo;
+    fifo = NULL;
+    unlockMutex(&nbsimcon_mutex);	// free fifo handling
+    // unlock ]]
   }
 #endif
 }
@@ -77,7 +75,7 @@ void Http::begin_thread()
 void Http::end_thread()
 {
 #if defined(HAVE_LIBPTHREAD)
-  if (mode > 0) {
+  if (thread) {
     // [[ lock
     lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
     nbsimcon--;				// decrements nbsimcon
@@ -168,7 +166,7 @@ void Http::init()
 int Http::httpOpen(const char *url,
                    void (*httpReader)(void *handle, Http *http),
                    void *_handle,
-                   int _mode)
+                   int _thread)
 {
   if (! url) return -1;
 
@@ -180,11 +178,11 @@ int Http::httpOpen(const char *url,
   // Fills the http structure
   http->handle = _handle;
   http->httpReader = httpReader;
-  http->mode = _mode;
+  http->thread = (_thread > 0) ? true : false;
   strcpy(http->url, url);
 
-  // Checks if url is in the cache (_mode < 0 : don't use the cache)
-  if (_mode >= 0 && Cache::inCache(url)) {	// in cache
+  // Checks if url is in the cache (_thread < 0 : don't use the cache)
+  if (_thread >= 0 && Cache::inCache(url)) {	// in cache
     http->httpReader(http->handle, http);	// call the appropiated httpReader
     if (http) {
       delete http;			// segfault
@@ -194,7 +192,7 @@ int Http::httpOpen(const char *url,
   }
   else {				// not in cache
     progression('i');			// 'i' as image
-    if (_mode > 0) {			// is it a thread ?
+    if (_thread) {			// is it a thread ?
       return http->putfifo();		// yes, put it into fifo
     }
     else {

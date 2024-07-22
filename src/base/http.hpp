@@ -63,7 +63,7 @@ class Http {
   // members
   tWaitFifo *fifo;	///< wait http fifo
   void *handle;		///< thread handle
-  bool mode;		///< thread (>0) or not (<=0)
+  bool thread;		///< thread (>0) or not (<=0)
 
   // methods
   void begin_thread();	///< begins a thread
@@ -97,7 +97,7 @@ class Http {
   static void init();
   /**< Initializes Http. */
 
-  static int httpOpen(const char *url, void (*httpReader)(void *handle, Http *http), void *_handle, int _mode);
+  static int httpOpen(const char *url, void (*httpReader)(void *handle, Http *http), void *_handle, int _thread);
   /**< Opens an url
    *   and gives which reader to use
    *   and tells whether the connection is threaded or not. */
