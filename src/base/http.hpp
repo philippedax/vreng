@@ -53,7 +53,6 @@ typedef struct sWaitfifo {
  * Http class
  */
 class Http {
-
  private:
   enum {
     TCPEOF,
@@ -64,7 +63,7 @@ class Http {
   // members
   tWaitFifo *fifo;	///< wait http fifo
   void *handle;		///< thread handle
-  bool mode;		///< thread or not
+  bool mode;		///< thread (>0) or not (<=0)
 
   // methods
   void begin_thread();	///< begins a thread

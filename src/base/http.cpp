@@ -43,6 +43,7 @@
 static int32_t nbsimcon;		// current number of simultaneous connections
 static Vpthread_mutex_t nbsimcon_mutex;	// lock on the global variable simcon
 static tWaitFifo *fifofirst = NULL, *fifolast = NULL;	// variables protected by nbsimcon_mutex
+
 static uint8_t proxy=0, noproxy=0;
 static uint16_t portproxy;
 static char *domnoproxy, *hostproxy;
@@ -56,10 +57,6 @@ void Http::begin_thread()
   fifo = NULL;
 #if defined(HAVE_LIBPTHREAD)
   if (mode > 0) {
-    if (! isprint(*url)) {
-      //error("-> begin_thread: url not printable: %02x%02x%02x", url[0],url[1],url[2]);
-      return;
-    }
     //echo("-> begin_thread: %s", url);
     if (fifo) {				// Wait authorization to begin_thread
       // [[ lock
@@ -84,7 +81,7 @@ void Http::end_thread()
     // [[ lock
     lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
     nbsimcon--;				// decrements nbsimcon
-    if (nbsimcon < 0) nbsimcon = 0;
+    nbsimcon = MAX(nbsimcon, 0);
     //echo("-> end_thread: %d %s", nbsimcon, url);
     if (fifofirst) {			// if something in fifo, awake it
       //echo("-> end_thread: thread awake (%d) %s", nbsimcon, url);
@@ -106,9 +103,12 @@ int Http::putfifo()
     //echo("-> putfifo: too many threads=%d, waiting for %s", nbsimcon, url);
     tWaitFifo *newfifo = new tWaitFifo[1];	// new element in the fifo
     pthread_cond_init(&(newfifo->cond), NULL);	// put thread into fifo
+
     newfifo->next = NULL;
-    if (! fifofirst) fifofirst = newfifo;
-    if (fifolast) fifolast->next = newfifo;
+    if (! fifofirst)
+      fifofirst = newfifo;
+    if (fifolast)
+      fifolast->next = newfifo;
     fifolast = newfifo;
     fifo = newfifo;				// block the thread
   }
@@ -117,13 +117,12 @@ int Http::putfifo()
     //echo("-> putfifo: thread going now (%d) %s", nbsimcon, url);
     fifo = NULL;				// thread not blocked
   }
-  unlockMutex(&nbsimcon_mutex);			// unlock the global variable
+  unlockMutex(&nbsimcon_mutex);			// unlock nbsimcon
   // unlock ]]
 
-  /* start new thread */
+  /* Starts a new thread */
   Vpthread_t tid;
   return pthread_create(&tid, NULL, Http::connection, static_cast<void *> (this));
-
 #else
   Http::connection(static_cast<void *> (this));
   return 0;
@@ -139,6 +138,9 @@ Http::Http()
   url = new char[URL_LEN];
   buf = new char[HTTP_BUFSIZ];
   reset();
+
+  initMutex(&nbsimcon_mutex);
+  nbsimcon = 0;
   begin_thread();
 }
 
@@ -152,14 +154,13 @@ Http::~Http()
   if (sd > 0) {
     Socket::closeStream(sd);
   }
+
   end_thread();
 }
 
 /** Http initialization - static */
 void Http::init()
 {
-  initMutex(&nbsimcon_mutex);
-  nbsimcon = 0;
   trace1(DBG_INIT, "Http initialized");
 }
 
@@ -170,11 +171,6 @@ int Http::httpOpen(const char *url,
                    int _mode)
 {
   if (! url) return -1;
-
-  if (! isprint(*url)) {
-    error("httpOpen: url not printable");
-    return -1;
-  }
 
   //echo("httpOpen: %s", url);
   ::g.timer.image.start();
@@ -187,7 +183,7 @@ int Http::httpOpen(const char *url,
   http->mode = _mode;
   strcpy(http->url, url);
 
-  // checks if url is in the cache (_mode < 0 : don't use the cache)
+  // Checks if url is in the cache (_mode < 0 : don't use the cache)
   if (_mode >= 0 && Cache::inCache(url)) {	// in cache
     http->httpReader(http->handle, http);	// call the appropiated httpReader
     if (http) {
@@ -203,9 +199,9 @@ int Http::httpOpen(const char *url,
     }
     else {
       connection(static_cast<void *> (http));	// it's not a thread
-      ::g.timer.image.stop();
     }
   }
+  ::g.timer.image.stop();
   return 0;
 }
 
@@ -260,7 +256,7 @@ httpretry:
       memcpy(&httpsa.sin_addr, hp->h_addr_list[0], hp->h_length);
     }
     else {		// normal
-      // resolve hostname
+      // Resolves hostname
       //dax if ((hp = my_gethostbyname_r(host, AF_INET)) == NULL) {
       if ((hp = my_gethostbyname(host, AF_INET)) == NULL) {
         err = -BADNAME;	// not resolved
@@ -289,7 +285,7 @@ httpretry:
         httperr = true;
       }
 
-      // opens a socket to connect
+      // Opens a socket to connect
       if ((http->sd = Socket::openStream()) < 0) {
         perror("connect: socket");
         break;
@@ -300,7 +296,7 @@ httpretry:
       }
 
       /*
-       * sends the GET request to the http server with useful infos
+       * Sends the GET request to the http server with useful infos
        */
       if (::g.pref.loghttpd) {	// more infos
         if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
@@ -320,7 +316,7 @@ httpretry:
       } 
       //echo("reqGet: %s", req);
 
-      // sends the request
+      // Sends the request
       if (::write(http->sd, req, strlen(req)) < 0) {
         error("can't send req=%s", req);
         httperr = true;
@@ -334,7 +330,7 @@ httpretry:
 
       do {
         //
-        // reads a http block
+        // Reads a http block
         //
         http->len = ::recv(http->sd, http->buf, HTTP_BUFSIZ, 0);
         if (http->len <= 0) {
@@ -408,7 +404,7 @@ httpretry:
               break;
             }
 #if 0 //notused mime
-            // extract mime type
+            // Extracts mime type
             if (! strncmp(httpheader, "Content-Type: ", 14)) {
               char *p, *q;
               if ((p = strchr(httpheader, '/')) != NULL) {
@@ -435,7 +431,7 @@ httpretry:
       } while (! httpeoh);	// end do
 
       /*
-       * calls the appropriated httpReader
+       * Calls the appropriated httpReader
        */
       http->httpReader(http->handle, http);
       httperr = false;
@@ -454,7 +450,7 @@ httpretry:
     http->httpReader(http->handle, http);
   }
 
-  // frees memory
+  // Frees memory
   if (host) delete[] host;
   if (scheme) delete[] scheme;
   if (path) delete[] path;
@@ -617,6 +613,7 @@ void Http::checkProxy()
 }
 
 #if 0 //notused --------------------------------------------------------------
+
 /** Returns current position */
 int Http::htell()
 {
@@ -797,4 +794,5 @@ bool Http::getLine(char *line)
   } while (isEmptyLine(line)) ;
   return true;
 }
+
 #endif //notused --------------------------------------------------------------
