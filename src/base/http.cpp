@@ -56,8 +56,8 @@ void Http::begin_thread()
 {
   fifo = NULL;
 #if defined(HAVE_LIBPTHREAD)
-  //echo("-> begin_thread: %s", url);
   if (fifo) {				// wait authorization to begin_thread
+    //dprintf("-> %s", url);
     // [[ lock
     lockMutex(&nbsimcon_mutex);
     pthread_cond_wait(&fifo->cond, &nbsimcon_mutex);
@@ -80,9 +80,9 @@ void Http::end_thread()
     lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
     nbsimcon--;				// decrements nbsimcon
     nbsimcon = MAX(nbsimcon, 0);
-    //echo("-> end_thread: %d %s", nbsimcon, url);
+    //dprintf("-> %d %s", nbsimcon, url);
     if (fifofirst) {			// if something in fifo, awake it
-      //echo("-> end_thread: thread awake (%d) %s", nbsimcon, url);
+      //dprintf("-> thread awake (%d) %s", nbsimcon, url);
       pthread_cond_signal(&fifofirst->cond);
     }
     unlockMutex(&nbsimcon_mutex);
@@ -98,7 +98,7 @@ int Http::putfifo()
   // [[ lock
   lockMutex(&nbsimcon_mutex);			// lock access to global variable nbsimcon
   if (nbsimcon >= ::g.pref.maxsimcon) {		// test number of active connections
-    //echo("-> putfifo: too many threads=%d, waiting for %s", nbsimcon, url);
+    //dprintf("-> too many threads=%d, waiting for %s", nbsimcon, url);
     tWaitFifo *newfifo = new tWaitFifo[1];	// new element in the fifo
     pthread_cond_init(&(newfifo->cond), NULL);	// put thread into fifo
 
@@ -112,7 +112,7 @@ int Http::putfifo()
   }
   else {
     nbsimcon++;					// add a connection
-    //echo("-> putfifo: thread going now (%d) %s", nbsimcon, url);
+    //dprintf("-> thread going now (%d) %s", nbsimcon, url);
     fifo = NULL;				// thread not blocked
   }
   unlockMutex(&nbsimcon_mutex);			// unlock nbsimcon
