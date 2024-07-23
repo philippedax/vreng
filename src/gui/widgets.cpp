@@ -1688,9 +1688,9 @@ UMenu& Widgets::fileMenu()
        );
 
   UDialog* puturl_dialog =
-  new UOptionDialog("Put new URL document", //title
-                    puturl_box,		// message
-                    UArgs::none,	// no icon
+  new UOptionDialog("Put new URL document",	//title
+                    puturl_box,			// message
+                    UArgs::none,		// no icon
                     ubutton("  Put & Publish URL  "
                              + ucall(&putinfo,&Message2::putIconCB))); //buttons
 
@@ -1712,9 +1712,9 @@ UMenu& Widgets::fileMenu()
        );
 
   UDialog* putfile_dialog =
-  new UOptionDialog("Put new File document",  // title
-                    putfile_box,	// message
-                    UArgs::none,	// no icon
+  new UOptionDialog("Put new File document",  	// title
+                    putfile_box,		// message
+                    UArgs::none,		// no icon
                     ubutton("  Put & Publish File  "
                              + ucall(&putinfo, &Message2::putIconCB)));
 
@@ -1765,22 +1765,22 @@ void Widgets::moveMessage(UMessageEvent &e)
 
   const UStr& arg = *msg;
 
-  if (arg == "left 1")            setKey(KEY_ML, TRUE);
-  else if (arg == "left 0")       setKey(KEY_ML, FALSE);
-  else if (arg == "right 1")      setKey(KEY_MR, TRUE);
-  else if (arg == "right 0")      setKey(KEY_MR, FALSE);
-  else if (arg == "forward 1")    setKey(KEY_FW, TRUE);
-  else if (arg == "forward 0")    setKey(KEY_FW, FALSE);
-  else if (arg == "backward 1")   setKey(KEY_BW, TRUE);
-  else if (arg == "backward 0")   setKey(KEY_BW, FALSE);
-  else if (arg == "up 1")         setKey(KEY_UP, TRUE);
-  else if (arg == "up 0")         setKey(KEY_UP, FALSE);
-  else if (arg == "down 1")       setKey(KEY_DO, TRUE);
-  else if (arg == "down 0")       setKey(KEY_DO, FALSE);
-  else if (arg == "turn_left 1")  setKey(KEY_LE, TRUE);
-  else if (arg == "turn_left 0")  setKey(KEY_LE, FALSE);
-  else if (arg == "turn_right 1") setKey(KEY_RI, TRUE);
-  else if (arg == "turn_right 0") setKey(KEY_RI, FALSE);
+  if      (arg == "left 1")       setKey(KEY_ML, true);
+  else if (arg == "left 0")       setKey(KEY_ML, false);
+  else if (arg == "right 1")      setKey(KEY_MR, true);
+  else if (arg == "right 0")      setKey(KEY_MR, false);
+  else if (arg == "forward 1")    setKey(KEY_FW, true);
+  else if (arg == "forward 0")    setKey(KEY_FW, false);
+  else if (arg == "backward 1")   setKey(KEY_BW, true);
+  else if (arg == "backward 0")   setKey(KEY_BW, false);
+  else if (arg == "up 1")         setKey(KEY_UP, true);
+  else if (arg == "up 0")         setKey(KEY_UP, false);
+  else if (arg == "down 1")       setKey(KEY_DO, true);
+  else if (arg == "down 0")       setKey(KEY_DO, false);
+  else if (arg == "turn_left 1")  setKey(KEY_LE, true);
+  else if (arg == "turn_left 0")  setKey(KEY_LE, false);
+  else if (arg == "turn_right 1") setKey(KEY_RI, true);
+  else if (arg == "turn_right 0") setKey(KEY_RI, false);
 }
 
 void Widgets::getMessage(UMessageEvent &e)
