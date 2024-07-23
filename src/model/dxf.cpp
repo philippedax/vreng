@@ -100,8 +100,11 @@ void Dxf::reader(void *_dxf, Http *http)
 void Dxf::setScale(float scale)
 {
   if (scale != currentScale) {
-    if (! loaded) desiredScale = scale;
-    else { currentScale = desiredScale = scale; }
+    if (! loaded)
+      desiredScale = scale;
+    else {
+      currentScale = desiredScale = scale;
+    }
   }
 }
 
@@ -168,7 +171,6 @@ bool Dxf::draw(DXF_file *dxffile)
       for (int j=0; j < pmesh->num_polygons; j++) {
         Polygon *pol = pmesh->polygons[j];
         if (pol && pol->num_points > 0) {
-
           glBegin(GL_POLYGON);
           for (int k=0; k < pol->num_points; k++) {
             if (k==0 || (k>0 && pol->points.refs[k] != pol->points.refs[k-1])) {
@@ -219,6 +221,64 @@ void Dxf::render()
     glCallList(dlist);
     glPopMatrix();
   }
+}
+
+/*------------------ Object DXF_file -----------------------------------*/
+DXF_file * newDXF(char *filename)
+{
+  DXF_file *dxffile = new DXF_file[1];
+  dxffile->filename = strdup(filename);
+  dxffile->objects = NULL;
+  dxffile->fp = NULL;
+  return dxffile;
+}
+
+DXF_file * openDXF(DXF_file *dxffile)
+{
+  if (! dxffile) return NULL;
+
+  filein = new File();
+  if ((dxffile->fp = filein->open(dxffile->filename, "r+")) == NULL) return NULL;
+  return dxffile;
+}
+
+DXF_file * closeDXF(DXF_file *dxffile)
+{
+  if (! dxffile) return NULL;
+
+  if (filein) {
+    filein->close();
+    delete filein;
+  }
+  return dxffile;
+}
+
+DXF_file * readDXF(DXF_file *dxffile)
+{
+  if (! dxffile) return NULL;
+
+  DXF_rule *rule = initParserRulesDXF();
+  if (!rule || parseDXF(dxffile, rule) == NULL) {
+    error("dxf parsing null");
+    if (rule) deleteRuleDXF(rule);
+    return NULL;
+  }
+  return dxffile;
+}
+
+DXF_file * deleteDXF(DXF_file *dxffile)
+{
+  if (! dxffile) return NULL;
+
+  free(dxffile->filename);
+  if (dxffile->fp) {
+    filein->close(dxffile->fp);
+    delete filein;
+  }
+  dxffile->fp = NULL;
+  deleteScene(dxffile->objects);
+  delete[] dxffile;
+  return (dxffile = NULL);
 }
 
 /*------------------  Object Point3D -----------------------------------*/
@@ -913,7 +973,7 @@ DXF_token * writeTokenDXF (FILE *fp, DXF_token *tok)
 char eqTokenDXF(DXF_token *tok1, DXF_token *tok2)
 {
   if (!tok1 && !tok2) return TOK_EQ;
-  if ((!tok1 && tok2) || (tok1 && !tok2)) return FALSE;
+  if ((!tok1 && tok2) || (tok1 && !tok2)) return false;
 
   if (tok1->gr_id == tok2->gr_id) {
     if (! strcmp(tok1->data, tok2->data)) return TOK_EQ;
@@ -921,65 +981,7 @@ char eqTokenDXF(DXF_token *tok1, DXF_token *tok2)
   }
   else
     if (! strcmp(tok1->data, tok2->data)) return TOK_DATA_EQ;
-  return FALSE;
-}
-
-/*------------------ Object DXF_file -----------------------------------*/
-DXF_file * newDXF(char *filename)
-{
-  DXF_file *dxffile = new DXF_file[1];
-  dxffile->filename = strdup(filename);
-  dxffile->objects = NULL;
-  dxffile->fp = NULL;
-  return dxffile;
-}
-
-DXF_file * openDXF(DXF_file *dxffile)
-{
-  if (! dxffile) return NULL;
-
-  filein = new File();
-  if ((dxffile->fp = filein->open(dxffile->filename, "r+")) == NULL) return NULL;
-  return dxffile;
-}
-
-DXF_file * closeDXF(DXF_file *dxffile)
-{
-  if (! dxffile) return NULL;
-
-  if (filein) {
-    filein->close();
-    delete filein;
-  }
-  return dxffile;
-}
-
-DXF_file * readDXF(DXF_file *dxffile)
-{
-  if (! dxffile) return NULL;
-
-  DXF_rule *rule = initParserRulesDXF();
-  if (!rule || parseDXF(dxffile, rule) == NULL) {
-    error("dxf parsing null");
-    if (rule) deleteRuleDXF(rule);
-    return NULL;
-  }
-  return dxffile;
-}
-
-DXF_file * deleteDXF(DXF_file *dxffile)
-{
-  if (! dxffile) return NULL;
-
-  free(dxffile->filename);
-  if (dxffile->fp) {
-    filein->close(dxffile->fp);
-    delete filein;
-  }
-  dxffile->fp = NULL;
-  deleteScene(dxffile->objects);
-  delete[] dxffile;
-  return (dxffile = NULL);
+  return false;
 }
 
 /*------------------ Object DXF_rule -----------------------------------*/
@@ -1111,7 +1113,7 @@ DXF_file * parseDXF(DXF_file *dxffile, DXF_rule *rule)
   DXF_token *tok;
   char resp;
 
-  for (resp=TRUE; ((tok = readTokenDXF(dxffile->fp)) != NULL) && resp ; ) {
+  for (resp = true; ((tok = readTokenDXF(dxffile->fp)) != NULL) && resp ; ) {
     resp = (*(rule->parse))(dxffile, rule, tok);
   }
   if (!resp || !dxffile->objects || (dxffile->objects && dxffile->objects->num_objects==0))
@@ -1263,7 +1265,7 @@ DXF_token *toksect = NULL, *tokendsect = NULL, *tokeof = NULL;
 
 char parseDXFfile(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
 {
-  if (!dxffile || !rule || !tok) return FALSE;
+  if (!dxffile || !rule || !tok) return false;
 
   char resp;
 
@@ -1275,7 +1277,7 @@ char parseDXFfile(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
     if (eqTokenDXF(tok, toksect) == TOK_EQ || eqTokenDXF(tok, tokendsect) == TOK_EQ)
       rule->act_rule = -1;
     else if (rule->act_rule == -1) {
-      for (resp=FALSE, rule->act_rule=0; rule->act_rule < rule->num_rules && !resp ; rule->act_rule++) {
+      for (resp=false, rule->act_rule=0; rule->act_rule < rule->num_rules && !resp ; rule->act_rule++) {
         rule->lrules[rule->act_rule]->act_rule = -1;
         //echo("dxf section: %s", rule->lrules[rule->act_rule]->tok->data);
         resp = (*(rule->lrules[rule->act_rule]->parse))(dxffile,rule->lrules[rule->act_rule],tok);
@@ -1293,24 +1295,24 @@ char parseDXFfile(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
     if (tokeof) deleteTokenDXF(tokeof);
     tokeof = NULL;
   }
-  return TRUE;
+  return true;
 }
 
 char parseDXFHEADER(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
 {
-  if (!dxffile || !rule || !tok) return FALSE;
+  if (!dxffile || !rule || !tok) return false;
 
   if (eqTokenDXF(rule->tok, tok) == TOK_EQ) {
     rule->act_rule = -2;
-    return TRUE;
+    return true;
   }
-  else if (rule->act_rule == -2) return TRUE;
-  return FALSE;
+  else if (rule->act_rule == -2) return true;
+  return false;
 }
 
 char parseDXFENTITIES(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
 {
-  if (!dxffile || !rule || !tok) return FALSE;
+  if (!dxffile || !rule || !tok) return false;
 
   char resp;
   if (eqTokenDXF(rule->tok, tok) == TOK_EQ) {
@@ -1326,7 +1328,7 @@ char parseDXFENTITIES(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
         rule->act_rule++);
     if (rule->act_rule == rule->num_rules) {
       rule->act_rule = -1;
-      return FALSE;
+      return false;
     }
   }
   else {
@@ -1334,12 +1336,12 @@ char parseDXFENTITIES(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
     if (!resp) rule->act_rule = -1;
     return resp;
   }
-  return TRUE;
+  return true;
 }
 
 char parseDXFBLOCKS(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
 {
-  if (!dxffile || !rule || !tok) return FALSE;
+  if (!dxffile || !rule || !tok) return false;
 
   char resp;
   if (eqTokenDXF(rule->tok, tok) == TOK_EQ) {
@@ -1356,7 +1358,7 @@ char parseDXFBLOCKS(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
       ;
     if (rule->act_rule==rule->num_rules) {
       rule->act_rule=-1;
-      return FALSE;
+      return false;
     }
   }
   else {
@@ -1364,7 +1366,7 @@ char parseDXFBLOCKS(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
     if (!resp) rule->act_rule = -1;
     return resp;
   }
-  return TRUE;
+  return true;
 }
 
 Point3D * __PointActTok = NULL;
@@ -1372,7 +1374,7 @@ int    __CountCoordTok;
 
 char parseDXF3DFACE(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
 {
-  if (!dxffile || !rule || !tok) return FALSE;
+  if (!dxffile || !rule || !tok) return false;
 
   char tmp;
   int posp;
@@ -1407,50 +1409,50 @@ char parseDXF3DFACE(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
       if (dxffile->objects->objects[dxffile->objects->num_objects-1]->
               polygons[dxffile->objects->objects[dxffile->objects->num_objects-1]->
               num_polygons-1]->num_points>=4) {
-        return FALSE;
+        return false;
         rule->act_rule=-1;
       }
     }
   }
-  else return FALSE;
-  return TRUE;
+  else return false;
+  return true;
 }
 
 char parseDXFXVALS(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
 {
-  if (!dxffile || !rule || !tok) return FALSE;
+  if (!dxffile || !rule || !tok) return false;
 
-  if (!(tok->gr_id>=X0 && tok->gr_id<=XN)) return FALSE;
+  if (!(tok->gr_id>=X0 && tok->gr_id<=XN)) return false;
   if (__PointActTok == NULL && __CountCoordTok == 0) __PointActTok=newPoint3D(0,0,0);
   if (__CountCoordTok == 0) {
     __CountCoordTok++;
     __PointActTok->x = strtod(tok->data, NULL);
   }
-  return TRUE;
+  return true;
 }
 
 char parseDXFYVALS(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
 {
-  if (!dxffile || !rule || !tok) return FALSE;
+  if (!dxffile || !rule || !tok) return false;
 
-  if (!(tok->gr_id>=Y0 && tok->gr_id<=YN)) return FALSE;
+  if (!(tok->gr_id>=Y0 && tok->gr_id<=YN)) return false;
   if (__PointActTok == NULL && __CountCoordTok == 1) __PointActTok=newPoint3D(0,0,0);
   if (__CountCoordTok == 1) {
     __CountCoordTok++;
     __PointActTok->y = strtod(tok->data, NULL);
   }
-  return TRUE;
+  return true;
 }
 
 char parseDXFZVALS(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
 {
-  if (!dxffile || !rule || !tok) return FALSE;
+  if (!dxffile || !rule || !tok) return false;
 
-  if (!(tok->gr_id>=Z0 && tok->gr_id<=ZN)) return FALSE;
+  if (!(tok->gr_id>=Z0 && tok->gr_id<=ZN)) return false;
   if (__PointActTok == NULL && __CountCoordTok == 2) __PointActTok=newPoint3D(0,0,0);
   if (__CountCoordTok == 2) {
     __CountCoordTok++;
     __PointActTok->z = strtod(tok->data, NULL);
   }
-  return TRUE;
+  return true;
 }

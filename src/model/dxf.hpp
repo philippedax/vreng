@@ -341,7 +341,6 @@ char parseDXFZVALS(DXF_file *dxf, DXF_rule *rule, DXF_token *tok);
  * Dxf class
  */
 class Dxf {
-
  private:
   DXF_file *dxffile;		///< dxf handle
   bool loaded;                  ///< flag loaded or not
@@ -359,7 +358,6 @@ class Dxf {
 
  public:
   Dxf(const char *url);
-
   virtual ~Dxf();
 
   void setScale(float scale);
