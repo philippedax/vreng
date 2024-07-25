@@ -385,7 +385,7 @@ static void setWorld(GuiItem* gw, World *world, bool isCurrent)
   gw->add(font
           + ustr(world->getName())
           + umenu(  UFont::bold + UColor::navy
-                  + uhbox(" URL: " + UFont::plain + world->getUrl())
+                  + uhbox(" Url: "     + UFont::plain + world->getUrl())
                   + uhbox(" Channel: " + UFont::plain + world->getChan())
                  )
          );
@@ -642,7 +642,7 @@ void Widgets::markCB()
 
   sprintf(mark, "%s %s\n", World::current()->getUrl(), World::current()->getChan());
   File *file = new File();
-  if ((fp = file->open(::g.env.worldmarks(), "r")) != NULL) {
+  if ((fp = file->open(::g.env.worldmarks(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
       if (! strcmp(line, mark)) {
         file->close();
@@ -653,7 +653,7 @@ void Widgets::markCB()
     file->close();
     delete file;
   }
-  if ((fp = file->open(::g.env.worldmarks(), "a")) != NULL) {
+  if ((fp = file->open(::g.env.worldmarks(), "a"))) {
     fputs(mark, fp);
     file->close();
     delete file;
@@ -1654,12 +1654,12 @@ UDialog& Widgets::addobjDialog()
 
 UMenu& Widgets::fileMenu()
 {
-  // Open a vreng URL
+  // Open a vreng Url
   UStr& url_or_name = ustr();
 
   UDialog* openvre_dialog =  // args are: title, content, icon, buttons
-  new UOptionDialog("Open Vreng URL",
-                     ulabel(UFont::bold + "URL or name: ")
+  new UOptionDialog("Open Vreng Url",
+                     ulabel(UFont::bold + "Url or Name: ")
                      + uhflex()
                      + utextfield(80, url_or_name),
                      UArgs::none,
@@ -1669,7 +1669,7 @@ UMenu& Widgets::fileMenu()
                           )
                    );
 
-  // Put & Publish URL
+  // Put & Publish Url
   UBox& puturl_box =
   uvbox(uvspacing(5)
         + uhbox(ulabel(20, UFont::bold + "Url" + UFont::plain + " (required)")
@@ -1688,10 +1688,10 @@ UMenu& Widgets::fileMenu()
        );
 
   UDialog* puturl_dialog =
-  new UOptionDialog("Put new URL document",	//title
+  new UOptionDialog("Put new Url document",	//title
                     puturl_box,			// message
                     UArgs::none,		// no icon
-                    ubutton("  Put & Publish URL  "
+                    ubutton("  Put & Publish Url  "
                              + ucall(&putinfo,&Message2::putIconCB))); //buttons
 
   // Put & Publish File
@@ -1719,10 +1719,10 @@ UMenu& Widgets::fileMenu()
                              + ucall(&putinfo, &Message2::putIconCB)));
 
   // Create File menu
-  return umenu(  ubutton(g.theme.World + " Open Vreng URL..." + openvre_dialog)
+  return umenu(  ubutton(g.theme.World + " Open Vreng Url..." + openvre_dialog)
                + ubutton(g.theme.Save  + " Save Vreng File" + ucall(this, &Widgets::saveCB))
                + usepar()
-               + ubutton(g.theme.Doc   + " Put & Publish URL..." + puturl_dialog)
+               + ubutton(g.theme.Doc   + " Put & Publish Url..." + puturl_dialog)
                + ubutton(g.theme.Book  + " Put & Publish File..." + putfile_dialog)
                + usepar()
                + ubutton(g.theme.Exit  + " Quit" + ucall(0/*status*/, Vreng::quit))
