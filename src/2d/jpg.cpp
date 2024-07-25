@@ -48,7 +48,7 @@ static void readJpegHeader(FILE* f, struct jpeg_decompress_struct& cinfo)
   jpeg_stdio_src(&cinfo, f);
 
   // Step 3: read file parameters with jpeg_read_header()
-  jpeg_read_header(&cinfo, TRUE);
+  jpeg_read_header(&cinfo, true);
 }
 
 static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
@@ -102,7 +102,7 @@ static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
 
 struct my_error_mgr {
   struct jpeg_error_mgr pub;	// "public" fields
-  jmp_buf setjmp_buf;	// for return to caller
+  jmp_buf setjmp_buf;		// for return to caller
 };
 
 static void my_error_exit(j_common_ptr cinfo)
@@ -180,9 +180,9 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
 
   struct jpeg_compress_struct cinfo;
   struct jpeg_error_mgr jerr;
-  FILE *outfile;		/* target file */
-  JSAMPROW row_pointer[1];	/* pointer to JSAMPLE row[s] */
-  int row_stride;		/* physical row width in image buffer */
+  FILE *outfile;		// target file
+  JSAMPROW row_pointer[1];	// pointer to JSAMPLE row[s]
+  int row_stride;		// physical row width in image buffer
 
   /* Step 1: allocate and initialize JPEG compression object */
   cinfo.err = jpeg_std_error(&jerr);
@@ -196,18 +196,18 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
   jpeg_stdio_dest(&cinfo, outfile);
 
   /* Step 3: set parameters for compression */
-  cinfo.image_width = width;	/* image width and height, in pixels */
+  cinfo.image_width = width;			// image width and height, in pixels
   cinfo.image_height = height;
-  cinfo.input_components = 3;	/* # of color components per pixel */
-  cinfo.in_color_space = JCS_RGB; /* colorspace of input image */
+  cinfo.input_components = 3;			// # of color components per pixel
+  cinfo.in_color_space = JCS_RGB; 		// colorspace of input image
   jpeg_set_defaults(&cinfo);
-  jpeg_set_quality(&cinfo, quality, TRUE /* limit to baseline-JPEG values */);
+  jpeg_set_quality(&cinfo, quality, true);	// limit to baseline-JPEG values
 
   /* Step 4: Start compressor */
-  jpeg_start_compress(&cinfo, TRUE);
+  jpeg_start_compress(&cinfo, true);
 
   /* Step 5: while (scan lines remain to be written) */
-  row_stride = width * 3; /* JSAMPLEs per row in image_buffer */
+  row_stride = width * 3; 			// JSAMPLEs per row in image_buffer
   while (cinfo.next_scanline < cinfo.image_height) {
     row_pointer[0] = & image_buf[cinfo.next_scanline * row_stride];
     jpeg_write_scanlines(&cinfo, row_pointer, 1);
