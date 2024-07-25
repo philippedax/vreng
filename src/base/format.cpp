@@ -133,7 +133,7 @@ uint8_t Format::getLoaderByUrl(char *url)
   if (*p == '.') {
     p++;
     for ( ; t->ext ; t++) {
-      if (!strcmp(p, t->ext))
+      if (! strcmp(p, t->ext))
         break;
     }
   }
@@ -145,7 +145,7 @@ uint8_t Format::getModelByMime(const char *mime)
 {
   const struct _file *t = models;
   for ( ; t->ext ; t++) {
-    if (!strcmp(mime, t->mime))
+    if (! strcmp(mime, t->mime))
       break;
   }
   return t->loader;
@@ -161,7 +161,7 @@ uint8_t Format::getModelByUrl(char *url)
   if (*p == '.') {
     p++;
     for ( ; t->ext ; t++) {
-      if (!strcmp(p, t->ext))
+      if (! strcmp(p, t->ext))
         break;
     }
   }
@@ -178,7 +178,7 @@ uint8_t Format::getPlayerByUrl(char *url)
   if (*p == '.') {
     p++;
     for ( ; t->ext ; t++) {
-      if (!strcmp(p, t->ext))
+      if (! strcmp(p, t->ext))
         break;
     }
   }
@@ -216,11 +216,11 @@ bool Format::getExt(char *str, char *ext)
 }
 
 /** fills img */
-void Format::getImgByExt(const char *ext, char *img)
+void Format::getImgByExt(char *ext, char *img)
 {
   const struct _icons *t = icons;
   for ( ; t->ext ; t++) {
-    if (!strcasecmp(t->ext, ext))
+    if (! strcasecmp(t->ext, ext))
       break;
   }
   strcpy(img, t->img);
@@ -231,7 +231,7 @@ uint8_t Format::getPlayerByExt(const char *ext)
 {
   const struct _icons *t = icons;
   for ( ; t->ext ; t++) {
-    if (!strcasecmp(t->ext, ext))
+    if (! strcasecmp(t->ext, ext))
       break;
   }
   return t->player;

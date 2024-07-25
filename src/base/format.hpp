@@ -274,7 +274,7 @@ class Format {
   static uint8_t getPlayerByUrl(char *url);
   static uint8_t getPlayerByExt(const char *str);
   static bool    getExt(char *str, char *ext);
-  static void    getImgByExt(const char *str, char *img);
+  static void    getImgByExt(char *str, char *img);
 
 };
 
