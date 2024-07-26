@@ -178,7 +178,7 @@ void Vrelet::readApp()
 
   // check if the client has sent anything
   VjcMessage *msg;
-  if ((msg = Vjc::getData(this)) == NULL)
+  if (! (msg = Vjc::getData(this)))
     return;	// nothing to do
 
   tVjcHeader header = msg->getHeader();

@@ -46,7 +46,7 @@ int vncEncryptAndStorePasswd(char *passwd, char *fname)
   uint8_t encryptedPasswd[8];
 
   File *file = new File();
-  if ((fp = file->open(fname, "w")) == NULL) return 1;
+  if (! (fp = file->open(fname, "w"))) return 1;
 
   chmod(fname, S_IRUSR|S_IWUSR);
 
@@ -79,7 +79,7 @@ char * vncDecryptPasswdFromFile(char *fname)
 
   File *file = new File();
   FILE *fp;
-  if ((fp = file->open(fname, "r")) == NULL) return NULL;
+  if (! (fp = file->open(fname, "r"))) return NULL;
 
   for (int i=0; i < 8; i++) {
     int ch = getc(fp);

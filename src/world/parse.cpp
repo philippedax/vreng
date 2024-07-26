@@ -396,7 +396,7 @@ int Parse::parseVreFile(char *buf, int buflen)
             strcpy(line, "pop ");	// </local>
           }
           //trace1(DBG_FORCE, "LOCAL: type=%d line=%s", tag_type, line);
-          if ((wobject = OClass::creatorInstance(tag_type, line)) == NULL) {
+          if (! (wobject = OClass::creatorInstance(tag_type, line))) {
 	    return -1;
           }
           break;
@@ -406,7 +406,7 @@ int Parse::parseVreFile(char *buf, int buflen)
           // check end of the object </...>
           char closetag[TAG_LEN + 4];
           sprintf(closetag, "</%s>", tagobj);
-	  if ((p = strstr(line, closetag)) == NULL) {
+	  if (! (p = strstr(line, closetag))) {
             //echo("closetag: %s", closetag);
             continue;	// end of object not already reached parses next lines
           }
@@ -431,7 +431,7 @@ int Parse::parseVreFile(char *buf, int buflen)
             progression('o');
             ::g.timer.object.start();
             // call the creator() method of this object with object attributes
-            if ((wobject = OClass::creatorInstance(tag_type, attr)) == NULL) {
+            if (! (wobject = OClass::creatorInstance(tag_type, attr))) {
               error("parse error at line %d (creator), type=%d line=%s", numline, tag_type, line);
               return -1;
             }

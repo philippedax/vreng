@@ -80,7 +80,7 @@ void Book::reader(void *_book, Http *http)
   for (i=0 ; i < 2*book->nbs ; i++) {
     if (! fgets(line, sizeof(line), f)) return;  // eof
     line[strlen(line) - 1] = '\0';
-    if ((p = strtok(line, " \t")) == NULL) {
+    if (! (p = strtok(line, " \t"))) {
       error("reader: bad line %s", line);
       return;
     }
@@ -103,7 +103,7 @@ void Book::reader(void *_book, Http *http)
   // it remains 3 urls: textures for edge
   if (! fgets(line, sizeof(line), f)) strcpy(line, DEF_URL_PAPER);
   line[strlen(line) - 1] = '\0';
-  if ((p = strtok(line, " \t")) == NULL) strcpy(p, DEF_URL_PAPER);
+  if (! (p = strtok(line, " \t"))) strcpy(p, DEF_URL_PAPER);
 
   book->tex[i] = strdup(p);
   char *tranche = strdup(p);

@@ -555,7 +555,7 @@ void Xml::processNode(xmlTextReaderPtr reader)
   const xmlChar *name, *value;
 
   name = xmlTextReaderConstName(reader);
-  if (name == NULL)
+  if (! name)
     name = BAD_CAST "--";
 
   value = xmlTextReaderConstValue(reader);
@@ -566,7 +566,7 @@ void Xml::processNode(xmlTextReaderPtr reader)
          name,
          xmlTextReaderIsEmptyElement(reader),
          xmlTextReaderHasValue(reader));
-  if (value == NULL)
+  if (! value)
     printf("\n");
   else {
     if (xmlStrlen(value) > 40)

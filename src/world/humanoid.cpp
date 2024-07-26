@@ -202,7 +202,7 @@ int Humanoid::connectVaps(int _ipmode)
     error("socket vaps failed");
     return 0;
   }
-  if ((hp = my_gethostbyname(vaps, AF_INET)) == NULL) {
+  if (! (hp = my_gethostbyname(vaps, AF_INET))) {
     error("can't resolve vaps");
     return 0;
   }

@@ -162,7 +162,7 @@ void World::setName(const char *urlOrName)
 
   // Find end of name by suppressing extention
   const char* end = strrchr(begin, '.');
-  if (end == NULL) end = begin + strlen(begin);
+  if (! end) end = begin + strlen(begin);
 
   // Copy the name
   if (name) delete name;
@@ -553,7 +553,7 @@ void World::checkIcons()
               // open the icon and read it
               FILE *fp;
               File *file = new File();
-              if ((fp = file->open(di->d_name, "r")) == NULL) {
+              if (! (fp = file->open(di->d_name, "r"))) {
                 error("can't open %s/%s/%s", ::g.env.icons(), getName(), di->d_name);
                 continue;
               }
@@ -648,7 +648,7 @@ void World::reader(void *_url, Http *http)
   *cachename = 0;
   Cache::setCachePath(url, cachename);
   if (stat(cachename, &bufstat) < 0) {	// is not in the cache
-    if ((fpcache = fileout->open(cachename, "w")) == NULL) {
+    if (! (fpcache = fileout->open(cachename, "w"))) {
       error("worldReader: can't create file %s from url %s", cachename, url);
     }
 
@@ -670,7 +670,7 @@ httpread:
 #endif //HAVE_LIBXML2
   }
   else {        // cachename exists in the cache
-    if ((fpcache = filein->open(cachename, "r")) == NULL) {
+    if (! (fpcache = filein->open(cachename, "r"))) {
       goto httpread;		// if can't open download it by http
     }
     while ((len = fread(buf, 1, sizeof(buf), fpcache)) > 0) {

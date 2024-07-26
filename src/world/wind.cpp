@@ -74,7 +74,7 @@ void * Wind::getHttp(void * arg)
 #endif
 #endif
   FILE *pp;
-  if ((pp = popen(cmd, "r")) == NULL) {
+  if (! (pp = popen(cmd, "r"))) {
     perror("popen wind");
     return NULL;
   }

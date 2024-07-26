@@ -59,7 +59,7 @@ int Wget::start(const char *_url, char *file, const char opts[])
     error("%s wget", e_fork);
     return 0;
   case 0:		// child starts transfert
-    if (file == NULL) {
+    if (! file) {
       if (check) execlp("wget", "wget", "-q", "--spider", url, NULL);
       else       execlp("wget", "wget", "-q", url, NULL);
     }

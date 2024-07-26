@@ -98,7 +98,7 @@ bool Hairs::loader(const char *url, float scale)
   Http::httpOpen(url, reader, obj, 0);	// get model
 
   Surface *s_hair = obj->findSurface("hair");
-  if (s_hair == NULL) {
+  if (! s_hair) {
     error("no surface hair");
     return false;
   }

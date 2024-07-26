@@ -176,7 +176,7 @@ int Url::curl(const char *url, char *filename, const char arg[])
     curl_easy_setopt(hcurl, CURLOPT_TIMEOUT, 60L);
     curl_easy_setopt(hcurl, CURLOPT_VERBOSE, 1);
     if (filename) {
-      if ((fp = file->open(filename, "wb")) == NULL) {
+      if (! (fp = file->open(filename, "wb"))) {
         perror("open wb");
         return 0;
       }

@@ -230,7 +230,7 @@ VjcSocket::VjcSocket(uint16_t _listenPort, const char *_destHost, uint16_t _dest
   sa->sin_port = htons(destPort);
 
   struct hostent *hp;
-  if ((hp = my_gethostbyname(_destHost, AF_INET)) == NULL) {
+  if (! (hp = my_gethostbyname(_destHost, AF_INET))) {
     error("vjc: unknown server %s", _destHost);
     if (sa) delete[] sa;
     return;
@@ -357,7 +357,7 @@ VjcMessage::VjcMessage(WO *po, uint32_t ssrc, uint8_t type, uint8_t id)
 /* Constructor for outgoing messages */
 VjcMessage::VjcMessage(WO *po, uint8_t type, uint8_t id)
 {
-  setup(po, (Vjc::getServer() == NULL ? NetObj::getSsrc() : Vjc::getServer()->ssrc), type, id);
+  setup(po, (! Vjc::getServer() ? NetObj::getSsrc() : Vjc::getServer()->ssrc), type, id);
 }
 
 /* Creates a new tVjcHeader */

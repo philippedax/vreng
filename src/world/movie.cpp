@@ -114,7 +114,7 @@ void Movie::open_mpg()
     delete file;
     return;
   }
-  if ((fp = file->open(filempg, "r")) == NULL) {
+  if (! (fp = file->open(filempg, "r"))) {
     error("can't open mpg");
     delete[] filempg;
     delete file;

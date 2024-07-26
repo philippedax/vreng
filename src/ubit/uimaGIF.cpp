@@ -160,7 +160,7 @@ UGif::UGif(UHardIma& nima, const UStr& fpath, int max_w, int max_h)
 #ifdef __MSDOS__
     setmode(0, O_BINARY);
 #endif
-    if ((gfile = DGifOpenFileHandle(0)) == NULL) {
+    if (! (gfile = DGifOpenFileHandle(0))) {
       stat = UFilestat::CannotOpen; return; 
     }
   }

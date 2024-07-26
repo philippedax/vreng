@@ -241,7 +241,7 @@ uint8_t Bap::parse(char *bapline)
 
       for (int i=1; i <= params; i++) {
         if (bapmasks[i] == false) continue;
-        if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
+        if (! (l = strtok(NULL, " "))) break;	// no more values
         set(i, static_cast<float> (atof(l)));
         //echo("bapparse: l=%s values[%d]=%.1f", l, i, values[i]);
       }
@@ -262,7 +262,7 @@ uint8_t Bap::parse(char *bapline)
 
       for (int i=1; i <= params; i++) {
         if (fapmasks[i] == false) continue;
-        if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
+        if (! (l = strtok(NULL, " "))) break;	// no more values
         set(i, static_cast<float> (atof(l)));
       }
       if (frame < frames) {
