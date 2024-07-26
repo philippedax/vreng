@@ -44,7 +44,7 @@ void V3d::readV3D(BoneMesh *result, BoneVertex *skel, char *filename, float scal
 {
   File *file = new File();
   FILE *fp = file->open(filename, "rb");
-  if (fp == NULL) return;
+  if (! fp) return;
 
   //echo("readV3D: reading mesh and skeleton from V3D file %s", filename);
 
@@ -106,7 +106,7 @@ void V3d::writeV3D(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filename)
 {
   File *file = new File();
   FILE *fp = file->open(filename, "wb");
-  if (fp == NULL) return;
+  if (! fp) return;
 
   if (! outMesh->vertexListCompiled) outMesh->compileVertexList();
   if (! outMesh->triangleListCompiled) outMesh->compileTriangleList();
@@ -176,7 +176,7 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
   // First look if the file exists
   File *file = new File();
   FILE *fp = file->open(filename, "rt");
-  if (fp == NULL) return;
+  if (! fp) return;
   file->close();
   delete file;
 

@@ -148,7 +148,7 @@ inline float BoneAnimator::getWeight(Vertex *vertex, BoneVertex *node)
     result += (time) / (dist * dist);
   }
 
-  result /= node->children + (node->father == NULL ? 0:1);
+  result /= node->children + (! node->father ? 0:1);
   result *= node->influenceScaleFactor;
   return result;
 }
@@ -170,8 +170,8 @@ void normalize(BoneLink **temporaryLink, int temporaryLinks)
 void BoneAnimator::genLinkList()
 {
   // We need both mesh and skeleton !
-  if (mesh == NULL) return; // To avoid NULL pointer exception
-  if ( skel  == NULL) return; // To avoid NULL pointer exception
+  if (! mesh) return; // To avoid NULL pointer exception
+  if (! skel) return; // To avoid NULL pointer exception
 
   BoneVertex *tempNode;
   tempNode = skel->getBone("root");
@@ -431,7 +431,7 @@ void BoneAnimator::render()
 // Recursive part of rendering the skeleton
 void BoneAnimator::renderSkeletonNode(BoneVertex *node)
 {
-  if (selectedNodeName == NULL) return;
+  if (! selectedNodeName) return;
 
   glPushMatrix();
   glTranslatef(node->currentPosition.x, node->currentPosition.y, node->currentPosition.z);

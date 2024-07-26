@@ -140,7 +140,7 @@ float Bone::getWeight(Vertex *vertex, BoneVertex *node)
     result += (time) / (dist * dist);
   }
 
-  result /= node->children + (node->father == NULL ? 0:1);
+  result /= node->children + (! node->father ? 0:1);
   result *= node->influenceScaleFactor;
   return result;
 }
@@ -1067,17 +1067,17 @@ void BoneTriangle::addVertex(Vertex *_vertex, int index, float u=-1, float v=-1)
      u = _vertex->iniPos.x / 3.0;
      v = _vertex->iniPos.y / 3.0;
   }
-  if (vertex1 == NULL) {
+  if (! vertex1) {
     vertex1 = _vertex;
     index1 = index;
     u1 = u; v1 = v;
   }
-  else if (vertex2 == NULL) {
+  else if (! vertex2) {
     vertex2 = _vertex;
     index2 = index;
     u2 = u; v2 = v;
   }
-  else if (vertex3 == NULL) {
+  else if (! vertex3) {
     vertex3 = _vertex;
     index3 = index;
     u3 = u; v3 = v;

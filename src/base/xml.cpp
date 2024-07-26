@@ -77,7 +77,7 @@ int Xml::getXmlDocument(char* filename, xmlDocPtr* doc)
   /* charge le document XML */
   *doc = xmlParseFile(filename);
 
-  if ((*doc) == NULL) {
+  if (! (*doc)) {
     error("unable to parse file \"%s\"", filename);
     return XML_ERR;
   }
@@ -101,14 +101,14 @@ int Xml::selectXpathPoint(char *filename, float *position, char *type, char *res
   /* charge le document XML */
   doc = xmlParseFile(filename);
 
-  if (doc == NULL) {
+  if (! doc) {
     error("unable to parse file \"%s\"", filename);
     return XML_ERR;
   }
 
   /* Creation du contexte d'evaluation */
   xpathCtx = xmlXPathNewContext(doc);
-  if (xpathCtx == NULL) {
+  if (! xpathCtx) {
     error("unable to create new XPath context");
     xmlFreeDoc(doc);
     return XML_ERR;
@@ -116,7 +116,7 @@ int Xml::selectXpathPoint(char *filename, float *position, char *type, char *res
 
   /* Evalue l'expression de xpathExpr ds le contexte xpathCtx */
   xpathObj = xmlXPathEvalExpression(xpathExpr, xpathCtx);
-  if (xpathObj == NULL) {
+  if (! xpathObj) {
     error("unable to evaluate xpath expression \"%s\"", xpathExpr);
     xmlXPathFreeContext(xpathCtx);
     xmlFreeDoc(doc);
@@ -153,20 +153,20 @@ int Xml::selectProximity(char *filename,char *type, float *posx,float *posy,floa
 
   /* charge le document XML */
   doc = xmlParseFile(filename);
-  if (doc == NULL) {
+  if (! doc) {
     error( "unable to parse file \"%s\"", filename);
     return XML_ERR;
   }
   /* Creation du contexte d'evaluation */
   xpathCtx = xmlXPathNewContext(doc);
-  if (xpathCtx == NULL) {
+  if (! xpathCtx) {
     error("unable to create new XPath context");
     xmlFreeDoc(doc);
     return XML_ERR;
   }
   /* Evalue l'expression de xpathExpr ds le contexte xpathCtx */
   xpathObj = xmlXPathEvalExpression(xpathExpr, xpathCtx);
-  if (xpathObj == NULL) {
+  if (! xpathObj) {
     error("unable to evaluate xpath expression \"%s\"", xpathExpr);
     xmlXPathFreeContext(xpathCtx);
     xmlFreeDoc(doc);
@@ -203,7 +203,7 @@ int Xml::getProximity(xmlNodeSetPtr nodes, float *posx, float *posy, float *posz
   foundpos = strdup("N/A");
   founddim = strdup("0.0,0.0,0.0");
 
-  if ((nodes == NULL) || (size < 1)){
+  if (! (nodes) || (size < 1)){
     error("no xml nodes");
     return XML_DETECT_ERR;
   }
@@ -273,20 +273,20 @@ int Xml::selectXpathExpr(char *filename, const char *xpathExpr_, char *phrase, c
 
   /* charge le document XML */
   doc = xmlParseFile(filename);
-  if (doc == NULL) {
+  if (! doc) {
     error("unable to parse file \"%s\"", filename);
     return XML_ERR;
   }
   /* Creation du contexte d'evaluation */
   xpathCtx = xmlXPathNewContext(doc);
-  if (xpathCtx == NULL) {
+  if (! xpathCtx) {
     error("unable to create new XPath context");
     xmlFreeDoc(doc);
     return XML_ERR;
   }
   /* Evalue l'expression de xpathExpr ds le contexte xpathCtx */
   xpathObj = xmlXPathEvalExpression(xpathExpr, xpathCtx);
-  if (xpathObj == NULL) {
+  if (! xpathObj) {
     error("unable to evaluate xpath expression \"%s\"", xpathExpr);
     xmlXPathFreeContext(xpathCtx);
     xmlFreeDoc(doc);
@@ -327,7 +327,7 @@ int Xml::getXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result)
   foundpos = strdup("N/A");
   founddim = strdup("0.0,0.0,0.0");
 
-  if ((nodes == NULL) || (size < 1)) {
+  if (! (nodes) || (size < 1)) {
     error("no xml nodes");
     return XML_DETECT_ERR;
   }

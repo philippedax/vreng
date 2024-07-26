@@ -151,15 +151,15 @@ void Pref::init(int argc, char **argv, const char* pref_file)
 
   File *filein = new File();
   File *fileout = new File();
-  if ((fp = filein->open(pref_file, "r")) == NULL) {
-    if ((fp = fileout->open(pref_file, "w")) == NULL) {
+  if (! (fp = filein->open(pref_file, "r"))) {
+    if (! (fp = fileout->open(pref_file, "w"))) {
       perror("can't create prefs");
       return;
     }
     fputs(def_prefs, fp);
     fileout->close();
     delete fileout;
-    if ((fp = filein->open(pref_file, "r")) == NULL) {
+    if (! (fp = filein->open(pref_file, "r"))) {
       error("can't read prefs");
       return;
     }
@@ -478,7 +478,7 @@ void Pref::parse(int argc, char **argv)
   }
 
   // username
-  if (::g.user == NULL) {
+  if (! ::g.user) {
     struct passwd *pwd = getpwuid(getuid());
     if (pwd) {
       ::g.user = strdup(pwd->pw_name);	// login name
@@ -509,8 +509,8 @@ void Pref::parse(int argc, char **argv)
   //
   char *url = new char[URL_LEN];
 
-  if (::g.url == NULL) {
-    if (::g.universe == NULL) {
+  if (! ::g.url) {
+    if (! ::g.universe) {
       sprintf(url, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_WORLD);
     }
     else {
@@ -525,7 +525,7 @@ void Pref::parse(int argc, char **argv)
   //
   char *srv = new char[URL_LEN];
 
-  if (::g.universe == NULL) {
+  if (! ::g.universe) {
     sprintf(srv, "%s", DEF_HTTP_SERVER);
   }
   else {
@@ -551,7 +551,7 @@ void Pref::parse(int argc, char **argv)
   char *urlskinf = new char[URL_LEN];
   char *urlskinb = new char[URL_LEN];
 
-  if (::g.universe == NULL) {
+  if (! ::g.universe) {
     sprintf(urlskinf, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_FRONT);
     sprintf(urlskinb, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_BACK);
   }
@@ -562,7 +562,7 @@ void Pref::parse(int argc, char **argv)
   my_skinf = strdup(urlskinf);
   my_skinb = strdup(urlskinb);
 
-  if (::g.channel == NULL) {
+  if (! ::g.channel) {
     ::g.channel = strdup(DEF_VRENG_CHANNEL);
   }
 

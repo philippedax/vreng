@@ -130,10 +130,10 @@ FILE * writelog(const char *s, ...)
   char logfile[PATH_LEN];
   File *file = new File();
 
-  if (fl == NULL) {
+  if (! fl) {
     sprintf(logfile, "%s/log", ::g.env.dir());
     unlink(logfile);
-    if ((fl = file->open(logfile, "w")) == NULL) {
+    if (! (fl = file->open(logfile, "w"))) {
       perror("open log");
       return (FILE *) NULL;
     }
@@ -153,7 +153,7 @@ void printlog()
 
   File *file = new File();
   sprintf(logfile, "%s/log", ::g.env.dir());
-  if ((fl = file->open(logfile, "r")) == NULL) {
+  if (! (fl = file->open(logfile, "r"))) {
     perror("open log");
     return;
   }

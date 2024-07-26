@@ -100,7 +100,7 @@ Universe* Universe::current()
 {
   static Universe* defUniverse = NULL;
 
-  if (defUniverse == NULL) {
+  if (! defUniverse) {
     defUniverse = new Universe();
   }
   return defUniverse;

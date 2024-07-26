@@ -242,7 +242,7 @@ void * Http::connection(void *_http)
   case Url::URLHTTP:	// http://
 httpretry:
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {  // proxy
-      if ((hp = my_gethostbyname(hostproxy, AF_INET)) == NULL) {
+      if (! (hp = my_gethostbyname(hostproxy, AF_INET))) {
         echo("my_gethostbyname hostproxy=%s", hostproxy);
         proxy = 0;
         noproxy = 0;
@@ -255,8 +255,8 @@ httpretry:
     }
     else {		// normal
       // Resolves hostname
-      //dax if ((hp = my_gethostbyname_r(host, AF_INET)) == NULL) {
-      if ((hp = my_gethostbyname(host, AF_INET)) == NULL) {
+      //dax if (! (hp = my_gethostbyname_r(host, AF_INET))) {
+      if (! (hp = my_gethostbyname(host, AF_INET))) {
         err = -BADNAME;	// not resolved
       }
       if (! strcmp(scheme, "http")) {
@@ -592,7 +592,7 @@ void Http::checkProxy()
     p = strrchr(envproxy, ':');
     *p = '\0';
     portproxy = atoi(++p);
-    if ((p = strrchr(envproxy, '/')) == NULL) {
+    if (! (p = strrchr(envproxy, '/'))) {
       sprintf(hostproxy, "http://%s", envproxy);
     }
     else {

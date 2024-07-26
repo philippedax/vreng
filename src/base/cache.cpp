@@ -57,7 +57,7 @@ int Cache::setCachePath(const char *url, char *cachepath)
   if (! url) return 0;
   const char *pfile = strrchr(url, '/');	// only the file
 
-  if (pfile == NULL) {
+  if (! pfile) {
     *cachepath = '\0';
     return 0;
   }
@@ -99,9 +99,9 @@ FILE * Cache::open(const char *url, Http *http)
   char buf[16];
 
   filein = new File();
-  if ((fpr = filein->open(cachepath, "r")) == NULL) {
+  if (! (fpr = filein->open(cachepath, "r"))) {
     fileout = new File();	// not in the cache, write it
-    if ((fpw = fileout->open(cachepath, "w")) == NULL) {
+    if (! (fpw = fileout->open(cachepath, "w"))) {
       error("openCache: can't create %s", cachepath);
       delete[] cachepath;
       delete fileout;
@@ -138,7 +138,7 @@ http_reread:
     // reopens the file for reading
     //
     filein = new File();
-    if ((fpr = filein->open(cachepath, "r")) == NULL) {
+    if (! (fpr = filein->open(cachepath, "r"))) {
       error("openCache: can't reopen %s", cachepath);
       return NULL;
     }
@@ -188,8 +188,8 @@ FILE * Cache::openCache(const char *url, Http *http)
   if (! setCachePath(url, cachepath)) return NULL;
 
   FILE *fp = NULL;
-  if ((fp = File::openFile(cachepath, "r")) == NULL) {	// not in the cache, write it
-    if ((fp = File::openFile(cachepath, "w")) == NULL) {
+  if (! (fp = File::openFile(cachepath, "r"))) {	// not in the cache, write it
+    if (! (fp = File::openFile(cachepath, "w"))) {
       error("openCache: can't create %s", cachepath);
       delete[] cachepath;
       return NULL;
@@ -205,7 +205,7 @@ FILE * Cache::openCache(const char *url, Http *http)
     File::closeFile(fp);
 
     // open the file for reading
-    if ((fp = File::openFile(cachepath, "r")) == NULL) {
+    if (! (fp = File::openFile(cachepath, "r"))) {
       error("openCache: can't open %s", cachepath);
       return NULL;
     }

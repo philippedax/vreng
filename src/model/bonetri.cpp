@@ -51,13 +51,13 @@ void BoneTriangle::addVertex(Vertex *zeVertex, int index, float u=-1, float v=-1
      u = zeVertex -> initialPosition.x / 3.0f;
      v = zeVertex -> initialPosition.y / 3.0f;
   }
-  if (vertex1 == NULL) {
+  if (! vertex1) {
     vertex1 = zeVertex; index1 = index; u1 = u; v1 = v;
   }
-  else if (vertex2 == NULL) {
+  else if (! vertex2) {
     vertex2 = zeVertex; index2 = index; u2 = u; v2 = v;
   }
-  else if (vertex3 == NULL) {
+  else if (! vertex3) {
     vertex3 = zeVertex; index3 = index; u3 = u; v3 = v;
   }
 }

@@ -259,7 +259,7 @@ void BoneVertex::addChild(BoneVertex *newChild)
 void BoneVertex::removeChild(const char *zeName)
 {
   BoneVertex *b = getBone(zeName);
-  if (b == NULL) return;
+  if (! b) return;
   if (b == this) return;
 
   childList.delElem(b);
@@ -278,7 +278,7 @@ BoneVertex *BoneVertex::getBone(const char *zeName)
     result = this;
   else {
     int i=0;
-    while ((result == NULL) && (i < children))
+    while ((! result) && (i < children))
       result = child[i++]->getBone(zeName);
   }
   return result;
@@ -412,7 +412,7 @@ void BoneVertex::generateCurrentMatrix()
 void BoneVertex::read(char *filename, float scale)
 {
   FILE *fp = File::openFile(filename, "rb");
-  if (fp == NULL) {
+  if (! fp) {
     error("BoneVertex::read unable to open: [%s] for read", filename); return;
   }
 
@@ -456,7 +456,7 @@ void BoneVertex::readFromFile(FILE *fp, float scale)
 void BoneVertex::write(char *filename)
 {
   FILE *fp = File::openFile(filename, "wb");
-  if (fp == NULL) {
+  if (! fp) {
     printf("BoneVertex::write unable to open: [%s] for write\n", filename);
     return;
   }

@@ -40,7 +40,7 @@ int report(const char *mess)
   sprintf(cmd, "echo \"%s\" | /usr/bin/mailx -s \"[vreng] (%s@%s - %s-%s)\" %s",
     mess, ::g.user, hostname, ::g.env.sysname(), ::g.env.relname(), PACKAGE_BUGREPORT);
 
-  if ((pp = popen(cmd, "w")) == NULL) {
+  if (! (pp = popen(cmd, "w"))) {
     perror("pipe mail");
     return 0;
   }

@@ -238,7 +238,7 @@ DXF_file * openDXF(DXF_file *dxffile)
   if (! dxffile) return NULL;
 
   filein = new File();
-  if ((dxffile->fp = filein->open(dxffile->filename, "r+")) == NULL) return NULL;
+  if (! (dxffile->fp = filein->open(dxffile->filename, "r+"))) return NULL;
   return dxffile;
 }
 
@@ -258,7 +258,7 @@ DXF_file * readDXF(DXF_file *dxffile)
   if (! dxffile) return NULL;
 
   DXF_rule *rule = initParserRulesDXF();
-  if (!rule || parseDXF(dxffile, rule) == NULL) {
+  if (! rule || ! parseDXF(dxffile, rule)) {
     error("dxf parsing null");
     if (rule) deleteRuleDXF(rule);
     return NULL;
@@ -1040,7 +1040,7 @@ DXF_rule * initParserRulesDXF()
   DXF_rule *rule, *nrule, *nrule1, *nruletmp;
 
   DXF_token *tok = newTokenDXF(DXF_FILE, "DXF_FILE", strlen("DXF_FILE"));
-  if ((rule = newRuleDXF(tok, parseDXFfile)) == NULL) return NULL;
+  if (! (rule = newRuleDXF(tok, parseDXFfile))) return NULL;
 
   /*--------- header   funcs -----------*/
   deleteTokenDXF(tok);
@@ -1346,7 +1346,7 @@ char parseDXFBLOCKS(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
   char resp;
   if (eqTokenDXF(rule->tok, tok) == TOK_EQ) {
     rule->act_rule = -1;
-    if (dxffile->objects == NULL) dxffile->objects = newScene(dxffile->filename, newPoint3D(1,1,1));
+    if (! dxffile->objects) dxffile->objects = newScene(dxffile->filename, newPoint3D(1,1,1));
     addSceneObjPolyMesh(dxffile->objects,newPolyMesh(tok->data,newPoint3D(1,1,1)));
   }
   else if (rule->act_rule == -1) {
@@ -1423,7 +1423,7 @@ char parseDXFXVALS(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
   if (!dxffile || !rule || !tok) return false;
 
   if (!(tok->gr_id>=X0 && tok->gr_id<=XN)) return false;
-  if (__PointActTok == NULL && __CountCoordTok == 0) __PointActTok=newPoint3D(0,0,0);
+  if (! __PointActTok && __CountCoordTok == 0) __PointActTok=newPoint3D(0,0,0);
   if (__CountCoordTok == 0) {
     __CountCoordTok++;
     __PointActTok->x = strtod(tok->data, NULL);
@@ -1436,7 +1436,7 @@ char parseDXFYVALS(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
   if (!dxffile || !rule || !tok) return false;
 
   if (!(tok->gr_id>=Y0 && tok->gr_id<=YN)) return false;
-  if (__PointActTok == NULL && __CountCoordTok == 1) __PointActTok=newPoint3D(0,0,0);
+  if (! __PointActTok && __CountCoordTok == 1) __PointActTok=newPoint3D(0,0,0);
   if (__CountCoordTok == 1) {
     __CountCoordTok++;
     __PointActTok->y = strtod(tok->data, NULL);
@@ -1449,7 +1449,7 @@ char parseDXFZVALS(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
   if (!dxffile || !rule || !tok) return false;
 
   if (!(tok->gr_id>=Z0 && tok->gr_id<=ZN)) return false;
-  if (__PointActTok == NULL && __CountCoordTok == 2) __PointActTok=newPoint3D(0,0,0);
+  if (! __PointActTok && __CountCoordTok == 2) __PointActTok=newPoint3D(0,0,0);
   if (__CountCoordTok == 2) {
     __CountCoordTok++;
     __PointActTok->z = strtod(tok->data, NULL);

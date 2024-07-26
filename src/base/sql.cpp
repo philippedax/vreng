@@ -104,7 +104,7 @@ bool VSql::connectDB()
   }
   return true;
 #else
-  if ((db = mysql_connect(NULL, DEF_MYSQL_SERVER, USER, PASSWD)) == NULL) {
+  if (! (db = mysql_connect(NULL, DEF_MYSQL_SERVER, USER, PASSWD))) {
     error("VSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
     return false;
   }
@@ -309,7 +309,7 @@ int VSql::selectInt(const char *table, const char *col, const char *name, const 
     return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
-  if ((row = mysql_fetch_row(res)) == NULL) {
+  if (! (row = mysql_fetch_row(res))) {
     insertCol(table, col, name, world); // then insert col into the table
     mysql_free_result(res);
     return ERR_SQL;	// no row
@@ -381,7 +381,7 @@ float VSql::selectFloat(const char *table, const char *col, const char *name, co
     return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
-  if ((row = mysql_fetch_row(res)) == NULL) {
+  if (! (row = mysql_fetch_row(res))) {
     insertCol(table, col, name, world); // then insert col into the table
     mysql_free_result(res);
     return ERR_SQL;	// no row
@@ -462,12 +462,12 @@ int VSql::selectString(const char *table, const char *col, const char *name, con
     return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
-  if ((row = mysql_fetch_row(res)) == NULL) {
+  if (! (row = mysql_fetch_row(res))) {
     insertCol(table, col, name, world); // then insert col into the table
     mysql_free_result(res);
     return ERR_SQL;	// no row
   }
-  if (row[0] == NULL) return ERR_SQL;
+  if (! row[0]) return ERR_SQL;
   mysql_free_result(res);
   if (retstring)
     strcpy(retstring, row[0]);
@@ -522,11 +522,11 @@ int VSql::selectSubstring(const char *table, const char *like, uint16_t irow, ch
     return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
-  if ((row = mysql_fetch_row(res)) == NULL) {
+  if (! (row = mysql_fetch_row(res))) {
     mysql_free_result(res);
     return ERR_SQL;	// no row
   }
-  if (row[0] == NULL) {
+  if (! row[0]) {
     mysql_free_result(res);
     return ERR_SQL;
   }
@@ -606,7 +606,7 @@ int VSql::countRows(const char *table)
   if (! query(sql))
     return ERR_SQL;
   res = mysql_store_result(db);
-  if ((row = mysql_fetch_row(res)) == NULL) {
+  if (! (row = mysql_fetch_row(res))) {
     mysql_free_result(res);
     return 0;	// no row
   }
@@ -662,7 +662,7 @@ int VSql::countRows(const char *table, const char *col, const char *like)
   if (! query(sql))
     return ERR_SQL;
   res = mysql_store_result(db);
-  if ((row = mysql_fetch_row(res)) == NULL) {
+  if (! (row = mysql_fetch_row(res))) {
     mysql_free_result(res);
     return 0;	// no row
   }
