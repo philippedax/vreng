@@ -380,7 +380,7 @@ void Avi::open_output_file(const char *filename)
 
   File *file = new File();
   fp = file->open(filename, "wb+");	//O_RDWR|O_CREAT|O_TRUNC,0600);
-  if (fp == NULL) {
+  if (! fp) {
     error("open");
     return;
   }

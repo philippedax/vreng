@@ -142,7 +142,7 @@ static int ExtSupported(const char *x)
   const char *c;
   int xlen = strlen(x);
 
-  if (ext == NULL) ext = glGetString(GL_EXTENSIONS);
+  if (! ext) ext = glGetString(GL_EXTENSIONS);
 
   c = (const char*)ext;
 
@@ -270,7 +270,7 @@ int APIENTRY pngLoadRaw(const char *filename, pngRawInfo *pinfo)
 {
   int result;
   FILE *fp = fopen(filename, "rb");
-  if (fp == NULL) return 0;
+  if (! fp) return 0;
 
   result = pngLoadRawF(fp, pinfo);
 
@@ -299,7 +299,7 @@ int APIENTRY pngLoadRawF(FILE *fp, pngRawInfo *pinfo)
 
   png_uint_32 i;
 
-  if (pinfo == NULL) return 0;
+  if (! pinfo) return 0;
 
   fread(header, 1, 8, fp);
   if (!png_check_sig(header, 8)) return 0;
@@ -379,7 +379,7 @@ int APIENTRY pngLoad(const char *filename, int mipmap, int trans, pngInfo *pinfo
 {
   int result;
   FILE *fp = fopen(filename, "rb");
-  if (fp == NULL) return 0;
+  if (! fp) return 0;
 
   result = pngLoadF(fp, mipmap, trans, pinfo);
 
@@ -433,19 +433,6 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &MaxTextureSize);
 
 #ifdef SUPPORTS_PALETTE_EXT
-#ifdef _WIN32
-    if (PalettedTextures == -1)
-      PalettedTextures = ExtSupported("GL_EXT_paletted_texture") && (strstr((const char *) glGetString(GL_VERSION), "1.1.0 3Dfx Beta") == NULL);
-
-    if (PalettedTextures) {
-      if (glColorTableEXT == NULL) {
-        glColorTableEXT = (PFNGLCOLORTABLEEXTPROC) wglGetProcAddress("glColorTableEXT");
-        if (glColorTableEXT == NULL)
-          PalettedTextures = 0;
-      }
-    }
-#endif //_WIN32
-
   if (PalettedTextures == -1)
     PalettedTextures = 0;
 #endif //SUPPORTS_PALETTE_EXT
@@ -705,7 +692,7 @@ void APIENTRY pngSetStencil(unsigned char red, unsigned char green, unsigned cha
 
 void APIENTRY pngSetAlphaCallback(unsigned char (*callback)(unsigned char red, unsigned char green, unsigned char blue))
 {
-  if (callback == NULL)
+  if (! callback)
     AlphaCallback = DefaultAlphaCallback;
   else
     AlphaCallback = callback;

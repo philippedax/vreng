@@ -190,7 +190,7 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
 
   /* Step 2: specify data destination (eg, a file) */
   File *file = new File();
-  if ((outfile = file->open(filename, "wb")) == NULL) {
+  if (! (outfile = file->open(filename, "wb"))) {
     error("can't open %s for writing", filename); return;
   }
   jpeg_stdio_dest(&cinfo, outfile);

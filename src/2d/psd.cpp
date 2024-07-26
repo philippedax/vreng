@@ -265,7 +265,7 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
 
   if (dstcomp && dstcomp != 4) {
     data = convert_format(data, 4, dstcomp, w, h);
-    if (data == NULL) return NULL; // convert_format frees input on failure
+    if (! data) return NULL; // convert_format frees input on failure
   }
   if (srccomp) {
     *srccomp = nbbpps;

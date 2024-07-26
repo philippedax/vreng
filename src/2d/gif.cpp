@@ -70,7 +70,7 @@ Img * Img::loadGIF(void *_tex, ImageReader read_func)
   Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
-  if ((g->fp = cache->open(tex->url, tex->http)) == NULL) {
+  if (! (g->fp = cache->open(tex->url, tex->http))) {
     error("can't read %s", tex->url);
     delete cache;
     return NULL;
@@ -144,7 +144,7 @@ static int gifReadScreen(GifInfo *g)
     gifread(g, (uint8_t *) g->globalmap, 3*(1<<g->globalbits));
   }
   g->img = new Img(g->width, g->height, Img::RGB);
-  return (g->img == NULL);
+  return (! g->img);
 }
 
 static int gifReadImage(GifInfo *g)

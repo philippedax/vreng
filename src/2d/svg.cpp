@@ -57,7 +57,7 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
 
   // opens the svg file
   svgimage = nsvgParseFromFile(filename, "px", 96);
-  if (svgimage == NULL) {
+  if (! svgimage) {
     error("could not open SVG image %s", filename);
     nsvgDelete(svgimage);
     return NULL;
@@ -71,7 +71,7 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
 
   // fills the pixmap
   rast = nsvgCreateRasterizer();
-  if (rast == NULL) {
+  if (! rast) {
     error("could not init rasterizer");
     nsvgDeleteRasterizer(rast);
     nsvgDelete(svgimage);

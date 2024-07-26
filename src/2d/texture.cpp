@@ -75,7 +75,7 @@ void Texture::update()
         // image must be resized
         Img *img1 = NULL;
         //echo("to resize: %s", (*it)->url);
-        if ((img1 = (*it)->img->resize(Img::SIZE, Img::SIZE)) == NULL) {
+        if (! (img1 = (*it)->img->resize(Img::SIZE, Img::SIZE))) {
           error("updateTextures: id=%d u=%s", (*it)->tex_id, (*it)->url);
           continue;
         }

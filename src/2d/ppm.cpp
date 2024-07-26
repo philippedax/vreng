@@ -81,7 +81,7 @@ void Img::savePPM(const char *filename, GLenum mode)
 
   File *file = new File();
   FILE *f;
-  if ((f = file->open(filename, "wb")) == NULL) {
+  if (! (f = file->open(filename, "wb"))) {
     perror("open"); return;
   }
   fprintf(f, "P6\n#\n%d %d\n255\n", width, height);	// magic number P6

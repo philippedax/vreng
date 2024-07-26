@@ -122,7 +122,7 @@ void Txf::reader(void *_txf, Http *http)
   trace1(DBG_2D, "txfReader: fmt=%d w=%d h=%d ascent=%d descent=%d glyphs=%d", format, txf->texfont->tex_width, txf->texfont->tex_height, txf->texfont->max_ascent, txf->texfont->max_descent, txf->texfont->num_glyphs);
 
   txf->texfont->tgi = new TexGlyphInfo[txf->texfont->num_glyphs];
-  if (txf->texfont->tgi == NULL) {
+  if (! txf->texfont->tgi) {
     lastTxfErr = "out of memory.";
     goto error;
   }
@@ -137,7 +137,7 @@ void Txf::reader(void *_txf, Http *http)
     }
   }
   txf->texfont->tgvi = new TexGlyphVertexInfo[txf->texfont->num_glyphs];
-  if (txf->texfont->tgvi == NULL) { lastTxfErr = "out of memory."; goto error; }
+  if (! txf->texfont->tgvi) { lastTxfErr = "out of memory."; goto error; }
 
   w = txf->texfont->tex_width;
   h = txf->texfont->tex_height;
@@ -174,7 +174,7 @@ void Txf::reader(void *_txf, Http *http)
   txf->texfont->range = max_glyph - min_glyph + 1;
 
   txf->texfont->lut = new TexGlyphVertexInfo*[txf->texfont->range];
-  if (txf->texfont->lut == NULL) {
+  if (! txf->texfont->lut) {
     lastTxfErr = "out of memory.";
     goto error;
   }
@@ -187,7 +187,7 @@ void Txf::reader(void *_txf, Http *http)
   switch (format) {
   case TXF_FORMAT_BYTE:
     txf->texfont->teximage = new uint8_t[txf->texfont->tex_width * txf->texfont->tex_height];
-    if (txf->texfont->teximage == NULL) {
+    if (! txf->texfont->teximage) {
       lastTxfErr = "out of memory.";
       goto error;
     }
@@ -198,13 +198,13 @@ void Txf::reader(void *_txf, Http *http)
     width = txf->texfont->tex_width;
     height = txf->texfont->tex_height;
     stride = (width + 7) >> 3;
-    if ((texbitmap = new uint8_t[stride * height]) == NULL) {
+    if (! (texbitmap = new uint8_t[stride * height])) {
       lastTxfErr = "out of memory.";
       goto error;
     }
     got = fread(reinterpret_cast<char *>(texbitmap), 1, stride * height, f);
     EXPECT(stride * height);
-    if ((txf->texfont->teximage = new uint8_t[width * height]) == NULL) {
+    if (! (txf->texfont->teximage = new uint8_t[width * height])) {
       lastTxfErr = "out of memory.";
       goto error;
     }
@@ -301,7 +301,7 @@ void Txf::bindTexture()
 void Txf::render(int c)
 {
   TexGlyphVertexInfo *tgvi;
-  if ((tgvi = getGlyph(c)) == NULL) return;
+  if (! (tgvi = getGlyph(c))) return;
 
   glBegin(GL_QUADS);
   glTexCoord2fv(tgvi->t0);

@@ -133,7 +133,7 @@ Img * Img::loadDDS(void *_tex, ImageReader read_func)
   Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
-  if ((dds->fp = cache->open(tex->url, tex->http)) == NULL) {
+  if (! (dds->fp = cache->open(tex->url, tex->http))) {
     error("can't read %s", tex->url);
     delete cache;
     return NULL;
