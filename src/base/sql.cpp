@@ -91,7 +91,7 @@ bool VSql::connectDB()
     return false;
 
 #ifdef HAVE_MYSQL_REAL_CONNECT
-  if ((db = mysql_init(db)) != NULL) {
+  if ((db = mysql_init(db))) {
     if (! mysql_real_connect(db, DEF_MYSQL_SERVER, USER, PASSWD, DB, 0, NULL, 0)) {
       error("VSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
       error("mysql_error: %s", mysql_error(db));

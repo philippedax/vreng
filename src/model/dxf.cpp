@@ -898,7 +898,7 @@ char *_xstrclean(char *in, char *tok)
   if (!tmpout) return NULL;
   char *tmpopos = strtok(tmpout, tok);
   strcpy(in, tmpopos);
-  while ((tmpopos = strtok(NULL, tok)) != NULL) strcat(in, tmpopos);
+  while ((tmpopos = strtok(NULL, tok))) strcat(in, tmpopos);
   free(tmpout);
   return in;
 }
@@ -945,7 +945,7 @@ DXF_token * readTokenDXF(FILE *fp)
   char buffer1[256], buffer2[256];
   char *b1, *b2;
 
-  for ( ; (b1=fgets(buffer1,255,fp)) != NULL && !strcmp(b1, "\n") ; ) ;
+  for ( ; (b1=fgets(buffer1,255,fp)) && !strcmp(b1, "\n") ; ) ;
   b2 = fgets(buffer2, 255, fp);
   if (b1 && b2) {
     _xstrupr(b1);
@@ -1113,7 +1113,7 @@ DXF_file * parseDXF(DXF_file *dxffile, DXF_rule *rule)
   DXF_token *tok;
   char resp;
 
-  for (resp = true; ((tok = readTokenDXF(dxffile->fp)) != NULL) && resp ; ) {
+  for (resp = true; ((tok = readTokenDXF(dxffile->fp))) && resp ; ) {
     resp = (*(rule->parse))(dxffile, rule, tok);
   }
   if (!resp || !dxffile->objects || (dxffile->objects && dxffile->objects->num_objects==0))

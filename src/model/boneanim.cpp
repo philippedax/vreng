@@ -138,7 +138,7 @@ inline float BoneAnimator::getWeight(Vertex *vertex, BoneVertex *node)
   float result = 0;
   float dist, time;
 
-  if (node->father != NULL) {
+  if (node->father) {
     getDistanceFromAndOnBone(vertex, node->father, node, &time, &dist);
     result += (time) / (dist * dist);
   }
@@ -158,10 +158,10 @@ void normalize(BoneLink **temporaryLink, int temporaryLinks)
   float totalWeight = 0;
 
   for (int i=0; i<temporaryLinks; i++) {
-    if (temporaryLink[i] != NULL) totalWeight += temporaryLink[i]->weight;
+    if (temporaryLink[i]) totalWeight += temporaryLink[i]->weight;
   }
   for (int i=0; i<temporaryLinks; i++) {
-    if (temporaryLink[i] != NULL) temporaryLink[i]->weight /= totalWeight;
+    if (temporaryLink[i]) temporaryLink[i]->weight /= totalWeight;
   }
 }
 
@@ -175,13 +175,13 @@ void BoneAnimator::genLinkList()
 
   BoneVertex *tempNode;
   tempNode = skel->getBone("root");
-  if (tempNode != NULL)
+  if (tempNode)
     tempNode->influenceScaleFactor = 10.;
   tempNode = skel->getBone("lipsRoot");
-  if (tempNode != NULL)
+  if (tempNode)
     tempNode->influenceScaleFactor = 10.;
   tempNode = skel->getBone("frontRoot");
-  if (tempNode != NULL)
+  if (tempNode)
     tempNode->influenceScaleFactor = 10.;
 
   // We start link generation with an empty link list of course
@@ -260,7 +260,7 @@ void BoneAnimator::genLinkList()
     // Record the selected links in the list
     normalize (temporaryLink, temporaryLinks);
     for (int j=0; j<temporaryLinks; j++) {
-      if (temporaryLink[j] != NULL) linkList.addElem(temporaryLink[j]);
+      if (temporaryLink[j]) linkList.addElem(temporaryLink[j]);
     }
   }
 
@@ -327,7 +327,7 @@ void renderLocalCoordinate2() // This is for selected node
 
 void renderOneBone(BoneVertex *node)
 {
-  if (node->father != NULL) {
+  if (node->father) {
     Vect3D nullVector(0,0,0);
     Vect3D fPos; fPos = node->father->currentMatrix * nullVector;
     Vect3D tPos; tPos = node->        currentMatrix * nullVector;
