@@ -424,7 +424,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
   png_read_info(png, info);
   png_get_IHDR(png, info, &width, &height, &depth, &color, NULL, NULL, NULL);
 
-  if (pinfo != NULL) {
+  if (pinfo) {
     pinfo->Width  = width;
     pinfo->Height = height;
     pinfo->Depth  = depth;
@@ -514,7 +514,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
       int cols;
       GLint intf;
 
-      if (pinfo != NULL) pinfo->Alpha = 0;
+      if (pinfo) pinfo->Alpha = 0;
       png_get_PLTE(png, info, &pal, &cols);
 
       switch (cols) {
@@ -546,13 +546,13 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
         case PNG_COLOR_TYPE_PALETTE:
           glformat = GL_RGB;
           glcomponent = 3;
-          if (pinfo != NULL) pinfo->Alpha = 0;
+          if (pinfo) pinfo->Alpha = 0;
           break;
         case PNG_COLOR_TYPE_GRAY_ALPHA:
         case PNG_COLOR_TYPE_RGB_ALPHA:
           glformat = GL_RGBA;
           glcomponent = 4;
-          if (pinfo != NULL) pinfo->Alpha = 8;
+          if (pinfo) pinfo->Alpha = 8;
           break;
         default:
           /*puts("glformat not set");*/
@@ -572,7 +572,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
       p = data, endp = p+width*height*3;
       q = data2 = static_cast<png_bytep>(malloc(sizeof(png_byte)*width*height*4));
 
-      if (pinfo != NULL) pinfo->Alpha = 8;
+      if (pinfo) pinfo->Alpha = 8;
 
 #define FORSTART \
   do { \
@@ -667,7 +667,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
   return 1;
 }
 
-#if 0 //not used
+#if 0 //notused
 static unsigned int SetParams(int wrapst, int magfilter, int minfilter)
 {
   unsigned int id;
@@ -727,4 +727,4 @@ void APIENTRY pngSetStandardOrientation(int standardorientation)
 {
   StandardOrientation = standardorientation;
 }
-#endif //not used
+#endif //notused

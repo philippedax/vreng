@@ -64,14 +64,14 @@ Img * Img::loadXBM(void *_tex, ImageReader read_func)
     char *p;
     if (strlen(line) < 5) continue; /* ignore junk lines */
     if (line[0] == '#') {
-      if ((p = strstr(line, "width")) != NULL) {
+      if ((p = strstr(line, "width"))) {
         width = atoi(p+5);
       }
-      else if ((p = strstr(line, "height")) != NULL) {
+      else if ((p = strstr(line, "height"))) {
         height = atoi(p+6);
       }
     }
-    else if ((p = strstr(line, "static")) != NULL) {
+    else if ((p = strstr(line, "static"))) {
       img = new Img(width, height, Img::RGB);
     }
 
