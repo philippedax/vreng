@@ -37,10 +37,10 @@
 
 
 /**
- * Notify a key has changed
- * key_id = 0..MAXKEYS-1
- * TRUE for a Key Press and FALSE for a Key Release
- * sec: seconds, usec: micro-seconds
+ * A key has changed
+ * - key_id = 0..MAXKEYS-1
+ * - 'true' for a Key Press and 'false' for a Key Release
+ * - sec: seconds, usec: micro-seconds
  */
 void changeKey(int k_id, bool pressed, time_t sec, time_t usec)
 {
@@ -172,19 +172,19 @@ void WO::changePositionOneDir(uint8_t move_key, float lasting)
 #endif
   // Navigator
   switch (move_key) {
-    case KEY_FW:  // move forward left
+    case KEY_FW:  // move forward
       pos.x += lasting * lspeed * cos(pos.az);
       pos.y += lasting * lspeed * sin(pos.az);
       break;
-    case KEY_BW:  // move backward right
+    case KEY_BW:  // move backward
       pos.x -= lasting * lspeed * cos(pos.az);
       pos.y -= lasting * lspeed * sin(pos.az);
       break;
-    case KEY_MR:  // move forward right
+    case KEY_MR:  // move right
       pos.x += lasting * lspeed * sin(pos.az);
       pos.y -= lasting * lspeed * cos(pos.az);
       break;
-    case KEY_ML:  // move backward left
+    case KEY_ML:  // move left
       pos.x -= lasting * lspeed * sin(pos.az);
       pos.y += lasting * lspeed * cos(pos.az);
       break;
@@ -196,10 +196,10 @@ void WO::changePositionOneDir(uint8_t move_key, float lasting)
       pos.az += lasting * aspeed;
       pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
       break;
-    case KEY_MD:  // roll backward
+    case KEY_MD:  // roll down
        pos.ay = MIN(pos.ay + lasting * aspeed, M_2PI_5);
        break;
-    case KEY_MU:  // roll forward
+    case KEY_MU:  // roll up
       pos.ay = MAX(pos.ay - lasting * aspeed, -M_2PI_5);
       break;
     case KEY_HO:  // stand up
@@ -397,7 +397,7 @@ void User::userMovement(time_t sec, time_t usec)
     }
   }
 
-  if (lasting > MIN_LASTING) {  // user is moving
+  if (lasting > MIN_LASTING) {	// user is moving
     float maxlast = getLasting();
     maxlast = maxlast ? maxlast : 1;
     int nbmoves = int( (lasting / maxlast) );
@@ -425,7 +425,7 @@ void User::userMovement(time_t sec, time_t usec)
 /** Elementary imposed movement for an object */
 void WO::elemImposedMovement(float dt)
 {
-  changePosition(dt);  // handled by each object
+  changePosition(dt);		// handled by each object
 
   updatePosition();
 
