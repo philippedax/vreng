@@ -527,7 +527,7 @@ void UGif::readExtension() {
       //}
     }
 
-  while (extension != NULL) {
+  while (extension) {
     if (DGifGetExtensionNext(gfile, &extension) == GIF_ERROR)
       /*throw*/ cerr << "giferror invalid data" <<endl;	//GifError(UFilestat::InvalidData);
 

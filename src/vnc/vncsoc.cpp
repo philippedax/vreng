@@ -38,7 +38,7 @@ VNCSoc::VNCSoc(const char *_servername, uint16_t _port = DEF_VNC_PORT)
   rfbsock = -1;
   struct hostent *hp;
 
-  if ((hp = my_gethostbyname(_servername, AF_INET)) != NULL) {
+  if ((hp = my_gethostbyname(_servername, AF_INET))) {
     memcpy(&ipaddr, hp->h_addr, hp->h_length);
     ipaddr = ntohl(ipaddr);
   }
