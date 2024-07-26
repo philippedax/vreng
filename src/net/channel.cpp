@@ -65,7 +65,7 @@ void Channel::initReflector()
 {
   // resolves reflector address
   struct hostent *hp;
-  if ((hp = my_gethostbyname(DEF_VRUM_SERVER, AF_INET)) != NULL) {
+  if ((hp = my_gethostbyname(DEF_VRUM_SERVER, AF_INET))) {
     strcpy(vrum_addr, inet4_ntop(hp->h_addr_list[0]));
     my_free_hostent(hp);
   }
@@ -178,14 +178,14 @@ void Channel::decodeChan(const char *chan_str, uint32_t *group, uint16_t *port, 
 
   groupstr = chanstr;
   portstr = strchr(chanstr, '/');
-  if (portstr != NULL) *portstr = '\0';
+  if (portstr) *portstr = '\0';
   *group = inet_addr(groupstr);
-  if (portstr != NULL) {
+  if (portstr) {
     portstr++;
     ttlstr = strchr(portstr, '/');
-    if (ttlstr != NULL) *ttlstr = '\0';
+    if (ttlstr) *ttlstr = '\0';
     *port = atoi(portstr);
-    if (ttlstr != NULL) {
+    if (ttlstr) {
       *ttlstr = '\0';
       ttlstr++;
       *ttl = atoi(ttlstr);
@@ -329,7 +329,7 @@ int Channel::create(const char *chan_str, int **pfds)
   World *world = NULL;
 
 #if 0 //dax loop in World::find
-  if ((world = World::find(group)) != NULL) {
+  if ((world = World::find(group))) {
     if (world) {
       oldssrc = world->getSsrc();
     }

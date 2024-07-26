@@ -581,7 +581,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
     uint16_t seq = ntohs(rtp_hdr->seq);
     Source *pso;
 
-    if ((pso = Source::getSource(ntohl(rtp_hdr->ssrc))) != NULL) {
+    if ((pso = Source::getSource(ntohl(rtp_hdr->ssrc)))) {
       sourceInfos *s;
 
       pso->rr.lost += seq - pso->rr.last_seq - 1;

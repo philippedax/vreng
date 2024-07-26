@@ -169,7 +169,7 @@ void Rtp::getRtcpEmail(char *email)
 #if HAVE_GETPWUID
   struct passwd *pwd;
 
-  if ((pwd = getpwuid(getuid())) != NULL)
+  if ((pwd = getpwuid(getuid())))
     sprintf(mail, "%s@%s", pwd->pw_name, hostfqdn);
   else
     sprintf(mail, "unknown@%s", hostfqdn);
@@ -336,7 +336,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
 
         trace1(DBG_RTP, "Got SR: length=%d len=%d", length<<2, len);
         memcpy(&sr, pkt+len, sizeof(rtcp_sr_t));
-        if ((pso = Source::getSource(ntohl(sr.ssrc))) != NULL) {
+        if ((pso = Source::getSource(ntohl(sr.ssrc)))) {
           pso->sr = sr;
         }
         len += (length << 2);
@@ -355,7 +355,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
         trace1(DBG_RTP, "Got SDES: ssrc=%x pkt_len=%d length=%d len=%d p=%x",
               ntohl(ssrc), pkt_len, length<<2, len, p);
 
-        if ((pso = Source::getSource(ntohl(ssrc))) != NULL) { // source found
+        if ((pso = Source::getSource(ntohl(ssrc)))) { // source found
 
           sitem = &pso->sdes;	// first sitem which ever exists
 

@@ -46,7 +46,7 @@ static char rtcp_tool[Rtp::TOOL_LEN];    // tool name
 // Macro for debug
 #define CHECK_SESSION_LIST \
   { Session *sess = sessionList; \
-    while (sess != NULL) { \
+    while (sess) { \
       if (sess->next == sess) { \
         error("RtpSession list invalid at %s:%d", __FILE__, __LINE__); \
         break; \
