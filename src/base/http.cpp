@@ -405,8 +405,8 @@ httpretry:
             // Extracts mime type
             if (! strncmp(httpheader, "Content-Type: ", 14)) {
               char *p, *q;
-              if ((p = strchr(httpheader, '/')) != NULL) {
-                if ((q = strchr(++p, ';')) != NULL) {
+              if ((p = strchr(httpheader, '/'))) {
+                if ((q = strchr(++p, ';'))) {
                   *q = '\0';
                 }
                 else {

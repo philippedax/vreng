@@ -157,7 +157,7 @@ void printlog()
     perror("open log");
     return;
   }
-  while (fgets(buf, sizeof(buf), fl) != NULL) {
+  while (fgets(buf, sizeof(buf), fl)) {
     fputs(buf, stderr);
   }
   file->close();

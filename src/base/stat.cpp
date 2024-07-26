@@ -298,7 +298,7 @@ bool writeStats(const char * statsfile)
 FILE * openStats(const char * statsfile)
 {
   FILE *f;
-  if ((f = fopen(statsfile, "r")) != NULL) {
+  if ((f = fopen(statsfile, "r"))) {
     return f;
   }
   return NULL;

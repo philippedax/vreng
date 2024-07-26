@@ -45,7 +45,7 @@ struct hostent * my_gethostbyname(const char *hostname, int af)
 //  }
 //
 //  std::vector<in_addr*> in_addrs;
-//  for (addrinfo *p_addr = result; p_addr != NULL; p_addr = p_addr->ai_next) {
+//  for (addrinfo *p_addr = result; p_addr; p_addr = p_addr->ai_next) {
 //    in_addrs.push_back(&reinterpret_cast<sockaddr_in*> (p_addr->ai_addr)->sin_addr);
 //  }
 //  in_addrs.push_back(NULL);

@@ -514,7 +514,7 @@ void Xml::dtdValidation(const char *pathname)
 			        XML_PARSE_DTDATTR |  // DTD attributes
 			        XML_PARSE_NOENT |    // substitute entities
 			        XML_PARSE_DTDVALID); // validation avec la DTD
-  if (xmltextptr != NULL) {
+  if (xmltextptr) {
     int ret;
     bool dtderr = false;
     char *filename = const_cast<char *>(strrchr(pathname, '/'));
