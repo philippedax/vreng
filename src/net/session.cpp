@@ -184,7 +184,7 @@ void Session::deleteSource(uint32_t _ssrc)
 
   for (psolast = pso = source; pso && (i < nbsources); pso = pso->next, i++) {
     if (pso->ssrc == _ssrc) {
-      if (psolast == NULL) {	// no source found
+      if (! psolast) {	// no source found
         source = NULL;
       }
       else {
@@ -231,25 +231,25 @@ void Session::createMySdes()
   Rtp::getRtcpTool(rtcp_tool);		// fill rtcp Tool
   //echo("createMySdes: name=%s, email=%s, pse=%p", rtcp_name, rtcp_email, this);
 
-  if ((scname = Rtp::allocSdesItem()) == NULL) return;
+  if (! (scname = Rtp::allocSdesItem())) return;
   mysdes = scname;
   scname->si_type = RTCP_SDES_CNAME;
   scname->si_len = strlen(rtcp_email);
   scname->si_str = (uint8_t *) rtcp_email;
 
-  if ((sname = Rtp::allocSdesItem()) == NULL) return;
+  if (! (sname = Rtp::allocSdesItem())) return;
   scname->si_next = sname;
   sname->si_type = RTCP_SDES_NAME;
   sname->si_len = strlen(rtcp_name);
   sname->si_str = (uint8_t *) rtcp_name;
 
-  if ((semail = Rtp::allocSdesItem()) == NULL) return;
+  if (! (semail = Rtp::allocSdesItem())) return;
   sname->si_next = semail;
   semail->si_type = RTCP_SDES_EMAIL;
   semail->si_len = strlen(rtcp_email);
   semail->si_str = (uint8_t *) rtcp_email;
 
-  if ((sloc = Rtp::allocSdesItem()) == NULL) return;
+  if (! (sloc = Rtp::allocSdesItem())) return;
   semail->si_next = sloc;
   sloc->si_type = RTCP_SDES_LOC;
   if (World::current() && World::current()->getName()) {
@@ -261,7 +261,7 @@ void Session::createMySdes()
     sloc->si_str = (uint8_t *) MANAGER_NAME;
   }
 
-  if ((stool = Rtp::allocSdesItem()) == NULL) return;
+  if (! (stool = Rtp::allocSdesItem())) return;
   sloc->si_next = stool;
   stool->si_type = RTCP_SDES_TOOL;
   stool->si_len = strlen(rtcp_tool);
@@ -279,10 +279,10 @@ void Session::refreshMySdes()
 
   //echo("refreshMySdes: pse=%p", this);
 
-  if ((scname = mysdes) == NULL) return;
-  if ((sname = scname->si_next) == NULL) return;
-  if ((semail = sname->si_next) == NULL) return;
-  if ((sloc = semail->si_next) == NULL) return;
+  if (! (scname = mysdes)) return;
+  if (! (sname = scname->si_next)) return;
+  if (! (semail = sname->si_next)) return;
+  if (! (sloc = semail->si_next)) return;
   sloc->si_type = RTCP_SDES_LOC;
   if (World::current()->getName()) {
     sloc->si_len = strlen(World::current()->getName());
@@ -419,7 +419,7 @@ int Session::sendRTCPPacket(const struct sockaddr_in *to, uint8_t pt)
     pkt_len = buildBYE(&rtcp_hdr, pkt);
     break;
   }
-  if ((sin_rtcp = Channel::getSaRTCP(to)) == NULL) {
+  if (! (sin_rtcp = Channel::getSaRTCP(to))) {
     error("sendRTCPPacket: sin_rtcp NULL"); return -1;
   }
   if ((sd = Channel::getFdSendRTCP(sin_rtcp)) < 0) {
@@ -446,7 +446,7 @@ int Session::sendSRSDES(const struct sockaddr_in *to)
   len = buildSDES(&rtcp_hdr, pkt+len);
   pkt_len += len;
 
-  if ((sin_rtcp = Channel::getSaRTCP(to)) == NULL) {
+  if (! (sin_rtcp = Channel::getSaRTCP(to))) {
     error("sendSRSDES: sin_rtcp NULL");
     return -1;
   }

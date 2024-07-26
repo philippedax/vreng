@@ -74,7 +74,7 @@ int Payload::putPayload(const char *format, ...)
     error("putPayload: invalid payload %s", this);
     return -1;
   }
-  if (format == NULL) {
+  if (! format) {
     error("putPayload: NULL format");
     return -1;
   }
@@ -206,7 +206,7 @@ int Payload::getPayload(const char *format, ...)
 
   while (*format) {
     /* Format known ? */
-    if (strchr("chdfsnt", *format) == NULL) {
+    if (! strchr("chdfsnt", *format)) {
       error("getPayload: invalid format [%c] in %s", *format, format);
       format++;
       continue;
@@ -357,7 +357,7 @@ int Payload::tellPayload(const char *str)
     uint8_t format = data[idx];
 
     /* checks format */
-    if (strchr("chdfsnt", format) == NULL) {
+    if (! strchr("chdfsnt", format)) {
       error("tellPayload: invalid format [%c]", format);
       idx = save_idx;
       return -1;
@@ -466,7 +466,7 @@ int Payload::sendPayload(const struct sockaddr_in *to)
    * builds the RTP Header
    */
   Channel *pchan;
-  if ((pchan = Channel::getbysa(to)) == NULL) {
+  if (! (pchan = Channel::getbysa(to))) {
     pchan = Channel::current();	// hack !!!
     error("sendPayload: pchan NULL, to=%p", to);
     return -1;			//FIXME: channel NULL
@@ -684,7 +684,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
   }
 
   NetObj *pn;
-  if ((pn = noid.getNetObj()) == NULL) {
+  if (! (pn = noid.getNetObj())) {
     // delta on an unknown object
     trace1(DBG_NET, "inDelta sendQuery on: %s, from=%s, p=%d, v=%d", noid.getNoid(), inet4_ntop(&from->sin_addr), prop_id, vers_id);
     // send a Query to the sender in unicast
@@ -790,7 +790,7 @@ void Payload::incomingQuery(const struct sockaddr_in *from)
   trace1(DBG_NET, "inQuery: nobj=%s from=%s", noid.getNoid(), inet4_ntop(&from->sin_addr));
 
   NetObj *pn;
-  if ((pn = noid.getNetObj()) == NULL) {
+  if (! (pn = noid.getNetObj())) {
     // unknown object: may be we have deleted it, we advertize the requester
     error("inQuery: sendDelete nobj=%s from=%s", noid.getNoid(), inet4_ntop(&from->sin_addr));
     noid.sendDelete(from);

@@ -129,7 +129,7 @@ const char * Rtp::getRtpName(char *name)
   char *p, line[128];
 
   p = getenv("HOME");
-  if (p == NULL || *p == '\0') return NULL;
+  if (! p || *p == '\0') return NULL;
   sprintf(line, "%s/.RTPdefaults", p);
   File *file = new File();
   if ((fp = file->open(line, "r"))) {
@@ -186,7 +186,7 @@ void Rtp::getRtcpName(char *rtcpname)
   char name[RTPNAME_LEN];
 
   memset(name, 0, sizeof(name));
-  if ((p = getRtpName(name)) == NULL)
+  if (! (p = getRtpName(name)))
     getRtcpEmail(rtcpname);
   else {
     strcpy(rtcpname, name);
@@ -364,7 +364,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
             trace1(DBG_RTP, "SDES: sitem=%p p=%p end=%p", sitem, p, end);
             sitem->si_type = *p++;
             sitem->si_len = *p++;
-            if (sitem->si_str == NULL) {	// asumption
+            if (! sitem->si_str) {	// asumption
               /* alloc string space, *FIX: memory leak no delete[] ! */
               sitem->si_str = new uint8_t[sitem->si_len + 1];
             }
@@ -377,7 +377,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
               break;	// end of SDES packet
             }
 
-            if (sitem->si_next == NULL) {
+            if (! sitem->si_next) {
               /* alloc next item */
               trace1(DBG_RTP, "alloc new item");
               sitem->si_next = new SdesItem[1];

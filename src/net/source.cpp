@@ -124,7 +124,7 @@ uint16_t Source::getMembersNumber()
 
 void Source::dump()
 {
-  // if (&sdes == NULL) return;  // BUG! segfault
+  // if (! &sdes) return;  // BUG! segfault
 
   echo("ssrc=%x", ssrc);
   echo("lost=%d", lost);

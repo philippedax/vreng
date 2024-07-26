@@ -84,7 +84,7 @@ void * Vac::connectThread(void *)
   }
   // resolve vacs address
   struct hostent *hp;
-  if ((hp = my_gethostbyname(DEF_VACS_SERVER, AF_INET)) == NULL) {
+  if (! (hp = my_gethostbyname(DEF_VACS_SERVER, AF_INET))) {
     error("can't resolve vacs");
   }
 

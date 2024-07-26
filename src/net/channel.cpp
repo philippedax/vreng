@@ -201,12 +201,12 @@ void Channel::namingId()
   strcpy(hostname, "localhost");
 
   struct hostent *hp;
-  if ((hp = my_gethostbyname(hostname, AF_INET)) == NULL) {
+  if (! (hp = my_gethostbyname(hostname, AF_INET))) {
     return;
   }
 
   struct in_addr *pa;
-  if ((pa = (struct in_addr*) (hp->h_addr)) == NULL) {
+  if (! (pa = (struct in_addr*) (hp->h_addr))) {
     my_free_hostent(hp);
     return;
   }
@@ -539,7 +539,7 @@ void Channel::getGroup(const char *chan_str, char *grp_str)
 
   char *tmpchan = strdup(chan_str);
   char *p;
-  if ((p = strchr(tmpchan, '/')) == NULL) {
+  if (! (p = strchr(tmpchan, '/'))) {
     *grp_str = 0;	// empty string
     free(tmpchan);
     return;
@@ -563,7 +563,7 @@ uint16_t Channel::getPort(const char *chan_str)
 
   if (! chan_str)
     port = (uint16_t) DEF_VRENG_PORT;
-  else if ((p = strchr(chan_str, '/')) == NULL)
+  else if (! (p = strchr(chan_str, '/')))
     port = (uint16_t) DEF_VRENG_PORT;
   else
     port = (uint16_t) atoi(++p);
@@ -583,7 +583,7 @@ uint8_t Channel::getTtl(const char *chan_str)
 
   if (! chan_str)
     ttl = (uint8_t) DEF_VRENG_TTL;
-  else if ((p = strrchr(chan_str, '/')) == NULL)
+  else if (! (p = strrchr(chan_str, '/')))
     ttl = (uint8_t) DEF_VRENG_TTL;
   else
     ttl = (uint8_t) atoi(++p);
