@@ -70,7 +70,7 @@ void Plane::geometry()
 
   getMaterials(dif, amb, spe, emi, shi, &a);
   //TODO: getTextures()
-  sprintf(materials, "dif=\"%.2f %.2f %.2f\" amb=\"%.2f %.2f %.2f\" spe=\"%.2f %.2f %.2f\" emi=\"%.2f %.2f %.2f\" shi=\"%d\" a=\"%.2f\" %s ", dif[0], dif[1], dif[2], amb[0], amb[1], amb[2], spe[0], spe[1], spe[2], emi[0], emi[1], emi[2], shi[0], a, (tex != NULL) ? tex : "");
+  sprintf(materials, "dif=\"%.2f %.2f %.2f\" amb=\"%.2f %.2f %.2f\" spe=\"%.2f %.2f %.2f\" emi=\"%.2f %.2f %.2f\" shi=\"%d\" a=\"%.2f\" %s ", dif[0], dif[1], dif[2], amb[0], amb[1], amb[2], spe[0], spe[1], spe[2], emi[0], emi[1], emi[2], shi[0], a, (tex) ? tex : "");
   sections = static_cast<uint8_t>(ceil(dim.v[2] / 0.2));
   float xsec = dim.v[0] / sections;
   float ysec = dim.v[1] / sections;

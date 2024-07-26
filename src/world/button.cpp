@@ -125,7 +125,7 @@ void Button::commut(Button *button, void *d, time_t s, time_t us)
 
   char *puse = strtok(button->use_names, " \t");
   while (puse) {
-    if ((psel = button->getObject(puse)) != NULL) {
+    if ((psel = button->getObject(puse))) {
       if ((idxaction <= OBJECTSNUMBER) && isAction(psel->type, idxaction))
         doAction(psel->type, idxaction, psel, d, s, us);
       else

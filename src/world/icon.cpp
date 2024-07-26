@@ -567,13 +567,13 @@ void Icon::quit()
 
       FILE *fp;
       File *filein = new File();
-      if ((fp = filein->open(ficon, "r")) != NULL) {
+      if ((fp = filein->open(ficon, "r"))) {
         filein->close();
         delete filein;
         unlink(ficon);
       }
       File *fileout = new File();
-      if ((fp = fileout->open(ficon, "w")) != NULL) {
+      if ((fp = fileout->open(ficon, "w"))) {
         char buf[128];
         memset(buf, 0, sizeof(buf));
         sprintf(buf, "name=\"%s\" pos=\"%.2f %.2f %.2f %.2f %.2f\" owner=\"%s\" solid dim=\"%.2f %.2f %.2f\" dif=\"%s\" xn=\"%s\" ",

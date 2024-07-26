@@ -158,7 +158,7 @@ void World::setName(const char *urlOrName)
 {
   // Find the begining of the last path component
   const char* begin = strrchr(urlOrName, '/');
-  begin = (begin != NULL) ? begin+1 : urlOrName;
+  begin = (begin) ? begin+1 : urlOrName;
 
   // Find end of name by suppressing extention
   const char* end = strrchr(begin, '.');

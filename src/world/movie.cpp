@@ -422,7 +422,7 @@ void Movie::pause()
 /* Replay one time */
 void Movie::rewind()
 {
-  if (state != PLAYING && state != LOOP && fp != NULL) {
+  if (state != PLAYING && state != LOOP && fp) {
     if (vidfmt == PLAYER_MPG) {
       RewindMPEG(fp, mpg);
       frame = 0;

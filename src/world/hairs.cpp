@@ -104,7 +104,7 @@ bool Hairs::loader(const char *url, float scale)
   }
   hair->init(obj, s_hair, scale);
   Surface *s_skin = obj->findSurface("hair");
-  if (s_skin != NULL) *(Material*)s_hair = *(Material*)s_skin;
+  if (s_skin) *(Material*)s_hair = *(Material*)s_skin;
   if (s_skin) return true;
   return false;
 }
@@ -342,7 +342,7 @@ bool getSTRING(FILE *fp, char *s, int *l)
 { //lecture d'une chaine de caracteres
   for (;;) {
     fread(s,2,1,fp);
-    if (l != NULL) *l -= 2;
+    if (l) *l -= 2;
     if (s[0] == 0 || s[1] == 0) break;
     s += 2;
   }
@@ -717,7 +717,7 @@ void Surface::draw(HVertex *p0)
   int pdata = put(); // configure material
   bool array = false;
 
-  if (p0 != NULL) {
+  if (p0) {
     switch (pdata) {
     case PUT_COORD:
       //dax glInterleavedArrays(GL_V3F, sizeof(HVertex), ((HVertex *)p0)+offsetof(HVertex,p));
