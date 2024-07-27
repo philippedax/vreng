@@ -195,6 +195,7 @@
 # include <pthread.h>
 #endif
 
+#define GL_SILECE_DEPRECATION	// avoid warnings on apple
 #include <GL/gl.h>
 
 #if HAVE_GL_GLU_H
