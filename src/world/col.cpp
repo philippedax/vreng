@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // col.cpp
 //
-// Collide handling
+// Collide management
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "wobject.hpp"
@@ -192,19 +192,19 @@ bool WO::outgoingNeighbor(WO *wo, WO *neighbor)
 }
 
 /**
- * General function to handle intersections
+ * General method to handle intersections
  *
  * Notice: WO *wo is an incomplete copy of *this
  */
 void WO::generalIntersect(WO *wo, OList *vicinity)
 {
   //
-  // check neighbors
+  // Checks neighbors
   //
   int scans = 0;
   int rescans = 0;
   // held the first object
-  WO *wofirst = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
+  WO *wohead = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
 
   // Scans neighbors for collision discovery
   for (OList *vl = vicinity; vl ; scans++) {
@@ -215,15 +215,8 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
 
     WO *neighbor = vl->pobject;
 
-    // Hack-3! Assertion on valid neighbor
-    if (! neighbor) {
-      vl = vl->next;
-      continue;
-    }
-
-    // Hack-1! Skip scanning if neighbor has already been seen
-    if ((neighbor == wofirst) && (scans > 1)) {
-      //echo("first=%s scans=%d", wofirst->objectName(), scans);
+    // Stop scanning if neighbor has already been seen
+    if ((neighbor == wohead) && (scans >= 1)) {
       vl = vl->next;
       continue;
     }
@@ -242,17 +235,16 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
             aoi->aoiEnter();	// avatars: change mcast address
           }
         }
-        else	// other mobile objects: problem of property
+        else	// other mobile objects: problem of properties
           ;
         break;	// avoids a warning
-
       default:
-        if (! neighbor->whenIntersect(this, wo)) {	// call the object itself
+        if (! neighbor->whenIntersect(this, wo)) {	// done by the object itself
           vl = vl->next;
           continue;
         }
 
-        // assertion
+        // sanity check
         //if (! isValid()) { vl = vl->next; continue; }
         //if (! neighbor->num) { vl = vl->next; continue; }
 
@@ -273,7 +265,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
               continue;
             }
             scans = 0;
-            vl = vicinity;	// not next COLLIDE_EVER ?
+            vl = vicinity;	// not next ?
           }
         }
       }
@@ -286,7 +278,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
     }
   } //end neighbors
 
-  /* check walls first (maybe expensive) */
+  // check walls first (maybe expensive)
   ingoingWalls(wo);
 }
 
