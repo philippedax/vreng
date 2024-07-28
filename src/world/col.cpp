@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // col.cpp
 //
-// Collide management
+// Collide handling
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "wobject.hpp"
@@ -192,30 +192,45 @@ bool WO::outgoingNeighbor(WO *wo, WO *neighbor)
 }
 
 /**
- * General method to handle intersections
+ * General function to handle intersections
  *
  * Notice: WO *wo is an incomplete copy of *this
  */
 void WO::generalIntersect(WO *wo, OList *vicinity)
 {
   //
-  // Checks neighbors
+  // check neighbors
   //
-#define NEXTNEIGHBOR { vl=vl->next; continue; }	// macro to progress
   int scans = 0;
   int rescans = 0;
   // held the first object
-  WO *wohead = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
+  WO *wofirst = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
 
   // Scans neighbors for collision discovery
-  for (OList *vl = vicinity; vl ; ) {
-    if (! vl->pobject) NEXTNEIGHBOR 	// discard non existant object
+  for (OList *vl = vicinity; vl ; scans++) {
+    if (! vl->pobject) {
+      vl = vl->next;
+      continue;
+    }  // discard non existant object
 
     WO *neighbor = vl->pobject;
 
-    // Stop scanning if neighbor has already been seen
-    if ((neighbor == wohead) && (scans >= 1)) NEXTNEIGHBOR
-    if (neighbor->behavior & COLLIDE_NEVER) NEXTNEIGHBOR
+    // Hack-3! Assertion on valid neighbor
+    if (! neighbor) {
+      vl = vl->next;
+      continue;
+    }
+
+    // Hack-1! Skip scanning if neighbor has already been seen
+    if ((neighbor == wofirst) && (scans > 1)) {
+      //echo("first=%s scans=%d", wofirst->objectName(), scans);
+      vl = vl->next;
+      continue;
+    }
+    if (neighbor->behavior & COLLIDE_NEVER) {
+      vl = vl->next;
+      continue;
+    }
 
     if (ingoingNeighbor(wo, neighbor)) {
       // current object intersects but its old instance didn't intersect
@@ -227,29 +242,38 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
             aoi->aoiEnter();	// avatars: change mcast address
           }
         }
-        else	// other mobile objects: problem of properties
+        else	// other mobile objects: problem of property
           ;
         break;	// avoids a warning
-      default:
-        neighbor->whenIntersect(this, wo); 	// done by the object itself
 
-        // sanity check
-        //if (! isValid()) NEXTNEIGHBOR
-        //if (! neighbor->num) NEXTNEIGHBOR
+      default:
+        if (! neighbor->whenIntersect(this, wo)) {	// call the object itself
+          vl = vl->next;
+          continue;
+        }
+
+        // assertion
+        //if (! isValid()) { vl = vl->next; continue; }
+        //if (! neighbor->num) { vl = vl->next; continue; }
 
         switch (neighbor->collideBehavior()) {
         case COLLIDE_ONCE: case COLLIDE_GHOST:
-          NEXTNEIGHBOR
+          vl = vl->next;
+          continue;
         default:
-          if (isBehavior(COLLIDE_GHOST) || isBehavior(COLLIDE_ONCE)) NEXTNEIGHBOR
+          if (isBehavior(COLLIDE_GHOST) || isBehavior(COLLIDE_ONCE)) {
+            vl = vl->next;
+            continue;
+          }
           else {
             if (rescans++ > 99) {
               echo("collide loop between %s & %s", objectName(), neighbor->objectName());
               scans = rescans = 0;
-              NEXTNEIGHBOR
+              vl = vl->next;
+              continue;
             }
             scans = 0;
-            vl = vicinity;	// not next ?
+            vl = vicinity;	// not next COLLIDE_EVER ?
           }
         }
       }
@@ -257,11 +281,12 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
     else if (outgoingNeighbor(wo, neighbor)) {		// current object leaves intersection
       neighbor->whenIntersectOut(this, wo);		// handled by each object
     }
-    if (vl) NEXTNEIGHBOR
-    scans++;
+    if (vl) {
+      vl = vl->next;
+    }
   } //end neighbors
 
-  // check walls first (maybe expensive)
+  /* check walls first (maybe expensive) */
   ingoingWalls(wo);
 }
 
