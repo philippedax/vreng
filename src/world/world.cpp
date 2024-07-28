@@ -774,7 +774,7 @@ void World::quit()
   for (vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
-    if (! strlen((*it)->objectName())) continue;	// avoid segfault
+    //dax1 if (! strlen((*it)->objectName())) continue;	// avoid segfault
     (*it)->quit();	// sometimes segfault FIXME!!!
     delete *it;
   }

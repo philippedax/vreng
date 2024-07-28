@@ -87,6 +87,8 @@ class Movie: public WO {
   void changePermanent(float lasting);
   /**< Change permanent (frames). */
 
+  void quit();
+
  private:
   void parser(char *l);
   /**< Parses vre line. */

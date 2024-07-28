@@ -210,6 +210,7 @@ void Movie::inits()
   spot = new Spot(this, (void *)Spot::SPOT_PENTAGON, 0L, 0L);
 }
 
+/** Plays a mpeg frame */
 void Movie::play_mpg()
 {
   uint8_t r, g, b;
@@ -328,7 +329,7 @@ void Movie::bind_frame()
   }
 }
 
-/* Gets stream video frames */
+/** Gets stream video frames */
 void Movie::changePermanent(float lasting)
 {
   if (state == INACTIVE || state == PAUSE) return;
@@ -364,6 +365,11 @@ void Movie::changePermanent(float lasting)
   }
 
   bind_frame();
+}
+
+/** Quits */
+void Movie::quit()
+{
 }
 
 /*
