@@ -195,7 +195,10 @@
 # include <pthread.h>
 #endif
 
-#define GL_SILENCE_DEPRECATION	// avoid warnings on apple mojave
+#ifndef GL_SILENCE_DEPRECATION
+#define GL_SILENCE_DEPRECATION	// avoid warnings on apple mojave and +
+#endif
+
 #include <GL/gl.h>
 
 #if HAVE_GL_GLU_H
