@@ -30,7 +30,7 @@
 const OClass Spot::oclass(SPOT_TYPE, "Spot", Spot::creator);
 
 
-/* creation from a file */
+/** Creation from a file */
 WO * Spot::creator(char *l)
 {
   return new Spot(l);
@@ -45,6 +45,7 @@ void Spot::defaults()
   clearV3(dim);
 }
 
+/** Parses from a file */
 void Spot::parser(char *l)
 {
   defaults();
@@ -65,6 +66,7 @@ void Spot::parser(char *l)
   end_while_parse(l);
 }
 
+/** Sets behaviors */
 void Spot::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
@@ -74,13 +76,13 @@ void Spot::behaviors()
   }
 }
 
+/** Sets geometry */
 void Spot::geometry()
 {
   char s[128];
   float base = 1;
 
   base = dim.v[0];
-  //echo("base: %.2f shape: %d", base, shape);
   switch (shape) {
   case SPOT_PENTAGON:
     sprintf(s, "solid shape=\"pentagon\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
@@ -92,6 +94,7 @@ void Spot::geometry()
   parseSolid(s);
 }
 
+/** Constructor */
 Spot::Spot(char *l)
 {
   parser(l);
@@ -145,6 +148,7 @@ void Spot::render()
 void Spot::On(Spot *po, void *d, time_t s, time_t u)
 {
   if (po->state) return;
+
   po->state = true;
   po->enableBehavior(SPECIFIC_RENDER);
   po->enableBehavior(MIX_RENDER);
@@ -154,6 +158,7 @@ void Spot::On(Spot *po, void *d, time_t s, time_t u)
 void Spot::Off(Spot *po, void *d, time_t s, time_t u)
 {
   if (! po->state) return;
+
   po->state = false;
   po->disableBehavior(SPECIFIC_RENDER);
   po->disableBehavior(MIX_RENDER);
