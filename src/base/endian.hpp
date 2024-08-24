@@ -36,12 +36,6 @@ class Endian {
   static bool littleEndian();
   static void swapShort(uint16_t *array, int len);
   static void swapLong(uint32_t *array, int len);
-
-  //notused static void localEndian(void *data, int nb);
-
- private:
-  //notused static void * swapEndian(void *data, int nb);
-
 };
 
 #endif

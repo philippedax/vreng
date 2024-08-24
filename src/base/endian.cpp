@@ -27,17 +27,12 @@
 
 
 /**
- * check whether this machine is big endian
+ * Checks whether this machine is big endian
  * return 1 if big endian else 0 if little endian
  * static
  */
 bool Endian::bigEndian()
 {
-#if 0 //dax
-  uint16_t x=0x0001;
-  auto p = reinterpret_cast<uint8_t*>(&x);
-  return *p == 0;
-#else
   union {
     int word;
     char byte[4];
@@ -45,11 +40,10 @@ bool Endian::bigEndian()
 
   endian.word = 1;
   return (endian.byte[0] == 1) ? 0 : 1;
-#endif
 }
 
 /**
- * check whether this machine is little endian
+ * Checks whether this machine is little endian
  * return 1 if little endian else 0 if big endian
  * static
  */
@@ -85,66 +79,3 @@ void Endian::swapLong(uint32_t *array, int len)
     *array++ = (b1 << 24) | (b2 << 16) | (b3 << 8) | (b4);
   }
 }
-
-#if 0 //notused
-void * Endian::swapEndian(void* data, int n)
-{
-  static char swapped[16];
-
-  switch (n) {
-    case 2: swapped[0] = *((char*)data+1);
-            swapped[1] = *((char*)data  );
-            break;
-    case 4: swapped[0] = *((char*)data+3);
-            swapped[1] = *((char*)data+2);
-            swapped[2] = *((char*)data+1);
-            swapped[3] = *((char*)data  );
-            break;
-#if 0 //notused
-    case 6: swapped[0] = *((char*)data+5);
-            swapped[1] = *((char*)data+4);
-            swapped[2] = *((char*)data+3);
-            swapped[3] = *((char*)data+2);
-            swapped[4] = *((char*)data+1);
-            swapped[5] = *((char*)data  );
-            break;
-    case 8: swapped[0] = *((char*)data+7);
-            swapped[1] = *((char*)data+6);
-            swapped[2] = *((char*)data+5);
-            swapped[3] = *((char*)data+4);
-            swapped[4] = *((char*)data+3);
-            swapped[5] = *((char*)data+2);
-            swapped[6] = *((char*)data+1);
-            swapped[7] = *((char*)data  );
-            break;
-     case 16:swapped[0] = *((char*)data+15);
-            swapped[1] = *((char*)data+14);
-            swapped[2] = *((char*)data+13);
-            swapped[3] = *((char*)data+12);
-            swapped[4] = *((char*)data+11);
-            swapped[5] = *((char*)data+10);
-            swapped[6] = *((char*)data+9);
-            swapped[7] = *((char*)data+8);
-            swapped[8] = *((char*)data+7);
-            swapped[9] = *((char*)data+6);
-            swapped[10] = *((char*)data+5);
-            swapped[11] = *((char*)data+4);
-            swapped[12] = *((char*)data+3);
-            swapped[13] = *((char*)data+2);
-            swapped[14] = *((char*)data+1);
-            swapped[15] = *((char*)data  );
-            break;
-#endif //notused
-      default:error("Unsupported length for swapEndian");
-  }
-  return static_cast<void *>(swapped);
-}
-
-void Endian::localEndian(void *data, int n)
-{           
-  if (bigEndian()) {
-    char *tmp = reinterpret_cast<char *>(swapEndian(data, n));
-    memcpy(data, tmp, n);
-  }         
-}
-#endif //notused
