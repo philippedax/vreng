@@ -39,6 +39,7 @@
 
 class Http;
 
+
 /**
  * FIFO
  * if max connections is reached
@@ -122,27 +123,6 @@ class Http {
 
   int readHttp(char *buf, int maxlen);
   /**< Gets a block. */
-
-  //notused int32_t read_int();
-  //notused /**< Gets an integer. */
-  //notused int32_t read_long();
-  //notused /**< Gets a long. */
-  //notused float read_float();
-  //notused /**< Gets a float. */
-  //notused int fread(char *ptr, int size, int nitems);
-  //notused /**< Emulates fread. */
-  //notused uint32_t skip(int32_t skiplen);
-  //notused /**< Skips a length. */
-  //notused int32_t read_short();
-  //notused /**< Gets a short. */
-  //notused int getChar();
-  //notused /**< Gets a char. */
-  //notused int read_string(char *s, int maxlen);
-  //notused /**< Gets a string. */
-  //notused int htell();
-  //notused /**< Returns current position. */
-  //notused bool getLine(char *line);
-  //notused /**< Gets a line. */
 };
 
 #endif
