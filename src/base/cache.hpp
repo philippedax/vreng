@@ -31,7 +31,6 @@
  * Cache class
  */
 class Cache : public File {
-
  private:
   File *filein;		///< filein instance
   File *fileout;	///< fileout instance
@@ -41,6 +40,7 @@ class Cache : public File {
   virtual ~Cache();
 
   char * getFilename(void *tex);
+  ///< Gets file name.
 
   static int setCachePath(const char *url, char *cachepath);
   ///< Sets cache path from url.
@@ -55,7 +55,7 @@ class Cache : public File {
   ///< Checks whether url is cached.
 
   static void getCacheName(const char *url, std::string& cachename);
-  ///< Gets absolute file name.
+  ///< Fills absolute file name (string).
 
   static char * getFilePath(const char *url);
   ///< Gets relative file name.
@@ -65,11 +65,6 @@ class Cache : public File {
 
   static int check(const char *url);
   ///< Checks url existence.
-
-  //notused static void closeCache(FILE *fp);
-  //notused ///< Closes file into cache.
-  //notused static FILE * openCache(const char *url, class Http *http);
-  //notused ///< Saves file into cache and opens it.
 };
 
 #endif

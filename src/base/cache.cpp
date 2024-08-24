@@ -65,14 +65,14 @@ int Cache::setCachePath(const char *url, char *cachepath)
   return 1;
 }
 
-/** Gets file cache name */
-void Cache::getCacheName(const char *url, std::string& cachefile)
+/** Fills cache name string */
+void Cache::getCacheName(const char *url, std::string& cachestring)
 {
   static char cachepath[PATH_LEN];
   const char *pfile = strrchr(url, '/');
 
   sprintf(cachepath, "%s/%s", ::g.env.cache(), ++pfile);
-  cachefile = cachepath;
+  cachestring = cachepath;
 }
 
 /** Gets file path */
@@ -85,7 +85,7 @@ char * Cache::getFilePath(const char *url)
   return filepath;
 }
 
-/** Opens an url and writes it into the cache and returns the file opened */
+/** Opens an url and writes it into the cache and returns the FILE opened */
 FILE * Cache::open(const char *url, Http *http)
 {
   if (! http) return NULL;
@@ -108,10 +108,10 @@ FILE * Cache::open(const char *url, Http *http)
       return NULL;
     }
 
-    // writes the file into the cache
+    // Writes the file into the cache
 http_reread:
     //
-    // checks if the head of the downloaded file is valid
+    // Checks if the head of the downloaded file is valid
     //
     http->readHttp(buf, 14);	// read head to check if correct
     if (strncmp(buf, "<!DOCTYPE HTML", 14) == 0) {	// hack!!!
@@ -125,7 +125,7 @@ http_reread:
     fwrite(buf, 14, 1, fpw);
 
     //
-    // reads and writes the remaining
+    // Reads and writes the remaining
     //
     while (http->readHttp(buf, 1)) {
       fwrite(buf, 1, 1, fpw);
@@ -135,7 +135,7 @@ http_reread:
     delete fileout;
 
     //
-    // reopens the file for reading
+    // Reopens the file for reading
     //
     filein = new File();
     if (! (fpr = filein->open(cachepath, "r"))) {
@@ -144,7 +144,7 @@ http_reread:
     }
 
     //
-    // verifies the integrity of the new created file
+    // Verifies the integrity of the new created file
     //
     struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
@@ -176,70 +176,6 @@ void Cache::close()
     delete filein;
   }
 }
-
-#if 0 //notused
-/** Opens an url and writes it into the cache and returns the file opened - static */
-FILE * Cache::openCache(const char *url, Http *http)
-{
-  if (! http) return NULL;
-
-  char *cachepath = new char[PATH_LEN];
-  memset(cachepath, 0, PATH_LEN);
-  if (! setCachePath(url, cachepath)) return NULL;
-
-  FILE *fp = NULL;
-  if (! (fp = File::openFile(cachepath, "r"))) {	// not in the cache, write it
-    if (! (fp = File::openFile(cachepath, "w"))) {
-      error("openCache: can't create %s", cachepath);
-      delete[] cachepath;
-      return NULL;
-    }
-
-    // writes the file into the cache FIXED!!!
-    char buf[4];
-    while (! http->heof()) {
-      http->readHttp(buf, 4);
-      fwrite(buf, 4, 1, fp);
-    }
-    fflush(fp);
-    File::closeFile(fp);
-
-    // open the file for reading
-    if (! (fp = File::openFile(cachepath, "r"))) {
-      error("openCache: can't open %s", cachepath);
-      return NULL;
-    }
-
-    // verify
-    struct stat bufstat;
-    if (stat(cachepath, &bufstat) == 0) {
-      if (bufstat.st_size == 0) {
-        //error("openCache: %s is empty", cachepath);
-        unlink(cachepath);
-        progression('-');	// '-' as failed
-      }
-      else {
-        progression('h');	// 'h' as http
-      }
-    }
-  }
-  else {	// found in the cache
-    progression('c');	// 'c' as cache
-  }
-
-  // ready for reading
-  delete[] cachepath;
-  return fp;  // file is now opened
-}
-
-/** Closes cache - static */
-void Cache::closeCache(FILE *fp)
-{
-  if (fp) {
-    File::closeFile(fp);
-  }
-}
-#endif //notused
 
 /** Checks if file is in the cache */
 bool Cache::inCache(const char *url)
