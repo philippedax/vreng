@@ -71,22 +71,6 @@ int Xml::string2Coord(char *strpos, float *tmpx, float *tmpy, float *tmpz, float
 }
 
 
-#if 0 //notused
-int Xml::getXmlDocument(char* filename, xmlDocPtr* doc)
-{
-  /* charge le document XML */
-  *doc = xmlParseFile(filename);
-
-  if (! (*doc)) {
-    error("unable to parse file \"%s\"", filename);
-    return XML_ERR;
-  }
-
-  return XML_OK;
-}
-#endif //notused
-
-
 int Xml::selectXpathPoint(char *filename, float *position, char *type, char *result)
 {
   xmlDocPtr doc;

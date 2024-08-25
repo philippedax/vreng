@@ -37,11 +37,8 @@
  */
 class Xml {
  public:
-  Xml() {};
-  /**< Constructor */
-
-  virtual ~Xml();
-  /**< Destructor */
+  Xml() {};		/**< Constructor */
+  virtual ~Xml();	/**< Destructor */
 
   static void dtdValidation(const char *pathname);
   /**< Checks DTD */
@@ -55,9 +52,6 @@ class Xml {
   static int selectXpathExpr(char *filename, const char *xpathExpr, char *phrase, char *res);
   /**< search object with the name or something else */
 
-  //notused static int getXmlDocument(char* filename,xmlDocPtr* doc);
-  //notused /**< return the scene described in xml type */
-
  private:
   static int getXpathPoint(xmlNodeSetPtr nodes,float * position, char *result);
 
@@ -65,10 +59,10 @@ class Xml {
   /**< Calculate the promimity object */
 
   static int getXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result);
-  /**< explorer main attributs of the selected object */
+  /**< explorer main attributes of the selected object */
 
   static int getXpathName(xmlNodeSetPtr nodes, char *result);
-  /**< explorer name attributs of the selected object */
+  /**< Explores name attributes of the selected object */
 
   static int string2Coord(char *stringposition,float *tmpx,float *tmpy,float *tmpz,float *tmporiz);
   /**< Convert string position to 4 floats */
