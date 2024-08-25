@@ -23,6 +23,7 @@
 #ifndef STR_HPP
 #define STR_HPP
 
+
 int mystrcasecmp(const char *s1, const char *s2);
 int stringcmp(const char *s1, const char *s2);
 

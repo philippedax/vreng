@@ -23,6 +23,7 @@
 #ifndef XML_HPP
 #define XML_HPP
 
+
 #if HAVE_LIBXML2 && HAVE_LIBXML_PARSER_H
 
 #include <libxml/parser.h>

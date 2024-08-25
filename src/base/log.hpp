@@ -23,6 +23,7 @@
 #ifndef LOG_HPP
 #define LOG_HPP
 
+
 #undef NDEBUG		// assert()
 #include <assert.h>
 

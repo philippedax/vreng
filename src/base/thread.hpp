@@ -23,6 +23,7 @@
 #ifndef THREAD_HPP
 #define THREAD_HPP
 
+
 #if HAVE_LIBPTHREAD
 typedef pthread_t Vpthread_t;
 typedef pthread_cond_t Vpthread_cond_t;

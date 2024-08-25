@@ -23,6 +23,7 @@
 #ifndef TRIGO_HPP
 #define TRIGO_HPP
 
+
 #ifndef M_PI
 #define M_PI            3.14159265 // pi
 #endif

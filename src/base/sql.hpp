@@ -23,6 +23,7 @@
 #ifndef SQL_HPP
 #define SQL_HPP
 
+
 #if HAVE_SQLITE | HAVE_MYSQL
 #define VSQL 1
 #else

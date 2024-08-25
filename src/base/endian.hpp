@@ -23,6 +23,7 @@
 #ifndef ENDIAN_HPP
 #define ENDIAN_HPP
 
+
 /**
  * Endian class
  */

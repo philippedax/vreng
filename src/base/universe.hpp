@@ -23,6 +23,7 @@
 #ifndef UNIVERSE_HPP
 #define UNIVERSE_HPP
 
+
 class User;
 
 #define	MANAGER_NAME	"manager"

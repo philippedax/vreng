@@ -24,7 +24,7 @@
 #define REPORT_HPP
 
 
-/* Sends a report to the maintainer */
 int report(const char *mess);
+/**< Sends a report to the maintainer */
 
 #endif
