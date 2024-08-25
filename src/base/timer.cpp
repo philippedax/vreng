@@ -107,18 +107,3 @@ float Timer::delta()
   lasttime = nowtime;
   return static_cast<float>(difftime);
 }
-
-#if 0 //notused
-void idleTime()
-{
-  startTime(&ptime_idle);
-  float _rate = rate();
-  if (_rate > ::g.pref.maxfps && ::g.pref.cpulimit) {
-    struct timeval to;
-    to.tv_sec = 0;
-    to.tv_usec = ::g.pref.frame_delay;     // 20ms -> 50 fps
-    select(0, 0, 0, 0, &to);
-  }
-  stopTime(&ptime_idle);
-}
-#endif
