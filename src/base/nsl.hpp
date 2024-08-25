@@ -38,12 +38,4 @@ int my_inet_pton(int af, const char *name, void *addr);
 const char * inet4_ntop(const void *addr);
 int inet4_pton(const char *name, void *addr);
 
-//notused struct hostent * my_getipnodebyaddr(const char *hostaddr, int af);
-//notused const char * inet6_ntop(const void *addr);
-//notused int inet6_pton(const char *name, void *addr);
-//notused struct hostent * my_gethostbyaddr(const char *hostaddr, int af);
-//notused struct hostent * my_gethostbyaddr_r(const char *hostaddr, int af);
-//notused struct servent * my_getservbyname(const char *servname);
-//notused struct servent * my_getservbyname_r(const char *servname);
-
 #endif
