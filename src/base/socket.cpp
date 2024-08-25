@@ -144,13 +144,6 @@ int Socket::handleBlocking(int sd, bool block)
   return sd;
 }
 
-#if 0 //notused
-int Socket::setBlocking(int sd)
-{
-  return handleBlocking(sd, true);
-}
-#endif //notused
-
 int Socket::setNoBlocking(int sd)
 {
   return handleBlocking(sd, false);

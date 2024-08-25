@@ -30,7 +30,6 @@
  * Socket class
  */
 class Socket {
-
 public:
   Socket() {};
   virtual ~Socket() {};
@@ -52,8 +51,6 @@ public:
   static int createUcastSocket(uint32_t uni_addr, uint16_t port);
   static int createSendSocket(uint8_t ttl);
   static bool isMulticastAddress(uint32_t address);
-
-  //notused static int setBlocking(int sock);
 
 private:
   static void setSendSocket(int sock, uint8_t ttl);
