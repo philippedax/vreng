@@ -23,15 +23,16 @@
 #ifndef FILE_HPP
 #define FILE_HPP
 
+
 /**
  * File class
  */
 class File {
  public:
-  FILE *f;	///< file handle
+  FILE *f;		///< file handle
 
-  File();
-  virtual ~File();
+  File();		///< Constructor
+  virtual ~File();	///< Destructor
 
   FILE * open(const char *filename, const char *param);
   void close();
