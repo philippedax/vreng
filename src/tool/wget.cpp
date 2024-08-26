@@ -92,10 +92,3 @@ int Wget::start(const char *_url, char *file, const char opts[])
   return 0;
 #endif
 }
-
-#if 0 //notused
-void Wget::unlinktmp(const char *file)
-{
-  if (access(file, W_OK) == 0) unlink(file);
-}
-#endif //notused
