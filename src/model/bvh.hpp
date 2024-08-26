@@ -202,26 +202,6 @@ class movable {
   /// state variable
   matrix16f location,    // Rotation + location
         newLocation;
-  /// momentum
-#if 0 //notused
-  vector3f P,newP, 
-  /// angular momentum
-       L,newL; 
-  // derived
-  matrix9f Iinv;
-  /// velocity of center of mass
-  vector3f velocity,
-  /// w angular velocity
-       omega;    
-  /// summed forces per timestep 
-  vector3f force,
-  /// summed torque per timestep
-       torque;
-
-  bool normalize;
-
-  float step;
-#endif
 
   string name;
   
@@ -232,8 +212,6 @@ class movable {
   void drawBoundingBox();
   bool drawBB;
 
-  // has this been completely tested for collisions?
-  //notused bool BBtested;
   bool BBcollided;
 
   vector3f centerBB;
@@ -243,10 +221,6 @@ class movable {
   vector3f centerAABB;
   vector3f edgesAABB;
   vector3f AABB[8];
-  
-  // is the object moved normally or is
-  // it subject to the physics engine?
-  //notused bool physical;
 };
 
 
@@ -432,9 +406,7 @@ class objloader: public movable {
   string mtlFile;
   uint32_t mtlIndex;
   triangleInd tempTriangle;
-  //notused uint32_t kIndex;
   objMode theMode;
-  //notused mtlMode theMtlMode;
   vector3f tempVector;
   uint32_t tempVectorIndex;
   bool verbose;
