@@ -89,11 +89,11 @@ typedef struct {
   int32_t ofs_end;      ///< end of file
 } tHeader;
 
+
 /**
  * Md2 class
  */
 class Md2 {
-
  private:
   int32_t *glcmds;	///< GL commands
   tTexInfo *texinfo;	///< texture infos
@@ -134,15 +134,10 @@ class Md2 {
   bool readFile(class File *file, FILE *f);
   /**< Loads from file */
 
-  //notused bool readHttp(Http *http);
-  //notused /**< Loads from http */
-
   int32_t getFrames(tHeader *md2_hdr, class File *file, FILE *f);
-  //notused int32_t getFrames(tHeader *md2_hdr, class Http *http);
   /**< Gets frames from Md2 model */
 
   int32_t getGLCmds(tHeader *md2_hdr, class File *file, FILE *f);
-  //notused int32_t getGLCmds(tHeader *md2_hdr, class Http *http);
   /**< Gets GL commands from Md2 model */
 
   void updBbox(float x, float y, float z);
