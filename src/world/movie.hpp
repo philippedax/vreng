@@ -28,13 +28,13 @@
 #define MOVIE_TYPE	25
 #define MOVIE_NAME	"Movie"
 
-
 #if HAVE_LIBMPEG
 // Warning! there is a typedef conflict with Boolean type
 // between mpeg.h and X11/Intrinsic.h
 #define Boolean Fuck_Boolean_X11
 #include <mpeg.h>
 #endif
+
 
 /**
  * Movie class
@@ -112,7 +112,6 @@ class Movie: public WO {
   void pause();
   void rewind();
   void loop();
-  //notused void debug();
 
   // GUI callbacks
   static void play_cb(Movie *po, void *d, time_t s, time_t u);
@@ -120,7 +119,6 @@ class Movie: public WO {
   static void pause_cb(Movie *po, void *d, time_t s, time_t u);
   static void rewind_cb(Movie *po, void *d, time_t s, time_t u);
   static void loop_cb(Movie *po, void *d, time_t s, time_t u);
-  //notused static void debug_cb(Movie *po, void *d, time_t s, time_t u);
 };
 
 #endif
