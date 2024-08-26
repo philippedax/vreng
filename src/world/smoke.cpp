@@ -85,9 +85,6 @@ void Smoke::inits()
 {
   initMobileObject(0);
   np = 0;
-  //for (int i=0; i < NA; i++) {
-  //  A[i] = i * M_PI/4;
-  //}
 }
 
 /* creates one particle */
@@ -109,8 +106,6 @@ void Smoke::changePermanent(float dt)
   Smoke p(emit);		// create particle p
   psmokeList.push_back(p);	// add p to psmokeList
   animParticles();
-  //update();		// update particles
-  //draw();
 }
 
 void Smoke::animParticles()
@@ -140,8 +135,6 @@ void Smoke::update()
 
 void Smoke::render()
 {
-  //if (np > npmax) return;
-
   GLfloat m[16];
   m[0]=0;  m[4]=-1; m[8] =0; m[12]=0;           // Xogl = -Yvre
   m[1]=0;  m[5]=0;  m[9] =1; m[13]=-1.85;       // Yogl = Zvre
@@ -180,5 +173,3 @@ void Smoke::draw()
   glEnd();
   glPopMatrix();
 }
-
-void Smoke::funcs() {}

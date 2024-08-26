@@ -23,6 +23,7 @@
 #ifndef SMOKE_HPP
 #define SMOKE_HPP
 
+
 #define SMOKE_TYPE 	76
 #define SMOKE_NAME 	"Smoke"
 
@@ -30,71 +31,29 @@
 #include "wobject.hpp"
 #include <vector>
 
+using namespace std;
+
 #define SMOKENB		100	// number max of particles
 #define NA		8	// number of angles of polygon
 
-
-#if 0 //
-/**
- * PSmoke class
- */
-class PSmoke {
- private:
-  static const float SZ;
-  static const float A[NA];
-
- public:
-  Vector3 loc;		///< location.
-  Vector3 vel;		///< velocity.
-  Vector3 acc;		///< acceleration.
-  float life;		///< time to live.
-  GLint dlist;		///< displaylist.
-
-  PSmoke(Vector3 l);	///< Constructor.
-  ~PSmoke() {};		///< Destructor.
-
-  void update();
-  void draw();
-};
-
-#endif
 
 /**
  * Smoke class
  */
 class Smoke: public WO {
-
  private:
   static const float SZ;
   static const float A[NA];
 
   uint16_t npmax;		///< number max of particles
   uint16_t np;			///< number of particles
-  Vector3 loc;		///< location.
-  Vector3 vel;		///< velocity.
-  Vector3 acc;		///< acceleration.
-  float life;		///< time to live.
-  GLint dlist;		///< displaylist.
-  vector<Smoke> psmokeList;
+  Vector3 loc;			///< location.
+  Vector3 vel;			///< velocity.
+  Vector3 acc;			///< acceleration.
+  float life;			///< time to live.
+  GLint dlist;			///< displaylist.
+  vector<Smoke> psmokeList;	///< psmokeList.
 
- public:
-  static const OClass oclass;	///< class variable.
-  const OClass* getOClass() {return &oclass;}
-
-  static void funcs();		///< init funclist.
-
-  Smoke(char *l);		///< Constructor.
-  Smoke(Vector3 l);		///< Constructor.
-  ~Smoke() {};			///< Destructor.
-
-  static WO * (creator)(char *l);
-  ///< Creates from fileline.
-
-  void changePermanent(float dt);
-
-  void render();
-
- private:
   void defaults();
   /**< Sets defaults values. */
 
@@ -116,7 +75,22 @@ class Smoke: public WO {
   void update();
   void draw();
 
-  //notused Vector3 random();
+ public:
+  static const OClass oclass;	///< class variable.
+  const OClass* getOClass() {return &oclass;}
+
+  static void funcs() {};	///< init funclist.
+
+  Smoke(char *l);		///< Constructor.
+  Smoke(Vector3 l);		///< Constructor.
+  ~Smoke() {};			///< Destructor.
+
+  static WO * (creator)(char *l);
+  /**< Creates from fileline. */
+
+  void changePermanent(float dt);
+
+  void render();
 };
 
 #endif
