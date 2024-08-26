@@ -252,14 +252,8 @@ uint32_t random32(int type);
  * Rtp class
  */
 class Rtp {
-
  private:
   static bool isSdesType(uint8_t sdes_type);
-
-  //notused static void getSdesItemBySsrc(uint8_t type, uint32_t ssrc, char *itemstr);
-  //notused static void getRtcpNameBySsrc(uint32_t ssrc, char *rtpname);
-  //notused static void getRtcpEmailBySsrc(uint32_t ssrc, char *email);
-  //notused static void getRtcpToolBySsrc(uint32_t ssrc, char *tool);
 
  public:
   static const uint8_t RTPNAME_LEN = 128;

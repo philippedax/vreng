@@ -212,54 +212,6 @@ bool Rtp::isSdesType(uint8_t sdes_type)
   return false;
 }
 
-#if 0 //notused
-void Rtp::getSdesItem(uint8_t sdes_type, uint32_t _ssrc, char *itemstr)
-{
-  SdesItem *sitem = NULL;
-
-  //pd CHECK_SESSION_LIST
-  for (Session *pse = Session::getList(); pse && pse->mode == Channel::WORLD_MODE; pse = pse->next) {
-    for (Source *pso = pse->source; pso ; pso = pso->next) {
-      if (pso == pso->next) {
-        error("Infinite loop in getSdesItem");	// BUG ?
-        //pso->dump();
-      }
-
-      if (pso->ssrc == _ssrc) {
-        for (sitem = &pso->sdes; sitem ; sitem = sitem->si_next) {
-          if (sitem < (SdesItem *) 999)	{	//FIXME: bad sitem
-            error("sdes_item not found");
-            return;
-          }
-          if (! isSdesType(sitem->si_type))
-            continue;
-          if (sitem->si_len == 0)
-            continue;
-          if (sitem->si_type == sdes_type) {
-            strcpy(itemstr, static_cast<char *>(sitem->si_str));
-          }
-        }
-      }
-    }
-  }
-}
-
-void Rtp::getRtcpName(uint32_t _ssrc, char *rtcpname)
-{
-  getSdesItem(RTCP_SDES_NAME, _ssrc, rtcpname);
-}
-
-void Rtp::getRtcpEmail(uint32_t _ssrc, char *email)
-{
-  getSdesItem(RTCP_SDES_EMAIL, _ssrc, email);
-}
-
-void Rtp::getRtcpTool(uint32_t _ssrc, char *tool)
-{
-  getSdesItem(RTCP_SDES_TOOL, _ssrc, tool);
-}
-#endif //notused
-
 SdesItem * Rtp::allocSdesItem()
 {
   return new SdesItem[1];
