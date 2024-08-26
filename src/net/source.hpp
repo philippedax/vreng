@@ -31,11 +31,6 @@
  * Informations on a RTP source
  */
 class Source {
- private:
-  //notused static uint16_t getMembersNumber();
-  //notused static void dumpAll();
-  //notused void dump();
-
  public:
   sourceInfos	s;		///< source info
   uint32_t	ssrc;		///< ssrc id
