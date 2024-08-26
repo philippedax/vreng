@@ -479,20 +479,6 @@ void WO::getRelBB(V3 &center, V3 &size)
   if (solid) solid->getRelBB(center, size);
 }
 
-#if 0 //notused
-/** Gets absolute center and size of solid - accessor */
-void WO::getAbsBB(V3 &center, V3 &size)
-{
-  if (solid) solid->getAbsBB(center, size);
-}
-
-/** Gets relative center of solid - accessor */
-void WO::getCent(V3 &center)
-{
-  if (solid) solid->getCentBB(center);
-}
-#endif //notused
-
 /** Gets the number of frames of this solid - accessor */
 uint8_t WO::getFrames()
 {
@@ -827,16 +813,6 @@ void WO::updatePersist()
   vsql->deleteRow(this, objectName());
   vsql->insertRow(this);
 }
-
-#if 0 //notused
-/** Updates state for VSql */
-void WO::updatePersist(int16_t _state)
-{
-  if (! vsql) vsql = new VSql();	// first take the VSql handle;
-  vsql->deleteRow(this, objectName());
-  vsql->insertRow(this);
-}
-#endif //notused
 
 /** Flushes position for VSql
  * if it is the case, get position and update it

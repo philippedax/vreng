@@ -23,6 +23,7 @@
 #ifndef WOBJECT_HPP
 #define WOBJECT_HPP
 
+
 #include "oclass.hpp"	// OClass
 #include "olist.hpp"	// OList
 #include "parse.hpp"	// Parse
@@ -331,10 +332,6 @@ class WO {
   void getDim(V3 &dim);
   void getRelBB(V3 &center, V3 &size);
 
-  //notused void getAbsBB(V3 &center, V3 &size);
-  //notused void getCent(V3 &center);
-  //notused /**< Gets relative or absolute center and size of solid. */
-
   uint8_t getFrames();
   /**< Gets number of frames of this solid. */
 
@@ -579,9 +576,6 @@ class WO {
 
   void setLinearSpeed(float lspeed);
   /**< set permanent linear speed of an object. */
-
-  //notused void setAngularSpeed(float aspeed);
-  //notused /**< set permanent angular speed of an object. */
 
   void initImposedMovement(float lasting);
   /**< Initializes movement on an object. */
@@ -847,9 +841,6 @@ class WO {
   void savePersist();
   /**< Flushes position for VSql. */
 
-  //notused void updatePersist(int16_t state);
-  //notused /**< Updates state for VSql. */
-
  protected:
   // GUI and network change callbacks
   static void get_xy(WO *po, class Payload *pp);
@@ -869,6 +860,5 @@ class WO {
 
 
 #include "objects.hpp"
-
 
 #endif
