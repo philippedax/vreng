@@ -97,13 +97,6 @@ class Parse {
   char * parseVectorf(char *ptok, float *vector, int n);
   /**< Returns a vector of dimension n */
 
-  //notused char * skipOpenBracket(char *p) const;
-  //notused /**< Skip open-bracket character */
-  //notused char * skipOpenParenthesis(char *p) const;
-  //notused /**< Skip open-parenthesis character */
-  //notused char * skipCloseParenthesis(char *p) const;
-  //notused /**< Skip close-parenthesis character */
-
  public:
   static const int TAG_LEN = 16;	// tag length
 
