@@ -133,16 +133,3 @@ bool OClass::isValidType(uint8_t type_id)
 {
   return (type_id > 0 && type_id <= OBJECTSNUMBER);
 }
-
-#if 0 //notused
-/** Returns a wobject builtin */
-void OClass::builtinInstance(uint8_t type_id)
-{
-  if (isValidType(type_id)) {
-    otable[type_id]->builtin();
-  }
-  else {
-    error("builtinInstance: type_id=%d out of bounds", type_id);
-  }
-}
-#endif //notused
