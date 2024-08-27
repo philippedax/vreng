@@ -18,12 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//  widgets.hpp 
+// widgets.hpp 
 //
 // Ubit Widgets for the VREng GUI
 //
-//  VREng Project
-//  Author: Eric Lecolinet - ENST Paris
+// VREng Project
+// Author: Eric Lecolinet - ENST Paris
 //---------------------------------------------------------------------------
 #ifndef WIDGETS_HPP
 #define WIDGETS_HPP

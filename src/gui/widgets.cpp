@@ -1790,6 +1790,6 @@ void Widgets::getMessage(UMessageEvent &e)
   if (! msg || msg->empty())  return;
 
   // a completer
-  //notused cerr << "get: " << *selected_object_url << endl;
+  //cerr << "get: " << *selected_object_url << endl;
 }
 
