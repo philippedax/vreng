@@ -94,15 +94,11 @@ class Avi {
   void getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const;
 
   //notused int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t max_aud, int32_t *retlen);
-  //notused void write_header(int width, int height, int norm, int audio, int stereo, int size, int rate);
-  //notused void add_frame(const char *jpeg_data, int32_t length);
-  //notused void add_audio(const char *audio_data, int32_t length);
 
  private:
   FILE *fp;
   char *url;
   class Cache *cache;
-  //notused uint32_t frames;
 
   int idx[MAXIDX];
 
@@ -111,23 +107,9 @@ class Avi {
   uint16_t width;
   uint16_t height;
 
-  /* Handling of lists */
-  //notused char list_name[MAX_LIST_DEPTH][4];
-  //notused uint32_t list_pos[MAX_LIST_DEPTH];
-  //notused uint32_t list_depth;
-  //notused uint32_t audio_samples;
-
   void defaults();
 
   static void reader(void *_avi, class Http *http);
-
-  //notused int32_t tell(int fd);
-  //notused void out4cc(const char *s);
-  //notused void outlong(int32_t n);
-  //notused void outshrt(int32_t n);
-  //notused void start_list(const char * name);
-  //notused void finish_list(const char * name);  
-  //notused void open_output_file(const char * filename);
 };
 
 #endif
