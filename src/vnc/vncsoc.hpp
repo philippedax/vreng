@@ -73,9 +73,6 @@ class VNCSoc {
 
   int getSock();
   ///< get the socket used
-
-  //notused void PrintInHex(char *buf, int len);
-  //notused ///< Print out the contents of a packet for debugging.
 };
 
 #endif

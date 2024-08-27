@@ -238,37 +238,3 @@ int VNCSoc::getSock()
 {
   return rfbsock;
 }
-
-#if 0 //notused
-/**
- * Print out the contents of a packet for debugging.
- */
-void VNCSoc::PrintInHex(char *buf, int len)
-{
-  int i;
-  char c, str[17];
-
-  str[16] = 0;
-
-  for (i = 0; i < len; i++) {
-    if ((i % 16 == 0) && (i != 0))
-      fprintf(stderr, "           ");
-    c = buf[i];
-    str[i % 16] = (((c > 31) && (c < 127)) ? c : '.');
-    fprintf(stderr,"%02x ", (uint8_t) c);
-    if ((i % 4) == 3)
-      fprintf(stderr, " ");
-    if ((i % 16) == 15)
-      fprintf(stderr,"%s\n", str);
-  }
-  if ((i % 16) != 0) {
-    for (int j = i % 16; j < 16; j++) {
-      fprintf(stderr, "   ");
-      if ((j % 4) == 3) fprintf(stderr, " ");
-    }
-    str[i % 16] = 0;
-    fprintf(stderr,"%s\n", str);
-  }
-  fflush(stderr);
-}
-#endif //notused
