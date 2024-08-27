@@ -24,7 +24,6 @@
 //  VREng / Ubit Project
 //  Authors: Eric Lecolinet and Philippe Dax
 //---------------------------------------------------------------------------
-
 #include "vreng.hpp"
 #include "widgets.hpp"
 #include "palette.hpp"
@@ -85,17 +84,3 @@ Palette& Palette::setPos(ULength x, ULength y)
   ppos->set(x,y);
   return *this;
 }
-
-#if 0 //notused
-Palette& Palette::setPos(UPoint& p)
-{
-  *ppos = p;
-  return *this;
-}
-
-Palette& Palette::setPos(UPos& p)
-{
-  *ppos = p;
-  return *this;
-}
-#endif //notused

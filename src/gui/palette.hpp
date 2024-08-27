@@ -44,10 +44,6 @@ class Palette : public UBox {
   uptr<UBox> ptitlebox;
   uptr<UBox> pcontent;
   void titleCB();
-
-  //notused UPos& pos() { return *ppos; }
-  //notused Palette& setPos(UPoint&);
-  //notused Palette& setPos(UPos&);
 };
 
 #endif
