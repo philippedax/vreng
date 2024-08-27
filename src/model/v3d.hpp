@@ -33,13 +33,14 @@
 
 #include "bone.hpp"     // BoneMesh, BoneVertex
 
+
 /**
  * V3d class
  */
 class V3d {
+ public:
   static const float SCALE;
 
- public:
   V3d();			///< Constructor
   virtual ~V3d() {};		///< Destructor
 
