@@ -627,7 +627,8 @@ typedef union {
     rfbClientCutTextMsg cct;
 } rfbClientToServerMsg;
 
-/*-----------------------------------------------------------------------------
+
+/**************
  * VNCRFB class
  */
 class VNCRFB {
@@ -638,13 +639,7 @@ class VNCRFB {
   char *desktopName;	///< name of the distant desktop
 
  public:
-  VNCRFB(char *Servername, int Port, char *pswdFile);
-#if 0 //notused
-  VNCRFB();
-  VNCRFB(char *servername, int port);
-  VNCRFB(unsigned int IPAddr, int Port, char *pswdfile);
-#endif
-  ///< constructors
+  VNCRFB(char *Servername, int Port, char *pswdFile);	///< constructor
 
   VNCSoc vncsock;
   rfbPixelFormat pixFormat;
@@ -671,8 +666,6 @@ class VNCRFB {
 
   int getSock();
   ///< get the used socket
-
-  //notused char **Encodings;	///< could be used to ask the best encoding for the client.
 };
 
 #endif
