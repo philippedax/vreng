@@ -151,7 +151,6 @@ void Thing::updateTime(time_t sec, time_t usec, float *lasting)
   updateLasting(sec, usec, lasting);
 }
 
-#if 0 //notused
 void Thing::changePermanent(float lasting)
 {
   static float lastz = 0;
@@ -169,7 +168,6 @@ void Thing::changePermanent(float lasting)
     }
   }
 }
-#endif //notused
 
 bool Thing::publish(const Pos &oldpos)
 {

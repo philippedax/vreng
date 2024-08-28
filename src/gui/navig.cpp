@@ -156,13 +156,13 @@ void Navig::mouseMoveCB(UMouseEvent& e)
   if (gw.gui.vnc) {		// events are redirected to Vnc
     gw.gui.vnc->mouseEvent((int) e.getX(), (int) e.getY(), 0);
   }
-#if 0 //notused
+#if 0 //expensive followMouse
   else if (followMouse) {
     // mode followMouse continuously indicates object under pointer
     WO *object = gw.pointedObject((int) e.getX(), (int) e.getY(), objinfo, depthsel);
     selectObject(object ? objinfo : null);
   }
-#endif //notused
+#endif //expensive followMouse
   if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
     gw.gui.selected_object->resetFlashy();	// stop flashing edges
     gw.gui.selected_object->resetRay();
