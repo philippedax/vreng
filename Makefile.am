@@ -23,11 +23,11 @@
 ##
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
-ACLOCAL_AMFLAGS = -I config
+ACLOCAL_AMFLAGS = -I conf
 
 SUBDIRS = src man etc bin
 
-EXTRA_DIST = LICENSE.md README.md VERSION.md config/* md/* data/* autogen.sh build vr
+EXTRA_DIST = conf/* md/* data/* autogen.sh build vr
 
 ARCHIVE  = archive
 HTML     = html

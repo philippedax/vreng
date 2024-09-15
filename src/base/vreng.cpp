@@ -22,7 +22,6 @@
 //
 // Main programm - Initializations
 //---------------------------------------------------------------------------
-
 #include "vreng.hpp"
 #include "gui.hpp"	// new Gui
 #include "env.hpp"	// new Env

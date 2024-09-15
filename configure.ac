@@ -34,22 +34,16 @@ AC_INIT([vreng],[9.4.6],[philippe.dax@gmail.com])
 AC_CONFIG_SRCDIR([src/base/vreng.cpp])
 
 # where to find install.sh, config.sub
-AC_CONFIG_AUX_DIR(config)
-
+AC_CONFIG_AUX_DIR(conf)
 # where to find macros m4
-AC_CONFIG_MACRO_DIR(config)
+AC_CONFIG_MACRO_DIR(conf)
 
 # canonicalizing cpu:vendor:os
 AC_CANONICAL_HOST([])
 
-#if test -f "${ac_aux_dir}/canonical"; then
-#  canonical="$SHELL ${ac_aux_dir}/canonical"
-#fi
-
 AM_INIT_AUTOMAKE([subdir-objects])
 
 # version
-echo $PACKAGE_VERSION > VERSION.md
 set x `echo $PACKAGE_VERSION | tr '.' ' '`
 major=$2
 minor=$3
