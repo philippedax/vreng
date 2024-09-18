@@ -16,10 +16,6 @@ case $# in
   ;;
 esac
 
-git commit -a -m "$message"
-
-git push origin master
-
 mkdir log 2>/dev/null
 log=log/commit.log
 if [ -f $log ] ; then
@@ -32,3 +28,7 @@ else
 fi
 echo "$num $(date)	$message" >> $log
 echo "$num $(date)	$message"
+
+git commit -a -m "$message"
+
+git push origin master
