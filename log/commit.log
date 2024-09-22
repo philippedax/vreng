@@ -2660,3 +2660,4 @@
 3059 Ven 20 sep 2024 07:42:40 CEST	update CHANGELOG
 3060 Ven 20 sep 2024 12:27:59 CEST	revert README.md LICENSE.md
 3061 Ven 20 sep 2024 18:48:45 CEST	fix build script using conf/
+3062 Dim 22 sep 2024 16:22:47 CEST	cleanup build autogen.sh

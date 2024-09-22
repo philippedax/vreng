@@ -1,5 +1,4 @@
 #! /bin/sh
-
 # $Id: autogen.sh,v 1.4 2002/12/02 01:39:49 murrayc Exp $
 #
 # Copyright (c) 2002  Daniel Elstner  <daniel.elstner@gmx.net>
@@ -19,24 +18,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
 cd ..
 dir=`echo "$0" | sed 's,[^/]*$,,'`
 test "x${dir}" = "x" && dir='.'
-
-if test "x`cd "${dir}" 2>/dev/null && pwd`" != "x`pwd`"
-then
-    echo "This script must be executed directly from the source directory."
-    exit 1
+if test "x`cd "${dir}" 2>/dev/null && pwd`" != "x`pwd`"; then
+  echo "This script must be executed directly from the source directory."
+  echo "dir: $dir"
+  exit 1
 fi
 
-rm -f config.cache acconfig.h
+rm -f config.cache acconfig.h 2>&1 >/dev/null
 
 echo "- autoreconf."    && \
 autoreconf -fvi         && \
 echo "- configure."	&& \
 chmod u+x configure	&& \
-./configure "$@"	&& exit 0
-
+./configure "$@"	&& \
+exit 0
 exit 1
 
