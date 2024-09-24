@@ -178,7 +178,7 @@ void Env::init()
   // dir $WEB (public_html/ | Sites/)
   if (! strcmp(DEF_HTTP_SERVER, "localhost") && strlen(DEF_URL_PFX) > 0) { // if local server
     pathdata = new char[PATH_LEN];
-    sprintf(pathdata, "%s/htdocs", vrengcwd);	// local htdocs location
+    sprintf(pathdata, "%s/data", vrengcwd);	// local data (htdocs) location
     dirweb = new char[PATH_LEN];
 #if MACOSX
     sprintf(dirweb, "%s/Sites", homedir);

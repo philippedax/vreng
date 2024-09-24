@@ -27,7 +27,7 @@
 #include "defines.hpp"
 
 
-/* default servers */
+/** default servers */
 #if STANDALONE			// by ./configure --enable-standalone
 #define IPMC_ENABLED		0	// ipmulticast disabled
 #define DEF_HTTP_SERVER		"localhost"
@@ -38,9 +38,7 @@
 #define DEF_MYSQL_SERVER	"localhost"
 #define DEF_PGSQL_SERVER	"localhost"
 #define DEF_VNC_SERVER		"localhost"
-
 #else	// by default
-
 #define IPMC_ENABLED		1	// ipmulticast enabled
 #define DEF_HTTP_SERVER		"localhost"
 				// was "www.vreng.enst.fr" but recently unreachable
@@ -64,8 +62,10 @@
 #define VRE_VERSION	8	// current stable version of vre files
 
 #if !defined(DEF_URL_PFX)	// by ./configure --with-httpd-prefix
-// Default Url prefix allowing access to the htdocs (data) location
-// the default url prefix can be tuned to be adapted as your usage.
+/**
+ * Default Url prefix allowing access to the htdocs/ (data/) location
+ * the default url prefix can be tuned to be adapted as your usage.
+ */
 #define DEF_URL_PFX "~%s/vreng"	// %s represent the current user's loginname
 				// this prefix may be tuned, it should be "" (original prefix).
 				// It is equivalent to the HTDOCS location of your
@@ -75,16 +75,16 @@
                                 //   the location of data is
 				//     ~/public_html/vreng/ (for Linux) or 
 				//     ~/Sites/vreng/ (for MacOS)
-				// where "vreng/" is equivalent to the "htdocs/" directory
+				// where "vreng/" is equivalent to the "data/" directory
 				// in this distribution.
 #endif //DEF_URL_PFX
 
-// these paths are relative to the htdocs/ (data) directory
+/** these paths are relative to the data/ (htdocs) directory */
 #define DEF_URL_WORLD     "/vre/Rendezvous.vre"		// location: /vre/Rendezvous.vre
 #define DEF_URL_WORLD_BAK "/vre/v8/Rendezvous.vre"	// alt location: /vre/v8/Rendezvous.vre
 #define DEF_URL_WORLDS    "/vre/worlds"			// list of worlds
 
-/* default IPmulticast addresses & ports */
+/** default IPmulticast addresses & ports */
 #define DEF_VRENG_MADDR		"224.255.0.0"
 #define DEF_VRENG_PORT		52656
 #define DEF_VRENG_TTL		127
@@ -98,12 +98,13 @@
 #define DEF_VAPS_PORT		4150			// port of Vaps server
 #define DEF_VJS_PORT		4151			// port of Vjs server
 
-#define DEF_RATE		50		// 50 frames/sec
-#define DEF_RATIO3D		(16./9.)	// screen ratio 16/9
-#define DEF_WIDTH3D		960 		// screen width
-#define DEF_HEIGHT3D		540 		// screen height
-#define DEF_MAXSIMCON		8		// MAX simultaneous threaded connections
-#define DEF_MAXFRAMES		255		// MAX frames
-#define DEF_REFRESH_TIMEOUT	1.5		//orig: 1.5
+/** default values */
+#define DEF_WIDTH3D		960 			// screen width
+#define DEF_HEIGHT3D		540 			// screen height
+#define DEF_RATIO3D		(16./9.)		// screen ratio 16/9
+#define DEF_MAXSIMCON		8			// MAX simultaneous threaded connections
+#define DEF_MAXFRAMES		255			// MAX frames
+#define DEF_RATE		50			// 50 frames/sec
+#define DEF_REFRESH_TIMEOUT	1.5			// orig: 1.5
 
 #endif
