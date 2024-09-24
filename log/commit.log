@@ -2662,5 +2662,5 @@
 3061 Ven 20 sep 2024 18:48:45 CEST	fix build script using conf/
 3062 Dim 22 sep 2024 16:22:47 CEST	cleanup build autogen.sh
 3063 Mar 24 sep 2024 09:59:30 CEST	rename autogen.sh to build
-
-1 Mar 24 sep 2024 10:33:35 CEST	cleanup htdocs defaults.hpp
+3064 Mar 24 sep 2024 10:33:35 CEST	cleanup htdocs defaults.hpp
+3065 Mar 24 sep 2024 10:41:37 CEST	remove link htdocs
