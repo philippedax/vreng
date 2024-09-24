@@ -27,7 +27,7 @@ ACLOCAL_AMFLAGS = -I conf
 
 SUBDIRS = src man etc bin
 
-EXTRA_DIST = conf/* md/* data/* autogen.sh build vr
+EXTRA_DIST = conf/* md/* data/* build vr
 
 ARCHIVE  = archive
 HTML     = html
