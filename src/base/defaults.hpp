@@ -24,9 +24,6 @@
 #define DEFAULTS_HPP
 
 
-#include "defines.hpp"
-
-
 /** default servers */
 #if STANDALONE			// by ./configure --enable-standalone
 #define IPMC_ENABLED		0	// ipmulticast disabled

@@ -25,8 +25,9 @@
 
 
 #include "includes.hpp"	// system includes
-#include "macros.hpp"	// builtin defines
+#include "defines.hpp"  // defines
 #include "defaults.hpp"	// builtin defaults DEF_*
+#include "macros.hpp"	// macros defines
 #include "log.hpp"	// echo, notice, warning, error, fatal, trace
 #include "trigo.hpp"	// my_trigo
 
@@ -35,7 +36,6 @@
  * Vreng class
  */
 class Vreng {
-
  public:
   // global variables reachable by ::g.<variable>
   char *url;            ///< world url.
@@ -69,5 +69,6 @@ class Vreng {
 };
 
 extern Vreng g;
+
 
 #endif
