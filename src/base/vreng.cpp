@@ -49,13 +49,13 @@ jmp_buf sigctx;
 
 
 Vreng::Vreng() :	// beware: don't change order !!!
- timer(*new Timer),
  env(*new Env),
  pref(*new Pref),
  render(*new Render),
  solid(*new Solid),
  theme(*new Theme),
- gui(*new Gui)
+ gui(*new Gui),
+ timer(*new Timer)
 {
 } 
 
@@ -146,10 +146,10 @@ static void reapchild(int sig)
 /** Sets signals */
 void Vreng::initSignals()
 {
-  signal(SIGTRAP,quit);
+  signal(SIGTRAP, quit);
   signal(SIGFPE, quit);
   signal(SIGBUS, quit);
-  signal(SIGSEGV,quit);
+  signal(SIGSEGV, quit);
   signal(SIGCHLD, reapchild);
   signal(SIGUSR1, SIG_IGN);
   signal(SIGUSR2, SIG_IGN);

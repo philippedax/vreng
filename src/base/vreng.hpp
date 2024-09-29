@@ -24,7 +24,8 @@
 #define VRENG_HPP
 
 
-#include "includes.hpp"	// system includes
+#include "includes.hpp"	// system includes /usr/include
+
 #include "defines.hpp"  // defines
 #include "defaults.hpp"	// builtin defaults DEF_*
 #include "macros.hpp"	// macros defines
@@ -48,13 +49,13 @@ class Vreng {
   char *version;        ///< VREng version.
 
   // global methods usable by ::g.<method> : beware don't change order below !!!
-  class Timer& timer;	///< ::g.timer
   class Env& env;	///< ::g.env
   class Pref& pref;	///< ::g.pref
   class Render& render;	///< ::g.render
   class Solid& solid;	///< ::g.solid
   class Theme& theme;	///< ::g.theme
   class Gui& gui;	///< ::g.gui
+  class Timer& timer;	///< ::g.timer
 
   // methods
   Vreng();		///< constructor.
