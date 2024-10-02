@@ -2672,3 +2672,4 @@
 3071 Mer  2 oct 2024 12:03:36 CEST	rename start-daemons to rc.daemons
 3072 Mer  2 oct 2024 16:43:17 CEST	move etc/commit to conf/commit
 3073 Mer  2 oct 2024 17:04:45 CEST	rename conf/build to conf/buildall
+3074 Mer  2 oct 2024 17:19:57 CEST	move log/commit.log to conf/commit.log

@@ -11,6 +11,7 @@ stamp-*
 vreng-*
 sh
 archive
+log
 github
 old
 Makefile

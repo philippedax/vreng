@@ -17,7 +17,7 @@ case $# in
 esac
 
 mkdir log 2>/dev/null
-log=log/commit.log
+log=conf/commit.log
 chmod 644 $log
 if [ -f $log ] ; then
   last=$(tail -1 $log)
@@ -30,6 +30,8 @@ fi
 echo "$num $(date)	$message" >> $log
 echo "$num $(date)	$message"
 
+# commit
 git commit -a -m "$message"
 
+# push to github
 git push origin master
