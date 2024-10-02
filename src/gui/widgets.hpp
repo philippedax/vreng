@@ -37,13 +37,6 @@ using namespace ubit;
 
 class Gui;
 class Widgets;
-class Scene;
-class Navig;
-class Motion;
-class WO;
-class User;
-class World;
-class Vnc;
 
 /** struct for updating the ObjectBar and the ObjectMenu in the GUI */
 struct ObjInfo {
@@ -81,7 +74,7 @@ friend class Message;
 
   Widgets(Gui*);	///< constructor.
 
-  Navig* getNavig() { return &navig; }
+  class Navig* getNavig() { return &navig; }
 
   void alertDialog(const char* message);
   ///< Opens alert box if arg is not null, closes it if arg is null.
@@ -90,28 +83,31 @@ friend class Message;
 
   static void showInfoDialog(const char* title, const char* message);
 
+  ////////
   // Users
 
-  GuiItem * addAvatar(User *username);
+  GuiItem * addAvatar(class User *username);
   ///< Adds an avatar name.
 
-  void updateAvatar(GuiItem *gp, User *username);
+  void updateAvatar(GuiItem *gp, class User *username);
   ///< Updates an avatar.
 
   void removeAvatar(GuiItem *gp);
   ///< Removes an avatar name.
 
+  /////////
   // Worlds
 
-  GuiItem * addWorld(World *worldname, bool isCurrentWorld);
+  GuiItem * addWorld(class World *worldname, bool isCurrentWorld);
   ///< Adds a world name.
 
-  void updateWorld(World *, bool isCurrentWorld);
+  void updateWorld(class World *, bool isCurrentWorld);
   ///< Updates a world name.
 
-  void removeWorld(World *);
+  void removeWorld(class World *);
   ///< Removes a world name.
 
+  /////////////////////
   // Callback functions
 
   class WO* pointedObject(int x, int y, ObjInfo* obji, int depthsel);
