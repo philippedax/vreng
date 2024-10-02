@@ -2669,3 +2669,4 @@
 3068 Dim 29 sep 2024 19:04:28 CEST	cleanup timer vreng.*pp
 3069 Mer  2 oct 2024 09:13:52 CEST	cleaanup messages.hpp
 3070 Mer  2 oct 2024 09:28:30 CEST	cleanup class widgets.hpp
+3071 Mer  2 oct 2024 12:03:36 CEST	rename start-daemons to rc.daemons
