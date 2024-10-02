@@ -30,7 +30,8 @@
 
 #include "gui.hpp"
 
-#include "ubit/ubit.hpp"
+#include "ubit/ubit.hpp"	// UBox, UMenu, UElem, UDialog
+
 using namespace ubit;
 
 

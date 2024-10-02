@@ -26,7 +26,8 @@
 #include <string>
 #include <vector>
 
-#include "ubit/ubit.hpp"
+#include "ubit/ubit.hpp"	// UStr
+
 using namespace ubit;
 
 class WO;
@@ -37,7 +38,6 @@ class WO;
  */
 class Message {
 friend class Widgets;
-
  public:
   Message(class Widgets*);		///< constructor.
   
@@ -51,7 +51,7 @@ friend class Widgets;
 
   void writeMessage(const char* mode, const char* from, const char* mess);
   ///< adds a new message to the messages box.
-    
+
   void performRequest(WO*);
   void initClicked();
 
