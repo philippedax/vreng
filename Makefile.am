@@ -25,7 +25,7 @@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 ACLOCAL_AMFLAGS = -I conf
 
-SUBDIRS = src man etc bin
+SUBDIRS = src man bin
 
 EXTRA_DIST = conf/* md/* data/* build vr
 

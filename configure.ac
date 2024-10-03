@@ -1837,7 +1837,6 @@ AC_CONFIG_FILES([
         Makefile 
         bin/Makefile
         bin/vre
-        etc/Makefile
         man/Makefile
         src/Makefile
         src/base/Makefile
