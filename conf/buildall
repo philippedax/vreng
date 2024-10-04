@@ -6,7 +6,6 @@ autoconf
 --with-sdl2 \
 --without-mysql \
 --without-sqlite \
---without-pgsql \
 --enable-vacs \
 --enable-vaps \
 --enable-vjs \
