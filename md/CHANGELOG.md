@@ -12,12 +12,16 @@ The rules for this file:
 * date and author format: (YYYY/MM/DD, Author).
 ------------------------------------------
 
-++ 9 [2024/07]
-== 9.4 (2024/07)
+++ 9 [2024/10]
+== 9.4 (2024/10)
+-- 9.4.7
+	- remove etc/ log/
+	(2024/10/4, Philippe Dax)
+
 -- 9.4.6
 	- rename config/ to conf/
 	- add log/commit.log to repo
-	(2024/10/18, Philippe Dax)
+	(2024/09/18, Philippe Dax)
 	- new syntax of body parts body/avatar.body
 	(2024/07/01, Philippe Dax)
 	- fix number of bap parameters to 186

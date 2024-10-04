@@ -2675,3 +2675,4 @@
 3074 Mer  2 oct 2024 17:19:57 CEST	move log/commit.log to conf/commit.log
 3075 Jeu  3 oct 2024 11:15:07 CEST	move etc/rc.* to conf/, remove etc/
 3076 Ven  4 oct 2024 17:50:22 CEST	remove --without-pgsql buildall
+3077 Ven  4 oct 2024 18:09:07 CEST	release 9.4.7
