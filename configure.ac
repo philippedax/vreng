@@ -1886,7 +1886,7 @@ AC_CONFIG_FILES([
 
 AC_CONFIG_COMMANDS([src/ubit/ubit_features.h],
         [
-	chmod +x bin/vre src/servers/vjs/vjs;
+	chmod +x src/servers/vjs/vjs;
 
 	# Ubit
         featuresfile=src/ubit/ubit_features.h
