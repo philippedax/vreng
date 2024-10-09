@@ -1,13 +1,14 @@
 #! /bin/sh
+bin=.
 case $# in
 1)
   if test "$1" = "-D"; then
-    lldb bin/vreng
+    lldb $bin/vreng
   else
-    bin/vreng $*
+    $bin/vreng $*
   fi
   ;;
 *)
-  bin/vreng $*
+  $bin/vreng $*
   ;;
 esac
