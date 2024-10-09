@@ -27,7 +27,7 @@ ACLOCAL_AMFLAGS = -I conf
 
 SUBDIRS = src man
 
-EXTRA_DIST = conf/* md/* data/* build vr
+EXTRA_DIST = conf/* md/* data/* build
 
 # paths for sources
 SRC = $(top_srcdir)/src

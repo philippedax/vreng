@@ -2677,3 +2677,4 @@
 3076 Ven  4 oct 2024 17:50:22 CEST	remove --without-pgsql buildall
 3077 Ven  4 oct 2024 18:09:07 CEST	release 9.4.7
 3078 Mer  9 oct 2024 10:18:32 CEST	remove bin/
+3079 Mer  9 oct 2024 10:50:52 CEST	move vr to conf/
