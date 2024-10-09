@@ -6,9 +6,9 @@
 #
 VRENG_HOME=/Users/dax/vreng
 
-PATH=$VRENG_HOME/bin:$PATH export PATH
+PATH=$VRENG_HOME:$PATH export PATH
 
-VAPS_DIR=${VRENG_HOME}/htdocs/bap
+VAPS_DIR=${VRENG_HOME}/data/bap
 VAPS_LOG=${VRENG_HOME}/log/vaps.log
 
 vaps -d ${VAPS_DIR} -l ${VAPS_LOG}

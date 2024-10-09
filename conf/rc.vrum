@@ -2,16 +2,16 @@
 #
 # rc.vrum (vreng reflector unicast-multicast)
 #
-VRUM_HOME=/Users/dax/vreng/src/vrum
+VRUM_HOME=/Users/dax/vreng/src/servers/vrum
 
 if [ -d ${VRUM_HOME} ]; then
-	cd ${VRUM_HOME}
-	./vrum.py >/dev/null 2>&1 &
-	echo vrum > /dev/console
+  cd ${VRUM_HOME}
+  ./vrum.py >/dev/null 2>&1 &
+  echo vrum > /dev/console
 else
-	cd /usr/local/bin
-	if [ -x vrum.py ]; then
-		./vrum.py &
-		echo vrum > /dev/console
-	fi
+  cd /usr/local/bin
+  if [ -x vrum.py ]; then
+    ./vrum.py &
+    echo vrum > /dev/console
+  fi
 fi

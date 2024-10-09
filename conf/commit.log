@@ -2679,3 +2679,4 @@
 3078 Mer  9 oct 2024 10:18:32 CEST	remove bin/
 3079 Mer  9 oct 2024 10:50:52 CEST	move vr to conf/
 3080 Mer  9 oct 2024 11:09:27 CEST	cleanup vre configure.ac
+3081 Mer  9 oct 2024 15:57:18 CEST	cleanup PATH conf/rc.*
