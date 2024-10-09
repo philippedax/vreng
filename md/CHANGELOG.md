@@ -15,8 +15,8 @@ The rules for this file:
 ++ 9 [2024/10]
 == 9.4 (2024/10)
 -- 9.4.7
-	- remove etc/ log/
-	(2024/10/4, Philippe Dax)
+	- remove bin/ etc/ log/ vr
+	(2024/10/09, Philippe Dax)
 
 -- 9.4.6
 	- rename config/ to conf/
