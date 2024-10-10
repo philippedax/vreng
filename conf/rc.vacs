@@ -11,6 +11,6 @@ VACS_HOME=${VRENG_HOME}/data/vacs
 
 if [ -d ${VACS_HOME} ]; then
 	cd ${VACS_HOME}
-	vacs -l log/vacs.log
+	vacs -l ${VRENG_HOME}/log/vacs.log
 	echo vacs > /dev/console
 fi
