@@ -12,6 +12,7 @@ widgets.cpp: README.h TODO.h DTD.h COPYRIGHT.h LICENSE.h CHANGELOG.h CONFIG_H.h
 
 TOP = $(top_srcdir)
 MD = $(TOP)/md
+CONF = $(TOP)/conf
 
 README.h: $(MD)/README.md
 	../base/txt2str README < $(MD)/README.md > $@
@@ -23,8 +24,8 @@ CHANGELOG.h: $(MD)/CHANGELOG.md
 	../base/txt2str CHANGELOG < $(MD)/CHANGELOG.md > $@
 TODO.h: $(MD)/TODO.md
 	../base/txt2str TODO < $(MD)/TODO.md > $@
-DTD.h: $(MD)/vre-1.0.dtd
-	../base/txt2str DTD < $(MD)/vre-1.0.dtd > $@
+DTD.h: $(CONF)/vre-1.0.dtd
+	../base/txt2str DTD < $(CONF)/vre-1.0.dtd > $@
 CONFIG_H.h: $(TOP)/config.h
 	../base/txt2str CONFIG_H < $(TOP)/config.h > $@
 

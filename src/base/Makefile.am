@@ -37,8 +37,8 @@ txt2str_SOURCES = txt2str.c
 
 pref.cpp: prefs.h
 
-prefs.h: txt2str $(top_srcdir)/md/prefs
-	./txt2str def_prefs < $(top_srcdir)/md/prefs > $@
+prefs.h: txt2str $(top_srcdir)/conf/prefs
+	./txt2str def_prefs < $(top_srcdir)/conf/prefs > $@
 
 libbase_a_SOURCES = $(BASE_SRCS) $(BASE_HDRS)
 noinst_LIBRARIES = libbase.a

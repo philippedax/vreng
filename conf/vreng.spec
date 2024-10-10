@@ -1,4 +1,4 @@
-%define ver	9.2.0
+%define ver	9.4.7
 %define prefix	/usr
 
 Summary:	VREng (Virtual Reality Engine)

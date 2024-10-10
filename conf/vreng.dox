@@ -656,19 +656,16 @@ WARN_LOGFILE           = doxygen/undocumented
 # with spaces.
 
 INPUT                  = src/vreng \
-                         src/sys \
+                         src/base \
                          src/gui \
-                         src/wo \
+                         src/world \
                          src/net \
                          src/3d \
                          src/2d \
                          src/model \
                          src/tool \
                          src/vnc \
-                         src/ai \
-                         src/vacs \
-                         src/vaps \
-                         src/vjs
+                         src/ai
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
