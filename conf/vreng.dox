@@ -655,8 +655,7 @@ WARN_LOGFILE           = doxygen/undocumented
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = src/vreng \
-                         src/base \
+INPUT                  = src/base \
                          src/gui \
                          src/world \
                          src/net \
