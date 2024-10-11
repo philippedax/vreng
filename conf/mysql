@@ -1,1 +1,0 @@
-mysql> grant all privileges on vreng.* to 'vreng'@'%' identified by '' with grant option; flush privileges;

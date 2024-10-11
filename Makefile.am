@@ -196,7 +196,7 @@ archive: dist
 
 doxygen:
 	@-rm -f $(HTML)/doxygen/html/*
-	@(umask 022; doxygen md/vreng.dox)
+	@(umask 022; doxygen conf/vreng.dox)
 
 snapshot:
 	$(MAKE) dist distdir=$(PACKAGE_NAME)`date +"%y%m%d"`
