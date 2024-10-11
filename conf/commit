@@ -16,18 +16,17 @@ case $# in
   ;;
 esac
 
-mkdir log 2>/dev/null
-log=conf/commit.log
-chmod 644 $log
-if [ -f $log ] ; then
-  last=$(tail -1 $log)
+hist=conf/commit.hist
+chmod 644 $hist
+if [ -f $hist ] ; then
+  last=$(tail -1 $hist)
   num=$(echo $last | cut -f1 -d ' ')
   num=$[ $num + 1 ]
 else
   num=1
-  touch $log
+  touch $hist
 fi
-echo "$num $(date)	$message" >> $log
+echo "$num $(date)	$message" >> $hist
 echo "$num $(date)	$message"
 
 # commit
