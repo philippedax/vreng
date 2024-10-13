@@ -143,6 +143,11 @@ endif
 
 EXT_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB) $(TINYGL_LIB)
 
+CFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ @FREETYPE_CFLAGS@ @SQLITE_CFLAGS@ @MYSQL_CFLAGS@ @OCAML_CFLAGS@
+CORE_INCL = -I$(SRC)/ai -I$(SRC)/base -I$(SRC)/ubit -I$(SRC)/gui -I$(SRC)/world -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/model -I$(SRC)/3d -I$(SRC)/vnc -I$(SRC)/tool
+
+AM_CPPFLAGS = -I./src -I../src $(CFLAGS) $(CORE_INCL)
+
 #
 # executable
 #
