@@ -28,7 +28,8 @@ BASE_HDRS = vreng.hpp includes.hpp defines.hpp defaults.hpp macros.hpp pref.hpp 
 SRC = $(top_srcdir)/src
 CFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ @FREETYPE_CFLAGS@ @SQLITE_CFLAGS@ @MYSQL_CFLAGS@ @OCAML_CFLAGS@
 CORE_INCL = -I$(SRC)/ai -I$(SRC)/base -I$(SRC)/ubit -I$(SRC)/gui -I$(SRC)/world -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/model -I$(SRC)/3d -I$(SRC)/vnc -I$(SRC)/tool
-AM_CPPFLAGS = $(CFLAGS) $(CORE_INCL)
+
+AM_CPPFLAGS = -I./src $(CFLAGS) $(CORE_INCL)
 
 EXTRA_DIST = txt2str.c
 

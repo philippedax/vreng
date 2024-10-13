@@ -2689,3 +2689,4 @@
 3088 Ven 11 oct 2024 15:46:39 CEST	cleanup commit.hist conf/
 3089 Ven 11 oct 2024 15:47:24 CEST	cleanup commit.hist conf/
 3090 Dim 13 oct 2024 17:15:29 CEST	fix AM_CPPFLAGS Makefile.am
+3091 Dim 13 oct 2024 18:40:56 CEST	fix revert bin/
