@@ -37,7 +37,7 @@
 const OClass Wall::oclass(WALL_TYPE, "Wall", Wall::creator);
 
 
-/* creation from a file */
+/** creation from a file */
 WO * Wall::creator(char *l)
 {
   return new Wall(l);
@@ -49,7 +49,7 @@ void Wall::parser(char *l)
   l = parseAttributes(l);
 }
 
-/* creation from vre file */
+/** creation from vre file */
 Wall::Wall(char *l)
 {
   parser(l);
@@ -57,7 +57,7 @@ Wall::Wall(char *l)
   initMobileObject(0);
 }
 
-/* creation from gui addobject */
+/** creation from gui addobject */
 Wall::Wall(WO *user, char *geom)
 {
   if (! user) return;
