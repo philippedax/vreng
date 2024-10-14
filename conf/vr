@@ -1,14 +1,15 @@
 #! /bin/sh
-bin=../bin
+PATH=..:../bin:$PATH export PATH
+
 case $# in
 1)
   if test "$1" = "-D"; then
-    lldb $bin/vreng
+    lldb vreng
   else
-    $bin/vreng $*
+    vreng $*
   fi
   ;;
 *)
-  $bin/vreng $*
-  ;;
+  vreng $*
+  ;
 esac
