@@ -52,7 +52,7 @@ PROJECT_LOGO           =
 # If a relative path is entered, it will be relative to the location
 # where doxygen was started. If left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = html/doxygen
+OUTPUT_DIRECTORY       = html
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create
 # 4096 sub-directories (in 2 levels) under the output directory of each output
@@ -644,7 +644,7 @@ WARN_FORMAT            = "$file:$line: $text "
 # and error messages should be written. If left blank the output is written
 # to stderr.
 
-WARN_LOGFILE           = doxygen/undocumented
+WARN_LOGFILE           = html/undocumented
 
 #---------------------------------------------------------------------------
 # configuration options related to the input files
@@ -1126,7 +1126,7 @@ GENERATE_ECLIPSEHELP   = NO
 # the directory name containing the HTML and XML files should also have
 # this name.
 
-ECLIPSE_DOC_ID         = org.doxygen.Project
+ECLIPSE_DOC_ID         = org.doxygen.vreng
 
 # The DISABLE_INDEX tag can be used to turn on/off the condensed index (tabs)
 # at top of each HTML page. The value NO (the default) enables the index and
