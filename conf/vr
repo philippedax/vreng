@@ -1,5 +1,5 @@
 #! /bin/sh
-bin=..
+bin=../bin
 case $# in
 1)
   if test "$1" = "-D"; then
