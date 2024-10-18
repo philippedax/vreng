@@ -153,18 +153,14 @@ void Thing::updateTime(time_t sec, time_t usec, float *lasting)
 
 void Thing::changePermanent(float lasting)
 {
-  static float lastz = 0;
-
   if (state == DROPPED) {
     trace1(DBG_WO, "thingChangePermanent: x=%.2f y=%.2f z=%.2f ttl=%.2f lasting=%.2f", pos.x, pos.y, pos.z, move.ttl, lasting);
-    lastz = pos.z;
     /* drop this thing by gravity */
     pos.z -= lasting * GRAVITY;
 
     /* test if finished */
-    if (move.ttl == 0 /* || ABSF(lastz - pos.z) < 0.001 */) {
+    if (move.ttl == 0) {
       state = NONE;
-      lastz = 0;
     }
   }
 }

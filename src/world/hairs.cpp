@@ -365,7 +365,6 @@ void Hairs::reader(void *_lwo, Http *http)
   };
   sid[4] = 0;
   Surface *ss = NULL;
-  bool littleendian;
   char tmp; //SWAPL
   char str[1024];
 
@@ -373,7 +372,6 @@ void Hairs::reader(void *_lwo, Http *http)
   FILE *fp = cache->open(hairs->name.url, http);
 
   /* check for header */
-  littleendian = Endian::littleEndian();
   fread(&id, 4, 1, fp);
   if (stringcmp(sid, "FORM")) {
     error("not a ID_FORM");

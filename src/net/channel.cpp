@@ -141,8 +141,8 @@ int Channel::createMcastRecvSocket(struct sockaddr_in *sa)
 
   if (Socket::reuseAddr(sd) < 0)
     perror("reuse failed");
-  if (bind(sd, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0)
-    error("bind: %s port=%d", strerror(errno), ntohs(sa->sin_port));
+  //dax if (bind(sd, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0)
+  //dax   error("bind: %s port=%d", strerror(errno), ntohs(sa->sin_port));
 
   joinGroup(sd);
   return sd;
