@@ -95,7 +95,7 @@ else
   echo "have autoreconf"
 fi
 # graphic
-if [ ! -f /usr/local/lib/libGL.$dyl ]; then
+if [ ! -f /opt/X11/lib/libGL.$dyl ]; then
   echo "get libgl"
   $pack install libgl
 else
@@ -107,7 +107,7 @@ if [ ! -f /opt/X11/lib/libGLU.$dyl ]; then
 else
   echo "have libglu"
 fi
-if [ ! -f /opt/X11 -a ! -f /usr/local/lib/libX11.$dyl ]; then
+if [ ! -f /opt/X11/lib/libX11.$dyl ]; then
   echo "get libX11"
   $pack install libX11
 else

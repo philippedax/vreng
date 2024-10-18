@@ -2698,3 +2698,4 @@
 3097 Lun 14 oct 2024 16:38:16 CEST	cleanup src/*/Makefile.am
 3098 Ven 18 oct 2024 09:25:47 CEST	add script require
 3099 Ven 18 oct 2024 10:03:16 CEST	updated README.md
+3100 Ven 18 oct 2024 10:36:48 CEST	cleanup X11 conf/require
