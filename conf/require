@@ -18,7 +18,7 @@ Darwin|MacOS)
   # brew
   if [ ! $(which brew) ]; then
     echo "get brew"
-    /bin/bash -c "(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   else
     echo "have brew"
     pack=brew
