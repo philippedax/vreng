@@ -7,11 +7,13 @@ in virtual worlds connected over the Internet.
 
 REQUIREMENTS AND RECOMMENDATIONS
 --------------------------------
-You need the X-Window System (Xorg, X11R6 or Openwin).
+To build VREng you need a C++ and C compiler (for ex. g++, gcc).
+Furthmor you need the X-Window System X11 (Xorg, X11R6 or Openwin).
 Your visual must have a color depth of 8, 15, 16 or 24.
 
 The following libraries are required: libjpeg, libungif, libXpm.
 Other recommended libraries: libmysqlclient, libz, libpng.
+For more details see md/REQUIREMENTS.
 
 Your machine and your network should support IP Multicast, mainly IGMPv2
 and Multicast routing protocols to see other avatars in the same scene.
