@@ -2696,3 +2696,4 @@
 3095 Lun 14 oct 2024 10:31:33 CEST	cleanup doxygen Makefile.am
 3096 Lun 14 oct 2024 15:30:35 CEST	cleanup Makefile.am
 3097 Lun 14 oct 2024 16:38:16 CEST	cleanup src/*/Makefile.am
+3098 Ven 18 oct 2024 09:25:47 CEST	add script require

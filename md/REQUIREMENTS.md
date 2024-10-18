@@ -10,7 +10,11 @@ First, you need to install "brew" to downdoad other dependencies by the command:
 
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-then do (if you have not) :
+then try :
+
+  conf/require
+
+or manually do (if you have not) :
 
   # compilers
   brew install g++
@@ -27,7 +31,8 @@ then do (if you have not) :
   brew install libglu
   brew install libX11
   brew install libXmu
-  brew install libXICE
+  brew install libXext
+  brew install libICE
   brew install libXpm
   brew install libjpeg
   brew install libungif

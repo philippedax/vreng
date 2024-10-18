@@ -1,0 +1,182 @@
+#! /bin/sh
+#
+# require
+#
+# install needed requirements
+#
+# Philippe Dax - 2024
+#
+
+dist=
+pack=
+dyl=
+prefix=/usr
+
+case $(uname -s) in
+
+Darwin|MacOS)
+  # brew
+  if [ ! $(which brew) ]; then
+    echo "get brew"
+    /bin/bash -c "(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  else
+    echo "have brew"
+    pack=brew
+    dyl=dylib
+    prefix=/usr/local
+  fi
+  ;;
+
+Linux)
+  if [ $(which apt-get) ]; then
+    distib=debian
+    echo "have debian"
+    pack=apt-get
+    dyl=so
+    prefix=/usr/local
+  elif [ $(which dnf) ]; then
+    distib=fedora
+    echo "have fedora"
+    pack=dnf
+    dyl=so
+    prefix=/usr/local
+  else
+    echo "unknown linux distrib"
+    exit 1
+  fi
+  ;;
+
+*bsd)
+  echo "bsd distrib"
+  exit 1
+  ;;
+
+*)
+  echo "unknown system"
+  exit 1
+  ;;
+esac
+
+if [ ! $(which g++) ]; then
+  echo "get g++"
+  $pack install g++
+else
+  echo "have g++"
+fi
+if [ ! $(which gcc) ]; then
+  echo "get gcc"
+  $pack install gcc
+else
+  echo "have gcc"
+fi
+# autotools
+if [ ! $(which autoconf) ]; then
+  echo "get autoconf"
+  $pack install autoconf
+else
+  echo "have autoconf"
+fi
+if [ ! $(which automake) ]; then
+  echo "get automake"
+  $pack install automake
+else
+  echo "have automake"
+fi
+if [ ! $(which aclocal) ]; then
+  echo "get aclocal"
+  $pack install aclocal
+else
+  echo "have aclocal"
+fi
+if [ ! $(which autoreconf) ]; then
+  echo "get autoreconf"
+  $pack install autoreconf
+else
+  echo "have autoreconf"
+fi
+# graphic
+if [ ! -f /usr/local/lib/libGL.$dyl ]; then
+  echo "get libgl"
+  $pack install libgl
+else
+  echo "have libgl"
+fi
+if [ ! -f /opt/X11/lib/libGLU.$dyl ]; then
+  echo "get libglu"
+  $pack install libglu
+else
+  echo "have libglu"
+fi
+if [ ! -f /opt/X11 -a ! -f /usr/local/lib/libX11.$dyl ]; then
+  echo "get libX11"
+  $pack install libX11
+else
+  echo "have libX11"
+fi
+if [ ! -f /opt/X11/lib/libXmu.$dyl ]; then
+  echo "get libXmu"
+  $pack install libXmu
+else
+  echo "have libXmu"
+fi
+if [ ! -f /opt/X11/lib/libXext.$dyl ]; then
+  echo "get libXext"
+  $pack install libXext
+else
+  echo "have libXext"
+fi
+if [ ! -f /opt/X11/lib/libICE.$dyl ]; then
+  echo "get libICE"
+  $pack install libICE
+else
+  echo "have libICE"
+fi
+if [ ! -f /opt/X11/lib/libSM.$dyl ]; then
+  echo "get libSM"
+  $pack install libSM
+else
+  echo "have libSM"
+fi
+if [ ! -f /usr/local/lib/libXpm.$dyl ]; then
+  echo "get libXpm"
+  $pack install libXpm
+else
+  echo "have libXpm"
+fi
+if [ ! -f /usr/local/lib/libjpeg.$dyl ]; then
+  echo "get libjpeg"
+  $pack install libjpeg
+else
+  echo "have libjpeg"
+fi
+if [ -f /usr/local/lib/libungif.$dyl ]; then
+  echo "get libungif"
+  $pack install libungif
+else
+  echo "have libungif"
+fi
+if [ ! -f /usr/local/opt/freetype/lib/libfreetype.$dyl ]; then
+  echo "get freetype"
+  $pack install freetype
+else
+  echo "have freetype"
+fi
+# optional
+if [ ! $(which ocaml) ]; then
+  echo "get ocaml"
+  $pack install ocaml
+else
+  echo "have ocaml"
+fi
+if [ ! $(which java) ]; then
+  echo "get java"
+  $pack install java
+else
+  echo "have java"
+fi
+#if [ ! f /usr/local/lib/libopenal.$dyl ]; then
+#  echo "get openal"
+#else
+#  echo "have openal"
+#  $pack install openal
+#fi
