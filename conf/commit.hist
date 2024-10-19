@@ -2707,3 +2707,4 @@
 3106 Sam 19 oct 2024 10:40:13 CEST	add zeni.gif
 3107 Sam 19 oct 2024 11:25:09 CEST	fix using namespace std channel.*pp
 3108 Sam 19 oct 2024 11:28:19 CEST	fix bind channel.cpp
+3109 Sam 19 oct 2024 11:34:46 CEST	fix bind socket.cpp

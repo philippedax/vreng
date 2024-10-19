@@ -32,7 +32,7 @@ int Socket::openDatagram()
 {
   int sd = -1;
 
-  if ((sd = socket(PF_INET, SOCK_DGRAM, 0)) < 0)
+  if ((sd = ::socket(PF_INET, SOCK_DGRAM, 0)) < 0)
     error("socket: %s (%d)", strerror(errno), errno);
   if (sd > 0)
     opn_sock++;
@@ -44,7 +44,7 @@ int Socket::openStream()
 {
   int sd = -1;
 
-  if ((sd = socket(PF_INET, SOCK_STREAM, 0)) < 0)
+  if ((sd = ::socket(PF_INET, SOCK_STREAM, 0)) < 0)
     error("socket: %s (%d)", strerror(errno), errno);
   if (sd > 0)
     opn_sock++;
@@ -71,7 +71,7 @@ void Socket::closeStream(int sd)
 
 int Socket::connection(int sd, const sockaddr_in *sa)
 {
-  if (connect(sd, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0) {
+  if (::connect(sd, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0) {
     error("connect: %s (%d)", strerror(errno), errno);
     close(sd);
     cls_sock++;
@@ -261,7 +261,7 @@ int Socket::bindSocket(int sd, uint32_t uni_addr, uint16_t port)
   sa.sin_addr.s_addr = htonl(uni_addr);
 
   reuseAddr(sd);
-  if (bind(sd, (struct sockaddr *) &sa, sizeof(struct sockaddr_in)) < 0) {
+  if (::bind(sd, (struct sockaddr *) &sa, sizeof(struct sockaddr_in)) < 0) {
     error("receive unicast bind: %s (%d)", strerror(errno), errno);
   }
   return sd;
