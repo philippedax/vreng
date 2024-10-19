@@ -43,6 +43,10 @@ or manually do (if you have not) :
   brew install java
   brew install openal
 
+To start you need to download, install, execute XQartz to have a X11 server.
+
+You need to do "sudo apachectl start" to have a httpd server running.
+
 - LINUX or Unix-like
 --------------------
 
