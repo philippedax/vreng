@@ -39,13 +39,12 @@
 #include "stat.hpp"	// new_channel
 
 #include <list>
-using namespace std;
 
 
 // local
 
 // list
-list<Channel*> Channel::channelList;
+std::list<Channel*> Channel::channelList;
 
 // fds
 static int *tabFd;
@@ -459,7 +458,7 @@ int Channel::getfdbysa(const struct sockaddr_in *sa, int i_fd)
   }
 
   if (channelList.empty()) return -1;
-  for (list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
+  for (std::list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
     if ((*it)->sa[SA_RTP] == sa || (*it)->sa[SA_RTCP] == sa) {
       if ((*it)->sd[i_fd] < 0) {
         ret = -1;
@@ -492,7 +491,7 @@ struct sockaddr_in * Channel::getsabysa(const struct sockaddr_in *sa, int i_sa)
   }
 
   if (channelList.empty()) return NULL;
-  for (list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
+  for (std::list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
     if ((*it)->sa[SA_RTP] == sa || (*it)->sa[SA_RTCP] == sa)
       return (*it)->sa[i_sa];
   }
@@ -512,7 +511,7 @@ Channel * Channel::getbysa(const struct sockaddr_in *sa)
     return NULL;
   }
   if (channelList.empty()) return NULL;
-  for (list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
+  for (std::list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
     if ((*it)->sa[SA_RTP] == sa)  return *it;
     if ((*it)->sa[SA_RTCP] == sa) return *it;
     if ((*it)->sa[SA_UDP] == sa)  return *it;

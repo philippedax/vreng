@@ -24,7 +24,6 @@
 #define CHANNEL_HPP
 
 #include <list>
-using namespace std;
 
 
 /**
@@ -32,7 +31,7 @@ using namespace std;
  */
 class Channel {
  private:
-  static list<Channel*> channelList;
+  static std::list<Channel*> channelList;
 
   void namingId();
   /**<

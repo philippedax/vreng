@@ -2705,3 +2705,4 @@
 3104 Sam 19 oct 2024 10:23:53 CEST	fix paper.gif
 3105 Sam 19 oct 2024 10:38:03 CEST	update md/REQUIREMENTS for X11 and httpd
 3106 Sam 19 oct 2024 10:40:13 CEST	add zeni.gif
+3107 Sam 19 oct 2024 11:25:09 CEST	fix using namespace std channel.*pp
