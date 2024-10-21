@@ -141,7 +141,7 @@ void FTVectoriser::ProcessContours()
     for( short contourIndex = 0; contourIndex < ftContourCount; ++contourIndex)
     {
         FT_Vector* pointList = &outline.points[startIndex];
-        char* tagList = &outline.tags[startIndex];
+        char* tagList = (char *) &outline.tags[startIndex];
         
         endIndex = outline.contours[contourIndex];
         contourLength =  ( endIndex - startIndex) + 1;
