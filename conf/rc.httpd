@@ -4,5 +4,15 @@
 #
 # Philippe Dax - jun 2017
 #
-
-sudo apachectl start
+conf=/etc/apache2/httpd.conf
+tmp=/tmp/httpd
+cp $conf $tmp
+if grep "vreng" $conf ; then
+  echo "vreng already there"
+else
+  echo "vreng not there"
+  cat conf/httpd.vreng >>$tmp
+  sudo cp $tmp $conf
+  sudo apachectl start
+  #vi + $conf
+fi

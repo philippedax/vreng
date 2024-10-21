@@ -1,3 +1,4 @@
+<vreng>
 #
 # add the following lines under MacOS
 #
@@ -6,7 +7,7 @@ LoadModule include_module libexec/apache2/mod_include.so
 LoadModule userdir_module libexec/apache2/mod_userdir.so
 LoadModule rewrite_module libexec/apache2/mod_rewrite.so
 
-
 <DirectoryMatch "/Users/.*/Sites">
 
 Include /private/etc/apache2/extra/httpd-userdir.conf
+</vreng>
