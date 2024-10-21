@@ -1,5 +1,5 @@
 #! /bin/sh
-PATH=..:../bin:$PATH export PATH
+PATH=..:bin:../bin:$PATH export PATH
 
 case $# in
 1)
@@ -11,5 +11,5 @@ case $# in
   ;;
 *)
   vreng $*
-  ;
+  ;;
 esac
