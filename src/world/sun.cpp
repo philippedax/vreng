@@ -159,8 +159,6 @@ void Sun::render()
 /* called from general renderer if in lightList */
 void Sun::lighting()
 {
-  static float tic = 0;
-
 #if 0 //dax
   glPushMatrix();
    glEnable(GL_LIGHTING);
@@ -176,8 +174,6 @@ void Sun::lighting()
    glDisable(GL_LIGHTING);
   glPopMatrix();
 #endif
-
-  tic += 0.2;	// 360/86400
 }
 
 void Sun::quit()
