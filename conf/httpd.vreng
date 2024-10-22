@@ -8,7 +8,7 @@ LoadModule userdir_module libexec/apache2/mod_userdir.so
 LoadModule rewrite_module libexec/apache2/mod_rewrite.so
 
 <DirectoryMatch "/Users/.*/Sites">
-  Require any granted
+  Require all granted
 </DirectoryMatch">
 
 Include /private/etc/apache2/extra/httpd-userdir.conf
