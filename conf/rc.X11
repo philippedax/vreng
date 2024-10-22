@@ -1,0 +1,15 @@
+#
+# rc.X11
+#
+# To have a X11 server running do :
+
+brew install --cask xquartz
+
+or
+
+- download XQuartz.2.x.y.pkg at www.xquartz.org
+- unpackage it
+
+and
+
+execute it
