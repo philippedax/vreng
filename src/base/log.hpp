@@ -47,7 +47,7 @@
 
 #define DBG_FORCE	-1	// always true
 
-#define dprintf(format, args...) fprintf(stderr, "In '%s': "format "\n", __FUNCTION__ , ##args);
+//#define dprintf(format, args...) fprintf(stderr, "In '%s': "format "\n", __FUNCTION__ , ##args);
 
 extern const char *e_fork;
 extern const char *e_exec;
