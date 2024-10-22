@@ -2721,3 +2721,4 @@
 3120 Mar 22 oct 2024 11:45:58 CEST	add conf/rc.X11
 3121 Mar 22 oct 2024 11:57:30 CEST	add brew xquartz conf/require
 3122 Mar 22 oct 2024 12:15:02 CEST	move conf/vr to vr
+3123 Mar 22 oct 2024 15:22:21 CEST	fix conf/httpd.vreng

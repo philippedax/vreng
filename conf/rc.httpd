@@ -5,12 +5,12 @@
 # Philippe Dax - jun 2017
 #
 conf=/etc/apache2/httpd.conf
-tmp=/tmp/httpd
-cp $conf $tmp
 if grep "vreng" $conf ; then
   echo "vreng already there"
 else
   echo "vreng not there"
+  tmp=/tmp/httpd
+  cp $conf $tmp
   cat conf/httpd.vreng >>$tmp
   sudo cp $tmp $conf
   sudo apachectl restart
