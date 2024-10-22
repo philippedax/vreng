@@ -25,17 +25,19 @@ Darwin|MacOS)
     dyl=dylib
     prefix=/usr/local
   fi
+  # X11
+  brew install --cask xquartz
   ;;
 
 Linux)
   if [ $(which apt-get) ]; then
-    distib=debian
+    distrib=debian
     echo "have debian"
     pack=apt-get
     dyl=so
     prefix=/usr/local
   elif [ $(which dnf) ]; then
-    distib=fedora
+    distrib=fedora
     echo "have fedora"
     pack=dnf
     dyl=so
