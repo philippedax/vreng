@@ -13,6 +13,5 @@ else
   echo "vreng not there"
   cat conf/httpd.vreng >>$tmp
   sudo cp $tmp $conf
-  sudo apachectl start
-  #vi + $conf
+  sudo apachectl restart
 fi

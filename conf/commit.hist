@@ -2716,3 +2716,4 @@
 3115 Lun 21 oct 2024 11:55:00 CEST	add conf/httpd.conf
 3116 Lun 21 oct 2024 18:15:04 CEST	configure httpd.conf conf/rc.httpd
 3117 Mar 22 oct 2024 09:05:42 CEST	remove dprintf log.hpp
+3118 Mar 22 oct 2024 10:32:38 CEST	fix conf/http.vreng
