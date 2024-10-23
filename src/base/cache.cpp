@@ -147,9 +147,9 @@ http_reread:
     // Verifies the integrity of the new created file
     //
     struct stat bufstat;
-    if (stat(cachepath, &bufstat) == 14) {
-      if (bufstat.st_size == 0) {
-        error("openCache: %s is empty", cachepath);
+    if (stat(cachepath, &bufstat) == 0) {
+      if (bufstat.st_size == 14) {
+        error("openCache: %s is empty after a 404", cachepath);
         unlink(cachepath);
         progression('-');	// '-' as failed
         goto http_reread;	// re-do read
