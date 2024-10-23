@@ -1,15 +1,24 @@
+#! /bin/sh
 #
 # rc.X11
 #
 # To have a X11 server running do :
+PATH=/opt/X11/bin:/usr/local/bin:$PATH export PATH
 
-brew install --cask xquartz
+case $(uname -s) in
+Darwin)
+  if [ ! $(which xquartz) ]; then
+    brew install --cask xquartz
+    xquartz &
+  fi
+  ;;
+esac
 
-or
-
-- download XQuartz.2.x.y.pkg at www.xquartz.org
-- unpackage it
-
-and
-
-execute it
+# or
+#
+# - download XQuartz.2.x.y.pkg at www.xquartz.org
+# - unpackage it
+# 
+# and
+# 
+# execute it
