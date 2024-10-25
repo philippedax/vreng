@@ -151,7 +151,7 @@ url="/vre/mouret.vre" channel="224.255.0.14/52796/127">
 <!-- mythology 224.255.0.15 -->
 <gate name="mythology" pos="17.5 -1 1 1.57"
 url="/vre/mythology.vre" channel="224.255.0.15/52806/127">
-<solid dim="1.6 .2 2" xn="/gif/mythology2.gif" />
+<solid dim="1.6 .2 2" xn="/gif/mythology.gif" />
 </gate>
 
 <!-- guide 224.255.0.31 -->
@@ -588,7 +588,7 @@ amplitude="1" freq="1" phase="1">
  <solid shape="disk" rel="0 0 .15 0 0" ri="0" re=".08" tx="/gif/redbands.gif" />
 </hat>
 <hat name="chinese" pos="0.6 -2.1 .5">
- <solid shape="cone" rb=".2" rt="0" h=".15" tx="/gif/paper.gif" />
+ <solid shape="cone" rb=".2" rt="0" h=".15" tx="/jpg/paper.jpg" />
 </hat>
 <hat name="redhat" pos="0.4 -2.1 .5">
  <solid shape="cone" rb=".09" rt=".05" h=".12" tx="/gif/redbands.gif" />
