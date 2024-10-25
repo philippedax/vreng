@@ -2728,3 +2728,4 @@
 3127 Mer 23 oct 2024 17:37:38 CEST	fix if filesize == 14 cache.cpp
 3128 Ven 25 oct 2024 10:04:17 CEST	fix file err 404 cache.cpp
 3129 Ven 25 oct 2024 10:14:50 CEST	add gif/cloison.gif
+3130 Ven 25 oct 2024 14:16:05 CEST	fix opencache cache.cpp
