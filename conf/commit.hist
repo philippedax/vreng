@@ -2726,3 +2726,4 @@
 3125 Mer 23 oct 2024 15:41:41 CEST	add gif/skin.gif
 3126 Mer 23 oct 2024 16:58:04 CEST	fix if filesize == 14 cache.cpp
 3127 Mer 23 oct 2024 17:37:38 CEST	fix if filesize == 14 cache.cpp
+3128 Ven 25 oct 2024 10:04:17 CEST	fix file err 404 cache.cpp

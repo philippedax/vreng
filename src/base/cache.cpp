@@ -88,6 +88,8 @@ char * Cache::getFilePath(const char *url)
 /** Opens an url and writes it into the cache and returns the FILE opened */
 FILE * Cache::open(const char *url, Http *http)
 {
+  struct stat bufstat;
+
   if (! http) return NULL;
 
   char *cachepath = new char[PATH_LEN];
@@ -97,6 +99,14 @@ FILE * Cache::open(const char *url, Http *http)
   FILE *fpr = NULL;
   FILE *fpw = NULL;
   char buf[16];
+
+  if (stat(cachepath, &bufstat) == 0) {
+    if (bufstat.st_size == 14) {
+      error("openCache: %s is empty after a 404", cachepath);
+      unlink(cachepath);
+      return NULL;
+    }
+  }
 
   filein = new File();
   if (! (fpr = filein->open(cachepath, "r"))) {
@@ -146,7 +156,6 @@ http_reread:
     //
     // Verifies the integrity of the new created file
     //
-    struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
       if (bufstat.st_size == 14) {
         error("openCache: %s is empty after a 404", cachepath);
