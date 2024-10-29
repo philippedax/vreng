@@ -1,4 +1,4 @@
-#!/bin/python
+#! /usr/bin/python
 #
 # vrum.py
 #
@@ -62,7 +62,6 @@ def udp (world, maddr, mport, uport = None):
     thread.start_new_thread (launch, (world, "udp", maddr, mport, uport))
 
 # Launch repeaters
-
 rtp ("Manager",      '224.255.0.0',  52656)
 rtp ("Rendezvous",   '224.255.0.1',  52666)
 rtp ("students",     '224.255.0.2',  52676)
@@ -99,16 +98,15 @@ rtp ("romain",       '224.255.0.32', 52976)
 rtp ("land",         '224.255.0.33', 52986)
 rtp ("factory",      '224.255.0.34', 52996)
 rtp ("forest2",      '224.255.0.35', 53006)
-rtp ("enstnet",      '224.255.0.36', 53016)
-rtp ("mondetest",    '224.255.0.37', 53026)
-rtp ("campus",       '224.255.0.38', 53036)
-
-udp ("android-man",  '224.255.0.25', 52918)
-udp ("android-girl", '224.255.0.25', 52920)
-udp ("android-kang", '224.255.0.25', 52922)
-udp ("android-dog",  '224.255.0.25', 52924)
-udp ("android-wolf", '224.255.0.25', 52926)
+#rtp ("enstnet",      '224.255.0.36', 53016)
+#rtp ("mondetest",    '224.255.0.37', 53026)
+#rtp ("campus",       '224.255.0.38', 53036)
+#
+#udp ("android-man",  '224.255.0.25', 52918)
+#udp ("android-girl", '224.255.0.25', 52920)
+#udp ("android-kang", '224.255.0.25', 52922)
+#udp ("android-dog",  '224.255.0.25', 52924)
+#udp ("android-wolf", '224.255.0.25', 52926)
 
 # Wait forever
-
 select.select ([], [], [])
