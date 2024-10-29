@@ -2,7 +2,9 @@
 #
 # rc.vrum (vreng reflector unicast-multicast)
 #
-VRUM_HOME=/Users/dax/vreng/src/servers/vrum
+PATH=.:bin:/usr/local/bin:$PATH export PATH
+
+VRUM_HOME=~/vreng/src/servers/vrum
 
 if [ -d ${VRUM_HOME} ]; then
   cd ${VRUM_HOME}
