@@ -1,14 +1,15 @@
 #! /bin/sh
 #
-# start httpd
+# start local httpd server
 #
 # Philippe Dax - jun 2017
 #
 conf=/etc/apache2/httpd.conf
+
 if grep "vreng" $conf ; then
-  echo "vreng already there"
+  echo "already configured"
 else
-  echo "vreng not there"
+  echo "not configured"
   tmp=/tmp/httpd
   cp $conf $tmp
   cat conf/httpd.vreng >>$tmp
