@@ -20,13 +20,15 @@ Darwin|MacOS)
     echo "get brew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   else
-    echo "have brew"
+    #echo "have brew"
     pack=brew
     dyl=dylib
     prefix=/usr/local
   fi
   # X11
-  brew install --cask xquartz
+  if [ ! $(which xquartz) ]; then
+    brew install --cask xquartz
+  fi
   ;;
 
 Linux)
@@ -50,7 +52,7 @@ Linux)
 
 *bsd)
   echo "bsd distrib"
-  exit 1
+  exit 0
   ;;
 
 *)
@@ -59,18 +61,6 @@ Linux)
   ;;
 esac
 
-if [ ! $(which g++) ]; then
-  echo "get g++"
-  $pack install g++
-else
-  echo "have g++"
-fi
-if [ ! $(which gcc) ]; then
-  echo "get gcc"
-  $pack install gcc
-else
-  echo "have gcc"
-fi
 # autotools
 if [ ! $(which autoconf) ]; then
   echo "get autoconf"
@@ -96,6 +86,21 @@ if [ ! $(which autoreconf) ]; then
 else
   echo "have autoreconf"
 fi
+
+# compilers
+if [ ! $(which g++) ]; then
+  echo "get g++"
+  $pack install g++
+else
+  echo "have g++"
+fi
+if [ ! $(which gcc) ]; then
+  echo "get gcc"
+  $pack install gcc
+else
+  echo "have gcc"
+fi
+
 # graphic
 if [ ! -f /opt/X11/lib/libGL.$dyl ]; then
   echo "get libgl"
@@ -163,6 +168,7 @@ if [ ! -f /usr/local/opt/freetype/lib/libfreetype.$dyl ]; then
 else
   echo "have freetype"
 fi
+
 # optional
 if [ ! $(which ocaml) ]; then
   echo "get ocaml"
@@ -182,3 +188,5 @@ fi
 #  echo "have openal"
 #  $pack install openal
 #fi
+
+exit 0
