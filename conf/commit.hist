@@ -2738,3 +2738,4 @@
 3137 Mer 30 oct 2024 11:56:50 CET	fix conf/rc.X11
 3138 Mer 30 oct 2024 16:10:53 CET	cleanup conf/require
 3139 Mer 30 oct 2024 16:36:43 CET	cleanup conf/rc.httpd
+3140 Mer 30 oct 2024 16:51:08 CET	complete build script

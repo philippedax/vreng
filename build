@@ -2,18 +2,30 @@
 #
 # build [args...]
 #
-# installs all dependencies needed
-# and
-# builds vreng
+# - installs all requirements
+# - launches needed servers
+# - builds vreng
 #
-# Philippe Dax
+# Philippe Dax - 2024
 #
 mkdir log 2>&1 >/dev/null
 date 2>&1 >log/$0.log
 
 cd conf
+# installs requirements
+./require
+
+# launches X11 server
+./rc.X11
+
+# launches local httpd server
+./rc.httpd
+
+# configure vreng
 ./autogen.sh "$@"
 cd ..
+
+# compile source
 make
 
 date 2>&1 >>log/$0.log
