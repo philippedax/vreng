@@ -9,7 +9,9 @@ case $(uname -s) in
 Darwin)
   if [ ! $(which xquartz) ]; then
     brew install --cask xquartz
-    xquartz &
+  fi
+  if [ ! ps ax | grep " :0 " ]; then
+    /opt/X11/libexec/launchd_startx /opt/X11/bin/startx -- /opt/X11/bin/Xquartz &
   fi
   ;;
 esac

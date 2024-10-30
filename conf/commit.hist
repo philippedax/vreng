@@ -2734,3 +2734,4 @@
 3133 Mar 29 oct 2024 09:54:16 CET	cleanup vrum/vrum.py
 3134 Mar 29 oct 2024 11:41:19 CET	cleanup vrum/vrum.py
 3135 Mar 29 oct 2024 11:48:05 CET	cleanup conf/rc.daemons
+3136 Mer 30 oct 2024 11:30:52 CET	launch XQuartz conf/rc.X11
