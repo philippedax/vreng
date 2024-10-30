@@ -10,9 +10,16 @@ Darwin)
   if [ ! $(which xquartz) ]; then
     brew install --cask xquartz
   fi
-  if [ ! ps ax | grep " :0 " ]; then
+  ps ax | grep " :0 "
+  if [ $? = 0 ]; then
+    echo "Xquartz already launched"
+  else
+    echo "launch Xquartz"
     /opt/X11/libexec/launchd_startx /opt/X11/bin/startx -- /opt/X11/bin/Xquartz &
   fi
+  ;;
+*)
+  startx
   ;;
 esac
 
