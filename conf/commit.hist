@@ -2740,3 +2740,4 @@
 3139 Mer 30 oct 2024 16:36:43 CET	cleanup conf/rc.httpd
 3140 Mer 30 oct 2024 16:51:08 CET	complete build script
 3141 Jeu 31 oct 2024 08:30:01 CET	complete conf/rc.X11 for Linux
+3142 Jeu 31 oct 2024 15:45:35 CET	fix cat << conf/rc.httpd

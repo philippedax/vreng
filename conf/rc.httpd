@@ -6,13 +6,31 @@
 #
 conf=/etc/apache2/httpd.conf
 
-if grep "# vreng" $conf ; then
+if grep "vreng" $conf ; then
   echo "already configured"
 else
   echo "not configured"
   tmp=/tmp/httpd
   cp $conf $tmp
-  cat conf/httpd.vreng >>$tmp
+  cat <<EOHTTPD >>$tmp
+# vreng configuration added at then end of httpd.conf
+LoadModule include_module libexec/apache2/mod_include.so
+LoadModule userdir_module libexec/apache2/mod_userdir.so
+LoadModule rewrite_module libexec/apache2/mod_rewrite.so
+
+<DirectoryMatch "/Users/.*/Sites/">
+  Require all granted
+</DirectoryMatch">
+<Directory "/Users/.*/Sites/">
+  Options Indexes MultiViews FollowSymLinks
+  AllowOverride All
+  #Order allow,deny
+  Require all granted
+</Directory>
+
+Include /private/etc/apache2/extra/httpd-userdir.conf
+EOHTTPD
+
   sudo cp $tmp $conf
   sudo apachectl restart
 fi
