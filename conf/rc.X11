@@ -3,14 +3,23 @@
 # rc.X11
 #
 # To have a X11 server running do :
-PATH=/opt/X11/bin:/usr/local/bin:$PATH export PATH
+#
+PATH=/opt/X11/bin:/usr/bin:/usr/local/bin:/usr/X11/bin:$PATH export PATH
 
 case $(uname -s) in
-Darwin)
+Darwin)	# MacOS
   if [ ! $(which xquartz) ]; then
     brew install --cask xquartz
+    # or
+    #
+    # - download XQuartz.2.x.y.pkg at www.xquartz.org
+    # - unpackage it
+    # 
+    # and
+    # 
+    # execute it
   fi
-  ps ax | grep " :0 "
+  ps ax | grep " :0 " >/dev/null 2>&1
   if [ $? = 0 ]; then
     echo "Xquartz already launched"
   else
@@ -18,16 +27,15 @@ Darwin)
     /opt/X11/libexec/launchd_startx /opt/X11/bin/startx -- /opt/X11/bin/Xquartz &
   fi
   ;;
-*)
-  startx
+
+*)	# Linux and others
+  ps ax | grep " :0 " >/dev/null 2>&1
+  if [ $? = 0 ]; then
+    echo "Xserver already launched"
+  else
+    startx
+  fi
   ;;
+
 esac
 
-# or
-#
-# - download XQuartz.2.x.y.pkg at www.xquartz.org
-# - unpackage it
-# 
-# and
-# 
-# execute it

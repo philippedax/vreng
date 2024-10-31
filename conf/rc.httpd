@@ -6,7 +6,7 @@
 #
 conf=/etc/apache2/httpd.conf
 
-if grep "vreng" $conf ; then
+if grep "# vreng" $conf ; then
   echo "already configured"
 else
   echo "not configured"

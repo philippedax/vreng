@@ -12,6 +12,7 @@ mkdir log 2>&1 >/dev/null
 date 2>&1 >log/$0.log
 
 cd conf
+
 # installs requirements
 ./require
 
@@ -21,11 +22,12 @@ cd conf
 # launches local httpd server
 ./rc.httpd
 
-# configure vreng
+# configures vreng
 ./autogen.sh "$@"
+
 cd ..
 
-# compile source
+# compiles source
 make
 
 date 2>&1 >>log/$0.log
