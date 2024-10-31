@@ -12,7 +12,7 @@ First, you need to install "brew" to downdoad other dependencies by the command:
 
 then try :
 
-  conf/require
+  conf/requirements
 
 or manually do (if you have not) :
 
@@ -43,13 +43,27 @@ or manually do (if you have not) :
   brew install java
   brew install openal
 
-To start you need to download, install, execute XQartz to have a X11 server.
-
-You need to do "sudo apachectl start" to have a httpd server running.
-
 - LINUX or Unix-like
 --------------------
 
-Use "apt-get" or "yum" or "dnf" (according to your distribution) to download dependencies
+Try:
+
+  conf/requirements
+
+or
+
+Do "apt-get" or "yum" or "dnf" (according to your distribution) to download requirements
 and compile/install them.
 
+- All systems
+-------------
+
+To start you need to download, install, execute XQuartz (MacOS only) to have a X11 server running.
+The recommended way to do that is ty type:
+
+  conf/rc.X11
+
+You need to do "sudo apachectl start" to have a httpd server running.
+The recommended way to do that is ty type:
+
+  conf/rc.httpd

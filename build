@@ -14,7 +14,7 @@ date 2>&1 >log/$0.log
 cd conf
 
 # installs requirements
-./require
+./requirements
 
 # launches X11 server
 ./rc.X11

@@ -26,7 +26,7 @@ with the Reflector.
 SUPPORTED PLATFORMS
 -------------------
 	- Linux-*
-	- MacOSX-1[01].*
+	- MacOSX-1[012].*
 	- Solaris*
 	- Sunos4.1.*
 	- HP-UX-B.10.20
