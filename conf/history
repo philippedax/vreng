@@ -2744,3 +2744,4 @@
 3143 Jeu 31 oct 2024 16:19:28 CET	update REQUIREMENTS.md
 3144 Ven  1 nov 2024 08:18:13 CET	complete *bsd archlinux conf/rc.require
 3145 Ven  1 nov 2024 08:24:13 CET	fix call rc.require build
+3146 Ven  1 nov 2024 10:32:03 CET	move conf/commit.hist to conf/history

@@ -16,7 +16,7 @@ case $# in
   ;;
 esac
 
-hist=conf/commit.hist
+hist=conf/history
 chmod 644 $hist
 if [ -f $hist ] ; then
   last=$(tail -1 $hist)
