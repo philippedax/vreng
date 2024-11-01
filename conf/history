@@ -2750,3 +2750,4 @@
 3149 Ven  1 nov 2024 15:20:28 CET	move conf/vre-1.0.dtd conf/dtd
 3150 Ven  1 nov 2024 15:56:39 CET	move bin to src/bin
 3151 Ven  1 nov 2024 16:13:54 CET	cleanup targets src/bin/Makefile.am
+3152 Ven  1 nov 2024 16:17:33 CET	fix PATH=. vr

@@ -4,7 +4,7 @@
 #
 # Philippe Dax - 2006
 #
-PATH=..:src/bin:bin:../bin:$PATH export PATH
+PATH=.:..:src/bin:bin:../bin:$PATH export PATH
 
 case $# in
 1)
