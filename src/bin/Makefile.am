@@ -21,49 +21,49 @@ bin_PROGRAMS = vreng
 # to copy into bin/
 if ENABLE_VRL
 vrl: $(SRC)/utils/vrl/vrl
-	@-cp -p $(SRC)/utils/vrl/vrl .
+	@-cp -p $(SRC)/utils/vrl/vrl $(TOP)
 else
 vrl:
 	@echo "" >/dev/null
 endif
 if ENABLE_VREL
 vrel: $(SRC)/utils/vrel/vrel
-	@-cp -p $(SRC)/utils/vrel/vrel .
+	@-cp -p $(SRC)/utils/vrel/vrel $(TOP)
 else
 vrel:
 	@echo "" >/dev/null
 endif
 if ENABLE_VRED
 vred: $(SRC)/utils/vred/vred
-	@-cp -p $(SRC)/utils/vred/vred .
+	@-cp -p $(SRC)/utils/vred/vred $(TOP)
 else
 vred:
 	@echo "" >/dev/null
 endif
 if ENABLE_VACS
 vacs: $(SRC)/servers/vacs/vacs
-	@-cp -p $(SRC)/servers/vacs/vacs .
+	@-cp -p $(SRC)/servers/vacs/vacs $(TOP)
 else
 vacs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VAPS
 vaps: $(SRC)/servers/vaps/vaps
-	@-cp -p $(SRC)/servers/vaps/vaps .
+	@-cp -p $(SRC)/servers/vaps/vaps $(TOP)
 else
 vaps:
 	@echo "" >/dev/null
 endif
 if ENABLE_VJS
 vjs: $(SRC)/servers/vjs/vjs
-	@-cp -p $(SRC)/servers/vjs/vjs .
+	@-cp -p $(SRC)/servers/vjs/vjs $(TOP)
 else
 vjs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VMM
 vmm: $(SRC)/servers/vmm/vmm
-	@-cp -p $(SRC)/servers/vmm/vmm .
+	@-cp -p $(SRC)/servers/vmm/vmm $(TOP)
 	chmod 755 vmm
 else
 vmm:
