@@ -10,19 +10,21 @@
 dist=
 pack=
 dyl=
+dev=
 prefix=/usr
 
 case $(uname -s) in
 
-Darwin|MacOS)
+Darwin)	# macos
   # brew
   if [ ! $(which brew) ]; then
     echo "get brew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   else
     #echo "have brew"
-    pack=brew
+    pack="brew install"
     dyl=dylib
+    dev=
     prefix=/usr/local
   fi
   # X11
@@ -31,17 +33,23 @@ Darwin|MacOS)
   fi
   ;;
 
-Linux)
+Linux)	# debian, ubuntu, fedora, arch
   if [ $(which apt-get) ]; then
     distrib=debian
     echo "have debian"
-    pack=apt-get
+    pack="sudo apt-get install"
     dyl=so
     prefix=/usr/local
   elif [ $(which dnf) ]; then
     distrib=fedora
     echo "have fedora"
-    pack=dnf
+    pack="sudo dnf install"
+    dyl=so
+    prefix=/usr/local
+  elif [ $(which pacman) ]; then
+    distrib=arch
+    echo "have arch"
+    pack="sudo pacman -S"
     dyl=so
     prefix=/usr/local
   else
@@ -50,7 +58,8 @@ Linux)
   fi
   ;;
 
-*bsd)
+*bsd)	# freeBsd, netBsd, openBsd
+  pack="sudo pkg"
   echo "bsd distrib"
   exit 0
   ;;
@@ -64,25 +73,25 @@ esac
 # autotools
 if [ ! $(which autoconf) ]; then
   echo "get autoconf"
-  $pack install autoconf
+  $pack autoconf
 else
   echo "have autoconf"
 fi
 if [ ! $(which automake) ]; then
   echo "get automake"
-  $pack install automake
+  $pack automake
 else
   echo "have automake"
 fi
 if [ ! $(which aclocal) ]; then
   echo "get aclocal"
-  $pack install aclocal
+  $pack aclocal
 else
   echo "have aclocal"
 fi
 if [ ! $(which autoreconf) ]; then
   echo "get autoreconf"
-  $pack install autoreconf
+  $pack autoreconf
 else
   echo "have autoreconf"
 fi
@@ -90,13 +99,13 @@ fi
 # compilers
 if [ ! $(which g++) ]; then
   echo "get g++"
-  $pack install g++
+  $pack g++
 else
   echo "have g++"
 fi
 if [ ! $(which gcc) ]; then
   echo "get gcc"
-  $pack install gcc
+  $pack gcc
 else
   echo "have gcc"
 fi
@@ -104,67 +113,67 @@ fi
 # graphic
 if [ ! -f /opt/X11/lib/libGL.$dyl ]; then
   echo "get libgl"
-  $pack install libgl
+  $pack libgl
 else
   echo "have libgl"
 fi
 if [ ! -f /opt/X11/lib/libGLU.$dyl ]; then
   echo "get libglu"
-  $pack install libglu
+  $pack libglu
 else
   echo "have libglu"
 fi
 if [ ! -f /opt/X11/lib/libX11.$dyl ]; then
   echo "get libX11"
-  $pack install libX11
+  $pack libX11
 else
   echo "have libX11"
 fi
 if [ ! -f /opt/X11/lib/libXmu.$dyl ]; then
   echo "get libXmu"
-  $pack install libXmu
+  $pack libXmu
 else
   echo "have libXmu"
 fi
 if [ ! -f /opt/X11/lib/libXext.$dyl ]; then
   echo "get libXext"
-  $pack install libXext
+  $pack libXext
 else
   echo "have libXext"
 fi
 if [ ! -f /opt/X11/lib/libICE.$dyl ]; then
   echo "get libICE"
-  $pack install libICE
+  $pack libICE
 else
   echo "have libICE"
 fi
 if [ ! -f /opt/X11/lib/libSM.$dyl ]; then
   echo "get libSM"
-  $pack install libSM
+  $pack libSM
 else
   echo "have libSM"
 fi
 if [ ! -f /usr/local/lib/libXpm.$dyl ]; then
   echo "get libXpm"
-  $pack install libXpm
+  $pack libXpm
 else
   echo "have libXpm"
 fi
 if [ ! -f /usr/local/lib/libjpeg.$dyl ]; then
   echo "get libjpeg"
-  $pack install libjpeg
+  $pack libjpeg
 else
   echo "have libjpeg"
 fi
 if [ -f /usr/local/lib/libungif.$dyl ]; then
   echo "get libungif"
-  $pack install libungif
+  $pack libungif
 else
   echo "have libungif"
 fi
 if [ ! -f /usr/local/opt/freetype/lib/libfreetype.$dyl ]; then
   echo "get freetype"
-  $pack install freetype
+  $pack freetype
 else
   echo "have freetype"
 fi
@@ -172,13 +181,19 @@ fi
 # optional
 if [ ! $(which ocaml) ]; then
   echo "get ocaml"
-  $pack install ocaml
+  $pack ocaml
 else
   echo "have ocaml"
 fi
+if [ ! $(which sqlite3) ]; then
+  echo "get sqlite3"
+  $pack sqlite3
+else
+  echo "have sqlite3"
+fi
 if [ ! $(which java) ]; then
   echo "get java"
-  $pack install java
+  $pack java
 else
   echo "have java"
 fi
@@ -186,7 +201,7 @@ fi
 #  echo "get openal"
 #else
 #  echo "have openal"
-#  $pack install openal
+#  $pack openal
 #fi
 
 exit 0

@@ -12,7 +12,7 @@ First, you need to install "brew" to downdoad other dependencies by the command:
 
 then try :
 
-  conf/requirements
+  conf/rc.require
 
 or manually do (if you have not) :
 
@@ -41,6 +41,7 @@ or manually do (if you have not) :
   # optional
   brew install ocaml
   brew install java
+  brew install sqlite3
   brew install openal
 
 - LINUX or Unix-like
@@ -48,7 +49,7 @@ or manually do (if you have not) :
 
 Try:
 
-  conf/requirements
+  conf/rc.require
 
 or
 

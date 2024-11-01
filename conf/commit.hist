@@ -2742,3 +2742,4 @@
 3141 Jeu 31 oct 2024 08:30:01 CET	complete conf/rc.X11 for Linux
 3142 Jeu 31 oct 2024 15:45:35 CET	fix cat << conf/rc.httpd
 3143 Jeu 31 oct 2024 16:19:28 CET	update REQUIREMENTS.md
+3144 Ven  1 nov 2024 08:18:13 CET	complete *bsd archlinux conf/rc.require
