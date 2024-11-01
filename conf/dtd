@@ -2,24 +2,23 @@
 
 <!ENTITY Pub-Status "This is a pre-release of the specification.">
 
-<!-- global declaration, there must be one head and one scene -->
+<!-- global declaration, there must be one meta and one scene -->
+
 <!-- VRE -->
 <!ELEMENT vre		(meta, scene)>
 <!ATTLIST vre		profile	NMTOKEN #IMPLIED>
 <!ATTLIST vre		version	NMTOKEN #IMPLIED>
 
 <!-- we want at least one meta information about the file -->
+
 <!-- META -->
 <!ELEMENT meta		EMPTY>
-<!--
-<!ELEMENT head		(meta+)>
--->
-<!-- meta could contain lot of fields as "author" "filename" etc. -->
-<!ATTLIST meta		name	(url | filename | description | keyword | author | date | created | revised) #IMPLIED>
+<!ATTLIST meta		name (url|filename|description|keyword|author|date|created|revised) #IMPLIED>
 <!ATTLIST meta		content	CDATA #IMPLIED>
 <!ATTLIST meta		http-equiv (refresh | static) #IMPLIED>
 
 <!-- all possible objects we want at least one element -->
+
 <!-- SCENE -->
 <!ELEMENT scene (
 	accessory | animator | aoi | area |
@@ -29,7 +28,7 @@
 	entry | escalator |
 	fire | firework | flag | fog | fountain | fractal |
 	gate | ground | guide | guy | 
-	hairs | halo | hat | head | host | human | humanoid
+	hairs | halo | hat | head | host | human | humanoid |
 	lift | light | local |
 	mech | mirage | mirror | model | movie | music |
 	particle | plane |

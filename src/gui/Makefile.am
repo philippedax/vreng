@@ -24,8 +24,8 @@ CHANGELOG.h: $(MD)/CHANGELOG.md
 	../base/txt2str CHANGELOG < $(MD)/CHANGELOG.md > $@
 TODO.h: $(MD)/TODO.md
 	../base/txt2str TODO < $(MD)/TODO.md > $@
-DTD.h: $(CONF)/vre-1.0.dtd
-	../base/txt2str DTD < $(CONF)/vre-1.0.dtd > $@
+DTD.h: $(CONF)/dtd
+	../base/txt2str DTD < $(CONF)/dtd > $@
 CONFIG_H.h: $(TOP)/config.h
 	../base/txt2str CONFIG_H < $(TOP)/config.h > $@
 
