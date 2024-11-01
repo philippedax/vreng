@@ -25,7 +25,7 @@ with the Reflector.
 
 SUPPORTED PLATFORMS
 -------------------
-	- Linux-*
+	- Linux-* (debian, unbutu, fedora,...)
 	- MacOSX-1[012].*
 	- Solaris*
 	- Sunos4.1.*
@@ -39,14 +39,15 @@ VREng has not been ported on other platforms yet, but any port will be welcome.
 
 DOWNLOADING
 -----------
-The VREng sources are available by: git clone https://github.com/philippedax/vreng.git
+The VREng sources are available by:
+	git clone https://github.com/philippedax/vreng.git
 
 
 COMPILING
 ---------
 
 If the script "configure" is not present, you need to build it first by:
-	./build or ./autogen.sh
+	./build
 
 VREng uses an OpenGL library. The configure script will usually figure out
 which one is installed on your system. There are basically two possibilities:
