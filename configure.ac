@@ -1807,7 +1807,7 @@ fi
 
 # --------------------------------------------------------------------------
 # 
-# Automake conditions (used in Makefile.am)
+# Automake conditions
 # 
 AM_CONDITIONAL(ENABLE_UBIT,      test "$am_ubit" = "yes")
 AM_CONDITIONAL(ENABLE_JAVA,      test "$am_java" = "yes")
@@ -1836,8 +1836,8 @@ AM_CONDITIONAL(ENABLE_TINYGL,    test "$am_libtinygl" = "yes")
 AC_CONFIG_FILES([
         Makefile 
         man/Makefile
-        bin/Makefile
         src/Makefile
+        src/bin/Makefile
         src/base/Makefile
         src/gui/Makefile
         src/gui/xpm/Makefile

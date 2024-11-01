@@ -2748,3 +2748,4 @@
 3147 Ven  1 nov 2024 12:49:40 CET	cleanup dev conf/rc.require
 3148 Ven  1 nov 2024 14:59:43 CET	move conf/vreng.dox to conf/dox
 3149 Ven  1 nov 2024 15:20:28 CET	move conf/vre-1.0.dtd conf/dtd
+3150 Ven  1 nov 2024 15:56:39 CET	move bin to src/bin
