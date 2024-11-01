@@ -11,6 +11,7 @@ dist=
 pack=
 dyl=
 dev=
+ret=
 prefix=/usr
 
 case $(uname -s) in
@@ -31,6 +32,7 @@ Darwin)	# macos
   if [ ! $(which xquartz) ]; then
     brew install --cask xquartz
   fi
+  java=java
   ;;
 
 Linux)	# debian, ubuntu, fedora, arch
@@ -38,20 +40,25 @@ Linux)	# debian, ubuntu, fedora, arch
     distrib=debian
     echo "have debian"
     pack="sudo apt-get install"
+    dev="-dev"
     dyl=so
     prefix=/usr/local
+    java="default-jdk"
   elif [ $(which dnf) ]; then
     distrib=fedora
     echo "have fedora"
     pack="sudo dnf install"
+    dev="-devel"
     dyl=so
     prefix=/usr/local
+    java="java-1.8.0-openjdk.x86_64"
   elif [ $(which pacman) ]; then
     distrib=arch
     echo "have arch"
     pack="sudo pacman -S"
     dyl=so
     prefix=/usr/local
+    java=java
   else
     echo "unknown linux distrib"
     exit 1
@@ -61,7 +68,7 @@ Linux)	# debian, ubuntu, fedora, arch
 *bsd)	# freeBsd, netBsd, openBsd
   pack="sudo pkg"
   echo "bsd distrib"
-  exit 0
+  java=java
   ;;
 
 *)
@@ -70,7 +77,9 @@ Linux)	# debian, ubuntu, fedora, arch
   ;;
 esac
 
+#
 # autotools
+#
 if [ ! $(which autoconf) ]; then
   echo "get autoconf"
   $pack autoconf
@@ -96,7 +105,9 @@ else
   echo "have autoreconf"
 fi
 
+#
 # compilers
+#
 if [ ! $(which g++) ]; then
   echo "get g++"
   $pack g++
@@ -110,75 +121,79 @@ else
   echo "have gcc"
 fi
 
-# graphic
+#
+# libs graphic
+#
 if [ ! -f /opt/X11/lib/libGL.$dyl ]; then
   echo "get libgl"
-  $pack libgl
+  $pack libgl$dev
 else
   echo "have libgl"
 fi
 if [ ! -f /opt/X11/lib/libGLU.$dyl ]; then
   echo "get libglu"
-  $pack libglu
+  $pack libglu$dev
 else
   echo "have libglu"
 fi
 if [ ! -f /opt/X11/lib/libX11.$dyl ]; then
   echo "get libX11"
-  $pack libX11
+  $pack libX11$dev
 else
   echo "have libX11"
 fi
 if [ ! -f /opt/X11/lib/libXmu.$dyl ]; then
   echo "get libXmu"
-  $pack libXmu
+  $pack libXmu$dev
 else
   echo "have libXmu"
 fi
 if [ ! -f /opt/X11/lib/libXext.$dyl ]; then
   echo "get libXext"
-  $pack libXext
+  $pack libXext$dev
 else
   echo "have libXext"
 fi
 if [ ! -f /opt/X11/lib/libICE.$dyl ]; then
   echo "get libICE"
-  $pack libICE
+  $pack libICE$dev
 else
   echo "have libICE"
 fi
 if [ ! -f /opt/X11/lib/libSM.$dyl ]; then
   echo "get libSM"
-  $pack libSM
+  $pack libSM$dev
 else
   echo "have libSM"
 fi
 if [ ! -f /usr/local/lib/libXpm.$dyl ]; then
   echo "get libXpm"
-  $pack libXpm
+  $pack libXpm$dev
 else
   echo "have libXpm"
 fi
 if [ ! -f /usr/local/lib/libjpeg.$dyl ]; then
   echo "get libjpeg"
-  $pack libjpeg
+  $pack libjpeg$dev
 else
   echo "have libjpeg"
 fi
 if [ -f /usr/local/lib/libungif.$dyl ]; then
   echo "get libungif"
-  $pack libungif
+  $pack libungif$dev
 else
   echo "have libungif"
 fi
 if [ ! -f /usr/local/opt/freetype/lib/libfreetype.$dyl ]; then
   echo "get freetype"
-  $pack freetype
+  $pack freetype$dev
 else
   echo "have freetype"
 fi
 
+#
 # optional
+#
 if [ ! $(which ocaml) ]; then
   echo "get ocaml"
   $pack ocaml
@@ -193,7 +208,7 @@ else
 fi
 if [ ! $(which java) ]; then
   echo "get java"
-  $pack java
+  $pack $java
 else
   echo "have java"
 fi
