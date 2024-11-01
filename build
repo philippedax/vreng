@@ -14,12 +14,13 @@ date 2>&1 >log/$0.log
 cd conf
 
 # installs requirements
-./requirements
+# via brew, apt-get, dnf, pkg, pacman
+./rc.require
 
 # launches X11 server
 ./rc.X11
 
-# launches local httpd server
+# configures and launches local httpd server
 ./rc.httpd
 
 # configures vreng
