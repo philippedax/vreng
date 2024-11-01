@@ -19,6 +19,8 @@ all: $(MAIN_TARGET) $(OTHER_TARGETS)
 bin_PROGRAMS = vreng
 
 # to copy into bin/
+#vreng: $(SRC)/bin/vreng
+#	@-cp -p $(SRC)/bin/vreng $(TOP)
 if ENABLE_VRL
 vrl: $(SRC)/utils/vrl/vrl
 	@-cp -p $(SRC)/utils/vrl/vrl $(TOP)
