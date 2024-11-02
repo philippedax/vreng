@@ -2759,3 +2759,4 @@
 3158 Sam  2 nov 2024 09:21:38 CET	add symlinks to executables bin/Makefile.am
 3159 Sam  2 nov 2024 09:26:06 CET	fix EXTRA_DIST bin/Makefile.am
 3160 Sam  2 nov 2024 09:43:50 CET	move man to src/man
+3161 Sam  2 nov 2024 09:45:27 CET	move man to src/man
