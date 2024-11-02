@@ -19,7 +19,7 @@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 ACLOCAL_AMFLAGS = -I conf
 
-SUBDIRS = src man
+SUBDIRS = src
 
 EXTRA_DIST = conf/* md/* data/* autogen.sh build
 

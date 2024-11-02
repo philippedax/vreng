@@ -1835,8 +1835,8 @@ AM_CONDITIONAL(ENABLE_TINYGL,    test "$am_libtinygl" = "yes")
 #
 AC_CONFIG_FILES([
         Makefile 
-        man/Makefile
         src/Makefile
+        src/man/Makefile
         src/bin/Makefile
         src/base/Makefile
         src/gui/Makefile
