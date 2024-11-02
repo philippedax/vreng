@@ -279,9 +279,11 @@ uudecode = @uudecode@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 man_MANS = vreng.1 vacs.8 vaps.8 vrel.1 vrl.1 vred.1
 EXTRA_DIST = vreng.1 vacs.8 vaps.8 vrel.1 vrl.1 vred.1
+TOP = $(top_srcdir)
 all: all-am
 
 .SUFFIXES:
+.SUFFIXES: .1 .8 .man
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -554,6 +556,28 @@ uninstall-man: uninstall-man1 uninstall-man8
 	mostlyclean-generic pdf pdf-am ps ps-am tags-am uninstall \
 	uninstall-am uninstall-man uninstall-man1 uninstall-man8
 
+
+SUFFIXES: .man .1 .8
+
+.1.man:
+	@man ./$<.1 >$(TOP)/$<.man
+.8.man:
+	@man ./$<.8 >$(TOP)/$<.man
+
+all: vreng vred vrel vrl vacs vaps
+
+vreng:
+	@man ./vreng.1 >$(TOP)/vreng.man
+vred:
+	@man ./vred.1 >$(TOP)/vred.man
+vrel:
+	@man ./vrel.1 >$(TOP)/vrel.man
+vrl:
+	@man ./vrl.1 >$(TOP)/vrl.man
+vacs:
+	@man ./vacs.8 >$(TOP)/vacs.man
+vaps:
+	@man ./vaps.8 >$(TOP)/vaps.man
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
