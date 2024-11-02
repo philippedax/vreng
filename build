@@ -15,7 +15,7 @@ cd conf
 
 # installs requirements
 # via brew, apt-get, dnf, pkg, pacman
-./rc.require
+./rc.prerequisites
 
 # launches X11 server
 ./rc.X11
