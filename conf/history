@@ -2757,3 +2757,4 @@
 3156 Sam  2 nov 2024 08:57:01 CET	move conf/dox to conf/doxygen
 3157 Sam  2 nov 2024 09:11:30 CET	move conf/rc.require to conf/rc.prerequisites
 3158 Sam  2 nov 2024 09:21:38 CET	add symlinks to executables bin/Makefile.am
+3159 Sam  2 nov 2024 09:26:06 CET	fix EXTRA_DIST bin/Makefile.am

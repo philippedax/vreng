@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
-EXTRAS = vred vrel vrl vacs vaps vjs
+EXTRA_DIST = vred vrel vrl vacs vaps vjs
 
 # paths for sources
 TOP = $(top_srcdir)
