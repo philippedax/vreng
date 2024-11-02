@@ -2754,3 +2754,4 @@
 3153 Ven  1 nov 2024 16:40:36 CET	update md/README.md
 3154 Ven  1 nov 2024 16:53:10 CET	cleanup bin/Makefile.am
 3155 Ven  1 nov 2024 16:59:03 CET	fix a typo vreng.1
+3156 Sam  2 nov 2024 08:57:01 CET	move conf/dox to conf/doxygen
