@@ -9,71 +9,78 @@
 
 dist=
 pack=
-dyl=
+dyl=so
 dev=
-ret=
-prefix=/usr
+ret=0
+pfx=/usr
 
 case $(uname -s) in
 
 Darwin)	# macos
+  dist=macos
   # brew
   if [ ! $(which brew) ]; then
     echo "get brew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   else
-    #echo "have brew"
+    echo "have brew"
     pack="brew install"
     dyl=dylib
     dev=
-    prefix=/usr/local
+    pfx=/opt/X11
   fi
   # X11
   if [ ! $(which xquartz) ]; then
     brew install --cask xquartz
   fi
   java=java
+  ret=0
   ;;
 
 Linux)	# debian, ubuntu, fedora, arch
+  dist=$(cat /etc/*-release |grep ID | head -n1 | cut -d '=' -f2)
   if [ $(which apt-get) ]; then
-    distrib=debian
-    echo "have debian"
+    echo "have $dist"
     pack="sudo apt-get install"
     dev="-dev"
     dyl=so
-    prefix=/usr/local
+    pfx=/usr
     java="default-jdk"
   elif [ $(which dnf) ]; then
-    distrib=fedora
     echo "have fedora"
     pack="sudo dnf install"
     dev="-devel"
     dyl=so
-    prefix=/usr/local
+    pfx=/usr
     java="java-1.8.0-openjdk.x86_64"
   elif [ $(which pacman) ]; then
-    distrib=arch
+    dist=arch
     echo "have arch"
     pack="sudo pacman -S"
     dyl=so
-    prefix=/usr/local
+    pfx=/usr
     java=java
   else
     echo "unknown linux distrib"
-    exit 1
+    ret=1
+    exit $ret
   fi
+  ret=0
   ;;
 
 *bsd)	# freeBsd, netBsd, openBsd
   pack="sudo pkg"
   echo "bsd distrib"
+  dyl=so
+  pfx=/usr
   java=java
+  ret=0
   ;;
 
 *)
   echo "unknown system"
-  exit 1
+  ret=1
+  exit $ret
   ;;
 esac
 
@@ -124,47 +131,35 @@ fi
 #
 # libs graphic
 #
-if [ ! -f /opt/X11/lib/libGL.$dyl ]; then
+if [ ! -f $pfx/lib/libGL.$dyl ]; then
   echo "get libgl"
   $pack libgl$dev
 else
   echo "have libgl"
 fi
-if [ ! -f /opt/X11/lib/libGLU.$dyl ]; then
+if [ ! -f $pfx/lib/libGLU.$dyl ]; then
   echo "get libglu"
   $pack libglu$dev
 else
   echo "have libglu"
 fi
-if [ ! -f /opt/X11/lib/libX11.$dyl ]; then
+if [ ! -f $pfx/lib/libX11.$dyl ]; then
   echo "get libX11"
   $pack libX11$dev
 else
   echo "have libX11"
 fi
-if [ ! -f /opt/X11/lib/libXmu.$dyl ]; then
+if [ ! -f $pfx/lib/libXmu.$dyl ]; then
   echo "get libXmu"
   $pack libXmu$dev
 else
   echo "have libXmu"
 fi
-if [ ! -f /opt/X11/lib/libXext.$dyl ]; then
-  echo "get libXext"
-  $pack libXext$dev
-else
-  echo "have libXext"
-fi
-if [ ! -f /opt/X11/lib/libICE.$dyl ]; then
+if [ ! -f $pfx/lib/libICE.$dyl ]; then
   echo "get libICE"
   $pack libICE$dev
 else
   echo "have libICE"
-fi
-if [ ! -f /opt/X11/lib/libSM.$dyl ]; then
-  echo "get libSM"
-  $pack libSM$dev
-else
-  echo "have libSM"
 fi
 if [ ! -f /usr/local/lib/libXpm.$dyl ]; then
   echo "get libXpm"
@@ -177,12 +172,6 @@ if [ ! -f /usr/local/lib/libjpeg.$dyl ]; then
   $pack libjpeg$dev
 else
   echo "have libjpeg"
-fi
-if [ -f /usr/local/lib/libungif.$dyl ]; then
-  echo "get libungif"
-  $pack libungif$dev
-else
-  echo "have libungif"
 fi
 if [ ! -f /usr/local/opt/freetype/lib/libfreetype.$dyl ]; then
   echo "get freetype"
