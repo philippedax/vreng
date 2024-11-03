@@ -13,16 +13,15 @@ vreng_SOURCES = $(VRENG_SRC)
 #
 # targets
 #
-MAIN_TARGET = all-am
+#MAIN_TARGET = all-am
 OTHER_TARGETS = vrl vrel vred vacs vaps vjs vmm
-all: $(MAIN_TARGET) $(OTHER_TARGETS)
+all: vreng $(OTHER_TARGETS)
+	@-cp -p vreng $(TOP)
 
 # to install
 bin_PROGRAMS = vreng
 
 # to copy into bin/
-#vreng: $(SRC)/bin/vreng
-#	@-cp -p $(SRC)/bin/vreng $(TOP)
 if ENABLE_VRL
 vrl: $(SRC)/utils/vrl/vrl
 	@-cp -p $(SRC)/utils/vrl/vrl $(TOP)
