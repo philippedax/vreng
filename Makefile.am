@@ -21,7 +21,7 @@ ACLOCAL_AMFLAGS = -I conf
 
 SUBDIRS = src
 
-EXTRA_DIST = conf/* md/* data/* autogen.sh build
+EXTRA_DIST = conf/* md/* data/* build vr
 
 TARBALL_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 TARBALL_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.xz
