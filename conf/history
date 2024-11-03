@@ -2763,3 +2763,4 @@
 3162 Sam  2 nov 2024 16:40:11 CET	add targets for man man/Makefile.am
 3163 Dim  3 nov 2024 08:37:40 CET	add clean target man/Makefile.am
 3164 Dim  3 nov 2024 08:48:18 CET	fix make archive Makefile.am
+3165 Dim  3 nov 2024 09:04:10 CET	cleanup
