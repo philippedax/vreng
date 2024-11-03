@@ -37,25 +37,33 @@ Darwin)	# macos
   ret=0
   ;;
 
-Linux)	# debian, ubuntu, fedora, arch
+Linux)	# debian, ubuntu, fedora, centos, arch
   dist=$(cat /etc/*-release |grep ID | head -n1 | cut -d '=' -f2)
+  echo "have $dist"
   if [ $(which apt-get) ]; then
-    echo "have $dist"
+    echo "have apt-get"
     pack="sudo apt-get install"
     dev="-dev"
     dyl=so
     pfx=/usr
     java="default-jdk"
   elif [ $(which dnf) ]; then
-    echo "have fedora"
+    echo "have dnf"
     pack="sudo dnf install"
+    dev="-devel"
+    dyl=so
+    pfx=/usr
+    java="java-1.8.0-openjdk.x86_64"
+  elif [ $(which yum) ]; then
+    echo "have yum"
+    pack="sudo yum install"
     dev="-devel"
     dyl=so
     pfx=/usr
     java="java-1.8.0-openjdk.x86_64"
   elif [ $(which pacman) ]; then
     dist=arch
-    echo "have arch"
+    echo "have pacman"
     pack="sudo pacman -S"
     dyl=so
     pfx=/usr
