@@ -2766,3 +2766,4 @@
 3165 Dim  3 nov 2024 09:04:10 CET	cleanup
 3166 Dim  3 nov 2024 10:20:26 CET	fix PATH ./vr
 3167 Dim  3 nov 2024 12:20:12 CET	fix target vreng src/bin/Makefile.am
+3168 Dim  3 nov 2024 12:39:48 CET	cleanup build

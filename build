@@ -2,15 +2,21 @@
 #
 # build [args...]
 #
+# args are the same of ./configure
+#
 # - installs all requirements
 # - launches needed servers
-# - builds vreng
+# - configures vreng
+# - compiles vreng
 #
 # Philippe Dax - 2024
 #
+PATH=conf:$PATH export PATH
+
 mkdir log 2>&1 >/dev/null
 date 2>&1 >log/$0.log
 
+# goto conf dir
 cd conf
 
 # installs requirements
@@ -26,6 +32,7 @@ cd conf
 # configures vreng
 ./autogen.sh "$@"
 
+# comes bak to top
 cd ..
 
 # compiles source
