@@ -27,3 +27,6 @@ vacs:
 	@man ./vacs.8 >$(TOP)/vacs.man
 vaps:
 	@man ./vaps.8 >$(TOP)/vaps.man
+
+clean:
+	@-rm $(TOP)/*.man

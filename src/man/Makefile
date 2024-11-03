@@ -474,8 +474,6 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-am
-
 clean-am: clean-generic mostlyclean-am
 
 distclean: distclean-am
@@ -578,6 +576,9 @@ vacs:
 	@man ./vacs.8 >$(TOP)/vacs.man
 vaps:
 	@man ./vaps.8 >$(TOP)/vaps.man
+
+clean:
+	@-rm $(TOP)/*.man
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
