@@ -5,7 +5,7 @@
 prefix=/usr/local
 exec_prefix=/usr/local
 
-PATH=..:../bin:${prefix}:/usr/X11R6/bin:$PATH; export PATH
+PATH=.:..:../bin:${prefix}:/usr/X11R6/bin:$PATH; export PATH
 LD_LIBRARY_PATH=${prefix}/lib:/usr/X11R6/lib:/usr/lib:${prefix}/lib/mysql:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
 
