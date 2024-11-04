@@ -2,7 +2,7 @@
 #
 # rc.prerequisites
 #
-# install needed requirements
+# check and install needed requirements
 #
 # Philippe Dax - 2024
 #
@@ -14,13 +14,16 @@ dev=
 ret=0
 pfx=/usr
 
+#
+# determines os
+#
 case $(uname -s) in
 
 Darwin)	# macos
   dist=macos
   # brew
   if [ ! $(which brew) ]; then
-    echo "get brew"
+    echo "get brew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   else
     echo "have brew"
@@ -38,8 +41,9 @@ Darwin)	# macos
   ;;
 
 Linux)	# debian, ubuntu, fedora, centos, arch
-  dist=$(cat /etc/*-release |grep ID | head -n1 | cut -d '=' -f2)
+  dist=$(cat /etc/*-release | grep ID | head -n1 | cut -d '=' -f2)
   echo "have $dist"
+
   if [ $(which apt-get) ]; then
     echo "have apt-get"
     pack="sudo apt-get install"
@@ -96,25 +100,28 @@ esac
 # autotools
 #
 if [ ! $(which autoconf) ]; then
-  echo "get autoconf"
+  echo "get autoconf..."
   $pack autoconf
 else
   echo "have autoconf"
 fi
+
 if [ ! $(which automake) ]; then
-  echo "get automake"
+  echo "get automake..."
   $pack automake
 else
   echo "have automake"
 fi
+
 if [ ! $(which aclocal) ]; then
-  echo "get aclocal"
+  echo "get aclocal..."
   $pack aclocal
 else
   echo "have aclocal"
 fi
+
 if [ ! $(which autoreconf) ]; then
-  echo "get autoreconf"
+  echo "get autoreconf..."
   $pack autoreconf
 else
   echo "have autoreconf"
@@ -124,65 +131,79 @@ fi
 # compilers
 #
 if [ ! $(which g++) ]; then
-  echo "get g++"
+  echo "get g++..."
   $pack g++
 else
   echo "have g++"
 fi
+
 if [ ! $(which gcc) ]; then
-  echo "get gcc"
+  echo "get gcc..."
   $pack gcc
 else
   echo "have gcc"
 fi
 
 #
-# libs graphic
+# graphic libs
 #
+
+# openGL
+pfx=$(which xinit | cut -d/ -f 1,2,3)
 if [ ! -f $pfx/lib/libGL.$dyl ]; then
-  echo "get libgl"
+  echo "get libgl..."
   $pack libgl$dev
 else
   echo "have libgl"
 fi
+
 if [ ! -f $pfx/lib/libGLU.$dyl ]; then
-  echo "get libglu"
+  echo "get libglu..."
   $pack libglu$dev
 else
   echo "have libglu"
 fi
+
+# X11
 if [ ! -f $pfx/lib/libX11.$dyl ]; then
-  echo "get libX11"
+  echo "get libX11..."
   $pack libX11$dev
 else
   echo "have libX11"
 fi
+
 if [ ! -f $pfx/lib/libXmu.$dyl ]; then
-  echo "get libXmu"
+  echo "get libXmu..."
   $pack libXmu$dev
 else
   echo "have libXmu"
 fi
+
 if [ ! -f $pfx/lib/libICE.$dyl ]; then
-  echo "get libICE"
+  echo "get libICE..."
   $pack libICE$dev
 else
   echo "have libICE"
 fi
-if [ ! -f /usr/local/lib/libXpm.$dyl ]; then
-  echo "get libXpm"
+
+if [ ! -f $pfx/lib/libXpm.$dyl ]; then
+  echo "get libXpm..."
   $pack libXpm$dev
 else
   echo "have libXpm"
 fi
-if [ ! -f /usr/local/lib/libjpeg.$dyl ]; then
-  echo "get libjpeg"
+
+pfx=$(which jpegtran | cut -d/ -f 1,2,3)
+if [ ! -f $pfx/lib/libjpeg.$dyl ]; then
+  echo "get libjpeg..."
   $pack libjpeg$dev
 else
   echo "have libjpeg"
 fi
-if [ ! -f /usr/local/opt/freetype/lib/libfreetype.$dyl ]; then
-  echo "get freetype"
+
+pfx=$(freetype-config --prefix)
+if [ ! -f $pfx/lib/libfreetype.$dyl ]; then
+  echo "get freetype..."
   $pack freetype$dev
 else
   echo "have freetype"
@@ -192,28 +213,32 @@ fi
 # optional
 #
 if [ ! $(which ocaml) ]; then
-  echo "get ocaml"
+  echo "get ocaml..."
   $pack ocaml
 else
   echo "have ocaml"
 fi
+
 if [ ! $(which sqlite3) ]; then
-  echo "get sqlite3"
+  echo "get sqlite3..."
   $pack sqlite3
 else
   echo "have sqlite3"
 fi
+
 if [ ! $(which java) ]; then
-  echo "get java"
+  echo "get java..."
   $pack $java
 else
   echo "have java"
 fi
+
 #if [ ! f /usr/local/lib/libopenal.$dyl ]; then
-#  echo "get openal"
+#  echo "get openal..."
 #else
 #  echo "have openal"
 #  $pack openal
 #fi
+ret=0
 
-exit 0
+exit $ret
