@@ -2770,3 +2770,4 @@
 3169 Dim  3 nov 2024 18:19:54 CET	cleanup conf/rc.prerequisites
 3170 Dim  3 nov 2024 18:28:37 CET	cleanup conf/rc.prerequisites
 3171 Lun  4 nov 2024 08:57:28 CET	get pfx dynamically rc.prerequisites
+3172 Lun  4 nov 2024 14:11:24 CET	cleanup src/*/Makefile.am
