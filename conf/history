@@ -2773,4 +2773,5 @@
 3172 Lun  4 nov 2024 14:11:24 CET	cleanup src/*/Makefile.am
 3173 Lun  4 nov 2024 16:33:42 CET	fix PATH conf/vre
 3174 Mar  5 nov 2024 14:21:05 CET	cleanup echo conf/rc.prerequisites
-3175 Mar  5 nov 2024 16:02:51 CET	cleanup basename -bash conf/rc.prerequisites
+3175 Mar  5 nov 2024 16:02:51 CET	cleanup basename $0 conf/rc.prerequisites
+3176 Mar  5 nov 2024 17:21:25 CET	cleanup man target src/man/Makefile.am
