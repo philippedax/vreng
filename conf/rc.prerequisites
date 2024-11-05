@@ -21,12 +21,14 @@ case $(uname -s) in
 
 Darwin)	# macos
   dist=macos
+  echo "$0: have $dist"
+
   # brew
   if [ ! $(which brew) ]; then
-    echo "get brew..."
+    echo "$0: get brew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   else
-    echo "have brew"
+    echo "$0: have brew"
     pack="brew install"
     dyl=dylib
     dev=
@@ -34,6 +36,7 @@ Darwin)	# macos
   fi
   # X11
   if [ ! $(which xquartz) ]; then
+    echo "$0: get xquartz..."
     brew install --cask xquartz
   fi
   java=java
@@ -42,24 +45,24 @@ Darwin)	# macos
 
 Linux)	# debian, ubuntu, fedora, centos, arch
   dist=$(cat /etc/*-release | grep ID | head -n1 | cut -d '=' -f2)
-  echo "have $dist"
+  echo "$0: have $dist"
 
   if [ $(which apt-get) ]; then
-    echo "have apt-get"
-    pack="sudo apt-get install"
+    echo "$0: have apt-get"
+    pack="sudo apt-get install -y"
     dev="-dev"
     dyl=so
     pfx=/usr
     java="default-jdk"
   elif [ $(which dnf) ]; then
-    echo "have dnf"
+    echo "$0: have dnf"
     pack="sudo dnf install"
     dev="-devel"
     dyl=so
     pfx=/usr
     java="java-1.8.0-openjdk.x86_64"
   elif [ $(which yum) ]; then
-    echo "have yum"
+    echo "$0: have yum"
     pack="sudo yum install"
     dev="-devel"
     dyl=so
@@ -67,13 +70,13 @@ Linux)	# debian, ubuntu, fedora, centos, arch
     java="java-1.8.0-openjdk.x86_64"
   elif [ $(which pacman) ]; then
     dist=arch
-    echo "have pacman"
+    echo "$0: have pacman"
     pack="sudo pacman -S"
     dyl=so
     pfx=/usr
     java=java
   else
-    echo "unknown linux distrib"
+    echo "$0: unknown linux distrib"
     ret=1
     exit $ret
   fi
@@ -82,7 +85,7 @@ Linux)	# debian, ubuntu, fedora, centos, arch
 
 *bsd)	# freeBsd, netBsd, openBsd
   pack="sudo pkg"
-  echo "bsd distrib"
+  echo "$0: bsd distrib"
   dyl=so
   pfx=/usr
   java=java
@@ -90,7 +93,7 @@ Linux)	# debian, ubuntu, fedora, centos, arch
   ;;
 
 *)
-  echo "unknown system"
+  echo "$0: unknown system"
   ret=1
   exit $ret
   ;;
@@ -100,48 +103,48 @@ esac
 # autotools
 #
 if [ ! $(which autoconf) ]; then
-  echo "get autoconf..."
+  echo "$0: get autoconf..."
   $pack autoconf
 else
-  echo "have autoconf"
+  echo "$0: have autoconf"
 fi
 
 if [ ! $(which automake) ]; then
-  echo "get automake..."
+  echo "$0: get automake..."
   $pack automake
 else
-  echo "have automake"
+  echo "$0: have automake"
 fi
 
 if [ ! $(which aclocal) ]; then
-  echo "get aclocal..."
+  echo "$0: get aclocal..."
   $pack aclocal
 else
-  echo "have aclocal"
+  echo "$0: have aclocal"
 fi
 
 if [ ! $(which autoreconf) ]; then
-  echo "get autoreconf..."
+  echo "$0: get autoreconf..."
   $pack autoreconf
 else
-  echo "have autoreconf"
+  echo "$0: have autoreconf"
 fi
 
 #
 # compilers
 #
 if [ ! $(which g++) ]; then
-  echo "get g++..."
+  echo "$0: get g++..."
   $pack g++
 else
-  echo "have g++"
+  echo "$0: have g++"
 fi
 
 if [ ! $(which gcc) ]; then
-  echo "get gcc..."
+  echo "$0: get gcc..."
   $pack gcc
 else
-  echo "have gcc"
+  echo "$0: have gcc"
 fi
 
 #
@@ -151,92 +154,92 @@ fi
 # openGL
 pfx=$(which xinit | cut -d/ -f 1,2,3)
 if [ ! -f $pfx/lib/libGL.$dyl ]; then
-  echo "get libgl..."
+  echo "$0: get libgl..."
   $pack libgl$dev
 else
-  echo "have libgl"
+  echo "$0: have libgl"
 fi
 
 if [ ! -f $pfx/lib/libGLU.$dyl ]; then
-  echo "get libglu..."
+  echo "$0: get libglu..."
   $pack libglu$dev
 else
-  echo "have libglu"
+  echo "$0: have libglu"
 fi
 
 # X11
 if [ ! -f $pfx/lib/libX11.$dyl ]; then
-  echo "get libX11..."
+  echo "$0: get libX11..."
   $pack libX11$dev
 else
-  echo "have libX11"
+  echo "$0: have libX11"
 fi
 
 if [ ! -f $pfx/lib/libXmu.$dyl ]; then
-  echo "get libXmu..."
+  echo "$0: get libXmu..."
   $pack libXmu$dev
 else
-  echo "have libXmu"
+  echo "$0: have libXmu"
 fi
 
 if [ ! -f $pfx/lib/libICE.$dyl ]; then
-  echo "get libICE..."
+  echo "$0: get libICE..."
   $pack libICE$dev
 else
-  echo "have libICE"
+  echo "$0: have libICE"
 fi
 
 if [ ! -f $pfx/lib/libXpm.$dyl ]; then
-  echo "get libXpm..."
+  echo "$0: get libXpm..."
   $pack libXpm$dev
 else
-  echo "have libXpm"
+  echo "$0: have libXpm"
 fi
 
 pfx=$(which jpegtran | cut -d/ -f 1,2,3)
 if [ ! -f $pfx/lib/libjpeg.$dyl ]; then
-  echo "get libjpeg..."
+  echo "$0: get libjpeg..."
   $pack libjpeg$dev
 else
-  echo "have libjpeg"
+  echo "$0: have libjpeg"
 fi
 
 pfx=$(freetype-config --prefix)
 if [ ! -f $pfx/lib/libfreetype.$dyl ]; then
-  echo "get freetype..."
+  echo "$0: get freetype..."
   $pack freetype$dev
 else
-  echo "have freetype"
+  echo "$0: have freetype"
 fi
 
 #
 # optional
 #
 if [ ! $(which ocaml) ]; then
-  echo "get ocaml..."
+  echo "$0: get ocaml..."
   $pack ocaml
 else
-  echo "have ocaml"
+  echo "$0: have ocaml"
 fi
 
 if [ ! $(which sqlite3) ]; then
-  echo "get sqlite3..."
+  echo "$0: get sqlite3..."
   $pack sqlite3
 else
-  echo "have sqlite3"
+  echo "$0: have sqlite3"
 fi
 
 if [ ! $(which java) ]; then
-  echo "get java..."
+  echo "$0: get java..."
   $pack $java
 else
-  echo "have java"
+  echo "$0: have java"
 fi
 
 #if [ ! f /usr/local/lib/libopenal.$dyl ]; then
-#  echo "get openal..."
+#  echo "$0: get openal..."
 #else
-#  echo "have openal"
+#  echo "$0: have openal"
 #  $pack openal
 #fi
 ret=0
