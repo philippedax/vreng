@@ -7,9 +7,9 @@
 conf=/etc/apache2/httpd.conf
 
 if grep "vreng" $conf >/dev/null 2>&1; then
-  echo "$0: httpd.conf already configured"
+  echo "$(basename $0): httpd.conf already configured"
 else
-  echo "$0: httpd.conf not configured"
+  echo "$(basename $0): httpd.conf not configured"
   tmp=/tmp/httpd
   cp $conf $tmp
   cat <<EOHTTPD >>$tmp

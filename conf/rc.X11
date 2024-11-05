@@ -21,9 +21,9 @@ Darwin)	# MacOS
   fi
   ps ax | grep " :0 " >/dev/null 2>&1
   if [ $? = 0 ]; then
-    echo "$0: Xquartz already launched"
+    echo "$(basename $0): Xquartz already launched"
   else
-    echo "$0: launch Xquartz"
+    echo "$(basename $0): launch Xquartz"
     /opt/X11/libexec/launchd_startx /opt/X11/bin/startx -- /opt/X11/bin/Xquartz &
   fi
   ;;
@@ -31,7 +31,7 @@ Darwin)	# MacOS
 *)	# Linux and others
   ps ax | grep " :0 " >/dev/null 2>&1
   if [ $? = 0 ]; then
-    echo "$0: Xserver already launched"
+    echo "$(basename $0): Xserver already launched"
   else
     startx
   fi
