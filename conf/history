@@ -2777,3 +2777,4 @@
 3176 Mar  5 nov 2024 17:21:25 CET	cleanup man target src/man/Makefile.am
 3177 Mer  6 nov 2024 10:05:36 CET	make man dir src/man/Makefile.am
 3178 Mer  6 nov 2024 10:14:50 CET	rm -rf man/ before mkdir man/
+3179 Mer  6 nov 2024 10:46:04 CET	remove auto-regenerated scripts conf/
