@@ -2,8 +2,10 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 
 AI_INIT = ai.cpp dummy_.ml
 AI_SRCS = $(AI_INIT) stringParser.mly stringLexer.mll requeteParser.mly requeteLexer.mll requeteAffichage.ml requeteSemantique.ml analyseur.ml
-AI_HDRS = ai.hpp analyseur.mli requeteAffichage.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteSemantique.mli requeteSyntax.mli
+AI_HDRS = ai.hpp analyseur.mli requeteAffichage.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteSemantique.mli requeteSyntax.mli
+
 EXTRA_DIST = $(AI_SRCS) $(AI_HDRS)
+
 GEN = stringLexer.ml stringParser.mli stringParser.ml requeteLexer.ml requeteParser.mli requeteParser.ml
 CML = stringParser.ml stringLexer.ml requeteLexer.ml requeteParser.ml requeteAffichage.ml requeteSemantique.ml analyseur.ml
 CMLI = requeteSyntax.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteAffichage.mli requeteSemantique.mli analyseur.mli
