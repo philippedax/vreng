@@ -4,8 +4,7 @@ man_MANS = vreng.1 vacs.8 vaps.8 vrel.1 vrl.1 vred.1
 
 EXTRA_DIST = vreng.1 vacs.8 vaps.8 vrel.1 vrl.1 vred.1
 
-TOP=$(top_srcdir)
-MAN=$(TOP)/man
+MAN=$(top_srcdir)/man
 
 SUFFIXES: .man .1 .8
 
@@ -17,6 +16,7 @@ SUFFIXES: .man .1 .8
 all: man
 
 man:
+	@-rm -rf $(MAN)
 	@-mkdir $(MAN) >/dev/null 2>&1
 	@man ./vreng.1 >$(MAN)/vreng.man
 	@man ./vred.1 >$(MAN)/vred.man
@@ -26,4 +26,4 @@ man:
 	@man ./vaps.8 >$(MAN)/vaps.man
 
 clean:
-	@-rm $(MAN)/*.man
+	@-rm -rf $(MAN)
