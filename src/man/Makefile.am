@@ -17,6 +17,7 @@ SUFFIXES: .man .1 .8
 all: man
 
 man:
+	@-mkdir $(MAN) >/dev/null 2>&1
 	@man ./vreng.1 >$(MAN)/vreng.man
 	@man ./vred.1 >$(MAN)/vred.man
 	@man ./vrel.1 >$(MAN)/vrel.man

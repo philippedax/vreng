@@ -36,10 +36,6 @@ dist dist-all:
 	-make dist-gzip
 	-make dist-xz
 
-doc:
-	@-mkdir man >/dev/null 2>&1
-	@-$(MAKE) man
-
 clean-tar:
 	-tar xpf $(TARBALL_GZ)
 	@-cp $(TARBALL_GZ) vreng.tar.gz
@@ -65,4 +61,4 @@ snapshot:
 history:
 	@(cd archive; ls -ltr)
 
-.PHONY: dist doc clean-tar data-tar html-tar doxygen snapshot history
+.PHONY: dist clean-tar data-tar html-tar doxygen snapshot history
