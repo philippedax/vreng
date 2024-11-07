@@ -2781,3 +2781,4 @@
 3180 Mer  6 nov 2024 12:23:45 CET	fix stringParser.mli ai/Makefile.am
 3181 Jeu  7 nov 2024 15:32:36 CET	cleanup pfx conf/rc.prerequisites
 3182 Jeu  7 nov 2024 16:25:55 CET	cleanup by_hand conf/rc.prerequisites
+3183 Jeu  7 nov 2024 16:36:10 CET	cleanup log build

@@ -13,14 +13,16 @@
 #
 PATH=conf:$PATH export PATH
 
-mkdir log 2>&1 >/dev/null
-date 2>&1 >log/$0.log
+if [ ! -d log ]; then
+  mkdir log >/dev/null 2>&1
+fi
+date 2>&1 >log/$(basename $0).log
 
 # goto conf dir
 cd conf
 
 # installs requirements
-# via brew, apt-get, dnf, pkg, pacman
+# via brew, apt-get, dnf, yum, pacman, pkg...
 ./rc.prerequisites
 
 # launches X11 server
@@ -38,5 +40,5 @@ cd ..
 # compiles source
 make
 
-date 2>&1 >>log/$0.log
+date 2>&1 >>log/$(basename $0).log
 cat log/$0.log
