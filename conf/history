@@ -2779,3 +2779,4 @@
 3178 Mer  6 nov 2024 10:14:50 CET	rm -rf man/ before mkdir man/
 3179 Mer  6 nov 2024 10:46:04 CET	remove auto-regenerated scripts conf/
 3180 Mer  6 nov 2024 12:23:45 CET	fix stringParser.mli ai/Makefile.am
+3181 Jeu  7 nov 2024 15:32:36 CET	cleanup pfx conf/rc.prerequisites
