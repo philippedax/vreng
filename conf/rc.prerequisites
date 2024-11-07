@@ -4,8 +4,20 @@
 #
 # check and install needed requirements
 #
+# note:
+#       this script has been tested on macos but not on Linux and *BSD,
+#       if you don't trust this script you are free to make these requirements by hand,
+#       then initialize the variable
+#
+#         by_hand="yes".
+#
 # Philippe Dax - 2024
 #
+by_hand="no"	# change to "yes" if you prefer to not execute this script
+
+if [ "$by_hand" == "yes" ]; then
+  exit 0
+fi
 
 dist=
 pack=
