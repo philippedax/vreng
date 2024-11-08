@@ -2,22 +2,24 @@
 #
 # rc.prerequisites
 #
-# check and install needed requirements
+# Check and install needed requirements from scratch
 #
-# note:
-#       this script has been tested on macos but not on Linux and *BSD,
-#       if you don't trust this script you are free to make these requirements by hand,
-#       then initialize the variable
+# Note 1:
+#       This script has been tested on macos but not on Linux niether *BSD.
+# Note 2:
+#       If you don't trust this script you are free to make these requirements by hand,
+#       then initialize the variable by_hand to "yes" :
 #
-#         by_hand="yes".
+#       by_hand="yes"
 #
 # Philippe Dax - 2024
 #
 by_hand="no"	# change to "yes" if you prefer to not execute this script
 
-if [ "$by_hand" == "yes" ]; then
-  exit 0
-fi
+############################################
+if [ "$by_hand" == "yes" ]; then exit 0 ; fi
+if [ -f ../configure ];     then exit 0 ; fi
+############################################
 
 dist=
 pack=
@@ -220,6 +222,24 @@ if [ ! -f $pfx/lib/libXpm.$dyl ]; then
   $pack libXpm$dev
 else
   echo "$(basename $0): have libXpm !"
+fi
+
+# libgif
+pfx=/usr/local
+if [ ! -f $pfx/lib/libgif.$dyl ]; then
+  echo "$(basename $0): get libgif..."
+  $pack libgif$dev
+else
+  echo "$(basename $0): have libgif !"
+fi
+
+# libpng
+pfx=/usr/local
+if [ ! -f $pfx/lib/libpng.$dyl ]; then
+  echo "$(basename $0): get libpng..."
+  $pack libpng$dev
+else
+  echo "$(basename $0): have libpng !"
 fi
 
 # libjpeg
