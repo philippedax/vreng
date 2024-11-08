@@ -31,11 +31,11 @@ or manually do (if you have not) :
   brew install libglu
   brew install libX11
   brew install libXmu
-  brew install libXext
-  brew install libICE
   brew install libXpm
+  brew install libgif
+  brew install libpng
   brew install libjpeg
-  brew install libungif
+  brew install libtiff
   brew install freetype
 
   # optional
