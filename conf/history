@@ -2784,3 +2784,4 @@
 3183 Jeu  7 nov 2024 16:36:10 CET	cleanup log build
 3184 Ven  8 nov 2024 08:14:59 CET	add libtiff conf/rc.prerequisites
 3185 Ven  8 nov 2024 09:07:55 CET	remove -lICE -lSM -lXext from configure.ac
+3186 Ven  8 nov 2024 09:11:44 CET	remove libICE conf/rc.prerequisites

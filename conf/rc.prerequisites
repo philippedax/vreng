@@ -214,14 +214,6 @@ else
   echo "$(basename $0): have libXmu !"
 fi
 
-# libICE
-if [ ! -f $pfx/lib/libICE.$dyl ]; then
-  echo "$(basename $0): get libICE..."
-  $pack libICE$dev
-else
-  echo "$(basename $0): have libICE !"
-fi
-
 # libXpm
 if [ ! -f $pfx/lib/libXpm.$dyl ]; then
   echo "$(basename $0): get libXpm..."
