@@ -8,30 +8,29 @@ in virtual worlds connected over the Internet.
 REQUIREMENTS AND RECOMMENDATIONS
 --------------------------------
 To build VREng you need a C++ and C compiler (for ex. g++, gcc).
-Furthmor you need the X-Window System X11 (Xorg, X11R6 or Openwin).
-Your visual must have a color depth of 8, 15, 16 or 24.
+Furthmore you need the X-Window System X11 (Xorg, X11R6 or Openwin).
+Your visual must have a color depth of 8, 16, 24 or 32.
 
 The following libraries are required: libjpeg, libungif, libXpm.
 Other recommended libraries: libmysqlclient, libz, libpng.
-For more details see md/REQUIREMENTS.
+For more details see md/REQUIREMENTS.md.
 
 Your machine and your network should support IP Multicast, mainly IGMPv2
 and Multicast routing protocols to see other avatars in the same scene.
 If is not the case a Unicast/Multicast Reflector is activated when vreng
 is launched. VREng detects automatically if your host is on the MBone,
-if true, VREng switches in Multicast mode, else continues in Unicast mode
-with the Reflector.
+if true, VREng switches in Multicast mode, else continues in Unicast mode.
 
 
 SUPPORTED PLATFORMS
 -------------------
-	- Linux-* (debian, unbutu, fedora,...)
-	- MacOSX-1[012].*
+	- Linux* (debian, unbutu, fedora, centos, arch,...)
+	- MacOSX*
+	- FreeBSD*
+	- NetBSD*
 	- Solaris*
 	- Sunos4.1.*
 	- HP-UX-B.10.20
-	- FreeBsd[345].*
-	- NetBsd*
 	- CygWin32
 
 VREng has not been ported on other platforms yet, but any port will be welcome.
@@ -47,7 +46,8 @@ COMPILING
 ---------
 
 If the script "configure" is not present, you need to build it first by:
-	./build
+	./build [args...]
+where args are the same as those of ./configure [args...].
 
 VREng uses an OpenGL library. The configure script will usually figure out
 which one is installed on your system. There are basically two possibilities:
@@ -63,11 +63,14 @@ Since vreng-7.0.0 the Ubit Toolkit is built in VReng by default.
 Before compiling VREng check available features with:
 	./configure --help
 
-To compile VREng with defaults, type:
+To configure and compile VREng with defaults, type:
 	./configure
 
-and then
+and then type:
 	make or gmake
+
+To launch VREng type:
+        ./vr or ./vreng
 
 
 INSTALLING
@@ -110,7 +113,8 @@ DOCUMENTATION
 For more details, the documentation is available at
 https://web.archive.org/web/20160329013641/http://www.vreng.enst.fr/html/index.html
 
-It is recommended to see also the ChangeLog file for more informations.
+It is recommended to see also the ChangeLog file md/CHANGELOG.md for more informations.
+The history of commits are also presents in conf/history
 
 
 AUTHORS

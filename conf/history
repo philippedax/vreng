@@ -2788,3 +2788,4 @@
 3187 Ven  8 nov 2024 10:08:17 CET	replace OSDEP by -L/usr/local/lib configure.ac
 3188 Ven  8 nov 2024 12:09:46 CET	cleanup REQUIREMENTS.md
 3189 Ven  8 nov 2024 15:06:08 CET	add libgif and libpng rc.prerequisites
+3190 Ven  8 nov 2024 16:31:48 CET	complete README.md
