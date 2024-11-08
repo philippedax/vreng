@@ -122,6 +122,8 @@ esac
 #
 # autotools
 #
+
+# autoconf
 if [ ! $(which autoconf) ]; then
   echo "$(basename $0): get autoconf..."
   $pack autoconf
@@ -129,6 +131,7 @@ else
   echo "$(basename $0): have autoconf !"
 fi
 
+# automake
 if [ ! $(which automake) ]; then
   echo "$(basename $0): get automake..."
   $pack automake
@@ -136,6 +139,7 @@ else
   echo "$(basename $0): have automake !"
 fi
 
+# aclocal
 if [ ! $(which aclocal) ]; then
   echo "$(basename $0): get aclocal..."
   $pack aclocal
@@ -143,6 +147,7 @@ else
   echo "$(basename $0): have aclocal !"
 fi
 
+# autoreconf
 if [ ! $(which autoreconf) ]; then
   echo "$(basename $0): get autoreconf..."
   $pack autoreconf
@@ -153,6 +158,8 @@ fi
 #
 # compilers
 #
+
+# g++
 if [ ! $(which g++) ]; then
   echo "$(basename $0): get g++..."
   $pack g++
@@ -160,6 +167,7 @@ else
   echo "$(basename $0): have g++ !"
 fi
 
+# gcc
 if [ ! $(which gcc) ]; then
   echo "$(basename $0): get gcc..."
   $pack gcc
@@ -171,7 +179,7 @@ fi
 # graphic libs
 #
 
-# openGL
+# libGL
 pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
 if [ ! -f $pfx/lib/libGL.$dyl ]; then
   echo "$(basename $0): get libGL..."
@@ -181,6 +189,7 @@ else
   echo "$(basename $0): have libGL !"
 fi
 
+# libGLU
 if [ ! -f $pfx/lib/libGLU.$dyl ]; then
   echo "$(basename $0): get libGLU..."
   $pack libglu$dev
@@ -189,7 +198,7 @@ else
   echo "$(basename $0): have libGLU !"
 fi
 
-# X11
+# libX11
 if [ ! -f $pfx/lib/libX11.$dyl ]; then
   echo "$(basename $0): get libX11..."
   $pack libX11$dev
@@ -197,6 +206,7 @@ else
   echo "$(basename $0): have libX11 !"
 fi
 
+# libXmu
 if [ ! -f $pfx/lib/libXmu.$dyl ]; then
   echo "$(basename $0): get libXmu..."
   $pack libXmu$dev
@@ -204,6 +214,7 @@ else
   echo "$(basename $0): have libXmu !"
 fi
 
+# libICE
 if [ ! -f $pfx/lib/libICE.$dyl ]; then
   echo "$(basename $0): get libICE..."
   $pack libICE$dev
@@ -211,6 +222,7 @@ else
   echo "$(basename $0): have libICE !"
 fi
 
+# libXpm
 if [ ! -f $pfx/lib/libXpm.$dyl ]; then
   echo "$(basename $0): get libXpm..."
   $pack libXpm$dev
@@ -218,6 +230,7 @@ else
   echo "$(basename $0): have libXpm !"
 fi
 
+# libjpeg
 pfx=/usr/local
 if [ ! -f $pfx/lib/libjpeg.$dyl ]; then
   echo "$(basename $0): get libjpeg..."
@@ -226,6 +239,16 @@ else
   echo "$(basename $0): have libjpeg !"
 fi
 
+# libtiff
+pfx=/usr/local
+if [ ! -f $pfx/lib/libtiff.$dyl ]; then
+  echo "$(basename $0): get libtiff..."
+  $pack libtiff$dev
+else
+  echo "$(basename $0): have libtiff !"
+fi
+
+# libfreetype
 pfx=$(freetype-config --prefix)
 pfx=/usr/local
 if [ ! -f $pfx/lib/libfreetype.$dyl ]; then
@@ -238,6 +261,8 @@ fi
 #
 # optional
 #
+
+# ocaml
 if [ ! $(which ocaml) ]; then
   echo "$(basename $0): get ocaml..."
   $pack ocaml
@@ -245,6 +270,7 @@ else
   echo "$(basename $0): have ocaml !"
 fi
 
+# sqlite3
 if [ ! $(which sqlite3) ]; then
   echo "$(basename $0): get sqlite3..."
   $pack sqlite3
@@ -252,6 +278,7 @@ else
   echo "$(basename $0): have sqlite3 !"
 fi
 
+# java
 if [ ! $(which java) ]; then
   echo "$(basename $0): get java..."
   $pack $java
@@ -259,6 +286,7 @@ else
   echo "$(basename $0): have java !"
 fi
 
+# openal
 #if [ ! f /usr/local/lib/libopenal.$dyl ]; then
 #  echo "$(basename $0): get openal..."
 #else

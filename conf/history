@@ -2782,3 +2782,4 @@
 3181 Jeu  7 nov 2024 15:32:36 CET	cleanup pfx conf/rc.prerequisites
 3182 Jeu  7 nov 2024 16:25:55 CET	cleanup by_hand conf/rc.prerequisites
 3183 Jeu  7 nov 2024 16:36:10 CET	cleanup log build
+3184 Ven  8 nov 2024 08:14:59 CET	add libtiff conf/rc.prerequisites
