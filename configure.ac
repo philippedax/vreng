@@ -867,18 +867,18 @@ LDFLAGS="$LDFLAGS $OSDEP_LIBS"
 #
 AH_TEMPLATE(HAVE_LIBGIF)
 AC_CHECK_LIB([ungif], [DGifOpenFileName],
-             [LIBS="$OSDEP_LIBS -lungif $LIBS"],
+             [LIBS="-L/usr/local/lib -lungif $LIBS"],
              [],
-             [$OSDEP_LIBS])
+             [-L/usr/local/lib])
 if test "$ac_cv_lib_ungif_DGifOpenFileName" = "yes"; then
   AC_DEFINE(HAVE_LIBGIF)
   ubit_features="$ubit_features UBIT_WITH_GIF"
 else
   AC_CHECK_LIB([gif], [DGifOpenFileName],
-               [LIBS="$OSDEP_LIBS -lgif $LIBS"],
+               [LIBS="-L/usr/local/lib -lgif $LIBS"],
                [AC_MSG_WARN([gif library not found, check config.log!,
 	                    get ftp://prtr-13.ucsc.edu/pub/libungif/ or try apt|dnf|yum|brew install giflib-devel | apt-get install libgif-dev giflib-tools])],
-               [$OSDEP_LIBS])
+               [-L/usr/local/lib])
   if test "$ac_cv_lib_gif_DGifOpenFileName" = "yes"; then
     AC_DEFINE(HAVE_LIBGIF)
     ubit_features="$ubit_features UBIT_WITH_GIF"
@@ -892,9 +892,9 @@ fi
 #
 AH_TEMPLATE(HAVE_LIBJPEG)
 AC_CHECK_LIB([jpeg], [jpeg_read_scanlines],
-             [LIBS="$OSDEP_LIBS -ljpeg $LIBS"],
+             [LIBS="-L/usr/local/lib -ljpeg $LIBS"],
              [AC_MSG_WARN([jpeg library not found, check config.log!, or try apt|dnf|yum|brew install libjpeg-turbo-devel | apt-get install libjpeg8-dev])],
-             [$OSDEP_LIBS])
+             [-L/usr/local/lib])
 if test "$ac_cv_lib_jpeg_jpeg_read_scanlines" = "yes"; then
   AC_DEFINE([HAVE_LIBJPEG])
   ubit_features="$ubit_features UBIT_WITH_JPEG"
@@ -909,9 +909,9 @@ AC_CHECK_HEADER([jpeglib.h], [AC_DEFINE([HAVE_JPEGLIB_H])],
 #
 AH_TEMPLATE(HAVE_LIBTIFF)
 AC_CHECK_LIB([tiff], [TIFFOpen],
-             [LIBS="$OSDEP_LIBS -ltiff $LIBS"],
+             [LIBS="-L/usr/local/lib -ltiff $LIBS"],
              [AC_MSG_WARN([tiff library not found, check config.log!, try apt|dnf|yum|brew install libtiff-devel | apt-get install libtiff4-dev])],
-             [$OSDEP_LIBS])
+             [-L/usr/local/lib])
 if test "$ac_cv_lib_tiff_TIFFOpen" = "yes"; then
   AC_DEFINE([HAVE_LIBTIFF])
   AH_TEMPLATE(HAVE_TIFFIO_H)
@@ -950,11 +950,11 @@ fi
 # check png library
 #
 AH_TEMPLATE(HAVE_LIBPNG)
-LDFLAGS="$LDFLAGS $OSDEP_LIBS"
+LDFLAGS="$LDFLAGS -L/usr/local/lib"
 AC_CHECK_LIB([png], [png_error],
-             [LIBS="$OSDEP_LIBS -lpng $LIBS"],
+             [LIBS="-L/usr/local/lib -lpng $LIBS"],
              [AC_MSG_WARN([png library not found, check config.log, or try apt|dnf|yum|brew install libpng-devel or apt-get install libpng-dev])],
-             [$OSDEP_LIBS -lz])
+             [-L/usr/local/lib -lz])
 if test "$ac_cv_lib_png_png_error" = "yes" ; then
   AC_DEFINE(HAVE_LIBPNG)
 fi
@@ -978,9 +978,9 @@ if test "${with_mpeg:=yes}" = "yes"; then
   # check mpeg
   #
   AC_CHECK_LIB([mpeg], [OpenMPEG],
-               [LIBS="${OSDEP_LIBS} -l${libmpeg} $LIBS"],
+               [LIBS="-L/usr/local/lib -l${libmpeg} $LIBS"],
                [AC_MSG_RESULT([	use embedded mpeg_lib ])],
-               [${OSDEP_LIBS}])
+               [-L/usr/local/lib])
   if test $ac_cv_lib_mpeg_OpenMPEG = "yes" ; then
     AC_DEFINE(HAVE_LIBMPEG)
   else
@@ -996,9 +996,9 @@ fi
 #
 AH_TEMPLATE(HAVE_LIBCURL)
 AC_CHECK_LIB([curl], [curl_easy_init],
-             [LIBS="$OSDEP_LIBS -lcurl $LIBS"],
+             [LIBS="-L/usr/local/lib -lcurl $LIBS"],
              [AC_MSG_WARN([curl library not found, check config.log, or try apt|dnf|yum|brew install libcurl-devel or apt-get install libcurl4-openssl-dev])],
-             [$OSDEP_LIBS])
+             [-L/usr/local/lib])
 if test "$ac_cv_lib_curl_curl_easy_init" = "yes"; then
   AC_DEFINE([HAVE_LIBCURL])
   AH_TEMPLATE(HAVE_CURL_CURL_H)
@@ -1120,9 +1120,9 @@ am_libtinygl="no"
 #  # check tinygl
 #  #
 #  AC_CHECK_LIB([tinygl], [glBegin],
-#               [LIBS="${OSDEP_LIBS} -l${libtinygl} $LIBS"],
+#               [LIBS="-L/usr/local/lib -l${libtinygl} $LIBS"],
 #               [AC_MSG_RESULT([	use embedded tinygl ])],
-#               [${OSDEP_LIBS}])
+#               [-L/usr/local/lib])
 #  if test $ac_cv_lib_tinygl_glBegin = "yes" ; then
 #    AC_DEFINE(HAVE_LIBTINYGL)
 #  else
