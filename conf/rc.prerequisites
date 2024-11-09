@@ -5,22 +5,21 @@
 # Check and install needed requirements from scratch
 #
 # Note 1:
-#       This script has been tested on macos but not on Linux niether *BSD.
-# Note 2:
-#       If you don't trust this script you are free to make these requirements by hand,
-#       then initialize the variable by_hand to "yes" :
+#       This script has been tested only on MacOS but not on Linux niether *BSD.
 #
-#       by_hand="yes"
+# Note 2:
+#       If you don't trust this script to do sudo in your place
+#       then initialize do_sudo to "no" 
+#      
+#       do_sudo="no"
 #
 # Philippe Dax - 2024
 #
-by_hand="no"	# change to "yes" if you prefer to not execute this script
-trust_me=yes"	# change to "no" if you don't trust this scipt to do sudo
+#by_hand="no"	# change to "yes" if you prefer to not execute this script
+do_sudo="no"	# change to "yes" if you trust this scipt to do sudo
 
-############################################
-if [ "$by_hand" == "yes" ]; then exit 0 ; fi	# if "no", this script will never be executed
-if [ -f ../configure ];     then exit 0 ; fi	# assume that vreng is configured
-############################################
+#if [ "$by_hand" == "yes" ]; then exit 0 ; fi	# if "no", this script will never be executed
+#if [ -f ../configure ];     then exit 0 ; fi	# assume that vreng is configured
 
 dist=
 pack=
@@ -29,17 +28,16 @@ dev=
 ret=0
 pfx=/usr
 sudo=
-log=../log/install.log
+log=../log/by_hand.log
 
-if [ "trust_me" == "yes" ]; then
+if [ "do_sudo" == "yes" ]; then
   sudo=sudo
 else
   sudo=
+  cp /dev/null $log
 fi
 
 p=$(basename $0)
-
-cp /dev/null $log
 
 #
 # determines os
@@ -150,8 +148,8 @@ fi
 
 # automake
 if [ ! $(which automake) ]; then
-  echo "$pack automake" >>$log
   echo "$p: get automake..."
+  echo "$pack automake" >>$log
   $pack automake
 else
   echo "$p: have automake !"
@@ -159,8 +157,8 @@ fi
 
 # aclocal
 if [ ! $(which aclocal) ]; then
-  echo "$pack aclocal" >>$log
   echo "$p: get aclocal..."
+  echo "$pack aclocal" >>$log
   $pack aclocal
 else
   echo "$p: have aclocal !"
@@ -168,8 +166,8 @@ fi
 
 # autoreconf
 if [ ! $(which autoreconf) ]; then
-  echo "$pack autoreconf" >>$log
   echo "$p: get autoreconf..."
+  echo "$pack autoreconf" >>$log
   $pack autoreconf
 else
   echo "$p: have autoreconf !"
@@ -340,5 +338,10 @@ fi
 #  $pack openal
 #fi
 ret=0
+
+if [ $do_sudo != "yes" ]; then
+  echo "$p: operations to do manually"
+  cat $log
+fi
 
 exit $ret

@@ -2791,3 +2791,4 @@
 3190 Ven  8 nov 2024 16:31:48 CET	complete README.md
 3191 Sam  9 nov 2024 09:53:48 CET	cleanup -L/libdir configure.ac
 3192 Sam  9 nov 2024 10:34:58 CET	add mode trust_me to rc.prerequisites
+3193 Sam  9 nov 2024 16:15:29 CET	log by_hand.log rc.prerequisites
