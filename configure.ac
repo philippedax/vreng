@@ -268,12 +268,6 @@ case "$build" in
   if test -d /usr/local/include ; then
     OSDEP_CFLAGS="-I/usr/local/include"
   fi
-  if test -d /usr/sfw/lib ; then
-    OSDEP_LIBS="${OSDEP_LIBS} -L/usr/sfw/lib"
-  fi
-  if test -d /usr/sfw/include ; then
-    OSDEP_CFLAGS="${OSDEP_CFLAGS} -I/usr/sfw/include"
-  fi
   ;;
 sparc-sun-sunos*)
   AC_DEFINE(SUNOS)
@@ -360,20 +354,15 @@ AC_DEFINE(OSF1)
   elif test -d /opt/local/include ; then
     OSDEP_CFLAGS="-I/opt/local/include"
     CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
-  elif test -d /sw/include ; then
-    OSDEP_CFLAGS="${OSDEP_CFLAGS} -I/sw/include"
-    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
   fi
   if test -d /usr/X11/lib ; then
-    OSDEP_LIBS="-L/usr/X11/lib"
+    #OSDEP_LIBS="-L/usr/X11/lib"
     X_LIBS="-L/usr/X11/lib"
   elif test -d /opt/X11/lib ; then
     OSDEP_LIBS="-L/opt/X11/lib"
     X_LIBS="-L/opt/X11/lib"
   elif test -d /opt/local/lib ; then
     OSDEP_LIBS="-L/opt/local/lib"
-  elif test -d /sw/lib ; then
-    OSDEP_LIBS="${OSDEP_LIBS} -L/sw/lib"
   fi
   case "$build" in
     *-*-darwin9*)
@@ -556,7 +545,7 @@ if test "${enable_pthread:=yes}" = "yes"; then
   # check pthread
   #
   AC_CHECK_LIB([pthread], [pthread_create], 
-               [LIBS="-lpthread -L/usr/lib -ldl $LIBS"],
+               [LIBS="-lpthread -ldl $LIBS"],
                [AC_MSG_WARN([pthreads library not found, check config.log!])])
   if test "$ac_cv_lib_pthread_pthread_create" = "yes" ; then
     CXXFLAGS="${CXXFLAGS} -D_REENTRANT"
@@ -867,7 +856,7 @@ LDFLAGS="$LDFLAGS $OSDEP_LIBS"
 #
 AH_TEMPLATE(HAVE_LIBGIF)
 AC_CHECK_LIB([ungif], [DGifOpenFileName],
-             [LIBS="-L/usr/local/lib -lungif $LIBS"],
+             [LIBS="-lungif $LIBS"],
              [],
              [-L/usr/local/lib])
 if test "$ac_cv_lib_ungif_DGifOpenFileName" = "yes"; then
@@ -875,7 +864,7 @@ if test "$ac_cv_lib_ungif_DGifOpenFileName" = "yes"; then
   ubit_features="$ubit_features UBIT_WITH_GIF"
 else
   AC_CHECK_LIB([gif], [DGifOpenFileName],
-               [LIBS="-L/usr/local/lib -lgif $LIBS"],
+               [LIBS="-lgif $LIBS"],
                [AC_MSG_WARN([gif library not found, check config.log!,
 	                    get ftp://prtr-13.ucsc.edu/pub/libungif/ or try apt|dnf|yum|brew install giflib-devel | apt-get install libgif-dev giflib-tools])],
                [-L/usr/local/lib])
@@ -892,7 +881,7 @@ fi
 #
 AH_TEMPLATE(HAVE_LIBJPEG)
 AC_CHECK_LIB([jpeg], [jpeg_read_scanlines],
-             [LIBS="-L/usr/local/lib -ljpeg $LIBS"],
+             [LIBS="-ljpeg $LIBS"],
              [AC_MSG_WARN([jpeg library not found, check config.log!, or try apt|dnf|yum|brew install libjpeg-turbo-devel | apt-get install libjpeg8-dev])],
              [-L/usr/local/lib])
 if test "$ac_cv_lib_jpeg_jpeg_read_scanlines" = "yes"; then
@@ -909,7 +898,7 @@ AC_CHECK_HEADER([jpeglib.h], [AC_DEFINE([HAVE_JPEGLIB_H])],
 #
 AH_TEMPLATE(HAVE_LIBTIFF)
 AC_CHECK_LIB([tiff], [TIFFOpen],
-             [LIBS="-L/usr/local/lib -ltiff $LIBS"],
+             [LIBS="-ltiff $LIBS"],
              [AC_MSG_WARN([tiff library not found, check config.log!, try apt|dnf|yum|brew install libtiff-devel | apt-get install libtiff4-dev])],
              [-L/usr/local/lib])
 if test "$ac_cv_lib_tiff_TIFFOpen" = "yes"; then
@@ -952,7 +941,7 @@ fi
 AH_TEMPLATE(HAVE_LIBPNG)
 LDFLAGS="$LDFLAGS -L/usr/local/lib"
 AC_CHECK_LIB([png], [png_error],
-             [LIBS="-L/usr/local/lib -lpng $LIBS"],
+             [LIBS="-lpng $LIBS"],
              [AC_MSG_WARN([png library not found, check config.log, or try apt|dnf|yum|brew install libpng-devel or apt-get install libpng-dev])],
              [-L/usr/local/lib -lz])
 if test "$ac_cv_lib_png_png_error" = "yes" ; then
@@ -996,7 +985,7 @@ fi
 #
 AH_TEMPLATE(HAVE_LIBCURL)
 AC_CHECK_LIB([curl], [curl_easy_init],
-             [LIBS="-L/usr/local/lib -lcurl $LIBS"],
+             [LIBS="-lcurl $LIBS"],
              [AC_MSG_WARN([curl library not found, check config.log, or try apt|dnf|yum|brew install libcurl-devel or apt-get install libcurl4-openssl-dev])],
              [-L/usr/local/lib])
 if test "$ac_cv_lib_curl_curl_easy_init" = "yes"; then
@@ -1093,7 +1082,8 @@ LDFLAGS="$X_LDFLAGS $X_LIBS -lpthread"
   UBIT_I="-I../../src"
   UBIT_CFLAGS=$UBIT_I
   #LIBS="$X_LIBS -lICE -lSM -lXext -lXmu -lX11 $LIBS"
-  LIBS="$X_LIBS -lXmu -lX11 $LIBS"
+  #LIBS="$X_LIBS -lXmu -lX11 $LIBS"
+  LIBS="-lXmu -lX11 $LIBS"
   am_ubit="yes"
   am_libftgl="yes"
   min_ubit_version=7.0.0
@@ -1143,7 +1133,7 @@ AC_ARG_WITH([GL-prefix],
 
 case "$build" in
 *-*-darwin*)
-GL_L="-L/usr/X11/lib"
+GL_L="-L/usr/lib -L/usr/X11/lib"
 GL_I="-I/usr/X11/include"
 ;;
 *)
@@ -1241,10 +1231,6 @@ AC_SUBST(GL_CFLAGS)
 #    OSDEP_LIBS="-L/opt/X11/lib"
 #  elif test -d /opt/X11/lib ; then
 #    OSDEP_LIBS="-L/opt/X11/lib"
-#  elif test -d /opt/local/lib ; then
-#    OSDEP_LIBS="-L/opt/local/lib"
-#  elif test -d /sw/lib ; then
-#    OSDEP_LIBS="$OSDEP_LIBS -L/sw/lib"
 #  fi
 #  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
 #  AC_DEFINE(HAVE_LIBGLU)  
@@ -1562,7 +1548,8 @@ if test "${with_xml2:=yes}" = "yes"; then
   AC_CHECK_HEADERS([libxml/xpathInternals.h])
 
   AC_CHECK_LIB([xml2], [xmlReaderForFile],
-               [LIBS="${OSDEP_LIBS} -lxml2 $LIBS"],
+               #[LIBS="${OSDEP_LIBS} -lxml2 $LIBS"],
+               [LIBS="-lxml2 $LIBS"],
                [AC_MSG_RESULT([	--> libxml2: http://xmlsoft.org/downloads.html])],
                [`${XML2CONFIG} --libs`])
   CPPFLAGS=$saved_cppflags
