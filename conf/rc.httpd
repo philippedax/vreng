@@ -18,13 +18,20 @@ LoadModule include_module libexec/apache2/mod_include.so
 LoadModule userdir_module libexec/apache2/mod_userdir.so
 LoadModule rewrite_module libexec/apache2/mod_rewrite.so
 
+<DirectoryMatch "/home/.*/public_html/">
+  Require all granted
+</DirectoryMatch">
 <DirectoryMatch "/Users/.*/Sites/">
   Require all granted
 </DirectoryMatch">
+<Directory "/home/.*/public_html/">
+  Options Indexes MultiViews FollowSymLinks
+  AllowOverride All
+  Require all granted
+</Directory>
 <Directory "/Users/.*/Sites/">
   Options Indexes MultiViews FollowSymLinks
   AllowOverride All
-  #Order allow,deny
   Require all granted
 </Directory>
 
