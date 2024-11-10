@@ -21,9 +21,9 @@ date 2>&1 >log/$(basename $0).log
 # goto conf dir
 cd conf
 
-# installs requirements
+# suggests or installs requirements
 # via brew, apt-get, dnf, yum, pacman, pkg...
-./rc.prerequisites
+./rc.prerequis
 
 # launches X11 server
 ./rc.X11

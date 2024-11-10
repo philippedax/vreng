@@ -12,7 +12,7 @@ First, you need to install "brew" to downdoad other dependencies by the command:
 
 then try :
 
-  conf/rc.prerequisites
+  conf/rc.prerequis
 
 or manually do (if you have not) :
 
@@ -49,7 +49,7 @@ or manually do (if you have not) :
 
 Try:
 
-  conf/rc.prerequisites
+  conf/rc.prerequis
 
 or
 
