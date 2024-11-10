@@ -2797,3 +2797,4 @@
 3196 Dim 10 nov 2024 09:24:06 CET	rename rc.prerequisites to rc.prerequis
 3197 Dim 10 nov 2024 11:15:48 CET	add conf/rc.prerequis to repo
 3198 Dim 10 nov 2024 15:12:36 CET	fix uname -s conf/rc.httpd
+3199 Dim 10 nov 2024 15:18:47 CET	cleanup basename $0 conf/rc.X11

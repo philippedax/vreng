@@ -2,28 +2,27 @@
 #
 # rc.X11
 #
-# To have a X11 server running do :
+# To have a X11 server running
 #
 PATH=/opt/X11/bin:/usr/bin:/usr/local/bin:/usr/X11/bin:$PATH export PATH
+
+p=$(basename $0)
 
 case $(uname -s) in
 Darwin)	# MacOS
   if [ ! $(which xquartz) ]; then
     brew install --cask xquartz
     # or
-    #
     # - download XQuartz.2.x.y.pkg at www.xquartz.org
     # - unpackage it
-    # 
     # and
-    # 
-    # execute it
+    # - execute it
   fi
   ps ax | grep " :0 " >/dev/null 2>&1
   if [ $? = 0 ]; then
-    echo "$(basename $0): Xquartz already launched"
+    echo "$p: Xquartz already launched"
   else
-    echo "$(basename $0): launch Xquartz"
+    echo "$p: launch Xquartz"
     /opt/X11/libexec/launchd_startx /opt/X11/bin/startx -- /opt/X11/bin/Xquartz &
   fi
   ;;
@@ -31,7 +30,7 @@ Darwin)	# MacOS
 *)	# Linux and others
   ps ax | grep " :0 " >/dev/null 2>&1
   if [ $? = 0 ]; then
-    echo "$(basename $0): Xserver already launched"
+    echo "$p: Xserver already launched"
   else
     startx
   fi
