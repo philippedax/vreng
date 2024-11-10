@@ -2796,3 +2796,4 @@
 3195 Dim 10 nov 2024 09:03:44 CET	cleanup conf directory configure.ac
 3196 Dim 10 nov 2024 09:24:06 CET	rename rc.prerequisites to rc.prerequis
 3197 Dim 10 nov 2024 11:15:48 CET	add conf/rc.prerequis to repo
+3198 Dim 10 nov 2024 15:12:36 CET	fix uname -s conf/rc.httpd

@@ -6,38 +6,48 @@
 #
 conf=/etc/apache2/httpd.conf
 
+p=$(basename $0)
+
+if [ ! -f $conf ]; then
+  echo "$p: $conf not found"
+  exit 1
+fi
+
 if grep "vreng" $conf >/dev/null 2>&1; then
-  echo "$(basename $0): httpd.conf already configured"
-else
-  echo "$(basename $0): httpd.conf not configured"
-  tmp=/tmp/httpd
-  cp $conf $tmp
-  cat <<EOHTTPD >>$tmp
-# vreng configuration added at then end of httpd.conf
+  echo "$p: httpd.conf already configured"
+  exit 0
+fi
+
+echo "$p: httpd.conf not configured"
+tmp=/tmp/httpd
+cp $conf $tmp
+
+case $(uname -s) in
+  Darwin)	# MacOS
+    path=$HOME/Sites/
+    ;;
+  *)		# Linux
+    path=$HOME/public_html/
+    ;;
+esac
+
+cat <<EOF >>$tmp
+# vreng configuration added at the end of httpd.conf
 LoadModule include_module libexec/apache2/mod_include.so
 LoadModule userdir_module libexec/apache2/mod_userdir.so
 LoadModule rewrite_module libexec/apache2/mod_rewrite.so
 
-<DirectoryMatch "/home/.*/public_html/">
+<DirectoryMatch "$path">
   Require all granted
 </DirectoryMatch">
-<DirectoryMatch "/Users/.*/Sites/">
-  Require all granted
-</DirectoryMatch">
-<Directory "/home/.*/public_html/">
-  Options Indexes MultiViews FollowSymLinks
-  AllowOverride All
-  Require all granted
-</Directory>
-<Directory "/Users/.*/Sites/">
+<Directory "$path">
   Options Indexes MultiViews FollowSymLinks
   AllowOverride All
   Require all granted
 </Directory>
 
 Include /private/etc/apache2/extra/httpd-userdir.conf
-EOHTTPD
+EOF
 
-  sudo cp $tmp $conf
-  sudo apachectl restart
-fi
+sudo cp $tmp $conf
+sudo apachectl restart
