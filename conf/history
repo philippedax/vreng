@@ -1,3 +1,402 @@
+1 Sat Aug 6 18:54:47 2016 +0200		add sources
+2 Sat Aug 6 21:55:03 2016 +0200		#if HAVE_OCAML + CXXFLAGS
+3 Sat Aug 6 22:15:11 2016 +0200		CXXFLAGS -Wno-address -Wbo-misleading-indentation
+4 Sat Aug 6 22:30:37 2016 +0200		CFLAGS -Wbo-misleading-indentation
+5 Sun Aug 7 08:31:10 2016 +0200		add bin directory
+6 Sun Aug 7 08:51:21 2016 +0200		add bin/vre.in
+7 Sun Aug 7 09:31:52 2016 +0200		CXXFLAGS -Wno-misleading-indentation
+8 Sun Aug 7 10:20:01 2016 +0200		bin/Makefile.am
+9 Sun Aug 7 17:11:40 2016 +0200		gui/xpm/Makefile.am view.xpm
+10 Sun Aug 7 18:04:46 2016 +0200	vreng-8.3.1
+11 Sun Aug 7 18:56:56 2016 +0200	bin/Makefile.am no-dependencies
+12 Mon Aug 8 10:36:35 2016 +0200	README updated
+13 Mon Aug 8 11:00:51 2016 +0200	move conf -> md
+14 Mon Aug 8 16:49:18 2016 +0200	rm m4 files
+15 Mon Aug 8 16:53:14 2016 +0200	rm config.h.in
+16 Mon Aug 8 17:40:13 2016 +0200	rm FIX
+17 Mon Aug 8 17:43:20 2016 +0200	rm ANNONCE
+18 Mon Aug 8 18:48:23 2016 +0200	rm bin/.deps/
+19 Wed Aug 10 10:29:05 2016 +0200	mv acinclude.m4 support
+20 Wed Aug 10 10:48:14 2016 +0200	ChangeLog updated
+21 Wed Aug 10 14:03:01 2016 +0200	COPYRIGHT dates
+22 Wed Aug 10 16:14:31 2016 +0200	ChangeLog updated
+23 Thu Aug 11 11:39:20 2016 +0200	uimaGIF.cpp libgif api changes
+24 Thu Aug 11 12:05:23 2016 +0200	README github
+25 Thu Aug 11 12:23:20 2016 +0200	rm src/ex/eleves/chambon
+26 Thu Aug 11 12:36:48 2016 +0200	autogen.sh chmod u+x
+27 Fri Aug 12 11:42:32 2016 +0200	move extras -> bundle
+28 Fri Aug 12 11:50:34 2016 +0200	move extras -> bundleFri Aug 12 17:05:03 2016 +0200
+29 Fri Aug 12 22:09:13 2016 +0200	rm -r src/ex
+30 Fri Aug 12 22:17:18 2016 +0200	configure.ac --with-ftgl
+31 Sat Aug 13 10:31:53 2016 +0200	configure.ac --with-ftgl
+32 Sat Aug 13 11:15:42 2016 +0200	bin/Makefile.am pnglib
+33 Sat Aug 13 13:40:05 2016 +0200	LDFLAGS+=-Wl,--start-group
+34 Sat Aug 13 19:16:30 2016 +0200	with-png default-yes
+35 Sat Aug 13 19:22:05 2016 +0200	rm src/bundle/*/*.{o.a}
+36 Sat Aug 13 19:24:51 2016 +0200	rm src/bundle/ftgl/*.{o.a}
+37 Sat Aug 13 19:27:46 2016 +0200	rm src/bundle/glpng/*.{o.a}
+38 Sat Aug 13 19:31:01 2016 +0200	rm src/bundle/xmlParser/*.{o.a}
+39 Sat Aug 13 19:36:38 2016 +0200	rm src/bundle/glui/*.{o.a}
+40 Sat Aug 13 19:42:01 2016 +0200	rm src/ubit/Makefile
+41 Sat Aug 13 19:45:01 2016 +0200	rm src/vreng/Makefile
+42 Sat Aug 13 19:51:54 2016 +0200	rm src/vreng/Makefile
+43 Sat Aug 13 20:43:39 2016 +0200	rm src/Makefile
+44 Sun Aug 14 10:55:18 2016 +0200	png-builin default=no
+45 Sun Aug 14 18:30:14 2016 +0200	with-ftgl
+46 Sun Aug 14 19:14:38 2016 +0200	remove --with-ftgl
+47 Sun Aug 14 19:14:38 2016 +0200	gl2ps-1.3.39 update
+48 Sun Aug 14 21:46:38 2016 +0200	gl2ps-1.3.9 update
+49 Sun Aug 14 21:47:37 2016 +0200	XkeycodeToKeysym deprecated
+50 Mon Aug 15 16:23:37 2016 +0200	Merge branch 'master' of git+ssh://github.com/philippedax/vreng
+51 Mon Aug 15 16:43:35 2016 +0200	CXXFLAGS -Wno-unknown-warning-option
+52 Mon Aug 15 17:43:26 2016 +0200	HAVE_PNG_H
+53 Tue Aug 16 13:37:52 2016 +0200	ukeyX11.cpp
+54 Tue Aug 16 17:41:05 2016 +0200	macosx png
+55 Wed Aug 17 18:03:42 2016 +0200	add .gitignore
+56 Thu Sep 22 12:16:01 2016 +0200	ai/Makefile.am
+57 Sun Sep 25 18:30:12 2016 +0200	g++ unkown-warning
+58 Sun Sep 25 18:47:28 2016 +0200	change default servers paths
+59 Sun Sep 25 19:06:41 2016 +0200	.gitignore
+60 Sun Sep 25 19:35:58 2016 +0200	vjs.in + tc.vrum
+61 Sun Sep 25 20:27:34 2016 +0200	install vjs + vrum
+62 Mon Sep 26 12:24:09 2016 +0200	version 8.3.3
+63 Mon Sep 26 12:33:55 2016 +0200	version 8.3.3
+64 Mon Sep 26 12:40:09 2016 +0200	fix warning dxf.cpp
+65 Mon Sep 26 13:04:23 2016 +0200	fix warning bvh.cpp
+66 Mon Sep 26 15:06:13 2016 +0200	install vacs + vaps + vjs
+67 Mon Sep 26 15:56:18 2016 +0200	default hosts vacs + vaps + vjs
+68 Wed Sep 28 15:07:19 2016 +0200	default mysql server
+69 Thu Sep 29 19:11:04 2016 +0200	version 8.4.0
+70 Fri Sep 30 09:14:50 2016 +0200	flag.cpp remove glPushAttrib
+71 Fri Sep 30 09:22:22 2016 +0200	comment glPushAttrib
+72 Wed Apr 12 17:24:18 2017 +0200	comment glPushAttrib
+73 Wed Apr 12 17:43:30 2017 +0200	added etc dir
+74 Fri Apr 28 10:40:52 2017 +0200	added etc dir
+75 Fri Apr 28 11:02:24 2017 +0200	fixed png
+76 Sat Apr 29 20:13:45 2017 +0200	fixed png
+77 Sat Apr 29 20:15:52 2017 +0200	vrel yacc->bison
+78 Sun Apr 30 12:19:02 2017 +0200	vrel yacc->bison
+79 Sun Apr 30 12:23:26 2017 +0200	added commit script
+80 Sun Apr 30 12:33:09 2017 +0200	added commit script
+81 Sun Apr 30 12:43:52 2017 +0200	added commit script
+82 Mon May 1 10:49:40 2017 +0200	changed .gitignore
+83 Mon May 1 11:43:39 2017 +0200	without vac
+84 Mon May 1 17:26:12 2017 +0200	Vac::init
+85 Mon May 1 17:47:46 2017 +0200	gate stuff
+86 Tue May 2 09:23:27 2017 +0200	gui stuff
+87 Tue May 2 09:43:28 2017 +0200	gui stuffs
+88 Tue May 2 10:23:07 2017 +0200	fix vreng.rss
+89 Tue May 2 12:15:51 2017 +0200	doxygen Makefile.am
+90 Tue May 2 15:20:15 2017 +0200	pthread for Vac::init
+91 Tue May 2 16:24:56 2017 +0200	moved github,gitlab into support/
+92 Tue May 2 16:27:28 2017 +0200	moved github,gitlab into support/
+93 Tue May 2 18:01:39 2017 +0200	moved github,gitlab into support/
+94 Tue May 2 20:46:26 2017 +0200	release 8.5.2
+95 Wed May 3 12:14:09 2017 +0200	connectVacs pthread
+96 Wed May 3 12:43:12 2017 +0200	vac pthread
+97 Wed May 3 14:16:41 2017 +0200	vac pthread
+98 Wed May 3 17:27:52 2017 +0200	vac pthread
+99 Thu May 4 08:30:04 2017 +0200	added timeout to connect to different servers
+100 Thu May 4 16:25:30 2017 +0200	added object fractal
+101 Fri May 5 18:36:37 2017 +0200	release 8.5.3
+102 Fri May 5 21:36:45 2017 +0200	added md/mysql
+103 Wed Jun 21 11:27:38 2017 +0200	added wo/template.*pp
+104 Thu Jun 22 18:33:37 2017 +0200	added script start-daemons
+105 Fri Jun 23 17:49:47 2017 +0200	fix .gitignore
+106 Sun Dec 10 15:30:52 2017 +0100	added fractal object
+107 Sun Dec 10 16:11:24 2017 +0100	fixes C++11 and buffers overflow
+108 Sun Dec 10 16:32:47 2017 +0100	start-daemons
+109 Sun Dec 10 17:47:51 2017 +0100	ubit with dependecies
+110 Wed Dec 20 15:07:28 2017 +0100	avi.cpp file == NULL
+111 Fri Feb 2 17:15:09 2018 +0100	-Wno-unknown-warning-option
+112 Sat Feb 3 11:19:55 2018 +0100	remove inits method
+113 Sat Feb 10 13:23:33 2018 +0100	terrain crossprod
+114 Sat Feb 10 15:10:08 2018 +0100	glpng linking issue
+115 Sun May 20 17:58:25 2018 +0200	no -fpermissive for CXFLAGS, glpng issue
+116 Tue May 22 16:58:37 2018 +0200	fixed some warnings against g++-8.1.1
+117 Mon Aug 13 08:47:00 2018 +0200	Fixed CXXFLAGS to avoid some warnings with g++-8-1.1
+118 Mon Aug 13 10:07:06 2018 +0200	don't use LONG_MAX in ubit/utimer.cpp
+119 Mon Aug 13 10:11:38 2018 +0200	fixed CXXFLAGS no-warnings
+120 Mon Aug 13 10:15:58 2018 +0200	fixed CXXFLAGS no-warnings
+121 Mon Aug 13 11:38:33 2018 +0200	fixed CXXFLAGS no-warnings
+122 Mon Aug 13 12:21:13 2018 +0200	fixed fprintf overflow in vreng/env.cpp
+123 Fri Aug 17 11:38:23 2018 +0200	minor changes in ubit synchronized with original
+124 Fri Aug 17 16:37:29 2018 +0200	added -Wno-literal-suffix to CXXFLADS
+125 Sun Sep 16 12:01:13 2018 +0200	fixed path in vreng.rss
+126 Sun Sep 16 12:08:58 2018 +0200	fix some compilation warnings
+127 Sun Sep 16 12:13:13 2018 +0200	fix bad paths for archives
+128 Sun Sep 16 12:26:03 2018 +0200	fix bad paths for html
+129 Mon Sep 17 09:33:43 2018 +0200	fix bad paths for install
+130 Thu Sep 20 20:15:19 2018 +0200	compilation warnings
+131 Sat Sep 22 21:07:10 2018 +0200	fix ubit/uelem.cpp
+132 Sun Sep 23 12:29:22 2018 +0200	fix location of fonts
+133 Sun Sep 23 12:35:29 2018 +0200	fix some c++11 warnings
+134 Sun Sep 23 15:33:42 2018 +0200	fix fonts path in ubit/uconf.cpp to find freetype fonts
+135 Sun Sep 30 17:00:35 2018 +0200	misc indentation
+136 Mon Oct 1 15:36:28 2018 +0200	efence configurating
+137 Mon Oct 1 15:46:09 2018 +0200	tracing
+138 Mon Oct 1 15:53:23 2018 +0200	tracing
+139 Mon Oct 1 15:58:07 2018 +0200	tracing
+140 Mon Oct 1 16:05:18 2018 +0200	tracing
+141 Mon Oct 1 16:09:42 2018 +0200	tracing
+142 Mon Oct 1 16:16:08 2018 +0200	tracing
+143 Mon Oct 1 17:15:56 2018 +0200	tracing
+144 Tue Oct 2 10:18:31 2018 +0200	tracing
+145 Thu Oct 4 10:39:57 2018 +0200	resizing images
+146 Thu Oct 4 10:46:28 2018 +0200	resizing images
+147 Thu Oct 4 13:19:14 2018 +0200	resizing images
+148 Fri Oct 5 17:51:50 2018 +0200	check Xmu/WinUtil.h
+149 Fri Oct 5 18:04:57 2018 +0200	check X11/Xmu/WinUtil.h
+150 Fri Oct 5 18:11:19 2018 +0200	warning indentation
+151 Fri Oct 5 18:23:13 2018 +0200	strdup in book.cpp
+152 Sun Oct 7 20:22:32 2018 +0200	gif.cpp revisited
+153 Sun Oct 7 20:30:10 2018 +0200	gif.cpp revisited
+154 Sun Oct 7 21:42:45 2018 +0200	gif.cpp revisited
+155 Sun Oct 7 21:48:12 2018 +0200	gif.cpp revisited
+156 Sun Oct 7 21:53:17 2018 +0200	gif.cpp revisited
+157 Mon Oct 8 12:34:13 2018 +0200	handle head visibility
+158 Mon Oct 8 13:15:32 2018 +0200	handle head visibility
+159 Mon Oct 8 15:59:16 2018 +0200	fonts ubuntu
+160 Mon Oct 8 18:36:08 2018 +0200	find ttf freetype fonts
+161 Mon Oct 8 20:46:53 2018 +0200	version 8.6.0
+162 Wed Oct 10 11:20:52 2018 +0200	configure TTF fonts
+163 Wed Oct 10 16:07:35 2018 +0200	.gitignore
+164 Wed Oct 10 17:03:09 2018 +0200	fixed warning in psd.cpp
+165 Wed Oct 10 17:21:58 2018 +0200	fixed #error in ubit/uconf.cpp
+166 Thu Oct 11 10:51:10 2018 +0200	-no-unknown-pragmas
+167 Thu Oct 11 11:47:57 2018 +0200	configure Xmu/WinUtil.h
+168 Thu Oct 11 15:56:37 2018 +0200	move glpng to texture/
+169 Thu Oct 11 16:19:11 2018 +0200	move bundle/png to bundle/mypng
+170 Thu Oct 11 16:24:58 2018 +0200	move bundle/png to bundle/mypng
+171 Thu Oct 11 18:03:45 2018 +0200	Changelog mypng and glpng
+172 Fri Oct 12 08:56:10 2018 +0200	configure: png-builtin-default=no
+173 Fri Oct 12 09:34:30 2018 +0200	png issues hidden
+174 Fri Oct 12 10:56:21 2018 +0200	more in .gitignore
+175 Thu Oct 18 13:15:32 2018 +0200	added missing fonts directory
+176 Thu Oct 18 16:14:31 2018 +0200	alternative for missing ttf fonts
+177 Thu Oct 18 16:46:34 2018 +0200	alternative for missing ttf fonts, using local ./fonts/
+178 Thu Oct 18 18:37:35 2018 +0200	warnings not used in ubit
+179 Thu Oct 18 20:14:13 2018 +0200	warnings not used in ubit
+180 Fri Oct 19 10:40:41 2018 +0200	configure xmu xpm
+181 Fri Oct 19 19:04:56 2018 +0200	warning uabject.hpp
+182 Sun Oct 21 17:32:37 2018 +0200	.gitignore
+183 Sun Oct 21 17:41:35 2018 +0200	move github into support
+184 Sun Oct 21 17:50:03 2018 +0200	move github into support
+185 Sun Oct 21 18:41:48 2018 +0200	move support/github .github
+186 Sun Oct 21 18:46:51 2018 +0200	added textures/glpnp.{ch}pp
+187 Sun Oct 21 19:21:31 2018 +0200	version 8.7.2
+188 Mon Oct 22 17:19:36 2018 +0200	change fire parameters
+189 Mon Oct 22 18:10:31 2018 +0200	configure to have HAVE_MYSQL
+190 Mon Oct 22 19:39:59 2018 +0200	configure change openal to freealut
+191 Mon Oct 22 19:57:55 2018 +0200	configure openal/freealut
+192 Tue Oct 23 12:25:48 2018 +0200	fire and smoke changed parameters
+193 Wed Oct 24 11:18:50 2018 +0200	fire and smoke colorisation of particules
+194 Wed Oct 24 11:47:26 2018 +0200	fire and smoke colorization of particules
+195 Wed Oct 24 15:09:00 2018 +0200	added rendering for smoke
+196 Thu Oct 25 13:35:44 2018 +0200	enable fog in particles.cpp
+197 Thu Oct 25 13:55:08 2018 +0200	disable fog in particles.cpp
+198 Sun Oct 28 19:25:00 2018 +0100	new smoke alternative
+199 Mon Oct 29 11:41:59 2018 +0100	new smoke alternative
+200 Mon Oct 29 17:41:45 2018 +0100	new smoke alternative
+201 Fri Dec 14 18:45:09 2018 +0100	if fonts pfa not found -> wornaing
+202 Fri Dec 14 20:43:38 2018 +0100	fix typos in configure.ac
+203 Fri Dec 14 20:51:09 2018 +0100	fix typos in configure.ac
+204 Tue Sep 29 16:13:24 2020 +0200	fix tags in Changelog
+205 Tue Sep 29 16:26:26 2020 +0200	restore bundle/mypng
+206 Tue Sep 29 17:18:27 2020 +0200	.gitignore
+207 Tue Sep 29 17:24:52 2020 +0200	review prefs
+208 Wed Sep 30 12:26:50 2020 +0200	minor changes
+209 Thu Oct 1 18:56:49 2020 +0200	display.cpp in solid.cpp, keys.cpp addobj.cpp dialog.cpp filemenu.cpp in widgets.cpp
+210 Sat Oct 3 16:41:15 2020 +0200	--with-mysql=no by default
+211 Sat Oct 3 19:22:25 2020 +0200	fix resolve localhost
+212 Mon Oct 5 17:22:25 2020 +0200	fix connection to localhost
+213 Tue Oct 6 18:38:58 2020 +0200	move hud.*pp into gui/
+214 Wed Oct 7 19:22:17 2020 +0200	camera review
+215 Wed Oct 7 21:50:21 2020 +0200	hud review
+216 Fri Oct 9 14:37:00 2020 +0200	aiinit.cpp reviewed
+217 Fri Oct 9 16:43:34 2020 +0200	move vncdialog*pp into widgets.*pp
+218 Sun Oct 11 14:24:34 2020 +0200	fix som memory leaks
+219 Mon Oct 12 11:27:04 2020 +0200	eliminate some compilation warnings
+220 Mon Oct 12 14:25:40 2020 +0200	useraction.hpp moved in user.hpp
+221 Tue Oct 13 12:53:57 2020 +0200	move universe*pp world*pp xml*pp into src/vreng
+222 Tue Oct 13 16:43:57 2020 +0200	NetObject renamed to NetObj
+223 Wed Oct 14 10:29:30 2020 +0200	added user actions: flyaway toland
+224 Thu Oct 15 11:12:56 2020 +0200	added user actions: flyaway and toland
+225 Thu Oct 15 11:16:27 2020 +0200	restablishement of gui/hud*pp
+226 Sat Oct 17 22:10:10 2020 +0200	restore missing file in src/ai
+227 Sun Oct 18 09:53:53 2020 +0200	restore .gitignore
+228 Sun Oct 18 10:00:51 2020 +0200	restore .gitignore
+229 Sun Oct 18 10:03:23 2020 +0200	removed vgl/hud.*pp
+230 Sun Oct 18 19:17:04 2020 +0200	moved gui/mvt.*pp to gui/motion.*pp
+231 Mon Oct 19 09:58:50 2020 +0200	working o smoke.*pp
+232 Wed Oct 21 17:35:58 2020 +0200	working on smoke.*pp
+233 Wed Oct 21 18:10:44 2020 +0200	added new open/close mecanisms for door (slicing & vertical
+234 Mon Nov 2 16:38:56 2020 +0100	fixed bad datas to be not published
+235 Mon Nov 2 17:09:59 2020 +0100	removed src/Makefile
+236 Mon Nov 2 17:19:22 2020 +0100	publish version 9.1.0
+237 Mon Nov 2 17:50:31 2020 +0100	publish version 9.1.0
+238 Mon Nov 2 17:52:46 2020 +0100	added bap directory to data/
+239 Mon Nov 2 19:06:16 2020 +0100	added jar/ to data/
+240 Tue Nov 3 10:50:38 2020 +0100	added missing file gen.pl* to vjs/
+241 Tue Nov 3 17:12:57 2020 +0100	invalidate app ring in servers/vjs
+242 Tue Nov 3 18:44:46 2020 +0100	updated ChangeLog
+243 Tue Nov 3 19:57:48 2020 +0100	reviewed gate.*pp web.*pp
+244 Sat Nov 7 19:17:07 2020 +0100	reviewed gate.*pp web.*pp
+245 Sat Nov 7 19:26:48 2020 +0100	fixed guy distance to the ground
+246 Sun Nov 8 20:02:05 2020 +0100	removed doxygen files
+247 Sun Nov 8 20:06:45 2020 +0100	removed doxygen files
+248 Sun Nov 8 20:09:08 2020 +0100	ignore html/
+249 Mon Nov 9 09:05:45 2020 +0100	fixed details in ground.cpp
+250 Mon Nov 9 13:18:38 2020 +0100	reviewed particle.*pp rain.*pp snow.*pp
+251 Mon Nov 9 18:46:20 2020 +0100	added gif images to data/gif
+252 Tue Nov 10 12:13:23 2020 +0100	reviewed some rendering order
+253 Thu Nov 12 10:45:57 2020 +0100	fixed urlpfx in universe.cpp
+254 Thu Nov 12 19:35:35 2020 +0100	reviewed server and url of universe
+255 Fri Nov 13 11:19:15 2020 +0100	renamed class Pitch to class Joystick2
+256 Sun Nov 15 18:21:27 2020 +0100	renamed class PutInfo to class Message2
+257 Sun Nov 15 18:43:14 2020 +0100	fixed some variables not used in Joystick2
+258 Sun Nov 15 19:05:39 2020 +0100	reviewed step
+259 Mon Nov 16 14:51:54 2020 +0100	added FLUID mode and fluidList to wobject*pp
+260 Thu Nov 19 13:16:20 2020 +0100	rewriting some rendering algorithms
+261 Wed Nov 25 11:48:05 2020 +0100	reviewed smoke*pp and cubes.vre
+262 Fri Nov 27 14:01:22 2020 +0100	using std:: lists for netobj.cpp
+263 Sun Nov 29 22:02:48 2020 +0100	added data/vre
+264 Sun Nov 29 22:10:22 2020 +0100	cleanup code
+265 Wed Dec 2 12:18:34 2020 +0100	fixed sandbox
+266 Thu Dec 3 11:56:02 2020 +0100	fixed numline in parse.cpp
+267 Thu Dec 3 17:04:10 2020 +0100	fixed compilation errors in util/{vrel,vred}
+268 Sun Dec 6 17:32:44 2020 +0100	fixed compilation errors in util/{vrel,vred}
+269 Sun Dec 6 17:35:03 2020 +0100	updated .gitignore
+270 Sun Dec 6 17:58:14 2020 +0100	updated .gitignore
+271 Sun Dec 6 18:13:32 2020 +0100	reviewed solid.*pp
+272 Thu Dec 10 14:44:22 2020 +0100	fixed needle motion in clock.cpp
+273 Sun Dec 13 00:26:43 2020 +0100	reviewed timer*pp
+274 Sun Dec 13 17:54:02 2020 +0100	reviewed vnc
+275 Mon Dec 14 21:12:33 2020 +0100	updated INSTALL
+276 Mon Dec 14 21:21:37 2020 +0100	updated COPYRIGHT
+277 Mon Dec 14 21:24:03 2020 +0100	reviewed vnc.*pp
+278 Wed Dec 16 12:06:28 2020 +0100	reviewed movie.*pp
+279 Wed Dec 16 16:17:12 2020 +0100	reviewed movie.*pp
+280 Wed Dec 16 16:44:16 2020 +0100	reviexed util/vred and bundle/glui
+281 Thu Dec 17 17:08:28 2020 +0100	reviewed vred and glui
+282 Thu Dec 17 17:14:24 2020 +0100	fixed adding dynamicaly objects (parse multi-solids)
+283 Sun Dec 20 14:23:16 2020 +0100	reviewed manipumator
+284 Wed Dec 23 18:00:45 2020 +0100	added src/util/vrl to repository
+285 Wed Dec 23 19:02:02 2020 +0100	reviewed src/util/vrl
+286 Fri Dec 25 14:00:31 2020 +0100	reviewed src/util/vrl
+287 Fri Dec 25 14:08:33 2020 +0100	updated .gitignore
+288 Fri Dec 25 14:11:59 2020 +0100	reviewed src/util/vrl
+289 Fri Dec 25 14:27:25 2020 +0100	used yyparse() method for vrl
+290 Mon Dec 28 11:14:53 2020 +0100	reviewed lightning
+291 Wed Dec 30 17:26:37 2020 +0100	reviewed movie.*pp
+292 Sat Jan 2 15:54:24 2021 +0100	added setrlimit to increase number of open files
+293 Sat Jan 2 15:59:02 2021 +0100	reviewed movie*pp
+294 Mon Jan 4 12:09:37 2021 +0100	updated scripts to launch daemons
+295 Tue Jan 5 17:16:32 2021 +0100	updated bin/Makefile.am
+296 Wed Jan 6 13:00:09 2021 +0100	invalided xml*pp
+297 Wed Jan 6 14:44:06 2021 +0100	invalided xml*pp
+298 Wed Jan 6 14:46:26 2021 +0100	updated vre worlds
+299 Wed Jan 6 14:49:02 2021 +0100	fixed type conversion in aiinit.cpp
+300 Wed Jan 6 16:22:44 2021 +0100	fixed type conversion in aiinit.cpp
+301 Wed Jan 6 16:27:10 2021 +0100	setted LDFLAGS=-Wl,-no_compact_unwind
+302 Wed Jan 6 16:45:09 2021 +0100	added VRL configuration in configure.ac
+303 Wed Jan 6 18:18:05 2021 +0100	added link option in configure.ac
+304 Fri Jan 8 17:02:02 2021 +0100	removed man/Makefile
+305 Fri Jan 8 17:30:16 2021 +0100	updated README
+306 Fri Jan 8 19:08:16 2021 +0100	added CONTRIBUTING
+307 Fri Jan 8 19:17:26 2021 +0100	added CONTRIBUTING
+308 Fri Jan 8 19:20:20 2021 +0100	updated freetype.m4
+309 Sat Jan 9 10:47:33 2021 +0100	fixed bin/Makefile.am for vrl target
+310 Sat Jan 9 13:07:42 2021 +0100	removed some Makefile.in
+311 Sat Jan 9 13:30:12 2021 +0100	removed some Makefile.in
+312 Sat Jan 9 13:32:06 2021 +0100	removed some Makefile.in
+313 Sat Jan 9 13:32:45 2021 +0100	removed some Makefile.in
+314 Sat Jan 9 13:33:41 2021 +0100	removed some Makefile.in
+315 Sat Jan 9 13:34:53 2021 +0100	removed some Makefile.in
+316 Sat Jan 9 13:36:08 2021 +0100	removed some Makefile.in
+317 Sat Jan 9 13:38:41 2021 +0100	added tarball
+318 Sat Jan 9 16:52:56 2021 +0100	added tarball
+319 Sun Jan 10 19:50:57 2021 +0100	added tarball
+320 Sun Jan 10 19:53:43 2021 +0100	updated archive directory
+321 Mon Jan 11 10:36:01 2021 +0100	reviewed navig*pp
+322 Wed Jan 13 10:20:53 2021 +0100	reviewed vred
+323 Thu Jan 14 21:49:46 2021 +0100	reviewed board.cpp
+324 Sat Jan 16 12:42:11 2021 +0100	reviewed board.cpp
+325 Sat Jan 16 12:44:58 2021 +0100	updated Makefile.am archive target
+326 Sat Jan 16 13:43:21 2021 +0100	updated Makefile.am archive target
+327 Sat Jan 16 15:14:53 2021 +0100	updated Makefile.am archive target
+328 Sat Jan 16 15:27:40 2021 +0100	fixed loop state in movie.cpp
+329 Sat Jan 16 18:31:55 2021 +0100	replace glui-2.01 by glui-2.37
+330 Mon Jan 18 18:04:33 2021 +0100	added src/bundle/mypng
+331 Mon Jan 18 21:29:09 2021 +0100	added missing src/wo/world*pp
+332 Mon Jan 18 21:44:11 2021 +0100	added missing src/gui/motion*pp
+333 Mon Jan 18 21:47:28 2021 +0100	added missing src/wo/vr2gl*pp
+334 Mon Jan 18 21:56:10 2021 +0100	added missing src/vgl/camera.cpp
+335 Mon Jan 18 22:00:20 2021 +0100	doesn't use src/util/vrl/Makefile
+336 Mon Jan 18 22:33:56 2021 +0100	added missing files into the repository
+337 Mon Jan 18 22:53:44 2021 +0100	fixed glui/Makefile.am
+338 Tue Jan 19 10:39:13 2021 +0100	fixed compilation warnings in glui/
+339 Tue Jan 19 12:02:15 2021 +0100	working on mirror
+340 Thu Jan 21 12:32:35 2021 +0100	working on mirror
+341 Sun Jan 24 19:39:56 2021 +0100	cleaning up parse.cpp
+342 Mon Jan 25 12:19:05 2021 +0100	added gitlab for downloading
+343 Mon Jan 25 16:01:36 2021 +0100	updated gitlab for downloading
+344 Mon Jan 25 16:19:40 2021 +0100	updated gitlab for downloading
+345 Mon Jan 25 16:50:17 2021 +0100	cleaning up matvec.cpp
+346 Tue Jan 26 18:47:48 2021 +0100	updated defaults to run local
+347 Wed Jan 27 17:05:02 2021 +0100	updated defaults to run local
+348 Wed Jan 27 17:18:15 2021 +0100	added clone script
+349 Wed Jan 27 18:20:32 2021 +0100	updated paths en configure.ac
+350 Thu Jan 28 21:33:20 2021 +0100	updated configure.ac
+351 Sat Jan 30 10:45:24 2021 +0100	clean up BB
+352 Sat Jan 30 17:57:39 2021 +0100	cleaning up solid.cpp
+353 Sun Jan 31 17:49:49 2021 +0100	renaming cset files
+354 Mon Feb 1 11:02:13 2021 +0100	reviewing rendering
+355 Wed Feb 3 12:19:52 2021 +0100	trying a new algo for rendering
+356 Thu Feb 4 17:43:26 2021 +0100	clean glPushAttrib
+357 Fri Feb 5 12:31:14 2021 +0100	reviewing txf
+358 Sat Feb 6 10:19:53 2021 +0100	work on rendering priorities
+359 Sat Feb 6 18:32:55 2021 +0100	work on rendering priorities
+360 Sun Feb 7 12:23:05 2021 +0100	working on rendering
+361 Mon Feb 8 21:11:44 2021 +0100	added fictif solid to play all solids
+362 Wed Feb 10 10:35:56 2021 +0100	fixed syntax error in clone
+363 Wed Feb 10 11:11:11 2021 +0100	precisions about localhost httpd server
+364 Wed Feb 10 13:20:55 2021 +0100	added support for sqlite
+365 Thu Feb 11 12:23:00 2021 +0100	renamed mysql*pp to vrsql*pp
+366 Thu Feb 11 17:42:15 2021 +0100	added sqlite operations in vrsql*pp
+367 Sat Feb 13 11:00:48 2021 +0100	fixed a missing #if VRSQL
+368 Sat Feb 13 11:53:59 2021 +0100	working on vrsql*pp
+369 Sun Feb 14 19:18:28 2021 +0100	changed #if HAVE_MYSQL by #if VRSQL
+370 Tue Feb 16 10:51:53 2021 +0100	disabling persistence behavior
+371 Wed Feb 17 08:53:14 2021 +0100	commented bad code sqlite
+372 Wed Feb 17 11:35:13 2021 +0100	working on sqlite code
+373 Thu Feb 18 17:08:46 2021 +0100	removed old mysql*pp
+374 Fri Feb 19 09:42:01 2021 +0100	review on deleting objects
+375 Fri Feb 19 17:24:07 2021 +0100	fixed toDelete
+376 Sun Feb 21 18:20:15 2021 +0100	fixed toDelete
+377 Sun Feb 21 18:27:09 2021 +0100	working on lists
+378 Mon Feb 22 15:45:18 2021 +0100	fixed cleanCacheByExt
+379 Mon Feb 22 16:05:21 2021 +0100	fixed cleanCacheByExt
+380 Mon Feb 22 16:33:12 2021 +0100	working on cloth
+381 Mon Feb 22 21:01:37 2021 +0100	fixed delFromWearList
+382 Tue Feb 23 10:34:55 2021 +0100	fixed removeFromCart
+383 Tue Feb 23 11:00:46 2021 +0100	fixed deleteObjects
+384 Tue Feb 23 13:19:46 2021 +0100	cleaning up dynamic grid
+385 Tue Feb 23 18:33:38 2021 +0100	cleaning up dynamic grid
+386 Tue Feb 23 21:36:16 2021 +0100	cleaning up STL lists
+387 Tue Feb 23 21:42:13 2021 +0100	invalidated persistency for door
+388 Wed Feb 24 10:39:43 2021 +0100	fixed vrsql db = NULL
+389 Wed Feb 24 11:06:48 2021 +0100	removing old lists
+390 Wed Feb 24 16:34:21 2021 +0100	removing old lists
+391 Wed Feb 24 16:42:44 2021 +0100	type SolidList
+392 Wed Feb 24 17:44:39 2021 +0100	change sqlite db path by default
+393 Thu Feb 25 17:08:52 2021 +0100	change sqlite db path by default
+394 Thu Feb 25 17:25:56 2021 +0100	review http.*pp
+395 Sat Feb 27 09:21:13 2021 +0100	updated mans
+396 Sat Feb 27 10:02:56 2021 +0100	added Env::home()
+397 Sat Feb 27 12:24:55 2021 +0100	compute pathDB for sqlite
+398 Sat Feb 27 15:24:13 2021 +0100	compute pathDB for sqlite
+399 Sun Feb 28 19:16:57 2021 +0100	review vgl/vicinity*pp
 400 Sun Feb 28 19:16:57 2021 +0100	review vgl/vicinity*pp
 401 Tue Mar 2 11:20:22 2021 +0100	added distance to localuser
 402 Tue Mar 2 18:21:35 2021 +0100	translucid solids sorted from far to near
@@ -2799,3 +3198,4 @@
 3198 Dim 10 nov 2024 15:12:36 CET	fix uname -s conf/rc.httpd
 3199 Dim 10 nov 2024 15:18:47 CET	cleanup basename $0 conf/rc.X11
 3200 Dim 10 nov 2024 15:27:23 CET	cleanup conf/rc.daemons
+3201 Lun 11 nov 2024 21:02:33 CET	complete conf/history
