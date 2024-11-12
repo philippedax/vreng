@@ -2,7 +2,7 @@
 #
 # build [args...]
 #
-# args are the same of ./configure
+# args are the same of ./configure [args...]
 #
 # - installs all requirements
 # - launches needed servers
@@ -13,16 +13,18 @@
 #
 PATH=conf:$PATH export PATH
 
+p=$(basename $0)
+
 if [ ! -d log ]; then
   mkdir log >/dev/null 2>&1
 fi
-date 2>&1 >log/$(basename $0).log
+log=log/$p.log
+date 2>&1 >>$log
 
 # goto conf dir
 cd conf
 
 # suggests or installs requirements
-# via brew, apt-get, dnf, yum, pacman, pkg...
 ./rc.prerequis
 
 # launches X11 server
@@ -34,11 +36,11 @@ cd conf
 # configures vreng
 ./autogen.sh "$@"
 
-# comes bak to top
+# comes bak to topdir
 cd ..
 
-# compiles source
+# compiles vreng sources
 make
 
-date 2>&1 >>log/$(basename $0).log
-cat log/$0.log
+date 2>&1 >>$log
+cat $log
