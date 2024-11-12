@@ -159,7 +159,7 @@ CURLPATH = /usr/bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -D_REENTRANT -DVRED
+CXXFLAGS = -g -O2 -Wall -D_REENTRANT -DVRED
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -186,7 +186,7 @@ JAVAFLAGS =
 JAVAPREFIX = 
 LDFLAGS = -Wl,-no_compact_unwind -Wl,-keep_dwarf_unwind -Wl,-no_compact_unwind
 LIBOBJS =  ${LIBOBJDIR}error$U.o ${LIBOBJDIR}lstat$U.o
-LIBS = -lxml2 -L/usr/lib -L/usr/X11/lib -lGLU -lGL  -lXmu -lX11 -lfreetype -lcurl -lpng -ltiff -ljpeg -lgif -lXpm -lpthread -ldl 
+LIBS = -lxml2 -L/usr/lib -L/usr/X11/lib -L/usr/local/lib -lGLU -lGL  -lXmu -lX11 -lfreetype -lcurl -lpng -ltiff -ljpeg -lgif -lXpm -lpthread -ldl 
 LN_S = ln -s
 LTLIBOBJS =  ${LIBOBJDIR}error$U.lo ${LIBOBJDIR}lstat$U.lo
 MAKEINFO = ${SHELL} /Users/dax/vreng/conf/missing makeinfo
