@@ -19,7 +19,8 @@ if [ ! -d log ]; then
   mkdir log >/dev/null 2>&1
 fi
 log=log/$p.log
-date 2>&1 >>$log
+cp /dev/null $log
+echo "$p start: $(date)" >>$log
 
 # goto conf dir
 cd conf
@@ -42,5 +43,6 @@ cd ..
 # compiles vreng sources
 make
 
-date 2>&1 >>$log
+echo "$p stop:  $(date)" >>$log
+
 cat $log
