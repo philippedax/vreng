@@ -3202,3 +3202,4 @@
 3202 Mar 12 nov 2024 09:55:13 CET	cleanup build
 3203 Mar 12 nov 2024 10:09:31 CET	cleanup date build
 3204 Mar 12 nov 2024 17:17:00 CET	add optimization -O2 configure.ac
+3205 Mer 13 nov 2024 09:17:11 CET	cleanup Makefile, Makefile.in src/man
