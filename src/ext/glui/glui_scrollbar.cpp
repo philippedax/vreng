@@ -636,7 +636,7 @@ void    GLUI_Scrollbar::do_click( void )
 void    GLUI_Scrollbar::do_drag( int x, int y )
 {
   int   direction = 0;
-  float incr, modifier_factor;
+  float /* incr, */ modifier_factor;
   /* int delta_x;              */
   int new_int_val = int_val;
   float new_float_val = float_val;
@@ -664,7 +664,7 @@ void    GLUI_Scrollbar::do_drag( int x, int y )
       direction = +1;
     else if ( state == GLUI_SCROLL_STATE_DOWN )
       direction = -1;
-    incr = growth * direction * modifier_factor * user_speed;
+    //unused incr = growth * direction * modifier_factor * user_speed;
     new_int_val += direction;
     new_float_val += direction * (float_max-float_min)/free_len;
   }

@@ -201,7 +201,7 @@ void    GLUI_List::deactivate( void )
 void    GLUI_List::draw( int x, int y )
 {
   int line = 0;
-  int box_width;
+  //unused int box_width;
   GLUI_List_Item *item;
  
   GLUI_DRAWINGSENTINAL_IDIOM
@@ -246,7 +246,7 @@ void    GLUI_List::draw( int x, int y )
   }
 
   /* Figure out how wide the box is */
-  box_width = get_box_width();
+  //unused box_width = get_box_width();
 
   /* Figure out which lines are visible*/
 
@@ -284,7 +284,7 @@ void    GLUI_List::draw( int x, int y )
 
 void    GLUI_List::draw_text(const char *t, int selected, int x, int y )
 {
-  int text_x, i, x_pos;
+  int text_x, i /*, x_pos */;
   int box_width;
 
   GLUI_DRAWINGSENTINAL_IDIOM
@@ -304,7 +304,7 @@ void    GLUI_List::draw_text(const char *t, int selected, int x, int y )
   box_width = get_box_width();   
 
   if ( !selected || !enabled ) {   /* No current selection */
-    x_pos = text_x;                /*  or control disabled */
+    //unused x_pos = text_x;                /*  or control disabled */
     if ( enabled )
       glColor3b( 0, 0, 0 );
     else
@@ -314,18 +314,18 @@ void    GLUI_List::draw_text(const char *t, int selected, int x, int y )
     i = 0;
     while( t[i] != '\0' && substring_width(t,0,i) < box_width) {
       glutBitmapCharacter( get_font(), t[i] );
-      x_pos += char_width( t[i] );
+      //unused x_pos += char_width( t[i] );
       i++;
     }
   }
   else { /* There is a selection */
     i = 0;
-    x_pos = text_x;
+    //unused x_pos = text_x;
     glColor3f( 1., 1., 1. );
     glRasterPos2i( text_x, y+15);
     while( t[i] != '\0' && substring_width(t,0,i) < box_width) {
       glutBitmapCharacter( get_font(), t[i] );
-      x_pos += char_width( t[i] );
+      //unused x_pos += char_width( t[i] );
       i++;
     }
   }
