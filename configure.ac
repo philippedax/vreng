@@ -33,10 +33,10 @@ AC_INIT([vreng],[9.4.7],[philippe.dax@gmail.com])
 
 AC_CONFIG_SRCDIR([src/base/vreng.cpp])
 
-# where to find install.sh, config.sub
-AC_CONFIG_AUX_DIR(conf)
 # where to find macros m4
 AC_CONFIG_MACRO_DIR(conf)
+# where to find install.sh, config.sub
+AC_CONFIG_AUX_DIR(conf)
 
 # canonicalizing cpu:vendor:os
 AC_CANONICAL_HOST([])
@@ -101,26 +101,11 @@ fi
 #
 CFLAGS="${CFLAGS}"
 CXXFLAGS="${CXXFLAGS}"
-CPPFLAGS="${CPPFLAGS}"
 LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
-  CFLAGS="${CFLAGS} -Wall" ## -Wno-int-to-pointer-cast -Wno-int-conversion -fno-strict-aliasing 
-  CXXFLAGS="${CXXFLAGS} -Wall" ## -Wno-deprecated -Wno-reserved-user-defined-literal" -Wno-macro-redefined -fpermissive -fno-strict-aliasing -Wno-c++11-extensions -Wno-invalid-offsetof -Wno-unused-variable -Wno-deprecated-declarations -Wno-write-strings -Wno-address -Wno-unknown-pragmas -Wno-literal-suffix -Wno-misleading-indentation
-  #CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
-  #LDFLAGS=`echo ${LDFLAGS}   | sed -e 's/-O2//'`
-fi
-
-
-# --------------------------------------------------------------------------
-#
-# Check for debugging
-#
-AC_ARG_ENABLE(debug, AS_HELP_STRING([--enable-debug], [allow to debug [[default=no]]]))
-
-if test "${enable_debug:=no}" = "yes"; then
-  CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
-  LDFLAGS="`echo ${LDFLAGS}  | sed -e 's/-O2//'` -g"
+  CFLAGS="${CFLAGS} -Wall"
+  CXXFLAGS="${CXXFLAGS} -Wall"
 fi
 
 
@@ -133,15 +118,26 @@ AC_ARG_ENABLE(optimize,
               [allow to optimize and make code faster [[default=no]]]))
 
 if test "${enable_optimize:=no}" = "yes"; then
-  CFLAGS="${CFLAGS} -O"
-  CXXFLAGS="${CXXFLAGS}"
+  CFLAGS=`echo ${CFLAGS} | sed -e 's/-O2/-O3/'`
+  CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2/-O3/'`
+  LDFLAGS=`echo ${LDFLAGS}   | sed -e 's/-O2/-O3/'`
   if test "${GCC}" = "yes"; then
     optim_flags="-ffast-math -fomit-frame-pointer -funroll-loops -fpermissive"
     CFLAGS="${CFLAGS} ${optim_flags}"
     CXXFLAGS="${CXXFLAGS} ${optim_flags}"
-  else
-    CXXFLAGS="${CXXFLAGS} -O"
   fi
+fi
+
+
+# --------------------------------------------------------------------------
+#
+# Check for debugging
+#
+AC_ARG_ENABLE(debug, AS_HELP_STRING([--enable-debug], [allow to debug [[default=no]]]))
+
+if test "${enable_debug:=no}" = "yes"; then
+  CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
+  LDFLAGS="`echo ${LDFLAGS}  | sed -e 's/-O2//'` -g"
 fi
 
 
@@ -259,7 +255,6 @@ echo "canonical: $build"
 case "$build" in
 *-*-solaris*)
   AC_DEFINE(SOLARIS)
-  CPPFLAGS="-I/usr/X11R6/include -I/usr/openwin/include $CPPFLAGS"
   X_CFLAGS="-I/usr/X11R6/include -I/usr/openwin/include"
   X_LIBS="-L/usr/openwin/lib"
   if test -d /usr/local/lib ; then
@@ -319,7 +314,7 @@ armv4l-*-linux*)
   if test -d /usr/pkg/include ; then
     OSDEP_CFLAGS="-I/usr/pkg/include"
   fi
-  CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
+  CXXFLAGS="${OSDEP_CFLAGS} $CXXFLAGS"
   # special patch for pkgsrc -lmpeg become -lmpeg_lib, because of kde conflict
   libmpeg=mpeg_lib
   ;;
@@ -346,14 +341,14 @@ AC_DEFINE(OSF1)
   if test -d /usr/X11/include ; then
     OSDEP_CFLAGS="-I/usr/X11/include"
     X_CFLAGS="-I/usr/X11/include"
-    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
+    CXXFLAGS="${OSDEP_CFLAGS} $CXXFLAGS"
   elif test -d /opt/X11/include ; then
     OSDEP_CFLAGS="-I/opt/X11/include"
     X_CFLAGS="-I/opt/X11/include"
-    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
+    CXXFLAGS="${OSDEP_CFLAGS} $CXXFLAGS"
   elif test -d /opt/local/include ; then
     OSDEP_CFLAGS="-I/opt/local/include"
-    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
+    CXXFLAGS="${OSDEP_CFLAGS} $CXXFLAGS"
   fi
   if test -d /usr/X11/lib ; then
     #OSDEP_LIBS="-L/usr/X11/lib"
@@ -772,7 +767,7 @@ fi
 
 # --------------------------------------------------------------------------
 #
-# Check for X11 header and library files
+# Check for X11 header and library files (see conf/acinclude.m4)
 #
 #AC_DEFUN([AC_X11_CHECK],
 #[
@@ -1011,7 +1006,7 @@ freetype_cflags=`$FREETYPE_CONFIG --cflags`
 FREETYPE_CFLAGS=$freetype_cflags
 AC_SUBST(FREETYPE_CFLAGS)
 freetype_libs=`$FREETYPE_CONFIG --libs`
-CPPFLAGS="$freetype_cflags $CPPFLAGS"
+CXXFLAGS="$freetype_cflags $CXXFLAGS"
 LDFLAGS="$LDFLAGS $freetype_libs"
 if test "$have_freetype" = "yes"; then
   ubit_features="$ubit_features UBIT_WITH_FREETYPE"
@@ -1145,9 +1140,9 @@ if test -n "$with_GL_prefix"; then
   GL_L="-L$with_GL_prefix/lib"
   GL_I="-I$with_GL_prefix/include"
 fi
-saved_cppflags=$CPPFLAGS
+saved_cxxflags=$CXXFLAGS
 saved_ldflags=$LDFLAGS
-CPPFLAGS="$GL_I $X_CFLAGS"
+CXXFLAGS="$GL_I $X_CFLAGS"
 LDFLAGS="$X_LDFLAGS $X_LIBS $GL_L"
 
 # check that the libs are here
@@ -1197,7 +1192,7 @@ if test "$glerror" != no; then
   AC_MSG_RESULT([	--> Mesa3D: http://www.mesa3d.org/])
 fi
 
-CPPFLAGS=$saved_cppflags
+CXXFLAGS=$saved_cxxflags
 LDFLAGS=$saved_ldflags
 GL_CFLAGS=$GL_I
 AC_SUBST(GL_CFLAGS)
@@ -1249,7 +1244,7 @@ AC_SUBST(GL_CFLAGS)
 #  if test "ac_cv_lib_glut_glutMainLoop" = no; then
 #    AC_MSG_WARN([Could not find glut lib!])
 #  else
-#    CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
+#    CXXFLAGS="$OSDEP_CFLAGS $CXXFLAGS"
 #    LIBS="$OSDEP_LIBS -lglut $LIBS"
 #    GLUT_LIB="$OSDEP_LIBS -lglut"
 #    AC_SUBST(GNUT_LIB)
@@ -1259,7 +1254,7 @@ AC_SUBST(GL_CFLAGS)
 #AC_DEFINE(HAVE_LIBGLUT)
 #am_libglut="yes"
 #
-#CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
+#CXXFLAGS="$OSDEP_CFLAGS $CXXFLAGS"
 #])
 
 # --------------------------------------------------------------------------
@@ -1370,50 +1365,16 @@ if test "${with_sqlite:=no}" = "yes"; then
   else
     echo "sqlite3.h not found, check config.log!"
   fi
-  saved_cppflags=$CPPFLAGS
+  saved_cxxflags=$CXXFLAGS
   SQLITE_CFLAGS=${SQLITE_I}
   AC_SUBST(SQLITE_CFLAGS)
-  CPPFLAGS="${SQLITE_I} ${CPPFLAGS}"
+  CXXFLAGS="${SQLITE_I} ${CXXFLAGS}"
   AC_CHECK_HEADER([sqlite3.h], [AC_DEFINE([HAVE_SQLITE_H])],)
   AC_CHECK_LIB([sqlite3], [sqlite3_open], [LIBS="${SQLITE_L} -lsqlite3 $LIBS"],,)
   if test "$ac_cv_lib_sqlite3_sqlite3_open" = "yes" ; then
     AC_DEFINE(HAVE_SQLITE)
   fi
 fi
-
-
-# --------------------------------------------------------------------------
-#
-# PostgreSql configuration
-#
-#AC_ARG_WITH([pgsql],
-#            AS_HELP_STRING([--with-pgsql],
-#            [allow use of pgsql if available [[default=no]]]),
-#            [ac_cv_use_pgsql=$withval], [ac_cv_use_pgsql=no])
-#
-#AH_TEMPLATE(WITH_PGSQL)
-#if test "${with_pgsql:=no}" = "yes"; then
-#  AC_DEFINE(WITH_PGSQL)
-#  AH_TEMPLATE(HAVE_PGSQL)
-#  AH_TEMPLATE(HAVE_PGSQL_H)
-#
-#  PGSQL_L="-L${prefix}/lib"
-#  PGSQL_I="-I${prefix}/include"
-#  if test -f ${prefix}/include/libpq-fe.h ; then
-#    PGSQL_I="-I${prefix}/include"
-#  else
-#    echo "libpq-fe.h not found, check config.log!"
-#  fi
-#  saved_cppflags=$CPPFLAGS
-#  PGSQL_CFLAGS=${PGSQL_I}
-#  AC_SUBST(PGSQL_CFLAGS)
-#  CPPFLAGS="${PGSQL_I} ${CPPFLAGS}"
-#  AC_CHECK_HEADER([libpq-fe.h], [AC_DEFINE([HAVE_PGSQL_H])],)
-#  AC_CHECK_LIB([pq], [PQstatus], [LIBS="${PGSQL_L} -lpq $LIBS"],,)
-#  if test "$ac_cv_lib_pq_PQstatus" = "yes" ; then
-#    AC_DEFINE(HAVE_PGSQL)
-#  fi
-#fi
 
 
 # --------------------------------------------------------------------------
@@ -1477,10 +1438,10 @@ if test "${with_mysql:=no}" = "yes"; then
   else
     echo "mysql.h not found, check config.log!"
   fi
-  saved_cppflags=$CPPFLAGS
+  saved_cxxflags=$CXXFLAGS
   MYSQL_CFLAGS=${MYSQL_I}
   AC_SUBST(MYSQL_CFLAGS)
-  CPPFLAGS="${MYSQL_I} ${CPPFLAGS}"
+  CXXFLAGS="${MYSQL_I} ${CXXFLAGS}"
   AC_CHECK_HEADER([mysql.h],
 	          [AC_DEFINE([HAVE_MYSQL_H])],
 	          [AC_CHECK_HEADER([mysql/mysql.h],
@@ -1538,8 +1499,8 @@ if test "${with_xml2:=yes}" = "yes"; then
     XML2_CFLAGS=`${XML2CONFIG} --cflags`
     AC_SUBST(XML2_CFLAGS)
   fi
-  saved_cppflags=$CPPFLAGS
-  CPPFLAGS="$CPPFLAGS $XML2_CFLAGS"
+  saved_cxxflags=$CXXFLAGS
+  CXXFLAGS="$CXXFLAGS $XML2_CFLAGS"
 
   AC_CHECK_HEADERS([libxml/parser.h])
   AC_CHECK_HEADERS([libxml/tree.h])
@@ -1552,78 +1513,11 @@ if test "${with_xml2:=yes}" = "yes"; then
                [LIBS="-lxml2 $LIBS"],
                [AC_MSG_RESULT([	--> libxml2: http://xmlsoft.org/downloads.html])],
                [`${XML2CONFIG} --libs`])
-  CPPFLAGS=$saved_cppflags
+  CXXFLAGS=$saved_cxxflags
   if test "$ac_cv_lib_xml2_xmlReaderForFile" = "yes" ; then
     AC_DEFINE(HAVE_LIBXML2)
   fi
 fi
-
-
-# --------------------------------------------------------------------------
-#
-# Python configuration
-#
-#AC_ARG_WITH([python],
-#            AS_HELP_STRING([--with-python],
-#            [allow use of python (experimental) [[default=no]]]))
-#AH_TEMPLATE(WITH_PYTHON)
-#AH_TEMPLATE(HAVE_LIBPYTHON)
-#AH_TEMPLATE(HAVE_PYTHON_H)
-#
-#if test "${with_python:=no}" = "yes"; then
-#  AC_DEFINE(WITH_PYTHON)
-#  # lib path
-#  PYTHON_L="-L${prefix}/lib"
-#  if test -f ${prefix}/lib/python2.5/config/libpython2.5.so ; then
-#    PYTHON_L="-L${prefix}/lib/python2.5/config -R${prefix}/lib/python2.5/config"
-#  elif test -f ${prefix}/lib/python2.5/config/libpython2.5.a ; then
-#    PYTHON_L="-L${prefix}/lib/python2.5/config"
-#  elif test -f ${prefix}/lib/config/libpython2.5.a ; then
-#    PYTHON_L="-L${prefix}/lib/python2.5/config"
-#  elif test -f /usr/lib/python2.5/config/libpython2.5.a ; then
-#    PYTHON_L="-L/usr/lib/python2.5/config"
-#  elif test -f /opt/local/lib/python2.5/config/libpython2.5.a ; then
-#    PYTHON_L="-L/opt/local/lib/python2.5/config"
-#  elif test -f /sw/lib/python2.5/config/libpython2.5.a ; then
-#    PYTHON_L="-L/sw/lib/python2.5/config"
-#  else
-#    echo "libpython2.5.a not found, check config.log!"
-#  fi
-#  # header path
-#  PYTHON_I="-I${prefix}/include"
-#  if test -f ${prefix}/include/python2.5/Python.h ; then
-#    PYTHON_I="-I${prefix}/include/python2.5"
-#  elif test -f /usr/include/python2.5/Python.h ; then
-#    PYTHON_I="-I/usr/include/python2.5"	
-#  elif test -f /opt/local/include/python2.5/Python.h ; then
-#    PYTHON_I="-I/opt/local/include/python2.5"
-#  elif test -f /sw/include/python2.5/Python.h ; then
-#    PYTHON_I="-I/sw/include/python2.5"
-#  else
-#    echo "Python.h not found, check config.log!"
-#  fi
-#  saved_cppflags=$CPPFLAGS
-#  PYTHON_CFLAGS=${PYTHON_I}
-#  AC_SUBST(PYTHON_CFLAGS)
-#  CPPFLAGS="${PYTHON_I} ${CPPFLAGS}"
-#  AC_CHECK_HEADER([Python.h],
-#	          [AC_DEFINE([HAVE_PYTHON_H])],
-#	          [AC_CHECK_HEADER([python2.5/Python.h],
-#			           [AC_DEFINE([HAVE_PYTHON_H])],
-#			           AC_MSG_WARN([unable to find python header])]
-#			          )
-#	         )
-#  #
-#  # check libpython2.5
-#  #
-#  AC_CHECK_LIB([python2.5], [Py_Initialize],
-#	       [LIBS="${PYTHON_L} -lpython2.5 $LIBS"],, [${PYTHON_L}])
-#  if test "$ac_cv_lib_python2_5_Py_Initialize" = "yes" ; then
-#    AC_DEFINE(HAVE_LIBPYTHON)
-#  else
-#    AC_MSG_RESULT([	--> libpython2.5: http://www.python.org/])
-#  fi
-#fi
 
 
 # --------------------------------------------------------------------------
@@ -1647,10 +1541,10 @@ if test "${with_ocaml:=no}" = "yes"; then
   fi
   OCAML_LIB="-L${OCAML_PATH}"
   OCAML_CFLAGS="-I${OCAML_PATH}"
-  saved_cppflags=$CPPFLAGS
+  saved_cxxflags=$CXXFLAGS
   AC_SUBST(OCAML_CFLAGS)
   AC_SUBST(OCAML_LIB)
-  CPPFLAGS="${OCAML_CFLAGS} ${CPPFLAGS}"
+  CXXFLAGS="${OCAML_CFLAGS} ${CXXFLAGS}"
   AC_CHECK_HEADER([caml/callback.h],
 	          [AC_DEFINE([HAVE_CAML_CALLBACK_H])],
 	          AC_MSG_WARN([unable to find ocaml header])
@@ -1671,7 +1565,7 @@ ${OCAMLOPT} -output-obj conftestml.ml -o conftest_ml.o
   else
     AC_MSG_RESULT([	--> try apt|dnf|yum|brew install ocaml or http://caml.inria.fr/download_en.html])
   fi
-  CPPFLAGS=$saved_cppflags
+  CXXFLAGS=$saved_cxxflags
   AC_DEFINE_UNQUOTED(OCAML_PATH, ["$OCAML_PATH"])
   AC_LANG_POP([C])
   LDFLAGS="${LDFLAGS} -Wl,-keep_dwarf_unwind -Wl,-no_compact_unwind"
@@ -1748,7 +1642,7 @@ if test "$ac_cv_use_SDL" = "yes" ; then
     [LIBS="${OSDEP_LIBS} $SDL2_LIB $LIBS"]
     AC_CHECK_HEADERS([SDL/SDL.h])
     SDL2_CFLADS=`sdl2-config --cflags`
-    CPPFLAGS="$CPPFLAGS $SDL2_CFLAGS"
+    CXXFLAGS="$CXXFLAGS $SDL2_CFLAGS"
   fi
   #
   # check SDL_mixer library
