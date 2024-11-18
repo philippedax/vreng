@@ -97,7 +97,7 @@ case "$build" in
   if test "ac_cv_lib_glut_glutMainLoop" = no; then
     AC_MSG_WARN([Could not find glut lib!])
   else
-    CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
+    CXXFLAGS="$OSDEP_CFLAGS $CXXFLAGS"
     LIBS="$OSDEP_LIBS -lglut $LIBS"
     GLUT_LIB="$OSDEP_LIBS -lglut"
     AC_SUBST(GNUT_LIB)
@@ -107,7 +107,7 @@ esac
 AC_DEFINE(HAVE_LIBGLUT)
 am_libglut="yes"
 
-CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
+CXXFLAGS="$OSDEP_CFLAGS $CXXFLAGS"
 ])
 
 ################################################################################
@@ -154,7 +154,7 @@ else
   if test $ft_config_version -lt $ft_min_version ; then
     ifelse([$3], , :, [$3])
   else
-    CPPFLAGS="$FREETYPE_CFLAGS $CPPFLAGS"
+    CXXFLAGS="$FREETYPE_CFLAGS $CXXFLAGS"
     LIBS="$FREETYPE_LIBS $LIBS"
   fi             # test $ft_config_version -lt $ft_min_version
 fi               # test "$FREETYPE_CONFIG" = "no"
@@ -180,7 +180,7 @@ else
 fi
 AC_SUBST(FREETYPE_CFLAGS)
 AC_SUBST(FREETYPE_LIBS)
-AC_SUBST(CPPFLAGS)
+AC_SUBST(CXXFLAGS)
 AC_SUBST(LIBS)
 AH_TEMPLATE(HAVE_FREETYPE)
 AC_DEFINE(HAVE_FREETYPE)

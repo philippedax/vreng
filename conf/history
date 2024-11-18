@@ -3205,3 +3205,4 @@
 3205 Mer 13 nov 2024 09:17:11 CET	cleanup Makefile, Makefile.in src/man
 3206 Dim 17 nov 2024 18:03:46 CET	fix set_but_not_used glui_list,glui_scrollbar
 3207 Lun 18 nov 2024 10:05:22 CET	remove CPPFLAGS configure.ac
+3208 Lun 18 nov 2024 17:13:59 CET	cleanup configure.ac

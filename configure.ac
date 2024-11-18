@@ -116,9 +116,8 @@ fi
 AC_ARG_ENABLE(optimize,
               AS_HELP_STRING([--enable-optimize],
               [allow to optimize and make code faster [[default=no]]]))
-
 if test "${enable_optimize:=no}" = "yes"; then
-  CFLAGS=`echo ${CFLAGS} | sed -e 's/-O2/-O3/'`
+  CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2/-O3/'`
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2/-O3/'`
   LDFLAGS=`echo ${LDFLAGS}   | sed -e 's/-O2/-O3/'`
   if test "${GCC}" = "yes"; then
@@ -134,8 +133,8 @@ fi
 # Check for debugging
 #
 AC_ARG_ENABLE(debug, AS_HELP_STRING([--enable-debug], [allow to debug [[default=no]]]))
-
 if test "${enable_debug:=no}" = "yes"; then
+  CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2//'`
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS="`echo ${LDFLAGS}  | sed -e 's/-O2//'` -g"
 fi
@@ -146,7 +145,6 @@ fi
 # Check for profiling compiler option
 #
 AC_ARG_ENABLE(profiling, AS_HELP_STRING([--enable-profiling], [add -pg gcc option [[default=no]]]))
- 
 if test "${enable_profiling:=no}" = "yes"; then
   if test "${GCC}" = "yes"; then
     CFLAGS="${CFLAGS} -pg"
@@ -161,7 +159,6 @@ fi
 # Check for permissive compiler option
 #
 AC_ARG_ENABLE(permissive, AS_HELP_STRING([--enable-permissive], [add --permissive gcc option [[default=no]]]))
- 
 if test "${enable_permissive:=no}" = "yes"; then
   if test "${GCC}" = "yes"; then
     CFLAGS="${CFLAGS}"
@@ -191,7 +188,6 @@ fi
 # Check if support for 64 bits (tested with gcc-2.96, gcc-3.*, gcc4.*)
 #
 AC_ARG_ENABLE(64bit, AS_HELP_STRING([--enable-64bit], [enable 64 bits compilation [[default=no]]]))
-
 if test "${enable_64bit:=no}" = "yes"; then
   AC_MSG_RESULT([--> Using 64 bits])
   if test "${GCC}" = "yes"; then
@@ -410,7 +406,6 @@ AC_SUBST(X_LIBS)
 # to get the functions below right (socket, gethostbyname).
 AC_CHECK_LIB([nsl], [gethostbyname])
 AC_CHECK_LIB([socket], [connect])
-
 AC_CHECK_LIB([m], [sqrt])
 
 
@@ -510,7 +505,6 @@ am_ipv6="no"
 AC_ARG_ENABLE(ipv6,
               AS_HELP_STRING([--enable-ipv6],
               [allow use of ipv6 if available [[default=no]]]))
-
 AH_TEMPLATE(HAVE_IPV6)
 if test "${enable_ipv6:=no}" = "yes"; then
   am_ipv6="yes"
@@ -521,9 +515,9 @@ if test "${enable_ipv6:=no}" = "yes"; then
     	          AC_DEFINE(HAVE_IPV6)
 	          ])
 fi
-
 LIBS=""
 AC_SUBST(LIBS)
+
 
 # --------------------------------------------------------------------------
 #
@@ -534,7 +528,6 @@ AH_TEMPLATE(HAVE_LIBPTHREAD)
 AC_ARG_ENABLE([pthread],
               AS_HELP_STRING([--enable-pthread],
               [allow use of pthreads [[default=yes]]]))
-
 if test "${enable_pthread:=yes}" = "yes"; then
   #
   # check pthread
@@ -557,7 +550,6 @@ fi
 AC_ARG_ENABLE([dmalloc],
               AS_HELP_STRING([--enable-dmalloc],
               [enable dmalloc debugging [[default=no]]]))
-
 if test "${GCC}" = "yes"; then
   if test "${enable_dmalloc:=no}" = "yes"; then
     CFLAGS="${CFLAGS} -DDMALLOC_FUNC_CHECK"
@@ -576,7 +568,6 @@ AC_MSG_CHECKING(if standalone is enabled)
 AC_ARG_ENABLE(standalone,
               AS_HELP_STRING([--enable-standalone],
               [allow use without network connectivity [[default=no]]]))
-
 if test "${enable_standalone:=no}" = "yes"; then
   CFLAGS="${CFLAGS} -DSTANDALONE"
   CXXFLAGS="${CXXFLAGS} -DSTANDALONE"
@@ -610,7 +601,6 @@ AC_MSG_CHECKING(if vrl is enabled)
 AC_ARG_ENABLE(vrl,
               AS_HELP_STRING([--enable-vrl],
               [allow use of vrl [[default=no]]]))
-
 if test "${enable_vrl:=no}" = "yes"; then
   am_vrl="yes"
   CXXFLAGS="${CXXFLAGS} -DVRL"
@@ -629,7 +619,6 @@ AC_MSG_CHECKING(if vrel is enabled)
 AC_ARG_ENABLE(vrel,
               AS_HELP_STRING([--enable-vrel],
               [allow use of vrel [[default=no]]]))
-
 if test "${enable_vrel:=no}" = "yes"; then
   am_vrel="yes"
   CXXFLAGS="${CXXFLAGS} -DVREL"
@@ -648,7 +637,6 @@ AC_MSG_CHECKING(if vred is enabled)
 AC_ARG_ENABLE(vred,
               AS_HELP_STRING([--enable-vred],
               [allow use of vred [[default=no]]]))
-
 if test "${enable_vred:=no}" = "yes"; then
   am_vred="yes"
   am_libglui="yes"
@@ -668,7 +656,6 @@ AC_MSG_CHECKING(if vmm is enabled)
 AC_ARG_ENABLE(vmm,
               AS_HELP_STRING([--enable-vmm],
               [allow use of vmm [[default=no]]]))
-
 if test "${enable_vmm:=no}" = "yes"; then
   am_vmm="yes"
   CXXFLAGS="${CXXFLAGS} -DVMM"
@@ -701,7 +688,6 @@ AC_MSG_CHECKING(if vaps is enabled)
 AC_ARG_ENABLE(vaps,
               AS_HELP_STRING([--enable-vaps],
               [allow use of vaps server [[default=no]]]))
-
 if test "${enable_vaps:=no}" = "yes"; then
   am_vaps="yes"
   CXXFLAGS="${CXXFLAGS} -DVAPS"
@@ -721,7 +707,6 @@ AC_MSG_CHECKING(if vjs is enabled)
 AC_ARG_ENABLE(vjs,
               AS_HELP_STRING([--enable-vjs],
               [allow use of vjs server [[default=no]]]))
-
 if test "${enable_vjs:=no}" = "yes"; then
   am_vjs="yes"
   CXXFLAGS="${CXXFLAGS} -DVJS"
@@ -755,10 +740,9 @@ AC_MSG_CHECKING(if vacs is enabled)
 AC_ARG_ENABLE(vacs,
               AS_HELP_STRING([--enable-vacs],
               [allow use of vacs server [[default=no]]]))
-
 if test "${enable_vacs:=no}" = "yes"; then
   am_vacs="yes"
-  CXXFLAGS="$CXXFLAGS -DVACS"
+  CXXFLAGS="{$CXXFLAGS} -DVACS"
   AC_MSG_RESULT(yes)
 else
   AC_MSG_RESULT(no)
@@ -767,59 +751,7 @@ fi
 
 # --------------------------------------------------------------------------
 #
-# Check for X11 header and library files (see conf/acinclude.m4)
-#
-#AC_DEFUN([AC_X11_CHECK],
-#[
-#  have_x11="no"
-#  AC_PATH_X
-#  AC_PATH_XTRA
-#  saved_cflags=$CFLAGS
-#  saved_ldflags=$LDFLAGS
-#  CFLAGS=$X_CFLAGS
-#  LDFLAGS="$X_LDFLAGS $X_LIBS"
-#  #
-#  # Check for X libraries
-#  #
-#  AH_TEMPLATE(HAVE_LIBX11)
-#  AC_CHECK_LIB([X11], [XOpenDisplay],
-#               [x_libs="$X_LIBS -lX11 $X_EXTRA_LIBS" AC_DEFINE(HAVE_LIBX11)],
-#               [AC_MSG_WARN([X11 library not found, check config.log! try --with-x])],
-#               [$X_LIBS $X_EXTRA_LIBS])
-#  # needed by ubit: XmuClientWindow
-#  AH_TEMPLATE(HAVE_LIBXMU)
-#  AC_CHECK_LIB([Xmu], [XmuClientWindow],
-#               [x_libs="$X_LIBS -lXmu $x_libs" AC_DEFINE(HAVE_LIBXMU)],
-#               [AC_MSG_WARN([Xmu library not found, check config.log! try apt|dnf|yum|brew install libXmu-devel | apt-get install libxmu-dev])],
-#               [$x_libs])
-#
-#  x_libs="$X_LIBS $X_PRE_LIBS $x_libs"
-#  AH_TEMPLATE(HAVE_XMU_WINUTIL_H)
-#  AH_TEMPLATE(HAVE_XPM_H)
-#  case "$build" in
-#    *-*-solaris*) 
-#      AC_CHECK_HEADER([openwin/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
-#	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
-#      AC_CHECK_HEADER([openwin/xpm.h], [AC_DEFINE([HAVE_XPM_H])],
-#	AC_MSG_WARN([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
-#      ;;
-#    *)
-#      AC_CHECK_HEADER([X11/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
-#	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
-#      AC_CHECK_HEADER([X11/xpm.h], [AC_DEFINE([HAVE_XPM_H])],
-#	AC_MSG_WARN([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
-#      ;;
-#  esac
-#  CFLAGS=$saved_cflags
-#  LDFLAGS=$saved_ldflags
-#  have_x11="yes"
-#])
-
-
-# --------------------------------------------------------------------------
-
-#
-# check X11 first
+# check X11 first (see AC_X11_CHECK conf/acinclude.m4)
 #
 AC_X11_CHECK
 
@@ -841,7 +773,6 @@ if test "$ac_cv_lib_Xpm_XpmReadFileToXpmImage" = "yes"; then
   AC_DEFINE([HAVE_LIBXPM])
   ubit_features="$ubit_features UBIT_WITH_XPM"
 fi
-
 LDFLAGS="$LDFLAGS $OSDEP_LIBS"
 
 
@@ -887,6 +818,7 @@ AH_TEMPLATE(HAVE_JPEGLIB_H)
 AC_CHECK_HEADER([jpeglib.h], [AC_DEFINE([HAVE_JPEGLIB_H])],
 	        AC_MSG_WARN([unable to find jpeg header]))
 
+
 # --------------------------------------------------------------------------
 #
 # check tiff library
@@ -902,31 +834,6 @@ if test "$ac_cv_lib_tiff_TIFFOpen" = "yes"; then
   AC_CHECK_HEADER([tiffio.h], [AC_DEFINE([HAVE_TIFFIO_H])],
 	          AC_MSG_WARN([unable to find tiff header]))
 fi
-
-
-# --------------------------------------------------------------------------
-#
-# check Z library
-#
-#AC_ARG_WITH([libz-builtin],
-#    AS_HELP_STRING([--with-libz-builtin],[use builtin libz [[default=no]]]),
-#    [ac_cv_use_libz_builtin=$withval], [ac_cv_use_libz_builtin=no])
-#
-#if test "$ac_cv_use_libz_builtin" = "no"; then
-#  am_libz="yes"
-#  AH_TEMPLATE(HAVE_LIBZ)
-#  AC_CHECK_LIB([z], [inflate],
-#     [LIBS="-lz $LIBS"],
-#     [AC_MSG_WARN([z library not found, check config.log!])],
-#     [])
-#  if test "$ac_cv_lib_z_inflate" = "yes" ; then
-#    AC_DEFINE(HAVE_LIBZ)
-#    am_libz="no"
-#  fi
-#else
-#  AC_DEFINE(HAVE_LIBZ)
-#  am_libz="yes"
-#fi
 
 
 # --------------------------------------------------------------------------
@@ -954,7 +861,6 @@ AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
 AC_ARG_WITH([mpeg],
             AS_HELP_STRING([--with-mpeg],
             [allow use of builtin libmpeg [[default=yes]]]))
-
 am_libmpeg="no"
 AH_TEMPLATE(HAVE_LIBMPEG)
 if test "${with_mpeg:=yes}" = "yes"; then
@@ -1027,63 +933,15 @@ AC_ARG_WITH([ubit-builtin],
     [ac_cv_use_ubit_builtin=$withval], [ac_cv_use_ubit_builtin=yes])
 LDFLAGS="$X_LDFLAGS $X_LIBS -lpthread"
 
-#if test "$ac_cv_use_ubit_builtin" = "no"; then
-#  AC_ARG_WITH([ubit-prefix],
-#    AS_HELP_STRING([--with-ubit-prefix=DIR],[prefix to look for ubit lib & include]))
-#  #
-#  # check ubit
-#  #
-#  min_ubit_version=5.5.0
-#  min_ubit_version_decimal=`echo $min_ubit_version | sed -e 's/\.//g'`
-#  UBIT_VERSION=none
-#  if test "$with_ubit_prefix" = "" ; then
-#    UBIT_L="-L$prefix/lib"
-#    UBIT_I="-I$prefix/include"
-#    AC_PATH_PROG(UBITCONFIG, ubit-config)
-#    if test "$ac_cv_path_UBITCONFIG" != "" ; then
-#      UBIT_VERSION=`ubit-config --version`
-#      ubit_version_decimal=`ubit-config --version | sed -e 's/\.//g'`
-#      AC_MSG_CHECKING(for Ubit - version >= $min_ubit_version)
-#      if test "$ubit_version_decimal" -ge "$min_ubit_version_decimal"; then
-#        AC_MSG_RESULT(yes)
-#      else
-#        AC_MSG_RESULT(no)
-#        if test "$with_ubit_prefix" = "" ; then
-#          AC_MSG_ERROR([VREng requires at minimum ubit-$min_ubit_version])
-#        fi
-#      fi
-#    else
-#      AC_MSG_RESULT(no)
-#      AC_MSG_ERROR([$UBITCONFIG not found. VREng requires ubit-$min_ubit_version])
-#    fi
-#  else
-#    UBIT_L="-L$with_ubit_prefix/lib"
-#    UBIT_I="-I$with_ubit_prefix/include"
-#  fi
-#
-#  AC_CHECK_LIB([ubit], [main],
-#               [LIBS="$UBIT_L -lubit $LIBS"],
-#               [AC_MSG_ERROR([ubit library not found, check config.log!,
-#               get http://www.infres.enst.fr/ftp/pub/unix/gui/ubit/ubit.tar.gz])],
-#               [$UBIT_L $X_LIBS -lXpm $x_libs])
-#
-#  UBIT_CFLAGS=$UBIT_I
-#  am_ubit="no"
-#  am_libftgl="no"
-#  toolkit="ubit-$UBIT_VERSION"
-#else
-  # Use builtin ubit
-  UBIT_L="-L../../src/ubit"
-  UBIT_I="-I../../src"
-  UBIT_CFLAGS=$UBIT_I
-  #LIBS="$X_LIBS -lICE -lSM -lXext -lXmu -lX11 $LIBS"
-  #LIBS="$X_LIBS -lXmu -lX11 $LIBS"
-  LIBS="-lXmu -lX11 $LIBS"
-  am_ubit="yes"
-  am_libftgl="yes"
-  min_ubit_version=7.0.0
-  toolkit=7.0.0
-#fi
+# Use builtin ubit
+UBIT_L="-L../../src/ubit"
+UBIT_I="-I../../src"
+UBIT_CFLAGS=$UBIT_I
+LIBS="-lXmu -lX11 $LIBS"
+am_ubit="yes"
+am_libftgl="yes"
+min_ubit_version=7.0.0
+toolkit=7.0.0
 XLIBS=$x_libs
 AC_SUBST(XLIBS)
 AC_SUBST(UBIT_CFLAGS)
@@ -1199,65 +1057,6 @@ AC_SUBST(GL_CFLAGS)
 
 
 # --------------------------------------------------------------------------
-#
-# Glut configuration
-#
-#AC_DEFUN([AC_GLUT_CHECK],
-#[ 
-#am_libglut="no"
-#AH_TEMPLATE(HAVE_LIBGLUT)
-#
-#case "$build" in
-#*-*-darwin*)
-#  AC_CHECK_HEADERS([GLUT/glut.h])
-#  OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
-#  LIBS="$LIBS $(OPENGL_LIBS)"
-#  # search in MacPorts and Fink installs
-#  if test -d /wudr/X11/include ; then
-#    OSDEP_CFLAGS="-I/wudr/X11/include"
-#  elif test -d /opt/X11/include ; then
-#    OSDEP_CFLAGS="-I/opt/X11/include"
-#  elif test -d /opt/local/include ; then
-#    OSDEP_CFLAGS="-I/opt/local/include"
-#  elif test -d /sw/include ; then
-#    OSDEP_CFLAGS="$OSDEP_CFLAGS -I/sw/include"
-#  fi
-#  if test -d /usr/X11/lib ; then
-#    OSDEP_LIBS="-L/opt/X11/lib"
-#  elif test -d /opt/X11/lib ; then
-#    OSDEP_LIBS="-L/opt/X11/lib"
-#  fi
-#  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
-#  AC_DEFINE(HAVE_LIBGLU)  
-#  ;;
-#*)
-#  case "$build" in
-#    *-*-solaris*) OSDEP_LIBS="-L/usr/openwin/lib" OSDEP_CFLAGS="-I/usr/local/include" ;;
-#    *-*-linux*)   OSDEP_LIBS=""                   OSDEP_CFLAGS="" ;;
-#    *-*-netbsd*)  OSDEP_LIBS="-L/usr/pkg/lib"     OSDEP_CFLAGS="-I/usr/pkg/include" ;;
-#    *)            OSDEP_LIBS="-L/usr/local/lib"   OSDEP_CFLAGS="-I/usr/local/include" ;;
-#  esac
-#
-#  AC_CHECK_LIB([glut], [glutMainLoop])
-#  AC_CHECK_HEADERS([GL/glut.h])
-#  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
-#  if test "ac_cv_lib_glut_glutMainLoop" = no; then
-#    AC_MSG_WARN([Could not find glut lib!])
-#  else
-#    CXXFLAGS="$OSDEP_CFLAGS $CXXFLAGS"
-#    LIBS="$OSDEP_LIBS -lglut $LIBS"
-#    GLUT_LIB="$OSDEP_LIBS -lglut"
-#    AC_SUBST(GNUT_LIB)
-#  fi
-#  ;;
-#esac
-#AC_DEFINE(HAVE_LIBGLUT)
-#am_libglut="yes"
-#
-#CXXFLAGS="$OSDEP_CFLAGS $CXXFLAGS"
-#])
-
-# --------------------------------------------------------------------------
 # Ubit with Glut
 #
 AC_ARG_WITH([glut],
@@ -1285,42 +1084,12 @@ fi
 
 # --------------------------------------------------------------------------
 #
-# ftgl configuration
-#
-#AH_TEMPLATE(WITH_FTGL)
-#AH_TEMPLATE(HAVE_FTGL)
-#AH_TEMPLATE(HAVE_FTGL_H)
-#AC_ARG_WITH([ftgl],
-#      AS_HELP_STRING([--with-ftgl],[allow use of libftgl if available [[default=no]]]),
-#     [ac_cv_use_ftgl=$withval], [ac_cv_use_ftgl=no])
-#
-#if test "${with_ftgl:=no}" = "yes"; then
-#  AC_CHECK_LIB([ftgl], [main], 
-#               [LIBS="-lftgl $LIBS"],
-#               [AC_MSG_WARN([ftgl library not found, use embedded ftgl])])
-#  if test "$ac_cv_lib_ftgl_main" = "yes" ; then
-#    AC_DEFINE(WITH_FTGL)
-#    AC_DEFINE(HAVE_FTGL)
-#    am_ftgl="no"
-#    AC_CHECK_HEADER([FTGL/ftgl.h], [AC_DEFINE([HAVE_FTGL_H])],
-#	             AC_MSG_WARN([unable to find ftgl header]))
-#  else
-#    am_libftgl="yes"
-#  fi
-#else
-#  am_libftgl="yes"
-#fi
-
-
-# --------------------------------------------------------------------------
-#
 # Check gl2ps support
 #
 am_libgl2ps="no"
 AC_ARG_ENABLE([gl2ps],
               AS_HELP_STRING([--enable-gl2ps],
               [allow use of gl2ps if available [[default=no]]]))
-
 AH_TEMPLATE(HAVE_GL2PS)
 if test "${enable_gl2ps:=no}" = "yes"; then
   am_libgl2ps="yes"
@@ -1336,7 +1105,6 @@ am_libglui="no"
 AC_ARG_ENABLE([glui],
               AS_HELP_STRING([--enable-glui],
               [allow use of builtin glui [[default=no]]]))
-
 if test "${enable_glui:=no}" = "yes"; then
   am_libglui="yes"
 fi
@@ -1350,13 +1118,11 @@ AC_ARG_WITH([sqlite],
             AS_HELP_STRING([--with-sqlite],
             [allow use of sqlite if available [[default=no]]]),
             [ac_cv_use_sqlite=$withval], [ac_cv_use_sqlite=no])
-
 AH_TEMPLATE(WITH_SQLITE)
 if test "${with_sqlite:=no}" = "yes"; then
   AC_DEFINE(WITH_SQLITE)
   AH_TEMPLATE(HAVE_SQLITE)
   AH_TEMPLATE(HAVE_SQLITE_H)
-
   SQLITE_L="-L${prefix}/lib"
   SQLITE_I="-I${prefix}/include"
   if test -f ${prefix}/include/sqlite3.h ; then
@@ -1385,7 +1151,6 @@ AC_ARG_WITH([mysql],
             AS_HELP_STRING([--with-mysql],
             [allow use of mysql if available [[default=no]]]),
             [ac_cv_use_mysql=$withval], [ac_cv_use_mysql=no])
-
 if test "${with_mysql:=no}" = "yes"; then
   AH_TEMPLATE(WITH_MYSQL)
   AH_TEMPLATE(HAVE_LIBMYSQLCLIENT)
@@ -1393,7 +1158,6 @@ if test "${with_mysql:=no}" = "yes"; then
   AH_TEMPLATE(HAVE_MYSQL)
   AH_TEMPLATE(HAVE_MYSQL_H)
   AH_TEMPLATE(HAVE_MYSQL_MYSQL_H)
-
   # lib path
   MYSQL_L="-L${prefix}/lib"
   if test -f ${prefix}/lib/mysql/libmysqlclient.so ; then
@@ -1486,7 +1250,6 @@ fi
 AC_ARG_WITH([xml2],
             AS_HELP_STRING([--with-xml2],
             [allow use of libxml2 if available [[default=yes]]]))
-
 AH_TEMPLATE(HAVE_LIBXML2)
 if test "${with_xml2:=yes}" = "yes"; then
   #
@@ -1501,13 +1264,11 @@ if test "${with_xml2:=yes}" = "yes"; then
   fi
   saved_cxxflags=$CXXFLAGS
   CXXFLAGS="$CXXFLAGS $XML2_CFLAGS"
-
   AC_CHECK_HEADERS([libxml/parser.h])
   AC_CHECK_HEADERS([libxml/tree.h])
   AC_CHECK_HEADERS([libxml/xmlreader.h])
   AC_CHECK_HEADERS([libxml/xpath.h])
   AC_CHECK_HEADERS([libxml/xpathInternals.h])
-
   AC_CHECK_LIB([xml2], [xmlReaderForFile],
                #[LIBS="${OSDEP_LIBS} -lxml2 $LIBS"],
                [LIBS="-lxml2 $LIBS"],
@@ -1532,7 +1293,6 @@ am_ocaml="no"
 AC_ARG_WITH([ocaml],
             AS_HELP_STRING([--with-ocaml],
             [allow use of ocaml if available [[default=no]]]))
-
 if test "${with_ocaml:=no}" = "yes"; then
   OCAML_PATH=
   AC_PATH_PROG(OCAMLOPT, ocamlopt)
@@ -1581,7 +1341,6 @@ AC_ARG_WITH([openal],
             AS_HELP_STRING([--with-openal],
             [allow use of openal if available  [[default=no]]]),
             [ac_cv_use_openal=$withval], [ac_cv_use_openal=no])
-
 if test "$ac_cv_use_openal" = "yes"; then
   AH_TEMPLATE(HAVE_OPENAL)
   AC_CHECK_LIB([openal], [alGetError],
@@ -1600,7 +1359,6 @@ if test "$ac_cv_use_openal" = "yes"; then
 	         [LIBS="$OSDEP_LIBS -lfreealut $LIBS"],
 	         [AC_MSG_WARN([freealut library not found, check config.log!, try apt|dnf|yum|brew install freealut])],
 	         [$OSDEP_LIBS])
-  #if test "$ac_cv_lib_freealut_alutLoadWAVFile" = "yes"; then
     LIBS="$OSDEP_LIBS -lfreealut $LIBS"
     AC_DEFINE([HAVE_ALUT])
     AH_TEMPLATE(HAVE_ALUT_H)
@@ -1631,7 +1389,6 @@ AC_ARG_WITH([sdl2],
             AS_HELP_STRING([--with-sdl2],
             [allow use of sdl2 toolkit if available [[default=no]]]),
             [ac_cv_use_sdl2=$withval], [ac_cv_sdl2=no])
-
 if test "$ac_cv_use_SDL" = "yes" ; then
   SDL_VERSION_MIN=1.2.11
   AH_TEMPLATE(HAVE_LIBSDL)
