@@ -3207,3 +3207,4 @@
 3207 Lun 18 nov 2024 10:05:22 CET	remove CPPFLAGS configure.ac
 3208 Lun 18 nov 2024 17:13:59 CET	cleanup configure.ac
 3209 Mar 19 nov 2024 10:05:54 CET	fix CPPFLAGS configure.ac
+3210 Mar 19 nov 2024 16:07:40 CET	cleanup AC_COMMAND configure.ac
