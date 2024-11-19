@@ -101,6 +101,7 @@ fi
 #
 CFLAGS="${CFLAGS}"
 CXXFLAGS="${CXXFLAGS}"
+CPPFLAGS="${CXXFLAGS}"
 LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
@@ -310,7 +311,7 @@ armv4l-*-linux*)
   if test -d /usr/pkg/include ; then
     OSDEP_CFLAGS="-I/usr/pkg/include"
   fi
-  CXXFLAGS="${OSDEP_CFLAGS} $CXXFLAGS"
+  CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
   # special patch for pkgsrc -lmpeg become -lmpeg_lib, because of kde conflict
   libmpeg=mpeg_lib
   ;;
@@ -337,17 +338,17 @@ AC_DEFINE(OSF1)
   if test -d /usr/X11/include ; then
     OSDEP_CFLAGS="-I/usr/X11/include"
     X_CFLAGS="-I/usr/X11/include"
-    CXXFLAGS="${OSDEP_CFLAGS} $CXXFLAGS"
+    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
   elif test -d /opt/X11/include ; then
     OSDEP_CFLAGS="-I/opt/X11/include"
     X_CFLAGS="-I/opt/X11/include"
-    CXXFLAGS="${OSDEP_CFLAGS} $CXXFLAGS"
+    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
   elif test -d /opt/local/include ; then
     OSDEP_CFLAGS="-I/opt/local/include"
-    CXXFLAGS="${OSDEP_CFLAGS} $CXXFLAGS"
+    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
   fi
   if test -d /usr/X11/lib ; then
-    #OSDEP_LIBS="-L/usr/X11/lib"
+    OSDEP_LIBS="-L/usr/X11/lib"
     X_LIBS="-L/usr/X11/lib"
   elif test -d /opt/X11/lib ; then
     OSDEP_LIBS="-L/opt/X11/lib"
@@ -912,7 +913,7 @@ freetype_cflags=`$FREETYPE_CONFIG --cflags`
 FREETYPE_CFLAGS=$freetype_cflags
 AC_SUBST(FREETYPE_CFLAGS)
 freetype_libs=`$FREETYPE_CONFIG --libs`
-CXXFLAGS="$freetype_cflags $CXXFLAGS"
+CPPFLAGS="$freetype_cflags $CPPFLAGS"
 LDFLAGS="$LDFLAGS $freetype_libs"
 if test "$have_freetype" = "yes"; then
   ubit_features="$ubit_features UBIT_WITH_FREETYPE"
@@ -998,9 +999,9 @@ if test -n "$with_GL_prefix"; then
   GL_L="-L$with_GL_prefix/lib"
   GL_I="-I$with_GL_prefix/include"
 fi
-saved_cxxflags=$CXXFLAGS
+saved_cppflags=$CPPFLAGS
 saved_ldflags=$LDFLAGS
-CXXFLAGS="$GL_I $X_CFLAGS"
+CPPFLAGS="$GL_I $X_CFLAGS"
 LDFLAGS="$X_LDFLAGS $X_LIBS $GL_L"
 
 # check that the libs are here
@@ -1049,8 +1050,7 @@ if test "$glerror" != no; then
   AC_MSG_RESULT([	--> OpenGL: http://www.opengl.org/])
   AC_MSG_RESULT([	--> Mesa3D: http://www.mesa3d.org/])
 fi
-
-CXXFLAGS=$saved_cxxflags
+CPPFLAGS=$saved_cppflags
 LDFLAGS=$saved_ldflags
 GL_CFLAGS=$GL_I
 AC_SUBST(GL_CFLAGS)
@@ -1131,10 +1131,10 @@ if test "${with_sqlite:=no}" = "yes"; then
   else
     echo "sqlite3.h not found, check config.log!"
   fi
-  saved_cxxflags=$CXXFLAGS
+  saved_cppflags=$CPPFLAGS
   SQLITE_CFLAGS=${SQLITE_I}
   AC_SUBST(SQLITE_CFLAGS)
-  CXXFLAGS="${SQLITE_I} ${CXXFLAGS}"
+  CPPFLAGS="${SQLITE_I} ${CPPFLAGS}"
   AC_CHECK_HEADER([sqlite3.h], [AC_DEFINE([HAVE_SQLITE_H])],)
   AC_CHECK_LIB([sqlite3], [sqlite3_open], [LIBS="${SQLITE_L} -lsqlite3 $LIBS"],,)
   if test "$ac_cv_lib_sqlite3_sqlite3_open" = "yes" ; then
@@ -1202,10 +1202,10 @@ if test "${with_mysql:=no}" = "yes"; then
   else
     echo "mysql.h not found, check config.log!"
   fi
-  saved_cxxflags=$CXXFLAGS
+  saved_cppflags=$CPPFLAGS
   MYSQL_CFLAGS=${MYSQL_I}
   AC_SUBST(MYSQL_CFLAGS)
-  CXXFLAGS="${MYSQL_I} ${CXXFLAGS}"
+  CPPFLAGS="${MYSQL_I} ${CPPFLAGS}"
   AC_CHECK_HEADER([mysql.h],
 	          [AC_DEFINE([HAVE_MYSQL_H])],
 	          [AC_CHECK_HEADER([mysql/mysql.h],
@@ -1262,19 +1262,18 @@ if test "${with_xml2:=yes}" = "yes"; then
     XML2_CFLAGS=`${XML2CONFIG} --cflags`
     AC_SUBST(XML2_CFLAGS)
   fi
-  saved_cxxflags=$CXXFLAGS
-  CXXFLAGS="$CXXFLAGS $XML2_CFLAGS"
+  saved_cppflags=$CPPFLAGS
+  CPPFLAGS="$CPPFLAGS $XML2_CFLAGS"
   AC_CHECK_HEADERS([libxml/parser.h])
   AC_CHECK_HEADERS([libxml/tree.h])
   AC_CHECK_HEADERS([libxml/xmlreader.h])
   AC_CHECK_HEADERS([libxml/xpath.h])
   AC_CHECK_HEADERS([libxml/xpathInternals.h])
   AC_CHECK_LIB([xml2], [xmlReaderForFile],
-               #[LIBS="${OSDEP_LIBS} -lxml2 $LIBS"],
                [LIBS="-lxml2 $LIBS"],
                [AC_MSG_RESULT([	--> libxml2: http://xmlsoft.org/downloads.html])],
                [`${XML2CONFIG} --libs`])
-  CXXFLAGS=$saved_cxxflags
+  CPPFLAGS=$saved_cppflags
   if test "$ac_cv_lib_xml2_xmlReaderForFile" = "yes" ; then
     AC_DEFINE(HAVE_LIBXML2)
   fi
@@ -1301,10 +1300,10 @@ if test "${with_ocaml:=no}" = "yes"; then
   fi
   OCAML_LIB="-L${OCAML_PATH}"
   OCAML_CFLAGS="-I${OCAML_PATH}"
-  saved_cxxflags=$CXXFLAGS
+  saved_cppflags=$CPPFLAGS
   AC_SUBST(OCAML_CFLAGS)
   AC_SUBST(OCAML_LIB)
-  CXXFLAGS="${OCAML_CFLAGS} ${CXXFLAGS}"
+  CPPFLAGS="${OCAML_CFLAGS} ${CPPFLAGS}"
   AC_CHECK_HEADER([caml/callback.h],
 	          [AC_DEFINE([HAVE_CAML_CALLBACK_H])],
 	          AC_MSG_WARN([unable to find ocaml header])
@@ -1325,7 +1324,7 @@ ${OCAMLOPT} -output-obj conftestml.ml -o conftest_ml.o
   else
     AC_MSG_RESULT([	--> try apt|dnf|yum|brew install ocaml or http://caml.inria.fr/download_en.html])
   fi
-  CXXFLAGS=$saved_cxxflags
+  CPPFLAGS=$saved_cppflags
   AC_DEFINE_UNQUOTED(OCAML_PATH, ["$OCAML_PATH"])
   AC_LANG_POP([C])
   LDFLAGS="${LDFLAGS} -Wl,-keep_dwarf_unwind -Wl,-no_compact_unwind"
@@ -1395,11 +1394,10 @@ if test "$ac_cv_use_SDL" = "yes" ; then
   if test "$am_libsdl" = "yes"; then
     AC_DEFINE(HAVE_LIBSDL)
     SDL2_LIB=`sdl2-config --libs`
-    #SDL_LIB=`echo $SDL_LIB | sed -e 's/-Wl,-framework,Cocoa//'`
     [LIBS="${OSDEP_LIBS} $SDL2_LIB $LIBS"]
     AC_CHECK_HEADERS([SDL/SDL.h])
     SDL2_CFLADS=`sdl2-config --cflags`
-    CXXFLAGS="$CXXFLAGS $SDL2_CFLAGS"
+    CPPFLAGS="$CPPFLAGS $SDL2_CFLAGS"
   fi
   #
   # check SDL_mixer library
