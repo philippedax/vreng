@@ -3208,3 +3208,4 @@
 3208 Lun 18 nov 2024 17:13:59 CET	cleanup configure.ac
 3209 Mar 19 nov 2024 10:05:54 CET	fix CPPFLAGS configure.ac
 3210 Mar 19 nov 2024 16:07:40 CET	cleanup AC_COMMAND configure.ac
+3211 Mer 20 nov 2024 17:30:38 CET	cleanup AC_CONFIG_AUX_DIR configure.ac

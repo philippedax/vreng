@@ -28,20 +28,18 @@
 #
 AC_INIT([vreng],[9.4.7],[philippe.dax@gmail.com])
 
-# Make sure we are using a recent autoconf version
-#AC_PREREQ([2.71])
-
 AC_CONFIG_SRCDIR([src/base/vreng.cpp])
 
 # where to find macros m4
 AC_CONFIG_MACRO_DIR(conf)
-# where to find install.sh, config.sub
-#AC_CONFIG_AUX_DIR(conf)
 
 # canonicalizing cpu:vendor:os
 AC_CANONICAL_HOST([])
 
 AM_INIT_AUTOMAKE([subdir-objects])
+
+# use config.h
+AC_CONFIG_HEADERS([config.h])
 
 # version
 set x `echo $PACKAGE_VERSION | tr '.' ' '`
@@ -55,9 +53,6 @@ AC_DEFINE_UNQUOTED(VRENG_MINOR_VERSION, [$minor])
 AH_TEMPLATE(VRENG_MICRO_VERSION, [VReng micro version])
 AC_DEFINE_UNQUOTED(VRENG_MICRO_VERSION, [$micro])
 ubit_features=""
-
-# use config.h
-AC_CONFIG_HEADERS([config.h])
 
 
 # --------------------------------------------------------------------------
@@ -77,7 +72,6 @@ AC_PROG_CXXCPP
 AC_PROG_YACC
 AC_PROG_MAKE_SET
 AC_PROG_INSTALL
-AC_PROG_LN_S
 AC_CHECK_PROG(AR, ar, ar)
 AC_PROG_RANLIB
 AC_SEARCH_LIBS([strerror],[cposix])
