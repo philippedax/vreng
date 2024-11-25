@@ -3215,3 +3215,4 @@
 3215 Lun 25 nov 2024 10:23:14 CET	rename rc.build to build.sh
 3216 Lun 25 nov 2024 10:26:47 CET	rename rc.commit to commit.sh
 3217 Lun 25 nov 2024 10:37:06 CET	add conf/merge.sh
+3218 Lun 25 nov 2024 10:38:35 CET	remove conf/mbone.plugin
