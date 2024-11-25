@@ -3212,3 +3212,4 @@
 3212 Jeu 21 nov 2024 10:23:08 CET	resynchronize conf/history
 3213 Jeu 21 nov 2024 18:34:33 CET	rename conf/history to conf/commits
 3214 Ven 22 nov 2024 08:44:45 CET	add conf/commits to repo
+3215 Lun 25 nov 2024 10:23:14 CET	rename rc.build to build.sh
