@@ -3219,3 +3219,4 @@
 3219 Lun 25 nov 2024 10:42:34 CET	add conf/vre.sh
 3220 Mar 26 nov 2024 10:22:55 CET	rename conf/rc.<scipt> to conf/<script>.sh
 3221 Mar 26 nov 2024 11:43:17 CET	remove ANNOUNCE.md INSTALL.md TOFIX.md
+3222 Mar 26 nov 2024 11:56:29 CET	remove ANNOUNCE.md INSTALL.md TOFIX.md
