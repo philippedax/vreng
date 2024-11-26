@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# rc.prerequis
+# prerequis.sh
 #
 # Check and install needed requirements from scratch
 #

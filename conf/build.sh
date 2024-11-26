@@ -1,17 +1,19 @@
 #! /bin/sh
+
 autoconf
+
 ./configure \
---with-ocaml \
---with-openal \
---with-sdl2 \
---without-mysql \
---without-sqlite \
---enable-vacs \
---enable-vaps \
---enable-vjs \
---enable-vrl \
---enable-vrel \
---enable-vred \
---enable-vmm
+ --with-ocaml \
+ --with-openal \
+ --with-sdl2 \
+ --without-mysql \
+ --without-sqlite \
+ --enable-vacs \
+ --enable-vaps \
+ --enable-vjs \
+ --enable-vrl \
+ --enable-vrel \
+ --enable-vred \
+ --enable-vmm
+
 make
-#make dist

@@ -1,18 +1,18 @@
 - Admin rights
 --------------
 
-Your account needs to have Admin privileges to do sudo or make install invocations.
+Your account needs to have Admin privileges to do 'sudo' or 'make install' invocations.
 
 - MACOS
 -------
 
-First, you need to install "brew" to downdoad other dependencies by the command:
+First, you need to install "brew" to download other dependencies by the command:
 
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 then try :
 
-  conf/rc.prerequis
+  conf/prerequis.sh
 
 or manually do (if you have not) :
 
@@ -49,7 +49,7 @@ or manually do (if you have not) :
 
 Try:
 
-  conf/rc.prerequis
+  conf/prerequis.sh
 
 or
 
@@ -60,11 +60,11 @@ and compile/install them.
 -------------
 
 To start you need to download, install, execute XQuartz (MacOS only) to have a X11 server running.
-The recommended way to do that is ty type:
+The recommended way to do that is to type:
 
-  conf/rc.X11
+  conf/x11.sh
 
 You need to do "sudo apachectl start" to have a httpd server running.
-The recommended way to do that is ty type:
+The recommended way to do that is to type:
 
-  conf/rc.httpd
+  conf/httpd.sh

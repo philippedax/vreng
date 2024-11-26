@@ -26,13 +26,13 @@ echo "$p start: $(date)" >>$log
 cd conf
 
 # suggests or installs requirements
-./rc.prerequis
+./prerequis.sh
 
 # launches X11 server
-./rc.X11
+./x11.sh
 
 # configures and launches local httpd server
-./rc.httpd
+./httpd.sh
 
 # configures vreng
 ./autogen.sh "$@"

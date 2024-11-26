@@ -1,5 +1,7 @@
 #! /bin/sh
 #
+# httpd.sh
+#
 # Configures and starts local httpd server
 #
 # Philippe Dax - jun 2017

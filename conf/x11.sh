@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# rc.X11
+# x11.sh
 #
 # To have a X11 server running
 #
