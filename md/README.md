@@ -7,12 +7,12 @@ in virtual worlds connected over the Internet.
 
 REQUIREMENTS AND RECOMMENDATIONS
 --------------------------------
-To build VREng you need a C++ and C compiler (for ex. g++, gcc).
+To build VREng you need a C++ and a C compiler (for ex. g++, gcc).
 Furthmore you need the X-Window System X11 (Xorg, X11R6 or Openwin).
 Your visual must have a color depth of 8, 16, 24 or 32.
 
-The following libraries are required: libjpeg, libungif, libXpm.
-Other recommended libraries: libmysqlclient, libz, libpng.
+The following libraries are required: libjpeg, libgif, libXpm.
+Other recommended libraries: libpng, libmysqlclient, libz.
 For more details see md/REQUIREMENTS.md.
 
 Your machine and your network should support IP Multicast, mainly IGMPv2
@@ -67,7 +67,7 @@ To configure and compile VREng with defaults, type:
 	./configure
 
 and then type:
-	make or gmake
+	make
 
 To launch VREng type:
         ./vr or ./vreng
