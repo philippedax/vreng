@@ -1,58 +1,53 @@
 World & Objects:
-	- Dynamic gates coming in the interconnection world
-	- Object World (direction, speed)
-	- Object Path (corridors, rooms, halls,...)
-	- Object Modeler to build worlds dynamicaly
-	- Object Code to execute interpretated code
-	- Object Video Projector
-	- Lightings: laser, spot
-	- Sun and sky daylight in real time
-	- Temperature, density, viscosity
-	- Android persistency
+	- dynamic gates coming in the interconnection world
+	- object World (direction, speed)
+	- object Path (corridors, rooms, halls,...)
+	- object Code to execute interpretated code
+	- object Video Projector
+	- lightings: laser
+	- sun and sky daylight in real time
+	- temperature, density, viscosity
+	- humanoid persistency
 	- auto-calculate the best position of the camera
-	- Call compound solids by url http
+	- call compound solids by url http
 	- OBB (oriented BB) intersections
-	- Sounds when a collision occurs
-	- Audio inside, volume adapted to distance
-	- Sound mixer
+	- sounds when a collision occurs
+	- audio inside, volume adapted to distance
+	- sound mixer
 
 Gui:
-	- Double-clicking on objects to call default action
-	- Display stats
-	- Image viewer
-	- Visit cards
-	- Preferences graphic user interface
+	- double-clicking on objects to call default action
+	- image viewer
+	- visit cards
+	- preferences graphic user interface
 	- RSS feed
 
 Graphics:
-	- Shadowing
-	- Triangles, Polygons
-	- Nurbs
-	- SVG reader
+	- shadowing
+	- triangles
+	- nurbs
 	- VRML model reader
 	- MPEG-2 video reader, incrustated video
 	- MPEG-4 scene reader
-	- Animated avatar by bvh
+	- animated avatar by bvh
 	- X11 windows mapping textures
-	- Mobile text and characters
+	- mobile text and characters
+
 Network:
-	- Timeout on http requests if a server is down
-	- Persistency handled by IP Multicast daemons
+	- timeout on http requests if a server is down
+	- persistency handled by IP Multicast daemons
 	- SIP client interface to invite somebody
-	- Packet compression on the fly (libz)
+	- packet compression on the fly (libz)
 	- RTSP client
 	- IPv6 port
-
-Environment:
-	- Template for add a new object
 
 Ports:
 	- Windows NT/2K/Xp/7/10
 
 Doc:
 	- man4 (description format VREF)
-	- Describe network protocol VREP
-	- Describe languages VREL, VREML
+	- describe network protocol VREP
+	- describe languages VREL, VRL
 
 Distribution:
 	- rpm
