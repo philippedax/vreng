@@ -30,9 +30,9 @@
 #include "theme.hpp"	// Theme
 #include "file.hpp"	// open, close
 #include "str.hpp"	// stringcmp
-#include "ubit/uconf.hpp" // Uconf::
+#include "ubit/uconf.hpp" // UConf::
 
-#include "prefs.h"	// prefs config
+#include "prefs.h"	// prefs file conf/prefs
 
 
 static const char HELPSTRING[] = "\
@@ -151,12 +151,13 @@ void Pref::init(int argc, char **argv, const char* pref_file)
 
   File *filein = new File();
   File *fileout = new File();
+
   if (! (fp = filein->open(pref_file, "r"))) {
     if (! (fp = fileout->open(pref_file, "w"))) {
       perror("can't create prefs");
       return;
     }
-    fputs(def_prefs, fp);
+    fputs(def_prefs, fp);	// from prefs.h (conf/prefs)
     fileout->close();
     delete fileout;
     if (! (fp = filein->open(pref_file, "r"))) {
@@ -168,7 +169,7 @@ void Pref::init(int argc, char **argv, const char* pref_file)
   // read prefs file
   while (fgets(buf, sizeof(buf), fp)) {
     if (*buf == '#' || *buf == '\n') {
-      continue;
+      continue;			// if commented or empty line
     }
     buf[strlen(buf) - 1] = '\0';
     p1 = strtok(buf, " \t=");
@@ -477,7 +478,9 @@ void Pref::parse(int argc, char **argv)
     }
   }
 
+  ///////////
   // username
+  //
   if (! ::g.user) {
     struct passwd *pwd = getpwuid(getuid());
     if (pwd) {
@@ -540,8 +543,6 @@ void Pref::parse(int argc, char **argv)
     strcpy(srv, p2); 
   }
   ::g.server = strdup(srv);
-  //echo("::g.server: %s", ::g.server);
-
   //echo("url: %s", ::g.url);
   //echo("server: %s", ::g.server);
   //echo("universe: %s", ::g.universe);
