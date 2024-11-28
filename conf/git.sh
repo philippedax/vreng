@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -x
 #
 # git.sh
 #
@@ -37,6 +37,7 @@ log()
 commit()
 {
   message=$1
+  echo "commit $message"
   git commit -a -m "$message"
 }
 
@@ -59,24 +60,32 @@ merge()
 main()
 {
   case $# in
-  2)
+  3)
+    #echo "$1 $2"
     case $1 in
     c|commit)
       commit $2
       log $2
       push
       ;;
-    ;;
     m|merge)
       merge $2
       push
       log "merge $2"
-    ;;
+      ;;
+    *)
+      echo "bad oper $1"
+      usage
+      ;;
     esac
+    ;;
   *)
+    echo "$# args"
     usage
     ;;
   esac
 
   exit 0
 }
+
+main $@
