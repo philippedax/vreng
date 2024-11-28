@@ -3226,10 +3226,11 @@
 3226 Mer 27 nov 2024 15:02:46 CET	update README.md
 3227 Jeu 28 nov 2024 12:52:09 CET	remove conf/merge.sh
 3228 Jeu 28 nov 2024 13:39:43 CET	add conf/git.sh
-3229 Jeu 28 nov 2024 15:20:08 CET	remove
-3230 Jeu 28 nov 2024 15:29:49 CET	fix
-3231 Jeu 28 nov 2024 15:31:28 CET	fix
-3232 Jeu 28 nov 2024 15:35:08 CET	fix
-3233 Jeu 28 nov 2024 15:36:52 CET	remove
-3234 Jeu 28 nov 2024 15:42:15 CET	c remove conf/build.sh
-3235 Jeu 28 nov 2024 15:43:30 CET	c fix message conf/git.sh
+3229 Jeu 28 nov 2024 15:20:08 CET	remove conf/commit.sh
+3230 Jeu 28 nov 2024 15:29:49 CET	fix conf/git.sh
+3231 Jeu 28 nov 2024 15:31:28 CET	fix conf/git.sh
+3232 Jeu 28 nov 2024 15:35:08 CET	fix conf/git.sh
+3233 Jeu 28 nov 2024 15:36:52 CET	remove conf/build.sh
+3234 Jeu 28 nov 2024 15:42:15 CET	remove conf/build.sh
+3235 Jeu 28 nov 2024 15:43:30 CET	fix message conf/git.sh
+3236 Jeu 28 nov 2024 15:45:53 CET	fix message conf/git.sh

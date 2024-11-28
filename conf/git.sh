@@ -68,14 +68,16 @@ main()
     case $1 in
     c|commit)
       shift
-      commit $*
-      log $*
+      mess=$*
+      commit $mess
+      log $mess
       push
       ;;
     m|merge)
-      merge $2
+      branch=$2
+      merge $branch
       push
-      log "merge $2"
+      log "merge $branch"
       ;;
     *)
       echo "bad oper $1"
