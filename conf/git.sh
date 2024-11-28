@@ -21,7 +21,7 @@ usage()
 # append message to log
 log()
 {
-  message=$1
+  message=$*
   hist=conf/commits
   chmod 644 $hist
   num=1
@@ -36,8 +36,7 @@ log()
 # commit
 commit()
 {
-  message=$1
-  echo "commit $message"
+  message=$*
   git commit -a -m "$message"
 }
 
