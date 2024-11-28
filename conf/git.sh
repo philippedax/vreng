@@ -67,8 +67,8 @@ main()
     #echo "$1 $2"
     case $1 in
     c|commit)
-      commit $2
-      log $2
+      commit $*
+      log $*
       push
       ;;
     m|merge)
