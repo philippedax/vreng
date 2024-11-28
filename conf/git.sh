@@ -67,6 +67,7 @@ main()
     #echo "$1 $2"
     case $1 in
     c|commit)
+      shift
       commit $*
       log $*
       push
