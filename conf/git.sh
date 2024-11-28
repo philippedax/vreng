@@ -1,4 +1,4 @@
-#! /bin/sh -x
+#! /bin/sh
 #
 # git.sh
 #
@@ -60,7 +60,11 @@ merge()
 main()
 {
   case $# in
-  3)
+  0|1|2)
+    echo "$# args"
+    usage
+    ;;
+  *)
     #echo "$1 $2"
     case $1 in
     c|commit)
@@ -78,10 +82,6 @@ main()
       usage
       ;;
     esac
-    ;;
-  *)
-    echo "$# args"
-    usage
     ;;
   esac
 
