@@ -2,26 +2,35 @@
 #
 # git.sh
 #
-# git operation
-#  - git commit "message"
-#  - git merge "branch"
+# git operations:
+#  - commit+push: git.sh commit "message"
+#  - add:         git.sh add files
+#  - push:        git.sh push
+#  - merge:       git.sh merge "branch"
 #
 # Philippe Dax - nov 2024
 #
 p=$(basename $0)
 
+#
 # print usage
+#
 usage()
 {
-  echo "usage: $p commit \"message\""
-  echo "       $p merge \"branch\""
+  echo "usage:"
+  echo "    $p commit \"message\""
+  echo "    $p add files"
+  echo "    $p push"
+  echo "    $p merge \"branch\""
   exit 0
 }
 
-# append message to log
+#
+# append message to history log
+#
 log()
 {
-  message=$*
+  mess=$*
   hist=conf/commits
   chmod 644 $hist
   num=1
@@ -29,24 +38,38 @@ log()
     num=$(echo $(tail -1 $hist) | cut -f1 -d ' ')
     num=$[ $num + 1 ]
   fi
-  echo "$num $(date)	$message" >> $hist
-  echo "$num $(date)	$message"
+  echo "$num $(date)	$mess" >> $hist
+  echo "$num $(date)	$mess"
 }
 
+#
 # commit
+#
 commit()
 {
-  message=$*
-  git commit -a -m "$message"
+  mess=$*
+  git commit -a -m "$mess"
 }
 
+#
+# add file
+#
+add()
+{
+  git add $*
+}
+
+#
 # push to github
+#
 push()
 {
   git push origin master
 }
 
+#
 # merge branch
+#
 merge()
 {
   branch=$1
@@ -55,32 +78,41 @@ merge()
   git merge --no-ff ${branch}-master	# no fast-forward
 }
 
+#
 # main
+#
 main()
 {
   case $# in
-  0|1|2)
-    echo "$# args"
+  0|1)
     usage
     ;;
   *)
-    #echo "$1 $2"
-    case $1 in
-    c|commit)
+    oper=$1
+    case $oper in
+    commit|c|co)
       shift
       mess=$*
       commit $mess
       log $mess
       push
       ;;
-    m|merge)
+    add)
+      shift
+      files=$*
+      add $files
+      ;;
+    push)
+      push
+      ;;
+    merge)
       branch=$2
       merge $branch
       push
       log "merge $branch"
       ;;
     *)
-      echo "bad oper $1"
+      echo "bad oper $oper"
       usage
       ;;
     esac
