@@ -106,7 +106,7 @@
 </thing>
 
 <thing name="chair-dax" pos="1.1 -.2 .48 0">
-  <solid dim=".5 .5 .02" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" dif=".5 .3 .1" />
+  <solid dim=".5 .5 .02" tx="/gif/wood.gif" dif=".5 .3 .1" />
   <solid dim=".04 .5 .5" rel=".24 0 .24 0 0" yp="/gif/wood.gif" dif=".5 .3 .1" />
   <solid dim=".04 .04 .5" rel="-.24 -.24 -.24 0 0" yp="/gif/wood.gif" dif=".5 .3 .1" />
   <solid dim=".04 .04 .5" rel=".24 -.24 -.24 0 0" yp="/gif/wood.gif" dif=".5 .3 .1" />
@@ -318,7 +318,7 @@
 <!-- cdrom MP3 -->
 <music name="Friends" pos="1.47 .95 .81 1.57 1.57"
   url="/mp3/friends.mp3">
-  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom2.gif" />
+  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom.gif" />
 </music>
 <music name="Things" pos="1.47 .85 .81 1.57 1.57"
   url="/mp3/things.mp2">
@@ -326,12 +326,12 @@
 </music>
 <music name="Malaguena" pos="1.47 .75 .81 1.57 1.57"
   url="/midi/malaguena.mid">
-  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom2.gif" />
+  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom.gif" />
 </music>
 <!--
 <music name="Systemat" pos="1.47 .75 .81 1.57 1.57"
   url="/midi/systemat.mid" state="play">
-  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom2.gif" />
+  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom.gif" />
 </music>
 -->
 
