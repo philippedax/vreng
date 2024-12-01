@@ -68,9 +68,7 @@ void Cloud::parser(char *l)
 
 void Cloud::build()
 {
-  struct timeval tv;
-  gettimeofday(&tv, NULL);
-  srand((time_t) tv.tv_usec);
+  srand((uint32_t) time(NULL));
 
   origpos.x = pos.x;
   origpos.y = pos.y;

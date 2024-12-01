@@ -102,10 +102,7 @@ void Drone::changePermanent(float lasting)
 {
   if (! flying) return;
 
-  struct timeval tv;
-
-  gettimeofday(&tv, NULL);
-  srand((time_t) (tv.tv_sec * 1000 + tv.tv_usec / 1000));
+  srand((uint32_t) time(NULL));
 
   static bool expandx = true;
   static bool expandy = true;
@@ -114,7 +111,7 @@ void Drone::changePermanent(float lasting)
   static int signz = 1;
 
   if (driven) {
-    // drone is drived by user
+    // drone is driven by localuser
     pos.x = localuser->pos.x;
     pos.y = localuser->pos.y;
     pos.z = localuser->pos.z;

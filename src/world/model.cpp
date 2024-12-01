@@ -104,7 +104,9 @@ void Model::geometry()
 /** Sets name */
 void Model::setName()
 {
-  sprintf(name.given, "%s-%s.%d", MODEL_NAME, localuser->objectName(), getNum());
+  if (! name.given)
+    name.given = new char[OBJNAME_LEN];
+  sprintf(name.given, "%s-%s.%d", MODEL_NAME, ::g.user, getNum());
 }
 
 /** Parse a model */

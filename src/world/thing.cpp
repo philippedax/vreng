@@ -69,7 +69,9 @@ void Thing::behaviors()
 /** Sets an unique name */
 void Thing::setName()
 {
-  sprintf(name.given, "%s-%s%d", THING_NAME, localuser->objectName(), getNum());
+  if (! name.given)
+    name.given = new char[OBJNAME_LEN];
+  sprintf(name.given, "%s-%s%d", THING_NAME, ::g.user, getNum());
   updateNames();
 }
 

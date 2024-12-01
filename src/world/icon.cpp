@@ -177,6 +177,8 @@ Icon::Icon(User *user, void *d)
     }
     else if (! stringcmp(pt, "<name=")) {
       pt = getParam(pt);
+      if (! name.given)
+        name.given = new char[OBJNAME_LEN];
       strcpy(name.given, pt);
     }
     else if (! stringcmp(pt, "<icon=")) {

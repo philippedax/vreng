@@ -34,7 +34,7 @@ const float Bird::BIRD_ZONE = 3;	// flying zone
 const float Bird::BIRD_DELTA = .01;	// elem motion
 
 
-/* Creation from a file */
+/** Creation from a file */
 WO * Bird::creator(char *l)
 {
   return new Bird(l);
@@ -48,7 +48,7 @@ void Bird::defaults()
   scale = BIRD_SCALE;
 }
 
-/* Parser */
+/** Parser */
 void Bird::parser(char *l)
 {
   defaults();
@@ -68,14 +68,14 @@ void Bird::parser(char *l)
   end_while_parse(l);
 }
 
-/* Behavior */
+/** Behavior */
 void Bird::behaviors()
 {
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 }
 
-/* Specific inits */
+/** Specific inits */
 void Bird::inits()
 {
   wings = new Wings(model, scale, 1);
@@ -88,7 +88,7 @@ void Bird::inits()
   }
 }
 
-/* Constructor */
+/** Constructor */
 Bird::Bird(char *l)
 {
   flying = false;
@@ -97,13 +97,10 @@ Bird::Bird(char *l)
   inits();
 }
 
-/* Computes position at each loop */
+/** Computes position at each loop */
 void Bird::changePermanent(float lasting)
 {
-  struct timeval tv;
-
-  gettimeofday(&tv, NULL);
-  srand((time_t) (tv.tv_sec * 1000 + tv.tv_usec / 1000));
+  srand((uint32_t) time(NULL));
 
   static bool expandx = true;
   static bool expandy = true;
@@ -166,7 +163,7 @@ void Bird::changePermanent(float lasting)
   updatePosition();
 }
 
-/* Renders at each loop */
+/** Renders at each loop */
 void Bird::render()
 {
   glPushMatrix();

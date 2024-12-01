@@ -141,6 +141,8 @@ void Cart::leave(WO *po)
   // update the object's name with the type name as prefix
   char tmpname[64];
   sprintf(tmpname, "%s-%s", po->typeName(), po->objectName());
+  if (! po->name.given)
+    po->name.given = new char[OBJNAME_LEN];
   strcpy(po->name.given, tmpname);
   po->updateNames();
 

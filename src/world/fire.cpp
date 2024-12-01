@@ -113,7 +113,7 @@ void Fire::inits()
 {
   initMobileObject(0);
 
-  time = 0;
+  nowtime = 0;
   lasttime = 0;
   np = MIN(np, FIREMAX);
 
@@ -161,14 +161,14 @@ void Fire::draw(float ex, float ey, float dx, float dy, float a)
 
   glBegin(GL_TRIANGLE_FAN);
   gettimeofday(&tv, NULL);
-  srand((time_t) tv.tv_usec);
+  srand((uint32_t) tv.tv_usec);
   if (drand48() > 0.5)
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, yellow);
   else
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, red);
   glVertex3f(ex, ex, ey);
   gettimeofday(&tv, NULL);
-  srand((time_t) tv.tv_usec);
+  srand((uint32_t) tv.tv_usec);
   if (drand48() > 0.5)
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, yellow);
   else
@@ -187,7 +187,7 @@ void Fire::changePermanent(float dt)
 {
   struct sParticle *p;
 
-  time += dt;
+  nowtime += dt;
 
   if (anim) {
     Vector3 a(0, 0, 1);
@@ -205,7 +205,7 @@ void Fire::changePermanent(float dt)
         p->a *= da;
       }
     }
-    while (np < FIREMAX && (time - lasttime >= FIREDELTA)) {
+    while (np < FIREMAX && (nowtime - lasttime >= FIREDELTA)) {
       Vector3 speed(0, 0, .25);
       float f;
       lasttime += FIREDELTA;
@@ -213,7 +213,7 @@ void Fire::changePermanent(float dt)
       do { f = nrnd(.2); } while (ABSF(f) > .45);
       p->p = src + cyl[rand()%5].d * f;
       p->v = speed;
-      p->t = lasttime + FIRELIFE - time;
+      p->t = lasttime + FIRELIFE - nowtime;
       p->a = FIREALPHA;
       p->s.y = FIRESIZE;
       p->s.x = .67*FIRESIZE + .40*FIRESIZE*sin(M_PI*(p->t)/FIRELIFE);

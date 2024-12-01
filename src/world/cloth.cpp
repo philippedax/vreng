@@ -152,7 +152,9 @@ void Cloth::inits()
 void Cloth::setName(const char *modelname)
 {
   if (localuser)
-    sprintf(name.given,"%s&%s", modelname, localuser->objectName());
+    if (! name.given)
+      name.given = new char[OBJNAME_LEN];
+    sprintf(name.given,"%s&%s", modelname, ::g.user);
   updateNames();
 }
 

@@ -98,9 +98,9 @@ class Fire: public WO {
   /**< Quits properly. */
 
  protected:
-  uint16_t np;	///< number of particles
-  float time;   ///< fire time
+  uint16_t np;		///< number of particles
   float speed;
+  float nowtime;	///< fire time
   float lasttime;
   float width;
   float depth;

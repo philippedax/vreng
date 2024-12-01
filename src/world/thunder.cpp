@@ -99,10 +99,8 @@ void Thunder::draw()
   dlist = glGenLists(number);
   for (int n=0; n < number; n++) {
     s_point pt;
-    struct timeval tv;
 
-    gettimeofday(&tv, NULL);
-    srand((time_t) tv.tv_usec);
+    srand((uint32_t) time(NULL));
 
     int sign = rand()%2 - 1;
     sign = (sign < 0) ? -1 : 1;	// [-1,1]

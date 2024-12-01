@@ -113,7 +113,9 @@ void Head::behaviors()
 /* Sets an unique name */
 void Head::setName(const char *modelname)
 {
-  sprintf(name.given, "%s&%s", modelname, localuser->objectName());
+  if (! name.given)
+    name.given = new char[OBJNAME_LEN];
+  sprintf(name.given, "%s&%s", modelname, ::g.user);
   updateNames();
 }
 

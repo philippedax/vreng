@@ -150,7 +150,6 @@ void Particle::inits()
     particles[n].damp    = 0;
     particles[n].alive   = false;
   }
-
   gettimeofday(&begintime, NULL);
 }
 
@@ -160,7 +159,6 @@ float Particle::timedelta()
 {
   struct timeval endtime;
   gettimeofday(&endtime, NULL);
-  //srand((time_t) endtime.tv_usec);
 
   double difftime = Timer::diffDates(begintime, endtime);
   begintime = endtime;

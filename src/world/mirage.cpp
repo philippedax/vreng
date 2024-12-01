@@ -121,7 +121,9 @@ void Mirage::parser(char *l)
 /** Sets name */
 void Mirage::setName()
 {
-  sprintf(name.given, "%s-%s.%d", MIRAGE_NAME, localuser->objectName(), getNum());
+  if (! name.given)
+    name.given = new char[OBJNAME_LEN];
+  sprintf(name.given, "%s-%s.%d", MIRAGE_NAME, ::g.user, getNum());
   updateNames();
 }
 

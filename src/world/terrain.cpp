@@ -91,7 +91,7 @@ void Terrain::inits()
   size = level*level;
   mesh = new float[size*size*sizeof(float)+1];
   normales = new nVect[size*size*sizeof(nVect)+1];
-  srand(time(0));
+  srand((uint32_t) time(NULL));
   heights(level, 0, 0, height, div);
   setNormales();
   draw();
