@@ -41,7 +41,7 @@ uint16_t Rtp::createSeq()
 {
   time_t t;
 
-  srand((uint32_t) time(&t));
+  srand(time(&t));
   return rand();
 }
 
@@ -49,7 +49,7 @@ uint32_t Rtp::createSsrc(int value)
 {
   time_t t;
 
-  srand((uint32_t) time(&t));
+  srand(time(&t));
   return (uint32_t) random32(value);
 }
 

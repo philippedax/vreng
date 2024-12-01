@@ -96,7 +96,7 @@ void River::inits()
   phase = new float[waves*sizeof(float)];
   speed = new float[waves*sizeof(float)];
   ampl  = new float[waves*sizeof(float)];
-  srand((uint32_t) time(NULL));
+  srand(time(NULL));
 
   for (int i=0; i < waves ; i++) {
     mesh[2*i]   = static_cast<float>((rand()%static_cast<int>(ceil(width))));

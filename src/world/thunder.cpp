@@ -100,7 +100,7 @@ void Thunder::draw()
   for (int n=0; n < number; n++) {
     s_point pt;
 
-    srand((uint32_t) time(NULL));
+    srand(time(NULL));
 
     int sign = rand()%2 - 1;
     sign = (sign < 0) ? -1 : 1;	// [-1,1]

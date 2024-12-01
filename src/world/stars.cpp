@@ -220,7 +220,7 @@ void Stars::init()
   if (warp <= speed) warp = WARP;
 
   stars = new tStar[number];
-  srand((uint32_t) time(NULL));
+  srand(time(NULL));
 
   for (int n=0; n < number; n++) create(n, 100);
 

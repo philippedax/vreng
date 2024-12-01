@@ -100,7 +100,7 @@ Bird::Bird(char *l)
 /** Computes position at each loop */
 void Bird::changePermanent(float lasting)
 {
-  srand((uint32_t) time(NULL));
+  srand(time(NULL));
 
   static bool expandx = true;
   static bool expandy = true;

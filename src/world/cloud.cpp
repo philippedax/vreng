@@ -68,7 +68,7 @@ void Cloud::parser(char *l)
 
 void Cloud::build()
 {
-  srand((uint32_t) time(NULL));
+  srand(time(NULL));
 
   origpos.x = pos.x;
   origpos.y = pos.y;

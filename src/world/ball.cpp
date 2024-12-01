@@ -130,7 +130,7 @@ Ball::Ball(WO *cauldron, void *d, time_t s, time_t u)
   inits();
 
   /* random position */
-  srand((uint32_t) time(NULL));
+  srand(time(NULL));
   pos.x = cauldron->pos.x + static_cast<float>(drand48()) * 2 -1;
   pos.y = cauldron->pos.y + static_cast<float>(drand48()) * 2 -1;
   pos.z = cauldron->pos.z + 1;	// + 1m

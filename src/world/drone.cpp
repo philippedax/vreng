@@ -102,7 +102,7 @@ void Drone::changePermanent(float lasting)
 {
   if (! flying) return;
 
-  srand((uint32_t) time(NULL));
+  srand(time(NULL));
 
   static bool expandx = true;
   static bool expandy = true;
