@@ -3240,3 +3240,4 @@
 3240 Ven 29 nov 2024 16:58:48 CET	cleanup cdrom.gif vre/dax.vre
 3241 Dim  1 déc 2024 12:22:41 CET	fix name.given allocation
 3242 Dim  1 déc 2024 15:00:10 CET	clean srand
+3243 Ven  6 déc 2024 16:46:36 CET	fix set but not used glui/glui.cpp
