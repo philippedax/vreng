@@ -2476,8 +2476,8 @@ ReconBiMBlock(vid_stream, bnum, recon_right_for, recon_down_for,
 {
   int mb_row, mb_col, row, col, row_size, rr;
   unsigned char *dest, *past = NULL, *future = NULL;
-  int right_for, down_for, right_half_for, down_half_for;
-  int right_back, down_back, right_half_back, down_half_back;
+  int right_for, down_for /*, right_half_for, down_half_for */;
+  int right_back, down_back /*, right_half_back, down_half_back */;
   unsigned char *index, *rindex1, *bindex1;
   short int *blockvals;
   int forw_row_start, back_row_start, forw_col_start, back_col_start;
@@ -2504,13 +2504,13 @@ ReconBiMBlock(vid_stream, bnum, recon_right_for, recon_down_for,
 
     right_for = recon_right_for >> 1;
     down_for = recon_down_for >> 1;
-    right_half_for = recon_right_for & 0x1;
-    down_half_for = recon_down_for & 0x1;
+    //notused right_half_for = recon_right_for & 0x1;
+    //notused down_half_for = recon_down_for & 0x1;
 
     right_back = recon_right_back >> 1;
     down_back = recon_down_back >> 1;
-    right_half_back = recon_right_back & 0x1;
-    down_half_back = recon_down_back & 0x1;
+    //notused right_half_back = recon_right_back & 0x1;
+    //notused down_half_back = recon_down_back & 0x1;
 
     /* Set dest to luminance plane of current pict image. */
 
@@ -2577,15 +2577,15 @@ ReconBiMBlock(vid_stream, bnum, recon_right_for, recon_down_for,
     recon_down_for /= 2;
     right_for = recon_right_for >> 1;
     down_for = recon_down_for >> 1;
-    right_half_for = recon_right_for & 0x1;
-    down_half_for = recon_down_for & 0x1;
+    //notused right_half_for = recon_right_for & 0x1;
+    //notused down_half_for = recon_down_for & 0x1;
 
     recon_right_back /= 2;
     recon_down_back /= 2;
     right_back = recon_right_back >> 1;
     down_back = recon_down_back >> 1;
-    right_half_back = recon_right_back & 0x1;
-    down_half_back = recon_down_back & 0x1;
+    //notused right_half_back = recon_right_back & 0x1;
+    //notused down_half_back = recon_down_back & 0x1;
 
     /* Establish row size. */
 
