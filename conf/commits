@@ -3241,3 +3241,4 @@
 3241 Dim  1 déc 2024 12:22:41 CET	fix name.given allocation
 3242 Dim  1 déc 2024 15:00:10 CET	clean srand
 3243 Ven  6 déc 2024 16:46:36 CET	fix set but not used glui/glui.cpp
+3244 Ven  6 déc 2024 18:35:40 CET	fix set but not used glui_scrollbar.cpp

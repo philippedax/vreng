@@ -363,7 +363,7 @@ void
 ParseAwayBlock(n)
      int n;
 {
-  unsigned int diff;
+  //notused unsigned int diff;
   unsigned int size, run;
   int level;
 
@@ -382,9 +382,9 @@ ParseAwayBlock(n)
 
       /* Parse first coefficient. */
 
-      if (size != 0) {
-	get_bitsn(size, diff);
-      }
+      //notused if (size != 0) {
+      //notused   get_bitsn(size, diff);
+      //notused }
     }
 
     /* Otherwise, block is chrominance block... */
@@ -397,9 +397,9 @@ ParseAwayBlock(n)
 
       /* Parse first coefficient. */
 
-      if (size != 0) {
-	get_bitsn(size, diff);
-      }
+      //notused if (size != 0) {
+      //notused   get_bitsn(size, diff);
+      //notused }
     }
   }
 
