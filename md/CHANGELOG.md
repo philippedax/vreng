@@ -12,10 +12,10 @@ The rules for this file:
 * date and author format: (YYYY/MM/DD, Author).
 ------------------------------------------
 
-++ 9 [2024/10]
-== 9.4 (2024/10)
+++ 9 [2024/12]
+== 9.4 (2024/12)
 -- 9.4.7
-	- remove bin/ etc/ log/ vr
+	- remove bin/ etc/ log/
 	(2024/10/09, Philippe Dax)
 
 -- 9.4.6
@@ -281,7 +281,7 @@ The rules for this file:
 -- 8.7.2
 	- added fonts directory to git
 	- added texture/glpng{ch}pp to git
-	- moved githup to .github
+	- moved github to .github
 	(2018/10/21, Philippe Dax)
 
 -- 8.7.1
@@ -394,7 +394,7 @@ The rules for this file:
 	- updated check libmysqlclient for Linux
 	(2015/10/26, Philippe Dax)
 
-== 8.1 (2012/10)
+== 8.1 (2013/10)
 -- 8.1.0
 	- added tar.xz distribution
 	- added vmm branch

@@ -3246,3 +3246,4 @@
 3246 Sam  7 déc 2024 16:56:10 CET	fix set but not used video.c
 3247 Lun  9 déc 2024 10:46:15 CET	remove {take|leave}Control carrier.*pp
 3248 Lun  9 déc 2024 11:21:29 CET	cleanup aspeed carrier.*pp
+3249 Lun  9 déc 2024 16:10:45 CET	cleanup carrier.*pp
