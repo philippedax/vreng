@@ -81,9 +81,6 @@ class Carrier: public WO {
    * The position/orientation of the object will be changed by changePosition
    * and the object will be updated in the 3D */
 
-  void set(WO *po);
-  /**< Sets taking */
-
   void leave(WO *po);
   void leave();
   /**< called when we release an object
@@ -106,15 +103,6 @@ class Carrier: public WO {
  private:
   void defaults();
   /**< Sets default values */
-
-  // GUI and callbacks
-  static void takeControl(WO *po, void *d, time_t s, time_t u);
-  /**< called when we take an object
-   * puts the object into the carrier and realizes all
-   * needed operations to pass in transport mode */
-
-  static void leaveControl(WO *po, void *d, time_t s, time_t u);
-  /**< called when we leave an object */
 
   static void setLspeed(Carrier *pc, void *d, time_t s, time_t u);
   static void setAspeed(Carrier *pc, void *d, time_t s, time_t u);

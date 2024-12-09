@@ -55,16 +55,6 @@ bool Carrier::underControl() const
   return taking;
 }
 
-void Carrier::takeControl(WO *po, void *d, time_t s, time_t us)
-{
-  localuser->carrier->take(po);
-}
-
-void Carrier::leaveControl(WO *po, void *d, time_t s, time_t us)
-{
-  localuser->carrier->leave(po);
-}
-
 /** Takes control of the mouse to enter in manipulation mode */
 void Carrier::take(WO *po)
 {
@@ -99,15 +89,9 @@ void Carrier::leave()
 
   if (! object)  return;
 
-  object->pos.alter = true;  // mark it has changed
+  object->pos.alter = true;	// mark it has changed
   object->move.manip = false;
-  defaults();  // reset the carrier
-}
-
-void Carrier::set(WO *po)
-{
-  taking = true;
-  object = po;
+  defaults();			// reset the carrier
 }
 
 /** Mouse event
@@ -146,20 +130,18 @@ void Carrier::mouseEvent(int8_t vkey, float last)
   object->updatePositionAndGrid(object->pos);
   object->updatePosition();
 
-  object->updateGrid(poldobj);
-  if (object->isBehavior(COLLIDE_NEVER)) {
-    delete poldobj;
-    return;
-  }
-
-#if 1 //dax
   OList *vicilist = object->getVicinity(poldobj);
   object->generalIntersect(poldobj, vicilist);
   if (*name.type) {	//FIXME: segfault
     vicilist->remove();
   }
   delete poldobj;
-#endif
+
+  object->updateGrid(poldobj);
+  if (object->isBehavior(COLLIDE_NEVER)) {
+    delete poldobj;
+    return;
+  }
 }
 
 /** Key event: called by changePositionOneDir (move.cc) */
