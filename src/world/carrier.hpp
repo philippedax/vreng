@@ -45,13 +45,11 @@
  *      mode 4: rotation around Y axis
  */
 class Carrier: public WO {
-
  private:
   class WO *object;	///< object ptr
   float lspeed;		///< linear speed
   float aspeed;		///< angular speed
   bool taking;		///< flag true/false
-
 
  public:
   static const float LSPEED;	///< linear speed

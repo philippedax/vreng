@@ -136,7 +136,6 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     vicilist->remove();
   }
   delete poldobj;
-
   object->updateGrid(poldobj);
   if (object->isBehavior(COLLIDE_NEVER)) {
     delete poldobj;
@@ -144,7 +143,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
   }
 }
 
-/** Key event: called by changePositionOneDir (move.cc) */
+/** Key event: called by changePositionOneDir (move.cpp) */
 void Carrier::keyEvent(uint8_t vkey, float last)
 {}
 
@@ -160,6 +159,6 @@ void Carrier::setAspeed(Carrier *pc, void *d, time_t s, time_t u)
 
 void Carrier::funcs()
 {
-  setActionFunc(CARRIER_TYPE, Carrier::SETLSPEED, _Action setLspeed, "");
-  setActionFunc(CARRIER_TYPE, Carrier::SETASPEED, _Action setAspeed, "");
+  setActionFunc(CARRIER_TYPE, SETLSPEED, _Action setLspeed, "");
+  setActionFunc(CARRIER_TYPE, SETASPEED, _Action setAspeed, "");
 }
