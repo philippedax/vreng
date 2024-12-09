@@ -118,12 +118,12 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     case KEY_MR: object->pos.y -= last*lspeed; break; // >
     case KEY_UP: object->pos.z += last*lspeed; break; // ^
     case KEY_DO: object->pos.z -= last*lspeed; break; // V
-    case KEY_LE: object->pos.az += last*lspeed; break; // <-
-    case KEY_RI: object->pos.az -= last*lspeed; break; // ->
-    case KEY_TL: object->pos.ax += last*lspeed; break; // <,
-    case KEY_TR: object->pos.ax -= last*lspeed; break; // ,>
-    case KEY_MU: object->pos.ay += last*lspeed; break; // ^,
-    case KEY_MD: object->pos.ay -= last*lspeed; break; // ,^
+    case KEY_LE: object->pos.az += last*aspeed; break; // <-
+    case KEY_RI: object->pos.az -= last*aspeed; break; // ->
+    case KEY_TL: object->pos.ax += last*aspeed; break; // <,
+    case KEY_TR: object->pos.ax -= last*aspeed; break; // ,>
+    case KEY_MU: object->pos.ay += last*aspeed; break; // ^,
+    case KEY_MD: object->pos.ay -= last*aspeed; break; // ,^
   }
   //echo("pos: %.1f %.1f %.1f", object->pos.x,object->pos.y,object->pos.z);
 

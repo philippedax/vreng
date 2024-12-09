@@ -3244,3 +3244,4 @@
 3244 Ven  6 déc 2024 18:35:40 CET	fix set but not used glui_scrollbar.cpp
 3245 Sam  7 déc 2024 10:30:02 CET	fix set but not used parseblock.c
 3246 Sam  7 déc 2024 16:56:10 CET	fix set but not used video.c
+3247 Lun  9 déc 2024 10:46:15 CET	remove {take|leave}Control carrier.*pp
