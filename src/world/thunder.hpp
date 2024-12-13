@@ -39,11 +39,11 @@ typedef struct {
 class Thunder: public WO {
  private:
   static const uint16_t NUMBER;		///< number of simultaneous thunders
-  static const float PERIOD;		///< period en sec
+  static const uint16_t PERIOD;		///< default period
 
-  uint16_t number;	///< number of stars
-  float period;		///< period
-  s_point inc;
+  uint16_t number;	///< number of segments
+  uint16_t period;	///< period
+  s_point inc;		///< segment increment
   GLint dlist;		///< display-list
   GLfloat color[4];	///< color
 
@@ -52,9 +52,9 @@ class Thunder: public WO {
 
   const OClass* getOClass() {return &oclass;}
 
-  static void funcs();	///< init funclist
+  static void funcs();		///< init funclist
 
-  Thunder(char *l);	///< Constructor
+  Thunder(char *l);		///< Constructor
 
   static WO * (creator)(char *l);
   /**< Creation from a file */
@@ -65,7 +65,7 @@ class Thunder: public WO {
   void render();
   /**< Specific rendering */
 
-  void quit();
+  void quit() {};
   /**< Quits properly */
 
  private:

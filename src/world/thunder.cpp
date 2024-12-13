@@ -29,9 +29,7 @@
 const OClass Thunder::oclass(THUNDER_TYPE, "Thunder", Thunder::creator);
 
 const uint16_t Thunder::NUMBER = 1;
-const float Thunder::PERIOD = 2;
-
-void Thunder::funcs() {}
+const uint16_t Thunder::PERIOD = 10;
 
 
 WO * Thunder::creator(char *l)
@@ -47,6 +45,7 @@ void Thunder::defaults()
   dlist = -1;
 }
 
+/** Parses a line */
 void Thunder::parser(char *l)
 {
   defaults();
@@ -55,7 +54,7 @@ void Thunder::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "number")) l = parseUInt16(l, &number, "number");
-    else if (! stringcmp(l, "period")) l = parseFloat(l, &period, "period");
+    else if (! stringcmp(l, "period")) l = parseUInt16(l, &period, "period");
   }
   end_while_parse(l);
 }
@@ -92,6 +91,7 @@ Thunder::Thunder(char *l)
   inits();
 }
 
+/** Draws segments */
 void Thunder::draw()
 {
   for (int i=0; i<4; i++) color[i] = 1;	// white
@@ -105,19 +105,19 @@ void Thunder::draw()
     int sign = rand()%2 - 1;
     sign = (sign < 0) ? -1 : 1;	// [-1,1]
 
-    int div = rand()%12 + 12;	// [12..24]
+    int segs = rand()%12 + 12;	// [12..24]
     // starting point
     pt.x = pos.x + ((rand()%10) - 5);	// xorig +- 5
     pt.y = pos.y + ((rand()%40) - 20);	// yorig +- 20
     pt.z = pos.z + ((rand()%10) - 5);	// zorig +- 5
     // increments
-    inc.x = pt.x / div;
-    inc.y = pt.y / div;
-    inc.z = (pt.z + 10) / div;
+    inc.x = pt.x / segs;
+    inc.y = pt.y / segs;
+    inc.z = (pt.z + 10) / segs;
 
     glNewList(dlist + n, GL_COMPILE);
     glBegin(GL_LINE_STRIP);
-    for (int i=0; i < div; i++) {
+    for (int i=0; i < segs; i++) {
       glVertex3f(pt.x, pt.y, pt.z);
       // next point
       pt.x += (sign * (inc.x + ((rand()%6) - 3)));
@@ -130,9 +130,10 @@ void Thunder::draw()
   glEndList();
 }
 
+/** Makes changes */
 void Thunder::changePermanent(float lasting)
 {
-  if ((rand()%20) == 0) {	// [0..19]
+  if ((rand()%period) == 0) {	// [0..PERIOD]
     if (dlist > 0) {
       glDeleteLists(dlist, number);
       dlist = -1;
@@ -150,31 +151,29 @@ void Thunder::changePermanent(float lasting)
     state = true;	// to display
   }
   else {
-    state = false;
+    state = false;	// canceled
   }
 }
 
+/** Renders thunder */
 void Thunder::render()
 {
-  struct timeval tv;
-  gettimeofday(&tv, NULL);
-  if ( static_cast<time_t>(tv.tv_sec) % int(period) != 0 ) return;
   if (!state || dlist <= 0) return;
 
+  int w = rand()%6 + 1;		// thickness [1..6]
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
+
   for (int n=0; n < number; n++) {
-    int wid = rand()%6 + 1;	// thickness [1..6]
-    glPushAttrib(GL_LINE_BIT | GL_CURRENT_BIT);
+    //glPushAttrib(GL_LINE_BIT | GL_CURRENT_BIT);
     glPushMatrix();
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
-    glLineWidth(wid);
+    glLineWidth(w);
 
-    glCallList(dlist + n);	// display
+    glCallList(dlist + n);	// display segments
 
-    glLineWidth(1);
     glPopMatrix();
-    glPopAttrib();
+    //glPopAttrib();
   }
+  glLineWidth(1);
 }
 
-void Thunder::quit()
-{}
+void Thunder::funcs() {}
