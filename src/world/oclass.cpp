@@ -68,8 +68,8 @@ const OClass * OClass::getOClass(const char *type_name)
             return otable[i];		// found return it !
           }
           if (! mystrcasecmp(type_name, "html")) {	// hugly hack!!!
-            //dumpTable();
-            fatal("bad world: type=html");
+            error("bad world: type=html");
+            dumpTable();
             Vreng::quit(1);
           }
         }
@@ -88,7 +88,8 @@ const OClass * OClass::getOClass(const char *type_name)
 const OClass * OClass::getOClass(uint8_t type_id)
 {
   if (type_id >= otable_size) {
-    error("getOClass: type_id=%d out of bounds", type_id); dumpTable();
+    error("getOClass: type_id=%d out of bounds", type_id);
+    dumpTable();
     return NULL;
   }
   return otable[type_id];
@@ -109,7 +110,8 @@ WO * OClass::creatorInstance(uint8_t type_id, char *l)
 WO * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
 {
   if (! isValidType(type_id)) {
-    error("replicatorInstance: type_id=%d out of bounds", type_id); dumpTable();
+    error("replicatorInstance: type_id=%d out of bounds", type_id);
+    dumpTable();
     return NULL;
   }
   return otable[type_id]->replicator(type_id, noid, pp);
@@ -123,7 +125,7 @@ void OClass::dumpTable()
       echo("%02d: %s", otable[i]->type_id, otable[i]->type_name);
     }
     else {
-      error("otable[%d] null -> segfault", i);
+      error("otable[%d] null -> candidate to segfault", i);
     }
   }
 }
