@@ -79,7 +79,7 @@ class Smoke: public WO {
   static const OClass oclass;	///< class variable.
   const OClass* getOClass() {return &oclass;}
 
-  static void funcs() {};	///< init funclist.
+  static void funcs();		///< init funclist.
 
   Smoke(char *l);		///< Constructor.
   Smoke(Vector3 l);		///< Constructor.

@@ -173,3 +173,5 @@ void Smoke::draw()
   glEnd();
   glPopMatrix();
 }
+
+void Smoke::funcs() {}
