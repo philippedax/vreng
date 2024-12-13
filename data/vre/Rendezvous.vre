@@ -640,7 +640,7 @@ amplitude="1" freq="1" phase="1">
 <cloud pos="20 10 12"></cloud>
 
 <!-- thunder -->
-<thunder pos="50 0 40"> number="1" period="2" </thunder>
+<thunder pos="50 0 40"> number="1" period="10" </thunder>
 
 <!-- sun -->
 <!--
