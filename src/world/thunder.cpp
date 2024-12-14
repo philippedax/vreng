@@ -28,8 +28,8 @@
 
 const OClass Thunder::oclass(THUNDER_TYPE, "Thunder", Thunder::creator);
 
-const uint16_t Thunder::NUMBER = 1;
-const uint16_t Thunder::PERIOD = 10;
+const uint8_t Thunder::NUMBER = 1;
+const uint8_t Thunder::PERIOD = 10;
 
 
 WO * Thunder::creator(char *l)
@@ -53,8 +53,8 @@ void Thunder::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "number")) l = parseUInt16(l, &number, "number");
-    else if (! stringcmp(l, "period")) l = parseUInt16(l, &period, "period");
+    if      (! stringcmp(l, "number")) l = parseUInt8(l, &number, "number");
+    else if (! stringcmp(l, "period")) l = parseUInt8(l, &period, "period");
   }
   end_while_parse(l);
 }
@@ -160,18 +160,16 @@ void Thunder::render()
 {
   if (!state || dlist <= 0) return;
 
-  int w = rand()%6 + 1;		// thickness [1..6]
+  int w = rand()%5 + 1;		// thickness [1..5]
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
 
   for (int n=0; n < number; n++) {
-    //glPushAttrib(GL_LINE_BIT | GL_CURRENT_BIT);
     glPushMatrix();
     glLineWidth(w);
 
     glCallList(dlist + n);	// display segments
 
     glPopMatrix();
-    //glPopAttrib();
   }
   glLineWidth(1);
 }

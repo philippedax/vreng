@@ -33,16 +33,17 @@ typedef struct {
   GLfloat x, y, z;
 } s_point;
 
+
 /**
  * Thunder class
  */
 class Thunder: public WO {
  private:
-  static const uint16_t NUMBER;		///< number of simultaneous thunders
-  static const uint16_t PERIOD;		///< default period
+  static const uint8_t NUMBER;		///< number of simultaneous thunders
+  static const uint8_t PERIOD;		///< default period
 
-  uint16_t number;	///< number of segments
-  uint16_t period;	///< period
+  uint8_t number;	///< number of segments
+  uint8_t period;	///< period
   s_point inc;		///< segment increment
   GLint dlist;		///< display-list
   GLfloat color[4];	///< color
