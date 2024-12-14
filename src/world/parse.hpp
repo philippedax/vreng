@@ -69,9 +69,8 @@ class Parse {
     TAG_ENDVRE		///< </vre>
   } tags;
 
-  int tag_type;		///< tag type
+  int tag_id;		///< tag type
   bool commented;	///< flag commented or not
-  bool inscene;		///< between <scene> ... </scene>
 
   char * nextSpace(char *p) const;
   /**< find next space or next endtag */
@@ -85,7 +84,7 @@ class Parse {
   char * parseDescr(char *l, char *infos);
   /**< Returns a description in infos */
 
-  int parseLine(char *_line, int *ptag_type);
+  int parseLine(char *_line, int *ptag_id);
   /**< parse begin of line */
 
   inline bool isFloat(const char *p) const;
@@ -101,7 +100,7 @@ class Parse {
   static const int TAG_LEN = 16;	// tag length
 
   uint32_t numline;	///< line number
-  char tagobj[TAG_LEN];	///< tag
+  char tag[TAG_LEN];	///< tag
 
   Parse();
   /**< Constructor */

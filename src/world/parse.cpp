@@ -61,9 +61,8 @@ Parse::Parse()
 {
   parse = this;		// save pointer
   numline = 0;
-  tag_type = 0;
+  tag_id = 0;
   commented = false;
-  inscene = false;
 }
 
 /** Destructor */
@@ -140,7 +139,7 @@ bool Parse::isInt(const char *p) const
 }
 
 /** Parses a vre line : returns tag number */
-int Parse::parseLine(char *_line, int *ptag_type)
+int Parse::parseLine(char *_line, int *ptag_id)
 {
   char *line = strdup(_line);
   char *ptok = skipSpace(line);
@@ -154,7 +153,6 @@ int Parse::parseLine(char *_line, int *ptag_type)
 
     // check <!--
     if ((! stringcmp(ptok, "!--"))) {
-      //echo("#%s", ptok);
       commented = true;
       FREE(line);
       return TAG_COMMENT;
@@ -197,12 +195,10 @@ int Parse::parseLine(char *_line, int *ptag_type)
     // check <scene> </scene>
     else if (! stringcmp(ptok, "scene")) {
       FREE(line);
-      inscene = true;	// fix ambigous <head> tag
       return TAG_SCENE;
     }
     else if ((! stringcmp(ptok, "/scene"))) {
       FREE(line);
-      inscene = false;	// fix ambigous <head> tag
       return TAG_SCENE;
     }
 
@@ -226,7 +222,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
       sep = *nexttok;	// memorize sep
       *nexttok = '\0';	// replace it by null
     }
-    strncpy(tagobj, ptok, TAG_LEN-1);	// memorize object tag
+    strncpy(tag, ptok, TAG_LEN-1);	// memorize object tag
 
     //
     // handles aliases here
@@ -234,8 +230,8 @@ int Parse::parseLine(char *_line, int *ptag_type)
     const struct sAlias *palias;
     for (palias = aliases; palias->objalias; palias++) {
       if (! strcmp(ptok, palias->objalias)) {
-        strcpy(tagobj, palias->objreal);	// substitute by real tag
-        //echo("parse: %d %s", numline, tagobj);
+        strcpy(tag, palias->objreal);	// substitute by real tag
+        //echo("parse: %d %s", numline, tag);
         break;
       }
     }
@@ -243,21 +239,20 @@ int Parse::parseLine(char *_line, int *ptag_type)
     //
     // identifies the object
     //
-    if ((oclass = OClass::getOClass(tagobj))) {
-      *ptag_type = oclass->type_id;
-      if (! OClass::isValidType(*ptag_type)) {
-        error("parse error at line %d (invalid type), *ptag_type=%d ptok=%s",
-              numline, *ptag_type, tagobj);
+    if ((oclass = OClass::getOClass(tag))) {
+      *ptag_id = oclass->type_id;
+      if (! OClass::isValidType(*ptag_id)) {
+        error("parse error at line %d (invalid type), *ptag_id=%d ptok=%s",
+              numline, *ptag_id, tag);
       }
       if (nexttok) *nexttok = sep;	// restore sep
       FREE(line);
       return TAG_OBJECT;
     }
     else {
-      error("parse error at line %d (invalid type), *ptag_type=%d ptok=%s",
-            numline, *ptag_type, tagobj);
-      echo("line: %s", line);
-      fatal("bad tag %s", tagobj);
+      error("parse error at line %d (invalid type), *ptag_id=%d ptok=%s",
+            numline, *ptag_id, tag);
+      fatal("bad tag %s", tag);
     }
     FREE(line);
     return TAG_OBJECT;
@@ -347,9 +342,9 @@ int Parse::parseVreFile(char *buf, int buflen)
       }
 
       WO *wobject = NULL;
-      uint8_t tag = parseLine(line, &tag_type);
+      uint8_t tid = parseLine(line, &tag_id);
 
-      switch (tag) {
+      switch (tid) {
         case TAG_DOCTYPE:
         case TAG_BEGINVRE:
           DELETE2(line);
@@ -370,13 +365,11 @@ int Parse::parseVreFile(char *buf, int buflen)
           break;
         case TAG_COMMENT:
 	  if ((p = strstr(line, "-->"))) {
-            //echo("end comment %s", line);
             DELETE2(line);
             commented = false;
           }
           break;
         case TAG_SCENE:
-          //inscene = true;
           DELETE2(line);
           bol = eol + 1;	// begin of next line
           continue;	// or break
@@ -384,10 +377,10 @@ int Parse::parseVreFile(char *buf, int buflen)
           DELETE2(line);
           return 0;		// end of parsing
         case TAG_LOCAL:		// <local>, </local>
-          strcpy(tagobj, "transform");
+          strcpy(tag, "transform");
           const OClass *oclass;
-          if ((oclass = OClass::getOClass(tagobj))) {
-            tag_type = oclass->type_id;
+          if ((oclass = OClass::getOClass(tag))) {
+            tag_id = oclass->type_id;
           }
           if (strstr(line, "<local>")) {
             strcpy(line, "push ");	// <local>
@@ -395,25 +388,24 @@ int Parse::parseVreFile(char *buf, int buflen)
           else {
             strcpy(line, "pop ");	// </local>
           }
-          //trace1(DBG_FORCE, "LOCAL: type=%d line=%s", tag_type, line);
-          if (! (wobject = OClass::creatorInstance(tag_type, line))) {
+          //trace1(DBG_FORCE, "LOCAL: type=%d line=%s", tag_id, line);
+          if (! (wobject = OClass::creatorInstance(tag_id, line))) {
 	    return -1;
           }
           break;
 
         case TAG_OBJECT:
-          //trace1(DBG_FORCE, "object %d: type=%d line=%s", numline, tag_type, line);
+          //trace1(DBG_FORCE, "object %d: type=%d line=%s", numline, tag_id, line);
           // check end of the object </...>
           char closetag[TAG_LEN + 4];
-          sprintf(closetag, "</%s>", tagobj);
+          sprintf(closetag, "</%s>", tag);
 	  if (! (p = strstr(line, closetag))) {
-            //echo("closetag: %s", closetag);
             continue;	// end of object not already reached parses next lines
           }
           // here, we must have reached the end of the object description
-          if (tag_type != UNKNOWN_TYPE) {
-            if (! OClass::isValidType(tag_type)) {	// type not valid
-              error("parse error at line %d (not valid), type=%d line=%s", numline, tag_type, line);
+          if (tag_id != UNKNOWN_TYPE) {
+            if (! OClass::isValidType(tag_id)) {	// type not valid
+              error("parse error at line %d (not valid), type=%d line=%s", numline, tag_id, line);
               return -1;
             }
 	    // skip <type to get attributes (name, pos, solid, category, descr)
@@ -427,18 +419,20 @@ int Parse::parseVreFile(char *buf, int buflen)
 	    if (*attr == '>') {
 	      ++attr;
             }
-            //debug if (::g.pref.trace) echo("[%d] %s", tag_type, line);
+
+            //debug if (::g.pref.trace) echo("[%d] %s", tag_id, line);
             progression('o');
             ::g.timer.object.start();
+
             // call the creator() method of this object with object attributes
-            if (! (wobject = OClass::creatorInstance(tag_type, attr))) {
-              error("parse error at line %d (creator), type=%d line=%s", numline, tag_type, line);
+            if (! (wobject = OClass::creatorInstance(tag_id, attr))) {
+              error("parse error at line %d (creator), type=%d line=%s", numline, tag_id, line);
               return -1;
             }
             ::g.timer.object.stop();
           }
           else {	// unknown type
-            error("parse error at line %d (unknown type), type=%d line=%s", numline, tag_type, line);
+            error("parse error at line %d (unknown type), type=%d line=%s", numline, tag_id, line);
           }
           break;
       }
@@ -510,19 +504,6 @@ char * Parse::parseAttributes(char *l, WO *wobject)
     else if (! strcmp(l, "/")) {
       l = nextToken();
     }
-#if 0 //dax
-    else if (! stringcmp(l, "!--")) {	// <!--
-      echo("< %s", l);
-      commented = true;
-      while (stringcmp(l, "--")) {	// -->
-        l = nextToken();		// commented
-        echo("# %s", l);
-      }
-      echo("> %s", l);
-      commented = false;
-      l = nextToken();
-    }
-#endif
     else {
       return l;
     }
@@ -796,7 +777,6 @@ char * Parse::parseTranslation(char *ptok, Pos &p)
 /** Parses an url */
 char * Parse::parseUrl(char *ptok, char *url)
 {
-  //echo("url: %s", ptok);
   if (! stringcmp(ptok, "url="))
     return parseString(ptok, url, "url");
   else

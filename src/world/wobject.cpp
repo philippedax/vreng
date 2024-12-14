@@ -1043,9 +1043,9 @@ char * WO::tokenize(char *l)
   Parse *parser = parse();
 
   char tag[Parse::TAG_LEN +2];
-  if (*parser->tagobj) {
+  if (*parser->tag) {
     // ignore close tag
-    sprintf(tag, "</%s", parser->tagobj);
+    sprintf(tag, "</%s", parser->tag);
     char *p = strstr(l, tag);	// </type>
     if (p) *p = '\0';
   }
