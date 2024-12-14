@@ -3251,3 +3251,4 @@
 3251 Ven 13 déc 2024 18:59:48 CET	change signification of period thunder.*pp
 3252 Ven 13 déc 2024 19:01:49 CET	update period thunder Rendezvous.vre
 3253 Ven 13 déc 2024 19:05:10 CET	cleanup funcs() smoke.*pp
+3254 Ven 13 déc 2024 19:11:57 CET	cleanup dumpTable() oclass.cpp

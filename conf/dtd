@@ -536,7 +536,7 @@
 <!ATTLIST thunder	name	NMTOKEN #IMPLIED>
 <!ATTLIST thunder	descr	NMTOKENS #IMPLIED>
 <!ATTLIST thunder	number	NMTOKEN "1">
-<!ATTLIST thunder	period	NMTOKEN "2">
+<!ATTLIST thunder	period	NMTOKEN "10">
 
 <!ELEMENT transform	EMPTY>
 <!ATTLIST transform	rotation	NMTOKENS #IMPLIED>
