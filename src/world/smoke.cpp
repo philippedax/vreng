@@ -31,14 +31,16 @@ const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 const float Smoke::SZ = 0.003;	//3mm orig 0.005
 float const Smoke::A[NA] = { M_PI*1/4,M_PI*2/4,M_PI*3/4,M_PI,M_PI*5/4,M_PI*6/4,M_PI*7/4,2*M_PI };
 
+std::vector<Smoke> smokeList;	///< smokeList
 
-/* creation from a file */
+
+/** creation from a file */
 WO * Smoke::creator(char *l)
 {
   return new Smoke(l);
 }
 
-/* constructors */
+/** constructors */
 Smoke::Smoke(char *l)
 {
   parser(l);
@@ -85,9 +87,10 @@ void Smoke::inits()
 {
   initMobileObject(0);
   np = 0;
+  smokeList.clear();
 }
 
-/* creates one particle */
+/** creates one particle */
 Smoke::Smoke(Vector3 l)
 {
   loc = Vector3(l.x, l.y, l.z);
@@ -99,24 +102,25 @@ Smoke::Smoke(Vector3 l)
 void Smoke::changePermanent(float dt)
 {
   if (np++ > npmax) np = 0;	// regenerate the flow
+echo("smoke: %d", np);
 
-  //Vector3 emit(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
-  Vector3 emit(0, 0, 0);		// wrong position, but rendered,    FIXME!!!
+  Vector3 emit(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
+  //Vector3 emit(0, 0, 0);		// wrong position, but rendered,    FIXME!!!
 
   Smoke p(emit);		// create particle p
-  psmokeList.push_back(p);	// add p to psmokeList
+  smokeList.push_back(p);	// add p to smokeList
   animParticles();
 }
 
 void Smoke::animParticles()
 {     
-  for (vector<Smoke>::iterator i = psmokeList.begin(); i < psmokeList.end(); ++i) {
+  for (std::vector<Smoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
     if ((*i).life > 0) {	// is alive
       (*i).update();
       (*i).draw();		// why draw now ???
     }
     else {
-      psmokeList.erase(i);	// erase at end of life
+      smokeList.erase(i);	// erase at end of life
     }
   }
 } 
@@ -143,7 +147,7 @@ void Smoke::render()
 
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
-  for (vector<Smoke>::iterator i = psmokeList.begin(); i < psmokeList.end(); ++i) {
+  for (std::vector<Smoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
     if ((*i).life > 0) {	// is alive
       //echo("rend: %.1f %.1f %.1f", (*i).loc.x, (*i).loc.y, (*i).loc.z);
       glPushMatrix();

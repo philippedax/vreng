@@ -76,6 +76,8 @@ WO::WO()
 
   name.type = new char[TYPENAME_LEN];
   name.url = new char[URL_LEN];
+  *name.type = '\0';
+  *name.url = '\0';
 
   name.given = NULL;
   name.owner = NULL;

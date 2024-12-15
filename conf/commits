@@ -3254,3 +3254,4 @@
 3254 Ven 13 déc 2024 19:11:57 CET	cleanup dumpTable() oclass.cpp
 3255 Sam 14 déc 2024 09:22:48 CET	update thunder period token conf/dtd
 3256 Sam 14 déc 2024 11:15:39 CET	replace tagobj by tag parse.*pp
+3257 Sam 14 déc 2024 12:03:58 CET	uint16_t -> uint8_t number period thunder.*pp

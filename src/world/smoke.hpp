@@ -31,7 +31,6 @@
 #include "wobject.hpp"
 #include <vector>
 
-using namespace std;
 
 #define SMOKENB		100	// number max of particles
 #define NA		8	// number of angles of polygon
@@ -52,7 +51,6 @@ class Smoke: public WO {
   Vector3 acc;			///< acceleration.
   float life;			///< time to live.
   GLint dlist;			///< displaylist.
-  vector<Smoke> psmokeList;	///< psmokeList.
 
   void defaults();
   /**< Sets defaults values. */
