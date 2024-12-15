@@ -31,7 +31,7 @@ const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 const float Smoke::SZ = 0.003;	//3mm orig 0.005
 float const Smoke::A[NA] = { M_PI*1/4,M_PI*2/4,M_PI*3/4,M_PI,M_PI*5/4,M_PI*6/4,M_PI*7/4,2*M_PI };
 
-std::vector<Smoke> smokeList;	///< smokeList
+static std::vector<Smoke> smokeList;	///< smokeList
 
 
 /** creation from a file */

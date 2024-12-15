@@ -3255,3 +3255,4 @@
 3255 Sam 14 déc 2024 09:22:48 CET	update thunder period token conf/dtd
 3256 Sam 14 déc 2024 11:15:39 CET	replace tagobj by tag parse.*pp
 3257 Sam 14 déc 2024 12:03:58 CET	uint16_t -> uint8_t number period thunder.*pp
+3258 Dim 15 déc 2024 15:47:43 CET	cleanup smokeList smoke.*pp

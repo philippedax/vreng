@@ -99,8 +99,12 @@ CPPFLAGS="${CXXFLAGS}"
 LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
-  CFLAGS="${CFLAGS} -Wall"
+  CFLAGS="${CFLAGS}     -Wall"
   CXXFLAGS="${CXXFLAGS} -Wall"
+  LDFLAGS="${LDFLAGS}   -g"
+  CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2//'`
+  CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
+  LDFLAGS=`echo ${LDFLAGS}   | sed -e 's/-O2//'`
 fi
 
 
@@ -112,9 +116,6 @@ AC_ARG_ENABLE(optimize,
               AS_HELP_STRING([--enable-optimize],
               [allow to optimize and make code faster [[default=no]]]))
 if test "${enable_optimize:=no}" = "yes"; then
-  CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2/-O3/'`
-  CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2/-O3/'`
-  LDFLAGS=`echo ${LDFLAGS}   | sed -e 's/-O2/-O3/'`
   if test "${GCC}" = "yes"; then
     optim_flags="-ffast-math -fomit-frame-pointer -funroll-loops -fpermissive"
     CFLAGS="${CFLAGS} ${optim_flags}"
