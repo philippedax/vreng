@@ -115,9 +115,7 @@ fi
 #
 # Check for optimization
 #
-AC_ARG_ENABLE(optimize,
-              AS_HELP_STRING([--enable-optimize],
-              [allow to optimize and make code faster [[default=no]]]))
+AC_ARG_ENABLE(optimize, AS_HELP_STRING([--enable-optimize], [allow to optimize [[default=no]]]))
 if test "${enable_optimize:=no}" = "yes"; then
   if test "${GCC}" = "yes"; then
     optim_flags="-ffast-math -fomit-frame-pointer -funroll-loops -fpermissive"
@@ -133,9 +131,11 @@ fi
 #
 AC_ARG_ENABLE(debug, AS_HELP_STRING([--enable-debug], [allow to debug [[default=no]]]))
 if test "${enable_debug:=no}" = "yes"; then
-  CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2/-DDEBUG/'`
-  CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O0/-DDEBUG/'`
-  LDFLAGS="`echo ${LDFLAGS}  | sed -e 's/-O0//'` -g"
+  if test "${GCC}" = "yes"; then
+    CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2/-DDEBUG/'`
+    CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O0/-DDEBUG/'`
+    LDFLAGS="`echo ${LDFLAGS}  | sed -e 's/-O0//'` -g"
+  fi
 fi
 
 
