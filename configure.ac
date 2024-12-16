@@ -59,6 +59,9 @@ ubit_features=""
 #
 # Check for compiler
 #
+CFLAGS=-O2
+CXXFLAGS=-O0
+
 AC_LANG([C++])
 AC_PROG_CC
 AC_PROG_CXX
@@ -102,7 +105,7 @@ if test "${GCC}" = "yes"; then
   CFLAGS="${CFLAGS}     -Wall"
   CXXFLAGS="${CXXFLAGS} -Wall"
   LDFLAGS="${LDFLAGS}   -g"
-  CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2//'`
+  #CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2//'`
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS=`echo ${LDFLAGS}   | sed -e 's/-O2//'`
 fi
@@ -130,9 +133,9 @@ fi
 #
 AC_ARG_ENABLE(debug, AS_HELP_STRING([--enable-debug], [allow to debug [[default=no]]]))
 if test "${enable_debug:=no}" = "yes"; then
-  CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2//'`
-  CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
-  LDFLAGS="`echo ${LDFLAGS}  | sed -e 's/-O2//'` -g"
+  CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2/-DDEBUG/'`
+  CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O0/-DDEBUG/'`
+  LDFLAGS="`echo ${LDFLAGS}  | sed -e 's/-O0//'` -g"
 fi
 
 
