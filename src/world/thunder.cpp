@@ -122,8 +122,7 @@ void Thunder::draw()
       // next point
       pt.x += (sign * (inc.x + ((rand()%6) - 3)));
       pt.y += (sign * (inc.y + ((rand()%6) - 3)));
-      //pt.z -= inc.z + ((rand()%2) - 1);
-      pt.z -= inc.z; // fall down
+      pt.z -= inc.z + ((rand()%2) - 1);	// fall down
     }
     glEnd();
   }

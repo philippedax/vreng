@@ -3257,3 +3257,4 @@
 3257 Sam 14 déc 2024 12:03:58 CET	uint16_t -> uint8_t number period thunder.*pp
 3258 Dim 15 déc 2024 15:47:43 CET	cleanup smokeList smoke.*pp
 3259 Dim 15 déc 2024 17:00:36 CET	disable optimization configure.ac
+3260 Lun 16 déc 2024 08:59:59 CET	disable gcc optimization CXXFLAGS configure.ac
