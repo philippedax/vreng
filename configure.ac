@@ -59,8 +59,8 @@ ubit_features=""
 #
 # Check for compiler
 #
-CFLAGS=-O2
-CXXFLAGS=-O0
+if test "${CFLAGS}" = ""; then CFLAGS=-O2; fi
+if test "${CXXFLAGS}" = ""; then CXXFLAGS=-O0; fi
 
 AC_LANG([C++])
 AC_PROG_CC
@@ -102,9 +102,9 @@ CPPFLAGS="${CXXFLAGS}"
 LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
-  CFLAGS="${CFLAGS}     -Wall"
+  CFLAGS="${CFLAGS} -Wall"
   CXXFLAGS="${CXXFLAGS} -Wall"
-  LDFLAGS="${LDFLAGS}   -g"
+  LDFLAGS="${LDFLAGS} -g"
   #CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2//'`
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS=`echo ${LDFLAGS}   | sed -e 's/-O2//'`
@@ -121,6 +121,7 @@ if test "${enable_optimize:=no}" = "yes"; then
     optim_flags="-ffast-math -fomit-frame-pointer -funroll-loops -fpermissive"
     CFLAGS="${CFLAGS} ${optim_flags}"
     CXXFLAGS="${CXXFLAGS} ${optim_flags}"
+    CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O0/-O2/'`
   fi
 fi
 
