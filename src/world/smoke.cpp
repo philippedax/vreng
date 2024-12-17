@@ -28,10 +28,9 @@
 
 const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
-const float Smoke::SZ = 0.003;	//3mm orig 0.005
-float const Smoke::A[NA] = { M_PI*1/4,M_PI*2/4,M_PI*3/4,M_PI,M_PI*5/4,M_PI*6/4,M_PI*7/4,2*M_PI };
-
-static std::vector<Smoke> smokeList;	///< smokeList
+// local
+const float PSmoke::SZ = 0.003;	//3mm orig 0.005
+const float PSmoke::A[NA] = { M_PI*1/4,M_PI*2/4,M_PI*3/4,M_PI,M_PI*5/4,M_PI*6/4,M_PI*7/4,2*M_PI };
 
 
 /** creation from a file */
@@ -47,6 +46,15 @@ Smoke::Smoke(char *l)
   behaviors();
   geometry();
   inits();
+}
+
+/** creates one particle */
+PSmoke::PSmoke(Vector3 l)
+{
+  loc = Vector3(l.x, l.y, l.z);
+  vel = Vector3(0, 0.0005, 0);
+  life = 255;
+  dlist = -1;
 }
 
 void Smoke::defaults()
@@ -87,34 +95,28 @@ void Smoke::inits()
 {
   initMobileObject(0);
   np = 0;
-  smokeList.clear();
-}
-
-/** creates one particle */
-Smoke::Smoke(Vector3 l)
-{
-  loc = Vector3(l.x, l.y, l.z);
-  vel = Vector3(0, 0.0005, 0);
-  life = 255;
-  dlist = -1;
 }
 
 void Smoke::changePermanent(float dt)
 {
+  createParticle(pos.x, pos.y, pos.z);	// add one particle
+  animParticles();	// update particles
+}
+
+void Smoke::createParticle(float x, float y, float z)
+{   
   if (np++ > npmax) np = 0;	// regenerate the flow
-echo("smoke: %d", np);
 
-  Vector3 emit(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
-  //Vector3 emit(0, 0, 0);		// wrong position, but rendered,    FIXME!!!
+  //Vector3 emit(x, y, z);	// good position, but not rendered, FIXME!!!
+  Vector3 emit(0, 0, 0);	// wrong position, but rendered,    FIXME!!!
 
-  Smoke p(emit);		// create particle p
+  PSmoke p(emit);		// create particle p
   smokeList.push_back(p);	// add p to smokeList
-  animParticles();
 }
 
 void Smoke::animParticles()
 {     
-  for (std::vector<Smoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
+  for (std::vector<PSmoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
     if ((*i).life > 0) {	// is alive
       (*i).update();
       (*i).draw();		// why draw now ???
@@ -125,10 +127,10 @@ void Smoke::animParticles()
   }
 } 
 
-void Smoke::update()
+void PSmoke::update()
 {
-  float x_acc = 0.000020 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000034
-  float y_acc = 0.000005 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000010
+  float x_acc = 0.000020 * (1+(-2*((float)rand())/(RAND_MAX)));	// 0.000034
+  float y_acc = 0.000005 * (1+(-2*((float)rand())/(RAND_MAX)));	// 0.000010
   float z_acc = y_acc;
 
   acc = Vector3(x_acc, y_acc, z_acc);
@@ -145,37 +147,30 @@ void Smoke::render()
   m[2]=-1; m[6]=0;  m[10]=0; m[14]=0;           // Zogl = -Xvre
   m[3]=0;  m[7]=0;  m[11]=0; m[15]=1;
 
-  glPushMatrix();
-  glTranslatef(pos.x, pos.y, pos.z);
-  for (std::vector<Smoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
+  for (std::vector<PSmoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
     if ((*i).life > 0) {	// is alive
       //echo("rend: %.1f %.1f %.1f", (*i).loc.x, (*i).loc.y, (*i).loc.z);
       glPushMatrix();
       //glLoadIdentity();
       //glLoadMatrixf(m);
       //glTranslatef((*i).loc.x, (*i).loc.y, (*i).loc.z);	//coord Vreng  bad
-      //glTranslatef(-(*i).loc.y, (*i).loc.z, -(*i).loc.x);	//coord opengl good
-      glTranslatef(0,0,0);	//coord opengl good
+      glTranslatef(-(*i).loc.y, (*i).loc.z, -(*i).loc.x);	//coord opengl good
       (*i).draw();
       glPopMatrix();
     }
   }
-  glPopMatrix();
 }
 
-void Smoke::draw()
+void PSmoke::draw()
 {
   float a = MIN(1.2 - life/255, 1);
 
   glColor4f(.9,.9,.9, a);
-  glPushMatrix();
-  //glTranslatef(pos.x,pos.y,pos.z);
   glBegin(GL_POLYGON);		// octogon
   for (int i=0; i<NA; i++) {
     glVertex3f(loc.x+SZ*cos(A[i]), loc.y+SZ*sin(A[i]), loc.z);
   }
   glEnd();
-  glPopMatrix();
 }
 
 void Smoke::funcs() {}
