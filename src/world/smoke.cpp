@@ -129,8 +129,8 @@ void Smoke::animParticles()
 
 void PSmoke::update()
 {
-  float x_acc = 0.000020 * (1+(-2*((float)rand())/(RAND_MAX)));	// 0.000034
-  float y_acc = 0.000005 * (1+(-2*((float)rand())/(RAND_MAX)));	// 0.000010
+  float x_acc = 0.000020 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000034
+  float y_acc = 0.000005 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000010
   float z_acc = y_acc;
 
   acc = Vector3(x_acc, y_acc, z_acc);
