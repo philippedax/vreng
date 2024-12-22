@@ -97,12 +97,6 @@ private:
 
   void inits();
   /**< Initializations. */
-
-  void createParticle(float x, float y, float z);   
-  /**< Creates a particle and and it to particlesList. */
-
-  void animParticles();
-  /**< Animates particles. */
 };
 
 #endif

@@ -3262,3 +3262,4 @@
 3262 Lun 16 déc 2024 13:06:13 CET	cleanup configure.ac
 3263 Mar 17 déc 2024 12:40:03 CET	cleanup CFLAGS,CXXFLAGS configure.ac
 3264 Mar 17 déc 2024 15:54:47 CET	revert smoke.*pp
+3265 Sam 21 déc 2024 16:26:06 CET	cleanup static_cast smoke.cpp

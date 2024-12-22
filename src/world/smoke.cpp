@@ -99,23 +99,16 @@ void Smoke::inits()
 
 void Smoke::changePermanent(float dt)
 {
-  createParticle(pos.x, pos.y, pos.z);	// add one particle
-  animParticles();	// update particles
-}
-
-void Smoke::createParticle(float x, float y, float z)
-{   
   if (np++ > npmax) np = 0;	// regenerate the flow
 
-  //Vector3 emit(x, y, z);	// good position, but not rendered, FIXME!!!
+  // create particle
+  //Vector3 emit(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
   Vector3 emit(0, 0, 0);	// wrong position, but rendered,    FIXME!!!
 
   PSmoke p(emit);		// create particle p
   smokeList.push_back(p);	// add p to smokeList
-}
 
-void Smoke::animParticles()
-{     
+  // update
   for (std::vector<PSmoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
     if ((*i).life > 0) {	// is alive
       (*i).update();
@@ -125,27 +118,15 @@ void Smoke::animParticles()
       smokeList.erase(i);	// erase at end of life
     }
   }
-} 
-
-void PSmoke::update()
-{
-  float x_acc = 0.000020 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000034
-  float y_acc = 0.000005 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000010
-  float z_acc = y_acc;
-
-  acc = Vector3(x_acc, y_acc, z_acc);
-  vel.add(acc);			// vel = vel + acc
-  loc.add(vel);			// loc = loc + vel
-  life -= 1.;			// decrease time to live
 }
 
 void Smoke::render()
 {
-  GLfloat m[16];
-  m[0]=0;  m[4]=-1; m[8] =0; m[12]=0;           // Xogl = -Yvre
-  m[1]=0;  m[5]=0;  m[9] =1; m[13]=-1.85;       // Yogl = Zvre
-  m[2]=-1; m[6]=0;  m[10]=0; m[14]=0;           // Zogl = -Xvre
-  m[3]=0;  m[7]=0;  m[11]=0; m[15]=1;
+  //GLfloat m[16];
+  //m[0]=0;  m[4]=-1; m[8] =0; m[12]=0;           // Xogl = -Yvre
+  //m[1]=0;  m[5]=0;  m[9] =1; m[13]=-1.85;       // Yogl = Zvre
+  //m[2]=-1; m[6]=0;  m[10]=0; m[14]=0;           // Zogl = -Xvre
+  //m[3]=0;  m[7]=0;  m[11]=0; m[15]=1;
 
   for (std::vector<PSmoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
     if ((*i).life > 0) {	// is alive
@@ -159,6 +140,18 @@ void Smoke::render()
       glPopMatrix();
     }
   }
+}
+
+void PSmoke::update()
+{
+  float x_acc = 0.000020 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000034
+  float y_acc = 0.000005 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000010
+  float z_acc = y_acc;
+
+  acc = Vector3(x_acc, y_acc, z_acc);
+  vel.add(acc);			// vel = vel + acc
+  loc.add(vel);			// loc = loc + vel
+  life -= 1.;			// decrease time to live
 }
 
 void PSmoke::draw()
