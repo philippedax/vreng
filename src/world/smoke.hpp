@@ -39,17 +39,19 @@
  */
 class PSmoke {
 private:
-  static const float SZ;
   static const float A[NA];
 
 public:
+  static const float SZ;
+
+  float size;		///< size of side
   Vector3 loc;		///< location.
   Vector3 vel;		///< velocity.
   Vector3 acc;		///< acceleration.
   float life;		///< time to live.
   GLint dlist;		///< displaylist.
 
-  PSmoke(Vector3 l);	///< Constructor.
+  PSmoke(Vector3 l, float sz);///< Constructor.
   ~PSmoke() {};		///< Destructor.
 
   void update();
@@ -64,6 +66,7 @@ class Smoke: public WO {
 public:
   uint16_t npmax;	///< number max of particles
   uint16_t np;		///< number of particles
+  float size;		///< size of side
 
   std::vector<PSmoke> smokeList;
 

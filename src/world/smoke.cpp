@@ -49,9 +49,10 @@ Smoke::Smoke(char *l)
 }
 
 /** creates one particle */
-PSmoke::PSmoke(Vector3 l)
+PSmoke::PSmoke(Vector3 l, float sz)
 {
   loc = Vector3(l.x, l.y, l.z);
+  size = sz;
   vel = Vector3(0, 0.0005, 0);
   life = 255;
   dlist = -1;
@@ -60,6 +61,7 @@ PSmoke::PSmoke(Vector3 l)
 void Smoke::defaults()
 {
   npmax = SMOKENB;
+  size = PSmoke::SZ;
 }
 
 void Smoke::parser(char *l)
@@ -69,7 +71,10 @@ void Smoke::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (! stringcmp(l, "number")) l = parseUInt16(l, &npmax, "number");
+    if      (! stringcmp(l, "number")) l = parseUInt16(l, &npmax, "number");
+    else if (! stringcmp(l, "size"))   { l = parseFloat(l, &size, "size");
+                                         size /= 1000;
+                                       }
   }
   end_while_parse(l);
 }
@@ -105,7 +110,7 @@ void Smoke::changePermanent(float dt)
   //Vector3 emit(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
   Vector3 emit(0, 0, 0);	// wrong position, but rendered,    FIXME!!!
 
-  PSmoke p(emit);		// create particle p
+  PSmoke p(emit, size);		// create particle p
   smokeList.push_back(p);	// add p to smokeList
 
   // update
@@ -156,12 +161,14 @@ void PSmoke::update()
 
 void PSmoke::draw()
 {
-  float a = MIN(1.2 - life/255, 1);
+  float a = MIN(1.1 - life/255, 1);
+  //float a = 1 - life/255;
+echo("%.1f",a);
 
   glColor4f(.9,.9,.9, a);
   glBegin(GL_POLYGON);		// octogon
   for (int i=0; i<NA; i++) {
-    glVertex3f(loc.x+SZ*cos(A[i]), loc.y+SZ*sin(A[i]), loc.z);
+    glVertex3f(loc.x+size*cos(A[i]), loc.y+size*sin(A[i]), loc.z);
   }
   glEnd();
 }
