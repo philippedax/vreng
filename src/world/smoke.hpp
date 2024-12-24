@@ -30,8 +30,9 @@
 #include "wobject.hpp"
 #include <vector>
 
-#define SMOKENB		100	// number max of particles
-#define NA		8	// number of angles of polygon
+#define SMOKE_NB	100	// number max of particles
+#define SMOKE_SZ	.003	// side's size of a smoke particle
+#define SMOKE_NA	8	// number of angles of polygon
 
 
 /**
@@ -39,23 +40,20 @@
  */
 class PSmoke {
 private:
-  static const float A[NA];
+  float angles[SMOKE_NA];
+  float size;		///< size of side
 
 public:
-  static const float SZ;
-
-  float size;		///< size of side
   Vector3 loc;		///< location.
   Vector3 vel;		///< velocity.
   Vector3 acc;		///< acceleration.
   float life;		///< time to live.
-  GLint dlist;		///< displaylist.
 
   PSmoke(Vector3 l, float sz);///< Constructor.
   ~PSmoke() {};		///< Destructor.
 
-  void update();
-  void draw();
+  void update();	///< update a particle.
+  void draw();		///< draw a particle.
 };
 
 
@@ -66,11 +64,11 @@ class Smoke: public WO {
 public:
   uint16_t npmax;	///< number max of particles
   uint16_t np;		///< number of particles
-  float size;		///< size of side
+  float size;		///< size of particle side
 
-  std::vector<PSmoke> smokeList;
+  std::vector<PSmoke> smokeList;	///< list of smoke particles
 
-  static const OClass oclass;	///< class variable.
+  static const OClass oclass;		///< class variable.
   const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.

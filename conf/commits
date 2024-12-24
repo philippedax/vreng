@@ -3264,3 +3264,4 @@
 3264 Mar 17 déc 2024 15:54:47 CET	revert smoke.*pp
 3265 Sam 21 déc 2024 16:26:06 CET	cleanup static_cast smoke.cpp
 3266 Dim 22 déc 2024 11:32:57 CET	cleanup changePermanent() smoke.cpp
+3267 Lun 23 déc 2024 13:05:49 CET	add size of smoke particle smoke.*pp

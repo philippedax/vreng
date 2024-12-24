@@ -28,10 +28,6 @@
 
 const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
-// local
-const float PSmoke::SZ = 0.003;	//3mm orig 0.005
-const float PSmoke::A[NA] = { M_PI*1/4,M_PI*2/4,M_PI*3/4,M_PI,M_PI*5/4,M_PI*6/4,M_PI*7/4,2*M_PI };
-
 
 /** creation from a file */
 WO * Smoke::creator(char *l)
@@ -51,17 +47,19 @@ Smoke::Smoke(char *l)
 /** creates one particle */
 PSmoke::PSmoke(Vector3 l, float sz)
 {
+  for (int i = 0; i < SMOKE_NA; i++) {
+    angles[i] = i * M_PI/4;
+  }
   loc = Vector3(l.x, l.y, l.z);
   size = sz;
   vel = Vector3(0, 0.0005, 0);
   life = 255;
-  dlist = -1;
 }
 
 void Smoke::defaults()
 {
-  npmax = SMOKENB;
-  size = PSmoke::SZ;
+  npmax = SMOKE_NB;
+  size = SMOKE_SZ;
 }
 
 void Smoke::parser(char *l)
@@ -72,8 +70,8 @@ void Smoke::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "number")) l = parseUInt16(l, &npmax, "number");
-    else if (! stringcmp(l, "size"))   { l = parseFloat(l, &size, "size");
-                                         size /= 1000;
+    else if (! stringcmp(l, "size"))   { l = parseFloat(l, &size, "size");	// mm
+                                         size /= 1000; 				// m
                                        }
   }
   end_while_parse(l);
@@ -104,18 +102,19 @@ void Smoke::inits()
 
 void Smoke::changePermanent(float dt)
 {
-  if (np++ > npmax) np = 0;	// regenerate the flow
+  if (np++ > npmax) {
+    np = 0;	// regenerate the flow
+  }
 
   // create particle
   //Vector3 emit(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
   Vector3 emit(0, 0, 0);	// wrong position, but rendered,    FIXME!!!
-
   PSmoke p(emit, size);		// create particle p
   smokeList.push_back(p);	// add p to smokeList
 
   // update
   for (std::vector<PSmoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
-    if ((*i).life > 0) {	// is alive
+    if ((*i).life > 0) {	// if is alive
       (*i).update();
       (*i).draw();		// why draw now ???
     }
@@ -156,19 +155,19 @@ void PSmoke::update()
   acc = Vector3(x_acc, y_acc, z_acc);
   vel.add(acc);			// vel = vel + acc
   loc.add(vel);			// loc = loc + vel
-  life -= 1.;			// decrease time to live
+  --life;			// decrease time to live
 }
 
 void PSmoke::draw()
 {
   float a = MIN(1.1 - life/255, 1);
   //float a = 1 - life/255;
-echo("%.1f",a);
+  echo("%.1f",a);
 
   glColor4f(.9,.9,.9, a);
   glBegin(GL_POLYGON);		// octogon
-  for (int i=0; i<NA; i++) {
-    glVertex3f(loc.x+size*cos(A[i]), loc.y+size*sin(A[i]), loc.z);
+  for (int i=0; i < SMOKE_NA; i++) {
+    glVertex3f(loc.x+size*cos(angles[i]), loc.y+size*sin(angles[i]), loc.z);
   }
   glEnd();
 }
