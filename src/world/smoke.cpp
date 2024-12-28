@@ -120,6 +120,7 @@ void Smoke::changePermanent(float dt)
     }
     else {
       smokeList.erase(i);	// erase at end of life
+      //delete(*i);		// delete smoke particle
     }
   }
 }
@@ -167,7 +168,7 @@ void PSmoke::draw()
   glColor4f(.9,.9,.9, a);
   glBegin(GL_POLYGON);		// octogon
   for (int i=0; i < SMOKE_NA; i++) {
-    glVertex3f(loc.x+size*cos(angles[i]), loc.y+size*sin(angles[i]), loc.z);
+    glVertex3f(loc.x + size*cos(angles[i]), loc.y + size*sin(angles[i]), loc.z);
   }
   glEnd();
 }

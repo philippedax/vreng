@@ -62,12 +62,6 @@ public:
  */
 class Smoke: public WO {
 public:
-  uint16_t npmax;	///< number max of particles
-  uint16_t np;		///< number of particles
-  float size;		///< size of particle side
-
-  std::vector<PSmoke> smokeList;	///< list of smoke particles
-
   static const OClass oclass;		///< class variable.
   const OClass* getOClass() {return &oclass;}
 
@@ -84,6 +78,12 @@ public:
   void render();
 
 private:
+  uint16_t npmax;	///< number max of particles
+  uint16_t np;		///< number of particles
+  float size;		///< size of particle side
+
+  std::vector<PSmoke> smokeList;	///< list of smoke particles
+
   void defaults();
   /**< Sets defaults values. */
 
