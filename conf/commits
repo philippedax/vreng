@@ -3266,3 +3266,4 @@
 3266 Dim 22 déc 2024 11:32:57 CET	cleanup changePermanent() smoke.cpp
 3267 Lun 23 déc 2024 13:05:49 CET	add size of smoke particle smoke.*pp
 3268 Mar 24 déc 2024 17:17:38 CET	add angles of smoke particle smoke.*pp
+3269 Sam 28 déc 2024 08:02:36 CET	cleanup private smoke.hpp

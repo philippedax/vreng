@@ -29,13 +29,13 @@
 const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
 
-/** creation from a file */
+/** Creation from a file */
 WO * Smoke::creator(char *l)
 {
   return new Smoke(l);
 }
 
-/** constructors */
+/** Constructors */
 Smoke::Smoke(char *l)
 {
   parser(l);
@@ -44,7 +44,7 @@ Smoke::Smoke(char *l)
   inits();
 }
 
-/** creates one particle */
+/** Creates one particle */
 PSmoke::PSmoke(Vector3 l, float sz)
 {
   for (int i = 0; i < SMOKE_NA; i++) {
@@ -62,6 +62,7 @@ void Smoke::defaults()
   size = SMOKE_SZ;
 }
 
+/** Parses a file line */
 void Smoke::parser(char *l)
 {
   defaults();
@@ -77,6 +78,7 @@ void Smoke::parser(char *l)
   end_while_parse(l);
 }
 
+/** Sets behaviors */
 void Smoke::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
@@ -86,6 +88,7 @@ void Smoke::behaviors()
   enableBehavior(PARTICLE);
 }
 
+/** Sets geometry */
 void Smoke::geometry()
 {
   char s[128];
@@ -94,23 +97,28 @@ void Smoke::geometry()
   parseSolid(s);
 }
 
+/** Do specific inits */
 void Smoke::inits()
 {
   initMobileObject(0);
   np = 0;
+  srand(time(NULL));
 }
 
+/** When moving */
 void Smoke::changePermanent(float dt)
 {
   if (np++ > npmax) {
     np = 0;	// regenerate the flow
   }
+  //echo("%d", np);
+  //if (rand()%4 == 0) return;
 
   // create particle
   //Vector3 emit(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
   Vector3 emit(0, 0, 0);	// wrong position, but rendered,    FIXME!!!
   PSmoke p(emit, size);		// create particle p
-  smokeList.push_back(p);	// add p to smokeList
+  smokeList.push_back(p);	// add to smokeList
 
   // update
   for (std::vector<PSmoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
@@ -119,12 +127,14 @@ void Smoke::changePermanent(float dt)
       (*i).draw();		// why draw now ???
     }
     else {
+      //echo("d");
       smokeList.erase(i);	// erase at end of life
       //delete(*i);		// delete smoke particle
     }
   }
 }
 
+/** Renders smoke particles */
 void Smoke::render()
 {
   //GLfloat m[16];
@@ -150,7 +160,8 @@ void Smoke::render()
 void PSmoke::update()
 {
   float x_acc = 0.000020 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000034
-  float y_acc = 0.000005 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000010
+  //float y_acc = 0.000002 * (1+(-2*(static_cast<float>(rand())/(RAND_MAX))));	// 0.000010
+  float y_acc = 0;
   float z_acc = y_acc;
 
   acc = Vector3(x_acc, y_acc, z_acc);
@@ -161,11 +172,12 @@ void PSmoke::update()
 
 void PSmoke::draw()
 {
-  float a = MIN(1.1 - life/255, 1);
+  //float a = MIN(1.1 - life/255, 1);
+  float a = life/255;
   //float a = 1 - life/255;
-  echo("%.1f",a);
+  //echo("%.1f",a);
 
-  glColor4f(.9,.9,.9, a);
+  glColor4f(.7,.7,.7, a);
   glBegin(GL_POLYGON);		// octogon
   for (int i=0; i < SMOKE_NA; i++) {
     glVertex3f(loc.x + size*cos(angles[i]), loc.y + size*sin(angles[i]), loc.z);
