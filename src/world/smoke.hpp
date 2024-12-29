@@ -31,8 +31,8 @@
 #include <vector>
 
 #define SMOKE_NB	100	// number max of particles
-#define SMOKE_SP	.0004	// speed of a smoke particle
-#define SMOKE_SZ	.001	// side's size of a smoke particle
+#define SMOKE_SP	.0003	// speed of a smoke particle
+#define SMOKE_SZ	.002	// side's size of a smoke particle
 #define SMOKE_NA	8	// number of angles of polygon
 
 

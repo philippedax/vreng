@@ -118,10 +118,10 @@ void Smoke::changePermanent(float dt)
   }
   //echo("%d", np);
 
-  if (rand()%4 != 0) {
+  if (rand()%8 != 0) {
     // create particle
     //Vector3 e(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
-    Vector3 e(0.02, 0, 0);	// wrong position, but rendered,    FIXME!!!
+    Vector3 e(0, 0, 0);		// wrong position, but rendered,    FIXME!!!
     PSmoke *p = new PSmoke(e, speed, size);
     smokeList.push_back(p);	// add to smokeList
   }
