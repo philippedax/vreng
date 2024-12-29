@@ -31,7 +31,8 @@
 #include <vector>
 
 #define SMOKE_NB	100	// number max of particles
-#define SMOKE_SZ	.003	// side's size of a smoke particle
+#define SMOKE_SP	.0004	// speed of a smoke particle
+#define SMOKE_SZ	.001	// side's size of a smoke particle
 #define SMOKE_NA	8	// number of angles of polygon
 
 
@@ -40,8 +41,9 @@
  */
 class PSmoke {
 private:
-  float ang[SMOKE_NA];
-  float siz;		///< size of side
+  float ang[SMOKE_NA];	///< angles of octagon.
+  float siz;		///< size of side.
+  float speed;		///< speed of particle.
 
 public:
   Vector3 loc;		///< location.
@@ -49,7 +51,7 @@ public:
   Vector3 acc;		///< acceleration.
   float life;		///< time to live.
 
-  PSmoke(Vector3 l, float sz);///< Constructor.
+  PSmoke(Vector3 l, float speed, float size);	///< Constructor.
   ~PSmoke() {};		///< Destructor.
 
   void update();	///< update a particle.
@@ -78,11 +80,12 @@ public:
   void render();
 
 private:
-  uint16_t npmax;	///< number max of particles
-  uint16_t np;		///< number of particles
-  float size;		///< size of particle side
+  uint16_t npmax;	///< number max of particles.
+  uint16_t np;		///< number of particles.
+  float speed;		///< speed of particle.
+  float size;		///< size of particle side.
 
-  std::vector<PSmoke *> smokeList;	///< list of smoke particles
+  std::vector<PSmoke *> smokeList;	///< list of smoke particles.
 
   void defaults();
   /**< Sets defaults values. */

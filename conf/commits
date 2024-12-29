@@ -3268,3 +3268,4 @@
 3268 Mar 24 déc 2024 17:17:38 CET	add angles of smoke particle smoke.*pp
 3269 Sam 28 déc 2024 08:02:36 CET	cleanup private smoke.hpp
 3270 Sam 28 déc 2024 16:24:00 CET	cleanup color smoke.cpp
+3271 Dim 29 déc 2024 11:28:38 CET	cleanup smokelist smoke.*pp

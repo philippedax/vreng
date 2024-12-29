@@ -45,14 +45,15 @@ Smoke::Smoke(char *l)
 }
 
 /** Creates one particle */
-PSmoke::PSmoke(Vector3 l, float sz)
+PSmoke::PSmoke(Vector3 l, float _speed, float _size)
 {
   for (int i = 0; i < SMOKE_NA; i++) {
     ang[i] = i * M_PI/4;
   }
   loc = Vector3(l.x, l.y, l.z);
-  siz = sz;
-  vel = Vector3(0, 0.0002, 0);
+  siz = _size;
+  speed = _speed;
+  vel = Vector3(0, speed, 0);
   life = 255;
 }
 
@@ -60,6 +61,7 @@ void Smoke::defaults()
 {
   npmax = SMOKE_NB;
   size = SMOKE_SZ;
+  speed = SMOKE_SP;
 }
 
 /** Parses a file line */
@@ -73,6 +75,9 @@ void Smoke::parser(char *l)
     if      (! stringcmp(l, "number")) l = parseUInt16(l, &npmax, "number");
     else if (! stringcmp(l, "size"))   { l = parseFloat(l, &size, "size");	// mm
                                          size /= 1000; 				// m
+                                       }
+    else if (! stringcmp(l, "speed"))  { l = parseFloat(l, &speed, "speed");	// mm
+                                         speed /= 10000; 			// m
                                        }
   }
   end_while_parse(l);
@@ -117,7 +122,7 @@ void Smoke::changePermanent(float dt)
     // create particle
     //Vector3 e(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
     Vector3 e(0.02, 0, 0);	// wrong position, but rendered,    FIXME!!!
-    PSmoke *p = new PSmoke(e, size);
+    PSmoke *p = new PSmoke(e, speed, size);
     smokeList.push_back(p);	// add to smokeList
   }
 
@@ -138,6 +143,7 @@ void Smoke::changePermanent(float dt)
 /** Renders smoke particles */
 void Smoke::render()
 {
+  //echo("r");
   //GLfloat m[16];
   //m[0]=0;  m[4]=-1; m[8] =0; m[12]=0;           // Xogl = -Yvre
   //m[1]=0;  m[5]=0;  m[9] =1; m[13]=-1.85;       // Yogl = Zvre
