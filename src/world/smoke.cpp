@@ -48,11 +48,11 @@ Smoke::Smoke(char *l)
 PSmoke::PSmoke(Vector3 l, float sz)
 {
   for (int i = 0; i < SMOKE_NA; i++) {
-    angles[i] = i * M_PI/4;
+    ang[i] = i * M_PI/4;
   }
   loc = Vector3(l.x, l.y, l.z);
-  size = sz;
-  vel = Vector3(0, 0.0005, 0);
+  siz = sz;
+  vel = Vector3(0, 0.0002, 0);
   life = 255;
 }
 
@@ -112,24 +112,25 @@ void Smoke::changePermanent(float dt)
     np = 0;	// regenerate the flow
   }
   //echo("%d", np);
-  //if (rand()%4 == 0) return;
 
-  // create particle
-  //Vector3 emit(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
-  Vector3 emit(0, 0, 0);	// wrong position, but rendered,    FIXME!!!
-  PSmoke p(emit, size);		// create particle p
-  smokeList.push_back(p);	// add to smokeList
+  if (rand()%4 != 0) {
+    // create particle
+    //Vector3 e(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
+    Vector3 e(0.02, 0, 0);	// wrong position, but rendered,    FIXME!!!
+    PSmoke *p = new PSmoke(e, size);
+    smokeList.push_back(p);	// add to smokeList
+  }
 
   // update
-  for (std::vector<PSmoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
-    if ((*i).life > 0) {	// if is alive
-      (*i).update();
-      (*i).draw();		// why draw now ???
+  for (std::vector<PSmoke *>::iterator it = smokeList.begin(); it < smokeList.end(); ++it) {
+    if ((*it)->life > 0) {	// if is alive
+      (*it)->update();
+      (*it)->draw();		// why draw now ???
     }
     else {
       //echo("d");
-      smokeList.erase(i);	// erase at end of life
-      //delete(*i);		// delete smoke particle
+      smokeList.pop_back();	// erase at end of life
+      //if (*it) { delete *it; *it = NULL; }	// segfault - delete smoke particle
     }
   }
 }
@@ -143,15 +144,15 @@ void Smoke::render()
   //m[2]=-1; m[6]=0;  m[10]=0; m[14]=0;           // Zogl = -Xvre
   //m[3]=0;  m[7]=0;  m[11]=0; m[15]=1;
 
-  for (std::vector<PSmoke>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
-    if ((*i).life > 0) {	// is alive
-      //echo("rend: %.1f %.1f %.1f", (*i).loc.x, (*i).loc.y, (*i).loc.z);
+  for (std::vector<PSmoke *>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
+    if ((*i)->life > 0) {	// is alive
+      //echo("rend: %.1f %.1f %.1f", (*i)->loc.x, (*i)->loc.y, (*i)->loc.z);
       glPushMatrix();
       //glLoadIdentity();
       //glLoadMatrixf(m);
-      //glTranslatef((*i).loc.x, (*i).loc.y, (*i).loc.z);	//coord Vreng  bad
-      glTranslatef(-(*i).loc.y, (*i).loc.z, -(*i).loc.x);	//coord opengl good
-      (*i).draw();
+      //glTranslatef((*i)->loc.x, (*i)->loc.y, (*i)->loc.z);	//coord Vreng  bad
+      glTranslatef(-(*i)->loc.y, (*i)->loc.z, -(*i)->loc.x);	//coord opengl good
+      (*i)->draw();
       glPopMatrix();
     }
   }
@@ -180,7 +181,7 @@ void PSmoke::draw()
   glColor4f(.7,.7,.7, a);
   glBegin(GL_POLYGON);		// octogon
   for (int i=0; i < SMOKE_NA; i++) {
-    glVertex3f(loc.x + size*cos(angles[i]), loc.y + size*sin(angles[i]), loc.z);
+    glVertex3f(loc.x + siz*cos(ang[i]), loc.y + siz*sin(ang[i]), loc.z);
   }
   glEnd();
 }

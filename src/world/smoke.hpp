@@ -40,8 +40,8 @@
  */
 class PSmoke {
 private:
-  float angles[SMOKE_NA];
-  float size;		///< size of side
+  float ang[SMOKE_NA];
+  float siz;		///< size of side
 
 public:
   Vector3 loc;		///< location.
@@ -82,7 +82,7 @@ private:
   uint16_t np;		///< number of particles
   float size;		///< size of particle side
 
-  std::vector<PSmoke> smokeList;	///< list of smoke particles
+  std::vector<PSmoke *> smokeList;	///< list of smoke particles
 
   void defaults();
   /**< Sets defaults values. */
