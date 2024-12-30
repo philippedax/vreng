@@ -432,7 +432,7 @@ static void indiceGrid(const float bb[3], int igrid[3])
 }
 
 /** Adds an object into the grid */
-void WO::insertIntoGrid()
+void WO::addGrid()
 {
   float bbmin[3], bbmax[3];
 
@@ -459,7 +459,7 @@ void WO::insertIntoGrid()
  *  This estimation doesn't work 100%.
  *  Doing the above reduces crash rate when sending a bunch of darts.
  */
-void WO::delFromGrid()
+void WO::delGrid()
 {
   float bbmin[3], bbmax[3];
 
@@ -484,7 +484,7 @@ void WO::delFromGrid()
 }
 
 /** Updates an object in the grid */
-void WO::updateGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold)
+void WO::updGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold)
 {
   int iminnew[3], imaxnew[3], iminold[3], imaxold[3];
 
@@ -500,7 +500,7 @@ void WO::updateGrid(const float *bbminnew, const float *bbmaxnew, const float *b
   }
 
   if (change) {
-    delFromGrid();
+    delGrid();
     for (int x=iminnew[0]; x <= imaxnew[0]; x++) {
       for (int y=iminnew[1]; y <= imaxnew[1]; y++) {
 	for (int z=iminnew[2]; z <= imaxnew[2]; z++) {
@@ -511,7 +511,7 @@ void WO::updateGrid(const float *bbminnew, const float *bbmaxnew, const float *b
   }
 }
 
-void WO::updateGrid(const WO *obj)
+void WO::updGrid(const WO *obj)
 {
   float bbminnew[3], bbmaxnew[3], bbminold[3], bbmaxold[3];
 
@@ -521,10 +521,10 @@ void WO::updateGrid(const WO *obj)
     bbminold[i] = obj->pos.bbc.v[i] - obj->pos.bbs.v[i];
     bbmaxold[i] = obj->pos.bbc.v[i] + obj->pos.bbs.v[i];
   }
-  updateGrid(bbminnew, bbmaxnew, bbminold, bbmaxold);
+  updGrid(bbminnew, bbmaxnew, bbminold, bbmaxold);
 }
 
-void WO::updateGrid(const Pos& oldpos)
+void WO::updGrid(const Pos& oldpos)
 {
   float bbminnew[3], bbmaxnew[3], bbminold[3], bbmaxold[3];
 
@@ -534,7 +534,7 @@ void WO::updateGrid(const Pos& oldpos)
     bbminold[i] = oldpos.bbc.v[i] - oldpos.bbs.v[i];
     bbmaxold[i] = oldpos.bbc.v[i] + oldpos.bbs.v[i];
   }
-  updateGrid(bbminnew, bbmaxnew, bbminold, bbmaxold);
+  updGrid(bbminnew, bbmaxnew, bbminold, bbmaxold);
 }
 
 /** Checks the current vicinity */

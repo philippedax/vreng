@@ -136,7 +136,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     vicilist->remove();
   }
   delete poldobj;
-  object->updateGrid(poldobj);
+  object->updGrid(poldobj);
   if (object->isBehavior(COLLIDE_NEVER)) {
     delete poldobj;
     return;

@@ -130,7 +130,7 @@ WO::~WO()
   if (geomsolid) delete[] geomsolid;
 
   if (! isBehavior(COLLIDE_NEVER)) {
-    delFromGrid();
+    delGrid();
   }
 
   delSolids();	// delete all solids
@@ -213,7 +213,7 @@ void WO::initObject(uint8_t _mode)
   update3D(pos);
   if (! isBehavior(NO_BBABLE)) {
     updateBB();
-    insertIntoGrid();
+    addGrid();
   }
   updateNames();
 }
@@ -736,7 +736,7 @@ void WO::initPosition()
   update3D(pos);
   if (! isBehavior(NO_BBABLE)) {
     updateBB();
-    insertIntoGrid();
+    addGrid();
   }
 }
 
@@ -755,13 +755,13 @@ void WO::updatePosition()
 void WO::updatePositionAndGrid(Pos &oldpos)
 {
   updatePosition();
-  if (! isBehavior(NO_BBABLE)) updateGrid(oldpos);
+  if (! isBehavior(NO_BBABLE)) updGrid(oldpos);
 }
 
 void WO::updatePositionAndGrid(WO *pold)
 {
   updatePosition();
-  if (! isBehavior(NO_BBABLE)) updateGrid(pold);
+  if (! isBehavior(NO_BBABLE)) updGrid(pold);
 }
 
 /** Updates distance - accessor */
@@ -866,7 +866,7 @@ void WO::toDelete()
 {
   if (isValid()) {
     deleteList.push_back(this); // add to deleteList
-    delFromGrid();
+    delGrid();
     removed = true;		// mark as removed
   }
   //dax8 delSolids();
@@ -1349,7 +1349,7 @@ void WO::deleteReplica()
 {
   if (this != localuser) {
     if (type == USER_TYPE) ::g.gui.removeAvatar((User *) this);
-    delFromGrid();
+    delGrid();
     delFromList(mobileList);
 
     // delete Solids

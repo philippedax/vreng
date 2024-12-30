@@ -518,16 +518,16 @@ class WO {
   //
 
  public:
-  void delFromGrid();
+  void delGrid();
   /**< Deletes an object from the vicinity grid. */
 
-  void updateGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold);
-  void updateGrid(const Pos &oldpos);
-  void updateGrid(const WO *wo);
+  void updGrid(const Pos &oldpos);
+  void updGrid(const WO *wo);
   /**< Updates an object into the vicinity grid. */
 
  private:
-  void insertIntoGrid();
+  void updGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold);
+  void addGrid();
   /**< Adds an object into the vicinity grid. */
 
   //

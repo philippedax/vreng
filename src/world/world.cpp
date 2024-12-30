@@ -955,7 +955,7 @@ void World::deleteObjects()
 {
   for (vector<WO*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
     if (! (*it)->isBehavior(COLLIDE_NEVER)) {
-      (*it)->delFromGrid();
+      (*it)->delGrid();
     }
     if ((*it)->removed) {
       mobileList.remove(*it);
