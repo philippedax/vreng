@@ -28,7 +28,6 @@
 #include "stat.hpp"	// new_olist, del_olist
 
 #include <list>
-using namespace std;
 
 
 /** Constructor */
@@ -66,7 +65,7 @@ void OList::clearPointed()
 /** Returns the object from the mobile list - static */
 WO * OList::findObj(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
 {
-  for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end() ; ++it) {
+  for (std::list<WO*>::iterator it = mobileList.begin(); it != mobileList.end() ; ++it) {
     if (((*it)->type == _type)
     &&  ((*it)->getSrc() == src_id)
     &&  ((*it)->getPort() == port_id)
