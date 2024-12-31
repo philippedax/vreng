@@ -137,14 +137,8 @@ class World {
   void setGround(float level);		///< Sets the world level.
   float getGround() const;		///< Gets the world level.
 
-  bool isDead() const;			///< Checks if world is dead.
-
-  bool isLinked() const;
-  void setLinked();
-  struct GuiItem * getGui() const;
-  bool isGui() const;
-  void resetGui();
   User* localUser() const;
+
   Bgcolor* backgroundColor() const;
   uint32_t getGroupAdr() const;
   void setGroupAdr(uint32_t _group);
@@ -156,9 +150,6 @@ class World {
  private:
   void initGrid();
   /**< Inits the grid by default. */
-
-  void clearGrid();
-  /**< Clears the grid. */
 
   void localGrid();
   /**< Sets local grid for the current world. */

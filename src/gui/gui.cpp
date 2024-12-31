@@ -269,14 +269,14 @@ void Gui::removeWorld(World *world)
 {
   if (! world)  return;
 
-  if (world->isGui()) widgets->removeWorld(world);
+  if (world->guip) widgets->removeWorld(world);
 }
 
 void Gui::updateWorld(World *world, bool isCurrent)
 {
   if (! world)  return;
 
-  if (world->isGui()) widgets->updateWorld(world, isCurrent);
+  if (world->guip) widgets->updateWorld(world, isCurrent);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

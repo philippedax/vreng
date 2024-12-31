@@ -407,7 +407,7 @@ void Widgets::updateWorld(World *world, bool isCurrent)
 {
   if (! world)  return;
 
-  GuiItem *gw = world->getGui();
+  GuiItem *gw = world->guip;
   if (! gw)  return;
   gw->removeAll(true);	//FIXME! sometimes segfault in Ubit
   setWorld(gw, world, isCurrent);
@@ -419,10 +419,10 @@ void Widgets::removeWorld(World *world)
 {
   if (! world)  return;
 
-  GuiItem *gw = world->getGui();
+  GuiItem *gw = world->guip;
   if (! gw)  return;
   worlds.remove(*gw);
-  world->resetGui();
+  world->guip = NULL;
 }
 
 /** Makes an action on selected object */

@@ -131,23 +131,6 @@ World * World::current()
   return worldList;	// head of the worlds list
 }
 
-/** Gets the gui pointer */
-struct GuiItem* World::getGui() const
-{
-  return guip;
-}
-
-/** Is gui valid ? */
-bool World::isGui() const
-{
-  return (guip) ? true : false;
-}
-
-void World::resetGui()
-{
-  guip = NULL;
-}
-
 /** Sets local world name */
 void World::setName(const char *urlOrName)
 {
@@ -211,11 +194,6 @@ uint8_t World::getState() const
 void World::setState(int _state)
 {
   state = _state;
-}
-
-bool World::isDead() const
-{
-  return (state == STOPPED);
 }
 
 void World::setManagerChanAndJoin(const char *chan_str)
@@ -295,16 +273,6 @@ void World::setGround(float level)
 float World::getGround() const
 {
   return ground;
-}
-
-bool World::isLinked() const
-{
-  return linked;
-}
-
-void World::setLinked()
-{
-  linked = true;
 }
 
 void World::setSsrc(uint32_t _ssrc)
@@ -512,12 +480,8 @@ void World::initGrid()
   bbslice.v[2] = DISTZ;
 
   localGrid();
-  clearGrid();
-}
 
-/** Clears all pointers in the grid */
-void World::clearGrid()
-{
+  // Clears all pointers in the grid
   for (int x=0; x < dimgrid[0]; x++) {
     for (int y=0; y < dimgrid[1]; y++) {
       for (int z=0; z < dimgrid[2]; z++) {
