@@ -114,7 +114,7 @@ World::World()
   trace1(DBG_WO, "World: num=%d", num);
 
   // Adds world into world list */
-  if (!worldList) {	// first world encountered
+  if (! worldList) {	// first world encountered
     next = prev = NULL;
   }
   else if (worldList != this) {
@@ -312,13 +312,13 @@ void World::compute(time_t sec, time_t usec)
     //
     // computes world's bounding box
     //
-    for (vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+    for (std::vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
       }
     }
-    for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    for (std::list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
@@ -352,7 +352,7 @@ void World::compute(time_t sec, time_t usec)
     //
     // objects movement with imposed or permanent movements
     //
-    for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    for (std::list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       (*it)->imposedMovement(sec, usec);	// object with imposed movement
       (*it)->permanentMovement(sec, usec);	// object with permanent movement
     }
@@ -364,14 +364,14 @@ void World::compute(time_t sec, time_t usec)
 }
 
 /** Calls a world - private */
-bool World::call(World *w)
+bool World::call(World *world)
 {
-  if (w->linked) {
+  if (world->linked) {
     enter(url, NULL, OLD);
-    setChan(w->chan);
+    setChan(world->chan);
   }
   else {
-    trace1(DBG_IPMC, "call: leave chan=%s", w->chan);
+    trace1(DBG_IPMC, "call: leave chan=%s", world->chan);
     if (Channel::current()) {
       delete Channel::current();	// leave current channel
     }
@@ -446,22 +446,22 @@ World * World::goNext()
 }
 
 /** Exchanges worlds in the list - static */
-World * World::swap(World *w)
+World * World::swap(World *world)
 {
-  if (worldList == w) return worldList;	// same world
+  if (worldList == world) return worldList;	// same world
 
-  if (w->prev)
-    w->prev->next = worldList;	// 1
-  if (w->next)
-    w->next->prev = worldList;	// 2
+  if (world->prev)
+    world->prev->next = worldList;	// 1
+  if (world->next)
+    world->next->prev = worldList;	// 2
   if (worldList->next)
-    worldList->next->prev = w;	// 3
-  worldList->prev = w->prev;	// 4
+    worldList->next->prev = world;	// 3
+  worldList->prev = world->prev;	// 4
   World *wtmp = worldList->next;
-  worldList->next = w->next;	// 5
-  w->next = wtmp;		// 6
-  w->prev = NULL;		// 7
-  worldList = w;		// 8
+  worldList->next = world->next;	// 5
+  world->next = wtmp;			// 6
+  world->prev = NULL;			// 7
+  worldList = world;			// 8
 
   return worldList;
 }
@@ -658,7 +658,7 @@ void World::init(const char *url)
   world->setState(LOADING);
   world->setUrl(url);
   world->setName(url);
-  world->setChanAndJoin(::g.channel);      // join initial channel
+  world->setChanAndJoin(::g.channel);	// join initial channel
   Channel::getGroup(world->getChan(), Universe::current()->grpstr);
   Universe::current()->port = Channel::getPort(world->getChan());
 
@@ -667,7 +667,7 @@ void World::init(const char *url)
   world->initGrid();
   clearLists();
   WO::initNames();
-  initFunc();		// init funcs (objects.cpp)
+  initFunc();				// init funcs (objects.cpp)
 
   if (::g.pref.keep == false) {
     ::g.env.cleanCacheByExt("vre");	// remove *.vre in the cache
@@ -722,7 +722,7 @@ void World::quit()
   //
 
   // invisible objects
-  for (vector<WO*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+  for (std::vector<WO*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
@@ -730,7 +730,7 @@ void World::quit()
   invisList.clear();
 
   // still objects
-  for (vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+  for (std::vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
     //dax1 if (! strlen((*it)->objectName())) continue;	// avoid segfault
@@ -740,7 +740,7 @@ void World::quit()
   stillList.clear();
 
   // mobile objects
-  for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+  for (std::list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
     if ((*it)->deleted) continue;
@@ -752,7 +752,7 @@ void World::quit()
   mobileList.clear();
 
   // fluid objects
-  for (vector<WO*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+  for (std::vector<WO*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
@@ -760,7 +760,7 @@ void World::quit()
   fluidList.clear();
 
   // cloth objects
-  for (vector<WO*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
+  for (std::vector<WO*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;		// sometimes segfault FIXME!!!
@@ -912,7 +912,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 /** Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
-  for (vector<WO*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
+  for (std::vector<WO*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
     if (! (*it)->isBehavior(COLLIDE_NEVER)) {
       (*it)->delGrid();
     }
