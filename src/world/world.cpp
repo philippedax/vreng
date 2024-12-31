@@ -76,7 +76,7 @@ const uint8_t World::WORLD_LEN = 32;
 
 class OList* World::gridArray[GRIDX][GRIDY][GRIDZ];
 
-World* World::worldList = NULL;
+World* World::worldVisit = NULL;
 
 
 /** World constructor */
@@ -113,22 +113,22 @@ World::World()
   num = universe->worldcnt++;
   trace1(DBG_WO, "World: num=%d", num);
 
-  // Adds world into world list */
-  if (! worldList) {	// first world encountered
+  // Adds world into world list
+  if (! worldVisit) {	// first world encountered
     next = prev = NULL;
   }
-  else if (worldList != this) {
-    next = worldList;
-    worldList->prev = this;
+  else if (worldVisit != this) {
+    next = worldVisit;
+    worldVisit->prev = this;
     prev = NULL;
   }
-  worldList = this;
+  worldVisit = this;
 }
 
 /** Gets current world */
 World * World::current()
 {
-  return worldList;	// head of the worlds list
+  return worldVisit;	// head of the worlds list
 }
 
 /** Sets local world name */
@@ -164,7 +164,7 @@ World * World::find(const char *url)
   char urla[URL_LEN] = {0};
   Url::abs(url, urla);
 
-  for (World *w = worldList; w ; w = w->next) {
+  for (World *w = worldVisit; w ; w = w->next) {
     if ((! strcmp(w->url, url)) || (! strcmp(w->url, urla))) {
       return w;	// world found
     }
@@ -178,7 +178,7 @@ World * World::find(const char *url)
 /** Gets a world by its group number */
 World * World::find(uint32_t group)
 {
-  for (World *w = worldList; w ; w = w->next) {
+  for (World *w = worldVisit; w ; w = w->next) {
     if (w->group == group) {
       return w;	// world found
     }
@@ -396,10 +396,10 @@ bool World::call(World *world)
 /** Go to the previous world - static */
 World * World::goPrev()
 {
-  World *worldback = worldList->next;
+  World *worldback = worldVisit->next;
   if (! worldback) return NULL;	// no prev world
 
-  World *world = worldList;
+  World *world = worldVisit;
   world->quit();		// quit current world first
 
   World *wp;
@@ -412,10 +412,10 @@ World * World::goPrev()
   world->next = NULL;
   worldback->prev = NULL;
   world->prev = worldback;
-  worldList = worldback;
+  worldVisit = worldback;
 
   if (worldback->call(world)) {
-    return worldList;
+    return worldVisit;
   }
   return NULL;
 }
@@ -423,9 +423,9 @@ World * World::goPrev()
 /** Go to the next world - static */
 World * World::goNext()
 {
-  if (! worldList->next) return NULL;	// no forward world
+  if (! worldVisit->next) return NULL;	// no forward world
 
-  World *world = worldList;
+  World *world = worldVisit;
   world->quit();	// quit current world first
 
   World *wp;
@@ -437,10 +437,10 @@ World * World::goNext()
   worldnext->prev = NULL;
   world->prev = worldnext;
   wp->next = NULL;
-  worldList = worldnext;
+  worldVisit = worldnext;
 
   if (worldnext->call(world)) {
-    return worldList;
+    return worldVisit;
   }
   return NULL;
 }
@@ -448,22 +448,22 @@ World * World::goNext()
 /** Exchanges worlds in the list - static */
 World * World::swap(World *world)
 {
-  if (worldList == world) return worldList;	// same world
+  if (worldVisit == world) return worldVisit;	// same world
 
   if (world->prev)
-    world->prev->next = worldList;	// 1
+    world->prev->next = worldVisit;	// 1
   if (world->next)
-    world->next->prev = worldList;	// 2
-  if (worldList->next)
-    worldList->next->prev = world;	// 3
-  worldList->prev = world->prev;	// 4
-  World *wtmp = worldList->next;
-  worldList->next = world->next;	// 5
+    world->next->prev = worldVisit;	// 2
+  if (worldVisit->next)
+    worldVisit->next->prev = world;	// 3
+  worldVisit->prev = world->prev;	// 4
+  World *wtmp = worldVisit->next;
+  worldVisit->next = world->next;	// 5
   world->next = wtmp;			// 6
   world->prev = NULL;			// 7
-  worldList = world;			// 8
+  worldVisit = world;			// 8
 
-  return worldList;
+  return worldVisit;
 }
 
 /**
@@ -802,7 +802,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   // check whether this world is already in memory
   if (find(url) && isnew) {
     world = find(url);	// existing world
-    worldList = swap(world);
+    worldVisit = swap(world);
     if (::g.pref.trace) echo("enter: world=%s (%d)", world->name, isnew);
     if (world->guip) {
       ::g.gui.updateWorld(world, NEW);
@@ -945,7 +945,7 @@ void World::dumpworldList(const char *note)
 {
   int i=0;
   printf("%s: ", note);
-  for (World *wp = worldList; wp && i<32; wp = wp->next, i++) {
+  for (World *wp = worldVisit; wp && i<32; wp = wp->next, i++) {
     printf("%s -> ", wp->name);
     if (wp == wp->next) {
       printf("loop\n");

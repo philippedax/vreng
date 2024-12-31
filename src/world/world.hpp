@@ -26,17 +26,15 @@
 #include "matvec.hpp"   // V3 M4
 #include <list>
 
-using namespace std;
-
 
 /**
  * World class
  */
 class World {
  private:
-  static class World * worldList;
+  static class World * worldVisit;
 
-  /* states */
+  /* world states */
   enum world_state {
     TOLOAD,
     LOADING,
@@ -155,12 +153,11 @@ class World {
   /**< Sets local grid for the current world. */
 
   //
-  // World methods
-  // static methods
+  // World methods - static methods
   //
  public:
   static World* current();
-  /**< Return the current world. */
+  /**< Returns the current world. */
 
   static void init(const char *urlvre);
   /**< General World initialization. */
