@@ -96,9 +96,6 @@ class World {
   /**< Quits current world. */
 
  private:
-  void addList();
-  /**< Adds world into world list. */
-
   static void reader(void *urlvre, class Http *http);
   /**< World reader. */
 

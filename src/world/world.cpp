@@ -113,12 +113,7 @@ World::World()
   num = universe->worldcnt++;
   trace1(DBG_WO, "World: num=%d", num);
 
-  addList();
-}
-
-/** Adds world into world list */
-void World::addList()
-{
+  // Adds world into world list */
   if (!worldList) {	// first world encountered
     next = prev = NULL;
   }
