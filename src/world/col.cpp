@@ -139,7 +139,6 @@ void WO::ingoingWalls(WO *wo)
     if ((ox != cx) || (oy != cy)) {
       float nn = nx*nx + ny*ny;
       if (nn == 0)  return;
-      //echo("(ox=%.2f oy=%.2f) (cx=%.2f cy=%.2f)", ox, oy, cx, cy);
       pos.y = ((nx*ny) * (ox-cx) + ny*ny*oy + nx*nx*cy) / nn;
       pos.x = ((nx*ny) * (oy-cy) + nx*nx*ox + ny*ny*cx) / nn;
 
@@ -287,7 +286,6 @@ uint32_t WO::collideBehavior() const
   return (behavior & (COLLIDE_ONCE | COLLIDE_NEVER | COLLIDE_GHOST));
 }
 
-
 /** Returns normale vectors 'normal' of still object */
 void WO::computeNormal(Pos &mobil, Pos &still, V3 *normal)
 {
@@ -300,7 +298,7 @@ void WO::computeNormal(Pos &mobil, Pos &still, V3 *normal)
     normal->v[1] = 1;
   }
 
-  /* test which normal we take, computes dotprod */
+  // test which normal we take, computes dotprod
   float dp = (mobil.bbc.v[0] - still.bbc.v[0]) * normal->v[0]
            + (mobil.bbc.v[1] - still.bbc.v[1]) * normal->v[1]
            + (mobil.bbc.v[2] - still.bbc.v[2]) * normal->v[2];
@@ -327,7 +325,7 @@ void WO::computeNormal(WO *mobil, V3 *normal)
     normal->v[0] = 0;
     normal->v[1] = 1;
   }
-  /* test which normal we take, computes dotprod */
+  // test which normal we take, computes dotprod
   float dp = (mobil->pos.bbc.v[0] - pos.bbc.v[0]) * normal->v[0]
            + (mobil->pos.bbc.v[1] - pos.bbc.v[1]) * normal->v[1]
            + (mobil->pos.bbc.v[2] - pos.bbc.v[2]) * normal->v[2];
@@ -417,31 +415,27 @@ void World::localGrid()
   dist = setV3(bbslice.v[0], bbslice.v[1], bbslice.v[2]);
 }
 
-/**
- * Evals and fills the igrid array
- * array of position indices in the grid
- */
+/** Evals and fills the igrid array (position indices in the grid) */
 static void indiceGrid(const float bb[3], int igrid[3])
 {
   igrid[0] = int( ((bb[0] + dist.v[0] * (dim[0]/2)) / dist.v[0]) );
   igrid[1] = int( ((bb[1] + dist.v[1] * (dim[1]/2)) / dist.v[1]) );
   igrid[2] = int( ((bb[2] + dist.v[2] * (dim[2]/2)) / dist.v[2]) );
-  igrid[0] = MIN(dim[0]-1, MAX(0, igrid[0]));
-  igrid[1] = MIN(dim[1]-1, MAX(0, igrid[1]));
-  igrid[2] = MIN(dim[2]-1, MAX(0, igrid[2]));
+  igrid[0] = MIN( dim[0]-1, MAX(0, igrid[0]) );
+  igrid[1] = MIN( dim[1]-1, MAX(0, igrid[1]) );
+  igrid[2] = MIN( dim[2]-1, MAX(0, igrid[2]) );
 }
 
 /** Adds an object into the grid */
 void WO::addGrid()
 {
+  int imin[3], imax[3];
   float bbmin[3], bbmax[3];
 
   for (int i=0; i<3; i++) {
     bbmin[i] = pos.bbc.v[i] - pos.bbs.v[i]; // pos min
     bbmax[i] = pos.bbc.v[i] + pos.bbs.v[i]; // pos max
   }
-
-  int imin[3], imax[3];
   indiceGrid(bbmin, imin);
   indiceGrid(bbmax, imax);
 
@@ -454,21 +448,16 @@ void WO::addGrid()
   }
 }
 
-/**
- * Deletes an object from the vicinity grid.
- *  This estimation doesn't work 100%.
- *  Doing the above reduces crash rate when sending a bunch of darts.
- */
+/** Deletes an object from the vicinity grid. This estimation doesn't work 100%. */
 void WO::delGrid()
 {
+  int imin[3], imax[3];
   float bbmin[3], bbmax[3];
 
   for (int i=0; i<3; i++) {
     bbmin[i] = pos.bbc.v[i] - pos.bbs.v[i];
     bbmax[i] = pos.bbc.v[i] + pos.bbs.v[i];
   }
-
-  int imin[3], imax[3];
   indiceGrid(bbmin, imin);
   indiceGrid(bbmax, imax);
 
@@ -486,6 +475,7 @@ void WO::delGrid()
 /** Updates an object in the grid */
 void WO::updGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold)
 {
+  bool change = false;
   int iminnew[3], imaxnew[3], iminold[3], imaxold[3];
 
   indiceGrid(bbminnew, iminnew);
@@ -493,12 +483,10 @@ void WO::updGrid(const float *bbminnew, const float *bbmaxnew, const float *bbmi
   indiceGrid(bbminold, iminold);
   indiceGrid(bbmaxold, imaxold);
 
-  bool change = false;
   for (int i=0; i<3; i++) {
     if ( (iminnew[i] != iminold[i]) || (imaxnew[i] != imaxold[i]) )
       change = true;
   }
-
   if (change) {
     delGrid();
     for (int x=iminnew[0]; x <= imaxnew[0]; x++) {
@@ -555,16 +543,13 @@ void WO::checkVicinity(WO *wo)
  */
 OList * WO::getVicinity(const WO *obj)
 {
+  int imin[3], imax[3];
   float bbmin[3], bbmax[3];
 
   for (int i=0; i<3; i++) {
-    bbmin[i] = MIN(pos.bbc.v[i] - pos.bbs.v[i],
-               obj->pos.bbc.v[i] - obj->pos.bbs.v[i]);
-    bbmax[i] = MAX(pos.bbc.v[i] + pos.bbs.v[i],
-               obj->pos.bbc.v[i] + obj->pos.bbs.v[i]);
+    bbmin[i] = MIN(pos.bbc.v[i] - pos.bbs.v[i], obj->pos.bbc.v[i] - obj->pos.bbs.v[i]);
+    bbmax[i] = MAX(pos.bbc.v[i] + pos.bbs.v[i], obj->pos.bbc.v[i] + obj->pos.bbs.v[i]);
   }
-
-  int imin[3], imax[3];
   indiceGrid(bbmin, imin);
   indiceGrid(bbmax, imax);
 
@@ -576,7 +561,6 @@ OList * WO::getVicinity(const WO *obj)
       }
     }
   }
-
   if (vl) {
     vl->clearPointed();
   }
