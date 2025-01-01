@@ -112,13 +112,13 @@ void Clip::startRtp()
   *end = '\0';
 
   char group[GROUP_LEN];
-  Channel::getGroup(World::current()->getChan(), group);
+  Channel::getGroup(World::current()->chan, group);
 
   char cmd[URL_LEN];
   sprintf(cmd, "%s%s?%s&%s&%d&%d", RTP_URL, PLAY_CGI,
           pfile,
           group,
-          Channel::getPort(World::current()->getChan()) + 2,
+          Channel::getPort(World::current()->chan) + 2,
           Channel::currentTtl());
   postCgi(cmd);
   state = RTP_ACTIVE;
@@ -129,7 +129,7 @@ void Clip::stopRtp()
   if (state == RTP_INACTIVE) return;  // nothing
 
   char group[GROUP_LEN];
-  const char* channel = World::current()->getChan();
+  const char* channel = World::current()->chan;
   Channel::getGroup(channel, group);
 
   char cmd[URL_LEN];
@@ -149,7 +149,7 @@ void Clip::pauseRtp()
 {
   if (state == RTP_INACTIVE) return;
 
-  const char* channel = World::current()->getChan();
+  const char* channel = World::current()->chan;
   char group[GROUP_LEN];
   Channel::getGroup(channel, group);
 
@@ -169,7 +169,7 @@ void Clip::contRtp()
 {
   if (state == RTP_INACTIVE) return;
 
-  const char* channel = World::current()->getChan();
+  const char* channel = World::current()->chan;
   char group[GROUP_LEN];
   Channel::getGroup(channel, group);
 
@@ -192,8 +192,8 @@ void Clip::play(Clip *clip, void *d, time_t s, time_t u)
     Mpeg::start(clip->name.url);
     break;
   case Clip::FMT_RTPAV:
-    Video::start(World::current()->getChan());
-    Audio::start(World::current()->getChan());
+    Video::start(World::current()->chan);
+    Audio::start(World::current()->chan);
     clip->startRtp();
     break;
   default:

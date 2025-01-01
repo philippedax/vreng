@@ -122,7 +122,6 @@ class World {
   const char* getName() const;		///< Gets current world name.
   void setName(const char* name);	///< Builds world name from url.
 
-  const char* getChan() const;		///< Current channel name.
   bool setChan(const char *chanstr);	///< Sets the channel name.
   void joinChan(char *chanstr);		///< Joins the channel.
 

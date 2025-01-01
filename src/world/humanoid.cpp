@@ -132,7 +132,7 @@ void Humanoid::inits()
   if (face_url) delete[] face_url;
 
   vaps_offset_port += 2;
-  vaps_port = Channel::getPort(World::current()->getChan()) + vaps_offset_port;
+  vaps_port = Channel::getPort(World::current()->chan) + vaps_offset_port;
   if (! ::g.pref.reflector) reset();
   state = INACTIVE;
 }
@@ -178,7 +178,7 @@ int Humanoid::receiver()
 #if 1 //dax
   if (ipmode == MULTICAST) {
     char group[GROUP_LEN];
-    Channel::getGroup(World::current()->getChan(), group);
+    Channel::getGroup(World::current()->chan, group);
     inet4_pton(group, &(udpsa.sin_addr.s_addr));
     memset(&mreq, 0, sizeof(mreq));
     inet4_pton(group, &(mreq.imr_multiaddr.s_addr));
@@ -230,9 +230,9 @@ int Humanoid::connectVaps(int _ipmode)
   ipmode = _ipmode;
   if (ipmode == MULTICAST) {
     char group[GROUP_LEN];
-    Channel::getGroup(World::current()->getChan(), group);
+    Channel::getGroup(World::current()->chan, group);
     sprintf(setup_cmd, "setup a=%s p=%d t=%d r=%.2f ",
-            group, vaps_port, Channel::getTtl(World::current()->getChan()), ::g.timer.rate());
+            group, vaps_port, Channel::getTtl(World::current()->chan), ::g.timer.rate());
   }
 #endif
   sprintf(setup_cmd, "setup p=%d r=%.2f ", vaps_port, ::g.timer.rate());

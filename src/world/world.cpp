@@ -223,12 +223,6 @@ void World::joinChan(char *chan_str)
   }
 }
 
-/** Gets the current channel string */
-const char* World::getChan() const	//FIXME (char *chan)
-{
-  return chan;
-}
-
 /** Gets localuser */
 User* World::localUser() const
 {
@@ -649,8 +643,8 @@ void World::init(const char *url)
   world->setUrl(url);
   world->setName(url);
   world->joinChan(::g.channel);		// join initial channel
-  Channel::getGroup(world->getChan(), Universe::current()->grpstr);
-  Universe::current()->port = Channel::getPort(world->getChan());
+  Channel::getGroup(world->chan, Universe::current()->grpstr);
+  Universe::current()->port = Channel::getPort(world->chan);
 
   //report(world->getName());
   world->guip = ::g.gui.addWorld(world, NEW);

@@ -119,7 +119,7 @@ void Board::click(V3 d)
 void Board::wb_cb(Board *board, void *d, time_t s, time_t u)
 {
   Wb::quit();
-  Wb::start(World::current()->getChan());
+  Wb::start(World::current()->chan);
   board->state = Board::OPEN;
 }
 

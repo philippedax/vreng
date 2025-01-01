@@ -484,7 +484,7 @@ void Session::dumpAll()
 void Session::stat()
 {
   writelog("worldname       : %s", World::current()->getName());
-  writelog("channel         : %s", World::current()->getChan());
+  writelog("channel         : %s", World::current()->chan);
   writelog("source ssrc     : %x", source->ssrc);
   writelog("sources number  : %d", nbsources);
   writelog("source received : %d", source->s.received);

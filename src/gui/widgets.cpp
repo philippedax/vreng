@@ -386,7 +386,7 @@ static void setWorld(GuiItem* gw, World *world, bool isCurrent)
           + ustr(world->getName())
           + umenu(  UFont::bold + UColor::navy
                   + uhbox(" Url: "     + UFont::plain + world->getUrl())
-                  + uhbox(" Channel: " + UFont::plain + world->getChan())
+                  + uhbox(" Channel: " + UFont::plain + world->chan)
                  )
          );
 }
@@ -604,7 +604,7 @@ void Widgets::audioCB(bool on)
 {
   if (on) {
     audioactive = true;
-    Audio::start(World::current()->getChan());
+    Audio::start(World::current()->chan);
   }
   else {
     Audio::quit();
@@ -615,14 +615,14 @@ void Widgets::audioCB(bool on)
 /** Starts video tool */
 void Widgets::videoCB(bool on)
 {
-  if (on) Video::start(World::current()->getChan());
+  if (on) Video::start(World::current()->chan);
   else    Video::quit();
 }
 
 /** Starts whiteboard tool */
 void Widgets::whiteboardCB(bool on)
 {
-  if (on) Wb::start(World::current()->getChan());
+  if (on) Wb::start(World::current()->chan);
   else    Wb::quit();
 }
 
@@ -640,7 +640,7 @@ void Widgets::markCB()
   char mark[URL_LEN + CHAN_LEN + 2];
   char line[URL_LEN + CHAN_LEN + 2];
 
-  sprintf(mark, "%s %s\n", World::current()->getUrl(), World::current()->getChan());
+  sprintf(mark, "%s %s\n", World::current()->getUrl(), World::current()->chan);
   File *file = new File();
   if ((fp = file->open(::g.env.worldmarks(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
