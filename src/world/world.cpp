@@ -223,12 +223,6 @@ void World::joinChan(char *chan_str)
   }
 }
 
-/** Gets localuser */
-User* World::localUser() const
-{
-  return localuser;
-}
-
 /** Sets the world's url */
 void World::setUrl(const char* _url)
 {
@@ -482,7 +476,7 @@ void World::checkIcons()
               sprintf(infos, "<url=\"%s\">&<vref=%s>", url, vref);
               //echo("load-icon: %s", infos);
               if (isAction(ICON_TYPE, Icon::CREATE)) {
-                doAction(ICON_TYPE, Icon::CREATE, localUser(), infos, 0, 0);
+                doAction(ICON_TYPE, Icon::CREATE, localuser, infos, 0, 0);
               }
             }
           }

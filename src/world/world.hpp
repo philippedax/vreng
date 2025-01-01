@@ -129,8 +129,6 @@ class World {
 
   void setGround(float level);		///< Sets the world level.
 
-  User* localUser() const;
-
   void setGroup(uint32_t _group);
 
   //
