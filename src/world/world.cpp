@@ -186,16 +186,6 @@ World * World::find(uint32_t group)
   return NULL;
 }
 
-uint8_t World::getState() const
-{
-  return state;
-}
-
-void World::setState(int _state)
-{
-  state = _state;
-}
-
 void World::setManagerChanAndJoin(const char *chan_str)
 {
   world_manager->chan = new char[strlen(chan_str) + 1];
@@ -226,7 +216,7 @@ bool World::setChan(const char *chan_str)
 }
 
 /** Sets the channel name and Joins the new channel */
-void World::setChanAndJoin(char *chan_str)
+void World::joinChan(char *chan_str)
 {
   if (setChan(chan_str)) {
     Channel::join(chan_str);
@@ -296,7 +286,7 @@ void World::setGroupAdr(uint32_t _group)
  */
 void World::compute(time_t sec, time_t usec)
 {
-  switch (state = getState()) {
+  switch (state) {
 
   case LOADING:
     error("compute: no end of vre file encountered");
@@ -331,7 +321,7 @@ void World::compute(time_t sec, time_t usec)
     //echo("bbs=%.1f,%.1f,%.1f bbc=%.1f,%.1f,%.1f", bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
 
     //dax OList::clearIspointed(mobileList);
-    setState(SIMULATION);
+    state = SIMULATION;
     Axis::axis()->init();
     Grid::grid()->init(bbsize.v[0], bbsize.v[1], bbsize.v[2]);
     return;
@@ -655,10 +645,10 @@ void World::init(const char *url)
   //
   World *world = new World();
 
-  world->setState(LOADING);
+  world->state = LOADING;
   world->setUrl(url);
   world->setName(url);
-  world->setChanAndJoin(::g.channel);	// join initial channel
+  world->joinChan(::g.channel);		// join initial channel
   Channel::getGroup(world->getChan(), Universe::current()->grpstr);
   Universe::current()->port = Channel::getPort(world->getChan());
 
@@ -698,7 +688,7 @@ void World::init(const char *url)
 
   if (! ::g.pref.gravity) ::g.gui.pauseAvatar();
 
-  world->setState(LOADED);
+  world->state = LOADED;
   trace1(DBG_INIT, "World %s initialized", world->getName());
 
   Entry *entry = new Entry();
@@ -848,7 +838,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   //
   // Download the vre description file of the new world
   //
-  world->setState(LOADING);	// need to download
+  world->state = LOADING;	// need to download
   if (url) {
     //
     // world to download
@@ -904,7 +894,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   world->clock = new Clock();	// internal clock
 
   trace1(DBG_WO, "enter: world %s loaded: ", world->name);
-  world->setState(LOADED);// downloaded
+  world->state = LOADED;// downloaded
 
   return world;
 }

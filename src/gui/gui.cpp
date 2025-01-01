@@ -251,9 +251,9 @@ void Gui::gotoWorld(const UStr& url_or_name)
   //echo("goto %s at %s", urlvre, chanstr);
 
   World::current()->quit();
-  delete Channel::current();			// delete old Channel
+  delete Channel::current();		// delete old Channel
   World::enter(urlvre, chanstr, true);
-  World::current()->setChanAndJoin(chanstr);	// join new channel
+  World::current()->joinChan(chanstr);	// join new channel
 
   if (audioactive) Audio::start(chanstr);
 }

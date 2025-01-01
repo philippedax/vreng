@@ -527,7 +527,7 @@ void Widgets::homeCB()
   World::current()->quit();
   delete Channel::current();  // delete Channel
   World::enter(::g.url, chan_str, true);
-  World::current()->setChanAndJoin(chan_str);  // join new channel
+  World::current()->joinChan(chan_str);  // join new channel
 
   if (audioactive) Audio::start(chan_str);
 }

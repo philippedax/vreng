@@ -122,12 +122,9 @@ class World {
   const char* getName() const;		///< Gets current world name.
   void setName(const char* name);	///< Builds world name from url.
 
-  uint8_t getState() const;		///< Gets the world state.
-  void setState(int _state);		///< Sets a world state.
-
-  const char* getChan() const;		///< Current channel string.
+  const char* getChan() const;		///< Current channel name.
   bool setChan(const char *chanstr);	///< Sets the channel name.
-  void setChanAndJoin(char *chanstr);	///< Sets and joins the channel.
+  void joinChan(char *chanstr);		///< Joins the channel.
 
   const char* getUrl() const;		///< Gets the world url.
   void setUrl(const char* _url);	///< Sets the world url.
