@@ -131,9 +131,7 @@ class World {
 
   User* localUser() const;
 
-  uint32_t getGroupAdr() const;
-  void setGroupAdr(uint32_t _group);
-  void setSsrc(uint32_t _ssrc);
+  void setGroup(uint32_t _group);
 
   //
   // Grid

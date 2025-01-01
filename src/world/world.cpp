@@ -242,17 +242,7 @@ void World::setGround(float level)
   ground = level;
 }
 
-void World::setSsrc(uint32_t _ssrc)
-{
-  ssrc = _ssrc;
-}
-
-uint32_t World::getGroupAdr() const
-{
-  return group;
-}
-
-void World::setGroupAdr(uint32_t _group)
+void World::setGroup(uint32_t _group)
 {
   group = _group;
 }

@@ -350,12 +350,10 @@ int Channel::create(const char *chan_str, int **pfds)
     session->mode = WORLD_MODE;
 
     if (world) {
-      world->setGroupAdr(group);
-      world->setSsrc(ssrc);
+      world->setGroup(group);
     }
-    else if (World::current()) {   // !! tester existence !!!
-      World::current()->setGroupAdr(group);
-      World::current()->setSsrc(ssrc);
+    else if (World::current()) {	// test if exist
+      World::current()->setGroup(group);
     }
   }
 
