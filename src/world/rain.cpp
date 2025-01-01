@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "rain.hpp"
-#include "world.hpp"	// getGround
+#include "world.hpp"	// ground
 #include "cloud.hpp"	// Cloud
 #include "sound.hpp"	// playSound
 
@@ -42,7 +42,7 @@ void Rain::defaults()
   flow = DEF_FLOW;
   speed = DEF_SPEED;
   pt_size = 1;  // width
-  ground = World::current()->getGround();
+  ground = World::current()->ground;
   pcloud = NULL;
   sound = false;
   for (int i=0; i<3; i++) color[i] = .5;  // grey

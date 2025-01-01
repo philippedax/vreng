@@ -242,11 +242,6 @@ void World::setGround(float level)
   ground = level;
 }
 
-float World::getGround() const
-{
-  return ground;
-}
-
 void World::setSsrc(uint32_t _ssrc)
 {
   ssrc = _ssrc;

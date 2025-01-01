@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "fountain.hpp"
-#include "world.hpp"	// getGround
+#include "world.hpp"	// ground
 
 
 const OClass Fountain::oclass(FOUNTAIN_TYPE, "Fountain", Fountain::creator);
@@ -44,7 +44,7 @@ void Fountain::defaults()
   speed = DEF_SPEED;
   pt_size = DEF_PTSIZE;
   points = false;	// lines
-  ground = World::current()->getGround();
+  ground = World::current()->ground;
   for (int i=0; i<3; i++) color[i] = 1;	// white
 }
 

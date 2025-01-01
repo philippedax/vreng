@@ -28,7 +28,7 @@
 #include "vreng.hpp"
 #include "particle.hpp"
 #include "timer.hpp"	// getRate diffDates
-#include "world.hpp"	// getGround
+#include "world.hpp"	// ground
 
 
 const OClass Particle::oclass(PARTICLE_TYPE, "Particle", Particle::creator);
@@ -58,7 +58,7 @@ void Particle::defaults()
   pt_size = DEF_PTSIZE;
   onecolor = false;
   living = 0;
-  ground = World::current()->getGround();
+  ground = World::current()->ground;
   for (int i=0; i<3; i++) color[i] = 1;	// default white
 }
 

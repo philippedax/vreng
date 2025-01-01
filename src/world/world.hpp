@@ -128,7 +128,6 @@ class World {
   void setUrl(const char* _url);	///< Sets the world url.
 
   void setGround(float level);		///< Sets the world level.
-  float getGround() const;		///< Gets the world level.
 
   User* localUser() const;
 

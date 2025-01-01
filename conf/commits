@@ -3282,3 +3282,4 @@
 3282 Mer  1 jan 2025 11:13:53 CET	cleanup getState,setState world.*pp
 3283 Mer  1 jan 2025 12:05:15 CET	cleanup getChan() -> chan world.*pp
 3284 Mer  1 jan 2025 12:16:41 CET	cleanup getUrl() -> url world.*pp
+3285 Mer  1 jan 2025 15:51:56 CET	cleanup backgroundColor() -> bgcolor world.*pp

@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "snow.hpp"
-#include "world.hpp"	// getGround
+#include "world.hpp"	// ground
 #include "cloud.hpp"	// Cloud
 
 
@@ -41,7 +41,7 @@ void Snow::defaults()
   speed = 0.5; //DEF_SPEED / 2;
   pt_size = DEF_PTSIZE;
   points = true;
-  ground = World::current()->getGround();
+  ground = World::current()->ground;
   pcloud = NULL;
   for (int i=0; i<3; i++) color[i] = 1;	// white
 }
