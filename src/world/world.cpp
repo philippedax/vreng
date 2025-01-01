@@ -229,12 +229,6 @@ User* World::localUser() const
   return localuser;
 }
 
-/** Gets background color */
-Bgcolor* World::backgroundColor() const
-{
-  return bgcolor;
-}
-
 /** Sets the world's url */
 void World::setUrl(const char* _url)
 {

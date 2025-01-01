@@ -59,7 +59,7 @@ void Bgcolor::behaviors()
 void Bgcolor::inits()
 {
   /* we use (x,y,z,az) to match (r,g,b,a) */
-  Bgcolor *wcolor = World::current()->backgroundColor();
+  Bgcolor *wcolor = World::current()->bgcolor;
   wcolor->color[0] = color[0];
   wcolor->color[1] = color[1];
   wcolor->color[2] = color[2];

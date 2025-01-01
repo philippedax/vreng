@@ -132,7 +132,6 @@ class World {
 
   User* localUser() const;
 
-  Bgcolor* backgroundColor() const;
   uint32_t getGroupAdr() const;
   void setGroupAdr(uint32_t _group);
   void setSsrc(uint32_t _ssrc);

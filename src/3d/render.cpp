@@ -463,7 +463,7 @@ void Render::refreshBackground()
     flash = false;	// flash done
     return;
   }
-  Bgcolor* bgcolor = World::current()->backgroundColor();
+  Bgcolor* bgcolor = World::current()->bgcolor;
   if (bgcolor) {
     UColor bg(bgcolor->color[0], bgcolor->color[1], bgcolor->color[2]);
     ::g.gui.scene()->setBackground(bg);
