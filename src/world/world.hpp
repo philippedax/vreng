@@ -125,7 +125,6 @@ class World {
   bool setChan(const char *chanstr);	///< Sets the channel name.
   void joinChan(char *chanstr);		///< Joins the channel.
 
-  const char* getUrl() const;		///< Gets the world url.
   void setUrl(const char* _url);	///< Sets the world url.
 
   void setGround(float level);		///< Sets the world level.

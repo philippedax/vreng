@@ -80,7 +80,7 @@ void Vrelet::parser(char *l)
     char *last = NULL;
     // if the world's url is like [...]/vre/world.vre
     // try to build an url like [...]/jar/vrengapp.jar
-    strcpy(l2, World::current()->getUrl());
+    strcpy(l2, World::current()->url);
     if ((last = strrchr(l2, '/'))) *last = '\0';
     if ((last = strrchr(l2, '/')) && (! stringcmp(last, "/vre"))) {
       *last = '\0';

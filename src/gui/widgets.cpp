@@ -385,7 +385,7 @@ static void setWorld(GuiItem* gw, World *world, bool isCurrent)
   gw->add(font
           + ustr(world->getName())
           + umenu(  UFont::bold + UColor::navy
-                  + uhbox(" Url: "     + UFont::plain + world->getUrl())
+                  + uhbox(" Url: "     + UFont::plain + world->url)
                   + uhbox(" Channel: " + UFont::plain + world->chan)
                  )
          );
@@ -554,7 +554,7 @@ void Widgets::saveCB()
   World *world = World::current();
   if (! world) return;
 
-  Cache::setCachePath(world->getUrl(), vrein);
+  Cache::setCachePath(world->url, vrein);
 
   FILE *fi, *fo;
   sprintf(vreout, "%s.vre", world->getName());
@@ -640,7 +640,7 @@ void Widgets::markCB()
   char mark[URL_LEN + CHAN_LEN + 2];
   char line[URL_LEN + CHAN_LEN + 2];
 
-  sprintf(mark, "%s %s\n", World::current()->getUrl(), World::current()->chan);
+  sprintf(mark, "%s %s\n", World::current()->url, World::current()->chan);
   File *file = new File();
   if ((fp = file->open(::g.env.worldmarks(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
@@ -950,7 +950,7 @@ void Widgets::sourceDialog()
   if (! world) return;
 
   UBox& source_box = uvbox(UBackground::white);
-  if (Http::httpOpen(world->getUrl(), sourceHttpReader, &source_box, 0) < 0) { // -1: no cache
+  if (Http::httpOpen(world->url, sourceHttpReader, &source_box, 0) < 0) { // -1: no cache
     delete &source_box;
     return;
   }

@@ -235,12 +235,6 @@ Bgcolor* World::backgroundColor() const
   return bgcolor;
 }
 
-/** Gets the world's url */
-const char* World::getUrl() const
-{
-  return url;
-}
-
 /** Sets the world's url */
 void World::setUrl(const char* _url)
 {

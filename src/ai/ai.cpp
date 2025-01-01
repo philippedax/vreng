@@ -181,7 +181,7 @@ value recherche_Objet(value mot)
 #if HAVE_LIBXML2
   char *val = const_cast<char *>(String_val(mot));
   char filename[64];
-  Cache::setCachePath(World::current()->getUrl(), filename);
+  Cache::setCachePath(World::current()->url, filename);
   Xml::selectXpathExpr(filename, "//*/@name", val, foundpos);
 #endif
 
@@ -284,7 +284,7 @@ value deplacement_to_Proximite(value mot, value pos)
 #if HAVE_LIBXML2
   char *val = const_cast<char *>(String_val(mot));
   char filename[64];
-  Cache::setCachePath(World::current()->getUrl(), filename);
+  Cache::setCachePath(World::current()->url, filename);
   res = Xml::selectProximity(filename, val, &posx, &posy, &posz, &orient);
 #endif
 
