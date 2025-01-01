@@ -186,7 +186,7 @@ World * World::find(uint32_t group)
   return NULL;
 }
 
-void World::setManagerChanAndJoin(const char *chan_str)
+void World::joinManager(const char *chan_str)
 {
   world_manager->chan = new char[strlen(chan_str) + 1];
   Channel::joinManager(world_manager->chan, chan_str);

@@ -110,7 +110,7 @@ Universe* Universe::current()
 void Universe::init()
 {
   world_manager = new World();
-  world_manager->setManagerChanAndJoin(DEF_MANAGER_CHANNEL); // join world_manager chan
+  world_manager->joinManager(DEF_MANAGER_CHANNEL); // join world_manager chan
   world_manager->setName(MANAGER_NAME);
 }
 

@@ -169,19 +169,19 @@ class World {
   static World* find(uint32_t group);
   /**< Gets world by group addr. */
 
-  static void deleteObjects();
-  /**< Deletes all objects dropped in the todeletelist. */
-
   static void initFunc();
   /**< Initializes table of general functions. */
-
-  static void setManagerChanAndJoin(const char *chanstr);
-  /**< Sets the manager channel name and joins it. */
 
   static void clearLists();
   /**< Clears all lists. */
 
   static void dumpworldList(const char *note);
+
+  void deleteObjects();
+  /**< Deletes all objects dropped in the todeletelist. */
+
+  void joinManager(const char *chanstr);
+  /**< Sets the manager channel name and joins it. */
 };
 
 #endif
