@@ -139,7 +139,7 @@ void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
       bubtext->expire();	// delete text inside Bubble
     }
     toDelete(); 	// delete Bubble
-    localuser->resetBubble();
+    localuser->bubble = NULL;
     bubtext = NULL;
     state = INACTIVE;
   }

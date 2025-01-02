@@ -614,11 +614,6 @@ void User::changePermanent(float lasting)
   }
 }
 
-void User::resetBubble()
-{
-  bubble = NULL;
-}
-
 Bubble * User::getBubble() const
 {
   return bubble;

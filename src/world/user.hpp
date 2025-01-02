@@ -171,9 +171,6 @@ class User: public WO {
   static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a remote avatar. */
 
-  void resetBubble();
-  /**< Resets bubble text. */
-
   Bubble * getBubble() const;
   /**< Gets bubble text. */
 
