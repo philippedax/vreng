@@ -119,17 +119,12 @@ class World {
   //
   // Accessors
   //
-  const char* getName() const;		///< Gets current world name.
   void setName(const char* name);	///< Builds world name from url.
-
+  void setUrl(const char* _url);	///< Sets the world url.
+  void setGroup(uint32_t _group);	///< Sets the world group.
   bool setChan(const char *chanstr);	///< Sets the channel name.
   void joinChan(char *chanstr);		///< Joins the channel.
-
-  void setUrl(const char* _url);	///< Sets the world url.
-
   void setGround(float level);		///< Sets the world level.
-
-  void setGroup(uint32_t _group);
 
   //
   // Grid
@@ -175,7 +170,7 @@ class World {
   static void clearLists();
   /**< Clears all lists. */
 
-  static void dumpworldList(const char *note);
+  void dumpworldList(const char *note);
 
   void deleteObjects();
   /**< Deletes all objects dropped in the todeletelist. */

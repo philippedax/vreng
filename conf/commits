@@ -3286,3 +3286,4 @@
 3286 Mer  1 jan 2025 16:00:52 CET	cleanup geGround() -> ground world.*pp
 3287 Mer  1 jan 2025 16:29:30 CET	cleanup setGroup() world.*pp
 3288 Mer  1 jan 2025 16:36:49 CET	cleanup localUser() -> localuser world.*pp
+3289 Mer  1 jan 2025 16:56:52 CET	cleanup static world.hpp

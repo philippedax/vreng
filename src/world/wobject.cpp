@@ -643,7 +643,7 @@ void WO::setObjectName(const char *name)
   if (! name) return;
 
   char fullname[OBJNAME_LEN];
-  sprintf(fullname, "%s@%s", name, World::current()->getName());
+  sprintf(fullname, "%s@%s", name, World::current()->name);
   uint32_t hval = hash_name(fullname);
   while (hval) {
     if ((*(hashtable[hval].name) == '\0') ||
@@ -662,7 +662,7 @@ WO * WO::getObject(const char *name)
   if (! name) return NULL;
 
   char fullname[OBJNAME_LEN];
-  sprintf(fullname, "%s@%s", name, World::current()->getName());
+  sprintf(fullname, "%s@%s", name, World::current()->name);
   uint32_t hval = hash_name(fullname);
   trace1(DBG_WO, "getObject: hval=%d name=%s", hval, fullname);
   while (hval) {
@@ -715,7 +715,7 @@ void WO::updateNames()
   }
 
   setObjectName(name.current);
-  name.world = World::current()->getName();
+  name.world = World::current()->name;
 
   if (name.owner && *name.owner == 0) {
     setOwner("public");  // public by default

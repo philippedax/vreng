@@ -159,7 +159,7 @@ void Gui::removeCart(WO *cart, int action)
 
   switch (action) {
   case Cart::LEAVE:
-    echo("%s left in %s world", cart->objectName(), World::current()->getName());
+    echo("%s left in %s world", cart->objectName(), World::current()->name);
     localuser->cart->leave(cart);
     break;
   case Cart::REMOVE:

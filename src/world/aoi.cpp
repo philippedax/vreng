@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "aoi.hpp"
-#include "world.hpp"	// current->getName()
+#include "world.hpp"	// current->name
 #include "user.hpp"	// localuser
 #include "gui.hpp"	// removeAvatar
 #include "channel.hpp"	// cnt_fd
@@ -98,7 +98,7 @@ Aoi::Aoi(char *l)
  */
 void Aoi::aoiEnter()
 {
-  echo("avatar \"%s\" enters in %s:%s", localuser->objectName(), World::current()->getName(), this->chan);
+  echo("avatar \"%s\" enters in %s:%s", localuser->objectName(), World::current()->name, this->chan);
   char * avatarname = strdup(localuser->objectName());
 
   aoiQuit();		// quit current World or AoI (network shutdown)

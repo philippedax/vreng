@@ -252,9 +252,9 @@ void Session::createMySdes()
   if (! (sloc = Rtp::allocSdesItem())) return;
   semail->si_next = sloc;
   sloc->si_type = RTCP_SDES_LOC;
-  if (World::current() && World::current()->getName()) {
-    sloc->si_len = strlen(World::current()->getName());
-    sloc->si_str = (uint8_t *) World::current()->getName();
+  if (World::current() && World::current()->name) {
+    sloc->si_len = strlen(World::current()->name);
+    sloc->si_str = (uint8_t *) World::current()->name;
   }
   else {
     sloc->si_len = strlen(MANAGER_NAME);
@@ -284,9 +284,9 @@ void Session::refreshMySdes()
   if (! (semail = sname->si_next)) return;
   if (! (sloc = semail->si_next)) return;
   sloc->si_type = RTCP_SDES_LOC;
-  if (World::current()->getName()) {
-    sloc->si_len = strlen(World::current()->getName());
-    sloc->si_str = (uint8_t *) World::current()->getName();
+  if (World::current()->name) {
+    sloc->si_len = strlen(World::current()->name);
+    sloc->si_str = (uint8_t *) World::current()->name;
   }
   else {
     sloc->si_len = strlen(MANAGER_NAME);
@@ -483,7 +483,7 @@ void Session::dumpAll()
 
 void Session::stat()
 {
-  writelog("worldname       : %s", World::current()->getName());
+  writelog("worldname       : %s", World::current()->name);
   writelog("channel         : %s", World::current()->chan);
   writelog("source ssrc     : %x", source->ssrc);
   writelog("sources number  : %d", nbsources);

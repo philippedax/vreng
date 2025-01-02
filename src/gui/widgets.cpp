@@ -383,7 +383,7 @@ static void setWorld(GuiItem* gw, World *world, bool isCurrent)
 
   UFont *font = isCurrent ? &UFont::bold : &UFont::plain;
   gw->add(font
-          + ustr(world->getName())
+          + ustr(world->name)
           + umenu(  UFont::bold + UColor::navy
                   + uhbox(" Url: "     + UFont::plain + world->url)
                   + uhbox(" Channel: " + UFont::plain + world->chan)
@@ -464,7 +464,7 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 
   if (! object) {
     objinfo[0].name = const_cast<char*>("World");	// avoid segfault
-    objinfo[1].name = const_cast<char*>(World::current()->getName());
+    objinfo[1].name = const_cast<char*>(World::current()->name);
     objinfo[2].name = NULL;	// NULL terminaison
     return NULL;
   }
@@ -557,7 +557,7 @@ void Widgets::saveCB()
   Cache::setCachePath(world->url, vrein);
 
   FILE *fi, *fo;
-  sprintf(vreout, "%s.vre", world->getName());
+  sprintf(vreout, "%s.vre", world->name);
   File *filein = new File();
   File *fileout = new File();
   if ((fo = fileout->open(vreout, "w"))) {

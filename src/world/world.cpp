@@ -150,12 +150,6 @@ void World::setName(const char *urlOrName)
   name[len] = '\0';
 }
 
-/** Gets current world name */
-const char* World::getName() const
-{
-  return name;
-}
-
 /** Checks whether this url has been already loaded - static */
 World * World::find(const char *url)
 {
@@ -453,7 +447,7 @@ void World::checkIcons()
       struct stat bufstat;
       if (stat(dw->d_name, &bufstat) == 0 &&
           S_ISDIR(bufstat.st_mode) &&
-          ! strcmp(dw->d_name, getName())) {
+          ! strcmp(dw->d_name, name)) {
         chdir(dw->d_name);
         DIR *diri = opendir(".");
         if (diri) {
@@ -464,7 +458,7 @@ void World::checkIcons()
               FILE *fp;
               File *file = new File();
               if (! (fp = file->open(di->d_name, "r"))) {
-                error("can't open %s/%s/%s", ::g.env.icons(), getName(), di->d_name);
+                error("can't open %s/%s/%s", ::g.env.icons(), name, di->d_name);
                 continue;
               }
               char vref[BUFSIZ], infos[BUFSIZ *2], url[URL_LEN];
@@ -499,9 +493,9 @@ void World::checkPersist()
     char pat[64], name[128];
 
     // check balls
-    nitem = vsql->getCount(BALL_NAME, getName());	// balls in VSql
+    nitem = vsql->getCount(BALL_NAME, name);	// balls in VSql
     for (int i=0; i < nitem; i++) {
-      sprintf(pat, "@%s", getName());
+      sprintf(pat, "@%s", name);
       if (vsql->getName(BALL_NAME, pat, i, name) >= 0) {
         char *p = strchr(name, '@');
         if (p) {
@@ -511,9 +505,9 @@ void World::checkPersist()
       }
     }
     // check things
-    nitem = vsql->getCount(THING_NAME, getName());	// things in VSql
+    nitem = vsql->getCount(THING_NAME, name);	// things in VSql
     for (int i=0; i < nitem; i++) {
-      sprintf(pat, "@%s", getName());
+      sprintf(pat, "@%s", name);
       if (vsql->getName(THING_NAME, pat, i, name) >= 0) {
         char *p = strchr(name, '@');
         if (p) {
@@ -523,9 +517,9 @@ void World::checkPersist()
       }
     }
     // check mirages
-    nitem = vsql->getCount(MIRAGE_NAME, getName());	// mirages in VSql
+    nitem = vsql->getCount(MIRAGE_NAME, name);	// mirages in VSql
     for (int i=0; i < nitem; i++) {
-      sprintf(pat, "@%s", getName());
+      sprintf(pat, "@%s", name);
       if (vsql->getName(MIRAGE_NAME, pat, i, name) >= 0) {
         char *p = strchr(name, '@');
         if (p) {
@@ -613,7 +607,7 @@ void World::init(const char *url)
   Channel::getGroup(world->chan, Universe::current()->grpstr);
   Universe::current()->port = Channel::getPort(world->chan);
 
-  //report(world->getName());
+  //report(world->name);
   world->guip = ::g.gui.addWorld(world, NEW);
   world->initGrid();
   clearLists();
@@ -650,7 +644,7 @@ void World::init(const char *url)
   if (! ::g.pref.gravity) ::g.gui.pauseAvatar();
 
   world->state = LOADED;
-  trace1(DBG_INIT, "World %s initialized", world->getName());
+  trace1(DBG_INIT, "World %s initialized", world->name);
 
   Entry *entry = new Entry();
   entry->query(user);
@@ -665,7 +659,7 @@ void World::init(const char *url)
 /** Quits the current World */
 void World::quit()
 {
-  trace1(DBG_WO, "quit %s", getName());
+  trace1(DBG_WO, "quit %s", name);
   state = STOPPED;
 
   //

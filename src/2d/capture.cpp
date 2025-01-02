@@ -82,7 +82,7 @@ void Capture::captureXwd(const char *ext)
 {
   char cmd[128];
 
-  const char *worldname = World::current()->getName();
+  const char *worldname = World::current()->name;
   sprintf(cmd, "IFS=' '; xwd -name vreng >/tmp/%s.xwd; convert /tmp/%s.xwd %s.%s; rm -f /tmp/%s.xwd", worldname, worldname, worldname, ext, worldname);
   system(cmd);
   echo("capture done in file %s.%s", worldname, ext);
@@ -102,7 +102,7 @@ void Capture::captureGl2PS(const char *ext)
   else if (!strcmp(ext, "svg")) form = GL2PS_SVG;
   else return;
 
-  sprintf(worldname, "%s.%s", World::current()->getName(), ext);
+  sprintf(worldname, "%s.%s", World::current()->name, ext);
 
   FILE *fp;
   File *file = new File();
@@ -162,7 +162,7 @@ void Capture::writeJPGImage()
 {
   char worldname[World::WORLD_LEN + 4];
 
-  sprintf(worldname, "%s.jpg", World::current()->getName());
+  sprintf(worldname, "%s.jpg", World::current()->name);
   ::g.render.setFlash();	// flash effect
   Sound::playSound(CAMERASND);  // sound effect
   captureGl2JPG(worldname);
@@ -181,7 +181,7 @@ void Capture::writePNGImage()
   char worldname[World::WORLD_LEN + 4];
 
   Sound::playSound(CAMERASND);
-  sprintf(worldname, "%s.png", World::current()->getName());
+  sprintf(worldname, "%s.png", World::current()->name);
   captureGl2PNG(worldname);
 }
 
@@ -205,7 +205,7 @@ void Capture::stopVideo()
   
   echo("sequence capture stops at %d images, rate=%d", capture_no + 1, rate);
   sprintf(jpegbase, "/tmp/vreng-");
-  sprintf(swfname, "%s.swf", World::current()->getName());
+  sprintf(swfname, "%s.swf", World::current()->name);
   sprintf(cmd, "IFS=' '; jpeg2swf -v -q 50 -r %d -o %s %s*.jpg; rm -f %s*.jpg", rate, swfname, jpegbase, jpegbase);
   system(cmd);
   echo("file %s created", swfname);
