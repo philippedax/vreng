@@ -610,7 +610,7 @@ void World::init(const char *url)
   //report(world->name);
   world->guip = ::g.gui.addWorld(world, NEW);
   world->initGrid();
-  clearLists();
+  world->clearObjects();
   WO::initNames();
   initFunc();				// init funcs (objects.cpp)
 
@@ -737,9 +737,9 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   trace1(DBG_WO, "world enter");
 
   // cleanup
-  clearLists();
   ::g.gui.clearInfoBar();
   WO::initNames();
+  current()->clearObjects();
   current()->initGrid();
 
   World *world = NULL;
@@ -873,7 +873,7 @@ void World::deleteObjects()
 }
 
 /** Clears all lists */
-void World::clearLists()
+void World::clearObjects()
 {
   objectList.clear();
   mobileList.clear();
@@ -885,8 +885,9 @@ void World::clearLists()
   lightList.clear();
 }
 
-/** Lists world list - debug */
-void World::dumpworldList(const char *note)
+#if 0 //notused
+/** Lists worldVisit - debug */
+void World::dumpworldVisit(const char *note)
 {
   int i=0;
   printf("%s: ", note);
@@ -900,3 +901,4 @@ void World::dumpworldList(const char *note)
   if (i==32) printf("LOOP\n");
   else printf("\n");
 }
+#endif

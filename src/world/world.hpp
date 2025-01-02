@@ -167,16 +167,16 @@ class World {
   static void initFunc();
   /**< Initializes table of general functions. */
 
-  static void clearLists();
-  /**< Clears all lists. */
-
-  void dumpworldList(const char *note);
+  void clearObjects();
+  /**< Clears all object lists. */
 
   void deleteObjects();
   /**< Deletes all objects dropped in the todeletelist. */
 
   void joinManager(const char *chanstr);
   /**< Sets the manager channel name and joins it. */
+
+  //notused void dumpworldVisit(const char *note);
 };
 
 #endif
