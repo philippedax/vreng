@@ -578,24 +578,6 @@ NetObj * WO::replicate(uint8_t props, Noid _noid)
 // Gui
 //
 
-/** Returns Gui pointer */
-struct GuiItem* WO::getGui() const
-{
-  return guip;
-}
-
-/** Checks if Gui valid */
-bool WO::isGui() const
-{
-  return (guip) ? true : false;
-}
-
-/** Resets Gui pointer */
-void WO::resetGui()
-{
-  guip = NULL;
-}
-
 /** Removes an object from scene */
 bool WO::removeFromScene()
 {

@@ -3290,3 +3290,4 @@
 3290 Jeu  2 jan 2025 08:57:49 CET	cleanup getName() -> name world.*pp
 3291 Jeu  2 jan 2025 10:08:21 CET	cleanup notused world.*pp
 3292 Jeu  2 jan 2025 15:05:05 CET	remove resetBubble() user.*pp
+3293 Jeu  2 jan 2025 15:14:15 CET	remove getBubble() user.*pp

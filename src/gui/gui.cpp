@@ -150,10 +150,10 @@ void Gui::removeCart(WO *cart, int action)
 {
   if (! cart) return;
 
-  if (cart->isGui()) {
+  if (cart->guip) {
     widgets->setInfobar(null);
-    widgets->basket.remove(*cart->getGui()); // remove item's box
-    cart->resetGui();
+    widgets->basket.remove(*cart->guip); // remove item's box
+    cart->guip = NULL;
   }
   if (! localuser)  return;
 
@@ -206,11 +206,11 @@ void Gui::removeAvatar(User *user)	// when an user quits
   if (! user)  return;
 
   //echo("Avatar %s leaves %s", user->objectName(), user->worldName());
-  if (user->isGui()) {
-    widgets->removeAvatar(user->getGui());
+  if (user->guip) {
+    widgets->removeAvatar(user->guip);
     // MS : for Ubit at least, removeAvatar does a delete on the guiItem structure.
     // safer to mark it a NULL than to carry an invalid pointer around.
-    user->resetGui();
+    user->guip = NULL;
   }
 }
 
@@ -219,7 +219,7 @@ void Gui::updateAvatar(User *user)
   if (! user)  return;
 
   //echo("Avatar %s is in %s", user->objectName(), user->worldName());
-  if (user->isGui()) widgets->updateAvatar(user->getGui(), user);
+  if (user->guip) widgets->updateAvatar(user->guip, user);
 }
 
 void Gui::pauseAvatar()

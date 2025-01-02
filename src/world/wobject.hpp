@@ -798,15 +798,6 @@ class WO {
   //
 
  public:
-  struct GuiItem * getGui() const;
-  /**< Gets the GUI handle. */
-
-  bool isGui() const;
-  /**< Checks the GUI handle. */
-
-  void resetGui();
-  /**< Resets the GUI handle. */
-
   void clearObjectBar();
   /**< Clears the ObjectBar in the GUI. */
 
