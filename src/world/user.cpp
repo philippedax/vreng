@@ -560,7 +560,6 @@ void User::userWriting(const char *usermsg)
   localuser->lastmess++;
   localuser->netop->declareDelta(PROPMSG); // msg property
 
-  localuser->bubble = localuser->getBubble();
   if (localuser->bubble) {
     localuser->bubble->toDelete();	// delete previous bubble
   }
@@ -612,11 +611,6 @@ void User::changePermanent(float lasting)
   if (! pause_gravity) {
     pos.z -= lasting * GRAVITY;
   }
-}
-
-Bubble * User::getBubble() const
-{
-  return bubble;
 }
 
 void User::bulletPutHit(Bullet *pbullet, Payload *pp)
@@ -1027,7 +1021,7 @@ void User::get_msg(User *pu, Payload *pp)
     if (strlen(msg) && mess != pu->lastmess) {
       ::g.gui.writeMessage("chat", pu->objectName(), msg);
       pu->lastmess = mess;
-      pu->bubble = pu->getBubble();
+      pu->bubble = localuser->bubble;
       if (pu->bubble)
         pu->bubble->toDelete();	// delete previous bubble
       pu->bubble = new Bubble(pu, msg, blue, Bubble::BUBBLERECTO);
