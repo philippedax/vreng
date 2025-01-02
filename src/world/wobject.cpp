@@ -40,17 +40,16 @@
 
 #include <list>
 #include <vector>
-using namespace std;
 
 // global
-vector<WO*> objectList;
-vector<WO*> stillList;
-list<WO*> mobileList;
-vector<WO*> fluidList;
-vector<WO*> clothList;
-vector<WO*> invisList;
-vector<WO*> deleteList;
-vector<WO*> lightList;
+std::vector<WO*> objectList;
+std::vector<WO*> stillList;
+std::list<WO*> mobileList;
+std::vector<WO*> fluidList;
+std::vector<WO*> clothList;
+std::vector<WO*> invisList;
+std::vector<WO*> deleteList;
+std::vector<WO*> lightList;
 
 // local
 static uint32_t objectNum = 0;
@@ -449,8 +448,8 @@ void WO::addSolid(Solid* psolid)
 /** Deletes all solids of this object */
 void WO::delSolids()
 {
-  list<Solid*> solList = ::g.render.getSolidList();
-  for (list<Solid*>::iterator it = solList.begin(); it != solList.end(); ++it) {
+  std::list<Solid*> solList = ::g.render.getSolidList();
+  for (std::list<Solid*>::iterator it = solList.begin(); it != solList.end(); ++it) {
     if ((*it)->wobject == this) {
       delete *it;
     }
@@ -1071,7 +1070,7 @@ char * WO::tokenize(char *l)
 /** Deletes a pointer of this object in an olist */
 void WO::delFromList(list<WO*> &olist)
 {
-  for (list<WO*>::iterator it = olist.begin(); it != olist.end(); ++it) {
+  for (std::list<WO*>::iterator it = olist.begin(); it != olist.end(); ++it) {
     if (*it == this) {
       olist.remove(*it);
     }
@@ -1128,7 +1127,7 @@ OList * WO::delOList(OList *olist)
 /** Gets wobject by its number - static */
 WO * WO::byNum(uint16_t num)
 {
-  for (vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+  for (std::vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     if ((*it)->num == num) return *it;
   }
   return NULL;
@@ -1179,7 +1178,7 @@ OList * WO::addListToList(OList *l1, OList *l2)
 /** Shows an object - static */
 void WO::show(const char *name)
 {
-  for (list<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+  for (std::list<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     if (! strcmp((*it)->name.current, name)) {
       trace1(DBG_FORCE, "%s p=%.2f,%.2f,%.2f it=%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
             name,
@@ -1335,8 +1334,8 @@ void WO::deleteReplica()
     delFromList(mobileList);
 
     // delete Solids
-    list<Solid*> solList = ::g.render.getSolidList();
-    for (list<Solid*>::iterator s = solList.begin(); s != solList.end(); s++) {
+    std::list<Solid*> solList = ::g.render.getSolidList();
+    for (std::list<Solid*>::iterator s = solList.begin(); s != solList.end(); s++) {
       delete (*s);
     }
     solList.clear();

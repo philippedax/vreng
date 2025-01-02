@@ -93,8 +93,8 @@ void Gui::writeMessage(const char *mode, const char *from, const char *mess)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling Network
 //
-struct Gui::ChannelSources : public vector<USource*> {
-  ChannelSources(int count) : vector<USource*>(count) {}
+struct Gui::ChannelSources : public std::vector<USource*> {
+  ChannelSources(int count) : std::vector<USource*>(count) {}
 };
 
 void Gui::addChannelSources(int channel, int table[], int table_count)

@@ -29,15 +29,16 @@
 #define STEP_TYPE	6
 #define STEP_NAME	"Step"
 
+
 /**
  * Step class
  */
 class Step: public WO {
  protected:
   static const float LSPEED;	///< linear speed
-  vector<Step*> stairList;	///< vector of steps (stair)
-  vector<Step*> escaList;	///< vector of steps (escalator)
-  vector<Step*> travList;	///< vector of steps (travolator)
+  std::vector<Step*> stairList;	///< vector of steps (stair)
+  std::vector<Step*> escaList;	///< vector of steps (escalator)
+  std::vector<Step*> travList;	///< vector of steps (travolator)
   bool mobile;			///< flag escalator or travolator
   bool escalator;		///< mode escalator
   bool travolator;		///< mode travolator

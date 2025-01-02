@@ -87,8 +87,8 @@ struct tOBJModel
 {
   int numObjects; 		// number of objects in the model
   int numMaterials;		// number of materials for the model
-  vector<tOBJMaterialInfo> pMaterials;	// list of material information (Textures and colors)
-  vector<tOBJObject> pObject;	// object list for our model
+  std::vector<tOBJMaterialInfo> pMaterials;	// list of material information (Textures and colors)
+  std::vector<tOBJObject> pObject;	// object list for our model
 };
 
 
@@ -139,13 +139,13 @@ class Obj {
   static void reader(void *aobj, class Http *http);
 
  private:
-  vector<Vec3>  pVertices;
+  std::vector<Vec3>  pVertices;
   /**< This is an STL vector that holds a list of vertices */
 
-  vector<tOBJFace> pFaces;
+  std::vector<tOBJFace> pFaces;
   /**< This is an STL vector that holds a list of faces */
 
-  vector<Vec2>  pTextureCoords;
+  std::vector<Vec2>  pTextureCoords;
   /**< This is an STL vector that holds a list of UV Coordinates */
 
   bool hasUV;

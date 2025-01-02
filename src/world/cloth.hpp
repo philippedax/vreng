@@ -29,13 +29,14 @@
 #define CLOTH_TYPE	70
 #define CLOTH_NAME	"Cloth"
 
+
 /**
  * Cloth class
  */
 class Cloth: public WO {
 
  protected:
-  static list<WO*> wearList;
+  static std::list<WO*> wearList;
 
   bool taken;				///< bool taken by avatar
   float ttl;				///< time to live with avatar

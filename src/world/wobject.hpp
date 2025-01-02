@@ -32,8 +32,6 @@
 #include <list>
 #include <vector>
 
-using namespace std;
-
 /* special behavior masks */
 #define NO_BEHAVIOR		0	// null
 #define NO_ELEMENTARY_MOVE	1<<0	// bit 0
@@ -177,7 +175,7 @@ class WO {
 
   class Solid *solid;		///< solid pointer
   class WOId noid;		///< WO Id.
-  list<Solid*> _solidList;	///< list of solids.
+  std::list<Solid*> _solidList;	///< list of solids.
   class Flare *flare;		///< flare instance.
   class Carrier *carrier;	///< move via carrier.
   class VSql *vsql;		///< VSql handle.

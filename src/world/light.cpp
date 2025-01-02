@@ -130,7 +130,7 @@ Light::Light(char *l)
 void Light::lights()
 {
   //printf("\n*** light:");
-  for (vector<WO*>::iterator il = lightList.begin(); il != lightList.end() ; ++il) {
+  for (std::vector<WO*>::iterator il = lightList.begin(); il != lightList.end() ; ++il) {
     (*il)->lighting();
     //printf(" %s", (*il)->typeName());
   }
