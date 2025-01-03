@@ -413,7 +413,7 @@ void Vicinity::analVisual(int details)
         WO* po = WO::byNum(n);
 	depth++;
 	
-	if (po && po->getSolid()->isOpaque()) transp = false;
+	if (po && po->getSolid()->opaque) transp = false;
         else if (!po) {
 	  transp = false;
 	  break;  //end while

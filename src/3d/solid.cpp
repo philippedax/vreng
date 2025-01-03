@@ -1243,26 +1243,6 @@ void Solid::setVisible(bool _isvisible)
   visible = _isvisible;
 }
 
-bool Solid::isVisible() const
-{
-  return visible;
-}
-
-bool Solid::isOpaque() const
-{
-  return opaque;
-}
-
-bool Solid::isFlashy() const
-{
-  return flashy;
-}
-
-bool Solid::isFlary() const
-{
-  return flary;
-}
-
 void Solid::setTransparent(float _alpha)
 {
   alpha = _alpha;
@@ -1280,11 +1260,6 @@ void Solid::setFlary(bool flag)
 void Solid::setReflexive(bool flag)
 {
   reflexive = flag;
-}
-
-bool Solid::isReflexive() const
-{
-  return reflexive;
 }
 
 /** Draws a ray between user'eyes and the object's impact
@@ -1360,11 +1335,6 @@ void Solid::setBlinking(bool flag)
   blinking = flag;
 }
 
-bool Solid::isBlinking() const
-{
-  return blinking;
-}
-
 uint8_t Solid::getFrames() const
 {
   return nbframes;
@@ -1407,29 +1377,29 @@ GLint Solid::getTexid() const
 /** Renders a solid */
 void Solid::displaySolid(render_type rdr_type)
 {
-  if (isBlinking() && (! toggleBlinking()))
+  if (blinking && (! toggleBlinking()))
     return;		// pass one turn
 
   switch (rdr_type) {
 
     case OPAQUE:	// Display opaque solids
-      if (isReflexive())
+      if (reflexive)
         displayList(REFLEXIVE);
       else
         displayList(NORMAL);
       break;
 
     case TRANSPARENT:	// Display transparent solids 
-      if (isReflexive())
+      if (reflexive)
         displayList(REFLEXIVE);
       else
         displayList(NORMAL);
       break;
 
     case FLASH:		// Display flashy edges
-      if (isFlashy())
+      if (flashy)
         displayList(FLASHY);
-      if (isFlary())
+      if (flary)
         displayFlary();	// Display attached flares
       if (ray_dlist)
         displayRay();

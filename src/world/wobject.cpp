@@ -404,7 +404,7 @@ void WO::setVisible(bool flag)
 bool WO::isVisible() const
 {
   if (solid)
-    return solid->isVisible();
+    return solid->visible;
   else
     return false;
 }
@@ -413,7 +413,7 @@ bool WO::isVisible() const
 bool WO::isOpaque() const
 {
   if (solid)
-    return solid->isOpaque();
+    return solid->opaque;
   else
     return false;
 }

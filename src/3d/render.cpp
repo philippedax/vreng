@@ -249,8 +249,8 @@ void Render::renderTransparent(bool mini)
   trace2(DBG_3D, "\ntransparent: ");
   // build transparentList from solidList
   for (std::list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
-    if ( (*it)->isOpaque() == false &&
-         (*it)->isVisible() &&
+    if ( (*it)->opaque == false &&
+         (*it)->visible &&
          ! (*it)->rendered &&
          ! (*it)->object()->removed ) {
       transparentList.push_back(*it);	// add to transparent list

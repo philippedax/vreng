@@ -158,17 +158,19 @@ enum {
 class Solid {
   friend class Render;
 
- protected:
-  M4		matpos;		///< position matrix.
-  V3		bbcent;		///< relative center of BB.
-  V3		bbsize;		///< relative half sizes of BB.
-  float 	pos[5];		///< relative position/orientation.
+ public:
   bool		visible;	///< should this solid be drawn ?.
   bool		opaque;		///< set if the solid is opaque.
   bool		flashy;		///< flag flashy.
   bool		flary;		///< flag flary.
   bool		reflexive;	///< flag reflexive.
   bool		blinking;	///< flag blinking.
+
+ protected:
+  M4		matpos;		///< position matrix.
+  V3		bbcent;		///< relative center of BB.
+  V3		bbsize;		///< relative half sizes of BB.
+  float 	pos[5];		///< relative position/orientation.
   bool		blink;		///< flag blink.
   bool		rendered;	///< flag if is already rendered
   float		userdist;	///< distance to localuser.
@@ -270,29 +272,14 @@ static const uint8_t FRAME_MAX;		// 255
   void setVisible(bool v);
   /**< Sets the solid visible (true) or invisible (false). */
 
-  bool isVisible() const;
-  /**< Return if the solid should be drawn or not. */
-
-  bool isOpaque() const;
-  /**< Return if the solid is opaque or not. */
-
   void setTransparent(float _alpha);
   /**< Sets transparent. */
-
-  bool isFlashy() const;
-  /**< Return if the solid is flashy or not. */
 
   void setFlashyEdges(bool flag);
   /**< Sets the solid edges flashy. */
 
-  bool isFlary() const;
-  /**< Return if the solid is flary or not. */
-
   void setFlary(bool flag);
   /**< Sets the solid flary. */
-
-  bool isReflexive() const;
-  /**< Return if the solid is reflexive or not. */
 
   void setReflexive(bool flag);
   /**< Sets the solid reflexive. */
@@ -313,9 +300,6 @@ static const uint8_t FRAME_MAX;		// 255
 
   void setFrame(uint8_t frame);
   /**< Changes the "frame" of the solid (ie its geometry). */
-
-  bool isBlinking() const;
-  /**< Checks if blinking. */
 
   bool toggleBlinking();
   /**< Checks if rendering of a blinking solid must be done. */
