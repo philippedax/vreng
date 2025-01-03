@@ -968,7 +968,7 @@ void Widgets::objectsDialog()
   char line[64];
 
   UBox& objects_box = uvbox(UBackground::none);
-  for (vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+  for (std::vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     sprintf(line, "%s:%s", (*it)->typeName(), (*it)->objectName());
     objects_box.add(uitem(UColor::black + line));
   }

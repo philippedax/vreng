@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // render.cpp
 //
-// Rendering handling
+// Rendering management
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "render.hpp"
@@ -38,11 +38,9 @@
 #include "axis.hpp"	// Axis
 #include "light.hpp"	// lights
 
-#include <vector>
-#include <list>
-#include <algorithm>
-
-using namespace std;
+#include <vector>	// vector
+#include <list>		// list
+#include <algorithm>	// qsort
 
 
 // local
@@ -52,6 +50,10 @@ static GLuint selbuf[4*SEL_MAXNAMES];			// 1024 objects
 
 extern struct Render::sCamera camera;		// camera.cpp
 
+
+#if 0 //debug set to 1 to force debug tracing
+#define DBG_3D DBG_FORCE
+#endif //debug
 
 /** Initialization. */
 Render::Render()
@@ -133,7 +135,7 @@ void Render::init(bool _quality)
     glHint(GL_POLYGON_SMOOTH_HINT, hint);
     glHint(GL_FOG_HINT, hint);
 
-    if (::g.pref.infogl == true)
+    if (::g.pref.infogl == true) {
       echo("version=%s vendor=%s renderer=%s, depth=%d textures=%d stencil=%d clips=%d",
            glGetString(GL_VERSION),
            glGetString(GL_VENDOR),
@@ -143,11 +145,10 @@ void Render::init(bool _quality)
            haveStencil(),
            haveClips()
           );
-
+    }
     solidList.clear();	// clear solidList
     configured = true;
   }
-
   cameraUser();
 }
 
@@ -159,11 +160,6 @@ void Render::materials()
   glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
 }
-
-// DEBUG //
-#if 0 // set to 1 to force debug tracing
-#define DBG_3D DBG_FORCE
-#endif //debug
 
 /** Records object number into the selection buffer */
 void Render::recordObject(WO *o)
@@ -215,7 +211,7 @@ void Render::renderOpaque(bool mini)
     opaqueList.sort(compFrame);	// sort nbframes increasingly : fix overlaping (see maze.vre)
   }
 
-  for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
+  for (std::list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
     recordObject((*it)->object());		// records the name before displaying it
 
@@ -235,7 +231,7 @@ void Render::renderOpaque(bool mini)
         (*it)->displaySolid(Solid::OPAQUE);	// main solid first
         trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*it)->object()->objectName(), (*it)->userdist, (*it)->surfsize, (*it)->nbsolids);
 
-        for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
+        for (std::list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::OPAQUE);
           (*jt)->rendered = true;
           trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*jt)->object()->objectName(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
@@ -252,7 +248,7 @@ void Render::renderTransparent(bool mini)
 {
   trace2(DBG_3D, "\ntransparent: ");
   // build transparentList from solidList
-  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
+  for (std::list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() == false &&
          (*it)->isVisible() &&
          ! (*it)->rendered &&
@@ -268,7 +264,7 @@ void Render::renderTransparent(bool mini)
   }
 
   // render transparentList
-  for (list<Solid*>::iterator it = transparentList.begin(); it != transparentList.end() ; ++it) {
+  for (std::list<Solid*>::iterator it = transparentList.begin(); it != transparentList.end() ; ++it) {
     recordObject((*it)->object());	// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
@@ -288,7 +284,7 @@ void Render::renderTransparent(bool mini)
         (*it)->displaySolid(Solid::TRANSPARENT);
         trace2(DBG_3D, " %s:%.1f#%d", (*it)->object()->objectName(), (*it)->userdist, (*it)->nbsolids);
 
-        for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
+        for (std::list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::TRANSPARENT);
           (*jt)->rendered = true;
           trace2(DBG_3D, " %s:%.1f#%d", (*jt)->object()->objectName(), (*jt)->userdist, (*jt)->nbsolids);
@@ -305,7 +301,7 @@ void Render::renderGround()
 {
   trace2(DBG_3D, "\nground: ");
   groundList.sort(compDist);		// sort distances decreasingly
-  for (list<Solid*>::iterator it = groundList.begin(); it != groundList.end() ; ++it) {
+  for (std::list<Solid*>::iterator it = groundList.begin(); it != groundList.end() ; ++it) {
     materials();
     recordObject((*it)->object());	// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
@@ -324,7 +320,7 @@ void Render::renderModel()
 {
   trace2(DBG_3D, "\nmodel: ");
   modelList.sort(compDist);		// sort distances decreasingly
-  for (list<Solid*>::iterator it = modelList.begin(); it != modelList.end() ; ++it) {
+  for (std::list<Solid*>::iterator it = modelList.begin(); it != modelList.end() ; ++it) {
     materials();
     recordObject((*it)->object());	// records the name before displaying it
     //ok echo("%s", (*it)->object()->objectName());
@@ -343,7 +339,7 @@ void Render::renderModel()
 void Render::renderUser()
 {
   trace2(DBG_3D, "\nuser: ");
-  for (list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
+  for (std::list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
     recordObject((*it)->object());	// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       //echo("specific: %s/%s", (*it)->object()->typeName(), (*it)->object()->objectName());
@@ -362,7 +358,7 @@ void Render::renderUser()
 void Render::renderFlary()
 {
   trace2(DBG_3D, "\nflary: ");
-  for (list<Solid*>::iterator it = flaryList.begin(); it != flaryList.end() ; ++it) {
+  for (std::list<Solid*>::iterator it = flaryList.begin(); it != flaryList.end() ; ++it) {
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
@@ -394,7 +390,7 @@ void Render::renderSolids(bool mini)
 
   // for all solids
   // sets rendered=false updateDist and find the localuser solid
-  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
+  for (std::list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     (*it)->rendered = false;
     (*it)->updateDist();
     if ( (*it)->isOpaque() && (*it)->isVisible() ) {
@@ -449,6 +445,7 @@ void Render::minirender()
   renderSolids(1);		// solids rendering
 }
 
+/** Renders scissors */
 void Render::scissors()
 {
   showSat();			// launch a satellite camera
@@ -456,6 +453,7 @@ void Render::scissors()
   //dax showView();			// display view from object
 }
 
+/** Clears GL Buffer */
 void Render::refreshBackground()
 {
   if (flash) {
@@ -482,6 +480,7 @@ void Render::refreshBackground()
          );
 }
 
+/** Makes lightings */
 void Render::lighting()
 {
   const GLfloat light0_ambient[]  = {0.3, 0.3, 0.3, 1};
@@ -520,7 +519,7 @@ void Render::lighting()
 
   // renders other lights for example sun, moon, lamp
   //trace2(DBG_3D, "\nlight:");
-  for (vector<WO*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
+  for (std::vector<WO*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
     if ((*it)->num) {	 //FIXME segfault sometimes : num replaces isValid()
       (*it)->lighting();
       //trace2(DBG_3D, " %s", (*it)->objectName());
@@ -529,11 +528,11 @@ void Render::lighting()
 }
 
 /** highlight same type of object. */
-void Render::setAllTypeFlashy(char *object_type, int typeflash)
+void Render::highlight(char *object_type, int flash)
 {
-  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; it++) {
+  for (std::list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; it++) {
     if (! strcasecmp((*it)->object()->typeName(), object_type)) {
-      switch (typeflash) {
+      switch (flash) {
       case 0: if (*it) (*it)->flashy = false; break;
       case 1: if (*it) (*it)->flashy = true; break;
       }
@@ -615,7 +614,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   uint16_t next = 0;
 
   if (hits > 0) {
-    qsort((void *)hitlist, hits, sizeof(GLuint *), compareHit);
+    std::qsort((void *)hitlist, hits, sizeof(GLuint *), compareHit);
     int n = depth % hits;
     objnum_nearest = hitlist[n][3];
     if (hits > 1) next = hitlist[1][3];
@@ -809,7 +808,7 @@ WO** Render::getDrawedObjects(int *nbhit)
     hitlist[i] = psel;
     psel += 3 + psel[0];	// next hit
   }
-  qsort((void *) hitlist, hits, sizeof(GLuint *), compareHit);
+  std::qsort((void *) hitlist, hits, sizeof(GLuint *), compareHit);
 
   int usercount = 0;
   if (! strcasecmp((WO::byNum((uint16_t) hitlist[0][3]))->typeName(), "User")) {
@@ -844,7 +843,7 @@ void Render::stat()
 /** Debug */
 void Render::showSolidList()
 {
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
+  for (std::list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
     echo("solidList: %s->%s", (*s)->object()->typeName(),(*s)->object()->objectName());
     if (! strcasecmp((*s)->object()->typeName(), "User")) {
       echo("User: %.1f %.1f %.1f %.1f (%d)",

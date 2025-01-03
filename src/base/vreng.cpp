@@ -109,7 +109,7 @@ void Vreng::quit(int sig)
   static int inquit = 0;
 
   if (sig) {
-    cerr << "Got signal " << sig << ", aborting VREng (pid=" << getpid() << ")" << endl;
+    std::cerr << "Got signal " << sig << ", aborting VREng (pid=" << getpid() << ")" << std::endl;
     signal(sig, SIG_DFL);
     longjmp(sigctx, sig);
   }

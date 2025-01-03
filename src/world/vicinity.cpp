@@ -34,6 +34,8 @@
 #include <map>
 #include <vector>
 
+using namespace std;
+
 #define _DEBUG_TOPO_ 0
 
 
@@ -547,7 +549,7 @@ int * Vicinity::getTypeFromAction(const char *actionName)
 char* Vicinity::translateNum2Type(int num)
 {
   char* str = new char[OBJNAME_LEN];
-  map<int,string> translate;
+  map<int, string> translate;
 
   translate[0]  = "world";
   translate[1]  = "user";

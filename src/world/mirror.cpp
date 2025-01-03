@@ -163,8 +163,8 @@ void Mirror::mirroredScene()
   glTranslatef(pos.x, 0, 0);
   // D) displays scene (opaque objects only)
   int i = 0;
-  list<Solid*> solidlist = ::g.render.getSolidList();
-  for (list<Solid*>::iterator s = solidlist.begin(); s != solidlist.end(); s++, i++) {
+  std::list<Solid*> solidlist = ::g.render.getSolidList();
+  for (std::list<Solid*>::iterator s = solidlist.begin(); s != solidlist.end(); s++, i++) {
     if ((*s) && (*s)->isVisible() && (*s)->isOpaque()) {
       //trace2(DBG_FORCE, " %d %s", i, (*s)->object()->objectName());
       glPushMatrix();

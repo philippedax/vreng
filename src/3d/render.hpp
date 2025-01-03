@@ -25,7 +25,6 @@
 
 #include "matvec.hpp"   // V3 M4
 #include <list>
-using namespace std;
 
 class WO;
 class Solid;
@@ -104,15 +103,15 @@ class Render {
   //
   // Lists of solids
   //
-  list<Solid*> solidList;	///< solids list.
-  list<Solid*> relsolidList;	///< relative solids list.
-  list<Solid*> opaqueList;	///< opaque solids list.
-  list<Solid*> transparentList;	///< transparent solids list.
-  list<Solid*> groundList;	///< ground solids list.
-  list<Solid*> modelList;	///< model solids list.
-  list<Solid*> userList;	///< user solids list.
-  list<Solid*> flaryList;	///< flary solids list.
-  list<Solid*> getSolidList()	{ return solidList; } ///< Returns the rendering solid list.
+  std::list<Solid*> solidList;		///< solids list.
+  std::list<Solid*> relsolidList;	///< relative solids list.
+  std::list<Solid*> opaqueList;		///< opaque solids list.
+  std::list<Solid*> transparentList;	///< transparent solids list.
+  std::list<Solid*> groundList;		///< ground solids list.
+  std::list<Solid*> modelList;		///< model solids list.
+  std::list<Solid*> userList;		///< user solids list.
+  std::list<Solid*> flaryList;		///< flary solids list.
+  std::list<Solid*> getSolidList()	{ return solidList; } ///< Returns the rendering solid list.
 
   class Wheel *wheel;           ///< experimental
 
@@ -262,7 +261,7 @@ class Render {
   void setFlash();
   /**< Makes a flash (capture). */
 
-  void setAllTypeFlashy(char * object_type, int typeflash);
+  void highlight(char * object_type, int typeflash);
   /**< Enables flashy for all same type object. */
 
   /////////////

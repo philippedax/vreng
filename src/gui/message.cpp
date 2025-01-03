@@ -39,6 +39,8 @@
 #include <iostream>
 #include "ubit/ubit.hpp"
 
+using namespace std;
+
 
 /* ==================================================== ======== ======= */
 // MESSAGES and REQUESTS

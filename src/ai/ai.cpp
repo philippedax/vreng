@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // ai.cpp
 //
-// AI handling
+// AI management
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "ai.hpp"
@@ -30,7 +30,7 @@
 #include "cache.hpp"	// setCachePath
 #include "user.hpp"	// pos
 #include "move.hpp"	// gotoXYZ
-#include "render.hpp"	// setAllTypeFlashy
+#include "render.hpp"	// highlight
 #include "vicinity.hpp"	// analScene
 #include "xml.hpp"	// selectProximity
 
@@ -132,7 +132,6 @@ value recherche_Type(value ttype)
       }
     }
   }
-
   if (found == 0) {
     //echo("found a type by click");
     g.gui.getClicked(&oclick, oclicked);
@@ -148,11 +147,11 @@ value recherche_Type(value ttype)
       g.gui.initClicked();
 
       /* enlever les highlights des objets de meme type */
-      g.render.setAllTypeFlashy(typechercher, false);
+      g.render.highlight(typechercher, false);
     }
     else {
       /* mettre en highlight les objets de meme type */
-      g.render.setAllTypeFlashy(typechercher, true);
+      g.render.highlight(typechercher, true);
     }
   }
   else {
