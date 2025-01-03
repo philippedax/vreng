@@ -3295,3 +3295,4 @@
 3295 Jeu  2 jan 2025 16:56:02 CET	cleanup std::
 3296 Ven  3 jan 2025 09:00:58 CET	cleanup namespace std
 3297 Ven  3 jan 2025 09:21:59 CET	cleanup pop_back cart.cpp
+3298 Ven  3 jan 2025 15:41:20 CET	cleanup std render.*pp

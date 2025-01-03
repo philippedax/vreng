@@ -393,8 +393,8 @@ void Render::renderSolids(bool mini)
   for (std::list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     (*it)->rendered = false;
     (*it)->updateDist();
-    if ( (*it)->isOpaque() && (*it)->isVisible() ) {
-      if ( (*it)->isFlashy() || (*it)->isFlary() ) {
+    if ( (*it)->opaque && (*it)->visible ) {
+      if ( (*it)->flashy || (*it)->flary ) {
         flaryList.push_back(*it);	// add to flary list
       }
       else if ( (*it)->object()->type == GROUND_TYPE ) {
@@ -450,7 +450,7 @@ void Render::scissors()
 {
   showSat();			// launch a satellite camera
   showMap();			// display map
-  //dax showView();			// display view from object
+  //dax showView();		// display view from object
 }
 
 /** Clears GL Buffer */
@@ -851,7 +851,7 @@ void Render::showSolidList()
 	   (*s)->object()->pos.y,
 	   (*s)->object()->pos.z,
 	   (*s)->object()->pos.az,
-	   (*s)->isVisible()
+	   (*s)->visible
 	  );
     }
   }
