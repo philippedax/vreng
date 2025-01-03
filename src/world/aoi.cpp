@@ -31,8 +31,6 @@
 #include "netobj.hpp"	// NetObj
 
 #include <list>
-#include <vector>
-using namespace std;
 
 #define DBG_AOI DBG_14	// temporary
 
@@ -146,7 +144,7 @@ void Aoi::aoiEnter()
 void Aoi::aoiQuit()
 {
   /* freeing only mobile object we're responsible for */
-  for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+  for (std::list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     /* skipping local user object (as we do not want to remove it) */
     if (*it == localuser) continue;
     /* closes GUI */

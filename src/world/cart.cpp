@@ -32,12 +32,11 @@
 
 #include <vector>
 
-using namespace std;
 
 const OClass Cart::oclass(CART_TYPE, "Cart", NULL);
 
 // local
-vector<WO*> Cart::cartList;	// vector of objects in Cart
+std::vector<WO*> Cart::cartList;	// vector of objects in Cart
 
 
 void Cart::parser(char *l)
@@ -115,9 +114,9 @@ bool Cart::isSomethingInCart(WO *po)
 void Cart::leave(WO *po)
 {
   // remove object from the cartList
-  for (vector<WO*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
+  for (std::vector<WO*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
-      cartList.erase(it);
+      cartList.push_back(po);
     }
   }
 
@@ -175,9 +174,9 @@ void Cart::leave(WO *po)
 void Cart::removeFromCart(WO *po)
 {
   // remove from cartList
-  for (vector<WO*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
+  for (std::vector<WO*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
-      cartList.erase(it);
+      cartList.push_back(po);
     }
   }
 

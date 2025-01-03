@@ -27,7 +27,8 @@
 #include "user.hpp"	// localuser
 #include "move.hpp"	// gotoFront
 
-using namespace std;
+#include <vector>
+
 
 const OClass Step::oclass(STEP_TYPE, "Step", Step::creator);
 
@@ -361,12 +362,12 @@ void Step::quit()
 void Step::running()
 {
   if (dir) {
-    for (vector<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
+    for (std::vector<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
       (*it)->state = ACTIVE;
     }
   }
   else {
-    for (vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
+    for (std::vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
       (*it)->state = ACTIVE;
     }
   }
@@ -376,7 +377,7 @@ void Step::pause()
 {
   if (dir) {
     //echo("escalator pause: size=%d", escaList.size());	// escaList is empty!
-    for (vector<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
+    for (std::vector<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
       if ((*it)->state & ACTIVE) {
         (*it)->state = INACTIVE;
       }
@@ -387,7 +388,7 @@ void Step::pause()
   }
   else {
     //echo("travolator pause: size=%d", travList.size());
-    for (vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
+    for (std::vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
       if ((*it)->state & ACTIVE) {
         (*it)->state = INACTIVE;
       }

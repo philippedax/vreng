@@ -60,7 +60,6 @@
 #include "report.hpp"	// report
 
 #include <list>
-using namespace std;
 
 
 // local

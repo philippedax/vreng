@@ -29,10 +29,8 @@
 #include "user.hpp"	// localuser
 #include "url.hpp"	// abs
 #include "gui.hpp"	// setToVrelet
-#include <list>
-#include <vector>
 
-using namespace std;
+#include <list>
 
 
 const OClass Vrelet::oclass(VRELET_TYPE, "Vrelet", Vrelet::creator);
@@ -155,11 +153,11 @@ void Vrelet::answerTypeQuery(int _type)
 
   if (_type > 0) {
     int cnt = 0;
-    for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    for (std::list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if ((*it)->type == _type) cnt++;
     }
     msg->put32(cnt);
-    for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    for (std::list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if ((*it)->type == _type) msg->putOID(*it);
     }
   }

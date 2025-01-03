@@ -27,16 +27,15 @@
 #include "user.hpp"	// localuser
 #include "sql.hpp"	// VSql
 
+#include <list>
+
 
 const OClass Cloth::oclass(CLOTH_TYPE, "Cloth", Cloth::creator);
 
 //local
 static uint16_t oid = 0;
 
-#include <list>
-using namespace std;
-
-list<WO*> Cloth::wearList;		// list of objects weared by local user
+std::list<WO*> Cloth::wearList;		// list of objects weared by local user
 
 
 WO * Cloth::creator(char *l)
@@ -189,9 +188,9 @@ void Cloth::addWearList()
 
 void Cloth::delWearList()
 {
-  for (list<WO*>::iterator it = wearList.begin(); it != wearList.end(); it++) {
+  for (std::list<WO*>::iterator it = wearList.begin(); it != wearList.end(); it++) {
     if (*it == this) {
-      wearList.pop_back();	// wearList.erase(it);
+      wearList.pop_back();
     }
   }
 }
