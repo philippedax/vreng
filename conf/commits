@@ -3293,3 +3293,4 @@
 3293 Jeu  2 jan 2025 15:14:15 CET	remove getBubble() user.*pp
 3294 Jeu  2 jan 2025 16:34:54 CET	remove {is,reset,get}Gui() wobject.*pp
 3295 Jeu  2 jan 2025 16:56:02 CET	cleanup std::
+3296 Ven  3 jan 2025 09:00:58 CET	cleanup namespace std

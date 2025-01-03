@@ -116,7 +116,7 @@ void Cart::leave(WO *po)
   // remove object from the cartList
   for (std::vector<WO*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
-      cartList.push_back(po);
+      cartList.pop_back();
     }
   }
 
@@ -176,7 +176,7 @@ void Cart::removeFromCart(WO *po)
   // remove from cartList
   for (std::vector<WO*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
-      cartList.push_back(po);
+      cartList.pop_back();
     }
   }
 
