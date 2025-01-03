@@ -696,9 +696,6 @@ class WO {
   bool isVisible() const;
   /**< Checks if the object is visible. */
 
-  bool isOpaque() const;
-  /**< Checks whether the object is opaque. */
-
   void setFlashy(float *color);
   /**< Sets flashy the 3D object. */
 

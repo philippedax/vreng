@@ -409,15 +409,6 @@ bool WO::isVisible() const
     return false;
 }
 
-/** Checks if is opaque - accessor */
-bool WO::isOpaque() const
-{
-  if (solid)
-    return solid->opaque;
-  else
-    return false;
-}
-
 /** Sets a ray - accessor */
 void WO::setRay(GLint wx, GLint wy)
 {
