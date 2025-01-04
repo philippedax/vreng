@@ -89,7 +89,7 @@ class WOId {
 
 struct Hash {
   WO *po;		///< object ptr
-  char *name;		///< object name
+  char *hname;		///< object name
 };
 
 /**

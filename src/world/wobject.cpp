@@ -584,6 +584,38 @@ bool WO::removeFromScene()
   }
 }
 
+/** Informs the GUI that a (possibly selected) object has been destroyed */
+void WO::clearObjectBar()
+{
+  ::g.gui.clearInfoBar(this);
+}
+
+/**
+ * Gives current or class and action names of an object if it exists
+ * called by GUI for infoBar
+ */
+void WO::getObjectNames(char **classname, char **currentname, char **actionnames)
+{
+  int a;
+  static char actionname[ACTIONSNUMBER][ACTIONNAME_LEN];
+
+  *classname   = const_cast<char *>(typeName());
+  *currentname = const_cast<char *>(objectName());
+  *actionnames = reinterpret_cast<char *>(actionname);
+
+  // clean actionname
+  for (a=0; a < ACTIONSNUMBER; a++) {
+    memset(actionname[a], 0, ACTIONNAME_LEN);
+  }
+
+  // copy actionname
+  for (a=0; isActionName(type, a); a++) {
+    copyActionName(type, a, actionname[a]);
+    //echo("getObjectNames: t=%d a=%d n=%s", type, a, actionname[a]);
+  }
+  actionname[a][0] = '\0';
+}
+
 ////////////////
 //
 // name
@@ -593,8 +625,8 @@ bool WO::removeFromScene()
 void WO::initNames()  
 { 
   for (int i=0; i < NAME_HASH_SIZE; i++) {
-    hashtable[i].name = new char[OBJNAME_LEN];
-    memset(hashtable[i].name, 0, OBJNAME_LEN);
+    hashtable[i].hname = new char[OBJNAME_LEN];
+    memset(hashtable[i].hname, 0, OBJNAME_LEN);
   }
 }
 
@@ -618,9 +650,9 @@ void WO::setObjectName(const char *name)
   sprintf(fullname, "%s@%s", name, World::current()->name);
   uint32_t hval = hash_name(fullname);
   while (hval) {
-    if ((*(hashtable[hval].name) == '\0') ||
-        (! strcmp(hashtable[hval].name, NAME_DELETED))) {
-      strcpy(hashtable[hval].name, fullname);
+    if ((*(hashtable[hval].hname) == '\0') ||
+        (! strcmp(hashtable[hval].hname, NAME_DELETED))) {
+      strcpy(hashtable[hval].hname, fullname);
       hashtable[hval].po = this;
       return;
     }
@@ -638,10 +670,10 @@ WO * WO::getObject(const char *name)
   uint32_t hval = hash_name(fullname);
   trace1(DBG_WO, "getObject: hval=%d name=%s", hval, fullname);
   while (hval) {
-    if (*(hashtable[hval].name) == '\0') {
+    if (*(hashtable[hval].hname) == '\0') {
       return NULL;          // not found
     }
-    if (! strcmp(hashtable[hval].name, fullname)) {
+    if (! strcmp(hashtable[hval].hname, fullname)) {
       return hashtable[hval].po;        // found
     }
     hval = (hval + 1) % NAME_HASH_SIZE;
@@ -844,38 +876,6 @@ void WO::toDelete()
   //dax8 delSolids();
   //dax8 if (solid) delete solid;
   solid = NULL;
-}
-
-/** Informs the GUI that a (possibly selected) object has been destroyed */
-void WO::clearObjectBar()
-{
-  ::g.gui.clearInfoBar(this);
-}
-
-/**
- * Gives current or class and action names of an object if it exists
- * called by GUI for infoBar
- */
-void WO::getObjectNames(char **classname, char **currentname, char **actionnames)
-{
-  int a;
-  static char actionname[ACTIONSNUMBER][ACTIONNAME_LEN];
-
-  *classname   = const_cast<char *>(typeName());
-  *currentname = const_cast<char *>(objectName());
-  *actionnames = reinterpret_cast<char *>(actionname);
-
-  // clean actionname
-  for (a=0; a < ACTIONSNUMBER; a++) {
-    memset(actionname[a], 0, ACTIONNAME_LEN);
-  }
-
-  // copy actionname
-  for (a=0; isActionName(type, a); a++) {
-    copyActionName(type, a, actionname[a]);
-    //echo("getObjectNames: t=%d a=%d n=%s", type, a, actionname[a]);
-  }
-  actionname[a][0] = '\0';
 }
 
 /**
