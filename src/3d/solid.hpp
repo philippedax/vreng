@@ -33,7 +33,7 @@
 #define SOLID_HPP
 
 #include "matvec.hpp"   // V3 M4
-#include <list>
+
 
 /* Solid tokens. */
 enum {
@@ -168,7 +168,7 @@ class Solid {
   uint8_t	nbframes;	///< number of frames of this solid.
   uint8_t	frame;		///< current frame to render.
 
- protected:
+ private:
   M4		matpos;		///< position matrix.
   V3		bbcent;		///< relative center of BB.
   V3		bbsize;		///< relative half sizes of BB.
@@ -179,8 +179,6 @@ class Solid {
   float		surfsize;	///< max surface size of solid.
   float		alpha;		///< transparency.
   float		scale, scalex, scaley, scalez;
-
- private:
   bool		fictif;		///< set if the solid is fictif.
   uint8_t	shape;		///< basic shape.
   uint8_t	nbsolids;	///< number of solids.
@@ -210,7 +208,6 @@ static const uint8_t DEF_DISK_LOOPS;	//  8
 static const uint8_t FRAME_MAX;		// 255
 
  public:
-
   enum render_mode {
     DISPLAY,		///< render surfaces with plain colors.
     SELECT		///< selection in the Z-buffer.
@@ -335,7 +332,6 @@ static const uint8_t FRAME_MAX;		// 255
   /**< Displays ray. */
 
  private:
-
   uint8_t	iframe;		///< frame index.
   bool		framed;		///< flag framed.
 
@@ -368,7 +364,6 @@ static const uint8_t FRAME_MAX;		// 255
 
   char* getTok(char* l, uint16_t* stok);
   /** Gets current solid token. */
-
 };
 
 #endif

@@ -39,7 +39,6 @@
 #include "car.hpp"	// draw
 #include "teapot.hpp"	// draw
 #include "wheel.hpp"	// Wheel
-
 #include "render.hpp"	// ::g.render
 #include "texture.hpp"	// Texture
 #include "color.hpp"	// Color
@@ -48,7 +47,6 @@
 #include "flare.hpp"	// render
 
 #include <list>
-using namespace std;
 
 
 // local
@@ -185,33 +183,33 @@ const uint8_t Solid::DEF_DISK_LOOPS = 8;
 const uint8_t Solid::FRAME_MAX = 255;
 
 
-/** New Solid. */
+/** Constructor: new solid. */
 Solid::Solid()
 {
   new_solid++;
   shape = STOK_BOX;	// shape by default: box
-  fictif = false;	// real solid by default
-  framed = false;	// mono framed by default
   wobject = NULL;	// wobject associated with this solid set by addSolid in wobject.cpp
-  frame = 0;		// frame to render
-  iframe = 0;		// frame index in displaylist
-  nbframes = 1;		// 1 frame by default
-
   dlists = NULL;	// solid display lists
+
   visible = true;	// visible by default
   opaque = true;	// opaque by default
+  fictif = false;	// real solid by default
+  framed = false;	// mono framed by default
   flashy = false;	// no flashy by default
   flary = false;	// no flary by default
   reflexive = false;	// no reflexive by default
   blinking = false;	// no blinking by default
   blink = false;	// no blinking by default
   rendered = false;	// flag if already rendered
-  bbcent = setV3(0, 0, 0);
-  bbsize = setV3(0, 0, 0);
 
+  nbframes = 1;		// 1 frame by default
+  frame = 0;		// frame to render
+  iframe = 0;		// frame index in displaylist
   userdist = 0;		// distance to localuser
   surfsize = 0;		// surface of solid
   ray_dlist = 0;	// ray display-list
+  bbcent = setV3(0, 0, 0);
+  bbsize = setV3(0, 0, 0);
 
   ::g.render.relsolidList.push_back(this);	// add solid to relsolidList
   nbsolids = ::g.render.relsolidList.size();	// number of solids
@@ -220,7 +218,7 @@ Solid::Solid()
   for (int i=0; i<3; i++) flashcol[i] = 1;  // white
 }
 
-/** Deletes solid from display-list. */
+/** Destructor: deletes solid from display-list. */
 Solid::~Solid()
 {
   ::g.render.solidList.remove(this);
@@ -958,9 +956,7 @@ void Solid::updateDist()
   }
 }
 
-/**
- * Parses statue and returns f (number of frames).
- */
+/** Parses statue and returns f (number of frames). */
 int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
 {
   int texid = -1;
@@ -968,7 +964,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   uint8_t firstframe = 1;
   uint8_t lastframe = nbframes;
   uint8_t tabframes[FRAME_MAX] = { 0 };
-  char *urlmdl = NULL;
+  char *url = NULL;
   fog[0] = 0;
 
   alpha = DEF_ALPHA;
@@ -987,8 +983,8 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_SOLID: break;
       case STOK_MODEL:
       case STOK_URL:
-        urlmdl = new char[URL_LEN];
-        l = wobject->parse()->parseString(l, urlmdl);
+        url = new char[URL_LEN];
+        l = wobject->parse()->parseString(l, url);
         break;
       case STOK_SCALE:
         l = wobject->parse()->parseFloat(l, &scale);
@@ -1019,14 +1015,14 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         }
         break;
       case STOK_TEXTURE:
-        { char *urltex = new char[URL_LEN];
-          l = wobject->parse()->parseString(l, urltex);
-          if (*urltex) {
-            texture = new Texture(urltex);
+        { char *tx = new char[URL_LEN];
+          l = wobject->parse()->parseString(l, tx);
+          if (*tx) {
+            texture = new Texture(tx);
             texid = texture->tex_id;
             texture->object = wobject;
           }
-          delete[] urltex;
+          delete[] tx;
         }
         break;
       default:
@@ -1043,12 +1039,12 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   }
   tabframes[nf] = 0;
 
-  if (urlmdl) {	// model url exists
-    int model = Format::getModelByUrl(urlmdl);
+  if (url) {	// model url exists
+    int model = Format::getModelByUrl(url);
     switch (model) {
 
       case MODEL_MD2: {
-        Md2 *md2 = new Md2(urlmdl);
+        Md2 *md2 = new Md2(url);
 
         for (nf=0; tabframes[nf] && nf < FRAME_MAX; nf++) {
           md2->setScale(scale);
@@ -1064,7 +1060,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         }
 
       case MODEL_OBJ: {
-        Obj *obj = new Obj(urlmdl);
+        Obj *obj = new Obj(url);
 
         obj->setScale(scale);
         obj->setColor(GL_DIFFUSE, mat_diffuse);
@@ -1077,7 +1073,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         break;
         }
     }
-    delete[] urlmdl;
+    delete[] url;
   }
   return nf;	// number nf frames
 }
@@ -1238,9 +1234,9 @@ void Solid::getPosition(M4& mpos)
   mpos = matpos;
 }
 
-void Solid::setVisible(bool _isvisible)
+void Solid::setVisible(bool _isvis)
 {
-  visible = _isvisible;
+  visible = _isvis;
 }
 
 void Solid::setTransparent(float _alpha)
