@@ -375,7 +375,9 @@ void User::elemUserMovement(const float tabdt[])
 
   changePosition(tabdt);
 
-  checkPosition();		// sanity check
+  if (checkPosition()) {	// sanity check
+    echo("pos: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
+  }
   updatePosition();
   checkVicinity(wo);
   delete wo;

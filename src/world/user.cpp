@@ -128,14 +128,16 @@ void User::setPosition()
 }
 
 /** Checks if localuser position is out of bounds */
-void User::checkPosition()
+bool User::checkPosition()
 {
   if ( pos.x>100 || pos.x<-100 || pos.y>100 || pos.y<-100 || pos.z>100 || pos.z<-100 ) {
     echo("localuser->pos: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
     echo("reset localuser pos(0 0 2)");
     pos.x = pos.y = 0;
     pos.z = 2;
+    return true;
   }
+  return false;
 }
 
 /** Sets view mode */

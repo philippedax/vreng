@@ -246,8 +246,8 @@ class User: public WO {
   void elemUserMovement(const float lastings[]);
   /**< User motion limited by the maxlast. */
 
-  void checkPosition();
-  /**< Checks user position. */
+  bool checkPosition();
+  /**< Checks user position - return true if bad position else return false. */
 
   void checkPersist();
   /**< Checks Persist objects. */

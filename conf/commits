@@ -3301,3 +3301,4 @@
 3301 Ven  3 jan 2025 17:08:23 CET	remove isOpaque wobject.*pp
 3302 Sam  4 jan 2025 10:37:02 CET	cleanup hname (hash) wobject.*pp
 3303 Sam  4 jan 2025 11:05:23 CET	remove getFrame*() solid.*pp
+3304 Sam  4 jan 2025 15:15:45 CET	cleanup solid.cpp
