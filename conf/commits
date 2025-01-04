@@ -3299,3 +3299,4 @@
 3299 Ven  3 jan 2025 15:55:32 CET	cleanup render.*pp
 3300 Ven  3 jan 2025 16:13:46 CET	remove isXXX() solid.*pp
 3301 Ven  3 jan 2025 17:08:23 CET	remove isOpaque wobject.*pp
+3302 Sam  4 jan 2025 10:37:02 CET	cleanup hname (hash) wobject.*pp

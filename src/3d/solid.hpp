@@ -165,6 +165,8 @@ class Solid {
   bool		flary;		///< flag flary.
   bool		reflexive;	///< flag reflexive.
   bool		blinking;	///< flag blinking.
+  uint8_t	nbframes;	///< number of frames of this solid.
+  uint8_t	frame;		///< current frame to render.
 
  protected:
   M4		matpos;		///< position matrix.
@@ -182,8 +184,6 @@ class Solid {
   bool		fictif;		///< set if the solid is fictif.
   uint8_t	shape;		///< basic shape.
   uint8_t	nbsolids;	///< number of solids.
-  uint8_t	nbframes;	///< number of frames of this solid.
-  uint8_t	frame;		///< current frame to render.
   int		texid;		///< texture id.
   GLfloat	mat_diffuse[4];
   GLfloat	mat_ambient[4];
@@ -291,12 +291,6 @@ static const uint8_t FRAME_MAX;		// 255
   char* parseShape(char* l, uint8_t *shape);
   int statueParser(char* l, V3& bbmax, V3& bbmin);
   int solidParser(char* l, V3& bbmax, V3& bbmin);
-
-  uint8_t getFrames() const;
-  /**< Gets the number of frames. */
-
-  uint8_t getFrame() const;
-  /**< Gets the index of current frames. */
 
   void setFrame(uint8_t frame);
   /**< Changes the "frame" of the solid (ie its geometry). */

@@ -1335,16 +1335,6 @@ void Solid::setBlinking(bool flag)
   blinking = flag;
 }
 
-uint8_t Solid::getFrames() const
-{
-  return nbframes;
-}
-
-uint8_t Solid::getFrame() const
-{
-  return frame;
-}
-
 void Solid::setFrame(uint8_t _frame)
 {
   frame = _frame % nbframes;

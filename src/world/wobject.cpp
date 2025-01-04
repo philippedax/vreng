@@ -474,14 +474,14 @@ void WO::getRelBB(V3 &center, V3 &size)
 /** Gets the number of frames of this solid - accessor */
 uint8_t WO::getFrames()
 {
-  if (solid) return solid->getFrames();
+  if (solid) return solid->nbframes;
   else return 0;
 }
 
 /** Gets index of current frame of this solid - accessor */
 uint8_t WO::getFrame()
 {
-  if (solid) return solid->getFrame();
+  if (solid) return solid->frame;
   else return 0;
 }
 
