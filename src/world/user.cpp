@@ -127,14 +127,13 @@ void User::setPosition()
   } 
 }
 
-/** Checks if localuser position is out of bounds */
+/** Checks if localuser position is out of bounds - returns true if true else returns false */
 bool User::checkPosition()
 {
-  if ( pos.x>100 || pos.x<-100 || pos.y>100 || pos.y<-100 || pos.z>100 || pos.z<-100 ) {
+  if ( ABSF(pos.x)>999 || ABSF(pos.y)>999 || ABSF(pos.z)>999 ) {
     echo("localuser->pos: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
-    echo("reset localuser pos(0 0 2)");
-    pos.x = pos.y = 0;
-    pos.z = 2;
+    echo("force localuser pos(0 0 2)");
+    resetPosition();
     return true;
   }
   return false;
@@ -211,7 +210,7 @@ void User::geometry()
   if (pref->my_bapsstr)		baps = strdup(pref->my_bapsstr);
 
   if (isalpha(*avatar)) {	// avatar is defined in ~./.vreng/prefs
-    // 5 available avatars ( guy, human, humanoid, box, bbox )
+    // 5 available avatars: guy, human, humanoid, box, bbox
     if (! strcmp(avatar, "guy")) {
       guy = new Guy();
       sprintf(mensuration, "shape=\"guy\" dim=\"%f %f %f\"", width, depth, height);
@@ -443,12 +442,12 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
     sprintf(s, "dim=\"%f %f %f\" xp=\"%s\" xn=\"%s\" />",
             DEF_WIDTH, DEF_DEPTH, DEF_HEIGHT, front, back);
   }
-  //echo("Replica: s=%s", s);
+  //echo("replica: s=%s", s);
   parseSolid(s);
 
   // get the variable properties
   if (idxend > 0) {
-    //echo("Replica: read var props, idxend=%d", idxend);
+    //echo("replica: read var props, idxend=%d", idxend);
     pp->seekPayload(idxvar);	// begin prop var
     for (int np = PROPBEGINVAR; np <= PROPENDVAR; np++) {
       netop->getProperty(np, pp);
@@ -456,19 +455,18 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
     pp->seekPayload(idxend);	// end properties
   }
   else {	// never executed
-    error("never executed idxend=%d", idxend);
+    error("replica: never executed idxend=%d", idxend);
     uint8_t _nbprop = netop->getProperties();
     for (int np = PROPBEGINVAR; np < _nbprop; np++) {
       netop->getProperty(np, pp);
     }
   }
-  echo("new avatar: rctpname=%s", rtcpname);
+  //echo("replica: new avatar: rctpname=%s", rtcpname);
 
   initMobileObject(0);
   addGui();			// informs Gui
   ::g.gui.expandAvatar();	// shows new avatar coming in
 
-  //echo("replica: web=%s vre=%s", web, vre);
   //echo("replica: avatar=%s uface=%s", avatar, uface);
   //echo("replica: name=%s ssrc=%x rtcpname=%s email=%s", objectName(), ssrc, rtcpname, email);
 }
@@ -584,7 +582,7 @@ void User::userRequesting(const char *usermsg)
   localuser->netop->declareDelta(PROPMSG); // msg property
 }
 
-/** imposed movement via keys or navig_menu or joystick */
+/** Imposed movement via keys or navig_menu or joystick */
 void User::changePosition(float lasting)
 {
   pos.x += lasting * move.lspeed.v[0];

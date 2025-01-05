@@ -40,6 +40,7 @@ class Bubble;
 
 extern class User *localuser;	// global
 
+
 /**
  * User class
  */
