@@ -60,7 +60,6 @@ class Parse {
   enum {
     TAG_DOCTYPE,	///< <!DOCTYPE ... >
     TAG_BEGINVRE,	///< <vre ... >
-    TAG_HEAD,		///< <head> ... </head>>
     TAG_META,		///< <meta> ... </meta>>
     TAG_COMMENT,	///< <!-- ... -->
     TAG_SCENE,		///< <scene> ... </scene>

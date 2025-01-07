@@ -3304,3 +3304,4 @@
 3304 Sam  4 jan 2025 15:15:45 CET	cleanup solid.cpp
 3305 Sam  4 jan 2025 17:23:48 CET	cleanup bool checkPosition() user.*pp
 3306 Dim  5 jan 2025 16:02:59 CET	cleanup checkPosition() user.*pp
+3307 Mar  7 jan 2025 15:50:34 CET	remove <head>...</head>
