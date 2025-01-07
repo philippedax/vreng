@@ -28,6 +28,7 @@
 #define MIRROR_TYPE	29
 #define MIRROR_NAME	"Mirror"
 
+
 /**
  * Mirror class
  */
