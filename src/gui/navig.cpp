@@ -99,7 +99,6 @@ void Navig::mousePressCB(UMouseEvent& e)
   GLSection gls(&gw.scene); 
 
   if (gw.gui.carrier && gw.gui.carrier->underControl()) {	// events are sent to Carrier
-    echo("%d %d %d", x, y, btn);
     gw.gui.carrier->mouseEvent(x, y, btn);
   }
 #if 0 //dax
@@ -513,4 +512,5 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
 
 void Navig::mouseRefCB(UMouseEvent& e)
 { 
+  echo("ref");
 }
