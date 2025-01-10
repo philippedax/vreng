@@ -25,8 +25,6 @@
 
 #include "widgets.hpp"
 
-class Widgets;
-
 
 /**
  * Navig class

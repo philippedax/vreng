@@ -3306,3 +3306,4 @@
 3306 Dim  5 jan 2025 16:02:59 CET	cleanup checkPosition() user.*pp
 3307 Mar  7 jan 2025 15:50:34 CET	remove <head>...</head>
 3308 Mar  7 jan 2025 15:54:49 CET	remove TAG_HEAD parse.hpp
+3309 Mar  7 jan 2025 16:03:55 CET	cleanup ref navig.cpp

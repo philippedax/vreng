@@ -103,19 +103,28 @@ void Vnc::parser(char *l)
   vncEncryptAndStorePasswd(passwd, passwdfile);
 }
 
+/** Sets behaviors */
+void Vnc::behaviors()
+{
+  enableBehavior(COLLIDE_NEVER);
+  enableBehavior(SPECIFIC_RENDER);
+}
+
+/** Do sprecific initializations */
+void Vnc::inits()
+{
+  initMobileObject(0);
+  updatePosition();
+  buildScreen();
+  connectServer();
+}
+
 /** Constructor */
 Vnc::Vnc(char *l)
 {
   parser(l);
-
-  enableBehavior(COLLIDE_NEVER);
-  enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
-
-  updatePosition();
-  buildScreen();
-  connectServer();
+  behaviors();
+  inits();
 }
 
 /** Builds the screen */
@@ -213,7 +222,6 @@ void Vnc::render()
 
   GLint renderMode;
   glGetIntegerv(GL_RENDER_MODE, &renderMode);
-  //echo("render");
 
   updatePosition();
 
@@ -303,7 +311,6 @@ void Vnc::connectServer()
   if (! serverdefined) return;
 
   vncClient = new VNCCliTextured(servername, port, passwdfile);
-  //echo("VNC try to connect to %s:%d", servername, port);
 
   // client initialization
   if (! vncClient->initVNC()) {
@@ -315,7 +322,6 @@ void Vnc::connectServer()
   }
   else {
     connected = true;
-    //echo("VNC connect successful on %s:%d", servername, port);
 
     vncClient->sendFramebufferUpdateRequest(0, 0,
                                             vncClient->realScreenWidth,
@@ -328,7 +334,7 @@ void Vnc::connectServer()
   tex_pixmap = (uint8_t *) (vncClient->framebuffer);	// reinterpret_cast
   tex_width = vncClient->fbWidth;
   tex_height = vncClient->fbHeight;
-  //echo("tex: w=%d h=%d",tex_width,tex_height);
+  //echo("tex: w=%d h=%d", tex_width, tex_height);
 
   displayTexture(0);		// without mipmaps
 
@@ -368,8 +374,6 @@ void Vnc::convert(const char *srvstr, const char *portstr, const char *passstr)
   if (!srvstr || !portstr || !passstr) {
     return;
   }
-  //echo("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
-
   strcpy(servername, srvstr);
   port = atoi(portstr);
   vncEncryptAndStorePasswd(const_cast<char *>(passstr), passwdfile);

@@ -63,13 +63,13 @@ class Vnc : public WO {
   uint16_t tex_height;		///< texture height
   GLfloat u, v;			///< witdh and height screen ratios
   GLubyte *def_pixmap;		///< default texture pixmap
-  GLubyte *tex_pixmap;		///< current pixmap
+  GLubyte *tex_pixmap;		///< current texture pixmap
   GLfloat vertices[4*3];	///< screen geometry
   GLint viewport[4];		///< current viewport
   GLdouble modelmat[16];	///< modelisation matrix
   GLdouble projmat[16];		///< projection data coordinates
-  bool serverdefined;		///< flag server defined or not
-  bool connected;		///< flag connected or not
+  bool serverdefined;		///< server defined or not
+  bool connected;		///< server connected or not
   bool focus;			///< flag have focus or not
   uint16_t port;		///< Vnc server port
   char servername[64];		///< Vnc server name
@@ -112,6 +112,12 @@ class Vnc : public WO {
 
   void defaults();
   /**< Set the default values */
+
+  void behaviors();
+  /**< Set behaviors */
+
+  void inits();
+  /**< Do specific initialization */
 
   void getVncCoords(int16_t &x, int16_t &y);
   /**< Convert VReng screen coordinates to VNC screen coordinates */
