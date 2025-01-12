@@ -3310,3 +3310,4 @@
 3310 Ven 10 jan 2025 15:49:14 CET	add behaviors() and inits() vnc.*pp
 3311 Dim 12 jan 2025 13:15:49 CET	cleanup pressB* navig.*pp
 3312 Dim 12 jan 2025 13:24:29 CET	cleanup move thing.*pp
+3313 Dim 12 jan 2025 15:08:03 CET	remove keyEvent carrier.*pp

@@ -162,14 +162,13 @@ bool WO::updateLasting(time_t sec, time_t usec, float *lasting)
 /** Modifies user position in one direction */
 void WO::changePositionOneDir(uint8_t move_key, float lasting)
 {
-#if 1 //dax
   if (carrier && carrier->underControl()) {  // Manipulator
     echo("onedir: k=%d", move_key);
     carrier->mouseEvent(move_key, lasting);
     //dax carrier->keyEvent(move_key, lasting); //arrow keys
     return;
   }
-#endif
+
   // Navigator
   switch (move_key) {
     case KEY_FW:  // move forward
@@ -453,16 +452,6 @@ void WO::imposedMovement(time_t sec, time_t usec)
   float lasting = -1;
   updateTime(sec, usec, &lasting);	// handled by each object only for imposed movements
 
-#if 0 //dax
-  if (carrier && carrier->underControl()) {  // Manipulator
-    lasting = 5;
-    //echo("manip:%.2f", lasting);
-    for (int k = 0; k < MAXKEYS ; k++) {
-      carrier->mouseEvent(k, lasting);
-      carrier->keyEvent(k, lasting); //arrow keys
-    }
-  }
-#endif
   move.next = NULL;
 
   if (lasting > MIN_LASTING) {
