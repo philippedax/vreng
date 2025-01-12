@@ -101,11 +101,6 @@ void Navig::mousePressCB(UMouseEvent& mev)
   if (gw.gui.carrier && gw.gui.carrier->underControl()) {	// events are sent to Carrier
     gw.gui.carrier->mouseEvent(x, y, b);
   }
-#if 0 //dax
-  else if (gw.gui.board && gw.gui.board->isDrawing()) { // events are sent to Board
-    gw.gui.board->mouseEvent(x, y, b);
-  }
-#endif
   else if (gw.gui.vnc) {		// events are sent to Vnc
     gw.gui.vnc->mouseEvent(x, y, b);
   }
