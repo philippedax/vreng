@@ -3312,3 +3312,4 @@
 3312 Dim 12 jan 2025 13:24:29 CET	cleanup move thing.*pp
 3313 Dim 12 jan 2025 15:08:03 CET	remove keyEvent carrier.*pp
 3314 Dim 12 jan 2025 15:14:27 CET	remove keyEvent move.cpp
+3315 Dim 12 jan 2025 15:45:51 CET	cleanup board nivig.cpp

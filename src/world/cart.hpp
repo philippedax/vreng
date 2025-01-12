@@ -34,8 +34,7 @@
  * Cart class
  */
 class Cart: public WO {
-
- protected:
+ private:
   uint8_t number;	///< number of objects inside cart
   class User *user;	///< owner of the cart
   static std::vector<WO*> cartList; ///< vector of objects in the cart
@@ -64,9 +63,6 @@ class Cart: public WO {
 
   void leave(WO *po);
   /**< called by GuiRemoveCart (target = "LEAVE") */
-
-  bool isSomethingInCart(WO *po);
-  /**< checks if something is inside cart */
 
   void quit();
   /**< Quits properly */

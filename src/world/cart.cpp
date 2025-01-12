@@ -46,7 +46,7 @@ void Cart::parser(char *l)
   l = parseName(l, name.given);	// basket
 }
 
-/* defaults values */
+/** defaults values */
 void Cart::defaults()
 {
   number = 0;
@@ -101,11 +101,6 @@ void Cart::addToCart(WO *po)
 
   cartList.push_back(po);
   number++;
-}
-
-bool Cart::isSomethingInCart(WO *po)
-{
-  return number;
 }
 
 /**
