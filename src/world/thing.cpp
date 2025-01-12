@@ -40,7 +40,7 @@ const float Thing::LSPEED = 0.25;	// 0.25 m/s
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** creation from a file */
 WO * Thing::creator(char *l)
 {
   return new Thing(l);
@@ -94,7 +94,7 @@ Thing::Thing(WO *user, char *_geom)
 
   parseSolid(_geom);
 
-  /* position in front of the user */
+  // position in front of the user
   pos.x = user->pos.x + 1;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
@@ -236,9 +236,9 @@ void Thing::funcs()
   putPropFunc(THING_TYPE, PROPAY, _Payload put_ay);
   putPropFunc(THING_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(THING_TYPE, APPROACH, _Action gotoFront, "Approach");
   setActionFunc(THING_TYPE, MOVE, _Action moveObject, "Move");
   setActionFunc(THING_TYPE, BASKET, _Action dropIntoBasket, "Basket");
+  setActionFunc(THING_TYPE, APPROACH, _Action gotoFront, "Approach");
   setActionFunc(THING_TYPE, DESTROY, _Action destroy, "Destroy");
   setActionFunc(THING_TYPE, RECREATE, _Action recreate, "");
 }

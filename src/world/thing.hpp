@@ -52,9 +52,9 @@ class Thing: public WO {
 
   /* actions */
   enum {
-    APPROACH,
     MOVE,
     BASKET,
+    APPROACH,
     DESTROY,
     RECREATE,
     NONE
