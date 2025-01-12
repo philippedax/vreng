@@ -3307,3 +3307,4 @@
 3307 Mar  7 jan 2025 15:50:34 CET	remove <head>...</head>
 3308 Mar  7 jan 2025 15:54:49 CET	remove TAG_HEAD parse.hpp
 3309 Mar  7 jan 2025 16:03:55 CET	cleanup ref navig.cpp
+3310 Ven 10 jan 2025 15:49:14 CET	add behaviors() and inits() vnc.*pp

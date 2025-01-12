@@ -84,48 +84,46 @@ Navig::Navig(Widgets* _gw, Scene& scene) :
 //////////////////
 
 /** The mouse is pressed on the canvas */
-void Navig::mousePressCB(UMouseEvent& e)
+void Navig::mousePressCB(UMouseEvent& mev)
 {
-  int x = (int) e.getX();
-  int y = (int) e.getY();
-  int btn = 0;
-  int bid = e.getButton();
+  int x = int(mev.getX());
+  int y = int(mev.getY());
+  int b = 0;
 
-  if      (bid == UMouseEvent::LeftButton)  btn = 1;
-  else if (bid == UMouseEvent::MidButton)   btn = 2;
-  else if (bid == UMouseEvent::RightButton) btn = 3;
+  int bid = mev.getButton();
+  if      (bid == UMouseEvent::LeftButton)  b = 1;
+  else if (bid == UMouseEvent::MidButton)   b = 2;
+  else if (bid == UMouseEvent::RightButton) b = 3;
 
   // GL graphics can be performed until the current function returns
   GLSection gls(&gw.scene); 
 
   if (gw.gui.carrier && gw.gui.carrier->underControl()) {	// events are sent to Carrier
-    gw.gui.carrier->mouseEvent(x, y, btn);
+    gw.gui.carrier->mouseEvent(x, y, b);
   }
 #if 0 //dax
   else if (gw.gui.board && gw.gui.board->isDrawing()) { // events are sent to Board
-    gw.gui.board->mouseEvent(x, y, btn);
+    gw.gui.board->mouseEvent(x, y, b);
   }
 #endif
   else if (gw.gui.vnc) {		// events are sent to Vnc
-    gw.gui.vnc->mouseEvent(x, y, btn);
+    gw.gui.vnc->mouseEvent(x, y, b);
   }
-  else if (btn == 2) {			// button 2: fine grain selection
-    pressB2(e, x, y);
-    //dax pressB1orB3(e, x, y, btn);	// dax reverse buttons B1 B2
+  else if (b == 2) {			// button 2: fine grain selection
+    pressB2(x, y);
   }
   else {				// buttons 1 or 3: navigator or info menu
-    pressB1orB3(e, x, y, btn);
-    //dax pressB2(e, x, y);		// dax reverse buttons B1 B2
+    pressB1orB3(mev, x, y, b);
   }
 }
 
 /** The mouse is released on the canvas */
-void Navig::mouseReleaseCB(UMouseEvent& e)
+void Navig::mouseReleaseCB(UMouseEvent& mev)
 {
   stopMotion(); // sanity
   
   if (gw.gui.vnc) {		// events are redirected to Vnc
-    gw.gui.vnc->mouseEvent((int) e.getX(), (int) e.getY(), 0);
+    gw.gui.vnc->mouseEvent(int(mev.getX()), int(mev.getY()), 0);
   }
   else if (gw.gui.selected_object) {
     gw.gui.selected_object->resetRay();
@@ -137,7 +135,7 @@ void Navig::mouseReleaseCB(UMouseEvent& e)
 }
 
 /** The mouse is dragged on the canvas */
-void Navig::mouseDragCB(UMouseEvent& e)
+void Navig::mouseDragCB(UMouseEvent& mev)
 {
   if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
     gw.gui.selected_object->resetFlashy();	// stop flashing edges
@@ -151,15 +149,15 @@ void Navig::mouseDragCB(UMouseEvent& e)
 }
 
 /** The mouse is moved on the canvas */
-void Navig::mouseMoveCB(UMouseEvent& e)
+void Navig::mouseMoveCB(UMouseEvent& mev)
 {
   if (gw.gui.vnc) {		// events are redirected to Vnc
-    gw.gui.vnc->mouseEvent((int) e.getX(), (int) e.getY(), 0);
+    gw.gui.vnc->mouseEvent(int(mev.getX()), int(mev.getY()), 0);
   }
 #if 0 //expensive followMouse
   else if (followMouse) {
     // mode followMouse continuously indicates object under pointer
-    WO *object = gw.pointedObject((int) e.getX(), (int) e.getY(), objinfo, depthsel);
+    WO *object = gw.pointedObject(int(mev.getX()), int(mev.getY()), objinfo, depthsel);
     selectObject(object ? objinfo : null);
   }
 #endif //expensive followMouse
@@ -170,16 +168,16 @@ void Navig::mouseMoveCB(UMouseEvent& e)
 }
 
 /** A key is pressed on the canvas */
-void Navig::keyPressCB(UKeyEvent& e)
+void Navig::keyPressCB(UKeyEvent& kev)
 {
   if (gw.gui.vnc) {	// key events are redirected to Vnc
     char kstr[2];
-    kstr[0] = e.getKeyChar();
+    kstr[0] = kev.getKeyChar();
     kstr[1] = 0;
     gw.gui.vnc->keyEvent(kstr, true);
   }
   else {		// normal behaviour
-    gw.processKey(e.getKeyCode(), e.getKeyChar(), true);
+    gw.processKey(kev.getKeyCode(), kev.getKeyChar(), true);
 
     if (! localuser)  return;
 
@@ -194,21 +192,21 @@ void Navig::keyPressCB(UKeyEvent& e)
 }
 
 /** A key is released on the canvas */
-void Navig::keyReleaseCB(UKeyEvent& e)
+void Navig::keyReleaseCB(UKeyEvent& kev)
 {
   if (gw.gui.vnc) {     // key events are redirected to Vnc
     char kstr[2];
-    kstr[0] = e.getKeyChar();
+    kstr[0] = kev.getKeyChar();
     kstr[1] = 0;
     gw.gui.vnc->keyEvent(kstr, false);
   }
   else {		// normal behaviour
-    gw.processKey(e.getKeyCode(), e.getKeyChar(), false);
+    gw.processKey(kev.getKeyCode(), kev.getKeyChar(), false);
   }
 }
 
 /** Press Buttons 1 or 3: navigator or info menu */
-void Navig::pressB1orB3(UMouseEvent& e, int x, int y, int btn)
+void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
 {
   // desactivate previous object
   WO* prev_object = gw.gui.getSelectedObject();
@@ -225,10 +223,10 @@ void Navig::pressB1orB3(UMouseEvent& e, int x, int y, int btn)
 
   if (object) {
     gw.gui.selected_object = object;
-    //echo("clic [%d %d] on %s", x, y, object->objectName());
+    //echo("clic on %s", object->objectName());
 
     gw.message.performRequest(object);
-    if (btn == 1) {
+    if (b == 1) {
       // do the click method on the object
       if (gw.gui.vrelet) object->click(x, y);
       if (gw.gui.board)  object->click(x, y);
@@ -236,12 +234,12 @@ void Navig::pressB1orB3(UMouseEvent& e, int x, int y, int btn)
 
     selectObject(objinfo);
   
-    if (btn == 3) {		// show object menu
-      object_menu.open(e);
+    if (b == 3) {		// show object menu
+      object_menu.open(ev);
       opened_menu = object_menu;
     }
-    else if (btn == 1) {	// navigator
-      navig_menu.open(e);	// show(e, 0, 0); TRASH !!!
+    else if (b == 1) {		// navigator
+      navig_menu.open(ev);	// show(e, 0, 0); TRASH !!!
       opened_menu = navig_menu;
       object->setFlashy();	// flashes the edges of the solid
       object->setRay(x, y);	// launches stipple ray on the object
@@ -253,7 +251,7 @@ void Navig::pressB1orB3(UMouseEvent& e, int x, int y, int btn)
 }
 
 /** Press button 2: fine grain selection */
-void Navig::pressB2(UMouseEvent&, int x, int y)
+void Navig::pressB2(int x, int y)
 {
   depthsel++;
   WO* object = gw.pointedObject(x, y, objinfo, depthsel);
@@ -327,7 +325,6 @@ void Navig::objectMotion(UMouseEvent& e, Motion* _motx, Motion *_moty)
 {
   xref = e.getX();
   yref = e.getY();
-  //echo("xyref: %.0f %.0f", xref,yref);
   if (motx)  motx->stop();
   if (moty)  moty->stop();
   motx = _motx;
@@ -339,8 +336,8 @@ void Navig::doMotion(UMouseEvent& e)
 {
   float dx = e.getX() - xref;
   float dy = e.getY() - yref;
-  if (motx)  motx->move((int) dx);
-  if (moty)  moty->move((int) dy);
+  if (motx)  motx->move(int(dx));
+  if (moty)  moty->move(int(dy));
 }
 
 /** Stop motion */
@@ -512,5 +509,5 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
 
 void Navig::mouseRefCB(UMouseEvent& e)
 { 
-  echo("ref");
+  //echo("ref");
 }

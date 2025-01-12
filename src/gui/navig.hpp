@@ -42,19 +42,19 @@ class Navig {
 
   void navigator();
 
-  void pressB1orB3(UMouseEvent& e, int x, int y, int button_no);
-  void pressB2(UMouseEvent& e, int x, int y);
+  void pressB1orB3(UMouseEvent& ev, int x, int y, int button_no);
+  void pressB2(int x, int y);
 
   // Callbacks
-  void mousePressCB(UMouseEvent& e);  
-  void mouseReleaseCB(UMouseEvent& e);
-  void mouseDragCB(UMouseEvent& e);
-  void mouseMoveCB(UMouseEvent& e);
-  void mouseRefCB(UMouseEvent& e);
-  void keyPressCB(UKeyEvent& e);
-  void keyReleaseCB(UKeyEvent& e);
+  void mousePressCB(UMouseEvent& mev);  
+  void mouseReleaseCB(UMouseEvent& mev);
+  void mouseDragCB(UMouseEvent& mev);
+  void mouseMoveCB(UMouseEvent& mev);
+  void mouseRefCB(UMouseEvent& mev);
+  void keyPressCB(UKeyEvent& mev);
+  void keyReleaseCB(UKeyEvent& mev);
 
-  void objectMotion(UMouseEvent& e, class Motion* mvt_x, class Motion* mvt_y);
+  void objectMotion(UMouseEvent& mev, class Motion* mvt_x, class Motion* mvt_y);
 
  public:
   Navig(Widgets*, class Scene&);	///< constructor
@@ -63,8 +63,8 @@ class Navig {
   
   void selectObject(ObjInfo* objinfo);
 
-  void userMotion(UMouseEvent& e, class Motion* mvt_x, class Motion* mvt_y);
-  void doMotion(UMouseEvent& e);
+  void userMotion(UMouseEvent& mev, class Motion* mvt_x, class Motion* mvt_y);
+  void doMotion(UMouseEvent& mev);
   void stopMotion();
   void clearInfoBar();
 };
