@@ -166,7 +166,7 @@ void WO::changePositionOneDir(uint8_t move_key, float lasting)
   if (carrier && carrier->underControl()) {  // Manipulator
     echo("onedir: k=%d", move_key);
     carrier->mouseEvent(move_key, lasting);
-    carrier->keyEvent(move_key, lasting); //arrow keys
+    //dax carrier->keyEvent(move_key, lasting); //arrow keys
     return;
   }
 #endif

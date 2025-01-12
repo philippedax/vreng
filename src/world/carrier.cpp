@@ -35,7 +35,7 @@ const float Carrier::ASPEED = 0.5;
 
 void Carrier::defaults()
 {
-  taking = false;
+  control = false;
   object = NULL;
   lspeed = LSPEED;
   aspeed = ASPEED;
@@ -52,7 +52,7 @@ Carrier::Carrier()
 /** Accessor */
 bool Carrier::underControl() const
 {
-  return taking;
+  return control;
 }
 
 /** Takes control of the mouse to enter in manipulation mode */
@@ -72,15 +72,10 @@ void Carrier::take(WO *po)
   object->move.lspeed.v[0] = lspeed;
   object->move.aspeed.v[1] = aspeed;
   object->initImposedMovement(1);
-  taking = true;
+  control = true;
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
-void Carrier::leave(WO *po)
-{
-  leave();
-}
-
 void Carrier::leave()
 {
   ::g.gui.collapseNavig();	// hints Manipulator palette
@@ -99,7 +94,9 @@ void Carrier::leave()
  */
 void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 {
-  if (button == 1)  leave();  // left clic => leave mouse control
+  if (button == 1) {
+    leave();			// left clic => leave mouse control
+  }
 }
 
 /** Mouse event
@@ -125,7 +122,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     case KEY_MU: object->pos.ay += last*aspeed; break; // ^,
     case KEY_MD: object->pos.ay -= last*aspeed; break; // ,^
   }
-  //echo("pos: %.1f %.1f %.1f", object->pos.x,object->pos.y,object->pos.z);
+  echo("move pos: %.1f %.1f %.1f", object->pos.x, object->pos.y, object->pos.z);
 
   object->updatePositionAndGrid(object->pos);
   object->updatePosition();
@@ -142,10 +139,6 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     return;
   }
 }
-
-/** Key event: called by changePositionOneDir (move.cpp) */
-void Carrier::keyEvent(uint8_t vkey, float last)
-{}
 
 void Carrier::setLspeed(Carrier *pc, void *d, time_t s, time_t u)
 {

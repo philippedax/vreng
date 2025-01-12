@@ -49,7 +49,7 @@ class Carrier: public WO {
   class WO *object;	///< object ptr
   float lspeed;		///< linear speed
   float aspeed;		///< angular speed
-  bool taking;		///< flag true/false
+  bool control;		///< flag true/false
 
  public:
   static const float LSPEED;	///< linear speed
@@ -79,13 +79,10 @@ class Carrier: public WO {
    * The position/orientation of the object will be changed by changePosition
    * and the object will be updated in the 3D */
 
-  void leave(WO *po);
   void leave();
   /**< called when we release an object
    * Releases the carried object, put it into the mobile-list
    * and desactivates the carrier */
-
-  void mouseEvent(int8_t vkey, float last);
 
   void mouseEvent(uint16_t x, uint16_t y, uint8_t button);
   /**< called by mpress in navig.cpp to redirect mouse clics
@@ -93,7 +90,7 @@ class Carrier: public WO {
    * left button leaves the object
    * rigth button changes the motion mode */
 
-  void keyEvent(uint8_t vkey, float last);
+  void mouseEvent(int8_t vkey, float last);
   /**< called by userChangePositionOneType from move.cc to redirect
    * arrow keys to move the object
    * and handle intersects of this object */
