@@ -35,12 +35,16 @@ class Joystick1 : public UBox {
 
  private:
   Widgets& gw;
-  bool  is_drawing;
-  GLfloat radius;
   UBox  canvas;
   USize canvas_size;
+
+  bool  is_drawing;
+  GLfloat radius;
   UPoint center_point, current_point;
 
+  Navig * navig();
+
+  // CallBacks
   void paintCanvasCB(UPaintEvent&);
   void pressCanvasCB(UMouseEvent&);
   void dragCanvasCB(UMouseEvent&);
@@ -55,7 +59,6 @@ class Joystick2 : public UBox {
   Joystick2(Widgets* gw, GLint radius);
 
  private:
-  bool  is_drawing;
   UBox  canvas;
   USize canvas_size;
 
@@ -65,6 +68,8 @@ class Joystick2 : public UBox {
   UPoint arrow_point;
 
   void doAction();
+
+  // CallBacks
   void paintCB(UPaintEvent&);
   void dragCB(UMouseEvent&);
   void doubleClickCB(UMouseEvent&);

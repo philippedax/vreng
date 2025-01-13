@@ -42,8 +42,6 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
   canvas_size.set(radius*2, radius*2);
   center_point.set(radius, radius);
 
-  Navig* navig = gw.getNavig();
-
   canvas.addAttr(canvas_size
                  + UOn::paint    / ucall(this, &Joystick1::paintCanvasCB)
                  + UOn::mdrag    / ucall(this, &Joystick1::dragCanvasCB)
@@ -60,9 +58,9 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
                      ).setSelectable()
               + uitem(g.theme.JoystickUpDown
                       + utip("Drag on the Y axis to move verticaly")
-                      + UOn::arm / ucall(navig, (Motion*)0, &Motion::u_trans_z, &Navig::userMotion)
-                      + UOn::mdrag / ucall(navig, &Navig::doMotion)
-                      + UOn::mrelease / ucall(navig, &Navig::stopMotion)
+                      + UOn::arm      / ucall(navig(), (Motion*)0, &Motion::u_trans_z, &Navig::userMotion)
+                      + UOn::mdrag    / ucall(navig(), &Navig::doMotion)
+                      + UOn::mrelease / ucall(navig(), &Navig::stopMotion)
                      )
              )
       + uvbox(
@@ -70,38 +68,43 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
               + uright()
               + uitem(g.theme.JoystickLeftRight
                       + utip("Drag on the X axis to move lateraly")
-                      + UOn::arm / ucall(navig, &Motion::u_trans_x, (Motion*)0, &Navig::userMotion)
-                      + UOn::mdrag / ucall(navig, &Navig::doMotion)
-                      + UOn::mrelease / ucall(navig, &Navig::stopMotion)
+                      + UOn::arm      / ucall(navig(), &Motion::u_trans_x, (Motion*)0, &Navig::userMotion)
+                      + UOn::mdrag    / ucall(navig(), &Navig::doMotion)
+                      + UOn::mrelease / ucall(navig(), &Navig::stopMotion)
                      )
              )
      );
 }
 
+Navig * Joystick1::navig()
+{
+  return gw.getNavig();
+}
+
 /** Press into the joystick */
 void Joystick1::pressCanvasCB(UMouseEvent& e)
 {
-  gw.getNavig()->userMotion(e, &Motion::u_rot_z, &Motion::u_trans_y);
+  navig()->userMotion(e, &Motion::u_rot_z, &Motion::u_trans_y);
   current_point.set(e.getX(), e.getY());
   is_drawing = true;
-  repaint();	// uwin
+  repaint();		// uwin
 }
 
 /** Drags into the joystick */
 void Joystick1::dragCanvasCB(UMouseEvent& e)
 {
-  gw.getNavig()->doMotion(e);
+  navig()->doMotion(e);
   current_point.set(e.getX(), e.getY());
-  repaint();	// uwin
+  repaint();		// uwin
 }
 
 /** Releases into the joystick */
 void Joystick1::releaseCanvasCB(UMouseEvent& e)
 {
-  gw.getNavig()->stopMotion();
+  navig()->stopMotion();
   current_point.set(e.getX(), e.getY());
   is_drawing = false;
-  repaint();	// uwin
+  repaint();		// uwin
 }
 
 /** Points into the joystick */
@@ -125,7 +128,8 @@ void Joystick1::paintCanvasCB(UPaintEvent& e)
     float a = dx == 0 ? 0 : atan(dy / dx);
     float sign = dx > 0 ? +1 : -1;
     if (r > radius) r = radius;
-    g.drawLine(center_point.x, center_point.y,
+    g.drawLine(center_point.x,
+               center_point.y,
                center_point.x + sign * r * cos(a),
                center_point.y + sign * r * sin(a)
               );
@@ -134,10 +138,9 @@ void Joystick1::paintCanvasCB(UPaintEvent& e)
 
 //---------------------------------------------------------------------------
 
-/** Constructor foe joystick2 */
+/** Constructor for joystick2 */
 Joystick2::Joystick2(Widgets* _gw, GLint _radius)
 {
-  is_drawing = false;
   circle_radius = _radius;
   GLint w = (GLint) circle_radius + 6;
   GLint h = (GLint) circle_radius*2 + 4;
@@ -212,15 +215,18 @@ void Joystick2::paintCB(UPaintEvent &e)
   g.drawLine(0, arrow_point.y, 2, arrow_point.y);
 
   g.setColor(::g.theme.joystickArmColor);
-  g.drawLine(arrow_point.x, arrow_point.y,
+  g.drawLine(arrow_point.x,
+             arrow_point.y,
              arrow_point.x - circle_radius * cos(delta),
              arrow_point.y - circle_radius * sin(delta));
 
   g.setColor(::g.theme.joystickColor);
-  g.drawLine(arrow_point.x, arrow_point.y,
+  g.drawLine(arrow_point.x,
+             arrow_point.y,
              arrow_point.x - 12*cos(delta+(M_PI*20/180)),
              arrow_point.y - 12*sin(delta+(M_PI*20/180)));
-  g.drawLine(arrow_point.x, arrow_point.y,
+  g.drawLine(arrow_point.x,
+             arrow_point.y,
              arrow_point.x - 12*cos(delta-(M_PI*20/180)),
              arrow_point.y - 12*sin(delta-(M_PI*20/180)));
 }
