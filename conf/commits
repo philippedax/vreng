@@ -3314,3 +3314,4 @@
 3314 Dim 12 jan 2025 15:14:27 CET	remove keyEvent move.cpp
 3315 Dim 12 jan 2025 15:45:51 CET	cleanup board nivig.cpp
 3316 Dim 12 jan 2025 15:56:40 CET	cleanup isSomeThingInCart cart.*pp
+3317 Lun 13 jan 2025 11:19:13 CET	cleanup navig() joystick.*pp

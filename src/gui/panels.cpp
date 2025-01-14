@@ -298,17 +298,11 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                   + usepar()
 
                   + " Capture:"
-                  + uitem(utip("Capture screenshot in JPG")
+                  + uitem(utip("Save screenshot in JPG")
                           + g.theme.Camera
                           + ucall(&gw.capture, &Capture::writeJPGImage)
                          )
-#if WANT_GL2PS
-                  + uitem(utip("Capture screenshot in SVG")
-                          + g.theme.Camera
-                          + ucall(&gw.capture, &Capture::writeSVGImage)
-                         )
-#endif
-                  + uitem(utip("Capture video (start/stop)")
+                  + uitem(utip("Save video (start/stop)")
                           + UOn::select   / ucall(&gw.capture, &Capture::startVideo)
                           + UOn::deselect / ucall(&gw.capture, &Capture::stopVideo)
                           + UOn::select   / g.theme.Exit
