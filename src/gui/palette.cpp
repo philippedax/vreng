@@ -69,7 +69,7 @@ void Palette::expand()
 
 void Palette::titleCB()
 {
-  pcontent->show(! pcontent->isShown());
+  pcontent->show(! pcontent->isShown());	// uelem.cpp
 }
 
 Palette& Palette::setTitle(UArgs a)
@@ -81,6 +81,6 @@ Palette& Palette::setTitle(UArgs a)
 
 Palette& Palette::setPos(ULength x, ULength y)
 {
-  ppos->set(x,y);
+  ppos->set(x, y);
   return *this;
 }

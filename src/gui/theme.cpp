@@ -37,7 +37,7 @@ void Theme::init()
   controlPanelHeight = 120;
   paletteWidth = 100;
   paletteHeight = 100; 
-  messagePaletteWidth = 350; 
+  messageNotifWidth = 350; 
   
   mainStyle += UBackground::metal + UColor::black;
   menuStyle += ualpha(0.5) + UBackground::black + UColor::white + UFont::bold;

@@ -36,7 +36,7 @@ class Theme {
   void init();
   ///< inits the theme; must be called before using the GUI.
   
-  float paletteWidth, paletteHeight, messagePaletteWidth, controlPanelHeight;
+  float paletteWidth, paletteHeight, messageNotifWidth, controlPanelHeight;
   
   UArgs mainStyle, menuStyle, paletteStyle, panelStyle, scrollpaneStyle, objectTypeStyle, objectNameStyle;
  

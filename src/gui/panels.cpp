@@ -159,8 +159,8 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   scene.add(navig_palette);
 
   Palette& notif_palette = *new Palette(g.theme.paletteStyle
-               //dax + usize(g.theme.messagePaletteWidth, g.theme.paletteHeight)
-               + usize(g.theme.messagePaletteWidth, 20)
+               //dax + usize(g.theme.messageNotifWidth, g.theme.paletteHeight)
+               + usize(g.theme.messageNotifWidth, 20)
                //dax + gw.message.createMessagePanel(true)
                + gw.message.createQuery()
                                        );
