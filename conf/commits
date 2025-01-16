@@ -3318,3 +3318,4 @@
 3318 Mar 14 jan 2025 17:36:25 CET	remove GL2PS panels.cpp
 3319 Mer 15 jan 2025 17:53:29 CET	cleanup messageNotifWidth theme.*pp
 3320 Jeu 16 jan 2025 09:59:00 CET	cleanup UA_ -> U_ user.*pp
+3321 Jeu 16 jan 2025 11:43:46 CET	cleanup includes navig.cpp

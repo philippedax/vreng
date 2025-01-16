@@ -44,27 +44,26 @@
 //
 // CallBacks
 //
-
-static void toggleHudCB(Widgets*)
+static void toggleHudCB(Widgets* gw)
 {
   g.gui.scene()->toggleHud();
 }
 
-static void toggleAxisCB(Widgets*)
+static void toggleAxisCB(Widgets* gw)
 {
   Axis::axis()->toggle();
 }
 
-static void toggleGridCB(Widgets*, int flag)
+static void toggleGridCB(Widgets*, int oper)
 {
-  switch (flag) {
+  switch (oper) {
     case 0: Grid::grid()->toggleGrid2d(); break;
     case 1: Grid::grid()->toggleGrid3d(); break;
     case 2: Grid::grid()->toggleOverlap(); break;
   }
 }
 
-static void sandboxCB(Widgets*)
+static void sandboxCB(Widgets* gw)
 {
   World::current()->quit();
   delete Channel::current();	// delete Channel
@@ -74,8 +73,8 @@ static void sandboxCB(Widgets*)
 void Panels::showManipulator(bool state)
 {
   manipulator.show(state);
-  joystick1->show(!state);
-  joystick2->show(!state);
+  joystick1->show(! state);
+  joystick2->show(! state);
 }
 
 /** Constructor */
@@ -87,20 +86,20 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 {
   // right panel - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  // WORLDS
+  // Worlds
   UScrollpane& worlds_spane = uscrollpane(true, false, uvbox(gw.worlds));
   worlds_spane.showVScrollButtons(false);
 
-  // BASKET
+  // Basket
   UScrollpane& basket_spane = uscrollpane(true, false, uvbox(gw.basket));
   basket_spane.showVScrollButtons(false);
 
-  // AVATARS
+  // Avatars
   UScrollpane& avatars_spane = uscrollpane(true, false, uvbox(gw.avatars));
   avatars_spane.showVScrollButtons(false);
 
   right_panel.addAttr(UOrient::vertical + uvspacing(8) + upadding(4,2))
-             .add(uvbox(g.theme.panelStyle
+             .add(uvbox(  g.theme.panelStyle
                         + utop()
                         + ulabel(g.theme.World
                                  + " Worlds"
@@ -111,7 +110,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                                + worlds_spane
                               )
                        )
-                + uvbox(g.theme.panelStyle
+                + uvbox(  g.theme.panelStyle
                         + utop()
                         + ulabel(g.theme.Folder
                                  + " Basket"
@@ -122,7 +121,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                                + basket_spane
                               )
                        )
-                + uvbox(g.theme.panelStyle
+                + uvbox(  g.theme.panelStyle
                         + utop()
                         + ulabel(g.theme.Person
                                  + " Avatars"
@@ -138,13 +137,13 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   // navigator - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  manipulator.show(false);  // joystick not shown by default
+  manipulator.show(false);  // not shown by default
   joystick1->show(true);
   joystick2->show(true);
 
-  UBox& navig_box = uhbox(g.theme.panelStyle
+  UBox& navig_box = uhbox(  g.theme.panelStyle
                           + uvcenter()
-                          + manipulator  // either manipulator or joystick is shown
+                          + manipulator  // either manipulator either joystick is shown
                           + joystick1
                           + "   "
                           + joystick2
@@ -158,20 +157,21 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   navig_palette.setTitle(UColor::black + UFont::bold + "Navigator");
   scene.add(navig_palette);
 
-  Palette& notif_palette = *new Palette(g.theme.paletteStyle
-               //dax + usize(g.theme.messageNotifWidth, g.theme.paletteHeight)
-               + usize(g.theme.messageNotifWidth, 20)
-               //dax + gw.message.createMessagePanel(true)
-               + gw.message.createQuery()
+  Palette& notif_palette = *new Palette(  g.theme.paletteStyle
+              		 		//+ usize(g.theme.messageNotifWidth, g.theme.paletteHeight)
+               				+ usize(g.theme.messageNotifWidth, 20)
+               				//dax + gw.message.createMessagePanel(true)
+               				+ gw.message.createQuery()
                                        );
   pnotif = &notif_palette;
   notif_palette.setPos(50|UPERCENT_CTR, 2|UPos::BOTTOM);
   notif_palette.setTitle(UColor::black + UFont::bold + "Notifications & Messages");
   scene.add(notif_palette);
 
-  Palette& avatar_palette = *new Palette(g.theme.paletteStyle
-               + usize(g.theme.paletteWidth/2, g.theme.paletteHeight/2)
-               + avatars_spane);
+  Palette& avatar_palette = *new Palette(  g.theme.paletteStyle
+               				 + usize(g.theme.paletteWidth/2, g.theme.paletteHeight/2)
+               				 + avatars_spane
+					);
   pavatar = &avatar_palette;
   avatar_palette.setPos(2|UPos::RIGHT, 2|UPos::BOTTOM);
   avatar_palette.setTitle(UColor::black + UFont::bold + "Avatars");
@@ -179,8 +179,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   if (::g.pref.expand == false) {
     navig_palette.collapse();
-    //dax notif_palette.collapse();
-    notif_palette.expand();
+    notif_palette.expand();		//dax notif_palette.collapse();
     avatar_palette.collapse();
   }
 
@@ -194,7 +193,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                     + navig_box
                     + " "
                     + uhflex()
-                    + ubox(g.theme.panelStyle
+                    + ubox(  g.theme.panelStyle
                            + gw.message.createMessagePanel(false)
                            + gw.message.createQuery()
                           )
@@ -222,15 +221,15 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   UListbox& viewbar = ulistbox(  UOrient::horizontal
                                + UBackground::none
                                + upadding(1,1)
-                               + uitem(utip("Main viewpoint first person")
+                               + uitem(  utip("Main viewpoint first person")
                                        + g.theme.BigEye
                                        + ucall(int(User::U_FIRSTVIEW), Widgets::action)
                                       )
-                               + uitem(utip("Third person viewpoint")
+                               + uitem(  utip("Third person viewpoint")
                                        + g.theme.Eyes
                                        + ucall(int(User::U_THIRDVIEWFAR), Widgets::action)
                                       )
-                               + uitem(utip("Alternate viewpoints")
+                               + uitem(  utip("Alternate viewpoints")
                                        + g.theme.Jumelles
                                        + ucall(int(User::U_SWITCHVIEW), Widgets::action)
                                       )
@@ -246,68 +245,67 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                   + usepar()
 
                   + " Show:"
-                  + uitem(utip("Show axis")
-                          + g.theme.Axis
-                          + ucall(_gw, toggleAxisCB)
-                         )
-                  + uitem(utip("Show 2D grid")
-                          + g.theme.Grid2D
-                          + ucall(_gw, 0, toggleGridCB)
-                         )
-                  + uitem(utip("Show 3D grid")
-                          + g.theme.Grid3D
-                          + ucall(_gw, 1, toggleGridCB)
-                         )
-                  + uitem(utip("Show hud")
-                          + g.theme.Counter
-                          + ucall(_gw, toggleHudCB)
-                         )
-                  + uitem(utip("Show map")
-                          + g.theme.World
-                          + ucall(int(User::U_MAPVIEW), Widgets::action)
-                         )
+                  + uitem(utip(  "Show axis") + g.theme.Axis
+                               + ucall(_gw, toggleAxisCB)
+                              )
+                  + uitem(utip(  "Show 2D grid")
+                               + g.theme.Grid2D
+                               + ucall(_gw, 0, toggleGridCB)
+                              )
+                  + uitem(utip(  "Show 3D grid")
+                               + g.theme.Grid3D
+                               + ucall(_gw, 1, toggleGridCB)
+                              )
+                  + uitem(utip(  "Show hud")
+                               + g.theme.Counter
+                               + ucall(_gw, toggleHudCB)
+                              )
+                  + uitem(utip(  "Show map")
+                               + g.theme.World
+                               + ucall(int(User::U_MAPVIEW), Widgets::action)
+                              )
                   + usepar()
 
                   + " Objects:"
-                  + uitem(utip("Show basket")
-                          + g.theme.Cart
-                          //+ ushow(*gw.basket_dialog, true) !! A COMPLETER
-                         )
-                  + uitem(utip("Add object to the world")
-                          + g.theme.AddObj
-                          + ushow(gw.addobj_dialog, true)
-                         )
-                  + uitem(utip("Test: sandbox world !")
-                          + g.theme.Sandbox //UPix::question
-                          + ucall(_gw, sandboxCB)
-                         )
+                  + uitem(utip(  "Show basket")
+                               + g.theme.Cart
+                               //+ ushow(*gw.basket_dialog, true) !! A COMPLETER
+                              )
+                  + uitem(utip(  "Add object to the world")
+                               + g.theme.AddObj
+                               + ushow(gw.addobj_dialog, true)
+                              )
+                  + uitem(utip(  "Test: sandbox world !")
+                               + g.theme.Sandbox //UPix::question
+                               + ucall(_gw, sandboxCB)
+                              )
                   + usepar()
 
                   + " Throw:"
-                  + uitem(utip("Throw dart")
-                          + UPix::ray
-                          + ucall(int(User::U_DART), Widgets::action)
-                         )
-                  + uitem(utip("Throw bullet")
-                          + UFont::bold
-                          + UFont::xx_large
-                          + UColor::red
-                          + "."
-                          + ucall(int(User::U_BULLET), Widgets::action)
-                         )
+                  + uitem(utip(  "Throw dart")
+                               + UPix::ray
+                               + ucall(int(User::U_DART), Widgets::action)
+                              )
+                  + uitem(utip(  "Throw bullet")
+                               + UFont::bold
+                               + UFont::xx_large
+                               + UColor::red
+                               + "."
+                               + ucall(int(User::U_BULLET), Widgets::action)
+                              )
                   + usepar()
 
                   + " Capture:"
-                  + uitem(utip("Save screenshot in JPG")
-                          + g.theme.Camera
-                          + ucall(&gw.capture, &Capture::writeJPGImage)
-                         )
-                  + uitem(utip("Save video (start/stop)")
-                          + UOn::select   / ucall(&gw.capture, &Capture::startVideo)
-                          + UOn::deselect / ucall(&gw.capture, &Capture::stopVideo)
-                          + UOn::select   / g.theme.Exit
-                          + UOn::deselect / g.theme.Movie
-                         )
+                  + uitem(utip("  Save screenshot in JPG")
+                               + g.theme.Camera
+                               + ucall(&gw.capture, &Capture::writeJPGImage)
+                              )
+                  + uitem(utip(  "Save video (start/stop)")
+                               + UOn::select   / ucall(&gw.capture, &Capture::startVideo)
+                               + UOn::deselect / ucall(&gw.capture, &Capture::stopVideo)
+                               + UOn::select   / g.theme.Exit
+                               + UOn::deselect / g.theme.Movie
+                              )
                   + usepar()
                   + uhflex()
                   + ubox()
