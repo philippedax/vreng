@@ -101,34 +101,34 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   right_panel.addAttr(UOrient::vertical + uvspacing(8) + upadding(4,2))
              .add(uvbox(  g.theme.panelStyle
                         + utop()
-                        + ulabel(g.theme.World
+                        + ulabel(  g.theme.World
                                  + " Worlds"
                                  + utip("Visited worlds")
                                 )
                         + uvflex()
-                        + ubox(g.theme.scrollpaneStyle
+                        + ubox(  g.theme.scrollpaneStyle
                                + worlds_spane
                               )
                        )
                 + uvbox(  g.theme.panelStyle
                         + utop()
-                        + ulabel(g.theme.Folder
+                        + ulabel(  g.theme.Folder
                                  + " Basket"
                                  + utip("Basket content")
                                 )
                         + uvflex()
-                        + ubox(g.theme.scrollpaneStyle
+                        + ubox(  g.theme.scrollpaneStyle
                                + basket_spane
                               )
                        )
                 + uvbox(  g.theme.panelStyle
                         + utop()
-                        + ulabel(g.theme.Person
+                        + ulabel(  g.theme.Person
                                  + " Avatars"
                                  + utip("Current avatars")
                                 )
                         + uvflex()
-                        + ubox(g.theme.scrollpaneStyle
+                        + ubox(  g.theme.scrollpaneStyle
                                + avatars_spane
                               )
                        )

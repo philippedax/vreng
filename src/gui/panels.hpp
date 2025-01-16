@@ -23,8 +23,6 @@
 #ifndef PANELS_HPP
 #define PANELS_HPP
 
-#include "palette.hpp"
-
 
 /**
  * Panels class
@@ -43,9 +41,9 @@ class Panels {
  public:
   Panels(class Widgets*, class Scene&);
 
-  Palette *pnavig;
-  Palette *pnotif;
-  Palette *pavatar;
+  class Palette *pnavig;
+  class Palette *pnotif;
+  class Palette *pavatar;
 
   void showManipulator(bool state);
   void showBasket(bool state);
