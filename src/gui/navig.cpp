@@ -26,7 +26,6 @@
 #include "vreng.hpp"
 #include "navig.hpp"
 #include "widgets.hpp"	// gw
-#include "palette.hpp"	// Palette
 #include "scene.hpp"	// scene.add
 #include "motion.hpp"	// Motion
 #include "message.hpp"	// message
@@ -34,7 +33,6 @@
 #include "user.hpp"	// User
 #include "vnc.hpp"	// Vnc
 #include "carrier.hpp"	// Carrier
-#include "board.hpp"	// Board
 
 
 // local
@@ -212,9 +210,9 @@ void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
   //Sound::playSound(CLICKSND);
 
   // current clic
-  static uint8_t z = 0;		// first object static to allow 3 objects
+  static uint8_t z = 0;		// first object
   WO* object = gw.pointedObject(x, y, objinfo, z % 3);
-  z++;				// next object hidden in th the z buffer
+  z++;				// next object hidden in the z buffer
 
   if (object) {
     gw.gui.selected_object = object;
@@ -236,7 +234,7 @@ void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
     else if (b == 1) {		// navigator
       navig_menu.open(ev);	// show(e, 0, 0); TRASH !!!
       opened_menu = navig_menu;
-      object->setFlashy();	// flashes the edges of the solid
+      object->setFlashy();	// flashes the edges of the object
       object->setRay(x, y);	// launches stipple ray on the object
     }
   }
@@ -255,7 +253,6 @@ void Navig::pressB2(int x, int y)
     object->resetFlashy();
     object->setFlashy();	// flashes edges of the solid
     object->setRay(x, y);	// launches stipple ray on the object
-
     selectObject(objinfo);
   }  
   else {			// no object!
