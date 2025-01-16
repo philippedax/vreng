@@ -224,15 +224,15 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                                + upadding(1,1)
                                + uitem(utip("Main viewpoint first person")
                                        + g.theme.BigEye
-                                       + ucall(int(User::UA_FIRSTVIEW), Widgets::action)
+                                       + ucall(int(User::U_FIRSTVIEW), Widgets::action)
                                       )
                                + uitem(utip("Third person viewpoint")
                                        + g.theme.Eyes
-                                       + ucall(int(User::UA_THIRDVIEWFAR), Widgets::action)
+                                       + ucall(int(User::U_THIRDVIEWFAR), Widgets::action)
                                       )
                                + uitem(utip("Alternate viewpoints")
                                        + g.theme.Jumelles
-                                       + ucall(int(User::UA_SWITCHVIEW), Widgets::action)
+                                       + ucall(int(User::U_SWITCHVIEW), Widgets::action)
                                       )
                               );
   viewbar.select(0);
@@ -264,7 +264,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                          )
                   + uitem(utip("Show map")
                           + g.theme.World
-                          + ucall(int(User::UA_MAPVIEW), Widgets::action)
+                          + ucall(int(User::U_MAPVIEW), Widgets::action)
                          )
                   + usepar()
 
@@ -286,14 +286,14 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                   + " Throw:"
                   + uitem(utip("Throw dart")
                           + UPix::ray
-                          + ucall(int(User::UA_DART), Widgets::action)
+                          + ucall(int(User::U_DART), Widgets::action)
                          )
                   + uitem(utip("Throw bullet")
                           + UFont::bold
                           + UFont::xx_large
                           + UColor::red
                           + "."
-                          + ucall(int(User::UA_BULLET), Widgets::action)
+                          + ucall(int(User::U_BULLET), Widgets::action)
                          )
                   + usepar()
 

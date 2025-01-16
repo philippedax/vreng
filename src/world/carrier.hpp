@@ -57,8 +57,8 @@ class Carrier: public WO {
 
   /* actions */
   enum {
-    SETLSPEED,
-    SETASPEED
+    O_SETLSPEED,
+    O_SETASPEED
   };
 
   static const OClass oclass;   ///< class variable
