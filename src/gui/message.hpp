@@ -28,7 +28,6 @@
 #include <vector>
 
 #include "ubit/ubit.hpp"	// UStr
-
 using namespace ubit;
 
 
@@ -36,17 +35,14 @@ using namespace ubit;
  * Message class
  */
 class Message {
-friend class Widgets;
  public:
   Message(class Widgets*);		///< constructor.
   
   std::vector<UStr> mess_history;	///< history log
 
-  UBox& createQuery();
-  ///< creates the query box
+  UBox& createQuery();			///< creates the query box
 
-  UBox& createMessagePanel(bool transparent);
-  ///< creates the message panel
+  UBox& createMessagePanel(bool transparent);	///< creates the message panel
 
   void writeMessage(const char* mode, const char* from, const char* mess);
   ///< adds a new message to the messages box.

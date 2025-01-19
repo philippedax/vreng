@@ -273,7 +273,7 @@ void Message::convertTextToLink(const std::string& text, char **objs, int size)
                     + UColor::green + UFont::bold
                     + umenu(ulabel(uimg))
                     + UOn::doubleClick / ucall(reinterpret_cast<char*>(objs[i+2]), moveSatCamera)
-                    );
+                   );
         allmsgs->add(ulinkb);
         allmsgs->add(ustr(" "));
         found = true;
