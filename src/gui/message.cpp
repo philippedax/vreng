@@ -39,8 +39,6 @@
 #include <iostream>
 #include "ubit/ubit.hpp"
 
-using namespace std;
-
 
 /* ==================================================== ======== ======= */
 // MESSAGES and REQUESTS
@@ -111,7 +109,7 @@ UBox& Message::createMessagePanel(bool transparent)
                       )
               );
 #endif
-  UBox& notif = ubox(UOrient::vertical
+  UBox& notif = ubox(  UOrient::vertical
                      + uhflex()
                      + uvflex()
                      + mess_scrollpane
@@ -249,14 +247,14 @@ static void moveSatCamera(char* pos)
   g.render.setCameraScissor(x, y, z, az);
 }
 
-void Message::convertTextToLink(const string& text, char **listeObjets, int size)
+void Message::convertTextToLink(const std::string& text, char **objs, int size)
 {
   UElem* allmsgs = new UElem();
   bool found = false;
   char* mess = strdup(text.c_str());
 
   if (size < 1) {
-    cerr << "convertTextToLink not implemented" << endl;
+    error("convertTextToLink not implemented");
     mess_box.add(uhbox(ugroup(mess)));
   }
   char *brkt = null;
@@ -265,22 +263,21 @@ void Message::convertTextToLink(const string& text, char **listeObjets, int size
   while (tmpmess) {
     found = false;
     for (int i=0; i<size ; i=i+3) {
-
-      if (! listeObjets[i])
+      if (! objs[i])
         break;
-      if ((! strcasecmp(listeObjets[i], tmpmess)) && (listeObjets[i+1])) {
-        UIma& uimg = uima(listeObjets[i+1]);	// loads image
+      if ((! strcasecmp(objs[i], tmpmess)) && (objs[i+1])) {
+        UIma& uimg = uima(objs[i+1]);	// loads image
         uimg.rescale(0.25);
         ULinkbutton& ulinkb =
-        ulinkbutton(  listeObjets[i]
+        ulinkbutton(  objs[i]
                     + UColor::green + UFont::bold
                     + umenu(ulabel(uimg))
-                    + UOn::doubleClick / ucall(reinterpret_cast<char*>(listeObjets[i+2]), moveSatCamera)
+                    + UOn::doubleClick / ucall(reinterpret_cast<char*>(objs[i+2]), moveSatCamera)
                     );
         allmsgs->add(ulinkb);
         allmsgs->add(ustr(" "));
         found = true;
-        unlink(listeObjets[i+1]);	// unlink tmp file
+        unlink(objs[i+1]);	// unlink tmp file
         break;
       }
     }
@@ -294,24 +291,24 @@ void Message::convertTextToLink(const string& text, char **listeObjets, int size
   free(mess);
 }
 
-void Message::postRequest(const string& mess, string& result)
+void Message::postRequest(const std::string& mess, std::string& result)
 {
   int sizemax = 256;
-  float posx, posy, posz, posaz; //coordonnees trouvees
+  float posx, posy, posz, posaz;	// coordinnates found
   int afficher = 0;
   int nbobjs = 0;
-  int sizerecu = mess.length();
-  char pos[sizerecu +1];
-  char name[sizerecu +1];
-  char tmp[sizerecu +1];
-  char **listeObjets = new char*[sizemax];
+  int sizerecv = mess.length();
+  char pos[sizerecv +1];
+  char name[sizerecv +1];
+  char tmp[sizerecv +1];
+  char **objs = new char*[sizemax];
 
   pos[0] = name[0] = tmp[0] = '\0';
 
-  for (int i=0; i < sizerecu ; i++) {
-    if (mess[i] == '@') {
+  for (int i=0; i < sizerecv ; i++) {
+    if (mess[i] == '@') {	// message begining by @
       if (nbobjs > (sizemax-2)) {
-        cerr << "message has too many request" <<endl;
+        error("message has too many request");
         break;
       }
       if (afficher == 0) {
@@ -319,25 +316,25 @@ void Message::postRequest(const string& mess, string& result)
         name[0] = '\0';
       }
       else if (afficher == 1) {
-        listeObjets[nbobjs] = strdup(name);
+        objs[nbobjs] = strdup(name);
         nbobjs++;
       }
       else if (afficher == 2) {
         //on enregistre l'image ds un fichier.
-        listeObjets[nbobjs] =  strdup("request.jpg");
-        listeObjets[nbobjs+1] = strdup(pos);
+        objs[nbobjs] =  strdup("request.jpg");
+        objs[nbobjs+1] = strdup(pos);
 
         //on convertit le string en coords.
         string2Coord(pos, posx, posy, posz, posaz);
 
         //recupere la position et fait un snapshot de la position demandee	
-        ::g.render.calculateFov(posx,posy,posz,posaz, listeObjets[nbobjs]);
+        ::g.render.calculateFov(posx, posy, posz, posaz, objs[nbobjs]);
         nbobjs += 2;
       }
       afficher = (afficher+1) % 3;
       continue;
     }
-    else { 		//not @
+    else { 			// not begining by @
       if (afficher == 0) {
         result += mess[i];
       }
@@ -353,11 +350,12 @@ void Message::postRequest(const string& mess, string& result)
     }
   }
 
-  if (nbobjs > 0) convertTextToLink(result, listeObjets, nbobjs);
+  if (nbobjs > 0)
+    convertTextToLink(result, objs, nbobjs);
   //TODO ev : traiter le message non augmente
 
-  if (listeObjets) delete[] listeObjets;
-  listeObjets = NULL;
+  if (objs) delete[] objs;
+  objs = NULL;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -372,8 +370,8 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
   uptr<UStr> prefix = null;
   uptr<UColor> prefix_color = null;
 
-  if (from) {		// chat
-    string result;
+  if (from) {					// chat
+    std::string result;
     postRequest(msg, result);
     mess_text = new UStr(result);
 
@@ -406,7 +404,7 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
       prefix_color = ::g.theme.warningColor;
     }
   }
-  else {		// chat to
+  else {					// chat to
     error("msg: %s", msg);
     mess_text = new UStr(msg);
     prefix = new UStr("> ");

@@ -18,10 +18,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-// meaasges.hpp
+// messages.hpp
 //---------------------------------------------------------------------------
 #ifndef MESSAGE_HPP
 #define MESSAGE_HPP
+
 
 #include <string>
 #include <vector>
@@ -29,8 +30,6 @@
 #include "ubit/ubit.hpp"	// UStr
 
 using namespace ubit;
-
-class WO;
 
 
 /**
@@ -52,13 +51,13 @@ friend class Widgets;
   void writeMessage(const char* mode, const char* from, const char* mess);
   ///< adds a new message to the messages box.
 
-  void performRequest(WO*);
+  void performRequest(class WO*);
   void initClicked();
 
   void getClicked(uint8_t *nclick, float clicked[]);
   ///< get clicked object for the request.
 
- protected:
+ private:
   class Widgets& gw;
   UBox mess_box;		///< message box
   UScrollpane mess_scrollpane;	///< message panel
