@@ -34,9 +34,6 @@ class Solid;
  * Vicinity class
  */
 class Vicinity {
-  friend class User;	///< access to many members
-  friend class Render;  ///< access to Rendering
-
  private:
   typedef enum {
     DIST_INCL,
@@ -60,34 +57,26 @@ class Vicinity {
     Dist dist;
   } Vicin;
 
-  typedef struct s_visualPos {
+  typedef struct s_visuPos {
     WO *object;
     int nbPixels;
     int xmin;
     int xmax;
     int ymin;
     int ymax;
-  } VisualPos;
-
-//   typedef struct typeTable{
-//     char typeName[100];
-//     struct typeTable suivant;
-//   } TypeTable
+  } VisuPos;
 
   WO *obj;
   std::string objName;
-
   User *user;
   Dist userDist;
   Size userSize;
   Size objSize;
-
-  Vicin* vicinList;
-  VisualPos* visualList;
-
+  Vicin* viciList;
+  VisuPos* visuList;
   std::list<Solid*> solidLst; ///< solids list
-  int listSize;
-  int visualListSize;
+  int listsize;
+  int visuListSize;
 
   /* private methods */
 
@@ -116,7 +105,7 @@ class Vicinity {
 
  public:
   Vicinity();
-  Vicinity(std::string _objectName);
+  Vicinity(std::string _objName);
 
   virtual ~Vicinity();
 
@@ -129,9 +118,7 @@ class Vicinity {
   WO* searchProximityObject(char **typeObj, int nbre);
 
   void analScene();
-  /**<
-   * describe the scene viewed by the user and use the vicinity list for the AOI
-   */
+  /**< describe the scene viewed by the user and use the vicinity list for the AOI */
 
   static void show();
   static void show(const char *str);
