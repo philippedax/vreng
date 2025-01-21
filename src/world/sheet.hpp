@@ -23,12 +23,12 @@
 #ifndef SHEET_HPP
 #define SHEET_HPP
 
-#include "wobject.hpp"
-
 #define SHEET_TYPE	44
 #define SHEET_NAME	"Sheet"
 
 #define DEF_URL_NOISE	"/mp3/sheet.mp3"	// noise for sheet
+
+#include "wobject.hpp"
 
 
 /**

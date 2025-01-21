@@ -30,8 +30,6 @@
 
 #include "wobject.hpp"
 
-class Http;
-class Sheet;
 
 /**
  * Book class
@@ -175,13 +173,13 @@ class Book: public WO {
   void inits();
   /**< sets initializations. */
 
-  void turnPrev(Sheet *sheet, void *d, time_t s, time_t u);
-  void turnNext(Sheet *sheet, void *d, time_t s, time_t u);
-  void pushPrev(Sheet *sheet, float dist);
-  void pushNext(Sheet *sheet, float dist);
-  void pullPrev(Sheet *sheet);
-  void pullNext(Sheet *sheet);
-  void cancelSheet(Sheet *sheet);
+  void turnPrev(class Sheet *sheet, void *d, time_t s, time_t u);
+  void turnNext(class Sheet *sheet, void *d, time_t s, time_t u);
+  void pushPrev(class Sheet *sheet, float dist);
+  void pushNext(class Sheet *sheet, float dist);
+  void pullPrev(class Sheet *sheet);
+  void pullNext(class Sheet *sheet);
+  void cancelSheet(class Sheet *sheet);
 
   void open(Book *book, void *d, time_t s, time_t u);
   void close(Book *book, void *d, time_t s, time_t u);
@@ -202,7 +200,7 @@ class Book: public WO {
   static void lookLeft_cb(Book *book, void *d, time_t s, time_t u);
   static void lookRight_cb(Book *book, void *d, time_t s, time_t u);
 
-  static void reader(void*, Http*);
+  static void reader(void*, class Http*);
 };
 
 #endif
