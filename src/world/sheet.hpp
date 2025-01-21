@@ -30,13 +30,12 @@
 
 #define DEF_URL_NOISE	"/mp3/sheet.mp3"	// noise for sheet
 
-class Book;
 
 /**
  * Sheet class
  */
 class Sheet: public WO {
-  friend class Book;
+ friend class Book;
 
  protected:
   class Book* book;	///< book pointer
@@ -110,7 +109,7 @@ class Sheet: public WO {
   void parser(char *l);
   /**< Parses */
 
-  static void sheetCreate(Book* book, char* l, uint8_t side, int heap);
+  static void sheetCreate(class Book* book, char* l, uint8_t side, int heap);
 };
 
 #endif
