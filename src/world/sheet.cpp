@@ -24,8 +24,8 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "sheet.hpp"
-#include "matvec.hpp"   // V3 M4
 #include "book.hpp"	// Book
+#include "matvec.hpp"   // V3
 #include "mp3.hpp"	// start
 
 
@@ -102,7 +102,7 @@ void Sheet::updateTime(time_t s, time_t us, float *lasting)
 
 //bool Sheet::publish(const Pos &oldpos)
 //{
-  //return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+//  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 //}
 
 bool Sheet::whenIntersect(WO *pcur, WO *pold)
@@ -120,8 +120,8 @@ bool Sheet::whenIntersect(WO *pcur, WO *pold)
 void Sheet::sheetCreate(Book* book, char* l, uint8_t side, int heap)
 {
   switch (heap) {
-  case Book::RIGHT:    book->right= new Sheet(book, l, side); break;
-  case Book::LEFT:     book->left= new Sheet(book, l, side); break;
+  case Book::RIGHT:    book->right = new Sheet(book, l, side); break;
+  case Book::LEFT:     book->left  = new Sheet(book, l, side); break;
   case Book::VOLATILE: book->inter = new Sheet(book, l, side); break;
   }
 }
@@ -194,11 +194,6 @@ void Sheet::pushPrev(float dist)
   move.lspeed.v[0] = -dist * sin(aright) / ttl;
   move.lspeed.v[1] =  dist * cos(aright) / ttl;
   initImposedMovement(ttl);
-}
-
-void Sheet::destroy()
-{
-  toDelete();	// delete Wobject
 }
 
 void Sheet::quit()

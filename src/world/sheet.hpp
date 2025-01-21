@@ -25,7 +25,6 @@
 
 #define SHEET_TYPE	44
 #define SHEET_NAME	"Sheet"
-
 #define DEF_URL_NOISE	"/mp3/sheet.mp3"	// noise for sheet
 
 #include "wobject.hpp"
@@ -103,7 +102,6 @@ class Sheet: public WO {
   void pullNext();
   void pushPrev(float dist);
   void pushNext(float dist);
-  void destroy();
 
  private:
   void parser(char *l);

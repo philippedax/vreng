@@ -24,8 +24,8 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "book.hpp"
-#include "matvec.hpp"   // V3 M4
 #include "sheet.hpp"	// class Sheet
+#include "matvec.hpp"   // V3
 #include "move.hpp"	// gotoFront
 #include "browser.hpp"	// start
 #include "user.hpp"	// User
@@ -57,7 +57,7 @@ void Book::reader(void *_book, Http *http)
     return;
   }
 
-  char line[BUFSIZ];
+  char line[256];
 
   // get the number of pages (first line)
   if (! fgets(line, sizeof(line), f)) {
@@ -215,7 +215,7 @@ void Book::inits()
 
   // create the heaps (right and left) of sheets
 
-  char s[BUFSIZ];
+  char s[256];
   if (num == 0) { // book closed on the right side
     state = CLOSED_R;
     // create the right heap
@@ -313,7 +313,7 @@ void Book::quit()
 void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
 {
   if (state == CLOSED_L) return;
-  char s[BUFSIZ];
+  char s[256];
 
   if (num == nbs-1) {	// cas 1: it remains only one sheet on the right
     // increase the left heap minor edge size
@@ -404,7 +404,7 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
 void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
 {
   if (state == CLOSED_R) return;
-  char s[BUFSIZ];
+  char s[256];
 
   if (num == 1) {	// cas 1: it remains only one sheet on the left
     // increase the right heap minor edge size
