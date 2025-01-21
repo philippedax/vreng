@@ -184,12 +184,12 @@ void Book::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "url="))           l = parseUrl(l, url);
-    else if (!stringcmp(l, "aright"))         l = parseFloat(l, &aright, "aright");
-    else if (!stringcmp(l, "aleft"))          l = parseFloat(l, &aleft, "aleft");
-    else if (!stringcmp(l, "nbsheets"))       l = parseUInt8(l, &nbs, "nbsheets");
-    else if (!stringcmp(l, "sheetthickness")) l = parseFloat(l, &thick, "sheetthickness");
-    else if (!stringcmp(l, "currentsheet"))   l = parseUInt8(l, &num, "currentsheet");
+    if      (! stringcmp(l, "url="))           l = parseUrl(l, url);
+    else if (! stringcmp(l, "aright"))         l = parseFloat(l, &aright, "aright");
+    else if (! stringcmp(l, "aleft"))          l = parseFloat(l, &aleft, "aleft");
+    else if (! stringcmp(l, "nbsheets"))       l = parseUInt8(l, &nbs, "nbsheets");
+    else if (! stringcmp(l, "sheetthickness")) l = parseFloat(l, &thick, "sheetthickness");
+    else if (! stringcmp(l, "currentsheet"))   l = parseUInt8(l, &num, "currentsheet");
   }
   end_while_parse(l);
 }
