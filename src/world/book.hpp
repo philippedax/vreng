@@ -39,7 +39,7 @@ class Book: public WO {
  protected:
   class Sheet *right;	///< rightside sheet
   class Sheet *left;	///< leftside sheet
-  class Sheet *inter;	///< volatile sheet
+  class Sheet *temp;	///< volatile sheet
 
   float aright;		///< right angle when book is opened
   float aleft;		///< left  angle when book is opened
@@ -50,8 +50,8 @@ class Book: public WO {
   float height;		///< sheet height
   V3 size;		///< sheet size
 
-  uint8_t nbs;		///< number of sheets
-  uint8_t num;		///< current sheet number
+  uint8_t nb;		///< number of sheets
+  uint8_t current;	///< current sheet number
   int32_t fwd;		///< sheets to turn for p+10
   int32_t bwd;		///< sheets to turn for p-10
 
@@ -60,11 +60,9 @@ class Book: public WO {
   char **html;		///< html table
 
  public:
-  bool near;		///< near or not
-
-  static const float ASPEED;
   static const float ARIGHT;
   static const float ALEFT;
+  static const float ASPEED;
   static const float LSPEED;
 
   /* properties */
@@ -80,16 +78,15 @@ class Book: public WO {
 
   /* actions */
   enum {
-    PULL,
     OPEN,
     CLOSE,
     NEXT,
     PREV,
     FWD,
     REW,
+    PULL,
     LOOKL,
-    LOOKR,
-    MOVE
+    LOOKR
   };
 
   /* states */
@@ -103,7 +100,7 @@ class Book: public WO {
   enum {
     RIGHT,
     LEFT,
-    VOLATILE
+    TEMP
   };
 
   static const OClass oclass;	///< class variable
@@ -115,7 +112,7 @@ class Book: public WO {
   Book(char *l);	///< Constructor
 
   static WO * (creator)(char *l);
-  /**< Creates from file */
+  /**< Creates from a file */
 
   void changePosition(float lasting);
   /**< When changing position */
@@ -127,7 +124,7 @@ class Book: public WO {
   /**< Publishes to network */
 
   bool whenIntersect(WO *pcur, WO *pold);
-  /**< When an intersect occurs */
+  /**< When an intersection occurs */
 
   void quit();
   /**< Quits properly */
@@ -163,9 +160,6 @@ class Book: public WO {
   void parser(char *l);
   /**< Parses */
 
-  void defaults();
-  /**< sets default values */
-
   void behaviors();
   /**< sets behaviors. */
 
@@ -178,7 +172,7 @@ class Book: public WO {
   void pushNext(class Sheet *sheet, float dist);
   void pullPrev(class Sheet *sheet);
   void pullNext(class Sheet *sheet);
-  void cancelSheet(class Sheet *sheet);
+  void delSheet(class Sheet *sheet);
 
   void open(Book *book, void *d, time_t s, time_t u);
   void close(Book *book, void *d, time_t s, time_t u);

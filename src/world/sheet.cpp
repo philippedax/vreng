@@ -120,9 +120,9 @@ bool Sheet::whenIntersect(WO *pcur, WO *pold)
 void Sheet::sheetCreate(Book* book, char* l, uint8_t side, int heap)
 {
   switch (heap) {
-  case Book::RIGHT:    book->right = new Sheet(book, l, side); break;
-  case Book::LEFT:     book->left  = new Sheet(book, l, side); break;
-  case Book::VOLATILE: book->inter = new Sheet(book, l, side); break;
+  case Book::RIGHT: book->right = new Sheet(book, l, side); break;
+  case Book::LEFT:  book->left  = new Sheet(book, l, side); break;
+  case Book::TEMP:  book->temp  = new Sheet(book, l, side); break;
   }
 }
 
