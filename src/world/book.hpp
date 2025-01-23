@@ -155,7 +155,7 @@ class Book: public WO {
   void setTex(char *s, char *yn, char *xn);
   /**< Sheet texture */
 
-  void createSheet(char *s, uint8_t t, uint8_t side);
+  void createSheet(char *s, uint8_t heap);
   ///< Create sheet
 
   void parser(char *l);
