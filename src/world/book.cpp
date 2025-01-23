@@ -256,7 +256,7 @@ void Book::inits()
 /** Creates a sheet */
 void Book::createSheet(char *s, uint8_t heap)
 {
-  doAction(SHEET_TYPE, Sheet::CREATE, this, s, heap, heap);
+  doAction(SHEET_TYPE, Sheet::CREATE, this, s, heap, null);
 }
 
 void Book::setPos(char *s, float x, float y, float z, float az, float ax)
