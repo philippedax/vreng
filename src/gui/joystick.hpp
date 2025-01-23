@@ -67,7 +67,7 @@ class Joystick2 : public UBox {
   GLfloat circle_radius, current_radius;
   UPoint arrow_point;
 
-  void doAction();
+  void action();
 
   // CallBacks
   void paintCB(UPaintEvent&);

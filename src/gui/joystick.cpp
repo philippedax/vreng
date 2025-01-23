@@ -158,7 +158,7 @@ Joystick2::Joystick2(Widgets* _gw, GLint _radius)
 }
 
 /** Do an action */
-void Joystick2::doAction()
+void Joystick2::action()
 {
   if (! localuser)  return;
 
@@ -183,14 +183,11 @@ void Joystick2::dragCB(UMouseEvent &e)
       delta = 0;
   }
   else {
-    if (dy >= 0)
-      delta = M_PI/2;
-    else
-      delta = -M_PI/2;
+    delta = (dy >=0) ? M_PI/2 : -M_PI/2;
   }
   angle = delta * (180/M_PI);
 
-  doAction();
+  action();
   repaint();	// uwin
 }
 
@@ -199,7 +196,7 @@ void Joystick2::doubleClickCB(UMouseEvent &e)
 {
   delta = 0;
   angle = 0;
-  doAction();
+  action();
   repaint();	// uwin
 }
 
