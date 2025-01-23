@@ -110,7 +110,7 @@ bool Sheet::whenIntersect(WO *pcur, WO *pold)
  * side indicates on which side (right/left) of book the sheet is attached
  * heap indicates on which heap is the sheet.
  */
-void Sheet::create(Book* book, char* l, uint8_t side, int heap)
+void Sheet::create(Book* book, char* l, int heap)
 {
   switch (heap) {
   case Book::RIGHT: book->right = new Sheet(book, l); break;

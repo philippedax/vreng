@@ -89,7 +89,7 @@ class Sheet: public WO {
   void parser(char *l);
   /**< Parses */
 
-  static void create(class Book* book, char* l, uint8_t side, int heap);
+  static void create(class Book* book, char* l, int heap);
 };
 
 #endif
