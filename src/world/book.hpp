@@ -142,7 +142,8 @@ class Book: public WO {
   void setDim(char *s, float x, float y, float z);
   /**< Sheet dimension */
 
-  void setCov(char *s, char *yn, char *yp, char *xp, char *xn, char *zp);
+  //void setCov(char *s, char *yn, char *yp, char *xp, char *xn, char *zp);
+  void setCov(char *s, char *tx);
   /**< Sheet cover texture */
 
   void setCov(char *s, char *yn, char *yp);
@@ -172,24 +173,24 @@ class Book: public WO {
   void pushNext(class Sheet *sheet, float dist);
   void pullPrev(class Sheet *sheet);
   void pullNext(class Sheet *sheet);
-  void delSheet(class Sheet *sheet);
+  void delPage(class Sheet *sheet);
 
   void open(Book *book, void *d, time_t s, time_t u);
   void close(Book *book, void *d, time_t s, time_t u);
   void approach();
-  void nextSheet(Book *book, void *d, time_t s, time_t u);
-  void prevSheet(Book *book, void *d, time_t s, time_t u);
-  void forwardSheet(Book *book, void *d, time_t s, time_t u);
-  void backwardSheet(Book *book, void *d, time_t s, time_t u);
+  void nextPage(Book *book, void *d, time_t s, time_t u);
+  void prevPage(Book *book, void *d, time_t s, time_t u);
+  void forwardPage(Book *book, void *d, time_t s, time_t u);
+  void backwardPage(Book *book, void *d, time_t s, time_t u);
 
   // GUI callbacks
   static void open_cb(Book *book, void *d, time_t s, time_t u);
   static void close_cb(Book *book, void *d, time_t s, time_t u);
   static void approach_cb(Book *book, void *d, time_t s, time_t u);
-  static void nextSheet_cb(Book *book, void *d, time_t s, time_t u);
-  static void prevSheet_cb(Book *book, void *d, time_t s, time_t u);
-  static void forwardSheet_cb(Book *book, void *d, time_t s, time_t u);
-  static void backwardSheet_cb(Book *book, void *d, time_t s, time_t u);
+  static void nextPage_cb(Book *book, void *d, time_t s, time_t u);
+  static void prevPage_cb(Book *book, void *d, time_t s, time_t u);
+  static void forwardPage_cb(Book *book, void *d, time_t s, time_t u);
+  static void backwardPage_cb(Book *book, void *d, time_t s, time_t u);
   static void lookLeft_cb(Book *book, void *d, time_t s, time_t u);
   static void lookRight_cb(Book *book, void *d, time_t s, time_t u);
 

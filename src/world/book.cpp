@@ -60,7 +60,7 @@ void Book::reader(void *_book, Http *http)
 
   // get the number of pages (first line)
   if (! fgets(line, sizeof(line), f)) {
-    error("can't get number of pages");
+    error("can't get number of sheets");
     return;
   }
   line[strlen(line) - 1] = '\0';
@@ -77,15 +77,16 @@ void Book::reader(void *_book, Http *http)
   char *p = NULL;
 
   for (i=0 ; i < 2*book->nb ; i++) {
-    if (! fgets(line, sizeof(line), f)) return;  // eof
+    if (! fgets(line, sizeof(line), f))
+      return;  // eof
     line[strlen(line) - 1] = '\0';
     if (! (p = strtok(line, " \t"))) {
-      error("reader: bad line %s", line);
+      error("book reader: bad line %s", line);
       return;
     }
-    // copy url of the html page matching this texture
     char* sheet_tex = strdup(p);
     book->tex[i] = strdup(p);
+    // copy url of the html page matching this texture
     if ((p = strtok(NULL, " \t"))) {
       char* sheet_html = strdup(p);
       book->html[i] = strdup(p);
@@ -188,37 +189,41 @@ void Book::inits()
 
   // create the heaps (right and left) of sheets
 
-  if (current == 0) {	// book closed on the right side
+  if (current == 0) {	// book closed on the right side - default case
     state = CLOSED_R;
 
     // create the right heap
     depth = thick * nb;	// epaisseur du tas droit
     setPos(s, pos.x-depth/2*sin(aright), pos.y+depth/2*cos(aright), pos.z, aright, pos.ax);
     setDim(s, width, depth, height);
-    setCov(s, tex[0], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    createSheet(s, Sheet::RIGHT, RIGHT);
+    //setCov(s, tex[0], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
+    setCov(s, tex[0]);
+    createSheet(s, RIGHT, RIGHT);
 
-    // create the left heap (thick: 1 sheet)
+    // create the left heap
     setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
     setDim(s, width, thick, height);
-    setCov(s, tex[0], tex[1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    createSheet(s, Sheet::RIGHT, LEFT);
+    //setCov(s, tex[0], tex[1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
+    setCov(s, tex[0]);
+    createSheet(s, RIGHT, LEFT);
   }
   else if (current == nb) { // book closed on the left side
     state = CLOSED_L;
 
-    // create the right heap (thick: 1 sheet)
+    // create the right heap
     setPos(s, pos.x, pos.y, pos.z, aleft, pos.ax);
     setDim(s, width, thick, height);
-    setCov(s, tex[2*nb-2], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    createSheet(s, Sheet::LEFT, RIGHT);
+    //setCov(s, tex[2*nb-2], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
+    setCov(s, tex[2*nb-2]);
+    createSheet(s, LEFT, RIGHT);
 
     // create the left heap
     depth = thick * nb; // epaisseur du tas gauche
     setPos(s, pos.x+depth/2*sin(aleft), pos.y-depth/2*cos(aleft), pos.z, aleft, pos.ax);
     setDim(s, width, depth, height);
-    setCov(s, tex[0], tex[2*nb-2], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    createSheet(s, Sheet::LEFT, LEFT);
+    //setCov(s, tex[0], tex[2*nb-2], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
+    setCov(s, tex[0]);
+    createSheet(s, LEFT, LEFT);
   }
   else { // book opened
     state = OPENED;
@@ -228,21 +233,23 @@ void Book::inits()
     depth2 = depth + thick;	// augmented
     setPos(s, pos.x-depth2*sin(aright), pos.y+depth2*cos(aright), pos.z, aright, pos.ax);
     setDim(s, width, depth, height);
-    setCov(s, tex[2*current], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    createSheet(s, Sheet::RIGHT, RIGHT);
+    //setCov(s, tex[2*current], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
+    setCov(s, tex[2*current]);
+    createSheet(s, RIGHT, RIGHT);
 
     // create the left heap
     depth = thick * current;	// epaisseur du tas gauche
     setPos(s, pos.x+(depth/2)*sin(aleft), pos.y-(depth/2)*cos(aleft), pos.z, aleft, pos.ax);
     setDim(s, width, depth, height);
-    setCov(s, tex[0], tex[2*current-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    createSheet(s, Sheet::LEFT, LEFT);
+    //setCov(s, tex[0], tex[2*current-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
+    setCov(s, tex[0]);
+    createSheet(s, LEFT, LEFT);
 
     // create the temp sheet
     setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
     setDim(s, width, thick, height);
     setCov(s, tex[2*current], tex[2*current+1]);
-    createSheet(s, Sheet::RIGHT, TEMP);
+    createSheet(s, RIGHT, TEMP);
   }
 }
 
@@ -262,9 +269,9 @@ void Book::setDim(char *s, float x, float y, float z)
   sprintf(s, "%s solid dim=\"%.3f %.3f %.3f\"", strdup(s), x, y, z);
 }
 
-void Book::setCov(char *s, char *yn, char *yp, char *xp, char *xn, char *zp)
+void Book::setCov(char *s, char *tx)
 {
-  sprintf(s, "%s yn=\"%s\" yp=\"%s\" xp=\"%s\" xn=\"%s\" zp=\"%s\" />", strdup(s), yn, yp, xp, xn, zp);
+  sprintf(s, "%s tx=\"%s\" />", strdup(s), tx);
 }
 
 void Book::setCov(char *s, char *yn, char *yp)
@@ -316,7 +323,7 @@ void Book::quit()
 }
 
 /** next page */
-void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
+void Book::nextPage(Book *book, void *d, time_t sec, time_t usec)
 {
   if (state == CLOSED_L) return;
 
@@ -330,9 +337,9 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
     setPos(s, pos.x + depth2*sin(aleft), pos.y - depth2*cos(aleft), pos.z, aleft, pos.ax);
     setDim(s, width, depth, height);
     setTex(s, tex[0], tex[2*nb-3], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    delSheet(left);
-    createSheet(s, Sheet::LEFT, LEFT);
-    delSheet(temp);	// destruction de la temp sheet
+    delPage(left);
+    createSheet(s, LEFT, LEFT);
+    delPage(temp);	// destruction de la temp sheet
 
     // rotation de la partie droite
     turnNext(right, d, sec, usec);
@@ -344,7 +351,7 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
     setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
     setDim(s, width, thick, height);
     setTex(s, tex[2], tex[3]);
-    createSheet(s, Sheet::LEFT, TEMP);
+    createSheet(s, LEFT, TEMP);
 
     // replace the right heap
     depth = thick * (nb-1); // right heap thick
@@ -352,8 +359,8 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
     setPos(s, pos.x - depth2*sin(aright), pos.y + depth2*cos(aright), pos.z, aright, pos.ax);
     setDim(s, width, depth, height);
     setTex(s, tex[2], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]); //  p 2 + couv arrière
-    delSheet(right);
-    createSheet(s, Sheet::RIGHT, RIGHT);
+    delPage(right);
+    createSheet(s, RIGHT, RIGHT);
 
     // replace the left heap if too big (case of bookClose)
     if (left) {
@@ -366,8 +373,8 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
       setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
       setDim(s, width, thick, height);
       setTex(s, tex[0], tex[1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]); // couverture avant + p 1
-      delSheet(left);
-      createSheet(s, Sheet::RIGHT, LEFT);
+      delPage(left);
+      createSheet(s, RIGHT, LEFT);
     }
 
     // turn the heap (1 sheet) left
@@ -381,8 +388,8 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
     setPos(s, pos.x + depth2*sin(aleft), pos.y - depth2*cos(aleft), pos.z, aleft, pos.ax);
     setDim(s, width, depth, height);
     setTex(s, tex[0], tex[2*current-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    delSheet(left);
-    createSheet(s, Sheet::LEFT, LEFT);
+    delPage(left);
+    createSheet(s, LEFT, LEFT);
 
     // replacement of temp sheet if needed
     if (! temp) {
@@ -392,8 +399,8 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
       setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
       setDim(s, width, thick, height);
       setTex(s, tex[2*current], tex[2*current+1]);
-      delSheet(temp);
-      createSheet(s, Sheet::RIGHT, TEMP);
+      delPage(temp);
+      createSheet(s, RIGHT, TEMP);
     }
 
     // replace the right heap
@@ -402,8 +409,8 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
     setPos(s, pos.x - depth2*sin(aright), pos.y + depth2*cos(aright), pos.z, aright, pos.ax);
     setDim(s, width, depth, height);
     setTex(s, tex[2*(current+1)], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    delSheet(right);
-    createSheet(s, Sheet::RIGHT, RIGHT);
+    delPage(right);
+    createSheet(s, RIGHT, RIGHT);
 
     // rotation of temp sheet
     turnNext(temp, d, sec, usec);
@@ -411,7 +418,7 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
 }
 
 /** previous page */
-void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
+void Book::prevPage(Book *book, void *d, time_t sec, time_t usec)
 {
   if (state == CLOSED_R) return;
 
@@ -425,9 +432,9 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
     setPos(s, pos.x - depth2*sin(aright), pos.y + depth2*cos(aright), pos.z, aright, pos.ax);
     setDim(s, width, depth, height);
     setTex(s, tex[2], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    delSheet(right);
-    createSheet(s, Sheet::RIGHT, RIGHT);
-    delSheet(temp);	// destroy temp sheet
+    delPage(right);
+    createSheet(s, RIGHT, RIGHT);
+    delPage(temp);	// destroy temp
 
     // rotation left sheet
     turnPrev(left, d, sec, usec);
@@ -439,7 +446,7 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
     setPos(s, pos.x, pos.y, pos.z, aleft, pos.ax);
     setDim(s, width, thick, height);
     setTex(s, tex[2*nb-4], tex[2*nb-3]); // p 2N-4 + p 2N-3
-    createSheet(s, Sheet::RIGHT, TEMP);
+    createSheet(s, RIGHT, TEMP);
 
     // replace the left heap
     depth = thick * (nb-1); // new left heap thick
@@ -447,8 +454,8 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
     setPos(s, pos.x + depth2*sin(aleft), pos.y - depth2*cos(aleft), pos.z, aleft, pos.ax);
     setDim(s, width, depth, height);
     setTex(s, tex[0], tex[2*nb-3], tex[2*nb], tex[2*nb+2], tex[2*nb+1]); // p 0 + p 2N-3
-    delSheet(left);
-    createSheet(s, Sheet::LEFT, LEFT);
+    delPage(left);
+    createSheet(s, LEFT, LEFT);
 
     // replace the right heap if not too big
     if (right) {
@@ -461,8 +468,8 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
       setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
       setDim(s, width, thick, height);
       setTex(s, tex[2*nb-2], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-      delSheet(right);
-      createSheet(s, Sheet::LEFT, RIGHT);
+      delPage(right);
+      createSheet(s, LEFT, RIGHT);
     }
 
     // turn the heap of 1 sheet on the right
@@ -476,8 +483,8 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
     setPos(s, pos.x - depth2*sin(aright), pos.y + depth2*cos(aright), pos.z, aright, pos.ax);
     setDim(s, width, depth, height);
     setTex(s, tex[2*current], tex[2*nb-1], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    delSheet(right);
-    createSheet(s, Sheet::RIGHT, RIGHT);
+    delPage(right);
+    createSheet(s, RIGHT, RIGHT);
 
     // replacement of temp sheet if needed
     if (! temp) {
@@ -487,8 +494,8 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
       setPos(s, pos.x, pos.y, pos.z, aleft, pos.ax);
       setDim(s, width, thick, height);
       setTex(s, tex[2*(current-1)],tex[2*current-1]);
-      delSheet(temp);
-      createSheet(s, Sheet::LEFT, TEMP);
+      delPage(temp);
+      createSheet(s, LEFT, TEMP);
     }
 
     // replace the left heap
@@ -497,8 +504,8 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
     setPos(s, pos.x + depth2*sin(aleft), pos.y - depth2*cos(aleft), pos.z, aleft, pos.ax);
     setDim(s, width, depth, height);
     setTex(s, tex[0], tex[2*current-3], tex[2*nb], tex[2*nb+2], tex[2*nb+1]);
-    delSheet(left);
-    createSheet(s, Sheet::LEFT, LEFT);
+    delPage(left);
+    createSheet(s, LEFT, LEFT);
 
     // rotate temp sheet
     turnPrev(temp, d, sec, usec);
@@ -509,8 +516,8 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
 void Book::open(Book *book, void *d, time_t s, time_t u)
 {
   if (state == OPENED) return;
-  if (state == CLOSED_R) nextSheet(book, d, s, u);
-  if (state == CLOSED_L) prevSheet(book, d, s, u);
+  if (state == CLOSED_R) nextPage(book, d, s, u);
+  if (state == CLOSED_L) prevPage(book, d, s, u);
 }
 
 /** close a book */
@@ -519,7 +526,7 @@ void Book::close(Book *book, void *d, time_t s, time_t u)
    if ( (state == CLOSED_R) || (state == CLOSED_L) ) return;
 
    // destruction de la temp
-   delSheet(temp);
+   delPage(temp);
    // we close always the book on its right side
    if (left) {
      pullPrev(left);
@@ -537,7 +544,7 @@ void Book::forward(void *d, time_t sec, time_t usec)
   vspeed = 5 * LSPEED;
   if (temp) temp->aspeed = vspeed * ASPEED;
 
-  nextSheet(this, d, sec, usec);
+  nextPage(this, d, sec, usec);
 
   vspeed = LSPEED;
   if (temp) temp->aspeed = vspeed * ASPEED;
@@ -549,40 +556,38 @@ void Book::backward(void *d, time_t sec, time_t usec)
   vspeed = 5 * LSPEED;
   if (temp) temp->aspeed = vspeed * ASPEED;
 
-  prevSheet(this, d, sec, usec);
+  prevPage(this, d, sec, usec);
 
   vspeed = LSPEED;
   if (temp) temp->aspeed = vspeed * ASPEED;
 }
 
 /** forward: 10 pages en avant */
-void Book::forwardSheet(Book *book, void *d, time_t sec, time_t usec)
+void Book::forwardPage(Book *book, void *d, time_t sec, time_t usec)
 {
   if (state != OPENED) return;
 
   if (current + 10 > nb) {
     fwd = nb - current - 1;
-    forward(d, sec, usec);
   }
   else {
     fwd = 9;
-    forward(d, sec, usec);
   }
+  forward(d, sec, usec);
 }
 
 /** backward: 10 pages en arriere */
-void Book::backwardSheet(Book *book, void *d, time_t sec, time_t usec)
+void Book::backwardPage(Book *book, void *d, time_t sec, time_t usec)
 {
   if (state != OPENED) return;
 
   if (current - 10 < 0) {
     bwd = current - 1;
-    backward(d, sec, usec);
   }
   else {
     bwd = 9;
-    backward(d, sec, usec);
   }
+  backward(d, sec, usec);
 }
 
 void Book::turnPrev(Sheet *sheet, void *d, time_t sec, time_t usec)
@@ -619,7 +624,7 @@ void Book::pushNext(Sheet* sheet, float dist)
   if (sheet) sheet->pushNext(dist);
 }
 
-void Book::delSheet(Sheet* sheet)
+void Book::delPage(Sheet* sheet)
 {
   if (sheet) {
     sheet->toDelete();
@@ -722,24 +727,24 @@ void Book::approach_cb(Book *book, void *d, time_t s, time_t u)
   book->approach();
 }
 
-void Book::nextSheet_cb(Book *book, void *d, time_t s, time_t u)
+void Book::nextPage_cb(Book *book, void *d, time_t s, time_t u)
 {
-  book->nextSheet(book, d, s, u);
+  book->nextPage(book, d, s, u);
 }
 
-void Book::prevSheet_cb(Book *book, void *d, time_t s, time_t u)
+void Book::prevPage_cb(Book *book, void *d, time_t s, time_t u)
 {
-  book->prevSheet(book, d, s, u);
+  book->prevPage(book, d, s, u);
 }
 
-void Book::forwardSheet_cb(Book *book, void *d, time_t s, time_t u)
+void Book::forwardPage_cb(Book *book, void *d, time_t s, time_t u)
 {
-  book->forwardSheet(book, d, s, u);
+  book->forwardPage(book, d, s, u);
 }
 
-void Book::backwardSheet_cb(Book *book, void *d, time_t s, time_t u)
+void Book::backwardPage_cb(Book *book, void *d, time_t s, time_t u)
 {
-  book->backwardSheet(book, d, s, u);
+  book->backwardPage(book, d, s, u);
 }
 
 /** display the right page in a browser */
@@ -772,10 +777,10 @@ void Book::funcs()
 
   setActionFunc(BOOK_TYPE, OPEN, _Action open_cb, "Open");
   setActionFunc(BOOK_TYPE, CLOSE, _Action close_cb, "Close");
-  setActionFunc(BOOK_TYPE, NEXT, _Action nextSheet_cb, " > ");
-  setActionFunc(BOOK_TYPE, PREV, _Action prevSheet_cb, " < ");
-  setActionFunc(BOOK_TYPE, FWD, _Action forwardSheet_cb, " >> ");
-  setActionFunc(BOOK_TYPE, REW, _Action backwardSheet_cb, " << ");
+  setActionFunc(BOOK_TYPE, NEXT, _Action nextPage_cb, " > ");
+  setActionFunc(BOOK_TYPE, PREV, _Action prevPage_cb, " < ");
+  setActionFunc(BOOK_TYPE, FWD, _Action forwardPage_cb, " >> ");
+  setActionFunc(BOOK_TYPE, REW, _Action backwardPage_cb, " << ");
   setActionFunc(BOOK_TYPE, PULL, _Action approach_cb, "Approach");
   setActionFunc(BOOK_TYPE, LOOKL, _Action lookLeft_cb, "LookLeft");
   setActionFunc(BOOK_TYPE, LOOKR, _Action lookRight_cb, "LookRight");
