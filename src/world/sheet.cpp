@@ -44,7 +44,7 @@ void Sheet::parser(char *l)
   l = parseAttributes(l);
 }
 
-Sheet::Sheet(Book* _book, char* l, uint8_t _side)
+Sheet::Sheet(Book* _book, char* l)
 {
   parser(l);
 
@@ -52,7 +52,6 @@ Sheet::Sheet(Book* _book, char* l, uint8_t _side)
   book = _book;
   aright = book->aright;
   aleft  = book->aleft;
-  state = _side;
   aspeed = book->vspeed * ASPEED;
   lspeed = LSPEED;
   center.v[0] = pos.x;	// hinge
@@ -114,9 +113,9 @@ bool Sheet::whenIntersect(WO *pcur, WO *pold)
 void Sheet::create(Book* book, char* l, uint8_t side, int heap)
 {
   switch (heap) {
-  case Book::RIGHT: book->right = new Sheet(book, l, side); break;
-  case Book::LEFT:  book->left  = new Sheet(book, l, side); break;
-  case Book::TEMP:  book->temp  = new Sheet(book, l, side); break;
+  case Book::RIGHT: book->right = new Sheet(book, l); break;
+  case Book::LEFT:  book->left  = new Sheet(book, l); break;
+  case Book::TEMP:  book->temp  = new Sheet(book, l); break;
   }
 }
 

@@ -70,7 +70,7 @@ class Sheet: public WO {
 
   static void funcs();	///< init funclist
 
-  Sheet(class Book* _book, char* l, uint8_t _heap);
+  Sheet(class Book* _book, char* l);
   /**< Constructor called by Book */
 
   void changePosition(float lasting);
