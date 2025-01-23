@@ -49,17 +49,6 @@ class Sheet: public WO {
   static const float LSPEED;
   static const float ASPEED;
 
-  /* properties */
-  enum {
-    PROPHNAME,
-    PROPXY,
-    PROPZ,
-    PROPAZ,
-    PROPAX,
-    PROPAY,
-    PROPS
-  };
-
   /* actions */
   enum {
     CREATE,
@@ -83,16 +72,9 @@ class Sheet: public WO {
 
   Sheet(class Book* _book, char* l, uint8_t _heap);
   /**< Constructor called by Book */
-#if 0
-  Sheet(uint8_t type_id, Noid _noid, Payload *pp);
-  /**< Constructor replicator */
-
-  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
-#endif
 
   void changePosition(float lasting);
   void updateTime(time_t s, time_t us, float *lasting);
-  //bool publish(const Pos &oldpos);
   bool whenIntersect(WO *pcur, WO *pold);
   void quit();
 
@@ -107,7 +89,7 @@ class Sheet: public WO {
   void parser(char *l);
   /**< Parses */
 
-  static void sheetCreate(class Book* book, char* l, uint8_t side, int heap);
+  static void create(class Book* book, char* l, uint8_t side, int heap);
 };
 
 #endif

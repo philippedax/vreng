@@ -68,7 +68,6 @@ Sheet::Sheet(Book* _book, char* l, uint8_t _side)
   enableBehavior(COLLIDE_NEVER);
 
   initMobileObject(1);
-  //createVolatile(PROPS);
 }
 
 void Sheet::changePosition(float lasting)
@@ -100,11 +99,6 @@ void Sheet::updateTime(time_t s, time_t us, float *lasting)
   }
 }
 
-//bool Sheet::publish(const Pos &oldpos)
-//{
-//  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
-//}
-
 bool Sheet::whenIntersect(WO *pcur, WO *pold)
 {
   projectPosition(pcur, pold);
@@ -117,7 +111,7 @@ bool Sheet::whenIntersect(WO *pcur, WO *pold)
  * side indicates on which side (right/left) of book the sheet is attached
  * heap indicates on which heap is the sheet.
  */
-void Sheet::sheetCreate(Book* book, char* l, uint8_t side, int heap)
+void Sheet::create(Book* book, char* l, uint8_t side, int heap)
 {
   switch (heap) {
   case Book::RIGHT: book->right = new Sheet(book, l, side); break;
@@ -129,6 +123,7 @@ void Sheet::sheetCreate(Book* book, char* l, uint8_t side, int heap)
 void Sheet::turnNext()
 {
   float ttl = ABSF(deltaAngle(aright, aleft) / aspeed);
+
   clearV3(move.lspeed);
   clearV3(move.aspeed);
   move.aspeed.v[0] = -aspeed;
@@ -139,6 +134,7 @@ void Sheet::turnNext()
 void Sheet::turnPrev()
 {
   float ttl = ABSF(deltaAngle(aleft, aright) / aspeed);
+
   clearV3(move.lspeed);
   clearV3(move.aspeed);
   move.aspeed.v[0] = aspeed;
@@ -203,15 +199,6 @@ void Sheet::quit()
 
 void Sheet::funcs()
 {
-  //getPropFunc(SHEET_TYPE, PROPXY, _Payload get_xy);
-  //getPropFunc(SHEET_TYPE, PROPZ, _Payload get_z);
-  //getPropFunc(SHEET_TYPE, PROPAZ, _Payload get_az);
-  //getPropFunc(SHEET_TYPE, PROPHNAME, _Payload get_hname);
-  //putPropFunc(SHEET_TYPE, PROPXY, _Payload put_xy);
-  //putPropFunc(SHEET_TYPE, PROPZ, _Payload put_z);
-  //putPropFunc(SHEET_TYPE, PROPAZ, _Payload put_az);
-  //putPropFunc(SHEET_TYPE, PROPHNAME, _Payload put_hname);
-
   // invisible method, called by Book
-  setActionFunc(SHEET_TYPE, CREATE, _Action sheetCreate, "");
+  setActionFunc(SHEET_TYPE, CREATE, _Action create, "");
 }
