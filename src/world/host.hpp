@@ -32,7 +32,7 @@
 /**
  * Host class
  */
-class Host: public WO {
+class Host: public Object {
  public:
   /* properties */
   enum {
@@ -53,10 +53,10 @@ class Host: public WO {
 
   Host(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
   bool publish(const Pos &oldpos);

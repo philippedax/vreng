@@ -31,7 +31,7 @@ const OClass Area::oclass(AREA_TYPE, "Area", Area::creator);
 
 
 /* creation from a file */
-WO * Area::creator(char *l)
+Object * Area::creator(char *l)
 {
   return new Area(l);
 }
@@ -62,7 +62,7 @@ Area::Area(char *l)
 }
 
 /** Intersection with an object */
-bool Area::whenIntersect(WO *pcur, WO *pold)
+bool Area::whenIntersect(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) {
     inside = true;
@@ -71,7 +71,7 @@ bool Area::whenIntersect(WO *pcur, WO *pold)
   return true;
 }
 
-bool Area::whenIntersectOut(WO *pcur, WO *pold)
+bool Area::whenIntersectOut(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) {
     inside = false;

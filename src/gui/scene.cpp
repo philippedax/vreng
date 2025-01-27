@@ -240,7 +240,7 @@ void Scene::refreshHud()
   hud_row3 = row;
   
   // obj
-  WO* obj = ::g.gui.selected_object;
+  Object* obj = ::g.gui.selected_object;
   if (obj) {
     // object
     sprintf(row, "obj:    %.1f %.1f %.1f %.0f",

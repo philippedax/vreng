@@ -32,7 +32,7 @@
 /**
  * Music class
  */
-class Music: public WO {
+class Music: public Object {
  private:
   uint8_t fmt;		///< audio format
   bool repeat;		///< repeat flag
@@ -85,10 +85,10 @@ class Music: public WO {
 
   Music(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Create from file */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< Intersects with another object */
 
   void quit();

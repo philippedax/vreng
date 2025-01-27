@@ -35,7 +35,7 @@ const OClass Mirror::oclass(MIRROR_TYPE, "Mirror", Mirror::creator);
 static uint16_t oid = 0;
 
 
-WO * Mirror::creator(char *l)
+Object * Mirror::creator(char *l)
 {
   return new Mirror(l);
 }
@@ -73,7 +73,7 @@ bool Mirror::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Mirror::whenIntersect(WO *pcur, WO *pold)
+bool Mirror::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case ICON_TYPE:

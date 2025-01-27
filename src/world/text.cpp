@@ -40,7 +40,7 @@ static const GLfloat DEF_COLOR[4] = {0, 1, 0, 1};	// green
 
 
 /* creation from a file */
-WO * Text::creator(char *l)
+Object * Text::creator(char *l)
 {
   return new Text(l);
 }

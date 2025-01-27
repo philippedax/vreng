@@ -34,7 +34,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Stair::creator(char *l)
+Object * Stair::creator(char *l)
 {
   return new Stair(l);
 }

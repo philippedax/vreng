@@ -32,7 +32,7 @@
 /**
  * Guide class
  */
-class Guide: public WO {
+class Guide: public Object {
  private:
   static const uint8_t GUIDE_DIM;	///< max size of the path
   static const float GUIDE_DELTAZ;	///< step in Z
@@ -68,7 +68,7 @@ class Guide: public WO {
 
   Guide(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Create from fileline. */
 
   void updateTime(time_t sec, time_t usec, float *lasting);
@@ -76,10 +76,10 @@ class Guide: public WO {
   void changePermanent(float lasting);
   /**< Perpetually movement. */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
-  bool whenIntersectOut(WO *pcur, WO *pold);
+  bool whenIntersectOut(Object *pcur, Object *pold);
   /**< When an object leaves intersection. */
 
   bool publish(const Pos &oldpos);
@@ -107,7 +107,7 @@ class Guide: public WO {
   void motion(float *dx, float *dy, float *dz);
   /**< Returns deltas. */
 
-  void progress(WO *po);
+  void progress(Object *po);
   /**< Progress along the guide. */
 
   void draw(float *color);

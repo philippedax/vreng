@@ -34,7 +34,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Doc::creator(char *l)
+Object * Doc::creator(char *l)
 {
   return new Doc(l);
 }
@@ -65,7 +65,7 @@ bool Doc::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Doc::whenIntersect(WO *pcur, WO *pold)
+bool Doc::whenIntersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

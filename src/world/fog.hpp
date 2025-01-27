@@ -31,7 +31,7 @@
 /**
  * Fog class
  */
-class Fog: public WO {
+class Fog: public Object {
  private:
   float density;
   float color[3];
@@ -47,7 +47,7 @@ class Fog: public WO {
 
   static void funcs();	///< init funclist
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from file line */
 
   void render();

@@ -30,7 +30,6 @@
  * Payload class
  */
 class Payload {
-
  private:
   uint16_t idx;			///< current offset
   uint8_t vrep;			///< vrep version

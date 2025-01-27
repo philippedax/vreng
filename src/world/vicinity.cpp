@@ -26,7 +26,7 @@
 #include "vicinity.hpp"
 #include "matvec.hpp"   // V3 M4
 #include "solid.hpp"	// Solid, object()
-#include "wobject.hpp"	// WO
+#include "wobject.hpp"	// Object
 #include "user.hpp"	// localuser
 #include "render.hpp"	// getSolidList
 #include "pref.hpp"	// width3D
@@ -39,7 +39,7 @@
 Vicinity::Vicinity()
 {
   solidLst = ::g.render.getSolidList();
-  obj = static_cast<WO *> (localuser);
+  obj = static_cast<Object *> (localuser);
   objName = obj->objectName();
   setSize(user);
   userDist = DIST_INCL;
@@ -89,7 +89,7 @@ Vicinity::Vicinity(std::string objectName)
 }
 
 /** Evaluates the size of the avatar */
-void Vicinity::setSize(WO *user)
+void Vicinity::setSize(Object *user)
 {
   if ((user->pos.bbs.v[0] > 10) && (user->pos.bbs.v[1] > 4) && (user->pos.bbs.v[2] > 4))
     userSize = SIZE_HUGE;
@@ -111,7 +111,7 @@ Vicinity::~Vicinity()
 }
 
 /** Evaluates the distance between 2 objects */
-Vicinity::Dist Vicinity::evalDist(WO *obj1, WO *obj2)
+Vicinity::Dist Vicinity::evalDist(Object *obj1, Object *obj2)
 {
   float posobj1[6];
   float posobj2[6];
@@ -183,7 +183,7 @@ Vicinity::Dist Vicinity::evalDist(WO *obj1, WO *obj2)
 }
 
 /** Evaluates the size of an object */
-Vicinity::Size Vicinity::evalSize(WO *obj)
+Vicinity::Size Vicinity::evalSize(Object *obj)
 {
   Size size = SIZE_NORMAL;
 
@@ -273,11 +273,11 @@ void Vicinity::sortInterest()
 }
 
 /** Searchs an object at proximity */
-WO* Vicinity::searchProximityObject(char** typeObj, int nb)
+Object* Vicinity::searchProximityObject(char** typeObj, int nb)
 {
   sortDist();
 
-  WO* o = NULL;
+  Object* o = NULL;
   for (int i=0; i<listsize && viciList[i].dist <= DIST_NEAR; i++) {
     for (int j=0; j<nb ; j++) {
       if (! strcasecmp((viciList[i].object)->typeName(), typeObj[j])) {
@@ -340,7 +340,7 @@ void Vicinity::analTopo()
 }
 
 /** Discards type of object */
-bool Vicinity::uselessType(WO *obj)
+bool Vicinity::uselessType(Object *obj)
 {
   if (! obj) return true;
 
@@ -406,7 +406,7 @@ void Vicinity::analVisual(int details)
       while (transp || depth > 4) {
 	// gestion de transparence
         uint16_t n = ::g.render.bufferSelection(i, j, depth);
-        WO* po = WO::byNum(n);
+        Object* po = Object::byNum(n);
 	depth++;
 	
 	if (po && po->getSolid()->opaque) transp = false;
@@ -480,7 +480,7 @@ void Vicinity::analVicinity()
 {
   int hits = 0;
   bool *seen = NULL;
-  WO **drawedObj;
+  Object **drawedObj;
 
   if (obj) {
     drawedObj = ::g.render.getDrawedObjects(&hits);

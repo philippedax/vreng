@@ -35,7 +35,7 @@ static const float right_angle = 26.0;
 
 
 /* creation from a file */
-WO * Fractal::creator(char *l)
+Object * Fractal::creator(char *l)
 {
   return new Fractal(l);
 }

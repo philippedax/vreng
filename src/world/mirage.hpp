@@ -32,7 +32,7 @@
 /**
  * Mirage class
  */
-class Mirage: public WO {
+class Mirage: public Object {
  private:
   static const float ASPEED;
 
@@ -72,13 +72,13 @@ class Mirage: public WO {
 
   Mirage(char *l);	///< Constructor
 
-  Mirage(WO *user, char *form);
+  Mirage(Object *user, char *form);
   /**< Constructor from palette */
 
   Mirage(class World *pw, void *d, time_t s, time_t u);
   /**< Constructor from World */
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);

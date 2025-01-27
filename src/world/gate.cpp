@@ -48,7 +48,7 @@ static uint8_t cntcol = 0;
 
 
 /** creation from a file */
-WO * Gate::creator(char *l)
+Object * Gate::creator(char *l)
 {
   return new Gate(l);
 }
@@ -110,7 +110,7 @@ Gate::Gate(char *l)
 }
 
 /** Created by user (Gui) */
-Gate::Gate(WO *user, char *geom)
+Gate::Gate(Object *user, char *geom)
 {
   defaults();
 
@@ -192,7 +192,7 @@ void Gate::enter()
 }
 
 /** When an intersection occurs */
-bool Gate::whenIntersect(WO *pcur, WO *pold)
+bool Gate::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:
@@ -248,7 +248,7 @@ bool Gate::whenIntersect(WO *pcur, WO *pold)
 }
 
 /** Leaves intersection */
-bool Gate::whenIntersectOut(WO *pcur, WO *pold)
+bool Gate::whenIntersectOut(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) {
     cntcol = 0;

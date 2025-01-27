@@ -47,7 +47,7 @@ struct sOplist {
  * - either creation of a local repere
  * - either a transformation inside the local repere
  */
-class Transform: public WO {
+class Transform: public Object {
  private:
   struct sOplist *opList;	///< list of operations
   struct sOplist *opl;		///< current pointer in the list of operations
@@ -75,7 +75,7 @@ class Transform: public WO {
 
   static void funcs();	///< init funclist
 
-  static WO * (creator)(char *l);	///< Creates from fileline
+  static Object * (creator)(char *l);	///< Creates from fileline
 
   void render();	///< do the operation
 

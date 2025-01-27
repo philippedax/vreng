@@ -45,7 +45,7 @@ class Travolator: public Step {
 
   Travolator(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Create from fileline */
 
   void quit();

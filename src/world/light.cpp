@@ -30,7 +30,7 @@ const OClass Light::oclass(LIGHT_TYPE, "Light", Light::creator);
 
 
 /* creation from a file */
-WO * Light::creator(char *l)
+Object * Light::creator(char *l)
 {
   return new Light(l);
 }
@@ -130,7 +130,7 @@ Light::Light(char *l)
 void Light::lights()
 {
   //printf("\n*** light:");
-  for (std::vector<WO*>::iterator il = lightList.begin(); il != lightList.end() ; ++il) {
+  for (std::vector<Object*>::iterator il = lightList.begin(); il != lightList.end() ; ++il) {
     (*il)->lighting();
     //printf(" %s", (*il)->typeName());
   }

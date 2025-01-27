@@ -34,7 +34,7 @@
 /**
  * Head class
  */
-class Head: public WO {
+class Head: public Object {
  protected:
   bool visible;
   uint8_t model_e;			///< types of model
@@ -77,7 +77,7 @@ class Head: public WO {
   Head(class User *user, void *d, time_t s, time_t u); ///< Constructor from User.
   Head(class User *user, const char *url, const float *skin); ///< Constructor from User.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creation from a file */
 
   void changePermanent(float lasting);

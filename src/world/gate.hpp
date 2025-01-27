@@ -32,7 +32,7 @@
 /**
  * Gate class
  */
-class Gate: public WO {
+class Gate: public Object {
  private:
   bool automatic;	///< flag automatic enter
   bool flagentry;	///< flag entry
@@ -59,15 +59,15 @@ class Gate: public WO {
   static void funcs();		///< init funclist.
 
   Gate(char *l);		///< Constructor.
-  Gate(WO *user, char *geom);	///< Constructor from user.
+  Gate(Object *user, char *geom);	///< Constructor from user.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from file line. */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
-  bool whenIntersectOut(WO *pcur, WO *pold);
+  bool whenIntersectOut(Object *pcur, Object *pold);
   /**< When an other object leave intersection. */
 
   bool publish(const Pos &oldpos);

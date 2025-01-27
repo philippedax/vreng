@@ -44,7 +44,7 @@ static struct timeval begintime;
 
 
 /* creation from a file */
-WO * Particle::creator(char *l)
+Object * Particle::creator(char *l)
 {
   return new Particle(l);
 }

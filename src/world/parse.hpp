@@ -119,7 +119,7 @@ class Parse {
   char * nextToken() const;
   /**< Gets the next token */
 
-  char * parseAttributes(char *l, class WO *po);
+  char * parseAttributes(char *l, class Object *po);
   /**< Parses attribute="value" */
 
   char * parseName(char *l, char *name);
@@ -134,16 +134,16 @@ class Parse {
   char * parseColor(char *ptok, Pos &p);
   /**< Returns a color under r,g,b,a format */
 
-  char * parseSolid(char *ptok, class WO *po);
+  char * parseSolid(char *ptok, class Object *po);
   /**<
    * Creates a new solid.
    * string 'solid' gives the solid's geometry
    */
 
-  char * parseSolid(char *geom, const char *separ, class WO *po);
+  char * parseSolid(char *geom, const char *separ, class Object *po);
   /**< Parses a builtin solid */
 
-  void parseSolids(char *geom, const char *separ, class WO *po);
+  void parseSolids(char *geom, const char *separ, class Object *po);
   /**< Parses several solids */
 
   char * parseWorldAndChannel(char *ptok, char *url, char *chan);

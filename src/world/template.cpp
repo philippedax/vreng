@@ -32,7 +32,7 @@ const OClass Template::oclass(TEMPLATE_TYPE, "Template", Template::creator);
 
 
 /* Creation from a file */
-WO * Template::creator(char *l)
+Object * Template::creator(char *l)
 {
   return new Template(l);
 }

@@ -34,7 +34,7 @@ const OClass Animator::oclass(ANIMATOR_TYPE, "Animator", Animator::creator);
 static uint16_t oid = 0;
 
 
-WO * Animator::creator(char *l)
+Object * Animator::creator(char *l)
 {
   return new Animator(l);
 }
@@ -123,7 +123,7 @@ void Animator::stop(Animator *animator, void *d, time_t s, time_t u)
 }
 
 /* object intersects: stop */
-bool Animator::whenIntersect(WO *pcur, WO *pold)
+bool Animator::whenIntersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

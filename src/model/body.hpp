@@ -526,7 +526,7 @@ class Body {
   struct sJP jp;		///< jointpoints.
   class Bap *bap;		///< bap ptr.
   class Face *face;		///< face ptr.
-  class WO *wobject;		///< wobject ptr.
+  class Object *wobject;	///< wobject ptr.
 
   Body();
   Body(const char *url);	///< constructor.

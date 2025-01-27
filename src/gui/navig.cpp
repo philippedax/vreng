@@ -150,7 +150,7 @@ void Navig::mouseMoveCB(UMouseEvent& mev)
 #if 0 //expensive followMouse
   else if (followMouse) {
     // mode followMouse continuously indicates object under pointer
-    WO *object = gw.pointedObject(int(mev.getX()), int(mev.getY()), objinfo, depthsel);
+    Object *object = gw.pointedObject(int(mev.getX()), int(mev.getY()), objinfo, depthsel);
     selectObject(object ? objinfo : null);
   }
 #endif //expensive followMouse
@@ -202,7 +202,7 @@ void Navig::keyReleaseCB(UKeyEvent& kev)
 void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
 {
   // desactivate previous object
-  WO* prev_object = gw.gui.getSelectedObject();
+  Object* prev_object = gw.gui.getSelectedObject();
   if (prev_object) {
     prev_object->resetFlashy();
     prev_object->resetRay();
@@ -211,7 +211,7 @@ void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
 
   // current clic
   static uint8_t z = 0;		// first object
-  WO* object = gw.pointedObject(x, y, objinfo, z % 3);
+  Object* object = gw.pointedObject(x, y, objinfo, z % 3);
   z++;				// next object hidden in the z buffer
 
   if (object) {
@@ -247,7 +247,7 @@ void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
 void Navig::pressB2(int x, int y)
 {
   depthsel++;
-  WO* object = gw.pointedObject(x, y, objinfo, depthsel);
+  Object* object = gw.pointedObject(x, y, objinfo, depthsel);
   if (object) {
     gw.gui.selected_object = object;
     object->resetFlashy();

@@ -34,7 +34,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Escalator::creator(char *l)
+Object * Escalator::creator(char *l)
 {
   return new Escalator(l);
 }

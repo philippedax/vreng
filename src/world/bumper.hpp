@@ -42,7 +42,7 @@ class Bumper: public Step {
 
   Bumper(char *l);	///< Constructor.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Create from fileline. */
 
   bool isMoving();
@@ -54,7 +54,7 @@ class Bumper: public Step {
   void updateTime(time_t sec, time_t usec, float *lasting);
   /**< Updates remaining times of the movement. */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
   void quit();
@@ -64,7 +64,7 @@ class Bumper: public Step {
   float forcex;
   float forcey;
   float forcez;
-  WO *capted;
+  Object *capted;
 
   void parser(char *l);
   /**< Parses fileline. */

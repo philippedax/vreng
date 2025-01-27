@@ -44,9 +44,9 @@
  *      mode 3: rotation around X and Z axis
  *      mode 4: rotation around Y axis
  */
-class Carrier: public WO {
+class Carrier: public Object {
  private:
-  class WO *object;	///< object ptr
+  class Object *object;	///< object ptr
   float lspeed;		///< linear speed
   float aspeed;		///< angular speed
   bool control;		///< flag true/false
@@ -73,7 +73,7 @@ class Carrier: public WO {
   bool underControl() const;
   /**< Accessor: is something taking ? */
 
-  void take(WO *po);
+  void take(Object *po);
   /**< handle position changes
    * Takes control of the object to manipulate it.
    * The position/orientation of the object will be changed by changePosition

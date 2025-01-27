@@ -36,7 +36,7 @@ GLfloat Halo::RE = 0.09;
 static uint16_t oid = 0;
 
 
-WO * Halo::creator(char *l)
+Object * Halo::creator(char *l)
 { 
   return new Halo(l);
 }

@@ -132,9 +132,9 @@ class Surface : public Material {
 };
 
 /**
- * Object class
+ * HObject class
  */
-class Object {
+class HObject {
  public:
   int nbp, nbf, nbs;
   HVertex *pt;
@@ -142,8 +142,8 @@ class Object {
   Surface *sf;
   float scal;
 
-  Object();
-  ~Object();
+  HObject();
+  ~HObject();
   void draw();
   Surface * findSurface(const char *name);
   //static bool getValue(FILE *fp, char *s, int *l);
@@ -178,7 +178,7 @@ class Line {
  */
 class Hair {
  public:
-  Object *o;
+  HObject *o;
   Surface *s;
   Material m;
   Color4f c[HAIRNCOLOR];
@@ -186,7 +186,7 @@ class Hair {
 
   Hair() : o(NULL), s(NULL) {};  ///< Constructor.
 
-  void init(Object *o, Surface *s, float scale);
+  void init(HObject *o, Surface *s, float scale);
   /**< Initializations. */
 
   void draw();
@@ -199,14 +199,14 @@ class Hair {
 /**
  * Hairs class
  */
-class Hairs: public WO {
+class Hairs: public Object {
 
  private:
   Hair *hair;
 #if 0 //dax use Lwo
   Lwo *obj;
 #else
-  Object *obj;
+  HObject *obj;
 #endif
   int dlist;    ///< display list
   bool objchanged;
@@ -223,7 +223,7 @@ class Hairs: public WO {
 
   Hairs(char *l);	///< Constructor.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   ///< Creates from fileline.
 
   void changePermanent(float lasting);

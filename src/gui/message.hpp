@@ -47,7 +47,7 @@ class Message {
   void writeMessage(const char* mode, const char* from, const char* mess);
   ///< adds a new message to the messages box.
 
-  void performRequest(class WO*);
+  void performRequest(class Object*);
   void initClicked();
 
   void getClicked(uint8_t *nclick, float clicked[]);

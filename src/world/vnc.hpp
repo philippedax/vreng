@@ -53,7 +53,7 @@
 /**
  * Vnc class
  */
-class Vnc : public WO {
+class Vnc : public Object {
  private:
   static const uint16_t VNC_PORT;
 
@@ -85,7 +85,7 @@ class Vnc : public WO {
   Vnc(char *l);
   ///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);

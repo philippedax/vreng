@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "texture.hpp"
 #include "img.hpp"	// Img
-#include "wobject.hpp"	// WO
+#include "wobject.hpp"	// Object
 #include "http.hpp"	// httpOpen
 #include "url.hpp"	// check
 #include "format.hpp"	// getLoaderByMime
@@ -274,7 +274,7 @@ GLuint Texture::getIdByUrl(const char *url)
 }
 
 /** Gets texture-id by its object */
-GLuint Texture::getIdByObject(WO *wo)
+GLuint Texture::getIdByObject(Object *wo)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->object == wo) {

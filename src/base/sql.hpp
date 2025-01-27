@@ -48,7 +48,7 @@
 #include <mysql/mysql.h>
 #endif
 
-class WO;
+class Object;
 
 
 #define	ERR_SQL	-11111	// query error
@@ -135,13 +135,13 @@ private:
   int selectSubstring(const char *table, const char *pat, uint16_t irow, char *substring);
   /**< gets a string and returns an index if pattern matches */
 
-  int getInt(WO *o, const char *col, uint16_t irow);
+  int getInt(Object *o, const char *col, uint16_t irow);
   /**< returns an int from a column */
 
-  float getFloat(WO *o, const char *col, uint16_t irow);
+  float getFloat(Object *o, const char *col, uint16_t irow);
   /**< returns a float from a column */
 
-  int getString(WO *o, const char *col, char *str, uint16_t irow);
+  int getString(Object *o, const char *col, char *str, uint16_t irow);
   /**< returns a string from a column */
 
  public:
@@ -168,7 +168,7 @@ private:
   // insert
 
  public:
-  void insertRow(WO *o);
+  void insertRow(Object *o);
   /**< inserts a row into a table */
 
   void insertCol(const char *table, const char *col, const char *object, const char *world);
@@ -178,45 +178,45 @@ private:
   // update
 
  private:
-  void updateInt(WO *o, const char *table, const char *col, const char *object, const char *world, int val);
+  void updateInt(Object *o, const char *table, const char *col, const char *object, const char *world, int val);
   /**< updates an integer into a column */
 
-  void updateFloat(WO *o, const char *table, const char *col, const char *object, const char *world, float val);
+  void updateFloat(Object *o, const char *table, const char *col, const char *object, const char *world, float val);
   /**< updates a float into a column */
 
-  void updateInt(WO *o, const char *col, int val);
+  void updateInt(Object *o, const char *col, int val);
   /**< updates an integer into a column */
 
-  void updateFloat(WO *o, const char *col, float val);
+  void updateFloat(Object *o, const char *col, float val);
   /**< updates a float into a column */
 
-  void updateString(WO *o, const char *col, const char *str);
+  void updateString(Object *o, const char *col, const char *str);
   /**< updates a string into a column */
 
-  void updateString(WO *o, const char *table, const char *col, const char *str);
+  void updateString(Object *o, const char *table, const char *col, const char *str);
   /**< updates a string into a column for a given table */
 
  public:
-  void updateString(WO *o, const char *table, const char *col, const char *object, const char *world, const char *str);
+  void updateString(Object *o, const char *table, const char *col, const char *object, const char *world, const char *str);
   /**< updates a string into a column */
 
   //////////////
   // delete
 
  public:
-  void deleteRow(WO *o, const char *table, const char *object, const char *world);
+  void deleteRow(Object *o, const char *table, const char *object, const char *world);
   /**< deletes a row from table */
 
-  void deleteRow(WO *o, const char *str);
+  void deleteRow(Object *o, const char *str);
   /**< deletes a row from table matching string */
 
-  void deleteRow(WO *o);
+  void deleteRow(Object *o);
   /**< deletes a row of this object */
 
   void deleteRows(const char *table);
   /**< deletes all rows from table */
 
-  void deleteRows(WO *o);
+  void deleteRows(Object *o);
   /**< deletes all rows of this object */
 
   //////////////
@@ -234,38 +234,38 @@ private:
   int getName(const char *table, const char *pattern, int num, char *retstr);
   /**< gets the qualified name of an object */
 
-  int getState(WO *o);
-  int getState(WO *o, uint16_t irow);
+  int getState(Object *o);
+  int getState(Object *o, uint16_t irow);
   /**< returns the state of object id in the world worldname */
 
-  void getPos(WO *o);
-  void getPos(WO *o, uint16_t irow);
+  void getPos(Object *o);
+  void getPos(Object *o, uint16_t irow);
 
  private:
-  float getPosX(WO *o, uint16_t irow);
-  float getPosY(WO *o, uint16_t irow);
-  float getPosZ(WO *o, uint16_t irow = 0);
-  float getPosAZ(WO *o, uint16_t irow);
+  float getPosX(Object *o, uint16_t irow);
+  float getPosY(Object *o, uint16_t irow);
+  float getPosZ(Object *o, uint16_t irow = 0);
+  float getPosAZ(Object *o, uint16_t irow);
 
  public:
-  void getGeom(WO *o);
-  void getGeom(WO *o, char *geom);
-  void getGeom(WO *o, uint16_t irow);
-  void getGeom(WO *o, char *geom, uint16_t irow);
-  void getOwner(WO *o);
-  void getOwner(WO *o, uint16_t irow);
+  void getGeom(Object *o);
+  void getGeom(Object *o, char *geom);
+  void getGeom(Object *o, uint16_t irow);
+  void getGeom(Object *o, char *geom, uint16_t irow);
+  void getOwner(Object *o);
+  void getOwner(Object *o, uint16_t irow);
 
-  void updateState(WO *o);
-  void updateState(WO *o, int val);
-  void updatePos(WO *o);
-  void updateGeom(WO *o, char *geom);
-  void updateGeom(WO *o, const char *table, char *geom);
-  void updateOwner(WO *o);
+  void updateState(Object *o);
+  void updateState(Object *o, int val);
+  void updatePos(Object *o);
+  void updateGeom(Object *o, char *geom);
+  void updateGeom(Object *o, const char *table, char *geom);
+  void updateOwner(Object *o);
 
-  void updatePosX(WO *o);
-  void updatePosY(WO *o);
-  void updatePosZ(WO *o);
-  void updatePosAZ(WO *o);
+  void updatePosX(Object *o);
+  void updatePosY(Object *o);
+  void updatePosZ(Object *o);
+  void updatePosAZ(Object *o);
 };
 
 #endif // SQL

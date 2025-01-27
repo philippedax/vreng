@@ -32,7 +32,7 @@ const uint8_t Thunder::NUMBER = 1;
 const uint8_t Thunder::PERIOD = 10;
 
 
-WO * Thunder::creator(char *l)
+Object * Thunder::creator(char *l)
 {
   return new Thunder(l);
 }

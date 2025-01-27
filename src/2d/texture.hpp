@@ -46,7 +46,7 @@ class Texture {
   GLuint tex_id;	///< texture id
   class Img *img;	///< img structure
   class Http *http;	///< http handle
-  class WO *object;	///< object referant
+  class Object *object;	///< object referant
   char *url;		///< url where is the texture
 
   Texture(const char *url);
@@ -76,7 +76,7 @@ class Texture {
   static Texture * getTexById(GLuint texid);
   /**< Gets a texture by its texture id. */
 
-  static GLuint getIdByObject(class WO *wo);
+  static GLuint getIdByObject(class Object *wo);
   /**< Gets a texture id by its object. */
 
   static void update();

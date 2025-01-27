@@ -252,7 +252,7 @@ void World::initFunc()
 }
 
 /** Initializes table of action functions */
-void setActionFunc(uint8_t type, uint8_t action, void (*action_method)(WO *o, void *d, time_t s, time_t u), const char *action_name)
+void setActionFunc(uint8_t type, uint8_t action, void (*action_method)(Object *o, void *d, time_t s, time_t u), const char *action_name)
 {
   strcpy(actionArray[type][action].name, action_name);
   actionArray[type][action].method = action_method;
@@ -265,7 +265,7 @@ bool isAction(uint8_t type, uint8_t action)
 }
 
 /** Do an action */
-void doAction(uint8_t type, uint8_t action, WO *o, void *d, time_t s, time_t u)
+void doAction(uint8_t type, uint8_t action, Object *o, void *d, time_t s, time_t u)
 {
   actionArray[type][action].method(o, d, s, u);
 }
@@ -330,13 +330,13 @@ uint8_t getPropertiesnumber(uint8_t type)
 }
 
 /** Initializes table of get property functions */
-void getPropFunc(uint8_t type, uint8_t prop, void (*get_method)(WO *o, Payload *p))
+void getPropFunc(uint8_t type, uint8_t prop, void (*get_method)(Object *o, Payload *p))
 {
   getPropArray[type][prop].method = get_method;
 }
 
 /** Initializes table of put property functions */
-void putPropFunc(uint8_t type, uint8_t prop, void (*put_method)(WO *o, Payload *p))
+void putPropFunc(uint8_t type, uint8_t prop, void (*put_method)(Object *o, Payload *p))
 {
   putPropArray[type][prop].method = put_method;
 }
@@ -354,13 +354,13 @@ bool isPutPropFunc(uint8_t type, uint8_t prop)
 }
 
 /** Exec get property */
-void runGetPropFunc(uint8_t type, uint8_t prop, WO *o, Payload *pp)
+void runGetPropFunc(uint8_t type, uint8_t prop, Object *o, Payload *pp)
 {
   getPropArray[type][prop].method(o, pp);
 }
 
 /** Exec put property */
-void runPutPropFunc(uint8_t type, uint8_t prop, WO *o, Payload *pp)
+void runPutPropFunc(uint8_t type, uint8_t prop, Object *o, Payload *pp)
 {
   putPropArray[type][prop].method(o, pp);
 }

@@ -48,7 +48,7 @@ static uint8_t vaps_offset_port = Humanoid::VAPS_OFFSET_PORT;
 
 
 /** Creates from a fileline */
-WO * Humanoid::creator(char *l)
+Object * Humanoid::creator(char *l)
 {
   return new Humanoid(l);
 }

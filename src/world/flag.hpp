@@ -33,7 +33,7 @@
 /**
  * Flag class
  */
-class Flag: public WO {
+class Flag: public Object {
  private:
   GLfloat width;	///< width
   GLfloat height;	///< height
@@ -55,7 +55,7 @@ class Flag: public WO {
 
   Flag(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);

@@ -34,7 +34,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Spiral::creator(char *l)
+Object * Spiral::creator(char *l)
 {
   return new Spiral(l);
 }

@@ -33,7 +33,7 @@ typedef struct {GLfloat x; GLfloat y; GLfloat z;} nVect;
 /**
  * Terrain class
  */
-class Terrain: public WO {
+class Terrain: public Object {
  protected:
   static const uint8_t DEF_LEVEL;
   static const GLfloat DEF_WIDTH;
@@ -63,10 +63,10 @@ class Terrain: public WO {
 
   Terrain(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< Intersects */
 
   void render();

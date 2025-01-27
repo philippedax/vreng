@@ -42,7 +42,7 @@ const float Lift::DENSITY = 10.0;
 static uint16_t oid = 0;
 
 
-WO * Lift::creator(char *l)
+Object * Lift::creator(char *l)
 {
   return new Lift(l);
 }
@@ -150,7 +150,7 @@ void Lift::call_cb(Lift *lift, void *d, time_t s, time_t u)
 }
 
 /* somebody intersects */
-bool Lift::whenIntersect(WO *pcur, WO *pold)
+bool Lift::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:
@@ -175,7 +175,7 @@ bool Lift::whenIntersect(WO *pcur, WO *pold)
   return true;
 }
 
-bool Lift::whenIntersectOut(WO *pcur, WO *pold)
+bool Lift::whenIntersectOut(Object *pcur, Object *pold)
 {
   if (state == CARRYING) {
     pcur->updatePositionAndGrid(pold);

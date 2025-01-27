@@ -75,7 +75,7 @@ struct sCyl {
 /**
  * Fire class
  */
-class Fire: public WO {
+class Fire: public Object {
  public:
   static const OClass oclass;	///< class variable.
   const OClass* getOClass() {return &oclass;}
@@ -85,7 +85,7 @@ class Fire: public WO {
   Fire(char *l);	///< Constructor.
   Fire() {}		///< Constructor needed by Smoke.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   ///< Creates from fileline.
 
   void changePermanent(float lasting);

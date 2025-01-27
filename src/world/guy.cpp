@@ -46,7 +46,7 @@ const float Guy::FEET_COLOR[] = {.0, .0, .0, 1};
 
 
 /* Creation from a file */
-WO * Guy::creator(char *l)
+Object * Guy::creator(char *l)
 {
   return new Guy(l);
 }
@@ -146,7 +146,7 @@ Guy::Guy()
 }
 
 /** Replication from the network */
-WO * Guy::replicator(uint8_t type_id, Noid noid, Payload *pp)
+Object * Guy::replicator(uint8_t type_id, Noid noid, Payload *pp)
 {
   return new Guy(type_id, noid, pp);
 }

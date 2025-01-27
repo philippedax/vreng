@@ -428,7 +428,7 @@ void Widgets::removeWorld(World *world)
 /** Makes an action on selected object */
 static void objectActionCB(int numaction)
 {
-  WO* object = g.gui.getSelectedObject();
+  Object* object = g.gui.getSelectedObject();
   if (object) {
     struct timeval t;
     gettimeofday(&t, NULL);
@@ -447,7 +447,7 @@ void Widgets::action(int numaction)
 }
 
 /** Returns info about the pointed object */
-WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
+Object* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 {
   static char *classname = 0, *currentname = 0, *actionnames = 0;
 
@@ -460,7 +460,7 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
     return NULL;
   }
 
-  WO* object = WO::byNum(objnum);
+  Object* object = Object::byNum(objnum);
 
   if (! object) {
     objinfo[0].name = const_cast<char*>("World");	// avoid segfault
@@ -968,7 +968,7 @@ void Widgets::objectsDialog()
   char line[64];
 
   UBox& objects_box = uvbox(UBackground::none);
-  for (std::vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+  for (std::vector<Object*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     sprintf(line, "%s:%s", (*it)->typeName(), (*it)->objectName());
     objects_box.add(uitem(UColor::black + line));
   }

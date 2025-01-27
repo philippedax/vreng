@@ -31,7 +31,7 @@
 /**
  * Template class
  */
-class Template : public WO {
+class Template : public Object {
  private:
 
  public:
@@ -44,7 +44,7 @@ class Template : public WO {
   Template(char *l);
   /**< Constructor */
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);

@@ -38,7 +38,7 @@ typedef struct {
 /**
  * Stars class
  */
-class Stars: public WO {
+class Stars: public Object {
  private:
   static const uint16_t NUMBER;
   static const uint16_t MAXPOS;
@@ -69,7 +69,7 @@ class Stars: public WO {
 
   Stars(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creation from a file */
 
   void changePermanent(float lasting);

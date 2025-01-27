@@ -32,7 +32,7 @@
 /**
  * Cauldron class
  */
-class Cauldron: public WO {
+class Cauldron: public Object {
 
  private:
   static const float DELTAZ;
@@ -46,10 +46,10 @@ class Cauldron: public WO {
 
   Cauldron(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Create from fileline */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
   void changePermanent(float lasting);

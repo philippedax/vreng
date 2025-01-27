@@ -32,7 +32,7 @@
 /**
  * Humanoid class
  */
-class Humanoid: public WO {
+class Humanoid: public Object {
  private:
   // VAPS values
   static const uint16_t VAPS_BUFSIZ = 8192;		///< buffer baplines.
@@ -78,7 +78,7 @@ class Humanoid: public WO {
   virtual ~Humanoid() {}
   /**< Desructor. */
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline. */
 
   void changePermanent(float lasting);

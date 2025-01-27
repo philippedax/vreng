@@ -37,7 +37,7 @@ const uint8_t Button::ACTION_LEN = 16;
 static uint16_t oid = 0;
 
 
-WO * Button::creator(char *l)
+Object * Button::creator(char *l)
 {
   return new Button(l);
 }
@@ -74,7 +74,7 @@ void Button::parser(char *l)
   p = strchr(pname, ' ');
   if (p) *p = '\0';
 
-  WO *puse = getObject(pname);
+  Object *puse = getObject(pname);
   if (puse) {
     num_action0 = indexAction(puse->type, str_action0);
     if (*str_action1)
@@ -121,7 +121,7 @@ void Button::commut(Button *button, void *d, time_t s, time_t us)
   int idxaction = (button->pos.st == 0) ? button->num_action0 : button->num_action1;
   button->pos.st = 1 - button->pos.st;
 
-  WO *psel = NULL;
+  Object *psel = NULL;
 
   char *puse = strtok(button->use_names, " \t");
   while (puse) {

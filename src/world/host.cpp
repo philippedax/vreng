@@ -34,7 +34,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Host::creator(char *l)
+Object * Host::creator(char *l)
 {
   return new Host(l);
 }
@@ -64,7 +64,7 @@ bool Host::publish(const Pos &oldpos)
 }
 
 /* object intersects: stop */
-bool Host::whenIntersect(WO *pcur, WO *pold)
+bool Host::whenIntersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

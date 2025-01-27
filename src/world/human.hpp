@@ -83,7 +83,7 @@ enum {
 /**
  * Human class
  */
-class Human : public WO {
+class Human : public Object {
 
  public:
   Pos pos;		///< position and BB
@@ -102,7 +102,7 @@ class Human : public WO {
 
   static void funcs();  ///< init funclist.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
 
   void changePermanent(float lasting);
   

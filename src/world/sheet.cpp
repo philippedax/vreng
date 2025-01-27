@@ -98,7 +98,7 @@ void Sheet::updateTime(time_t s, time_t us, float *lasting)
   }
 }
 
-bool Sheet::whenIntersect(WO *pcur, WO *pold)
+bool Sheet::whenIntersect(Object *pcur, Object *pold)
 {
   projectPosition(pcur, pold);
   return true;

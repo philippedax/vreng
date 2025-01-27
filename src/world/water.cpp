@@ -51,7 +51,7 @@ static float color[] = {.4, .7, 1, Water::DEF_TRANSP}; // triangles light blue c
 
 
 /* creation from a vre file */
-WO * Water::creator(char *l)
+Object * Water::creator(char *l)
 {
   return new Water(l);
 }
@@ -170,7 +170,7 @@ void Water::render()
   glPopMatrix();
 }
 
-bool Water::whenIntersect(WO *pcur, WO *pold)
+bool Water::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
 
@@ -202,7 +202,7 @@ bool Water::whenIntersect(WO *pcur, WO *pold)
   return true;
 }
 
-bool Water::whenIntersectOut(WO *pcur, WO *pold)
+bool Water::whenIntersectOut(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) signal(SIGUSR2, SIG_IGN);
   return true;

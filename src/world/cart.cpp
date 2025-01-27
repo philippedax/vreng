@@ -36,7 +36,7 @@
 const OClass Cart::oclass(CART_TYPE, "Cart", NULL);
 
 // local
-std::vector<WO*> Cart::cartList;	// vector of objects in Cart
+std::vector<Object*> Cart::cartList;	// vector of objects in Cart
 
 
 void Cart::parser(char *l)
@@ -68,7 +68,7 @@ Cart::Cart(char *l)
  * and calls the addCart to manage the cart widget
  * called by Thing::dropIntoBasket
  */
-void Cart::addToCart(WO *po)
+void Cart::addToCart(Object *po)
 {
   // find object's world list and remove object from it
   switch (po->mode) {
@@ -106,10 +106,10 @@ void Cart::addToCart(WO *po)
 /**
  * Leaves the object in the current world
  */
-void Cart::leave(WO *po)
+void Cart::leave(Object *po)
 {
   // remove object from the cartList
-  for (std::vector<WO*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
+  for (std::vector<Object*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
       cartList.pop_back();
     }
@@ -166,10 +166,10 @@ void Cart::leave(WO *po)
 /**
  * Removes the object, (removeCart yet called)
  */
-void Cart::removeFromCart(WO *po)
+void Cart::removeFromCart(Object *po)
 {
   // remove from cartList
-  for (std::vector<WO*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
+  for (std::vector<Object*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
       cartList.pop_back();
     }

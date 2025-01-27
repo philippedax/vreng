@@ -168,7 +168,7 @@ void Stars::update()
   }
 }
 
-WO * Stars::creator(char *l)
+Object * Stars::creator(char *l)
 {
   return new Stars(l);
 }

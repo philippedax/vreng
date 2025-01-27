@@ -33,7 +33,7 @@
 /**
  * Text class
  */
-class Text: public WO {
+class Text: public Object {
  protected:
   static const float RATIO_SCALE;	///< default scale ratio.
   static const uint16_t MAXLEN;		///< max lenght of text.
@@ -68,7 +68,7 @@ class Text: public WO {
   Text(const char *t, struct Pos &pos, float _scale, const float *_color, bool _face);
   ///< Constructor for bubble.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline. */
 
   void changePosition(float lasting);

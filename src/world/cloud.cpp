@@ -37,7 +37,7 @@ const float Cloud::SPEED = 0.025;	///< 0.025 m/s
 const float Cloud::FAR = 50;		///< clip far
 
 
-WO * Cloud::creator(char *l)
+Object * Cloud::creator(char *l)
 {
   return new Cloud(l);
 }

@@ -34,7 +34,7 @@
 /**
  * Ball class
  */
-class Ball: public WO {
+class Ball: public Object {
  private:
   float lspeed;		///< horizontal speed in xy
   float zspeed;		///< vertical speed
@@ -84,7 +84,7 @@ class Ball: public WO {
 
   const OClass* getOClass() {return &oclass;}
 
-  Ball(class WO *cauldron, void *d, time_t s, time_t u);
+  Ball(class Object *cauldron, void *d, time_t s, time_t u);
   /**< constructor: called by cauldron. */
 
   Ball(class World *world, void *d, time_t s, time_t u);
@@ -93,16 +93,16 @@ class Ball: public WO {
   Ball(uint8_t type_id, Noid noid, Payload *pp);
   /**< constructor: network replication. */
 
-  Ball(WO *user, char *solid);
+  Ball(Object *user, char *solid);
   /**< constructor: created by user. */
 
   Ball(char *l);
   /**< constructor: fileline. */
 
-  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
+  static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a ball coming from the Network. */
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates a ball defined in a file. */
 
   bool isMoving();
@@ -120,10 +120,10 @@ class Ball: public WO {
   bool publish(const Pos &oldpos);
   /**< Publishes to network. */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< Handles collisions. */
 
-  void whenWallsIntersect(WO *pold, V3 *norm);
+  void whenWallsIntersect(Object *pold, V3 *norm);
   /**< Handles collisions with a wall. */
 
   void quit();

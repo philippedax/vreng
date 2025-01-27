@@ -96,7 +96,7 @@ const OClass * OClass::getOClass(uint8_t type_id)
 }
 
 /** Returns a wobject creator */
-WO * OClass::creatorInstance(uint8_t type_id, char *l)
+Object * OClass::creatorInstance(uint8_t type_id, char *l)
 {
   if (! isValidType(type_id)) {
     error("creatorInstance: type_id=%d out of bounds", type_id);
@@ -107,7 +107,7 @@ WO * OClass::creatorInstance(uint8_t type_id, char *l)
 }
 
 /** Returns a wobject replicator */
-WO * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
+Object * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
 {
   if (! isValidType(type_id)) {
     error("replicatorInstance: type_id=%d out of bounds", type_id);

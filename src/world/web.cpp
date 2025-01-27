@@ -45,7 +45,7 @@ enum {
 };
 
 /* creation from a file */
-WO * Web::creator(char *l)
+Object * Web::creator(char *l)
 {
   return new Web(l);
 }
@@ -147,7 +147,7 @@ void Web::pivot()
 }
 
 /* object intersects: projection */
-bool Web::whenIntersect(WO *pcur, WO *pold)
+bool Web::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

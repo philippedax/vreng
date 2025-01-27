@@ -34,7 +34,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Travolator::creator(char *l)
+Object * Travolator::creator(char *l)
 {
   return new Travolator(l);
 }

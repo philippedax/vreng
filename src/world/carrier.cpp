@@ -56,7 +56,7 @@ bool Carrier::underControl() const
 }
 
 /** Takes control of the mouse to enter in manipulation mode */
-void Carrier::take(WO *po)
+void Carrier::take(Object *po)
 {
   if (po->mode != MOBILE) {
     echo("%s is not mobile", po->objectName());
@@ -104,7 +104,7 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
  */
 void Carrier::mouseEvent(int8_t vkey, float last)
 {
-  WO *poldobj = new WO();
+  Object *poldobj = new Object();
   object->copyPositionAndBB(poldobj);	// copy oldpos, oldangle
 
   echo("carrier: k=%d", vkey);

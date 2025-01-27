@@ -51,7 +51,7 @@ typedef struct _Object2D {
 /**
  * Vrelet class
  */
-class Vrelet: public WO {
+class Vrelet: public Object {
  public:
   int incrx, incry;		///< increments x y
   float fx, fy;			///< ratios x y
@@ -68,7 +68,7 @@ class Vrelet: public WO {
 
   static void funcs();	///< init funclist
 
-  static WO * (creator)(char *l); ///< Creates from fileline
+  static Object * (creator)(char *l); ///< Creates from fileline
 
   bool isMoving();
   /**< Returns yes if the child has sent a delta request */
@@ -79,10 +79,10 @@ class Vrelet: public WO {
   void updateTime(time_t s, time_t us, float *lasting);
   /**< Dummy: always say we need to move */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< Notify the controler that an ingoing intersection occured */
 
-  bool whenIntersectOut(WO *pcur, WO *pold);
+  bool whenIntersectOut(Object *pcur, Object *pold);
   /**< Notify the controler that an outgoing intersection occured */
 
   void render();
@@ -124,7 +124,7 @@ class Vrelet: public WO {
    * Finally, draw this Vrelet's 2D object list.
    */
 
-  void sendPos(WO *po);
+  void sendPos(Object *po);
   /**<
    * Send some object's position to the child.
    * If the position is that of the current object,
@@ -147,7 +147,7 @@ class Vrelet: public WO {
    * the object it's working on no longer exists.
    */
 
-  void sendIntersect(WO *po, WO *old, int inOrOut);
+  void sendIntersect(Object *po, Object *old, int inOrOut);
   /**<
    * Send the client a notification that a thing just entered/exited
    * its bounding box
@@ -158,7 +158,7 @@ class Vrelet: public WO {
    * Answer a child's query.
    * Right now, the only query available is a query
    * to the list of mobile objects, asking for a given type
-   * of WO. A list of all the object ids is returned to the child.
+   * of Object. A list of all the object ids is returned to the child.
    */
 
   void readApp();
@@ -179,10 +179,10 @@ class Vrelet: public WO {
    * - MSGT_QUERY: Answers to type queries (returns a list of mobile objects)
    */
 
-  void setPos(WO *po);
+  void setPos(Object *po);
   /**< Set initial position of this object */
 
-  void deltaPos(WO *po);
+  void deltaPos(Object *po);
   /**< Update position of this object */
 
   void sendClick(int x, int y);

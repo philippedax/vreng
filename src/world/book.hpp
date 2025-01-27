@@ -33,7 +33,7 @@
 /**
  * Book class
  */
-class Book: public WO {
+class Book: public Object {
   friend class Sheet;
 
  protected:
@@ -111,7 +111,7 @@ class Book: public WO {
 
   Book(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from a file */
 
   void changePosition(float lasting);
@@ -123,7 +123,7 @@ class Book: public WO {
   bool publish(const Pos &oldpos);
   /**< Publishes to network */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an intersection occurs */
 
   void quit();

@@ -37,7 +37,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Music::creator(char *l)
+Object * Music::creator(char *l)
 {
   return new Music(l);
 }
@@ -94,7 +94,7 @@ Music::Music(char *l)
     play(this, (void *) 1, 0L, 0L);
 }
 
-bool Music::whenIntersect(WO *pcur, WO *pold)
+bool Music::whenIntersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

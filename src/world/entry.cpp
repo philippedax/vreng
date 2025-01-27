@@ -36,7 +36,7 @@ void Entry::funcs() {}
 
 
 /* creation from a file */
-WO * Entry::creator(char *l)
+Object * Entry::creator(char *l)
 {
   return new Entry(l);
 }

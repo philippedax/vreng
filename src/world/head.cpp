@@ -47,7 +47,7 @@ static struct sHead heads[] = {
 };
 
 
-WO * Head::creator(char *l)
+Object * Head::creator(char *l)
 {
   return new Head(l);
 }

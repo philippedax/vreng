@@ -40,7 +40,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Step::creator(char *l)
+Object * Step::creator(char *l)
 {
   return new Step(l);
 }
@@ -206,7 +206,7 @@ Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _m
 }
 
 /* creation from Gui addobj */
-Step::Step(WO *user, char *geom)
+Step::Step(Object *user, char *geom)
 {
   parseSolid(geom);
 
@@ -310,7 +310,7 @@ bool Step::publish(const Pos &oldpos)
 }
 
 /* object intersects: up */
-bool Step::whenIntersect(WO *pcur, WO *pold)
+bool Step::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
     case USER_TYPE:
@@ -342,7 +342,7 @@ bool Step::whenIntersect(WO *pcur, WO *pold)
   return true;
 }
 
-bool Step::whenIntersectOut(WO *pcur, WO *pold)
+bool Step::whenIntersectOut(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) {
     stuck = false;

@@ -32,7 +32,7 @@
 /**
  * Wind class
  */
-class Wind: public WO {
+class Wind: public Object {
  private:
   static Wind *wind;		///< singleton.
   static const char url[36];	///< wind url.
@@ -49,7 +49,7 @@ class Wind: public WO {
 
   Wind(char *l);	///< Constructor.
 
-  static WO* (creator)(char *l);	///< Creates from fileline.
+  static Object* (creator)(char *l);	///< Creates from fileline.
 
   static Wind * current();	///< Gets wind pointer.
 

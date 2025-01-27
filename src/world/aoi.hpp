@@ -35,7 +35,7 @@
  * Aoi class
  * Area of Interest
  */
-class Aoi: public WO {
+class Aoi: public Object {
  private:
   char chan[CHAN_LEN];	///< aoi mcast channel string
 
@@ -48,7 +48,7 @@ class Aoi: public WO {
 
   Aoi(char *l);		///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void aoiEnter();

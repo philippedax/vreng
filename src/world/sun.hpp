@@ -31,7 +31,7 @@
 /**
  * Sun class
  */
-class Sun: public WO {
+class Sun: public Object {
  protected:
   static const GLfloat DEF_RADIUS;
   static const GLfloat light_pos[4];
@@ -57,7 +57,7 @@ class Sun: public WO {
 
   Sun(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from file line. */
 
   void changePermanent(float lasting);

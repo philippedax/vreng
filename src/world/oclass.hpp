@@ -24,15 +24,15 @@
 #define OCLASS_HPP
 
 
-typedef class WO * (WCreator) (char *);
-typedef class WO * (WReplicator) (uint8_t, class Noid, class Payload *);
+typedef class Object * (WCreator) (char *);
+typedef class Object * (WReplicator) (uint8_t, class Noid, class Payload *);
 typedef void (WBuiltin) ();
 
 
 /**
  * OClass Class
  *
- * WO factory system
+ * Object factory system
  */
 class OClass {
  private:
@@ -52,10 +52,10 @@ class OClass {
   OClass(uint8_t type_id, const char *type_name, WCreator*, WReplicator* = NULL, WBuiltin* = NULL);
   /**< Constructor */
 
-  static WO * creatorInstance(uint8_t type_id, char *l);
+  static Object * creatorInstance(uint8_t type_id, char *l);
   /**< Creator from fileline */
 
-  static class WO * replicatorInstance(uint8_t type_id, class Noid noid, class Payload *pp);
+  static class Object * replicatorInstance(uint8_t type_id, class Noid noid, class Payload *pp);
   /**< Creator from network */
 
   static const OClass * getOClass(uint8_t type_id);

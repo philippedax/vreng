@@ -33,7 +33,7 @@
 /**
  * Step class
  */
-class Step: public WO {
+class Step: public Object {
  protected:
   static const float LSPEED;	///< linear speed
   std::vector<Step*> stairList;	///< vector of steps (stair)
@@ -74,18 +74,18 @@ class Step: public WO {
   Step() {}		///< Constructor
   Step(char *l);	///< Constructor
 
-  Step(WO *user, char *form);	///< Constructor from GUI
+  Step(Object *user, char *form);	///< Constructor from GUI
 
   Step(Pos& newpos, Pos& _ipos, const char *name, const char *geom, bool _mobile, float _height, float _speed, int _dir);
   /**< Constructor for structure of steps */
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Create from fileline */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
-  bool whenIntersectOut(WO *pcur, WO *pold);
+  bool whenIntersectOut(Object *pcur, Object *pold);
   /**< When an other object leaves intersection */
 
   void updateTime(time_t s, time_t us, float *lasting);

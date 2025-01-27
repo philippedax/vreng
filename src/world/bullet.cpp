@@ -80,7 +80,7 @@ void Bullet::inits()
   Sound::playSound(DRIPSND);
 }
 
-Bullet::Bullet(WO *pu, void *d, time_t s, time_t u)
+Bullet::Bullet(Object *pu, void *d, time_t s, time_t u)
 {
   defaults();
   geometry();
@@ -95,7 +95,7 @@ void Bullet::create(User *user, void *d, time_t s, time_t u)
 }
 
 /* Replication from the network */
-WO * Bullet::replicator(uint8_t type_id, Noid noid, Payload *pp)
+Object * Bullet::replicator(uint8_t type_id, Noid noid, Payload *pp)
 {
   return new Bullet(type_id, noid, pp);
 }

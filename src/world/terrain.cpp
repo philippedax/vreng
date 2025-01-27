@@ -36,7 +36,7 @@ const GLfloat Terrain::DEF_SCALE = 100;
 const GLfloat Terrain::DEF_COLOR[4] = {1,1,.5,1};	// ocre
 
 
-WO * Terrain::creator(char *l)
+Object * Terrain::creator(char *l)
 {
   return new Terrain(l);
 }
@@ -200,7 +200,7 @@ void Terrain::draw()
 }
 
 /** Intersection with an object */
-bool Terrain::whenIntersect(WO *pcur, WO *pold)
+bool Terrain::whenIntersect(Object *pcur, Object *pold)
 {
   echo("terrain intersect: %s", pcur->objectName());
   pold->setLasting(0);

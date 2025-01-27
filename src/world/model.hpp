@@ -32,7 +32,7 @@
 /**
  * Model class
  */
-class Model: public WO {
+class Model: public Object {
  private:
   static const float DEF_SCALE; ///< default scale
 
@@ -66,9 +66,9 @@ class Model: public WO {
 
   Model(char *l);	///< Constructor.
 
-  Model(class WO *user, char *_url, float _scale);     ///< Constructor from GUI.
+  Model(class Object *user, char *_url, float _scale);     ///< Constructor from GUI.
 
-  static class WO * (creator)(char *l);
+  static class Object * (creator)(char *l);
   /**< Creates from fileline. */
 
   bool isMoving();

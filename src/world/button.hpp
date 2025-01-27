@@ -32,7 +32,7 @@
 /**
  * Button class
  */
-class Button: public WO {
+class Button: public Object {
 
  private:
   static const uint8_t USENAME_MAX;
@@ -60,7 +60,7 @@ class Button: public WO {
 
   Button(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
 
   void quit();	///< when leaving
 

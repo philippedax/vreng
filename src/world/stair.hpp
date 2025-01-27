@@ -42,7 +42,7 @@ class Stair: public Step {
 
   Stair(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Create from fileline */
 
   void quit();

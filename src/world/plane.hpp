@@ -32,7 +32,7 @@
 /**
  * Plane class
  */
-class Plane: public WO {
+class Plane: public Object {
  public:
  /* properties */
   enum {
@@ -49,7 +49,7 @@ class Plane: public WO {
 
   const OClass* getOClass() {return &oclass;}
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline. */
 
   Plane(char *l);
@@ -57,7 +57,7 @@ class Plane: public WO {
 
   static void funcs();	///< init funclist.
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
   void quit();

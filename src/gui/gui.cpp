@@ -33,7 +33,7 @@
 #include "scene.hpp"	// scene
 #include "motion.hpp"	// Motion
 #include "world.hpp"    // current
-#include "wobject.hpp"  // WO
+#include "wobject.hpp"  // Object
 #include "user.hpp"	// localuser
 #include "vnc.hpp"      // Vnc
 #include "cart.hpp"     // Cart
@@ -132,7 +132,7 @@ void Gui::showCartDialog(bool flag)
   widgets->panels.showBasket(flag);
 }
 
-GuiItem* Gui::addCart(WO *cart)
+GuiItem* Gui::addCart(Object *cart)
 {
   if (! cart) return NULL;
 
@@ -146,7 +146,7 @@ GuiItem* Gui::addCart(WO *cart)
   return gu;
 }
 
-void Gui::removeCart(WO *cart, int action)
+void Gui::removeCart(Object *cart, int action)
 {
   if (! cart) return;
 
@@ -169,7 +169,7 @@ void Gui::removeCart(WO *cart, int action)
   }
 }
 
-void Gui::updateCart(WO* po)
+void Gui::updateCart(Object* po)
 {
   UBox* actions_cart = &uhbox(ulabel(ugroup(g.theme.objectTypeStyle
                                             + USymbol::right
@@ -334,7 +334,7 @@ void Gui::getClicked(uint8_t *nclick, float clicked[])
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling selection
 //
-WO* Gui::getSelectedObject()
+Object* Gui::getSelectedObject()
 {
   return selected_object;
 }
@@ -390,7 +390,7 @@ void Gui::clearInfoBar()
   widgets->navig.clearInfoBar();
 }
 
-void Gui::clearInfoBar(WO *obj)
+void Gui::clearInfoBar(Object *obj)
 {
   if (obj == selected_object) {
     selected_object = NULL;

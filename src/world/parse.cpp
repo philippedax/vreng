@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "parse.hpp"	// Parse
-#include "wobject.hpp"	// WO
+#include "wobject.hpp"	// Object
 #include "world.hpp"	// current
 #include "solid.hpp"	// Solid
 #include "color.hpp"	// getRGB
@@ -331,7 +331,7 @@ int Parse::parseVreFile(char *buf, int buflen)
         continue;
       }
 
-      WO *wobject = NULL;
+      Object *wobject = NULL;
       uint8_t tid = parseLine(line, &tag_id);
 
       switch (tid) {
@@ -466,7 +466,7 @@ char * Parse::skipAttribute(char *l)
  *   name pos url solid category description
  *   be carefull : the line has been tokenized by separators TOK_SEP=" ,<>\t\n"
  */
-char * Parse::parseAttributes(char *l, WO *wobject)
+char * Parse::parseAttributes(char *l, Object *wobject)
 {
   while (l) {
     if      (! stringcmp(l, "name=")) {
@@ -675,7 +675,7 @@ char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
  * tag <solid || <geom
  * creates a solid and calls its parser
  */
-char * Parse::parseSolid(char *ptok, WO *wobject)
+char * Parse::parseSolid(char *ptok, Object *wobject)
 {
   if ( !ptok || !strlen(ptok) ) {
     error("parse error at line %d (no solid)", numline-1);
@@ -703,7 +703,7 @@ char * Parse::parseSolid(char *ptok, WO *wobject)
 }
 
 /** Parses a solid */
-char * Parse::parseSolid(char *ptok, const char *sep, WO *wobject)
+char * Parse::parseSolid(char *ptok, const char *sep, Object *wobject)
 {
   if (*ptok == '<') ptok++;
   strtok(ptok, sep);
@@ -711,7 +711,7 @@ char * Parse::parseSolid(char *ptok, const char *sep, WO *wobject)
 }
 
 /** Parses several solids */
-void Parse::parseSolids(char *ptok, const char *sep, WO *wobject)
+void Parse::parseSolids(char *ptok, const char *sep, Object *wobject)
 {
   strtok(ptok, sep);		// a solid is tokenized
   while (ptok) {

@@ -30,7 +30,7 @@ const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
 
 /** Creation from a file */
-WO * Smoke::creator(char *l)
+Object * Smoke::creator(char *l)
 {
   return new Smoke(l);
 }

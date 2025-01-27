@@ -50,10 +50,10 @@ enum {
 void changeKey(int key_id, bool pressed, time_t s, time_t u);
 /** pressed is TRUE for a Key Press and FALSE for a Key Release */
 
-void gotoFront(class WO *po, void *d, time_t s, time_t u);
+void gotoFront(class Object *po, void *d, time_t s, time_t u);
 /** Moves the user in front of the object */
 
-void gotoBehind(class WO *po, void *d, time_t s, time_t u);
+void gotoBehind(class Object *po, void *d, time_t s, time_t u);
 /** Moves the user behind the object */
 
 void gotoXYZ(float gox,float goy,float goz,float az);

@@ -35,10 +35,10 @@ const OClass Cloth::oclass(CLOTH_TYPE, "Cloth", Cloth::creator);
 //local
 static uint16_t oid = 0;
 
-std::list<WO*> Cloth::wearList;		// list of objects weared by local user
+std::list<Object*> Cloth::wearList;		// list of objects weared by local user
 
 
-WO * Cloth::creator(char *l)
+Object * Cloth::creator(char *l)
 {
   return new Cloth(l);
 }
@@ -188,7 +188,7 @@ void Cloth::addWearList()
 
 void Cloth::delWearList()
 {
-  for (std::list<WO*>::iterator it = wearList.begin(); it != wearList.end(); it++) {
+  for (std::list<Object*>::iterator it = wearList.begin(); it != wearList.end(); it++) {
     if (*it == this) {
       wearList.pop_back();
     }

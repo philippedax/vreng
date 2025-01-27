@@ -61,7 +61,7 @@ class Dress: public Cloth {
 
   static void funcs();	///< init funclist
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creation from a file */
 
   Dress(char *l);			///< Constructor file

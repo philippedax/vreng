@@ -38,7 +38,7 @@ const OClass Wall::oclass(WALL_TYPE, "Wall", Wall::creator);
 
 
 /** creation from a file */
-WO * Wall::creator(char *l)
+Object * Wall::creator(char *l)
 {
   return new Wall(l);
 }
@@ -58,7 +58,7 @@ Wall::Wall(char *l)
 }
 
 /** creation from gui addobject */
-Wall::Wall(WO *user, char *geom)
+Wall::Wall(Object *user, char *geom)
 {
   if (! user) return;
 
@@ -75,7 +75,7 @@ Wall::Wall(WO *user, char *geom)
 }
 
 /** Intersection with an object */
-bool Wall::whenIntersect(WO *pcur, WO *pold)
+bool Wall::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

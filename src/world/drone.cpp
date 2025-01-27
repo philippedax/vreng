@@ -37,7 +37,7 @@ const float Drone::DRONE_DELTA = .01;	// elementary movement 5cm
 
 
 /** Creation from a file */
-WO * Drone::creator(char *l)
+Object * Drone::creator(char *l)
 {
   return new Drone(l);
 }

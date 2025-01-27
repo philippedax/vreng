@@ -62,7 +62,7 @@ public:
 /**
  * Smoke class
  */
-class Smoke: public WO {
+class Smoke: public Object {
 public:
   static const OClass oclass;		///< class variable.
   const OClass* getOClass() {return &oclass;}
@@ -72,7 +72,7 @@ public:
   Smoke(char *l);	///< Constructor.
   ~Smoke() {};		///< Destructor.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   ///< Creates from fileline.
 
   void changePermanent(float dt);

@@ -81,19 +81,19 @@ class NetObj {
   uint8_t type;			///< NetObj type
   uint8_t nbprop;		///< number of properties
   uint8_t state;		///< permanent or valatile (not a true bool)
-  class WO *pobject;		///< pointer on the WO
+  class Object *pobject;	///< pointer on the Object
   class NetProperty *netprop;	///< netobj properties
 
   NetObj();
   /**< Constructor for local */
 
-  NetObj(WO *po, uint8_t nprop, uint16_t oid);
+  NetObj(Object *po, uint8_t nprop, uint16_t oid);
   /**< Constructor for local ppermanent with args */
 
-  NetObj(WO *po, uint8_t nprop);
+  NetObj(Object *po, uint8_t nprop);
   /**< Constructor for local volatile with args */
 
-  NetObj(WO *po, uint8_t nprop, class Noid _noid);
+  NetObj(Object *po, uint8_t nprop, class Noid _noid);
   /**< Constructor for replica */
 
   virtual ~NetObj();
@@ -110,7 +110,7 @@ class NetObj {
   /**< netobj list. */
 
   //
-  // exports to WO
+  // exports to Object
   //
   void set(bool netbehave);
   /**<
@@ -237,8 +237,8 @@ class NetObj {
    *  4) faire le delete object final
    */
 
-  WO * getWOByNoid() const;
-  /**< Finds a WO pointer by its noid */
+  Object * getObjectByNoid() const;
+  /**< Finds a Object pointer by its noid */
 
   bool isResponsible() const;
 
@@ -254,7 +254,7 @@ class NetObj {
   /**<
    * Dispatching the replicated object.
    * Creates a replication (local copy) of the object.
-   * All its fields will be intilisalized by the WO itself
+   * All its fields will be intilisalized by the Object itself
    * using appropriated getProperty().
    * Typically called after an incomingCreate().
    */

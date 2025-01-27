@@ -30,7 +30,7 @@
 #include "netprop.hpp"	// NetProperty
 #include "channel.hpp"	// Channel
 #include "oclass.hpp"	// isValidType
-#include "wobject.hpp"	// WO
+#include "wobject.hpp"	// Object
 #include "stat.hpp"	// new_netobj
 
 #include <list>
@@ -71,7 +71,7 @@ NetObj::NetObj()
 }
 
 /** Creates local permanent NetObj */
-NetObj::NetObj(WO *po, uint8_t nprop, uint16_t oid)
+NetObj::NetObj(Object *po, uint8_t nprop, uint16_t oid)
 {
   defaults();
   type = po->typeId();
@@ -86,7 +86,7 @@ NetObj::NetObj(WO *po, uint8_t nprop, uint16_t oid)
 }
 
 /** Creates volatile NetObj */
-NetObj::NetObj(WO *po, uint8_t nprop)
+NetObj::NetObj(Object *po, uint8_t nprop)
 {
   defaults();
   type = po->type;
@@ -98,7 +98,7 @@ NetObj::NetObj(WO *po, uint8_t nprop)
 }
 
 /** Creates replicated volatile NetObj */
-NetObj::NetObj(WO *po, uint8_t nprop, Noid _noid)
+NetObj::NetObj(Object *po, uint8_t nprop, Noid _noid)
 {
   defaults();
   type = po->type;
@@ -308,10 +308,10 @@ bool NetObj::isResponsible() const
   return (netprop && netprop->responsible);
 }
 
-/** Finds a WO pointer by its noid */
-WO * NetObj::getWOByNoid() const
+/** Finds a Object pointer by its noid */
+Object * NetObj::getObjectByNoid() const
 {
-  for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+  for (list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it)->netop) {
       //dax if (noid.equal((*it)->netop->noid))
       if ((*it)->netop->noid.equal((*it)->netop->noid)) {
@@ -361,7 +361,7 @@ void NetObj::requestDeletion()
 /** Creates a replicated object */
 NetObj * NetObj::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
 {
-  WO *po = OClass::replicatorInstance(type_id, noid, pp);  // factory
+  Object *po = OClass::replicatorInstance(type_id, noid, pp);  // factory
 
   if (po) {
     if (! po->netop) {
@@ -420,7 +420,7 @@ void NetObj::sendCreate(const struct sockaddr_in *to)
 #endif
 }
 
-/** Declares a creation - exported to WO, to call for each new object */
+/** Declares a creation - exported to Object, to call for each new object */
 void NetObj::declareCreation()
 {
   if (! getNetObj()) {

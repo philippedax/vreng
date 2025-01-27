@@ -38,8 +38,7 @@ typedef struct {
 /**
  * Cloud class
  */
-class Cloud: public WO {
-
+class Cloud: public Object {
  private:
   static const uint16_t NUMBER;
   static const float SPEED;
@@ -63,7 +62,7 @@ class Cloud: public WO {
 
   Cloud(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creation from a file */
 
   void changePermanent(float lasting);

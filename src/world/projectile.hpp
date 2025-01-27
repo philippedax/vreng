@@ -32,7 +32,7 @@
 /**
  * Projectile class
  */
-class Projectile: public WO {
+class Projectile: public Object {
   friend class User; // access to member "hit"
 
  protected:
@@ -61,9 +61,9 @@ class Projectile: public WO {
 
   void updateTime(time_t s, time_t us, float *plasting);
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
 
-  void whenWallsIntersect(WO *pold, V3 *norm);
+  void whenWallsIntersect(Object *pold, V3 *norm);
 
   bool updateToNetwork(const Pos &oldpos);
 

@@ -32,7 +32,7 @@
 /**
  * Doc class
  */
-class Doc: public WO {
+class Doc: public Object {
 
  public:
   /* properties */
@@ -54,10 +54,10 @@ class Doc: public WO {
 
   Doc(char *l);		///< Constructor.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /** Creates from fileline. */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an intersect occurs. */
 
   bool publish(const Pos &oldpos);

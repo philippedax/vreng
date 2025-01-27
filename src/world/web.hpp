@@ -32,7 +32,7 @@
 /**
  * Web class
  */
-class Web: public WO {
+class Web: public Object {
  public:
   /* properties */
   enum {
@@ -53,14 +53,14 @@ class Web: public WO {
 
   Web(char *l);		///< Constructor.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline. */
 
   void updateTime(time_t sec, time_t usec, float *lasting);
 
   void changePosition(float lasting);
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
 
   void quit();
   /**< Quits. */

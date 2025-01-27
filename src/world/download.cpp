@@ -30,7 +30,7 @@
 const OClass Download::oclass(DOWNLOAD_TYPE, "Download", Download::creator);
 
 
-WO * Download::creator(char *l)
+Object * Download::creator(char *l)
 {
   return new Download(l);
 }

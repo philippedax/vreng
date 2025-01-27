@@ -44,7 +44,7 @@ extern class User *localuser;	// global
 /**
  * User class
  */
-class User: public WO {
+class User: public Object {
  public:
   static const float LASTING;
   static const float DEF_WIDTH;
@@ -67,7 +67,7 @@ class User: public WO {
   class Head *head;		///< Head avatar
   
  protected:
-  friend class WO;
+  friend class Object;
 
   uint32_t ssrc;	///< ssrc id.
   char  *front;		///< url body front.
@@ -85,7 +85,7 @@ class User: public WO {
   char  *color;		///< color.
   char  *baps;		///< vaps server.
 
-  WO* lastSelected;
+  Object* lastSelected;
   float lastDistance;
 
   char  mensuration[MENSURATIONLEN];
@@ -169,7 +169,7 @@ class User: public WO {
   void inits();
   /**< Makes needed initializations. */
 
-  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
+  static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a remote avatar. */
 
   void changePosition(float lasting);
@@ -184,7 +184,7 @@ class User: public WO {
   bool updateToNetwork(const Pos &oldpos);
   /**< Publishes position to the network. */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
   void updateTime(float lasting[]);
@@ -304,11 +304,11 @@ class User: public WO {
 
   // network change callbacks
   static void get_username(User *pu, Payload *pp);
-  static void u_get_xy(WO *po, Payload *pp);
-  static void u_get_z(WO *po, Payload *pp);
-  static void u_get_ax(WO *po, Payload *pp);
-  static void u_get_ay(WO *po, Payload *pp);
-  static void u_get_az(WO *po, Payload *pp);
+  static void u_get_xy(Object *po, Payload *pp);
+  static void u_get_z(Object *po, Payload *pp);
+  static void u_get_ax(Object *po, Payload *pp);
+  static void u_get_ay(Object *po, Payload *pp);
+  static void u_get_az(Object *po, Payload *pp);
   static void get_msg(User *pu, Payload *pp);
   static void get_infos(User *pu, Payload *pp);
   static void get_mensuration(User *pu, Payload *pp);

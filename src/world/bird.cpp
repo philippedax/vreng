@@ -35,7 +35,7 @@ const float Bird::BIRD_DELTA = .01;	// elem motion
 
 
 /** Creation from a file */
-WO * Bird::creator(char *l)
+Object * Bird::creator(char *l)
 {
   return new Bird(l);
 }

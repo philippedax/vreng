@@ -31,7 +31,7 @@ const OClass Transform::oclass(TRANSFORM_TYPE, "Transform", Transform::creator);
 void Transform::funcs() {}
 
 
-WO * Transform::creator(char *l)
+Object * Transform::creator(char *l)
 {
   return new Transform(l);
 }

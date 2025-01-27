@@ -31,8 +31,7 @@
 /**
  * Board class
  */
-class Board: public WO {
-
+class Board: public Object {
  public:
   /* properties */
   enum {
@@ -60,10 +59,10 @@ class Board: public WO {
 
   Board(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< Intersection with an other object */
 
   bool publish(const Pos &oldpos);

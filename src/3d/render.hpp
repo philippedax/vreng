@@ -26,7 +26,7 @@
 #include "matvec.hpp"   // V3 M4
 #include <list>
 
-class WO;
+class Object;
 class Solid;
 
 
@@ -194,7 +194,7 @@ class Render {
    */
 
   void cameraPosition();		///< Set camera position.
-  void cameraPosition(WO *object);	///< Set camera position.
+  void cameraPosition(Object *object);	///< Set camera position.
 
   void cameraProjection(GLfloat fovy, GLfloat near, GLfloat far);
   /**<
@@ -222,17 +222,17 @@ class Render {
   uint16_t bufferSelection(GLint x, GLint y, GLint depth);
   /**< Returns the object's num displayed in (x,y) on the screen. */
 
-  V3 getVisiblePosition(WO *po);
+  V3 getVisiblePosition(Object *po);
   /**< get the 3D position of the object on the user screen. */
 
-  WO** getVisibleObjects(char **listetype, int nbr, int* nbrElemts);
+  Object** getVisibleObjects(char **listetype, int nbr, int* nbrElemts);
   /**< Get the object list where each object have a type present in the given list. */
 
-  WO** getDrawedObjects(int* nbr);
+  Object** getDrawedObjects(int* nbr);
   /**< get all drawed Objects on the screen. */
 
  private:
-  void recordObject(WO *po);
+  void recordObject(Object *po);
   /**< Sets object name in Z-buffer for selection. */
 
   static int compareHit(const void *t1, const void *t2);

@@ -39,7 +39,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Board::creator(char *l)
+Object * Board::creator(char *l)
 {
   return new Board(l);
 }
@@ -77,7 +77,7 @@ bool Board::publish(const Pos &oldpos)
 }
 
 /* object intersect: projection */
-bool Board::whenIntersect(WO *pcur, WO *pold)
+bool Board::whenIntersect(Object *pcur, Object *pold)
 {
   projectPosition(pcur, pold);
   return true;

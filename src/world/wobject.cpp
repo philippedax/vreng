@@ -42,22 +42,22 @@
 #include <vector>
 
 // global
-std::vector<WO*> objectList;
-std::vector<WO*> stillList;
-std::list<WO*> mobileList;
-std::vector<WO*> fluidList;
-std::vector<WO*> clothList;
-std::vector<WO*> invisList;
-std::vector<WO*> deleteList;
-std::vector<WO*> lightList;
+std::vector<Object*> objectList;
+std::vector<Object*> stillList;
+std::list<Object*> mobileList;
+std::vector<Object*> fluidList;
+std::vector<Object*> clothList;
+std::vector<Object*> invisList;
+std::vector<Object*> deleteList;
+std::vector<Object*> lightList;
 
 // local
 static uint32_t objectNum = 0;
 static struct Hash hashtable[NAME_HASH_SIZE];
 
 
-/** WO constructor */
-WO::WO()
+/** Object constructor */
+Object::Object()
 {
   new_wobject++;
 
@@ -116,8 +116,8 @@ WO::WO()
   vsql = NULL;
 }
 
-/** WO destructor */
-WO::~WO()
+/** Object destructor */
+Object::~Object()
 {
   if (name.type) delete[] name.type;
   if (name.given) delete[] name.given;
@@ -146,14 +146,14 @@ WO::~WO()
 }
 
 /** Initializes Object. */
-void WO::initObject(uint8_t _mode)
+void Object::initObject(uint8_t _mode)
 {
   mode = _mode;
   type = typeId();
   num = objectNum++;
 
   //echo("num=%d mode=%d type=%d", num, mode, type);
-  setWOId();
+  setObjectId();
   initPosition();
   objectList.push_back(this);	// add to objectList
 
@@ -218,13 +218,13 @@ void WO::initObject(uint8_t _mode)
 }
 
 /** Initializes still object */
-void WO::initStillObject()
+void Object::initStillObject()
 {
   initObject(STILL);
 }
 
 /** Initializes mobile object */
-void WO::initMobileObject(float last)
+void Object::initMobileObject(float last)
 {
   initObject(MOBILE);
   if (last) {
@@ -233,7 +233,7 @@ void WO::initMobileObject(float last)
 }
 
 /** Initializes fluid object */
-void WO::initFluidObject(float last)
+void Object::initFluidObject(float last)
 {
   initObject(FLUID);
   if (last) {
@@ -242,7 +242,7 @@ void WO::initFluidObject(float last)
 }
 
 /** Initializes cloth object */
-void WO::initClothObject(float last)
+void Object::initClothObject(float last)
 {
   initObject(CLOTH);
   if (last) {
@@ -251,7 +251,7 @@ void WO::initClothObject(float last)
 }
 
 /** Initializes ephemeral object */
-void WO::initEphemeralObject(float last)
+void Object::initEphemeralObject(float last)
 {
   initObject(MOBILE);
   if (last) {
@@ -260,7 +260,7 @@ void WO::initEphemeralObject(float last)
 }
 
 /** Enables a behavior */
-void WO::enableBehavior(uint32_t flag)
+void Object::enableBehavior(uint32_t flag)
 {
   switch (flag) {
     case UNVISIBLE:
@@ -283,7 +283,7 @@ void WO::enableBehavior(uint32_t flag)
 }
 
 /** Disables a behavior */
-void WO::disableBehavior(uint32_t flag)
+void Object::disableBehavior(uint32_t flag)
 {
   behavior &= ~flag;
 
@@ -293,45 +293,45 @@ void WO::disableBehavior(uint32_t flag)
 }
 
 /** Checks a behavior */
-bool WO::isBehavior(uint32_t flag) const
+bool Object::isBehavior(uint32_t flag) const
 {
   return (behavior & flag);
 }
 
 /** Checks if valid type */
-bool WO::isValid() const
+bool Object::isValid() const
 {
   return OClass::isValidType(type);
 }
 
 /** Sets type */
-void WO::setType(uint8_t _type)
+void Object::setType(uint8_t _type)
 {
   type = _type;
 }
 
 /** Checks if is permanent */
-bool WO::isPermanent() const
+bool Object::isPermanent() const
 {
   return (netop) ? netop->isPermanent() : false;
 }
 
 /** Checks if is seen */
-bool WO::isSeen()
+bool Object::isSeen()
 {
   V3 vseen = ::g.render.getVisiblePosition(this);
   return vseen.v[2];  // seen = v[2]
 }
 
 /** Sets the owner name */
-void WO::setOwner(const char *_owner)
+void Object::setOwner(const char *_owner)
 {
   name.owner = new char[USER_LEN];
   strcpy(name.owner, _owner);
 }
 
 /** Sets the owner */
-void WO::setOwner()
+void Object::setOwner()
 {
   if (localuser)
     setOwner(localuser->name.current);
@@ -340,14 +340,14 @@ void WO::setOwner()
 }
 
 /** Gets current object number */
-uint16_t WO::getNum()
+uint16_t Object::getNum()
 {
   num = ++objectNum;
   return num;
 }
 
 /** Returns object's name */
-const char * WO::objectName() const
+const char * Object::objectName() const
 {
   if (name.given && *name.given) {
     return name.given;
@@ -361,7 +361,7 @@ const char * WO::objectName() const
 }
 
 /** Sets name.given */
-void WO::setGivenName(const char *_name)
+void Object::setGivenName(const char *_name)
 {
   if (! name.given) {
     name.given = new char[OBJNAME_LEN];
@@ -370,13 +370,13 @@ void WO::setGivenName(const char *_name)
 }
 
 /** Returns owner's name */
-const char * WO::ownerName() const
+const char * Object::ownerName() const
 {
   return name.owner;
 }
 
 /** Returns world's name */
-const char * WO::worldName() const
+const char * Object::worldName() const
 {
   return name.world;
 }
@@ -388,20 +388,20 @@ const char * WO::worldName() const
 //
 
 /** Returns the first solid of the object - accessor */
-Solid* WO::getSolid() const
+Solid* Object::getSolid() const
 {
   return solid;
 }
 
 /** Sets visible - accessor */
-void WO::setVisible(bool flag)
+void Object::setVisible(bool flag)
 {
   visible = flag;
   if (solid) solid->setVisible(flag);
 }
 
 /** Checks if is visible - accessor */
-bool WO::isVisible() const
+bool Object::isVisible() const
 {
   if (solid)
     return solid->visible;
@@ -410,34 +410,34 @@ bool WO::isVisible() const
 }
 
 /** Sets a ray - accessor */
-void WO::setRay(GLint wx, GLint wy)
+void Object::setRay(GLint wx, GLint wy)
 {
   if (solid) solid->setRay(wx, wy);
 }
 
 /** Resets a ray - accessor */
-void WO::resetRay()
+void Object::resetRay()
 {
   if (! isValid()) return;
   if (solid) solid->resetRay();
 }
 
 /** Sets reflexive - accessor */
-void WO::setReflexive(bool flag)
+void Object::setReflexive(bool flag)
 {
   if (solid) solid->setReflexive(flag);
 }
 
-/** Adds a WO pointer to this object in the solidList (friend) */
-void WO::addSolid(Solid* psolid)
+/** Adds a Object pointer to this object in the solidList (friend) */
+void Object::addSolid(Solid* psolid)
 {
   _solidList.push_back(psolid);	// add solid to solidList
-  psolid->wobject = this;	// Solid is friend of WO
-  solid = psolid;		// keep solid pointer in WO
+  psolid->wobject = this;	// Solid is friend of Object
+  solid = psolid;		// keep solid pointer in Object
 }
 
 /** Deletes all solids of this object */
-void WO::delSolids()
+void Object::delSolids()
 {
   std::list<Solid*> solList = ::g.render.getSolidList();
   for (std::list<Solid*>::iterator it = solList.begin(); it != solList.end(); ++it) {
@@ -448,63 +448,63 @@ void WO::delSolids()
 }
 
 /** Gets 3D position - accessor */
-void WO::getPosition(M4& mpos)
+void Object::getPosition(M4& mpos)
 {
   if (solid) solid->getPosition(mpos);
 }
 
 /** Gets materials - accessor */
-void WO::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alpha)
+void Object::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alpha)
 {
   if (solid) solid->getMaterials(dif, amb, spe, emi, shi, alpha);
 }
 
 /** Gets size of solid - accessor */
-void WO::getDim(V3 &dim)
+void Object::getDim(V3 &dim)
 {
   if (solid) solid->getDimBB(dim);
 }
 
 /** Gets relative center and size of solid - accessor */
-void WO::getRelBB(V3 &center, V3 &size)
+void Object::getRelBB(V3 &center, V3 &size)
 {
   if (solid) solid->getRelBB(center, size);
 }
 
 /** Gets the number of frames of this solid - accessor */
-uint8_t WO::getFrames()
+uint8_t Object::getFrames()
 {
   if (solid) return solid->nbframes;
   else return 0;
 }
 
 /** Gets index of current frame of this solid - accessor */
-uint8_t WO::getFrame()
+uint8_t Object::getFrame()
 {
   if (solid) return solid->frame;
   else return 0;
 }
 
 /** Sets a frame number - accessor */
-void WO::setFrame(uint8_t _frame)
+void Object::setFrame(uint8_t _frame)
 {
   if (solid) solid->setFrame(_frame);      // set frame
 }
 
 /** Set flashy - accessor */
-void WO::setFlashy(float *color)
+void Object::setFlashy(float *color)
 {
   if (solid) solid->setFlashyEdges(color);
 }
 
 /** Set flashy - accessor */
-void WO::setFlashy()
+void Object::setFlashy()
 {
   if (solid) solid->setFlashyEdges(true);
 }
 
 /** Reset flashy - accessor */
-void WO::resetFlashy()
+void Object::resetFlashy()
 {
   if (! isValid()) return;
   if (solid) solid->resetFlashyEdges();
@@ -515,23 +515,23 @@ void WO::resetFlashy()
 // Network
 //
 
-uint32_t WO::getSrc() const
+uint32_t Object::getSrc() const
 {
   return noid.src_id;
 }
 
-uint16_t WO::getPort() const
+uint16_t Object::getPort() const
 {
   return noid.port_id;
 }
 
-uint16_t WO::getObj() const
+uint16_t Object::getObj() const
 {
   return noid.obj_id;
 }
 
 /** Assigns a unique identifier to each Vreng object */
-void WO::setWOId()
+void Object::setObjectId()
 {
   noid.src_id = NetObj::getSsrc();		// Application's identifier
   noid.port_id = NetObj::getPort();		// Comm port identifier
@@ -540,21 +540,21 @@ void WO::setWOId()
 }
 
 /** Creates local permanent NetObj */
-NetObj * WO::createNetObj(uint8_t props, uint16_t oid)
+NetObj * Object::createNetObj(uint8_t props, uint16_t oid)
 {
   netop = new NetObj(this, props, oid);
   return netop;
 }
 
 /** Creates local volatile NetObj */
-NetObj * WO::createVolatile(uint8_t props)
+NetObj * Object::createVolatile(uint8_t props)
 {
   netop = new NetObj(this, props);
   return netop;
 }
 
 /** Replicates distant volatile NetObj */
-NetObj * WO::replicate(uint8_t props, Noid _noid)
+NetObj * Object::replicate(uint8_t props, Noid _noid)
 {
   noid.src_id = _noid.src_id;
   noid.port_id = _noid.port_id;
@@ -569,7 +569,7 @@ NetObj * WO::replicate(uint8_t props, Noid _noid)
 //
 
 /** Removes an object from scene */
-bool WO::removeFromScene()
+bool Object::removeFromScene()
 {
   if (! strcmp(name.owner, localuser->name.current)) {
     if (vsql) vsql->deleteRow(this);
@@ -585,7 +585,7 @@ bool WO::removeFromScene()
 }
 
 /** Informs the GUI that a (possibly selected) object has been destroyed */
-void WO::clearObjectBar()
+void Object::clearObjectBar()
 {
   ::g.gui.clearInfoBar(this);
 }
@@ -594,7 +594,7 @@ void WO::clearObjectBar()
  * Gives current or class and action names of an object if it exists
  * called by GUI for infoBar
  */
-void WO::getObjectNames(char **classname, char **currentname, char **actionnames)
+void Object::getObjectNames(char **classname, char **currentname, char **actionnames)
 {
   int a;
   static char actionname[ACTIONSNUMBER][ACTIONNAME_LEN];
@@ -622,7 +622,7 @@ void WO::getObjectNames(char **classname, char **currentname, char **actionnames
 //
 
 /** Inits hash table */
-void WO::initNames()  
+void Object::initNames()  
 { 
   for (int i=0; i < NAME_HASH_SIZE; i++) {
     hashtable[i].hname = new char[OBJNAME_LEN];
@@ -642,7 +642,7 @@ static uint32_t hash_name(const char *s)
 } 
 
 /** Sets a name in hash table */
-void WO::setObjectName(const char *name)
+void Object::setObjectName(const char *name)
 { 
   if (! name) return;
 
@@ -661,7 +661,7 @@ void WO::setObjectName(const char *name)
 }
 
 /** Gets an object by its name */
-WO * WO::getObject(const char *name)
+Object * Object::getObject(const char *name)
 {
   if (! name) return NULL;
 
@@ -682,7 +682,7 @@ WO * WO::getObject(const char *name)
 }
 
 /** Forces Object name.type name.implicit */
-void WO::forceNames(const char *newname)
+void Object::forceNames(const char *newname)
 {
   strcpy(name.type, newname);
   name.implicit = new char[OBJNAME_LEN];
@@ -694,7 +694,7 @@ void WO::forceNames(const char *newname)
 }
 
 /** Updates object name */
-void WO::updateNames()
+void Object::updateNames()
 {
   if (! isValid()) return;
 
@@ -727,7 +727,7 @@ void WO::updateNames()
 }
 
 /** Updates the Bounding Box */
-void WO::updateBB()
+void Object::updateBB()
 {
   if (! solid || removed) return;
   solid->updateBB(pos.az);
@@ -735,7 +735,7 @@ void WO::updateBB()
 }
 
 /** Inits 3D and grid position */
-void WO::initPosition()
+void Object::initPosition()
 {
   update3D(pos);
   if (! isBehavior(NO_BBABLE)) {
@@ -745,7 +745,7 @@ void WO::initPosition()
 }
 
 /** Updates 3D position */
-void WO::updatePosition()
+void Object::updatePosition()
 {
   updateAll3D(pos);
   if (! isBehavior(NO_BBABLE)) {
@@ -756,20 +756,20 @@ void WO::updatePosition()
 }
 
 /** Updates 3D and grid position */
-void WO::updatePositionAndGrid(Pos &oldpos)
+void Object::updatePositionAndGrid(Pos &oldpos)
 {
   updatePosition();
   if (! isBehavior(NO_BBABLE)) updGrid(oldpos);
 }
 
-void WO::updatePositionAndGrid(WO *pold)
+void Object::updatePositionAndGrid(Object *pold)
 {
   updatePosition();
   if (! isBehavior(NO_BBABLE)) updGrid(pold);
 }
 
 /** Updates distance - accessor */
-void WO::updateDist()
+void Object::updateDist()
 {
   if (! solid || removed) return;
   solid->updateDist();
@@ -783,14 +783,14 @@ void WO::updateDist()
 /** Checks whether position is managed by VSql
  * if it is, get position
  */
-void WO::getPersist()
+void Object::getPersist()
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
   vsql->getPos(this);
   updatePersist();
 }
 
-int16_t WO::getPersist(int16_t state)
+int16_t Object::getPersist(int16_t state)
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
   int st = vsql->getState(this);
@@ -799,21 +799,21 @@ int16_t WO::getPersist(int16_t state)
   return state;
 }
 
-bool WO::checkPersist()
+bool Object::checkPersist()
 {
   if (! vsql) vsql = new VSql();
   int rows = vsql->countRows(typeName());
   return rows;
 }
 
-void WO::setPersist()
+void Object::setPersist()
 {
   if (! vsql) vsql = new VSql();
   vsql->deleteRow(this, objectName());
   vsql->insertRow(this);
 }
 
-void WO::updatePersist()
+void Object::updatePersist()
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
   vsql->deleteRow(this, objectName());
@@ -823,7 +823,7 @@ void WO::updatePersist()
 /** Flushes position for VSql
  * if it is the case, get position and update it
  */
-void WO::savePersist()
+void Object::savePersist()
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
   if (vsql && isBehavior(PERSISTENT) && !removed) {
@@ -833,7 +833,7 @@ void WO::savePersist()
   }
 }
 
-void WO::delPersist()
+void Object::delPersist()
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
   vsql->deleteRow(this, objectName());
@@ -847,14 +847,14 @@ void WO::delPersist()
 /** Calls special methods for each object
  * called by GUI
  */
-void WO::specialAction(int act_id, void *data, time_t s, time_t us)
+void Object::specialAction(int act_id, void *data, time_t s, time_t us)
 {
   if (isAction(type, act_id)) {
     doAction(type, act_id, this, data, s, us);
   }
 }
 
-bool WO::runAction(const char *action)
+bool Object::runAction(const char *action)
 {
   for (int i=0; i < ACTIONSNUMBER; i++) {
     if (! strcmp(getActionName(type, i), action)) {
@@ -866,7 +866,7 @@ bool WO::runAction(const char *action)
 }
 
 /** Adds an object into the deleteList */
-void WO::toDelete()
+void Object::toDelete()
 {
   if (isValid()) {
     deleteList.push_back(this); // add to deleteList
@@ -882,7 +882,7 @@ void WO::toDelete()
  * Executes an object's click method if it's defined.
  * By Mathieu Seigneurin
  */
-void WO::click(GLint x, GLint y)
+void Object::click(GLint x, GLint y)
 {
   V3 dir;
 
@@ -896,123 +896,123 @@ void WO::click(GLint x, GLint y)
 //
 
 /** parse accessor */
-Parse * WO::parse()
+Parse * Object::parse()
 {
   return Parse::getParse();
 }
 
-char * WO::parseAttributes(char *l)
+char * Object::parseAttributes(char *l)
 {
   return Parse::getParse()->parseAttributes(l, this);
 }
 
-void WO::parseSolid(char *ptok)
+void Object::parseSolid(char *ptok)
 {
   Parse::getParse()->parseSolid(ptok, TOK_SEP, this);
 }
 
-void WO::parseSolids(char *ptok)
+void Object::parseSolids(char *ptok)
 {
   Parse::getParse()->parseSolid(ptok, TOK_SEP, this);
 }
 
-char * WO::parseUrl(char *l, char *url)
+char * Object::parseUrl(char *l, char *url)
 {
   return Parse::getParse()->parseUrl(l, url);
 }
 
-char * WO::parseName(char *l, char *name)
+char * Object::parseName(char *l, char *name)
 {
   return Parse::getParse()->parseName(l, name);
 }
 
-char * WO::parseChannel(char *l, char *chan)
+char * Object::parseChannel(char *l, char *chan)
 {
   return Parse::getParse()->parseChannel(l, chan);
 }
 
-char * WO::parseColor(char *l, Pos &p)
+char * Object::parseColor(char *l, Pos &p)
 {
   return Parse::getParse()->parseColor(l, p);
 }
 
-char * WO::parseInt(char *l, int *value, const char *attrkey)
+char * Object::parseInt(char *l, int *value, const char *attrkey)
 {
   return Parse::getParse()->parseInt(l, value, attrkey);
 }
 
-char * WO::parseUInt8(char *l, uint8_t *value, const char *attrkey)
+char * Object::parseUInt8(char *l, uint8_t *value, const char *attrkey)
 {
   return Parse::getParse()->parseUInt8(l, value, attrkey);
 }
 
-char * WO::parseUInt16(char *l, uint16_t *value, const char *attrkey)
+char * Object::parseUInt16(char *l, uint16_t *value, const char *attrkey)
 {
   return Parse::getParse()->parseUInt16(l, value, attrkey);
 }
 
-char * WO::parseBool(char *l, bool *value, const char *attrkey)
+char * Object::parseBool(char *l, bool *value, const char *attrkey)
 {
   return Parse::getParse()->parseBool(l, value, attrkey);
 }
 
-char * WO::parseFloat(char *l, float *value, const char *attrkey)
+char * Object::parseFloat(char *l, float *value, const char *attrkey)
 {
   return Parse::getParse()->parseFloat(l, value, attrkey);
 }
 
-char * WO::parseVector3f(char *l, float *vector, const char *attrkey)
+char * Object::parseVector3f(char *l, float *vector, const char *attrkey)
 {
   return Parse::getParse()->parseVector3f(l, vector, attrkey);
 }
 
-char * WO::parseVector3fv(char *l, V3 *vector, const char *attrkey)
+char * Object::parseVector3fv(char *l, V3 *vector, const char *attrkey)
 {
   return Parse::getParse()->parseVector3fv(l, vector, attrkey);
 }
 
-char * WO::parseString(char *l, char *str, const char *attrkey)
+char * Object::parseString(char *l, char *str, const char *attrkey)
 {
   return Parse::getParse()->parseString(l, str, attrkey);
 }
 
-char * WO::parseString(char *l, char *str)
+char * Object::parseString(char *l, char *str)
 {
   return Parse::getParse()->parseString(l, str);
 }
 
-char * WO::parseQuotedString(char *l, char *str, const char *attrkey)
+char * Object::parseQuotedString(char *l, char *str, const char *attrkey)
 {
   return Parse::getParse()->parseQuotedString(l, str, attrkey);
 }
 
-char * WO::parseQuotedString(char *l, char *str)
+char * Object::parseQuotedString(char *l, char *str)
 {
   return Parse::getParse()->parseQuotedString(l, str);
 }
 
-char * WO::parseCaption(char *l, char *str, const char *attrkey)
+char * Object::parseCaption(char *l, char *str, const char *attrkey)
 {
   return Parse::getParse()->parseCaption(l, str, attrkey);
 }
 
-char * WO::parseRotation(char *l, Pos &p)
+char * Object::parseRotation(char *l, Pos &p)
 {
   return Parse::getParse()->parseRotation(l, p);
 }
 
-char * WO::parseTranslation(char *l, Pos &p)
+char * Object::parseTranslation(char *l, Pos &p)
 {
   return Parse::getParse()->parseTranslation(l, p);
 }
 
-char * WO::parseGuide(char *l, float path[][5], uint8_t *segs)
+char * Object::parseGuide(char *l, float path[][5], uint8_t *segs)
 {
   return Parse::getParse()->parseGuide(l, &path[1], segs);
 }
 
 /** Tokenizes the line to parse */
-char * WO::tokenize(char *l)
+char * Object::tokenize(char *l)
 {
   Parse *parser = parse();
 
@@ -1059,9 +1059,9 @@ char * WO::tokenize(char *l)
 //
 
 /** Deletes a pointer of this object in an olist */
-void WO::delFromList(list<WO*> &olist)
+void Object::delFromList(list<Object*> &olist)
 {
-  for (std::list<WO*>::iterator it = olist.begin(); it != olist.end(); ++it) {
+  for (std::list<Object*>::iterator it = olist.begin(); it != olist.end(); ++it) {
     if (*it == this) {
       olist.remove(*it);
     }
@@ -1070,7 +1070,7 @@ void WO::delFromList(list<WO*> &olist)
 }
 
 /** called by addToListOnce */
-OList * WO::addToList(OList *olist)
+OList * Object::addToList(OList *olist)
 {
   if (! isValid()) return olist;
 
@@ -1081,7 +1081,7 @@ OList * WO::addToList(OList *olist)
 }
 
 /** called by addListToList */
-OList * WO::addOListOnce(OList *olist)
+OList * Object::addOListOnce(OList *olist)
 {
   for (OList *ol = olist; ol ; ol = ol->next) {
     if (ol->pobject && ol->pobject == this) {
@@ -1091,7 +1091,7 @@ OList * WO::addOListOnce(OList *olist)
   return addToList(olist);	// add it into the list
 }
 
-OList * WO::delOList(OList *olist)
+OList * Object::delOList(OList *olist)
 {
   OList *front = olist, *ol = NULL;
 
@@ -1116,16 +1116,16 @@ OList * WO::delOList(OList *olist)
 }
 
 /** Gets wobject by its number - static */
-WO * WO::byNum(uint16_t num)
+Object * Object::byNum(uint16_t num)
 {
-  for (std::vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+  for (std::vector<Object*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     if ((*it)->num == num) return *it;
   }
   return NULL;
 }
 
 /** Concatenates (with test of ispointed & object) pointers list on an object */
-OList * WO::addListToList(OList *l1, OList *l2)
+OList * Object::addListToList(OList *l1, OList *l2)
 {
   if (! l1) {	// l1 is null
     if (! l2) {
@@ -1167,9 +1167,9 @@ OList * WO::addListToList(OList *l1, OList *l2)
 
 #if 0 // debug
 /** Shows an object - static */
-void WO::show(const char *name)
+void Object::show(const char *name)
 {
-  for (std::list<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+  for (std::list<Object*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     if (! strcmp((*it)->name.current, name)) {
       trace1(DBG_FORCE, "%s p=%.2f,%.2f,%.2f it=%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
             name,
@@ -1190,7 +1190,7 @@ void WO::show(const char *name)
 //
 
 /** Publishes position to the network */
-bool WO::publishPos(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay)
+bool Object::publishPos(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay)
 {
   bool change = false;
 
@@ -1221,42 +1221,42 @@ bool WO::publishPos(const Pos &oldpos, int propxy, int propz, int propaz, int pr
 // get_ functions
 //
 
-void WO::get_xy(WO *po, Payload *pp)
+void Object::get_xy(Object *po, Payload *pp)
 {
   Pos oldpos = po->pos;
   pp->getPayload("ff", &po->pos.x, &po->pos.y);
   po->updatePositionAndGrid(oldpos);
 }
 
-void WO::get_z(WO *po, Payload *pp)
+void Object::get_z(Object *po, Payload *pp)
 {
   Pos oldpos = po->pos;
   pp->getPayload("f", &po->pos.z);
   po->updatePositionAndGrid(oldpos);
 }
 
-void WO::get_az(WO *po, Payload *pp)
+void Object::get_az(Object *po, Payload *pp)
 {
   Pos oldpos = po->pos;
   pp->getPayload("f", &po->pos.az);
   po->updatePositionAndGrid(oldpos);
 }
 
-void WO::get_ay(WO *po, Payload *pp)
+void Object::get_ay(Object *po, Payload *pp)
 {
   Pos oldpos = po->pos;
   pp->getPayload("f", &po->pos.ay);
   po->updatePositionAndGrid(oldpos);
 }
 
-void WO::get_ax(WO *po, Payload *pp)
+void Object::get_ax(Object *po, Payload *pp)
 {
   Pos oldpos = po->pos;
   pp->getPayload("f", &po->pos.ax);
   po->updatePositionAndGrid(oldpos);
 }
 
-void WO::get_hname(WO *po, Payload *pp)
+void Object::get_hname(Object *po, Payload *pp)
 {
   pp->getPayload("s", po->typeName());
 }
@@ -1265,38 +1265,38 @@ void WO::get_hname(WO *po, Payload *pp)
 // put_ functions
 //
 
-void WO::put_xy(WO *po, Payload *pp)
+void Object::put_xy(Object *po, Payload *pp)
 {
   pp->putPayload("ff", po->pos.x, po->pos.y);
 }
 
-void WO::put_z(WO *po, Payload *pp)
+void Object::put_z(Object *po, Payload *pp)
 {
   pp->putPayload("f", po->pos.z);
 }
 
-void WO::put_az(WO *po, Payload *pp)
+void Object::put_az(Object *po, Payload *pp)
 {
   pp->putPayload("f", po->pos.az);
 }
 
-void WO::put_ay(WO *po, Payload *pp)
+void Object::put_ay(Object *po, Payload *pp)
 {
   pp->putPayload("f", po->pos.ay);
 }
 
-void WO::put_ax(WO *po, Payload *pp)
+void Object::put_ax(Object *po, Payload *pp)
 {
   pp->putPayload("f", po->pos.ax);
 }
 
-void WO::put_hname(WO *po, Payload *pp)
+void Object::put_hname(Object *po, Payload *pp)
 {
   pp->putPayload("s", po->typeName());
 }
 
 /** Gets property from Network */
-void WO::getProperty(uint8_t prop_id, Payload *pp)
+void Object::getProperty(uint8_t prop_id, Payload *pp)
 {
   if (! isGetPropFunc(type, prop_id)) {
     error("getProperty: prop=%d doesn't match the object type=%d", prop_id, type);
@@ -1306,7 +1306,7 @@ void WO::getProperty(uint8_t prop_id, Payload *pp)
 }
 
 /** Puts property to Network */
-void WO::putProperty(uint8_t prop_id, Payload *pp)
+void Object::putProperty(uint8_t prop_id, Payload *pp)
 {
   if (! isPutPropFunc(type, prop_id)) {
     //if (type != USER_TYPE)
@@ -1317,7 +1317,7 @@ void WO::putProperty(uint8_t prop_id, Payload *pp)
 }
 
 /** Deletes a replicated object */
-void WO::deleteReplica()
+void Object::deleteReplica()
 {
   if (this != localuser) {
     if (type == USER_TYPE) ::g.gui.removeAvatar((User *) this);

@@ -31,7 +31,7 @@
 /**
  * Widget class
  */
-class Widget : public WO {
+class Widget : public Object {
  private:
   bool focus;
   GLuint texture;		///< texture number
@@ -55,7 +55,7 @@ class Widget : public WO {
   Widget(char *l);
   /**< Constructor */
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void render();

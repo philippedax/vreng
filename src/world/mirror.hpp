@@ -32,7 +32,7 @@
 /**
  * Mirror class
  */
-class Mirror: public WO {
+class Mirror: public Object {
  public:
   /* properties */
   enum {
@@ -55,9 +55,9 @@ class Mirror: public WO {
 
   Mirror(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an intersection occurs */
 
   bool publish(const Pos &oldpos);

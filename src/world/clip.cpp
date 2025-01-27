@@ -42,7 +42,7 @@ static const char * PAUSE_CGI = "rtppause.cgi";
 static const char * CONT_CGI = "rtpcont.cgi";
 
 
-WO * Clip::creator(char *l)
+Object * Clip::creator(char *l)
 {
   return new Clip(l);
 }
@@ -90,7 +90,7 @@ Clip::Clip(char *l)
   state = RTP_INACTIVE;
 }
 
-bool Clip::whenIntersect(WO *pcur, WO *pold)
+bool Clip::whenIntersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

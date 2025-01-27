@@ -44,7 +44,7 @@ static struct sWings wingss[] = {
 };
 
 
-WO * Wings::creator(char *l)
+Object * Wings::creator(char *l)
 { 
   return new Wings(l);
 }

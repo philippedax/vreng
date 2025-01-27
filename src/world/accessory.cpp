@@ -36,7 +36,7 @@ static uint16_t oid = 0;
 
 
 /** Creation from a file */
-WO * Accessory::creator(char *l)
+Object * Accessory::creator(char *l)
 {
   return new Accessory(l);
 }

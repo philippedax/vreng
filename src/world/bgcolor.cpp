@@ -35,7 +35,7 @@ Bgcolor * Bgcolor::bgcolor = NULL;
 void Bgcolor::funcs() {}
 
 
-WO * Bgcolor::creator(char *l)
+Object * Bgcolor::creator(char *l)
 {
   return new Bgcolor(l);
 }

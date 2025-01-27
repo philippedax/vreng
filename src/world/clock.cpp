@@ -138,7 +138,7 @@ void Clock::changePermanent(float lasting)
 }
 
 /** creation from a file */
-WO * Clock::creator(char *l)
+Object * Clock::creator(char *l)
 {
   return new Clock(l);
 }

@@ -748,7 +748,7 @@ void VSql::createTable(const char *table)
 ///////////
 
 /** Insert row into the sql table */
-void VSql::insertRow(WO *o)
+void VSql::insertRow(Object *o)
 {
   if (! o->objectName()) return;	// no name
   //echo("insertrow: %.1f %.1f %.1f", o->pos.x, o->pos.y, o->pos.z);
@@ -781,7 +781,7 @@ void VSql::insertCol(const char *table, const char *col, const char *name, const
 ///////////
 
 /** Updates int into the sql table */
-void VSql::updateInt(WO *o, const char *table, const char *col, const char *name, const char *world, int val)
+void VSql::updateInt(Object *o, const char *table, const char *col, const char *name, const char *world, int val)
 {
   if (! name) return;	// no name -> no update
   char pat[32];
@@ -799,7 +799,7 @@ void VSql::updateInt(WO *o, const char *table, const char *col, const char *name
 }
 
 /** Updates float into the sql table */
-void VSql::updateFloat(WO *o, const char *table, const char *col, const char *name, const char *world, float val)
+void VSql::updateFloat(Object *o, const char *table, const char *col, const char *name, const char *world, float val)
 {
   if (! name) return;	// no name -> no update
   char pat[32];
@@ -817,7 +817,7 @@ void VSql::updateFloat(WO *o, const char *table, const char *col, const char *na
 }
 
 /** Updates string into the sql table */
-void VSql::updateString(WO *o, const char *table, const char *col, const char *name, const char *world, const char *str)
+void VSql::updateString(Object *o, const char *table, const char *col, const char *name, const char *world, const char *str)
 {
   if (! name) return;	// no name -> no update
   char pat[32];
@@ -835,64 +835,64 @@ void VSql::updateString(WO *o, const char *table, const char *col, const char *n
 }
 
 /** Updates int into the sql table */
-void VSql::updateInt(WO *o, const char *col, int val)
+void VSql::updateInt(Object *o, const char *col, int val)
 {
   if (! o->objectName()) return;	// no name
   updateInt(o, o->typeName(), col, o->objectName(), World::current()->name, val);
 }
 
 /** Updates float into the sql table */
-void VSql::updateFloat(WO *o, const char *col, float val)
+void VSql::updateFloat(Object *o, const char *col, float val)
 {
   if (! o->objectName()) return;	// no name
   updateFloat(o, o->typeName(), col, o->objectName(), World::current()->name, val);
 }
 
 /** Updates string into the sql table */
-void VSql::updateString(WO *o, const char *col, const char *str)
+void VSql::updateString(Object *o, const char *col, const char *str)
 {
   if (! o->objectName()) return;	// no name
   updateString(o, o->typeName(), col, o->objectName(), World::current()->name, str);
 }
 
 /** Updates string into the sql table */
-void VSql::updateString(WO *o, const char *table, const char *col, const char *str)
+void VSql::updateString(Object *o, const char *table, const char *col, const char *str)
 {
   if (! o->objectName()) return;	// no name
   updateString(o, table, col, o->objectName(), World::current()->name, str);
 }
 
-void VSql::updateState(WO *o)
+void VSql::updateState(Object *o)
 {
   updateInt(o, C_STATE, o->state);
 }
 
-void VSql::updateState(WO *o, int val)
+void VSql::updateState(Object *o, int val)
 {
   updateInt(o, C_STATE, val);
 }
 
-void VSql::updatePosX(WO *o)
+void VSql::updatePosX(Object *o)
 {
   updateFloat(o, C_X, o->pos.x);
 }
 
-void VSql::updatePosY(WO *o)
+void VSql::updatePosY(Object *o)
 {
   updateFloat(o, C_Y, o->pos.y);
 }
 
-void VSql::updatePosZ(WO *o)
+void VSql::updatePosZ(Object *o)
 {
   updateFloat(o, C_Z, o->pos.z);
 }
 
-void VSql::updatePosAZ(WO *o)
+void VSql::updatePosAZ(Object *o)
 {
   updateFloat(o, C_AZ, o->pos.az);
 }
 
-void VSql::updatePos(WO *o)
+void VSql::updatePos(Object *o)
 {
   updatePosX(o);
   updatePosY(o);
@@ -900,17 +900,17 @@ void VSql::updatePos(WO *o)
   updatePosAZ(o);
 }
 
-void VSql::updateGeom(WO *o, char *geom)
+void VSql::updateGeom(Object *o, char *geom)
 {
   if (geom) updateString(o, C_GEOM, geom);
 }
 
-void VSql::updateGeom(WO *o, const char *table, char *geom)
+void VSql::updateGeom(Object *o, const char *table, char *geom)
 {
   if (geom) updateString(o, table, C_GEOM, geom);
 }
 
-void VSql::updateOwner(WO *o)
+void VSql::updateOwner(Object *o)
 {
   updateString(o, C_OWNER, o->ownerName());
 }
@@ -930,7 +930,7 @@ void VSql::deleteRows(const char *table)
 }
 
 /** Deletes a row from the sql table */
-void VSql::deleteRow(WO *o, const char *table, const char *name, const char *world)
+void VSql::deleteRow(Object *o, const char *table, const char *name, const char *world)
 {
   //echo("deleterow %s", table);
   if (!name) return;
@@ -941,7 +941,7 @@ void VSql::deleteRow(WO *o, const char *table, const char *name, const char *wor
 }
 
 /** Deletes a row from the sql table matching a string */
-void VSql::deleteRow(WO *o, const char *str)
+void VSql::deleteRow(Object *o, const char *str)
 {
   //echo("deleterowstring %s %s", o->typeName(), str);
   sprintf(sql, "DELETE FROM %s WHERE name='%s@%s'",
@@ -951,14 +951,14 @@ void VSql::deleteRow(WO *o, const char *str)
 }
 
 /** Deletes a row of this object */
-void VSql::deleteRow(WO *o)
+void VSql::deleteRow(Object *o)
 {
   if (! o->objectName()) return;	// no name
   deleteRow(o, o->typeName(), o->objectName(), World::current()->name);
 }
 
 /** Deletes all rows of this object */
-void VSql::deleteRows(WO *o)
+void VSql::deleteRows(Object *o)
 {
   deleteRows(o->typeName());
 }
@@ -969,19 +969,19 @@ void VSql::deleteRows(WO *o)
 ///////////
 
 /** Selects an integer value from a row in the sql table */
-int VSql::getInt(WO *o, const char *col, uint16_t irow)
+int VSql::getInt(Object *o, const char *col, uint16_t irow)
 {
   return selectInt(o->typeName(), col, o->objectName(), World::current()->name, irow);
 }
 
 /** Selects a float from a row in the sql table */
-float VSql::getFloat(WO *o, const char *col, uint16_t irow)
+float VSql::getFloat(Object *o, const char *col, uint16_t irow)
 {
   return selectFloat(o->typeName(), col, o->objectName(), World::current()->name, irow);
 }
 
 /** Selects a string from a row in the sql table */
-int VSql::getString(WO *o, const char *col, char *str, uint16_t irow)
+int VSql::getString(Object *o, const char *col, char *str, uint16_t irow)
 {
   return selectString(o->typeName(), col, o->objectName(), World::current()->name, str, irow);
 }
@@ -991,21 +991,21 @@ int VSql::getString(WO *o, const char *col, char *str, uint16_t irow)
 // gets
 ///////////
 
-int VSql::getState(WO *o)
+int VSql::getState(Object *o)
 {
   int val = getInt(o, C_STATE, 0);
   //echo("state_old=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
-int VSql::getState(WO *o, uint16_t irow)
+int VSql::getState(Object *o, uint16_t irow)
 {
   int val =  getInt(o, C_STATE, irow);
   //echo("state_old=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
-void VSql::getPos(WO *o)
+void VSql::getPos(Object *o)
 {
   o->pos.x = getPosX(o, 0);
   o->pos.y = getPosY(o, 0);
@@ -1013,7 +1013,7 @@ void VSql::getPos(WO *o)
   o->pos.az = getPosAZ(o, 0);
 }
 
-void VSql::getPos(WO *o, uint16_t irow)
+void VSql::getPos(Object *o, uint16_t irow)
 {
   o->pos.x = getPosX(o, irow);
   o->pos.y = getPosY(o, irow);
@@ -1021,25 +1021,25 @@ void VSql::getPos(WO *o, uint16_t irow)
   o->pos.az = getPosAZ(o, irow);
 }
 
-float VSql::getPosX(WO *o, uint16_t irow = 0)
+float VSql::getPosX(Object *o, uint16_t irow = 0)
 {
   float val = getFloat(o, C_X, irow);
   return (val != ERR_SQL) ? val : o->pos.x;
 }
 
-float VSql::getPosY(WO *o, uint16_t irow)
+float VSql::getPosY(Object *o, uint16_t irow)
 {
   float val = getFloat(o, C_Y, irow);
   return (val != ERR_SQL) ? val : o->pos.y;
 }
 
-float VSql::getPosZ(WO *o, uint16_t irow)
+float VSql::getPosZ(Object *o, uint16_t irow)
 {
   float val = getFloat(o, C_Z, irow);
   return (val != ERR_SQL) ? val : o->pos.z;
 }
 
-float VSql::getPosAZ(WO *o, uint16_t irow)
+float VSql::getPosAZ(Object *o, uint16_t irow)
 {
   float val = getFloat(o, C_AZ, irow);
   return (val != ERR_SQL) ? val : o->pos.az;
@@ -1086,32 +1086,32 @@ int VSql::getName(const char *table, const char *pattern, int numrow, char *retn
   return (irow >= 0 ) ? irow : -1;
 }
 
-void VSql::getGeom(WO *o)
+void VSql::getGeom(Object *o)
 {
   getGeom(o, (uint16_t)0);
 }
 
-void VSql::getGeom(WO *o, uint16_t irow)
+void VSql::getGeom(Object *o, uint16_t irow)
 {
   getGeom(o, o->geomsolid, irow);
 }
 
-void VSql::getGeom(WO *o, char *geom)
+void VSql::getGeom(Object *o, char *geom)
 {
   if (geom) getGeom(o, geom, (uint16_t)0);
 }
 
-void VSql::getGeom(WO *o, char *geom, uint16_t irow)
+void VSql::getGeom(Object *o, char *geom, uint16_t irow)
 {
   if (geom) getString(o, C_GEOM, geom, irow);
 }
 
-void VSql::getOwner(WO *o)
+void VSql::getOwner(Object *o)
 {
   getOwner(o, (uint16_t)0);
 }
 
-void VSql::getOwner(WO *o, uint16_t irow)
+void VSql::getOwner(Object *o, uint16_t irow)
 {
   getString(o, C_OWNER, const_cast<char *>(o->ownerName()), irow);
 }

@@ -66,7 +66,7 @@ typedef struct {
 /**
  * Guy class
  */
-class Guy: public WO {
+class Guy: public Object {
 
  private:
   enum {
@@ -142,9 +142,9 @@ class Guy: public WO {
   Guy();		///< Constructor from localuser (avatar).
   Guy(uint8_t type_id, Noid noid, Payload *pp); ///< Constructor: network replication.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   
-  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
+  static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a guy coming from the Network. */
 
   void changePermanent(float lasting);

@@ -33,10 +33,10 @@
 /**
  * Cloth class
  */
-class Cloth: public WO {
+class Cloth: public Object {
 
  protected:
-  static std::list<WO*> wearList;
+  static std::list<Object*> wearList;
 
   bool taken;				///< bool taken by avatar
   float ttl;				///< time to live with avatar
@@ -87,7 +87,7 @@ class Cloth: public WO {
   Cloth(char *l);		///< Constructor
   Cloth() {}			///< Constructor for sub-classes
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creation from a file */
 
   virtual void changePermanent(float lasting);

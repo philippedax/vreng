@@ -31,8 +31,7 @@
 /**
  * Bird class
  */
-class Bird : public WO {
-
+class Bird : public Object {
  private:
   class Wings *wings;
   bool flying;
@@ -56,7 +55,7 @@ class Bird : public WO {
   Bird(char *l);
   /**< Constructor */
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);

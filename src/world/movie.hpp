@@ -39,7 +39,7 @@
 /**
  * Movie class
  */
-class Movie: public WO {
+class Movie: public Object {
  private:
   static const float FPS;	///< max number of frames decoded per rendering
   static const float DEF_PROJ;	///< distance between projector and screen
@@ -81,7 +81,7 @@ class Movie: public WO {
 
   Movie(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from file line. */
 
   void changePermanent(float lasting);

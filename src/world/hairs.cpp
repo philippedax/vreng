@@ -38,7 +38,7 @@ const OClass Hairs::oclass(HAIRS_TYPE, "Hairs", Hairs::creator);
 void Hairs::funcs() {}
 
 /* creation from a file */
-WO * Hairs::creator(char *l)
+Object * Hairs::creator(char *l)
 {
   return new Hairs(l);
 }
@@ -92,7 +92,7 @@ bool Hairs::loader(const char *url, float scale)
 #if 0 //dax use Lwo
   obj = new Lwo(url);
 #else
-  obj = new Object();
+  obj = new HObject();
   obj->scal = scale;
 #endif
   Http::httpOpen(url, reader, obj, 0);	// get model
@@ -109,7 +109,7 @@ bool Hairs::loader(const char *url, float scale)
   return false;
 }
 
-void Hair::init(Object *_o, Surface *_s, float scale)
+void Hair::init(HObject *_o, Surface *_s, float scale)
 {
   o = _o;
   s = _s;
@@ -311,12 +311,12 @@ void Hairs::quit()
 }
 
 //-------------------------------------------------------------------
-//	File:		Object.cpp
+//	File:		HObject.cpp
 //	Created:	01/12/99 0:24:AM
 //	Author:		Allard Jeremie
-//	Comments:	Create and manage Objects.
+//	Comments:	Create and manage HObjects.
 //-------------------------------------------------------------------
-Object::Object()
+HObject::HObject()
 {
   nbf = nbp = nbs = 0;
   fc = NULL;
@@ -324,7 +324,7 @@ Object::Object()
   sf = NULL;
 }
 
-Object::~Object()
+HObject::~HObject()
 {
   nbf = 0; nbp = 0;
   if (fc) { delete[] fc; fc = NULL; }
@@ -351,7 +351,7 @@ bool getSTRING(FILE *fp, char *s, int *l)
 
 void Hairs::reader(void *_lwo, Http *http)
 {
-  Object *lwo = static_cast<Object *>(_lwo);
+  HObject *lwo = static_cast<HObject *>(_lwo);
 
   if (! lwo) return;
 
@@ -669,7 +669,7 @@ void TriFace::draw(int pdata)
   glEnd();
 }
 
-void Object::draw()
+void HObject::draw()
 {
   if (nbs) for (int j=0; j<nbs ; ++j) sf[j].draw(pt);
 }
@@ -756,7 +756,7 @@ void TriFace::normal()
   n.normalize();
 }
 
-Surface * Object::findSurface(const char *name)
+Surface * HObject::findSurface(const char *name)
 {
   Surface *ps = sf;
 

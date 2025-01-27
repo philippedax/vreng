@@ -43,7 +43,7 @@ class Fountain: public Particle {
 
   static void funcs();	///< init funclist
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from file line */
 
   //dax void render();	///< rendering

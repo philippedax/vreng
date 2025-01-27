@@ -27,7 +27,7 @@
 #include "message.hpp"
 #include "widgets.hpp"	// Widgets gw
 #include "theme.hpp"	// theme
-#include "wobject.hpp"	// WO
+#include "wobject.hpp"	// Object
 #include "user.hpp"	// userWriting
 #include "render.hpp"	// setCameraScissor
 #include "cache.hpp"	// check
@@ -181,7 +181,7 @@ void Message::performRequest(const UStr& req)	// req starts with a '!'
 }
 
 /** Performs a request */
-void Message::performRequest(WO *object)
+void Message::performRequest(Object *object)
 {
   if (object && nclicks > 0) {
     clicked[0]=object->pos.x;

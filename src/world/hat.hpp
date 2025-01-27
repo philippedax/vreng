@@ -65,7 +65,7 @@ class Hat: public Cloth {
 
   static void funcs();	///< init funclist
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creation from a file */
 
   Hat(char *l);			///< Constructor file

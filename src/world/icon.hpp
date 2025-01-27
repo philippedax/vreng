@@ -34,7 +34,7 @@ class Wall;
 /**
  * Icon class
  */
-class Icon: public WO {
+class Icon: public Object {
  private:
   static const float DEPTH;
   static const float LSPEED;
@@ -102,7 +102,7 @@ class Icon: public WO {
   Icon(uint8_t type_id, Noid noid, Payload *pp);
   /**< constructor: network replication */
 
-  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
+  static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a icon coming from the Network */
 
   bool isMoving();
@@ -120,7 +120,7 @@ class Icon: public WO {
   bool publish(const Pos &oldpos);
   /**< Publishes to network */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< Handles collisions */
 
   void quit();

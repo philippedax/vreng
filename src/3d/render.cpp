@@ -27,7 +27,7 @@
 #include "solid.hpp"	// Solid, object()
 #include "scene.hpp"	// getScene
 #include "texture.hpp"	// init
-#include "wobject.hpp"	// WO
+#include "wobject.hpp"	// Object
 #include "world.hpp"	// current
 #include "bgcolor.hpp"	// Bgcolor
 #include "user.hpp"	// USER_TYPE
@@ -162,7 +162,7 @@ void Render::materials()
 }
 
 /** Records object number into the selection buffer */
-void Render::recordObject(WO *o)
+void Render::recordObject(Object *o)
 {
   if (! o->isBehavior(UNSELECTABLE)) {
     glPopName();
@@ -519,7 +519,7 @@ void Render::lighting()
 
   // renders other lights for example sun, moon, lamp
   //trace2(DBG_3D, "\nlight:");
-  for (std::vector<WO*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
+  for (std::vector<Object*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
     if ((*it)->num) {	 //FIXME segfault sometimes : num replaces isValid()
       (*it)->lighting();
       //trace2(DBG_3D, " %s", (*it)->objectName());
@@ -603,8 +603,8 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
     if (::g.pref.trace) {
       echo("hit: %d/%d num=%d min=%ud name=%s/%s",
             hit, hits, psel[3], psel[1],
-            WO::byNum(psel[3])->typeName(),
-            WO::byNum(psel[3])->objectName());
+            Object::byNum(psel[3])->typeName(),
+            Object::byNum(psel[3])->objectName());
     }
     hitlist[hit] = psel;
     psel += 3 + psel[0];	// next hit
@@ -621,12 +621,12 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
     if (::g.pref.trace) {
       if (hits > 1) {
         echo("nearest: %d/%s next %d/%s",
-              objnum_nearest, WO::byNum(objnum_nearest)->objectName(),
-              next, WO::byNum(next)->objectName());
+              objnum_nearest, Object::byNum(objnum_nearest)->objectName(),
+              next, Object::byNum(next)->objectName());
       }
       else {
         echo("nearest: %d/%s",
-              objnum_nearest, WO::byNum(objnum_nearest)->objectName());
+              objnum_nearest, Object::byNum(objnum_nearest)->objectName());
       }
     }
   }
@@ -730,13 +730,13 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
 /**
  * Get the object list where each object have a type present in the given list.
  */
-WO** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
+Object** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
 {
   int hits = 0;
   int nb = 0;
 
-  WO **drawedlist = Render::getDrawedObjects(&hits);
-  WO **objlist = static_cast<WO**>(malloc(hits*sizeof(WO*)));
+  Object **drawedlist = Render::getDrawedObjects(&hits);
+  Object **objlist = static_cast<Object**>(malloc(hits*sizeof(Object*)));
 
   for (int i=0; i < hits ; i++) {
     for (int j=0; j < nbr ; j++) {
@@ -750,7 +750,7 @@ WO** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
       }
     }
   }
-  objlist = static_cast<WO**>(realloc(objlist, nb * sizeof(WO*)));
+  objlist = static_cast<Object**>(realloc(objlist, nb * sizeof(Object*)));
 
   *nbelems = nb;
   if (drawedlist) delete[] drawedlist;
@@ -759,7 +759,7 @@ WO** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
 }
 
 /** Returns the list of drawed object on the user's screen. */
-WO** Render::getDrawedObjects(int *nbhit)
+Object** Render::getDrawedObjects(int *nbhit)
 {
   // set selection mode
   glSelectBuffer(sizeof(selbuf), selbuf);
@@ -811,16 +811,16 @@ WO** Render::getDrawedObjects(int *nbhit)
   std::qsort((void *) hitlist, hits, sizeof(GLuint *), compareHit);
 
   int usercount = 0;
-  if (! strcasecmp((WO::byNum((uint16_t) hitlist[0][3]))->typeName(), "User")) {
+  if (! strcasecmp((Object::byNum((uint16_t) hitlist[0][3]))->typeName(), "User")) {
     hitlist[0] = NULL;
     usercount = 1;
   }
 
-  WO** selectlist = new WO*[hits - usercount];
+  Object** selectlist = new Object*[hits - usercount];
 
   for (int i=0; i < hits; i++) {
     if (hitlist[i]) {
-      selectlist[i] = WO::byNum(hitlist[i][3]);
+      selectlist[i] = Object::byNum(hitlist[i][3]);
     }
   }
   if (hitlist) delete[] hitlist;

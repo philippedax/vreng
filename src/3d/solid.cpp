@@ -27,7 +27,7 @@
 #include "vreng.hpp"
 #include "solid.hpp"
 #include "draw.hpp"	// STYLE
-#include "wobject.hpp"	// WO
+#include "wobject.hpp"	// Object
 #include "parse.hpp"	// printNumline
 #include "format.hpp"	// getModelByUrl
 #include "stat.hpp"	// new_solid
@@ -1218,8 +1218,8 @@ void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi,
   *alp = alpha;
 }
 
-/** Gets WO parent from Solid - accessor */
-WO* Solid::object() const
+/** Gets Object parent from Solid - accessor */
+Object* Solid::object() const
 {
   return wobject;
 }

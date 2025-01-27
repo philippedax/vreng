@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "world.hpp"
-#include "wobject.hpp"	// WO
+#include "wobject.hpp"	// Object
 #include "http.hpp"	// httpOpen httpRead
 #include "user.hpp"	// USER_TYPE
 #include "cache.hpp"	// setCachePath
@@ -256,13 +256,13 @@ void World::compute(time_t sec, time_t usec)
     //
     // computes world's bounding box
     //
-    for (std::vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+    for (std::vector<Object*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
       }
     }
-    for (std::list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
@@ -296,7 +296,7 @@ void World::compute(time_t sec, time_t usec)
     //
     // objects movement with imposed or permanent movements
     //
-    for (std::list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       (*it)->imposedMovement(sec, usec);	// object with imposed movement
       (*it)->permanentMovement(sec, usec);	// object with permanent movement
     }
@@ -499,7 +499,7 @@ void World::checkPersist()
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
-          doAction(BALL_TYPE, Ball::RECREATE, (WO*)this, (void*)name,0,0);
+          doAction(BALL_TYPE, Ball::RECREATE, (Object*)this, (void*)name,0,0);
         }
       }
     }
@@ -511,7 +511,7 @@ void World::checkPersist()
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
-          doAction(THING_TYPE, Thing::RECREATE, (WO*)this, (void*)name,0,0);
+          doAction(THING_TYPE, Thing::RECREATE, (Object*)this, (void*)name,0,0);
         }
       }
     }
@@ -523,7 +523,7 @@ void World::checkPersist()
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
-          doAction(MIRAGE_TYPE, Mirage::RECREATE, (WO*)this, (void*)name,0,0);
+          doAction(MIRAGE_TYPE, Mirage::RECREATE, (Object*)this, (void*)name,0,0);
         }
       }
     }
@@ -610,7 +610,7 @@ void World::init(const char *url)
   world->guip = ::g.gui.addWorld(world, NEW);
   world->initGrid();
   world->clearObjects();
-  WO::initNames();
+  Object::initNames();
   initFunc();				// init funcs (objects.cpp)
 
   if (::g.pref.keep == false) {
@@ -666,7 +666,7 @@ void World::quit()
   //
 
   // invisible objects
-  for (std::vector<WO*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+  for (std::vector<Object*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
@@ -674,7 +674,7 @@ void World::quit()
   invisList.clear();
 
   // still objects
-  for (std::vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+  for (std::vector<Object*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
     //dax1 if (! strlen((*it)->objectName())) continue;	// avoid segfault
@@ -684,7 +684,7 @@ void World::quit()
   stillList.clear();
 
   // mobile objects
-  for (std::list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+  for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
     if ((*it)->deleted) continue;
@@ -696,7 +696,7 @@ void World::quit()
   mobileList.clear();
 
   // fluid objects
-  for (std::vector<WO*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+  for (std::vector<Object*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
@@ -704,7 +704,7 @@ void World::quit()
   fluidList.clear();
 
   // cloth objects
-  for (std::vector<WO*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
+  for (std::vector<Object*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;		// sometimes segfault FIXME!!!
@@ -726,7 +726,7 @@ void World::quit()
   if (localuser) localuser->resetPosition();
   if (linked) return;
 
-  //dax WO::resetObjectsNumber();
+  //dax Object::resetObjectsNumber();
   Tool::quitTools();		// quits all tools
 }
 
@@ -737,7 +737,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   // cleanup
   ::g.gui.clearInfoBar();
-  WO::initNames();
+  Object::initNames();
   current()->clearObjects();
   current()->initGrid();
 
@@ -856,7 +856,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 /** Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
-  for (std::vector<WO*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
+  for (std::vector<Object*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
     if (! (*it)->isBehavior(COLLIDE_NEVER)) {
       (*it)->delGrid();
     }

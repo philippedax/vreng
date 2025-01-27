@@ -37,7 +37,7 @@ typedef struct {
 /**
  * Thunder class
  */
-class Thunder: public WO {
+class Thunder: public Object {
  private:
   static const uint8_t NUMBER;		///< number of simultaneous thunders
   static const uint8_t PERIOD;		///< default period
@@ -57,7 +57,7 @@ class Thunder: public WO {
 
   Thunder(char *l);		///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creation from a file */
 
   void changePermanent(float lasting);

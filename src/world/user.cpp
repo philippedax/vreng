@@ -376,7 +376,7 @@ User::User()
 }
 
 /** Replicates an user from the network */
-WO * User::replicator(uint8_t type_id, Noid _noid, Payload *pp)
+Object * User::replicator(uint8_t type_id, Noid _noid, Payload *pp)
 {
   return new User(type_id, _noid, pp);
 }
@@ -624,7 +624,7 @@ void User::dartPutHit(Dart *pdart, Payload *pp)
 }
 
 /** Intersection with an other object */
-bool User::whenIntersect(WO *pcur, WO *pold)
+bool User::whenIntersect(Object *pcur, Object *pold)
 {
   // User has no control over ghost objects
   if (pcur->isBehavior(COLLIDE_GHOST)) return true;
@@ -703,7 +703,7 @@ bool User::hasHead()
 /** Does a special action */
 void User::specialAction(int action_id, void *d, time_t s, time_t u)
 {
-  WO *o = NULL;
+  Object *o = NULL;
 
   if (carrier && carrier->underControl()) o = carrier; // carrier
   else                                    o = this;    // user
@@ -964,7 +964,7 @@ void User::get_username(User *pu, Payload *pp)
   trace1(DBG_WO, "get_username=%s", pu->objectName());
 }
 
-void User::u_get_xy(WO *po, Payload *pp)
+void User::u_get_xy(Object *po, Payload *pp)
 {
   get_xy(po, pp);
   if (po == localuser) {
@@ -973,7 +973,7 @@ void User::u_get_xy(WO *po, Payload *pp)
   }
 }
 
-void User::u_get_z(WO *po, Payload *pp)
+void User::u_get_z(Object *po, Payload *pp)
 {
   get_z(po, pp);
   if (po == localuser) {
@@ -982,7 +982,7 @@ void User::u_get_z(WO *po, Payload *pp)
   }
 }
 
-void User::u_get_ax(WO *po, Payload *pp)
+void User::u_get_ax(Object *po, Payload *pp)
 {
   get_ax(po, pp);
   if (po == localuser) {
@@ -991,7 +991,7 @@ void User::u_get_ax(WO *po, Payload *pp)
   }
 }
 
-void User::u_get_ay(WO *po, Payload *pp)
+void User::u_get_ay(Object *po, Payload *pp)
 {
   get_ay(po, pp);
   if (po == localuser) {
@@ -1000,7 +1000,7 @@ void User::u_get_ay(WO *po, Payload *pp)
   }
 }
 
-void User::u_get_az(WO *po, Payload *pp)
+void User::u_get_az(Object *po, Payload *pp)
 {
   get_az(po, pp);
   if (po == localuser) {

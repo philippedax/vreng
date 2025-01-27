@@ -110,7 +110,7 @@ friend class Message;
   /////////////////////
   // Callback functions
 
-  class WO* pointedObject(int x, int y, ObjInfo* obji, int depthsel);
+  class Object* pointedObject(int x, int y, ObjInfo* obji, int depthsel);
   /**< Returns info about the pointed object but do NOT select it */
   
   static void action(int numaction);

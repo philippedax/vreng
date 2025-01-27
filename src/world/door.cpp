@@ -38,7 +38,7 @@ static uint16_t oid = 0;
 
 
 /* Creates from vre file */
-WO * Door::creator(char *l)
+Object * Door::creator(char *l)
 {
   return new Door(l);
 }
@@ -182,7 +182,7 @@ bool Door::updateToNetwork(const Pos &oldpos)
 }
 
 /* Intersects with an object */
-bool Door::whenIntersect(WO *pcur, WO *pold)
+bool Door::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

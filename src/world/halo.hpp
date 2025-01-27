@@ -54,7 +54,7 @@ class Halo: public Cloth {
 
   static void funcs();	///< init funclist
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creation from a file */
 
   Halo(char *l);		///< Constructor file

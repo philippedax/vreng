@@ -37,7 +37,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Plane::creator(char *l)
+Object * Plane::creator(char *l)
 {
   return new Plane(l);
 }
@@ -109,7 +109,7 @@ Plane::Plane(char *l)
 }
 
 /** Intersection with an object */
-bool Plane::whenIntersect(WO *pcur, WO *pold)
+bool Plane::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

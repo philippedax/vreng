@@ -32,7 +32,7 @@
 /**
  * Mech class
  */
-class Mech: public WO {
+class Mech: public Object {
  private:
   /* display list definitions */
   enum {
@@ -64,7 +64,7 @@ class Mech: public WO {
 
   Mech(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);

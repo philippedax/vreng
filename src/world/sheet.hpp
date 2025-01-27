@@ -33,7 +33,7 @@
 /**
  * Sheet class
  */
-class Sheet: public WO {
+class Sheet: public Object {
  friend class Book;
 
  protected:
@@ -75,7 +75,7 @@ class Sheet: public WO {
 
   void changePosition(float lasting);
   void updateTime(time_t s, time_t us, float *lasting);
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   void quit();
 
   void turnPrev();

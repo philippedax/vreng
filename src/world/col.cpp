@@ -34,13 +34,13 @@
 
 
 /** Saves last position and Bounding Box of an object */
-void WO::copyPositionAndBB(Pos &newpos)
+void Object::copyPositionAndBB(Pos &newpos)
 {
   newpos = pos;
 }
 
 /** Saves last position, Bounding Box and type of an object */
-void WO::copyPositionAndBB(WO *o)
+void Object::copyPositionAndBB(Object *o)
 {
   if (o) {
     o->type = type;
@@ -55,7 +55,7 @@ void WO::copyPositionAndBB(WO *o)
  * Returns a constant describing intersection status of both Bounding Boxes
  * args are object pointers
  */
-int WO::interAABB(WO *o1, WO *o2)
+int Object::interAABB(Object *o1, Object *o2)
 {
   return interAABB(o1->pos.bbc, o1->pos.bbs, o2->pos.bbc, o2->pos.bbs);
 }
@@ -64,7 +64,7 @@ int WO::interAABB(WO *o1, WO *o2)
  * Returns a constant describing intersection status of both Bounding Boxes
  * args are position centers and sizes
  */
-int WO::interAABB(V3 center1, V3 size1, V3 center2, V3 size2)
+int Object::interAABB(V3 center1, V3 size1, V3 center2, V3 size2)
 {
   float dcx = ABSF(center2.v[0] - center1.v[0]);
   float dcy = ABSF(center2.v[1] - center1.v[1]);
@@ -95,7 +95,7 @@ int WO::interAABB(V3 center1, V3 size1, V3 center2, V3 size2)
 }
 
 /** interAABB vertical */
-int WO::interAABBVertical(V3 center1, V3 size1, V3 center2, V3 size2)
+int Object::interAABBVertical(V3 center1, V3 size1, V3 center2, V3 size2)
 {
   float dcz = ABSF(center2.v[2] - center1.v[2]);
   float sz1 = ABSF(size1.v[2]);
@@ -108,7 +108,7 @@ int WO::interAABBVertical(V3 center1, V3 size1, V3 center2, V3 size2)
 }
 
 /** interAABB horizontal */
-int WO::interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2)
+int Object::interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2)
 {
   float dcx = ABSF(center2.v[0] - center1.v[0]);
   float dcy = ABSF(center2.v[1] - center1.v[1]);
@@ -124,7 +124,7 @@ int WO::interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2)
 }
 
 /** Checks intersection with Walls */
-void WO::ingoingWalls(WO *wo)
+void Object::ingoingWalls(Object *wo)
 {
   V3 normal;
 
@@ -154,7 +154,7 @@ void WO::ingoingWalls(WO *wo)
  * There is collision if current object intersects a neighbor object
  * and if its old position didn't intersect.
  */
-bool WO::ingoingNeighbor(WO *wo, WO *neighbor)
+bool Object::ingoingNeighbor(Object *wo, Object *neighbor)
 {
   if ((interAABB(pos.bbc,           pos.bbs,
                  neighbor->pos.bbc, neighbor->pos.bbs) != NO_INTER) &&
@@ -179,7 +179,7 @@ bool WO::ingoingNeighbor(WO *wo, WO *neighbor)
  * Checks for outgoing intersection
  * (lift, step, guide, attractor,...)
  */
-bool WO::outgoingNeighbor(WO *wo, WO *neighbor)
+bool Object::outgoingNeighbor(Object *wo, Object *neighbor)
 {
   if ((interAABB(pos.bbc,           pos.bbs,
                  neighbor->pos.bbc, neighbor->pos.bbs) == NO_INTER) &&
@@ -193,9 +193,9 @@ bool WO::outgoingNeighbor(WO *wo, WO *neighbor)
 /**
  * General method to handle intersections
  *
- * Notice: WO *wo is an incomplete copy of *this
+ * Notice: Object *wo is an incomplete copy of *this
  */
-void WO::generalIntersect(WO *wo, OList *vicinity)
+void Object::generalIntersect(Object *wo, OList *vicinity)
 {
   //
   // Checks neighbors
@@ -203,7 +203,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
   int scans = 0;
   int rescans = 0;
   // held the first object
-  WO *wohead = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
+  Object *wohead = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
 
   // Scans neighbors for collision discovery
   for (OList *vl = vicinity; vl ; scans++) {
@@ -212,7 +212,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
       continue;
     }  // discard non existant object
 
-    WO *neighbor = vl->pobject;
+    Object *neighbor = vl->pobject;
 
     // Stop scanning if neighbor has already been seen
     if ((neighbor == wohead) && (scans >= 1)) {
@@ -228,7 +228,7 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
       // current object intersects but its old instance didn't intersect
       switch (neighbor->type) {
       case AOI_TYPE:
-        if (this == static_cast<WO *>(localuser)) {
+        if (this == static_cast<Object *>(localuser)) {
           if (currentAoi != neighbor) {
             Aoi *aoi = static_cast<Aoi *>(neighbor);
             aoi->aoiEnter();	// avatars: change mcast address
@@ -281,13 +281,13 @@ void WO::generalIntersect(WO *wo, OList *vicinity)
   ingoingWalls(wo);
 }
 
-uint32_t WO::collideBehavior() const
+uint32_t Object::collideBehavior() const
 {
   return (behavior & (COLLIDE_ONCE | COLLIDE_NEVER | COLLIDE_GHOST));
 }
 
 /** Returns normale vectors 'normal' of still object */
-void WO::computeNormal(Pos &mobil, Pos &still, V3 *normal)
+void Object::computeNormal(Pos &mobil, Pos &still, V3 *normal)
 {
   normal->v[2] = 1;
   if (still.bbs.v[0] < still.bbs.v[1]) {
@@ -310,7 +310,7 @@ void WO::computeNormal(Pos &mobil, Pos &still, V3 *normal)
 }
 
 /** Computes normal */
-void WO::computeNormal(WO *mobil, V3 *normal)
+void Object::computeNormal(Object *mobil, V3 *normal)
 {
   float fxmin = pos.bbc.v[0] - pos.bbs.v[0];
   float fxmax = pos.bbc.v[0] + pos.bbs.v[0];
@@ -337,7 +337,7 @@ void WO::computeNormal(WO *mobil, V3 *normal)
 }
 
 /** Projete le mouvement de l'objet mobile parallelement a l'objet fixe */
-int WO::projectPositionOnObstacle(Pos &mobil, Pos &mobilold, Pos &obstacle)
+int Object::projectPositionOnObstacle(Pos &mobil, Pos &mobilold, Pos &obstacle)
 {
   V3 normal;
   float dx = mobil.x - mobilold.x;
@@ -362,7 +362,7 @@ int WO::projectPositionOnObstacle(Pos &mobil, Pos &mobilold, Pos &obstacle)
 }
 
 /** Project position on the obstacle */
-bool WO::projectPosition(WO *pcur, WO *wo)
+bool Object::projectPosition(Object *pcur, Object *wo)
 {
   if (projectPositionOnObstacle(pcur->pos, wo->pos, pos)) {
     pcur->updatePositionAndGrid(wo);
@@ -373,7 +373,7 @@ bool WO::projectPosition(WO *pcur, WO *wo)
 }
 
 /** Bounce position, we do not change the position, we only change the deltas */
-void WO::bounceTrajectory(WO *wo, V3 *normal)
+void Object::bounceTrajectory(Object *wo, V3 *normal)
 {
   wo->copyPositionAndBB(this);
 
@@ -427,7 +427,7 @@ static void indiceGrid(const float bb[3], int igrid[3])
 }
 
 /** Adds an object into the grid */
-void WO::addGrid()
+void Object::addGrid()
 {
   int imin[3], imax[3];
   float bbmin[3], bbmax[3];
@@ -449,7 +449,7 @@ void WO::addGrid()
 }
 
 /** Deletes an object from the vicinity grid. This estimation doesn't work 100%. */
-void WO::delGrid()
+void Object::delGrid()
 {
   int imin[3], imax[3];
   float bbmin[3], bbmax[3];
@@ -473,7 +473,7 @@ void WO::delGrid()
 }
 
 /** Updates an object in the grid */
-void WO::updGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold)
+void Object::updGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold)
 {
   bool change = false;
   int iminnew[3], imaxnew[3], iminold[3], imaxold[3];
@@ -499,7 +499,7 @@ void WO::updGrid(const float *bbminnew, const float *bbmaxnew, const float *bbmi
   }
 }
 
-void WO::updGrid(const WO *obj)
+void Object::updGrid(const Object *obj)
 {
   float bbminnew[3], bbmaxnew[3], bbminold[3], bbmaxold[3];
 
@@ -512,7 +512,7 @@ void WO::updGrid(const WO *obj)
   updGrid(bbminnew, bbmaxnew, bbminold, bbmaxold);
 }
 
-void WO::updGrid(const Pos& oldpos)
+void Object::updGrid(const Pos& oldpos)
 {
   float bbminnew[3], bbmaxnew[3], bbminold[3], bbmaxold[3];
 
@@ -526,7 +526,7 @@ void WO::updGrid(const Pos& oldpos)
 }
 
 /** Checks the current vicinity */
-void WO::checkVicinity(WO *wo)
+void Object::checkVicinity(Object *wo)
 {
   OList *vicinity = getVicinity(wo);
   if (vicinity) {
@@ -541,7 +541,7 @@ void WO::checkVicinity(WO *wo)
  * retourne la liste des pointeurs sur les objets touchants
  * la case des grilles intersectees par la BB englobante des 2 objets
  */
-OList * WO::getVicinity(const WO *obj)
+OList * Object::getVicinity(const Object *obj)
 {
   int imin[3], imax[3];
   float bbmin[3], bbmax[3];

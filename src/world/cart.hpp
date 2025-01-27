@@ -33,11 +33,11 @@
 /**
  * Cart class
  */
-class Cart: public WO {
+class Cart: public Object {
  private:
   uint8_t number;	///< number of objects inside cart
   class User *user;	///< owner of the cart
-  static std::vector<WO*> cartList; ///< vector of objects in the cart
+  static std::vector<Object*> cartList; ///< vector of objects in the cart
 
  public:
   // target values handled by GuiRemoveCart in gui.cc
@@ -55,13 +55,13 @@ class Cart: public WO {
 
   static void funcs();	///< init funclist
 
-  void addToCart(WO *po);
+  void addToCart(Object *po);
   /**< called by thingAddToCart */
 
-  void removeFromCart(WO *po);
+  void removeFromCart(Object *po);
   /**< called by GuiRemoveCart (target = "REMOVE") */
 
-  void leave(WO *po);
+  void leave(Object *po);
   /**< called by GuiRemoveCart (target = "LEAVE") */
 
   void quit();

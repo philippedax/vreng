@@ -32,7 +32,7 @@
 /**
  * Door class
  */
-class Door: public WO {
+class Door: public Object {
  private:
   uint8_t mecanism;	///< mecanism
   float aopen;		///< open angle
@@ -81,7 +81,7 @@ class Door: public WO {
 
   static void funcs();	///< init funclist
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Create from fileline */
 
   void changePosition(float lasting);
@@ -93,7 +93,7 @@ class Door: public WO {
   bool updateToNetwork(const Pos &oldpos);
   /**< Publishes position */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an collision occurs */
 
   void quit();

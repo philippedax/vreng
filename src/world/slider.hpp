@@ -42,7 +42,7 @@ class Slider: public Step {
 
   Slider(char *l);	///< Constructor.
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Create from fileline. */
 
   bool isMoving();
@@ -54,7 +54,7 @@ class Slider: public Step {
   void updateTime(time_t sec, time_t usec, float *lasting);
   /**< Updates remaining times of the movement. */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
   void quit();
@@ -64,7 +64,7 @@ class Slider: public Step {
   float incrx;
   float incry;
   float incrz;
-  WO *capted;	///< captured object.
+  Object *capted;	///< captured object.
 
   void parser(char *l);
   /**< Parses fileline. */

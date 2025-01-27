@@ -48,7 +48,7 @@ const float Movie::FPS = 10.;		// max number of frames decoded per rendering
 const float Movie::DEF_PROJ = 10;	// distance between projector and screen
 
 
-WO * Movie::creator(char *l)
+Object * Movie::creator(char *l)
 {
   return new Movie(l);
 }

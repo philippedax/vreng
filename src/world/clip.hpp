@@ -31,7 +31,7 @@
 /**
  * Clip class
  */
-class Clip: public WO {
+class Clip: public Object {
  private:
   uint8_t fmt;		///< video format
   char url2[URL_LEN];	///< url where is video
@@ -59,10 +59,10 @@ class Clip: public WO {
 
   Clip(char *l);	///< Constructor
 
-  static WO * (creator)(char *l);
+  static Object * (creator)(char *l);
   /**< Create from fileline */
 
-  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
   void quit();

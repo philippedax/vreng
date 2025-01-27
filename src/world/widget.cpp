@@ -32,7 +32,7 @@ const OClass Widget::oclass(WIDGET_TYPE, "Widget", Widget::creator);
 
 
 /* Creation from a file */
-WO * Widget::creator(char *l)
+Object * Widget::creator(char *l)
 {
   return new Widget(l);
 }

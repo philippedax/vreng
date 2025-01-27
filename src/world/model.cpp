@@ -50,7 +50,7 @@ static uint16_t oid = 0;
 
 
 /** Creates model class */
-WO * Model::creator(char *l)
+Object * Model::creator(char *l)
 {
   return new Model(l);
 }
@@ -147,7 +147,7 @@ void Model::behaviors()
 }
 
 /** Creation from Gui addobj */
-Model::Model(WO *user, char *url, float _scale)
+Model::Model(Object *user, char *url, float _scale)
 {
   defaults();
   taken = true;

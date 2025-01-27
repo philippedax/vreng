@@ -126,7 +126,7 @@ void Book::reader(void *_book, Http *http)
 }
 
 /** Creation from a file. */
-WO * Book::creator(char *l)
+Object * Book::creator(char *l)
 {
   return new Book(l);
 }
@@ -256,7 +256,7 @@ void Book::inits()
 /** Creates a sheet */
 void Book::createSheet(char *s, uint8_t heap)
 {
-  doAction(SHEET_TYPE, Sheet::CREATE, this, s, heap, null);
+  doAction(SHEET_TYPE, Sheet::CREATE, this, s, heap, NULL);
 }
 
 void Book::setPos(char *s, float x, float y, float z, float az, float ax)
@@ -309,7 +309,7 @@ bool Book::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Book::whenIntersect(WO *pcur, WO *pold)
+bool Book::whenIntersect(Object *pcur, Object *pold)
 {
   if (state == OPENED) projectPosition(pcur, pold);
   return true;

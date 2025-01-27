@@ -47,7 +47,7 @@ class Dart: public Projectile {
 
   static void funcs();	///< init funclist
 
-  Dart(WO *po, void *d, time_t s, time_t u);
+  Dart(Object *po, void *d, time_t s, time_t u);
   /**< Constructor */
 
   virtual ~Dart() {};
@@ -55,7 +55,7 @@ class Dart: public Projectile {
   Dart(uint8_t type_id, Noid noid, Payload *pp);
   /**< Constructor replicator */
 
-  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
+  static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
 
  private:
   void defaults();
