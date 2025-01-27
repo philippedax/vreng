@@ -23,7 +23,7 @@
 #ifndef STARS_HPP
 #define STARS_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define STARS_TYPE	30
 #define STARS_NAME	"Stars"

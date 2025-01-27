@@ -23,7 +23,7 @@
 #ifndef SNOW_HPP
 #define SNOW_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "particle.hpp"
 
 #define SNOW_TYPE	65

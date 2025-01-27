@@ -23,7 +23,7 @@
 #ifndef ENTRY_HPP
 #define ENTRY_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define ENTRY_TYPE	21
 #define ENTRY_NAME	"Entry"

@@ -27,7 +27,7 @@
 #define BOOK_NAME	"Book"
 #define DEF_URL_PAPER	"/jpg/paper.jpg"	// paper for book
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 
 /**

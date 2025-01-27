@@ -23,7 +23,7 @@
 #ifndef BALL_HPP
 #define BALL_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define BALL_TYPE	5
 #define BALL_NAME	"Ball"

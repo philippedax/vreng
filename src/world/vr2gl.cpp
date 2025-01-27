@@ -23,7 +23,7 @@
 // Transforms vreng coordinates to OpenGl coordinates
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "wobject.hpp"	// Object
+#include "object.hpp"	// Object
 #include "matvec.hpp"   // V3 M4
 #include "solid.hpp"	// Solid
 #include "render.hpp"	// ::g.render

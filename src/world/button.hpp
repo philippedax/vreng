@@ -23,7 +23,7 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define BUTTON_TYPE	12
 #define BUTTON_NAME	"Button"

@@ -23,11 +23,12 @@
 #ifndef SPIRAL_HPP
 #define SPIRAL_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "step.hpp"
 
 #define SPIRAL_TYPE	61
 #define SPIRAL_NAME	"Spiral"
+
 
 /**
  * Spiral class

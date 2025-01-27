@@ -26,7 +26,8 @@
 #define WIDGET_TYPE	55
 #define WIDGET_NAME	"Widget"
 
-#include "wobject.hpp"
+#include "object.hpp"
+
 
 /**
  * Widget class

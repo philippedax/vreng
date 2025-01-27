@@ -23,7 +23,7 @@
 #ifndef FIREWORK_HPP
 #define FIREWORK_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "particle.hpp"
 
 #define FIREWORK_TYPE	82

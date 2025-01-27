@@ -23,7 +23,7 @@
 #ifndef BUMPER_HPP
 #define BUMPER_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "step.hpp"
 
 #define BUMPER_TYPE	79

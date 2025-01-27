@@ -23,7 +23,7 @@
 #ifndef FOUNTAIN_HPP
 #define FOUNTAIN_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "particle.hpp"
 
 #define FOUNTAIN_TYPE	63

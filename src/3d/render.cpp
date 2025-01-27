@@ -27,7 +27,7 @@
 #include "solid.hpp"	// Solid, object()
 #include "scene.hpp"	// getScene
 #include "texture.hpp"	// init
-#include "wobject.hpp"	// Object
+#include "object.hpp"	// Object
 #include "world.hpp"	// current
 #include "bgcolor.hpp"	// Bgcolor
 #include "user.hpp"	// USER_TYPE

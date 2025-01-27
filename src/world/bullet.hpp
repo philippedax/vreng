@@ -23,7 +23,7 @@
 #ifndef BULLET_HPP
 #define BULLET_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "projectile.hpp"
 
 class User;

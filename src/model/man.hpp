@@ -23,7 +23,8 @@
 #ifndef MAN_HPP
 #define MAN_HPP
 
-#include "wobject.hpp"	// Pos
+#include "object.hpp"	// Pos
+
 
 /**
  * Man class

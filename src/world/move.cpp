@@ -23,7 +23,7 @@
 // Move handling
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "wobject.hpp"
+#include "object.hpp"
 #include "move.hpp"
 #include "matvec.hpp"   // V3 M4
 #include "user.hpp"	// localuser

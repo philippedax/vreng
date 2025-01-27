@@ -23,7 +23,7 @@
 #ifndef THUNDER_HPP
 #define THUNDER_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define THUNDER_TYPE	56
 #define THUNDER_NAME	"Thunder"

@@ -23,7 +23,7 @@
 #ifndef DART_HPP
 #define DART_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "projectile.hpp"
 
 class User;

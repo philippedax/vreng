@@ -23,7 +23,7 @@
 #ifndef GROUND_HPP
 #define GROUND_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define GROUND_TYPE	10
 #define GROUND_NAME	"Ground"

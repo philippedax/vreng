@@ -26,7 +26,8 @@
 #define TEMPLATE_TYPE	0
 #define TEMPLATE_NAME	"Template"
 
-#include "wobject.hpp"
+#include "object.hpp"
+
 
 /**
  * Template class

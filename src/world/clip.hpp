@@ -23,7 +23,7 @@
 #ifndef CLIP_HPP
 #define CLIP_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define CLIP_TYPE	26
 #define CLIP_NAME	"Clip"

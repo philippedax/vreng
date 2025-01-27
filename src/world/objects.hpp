@@ -23,7 +23,7 @@
 #ifndef OBJECTS_HPP
 #define OBJECTS_HPP
 
-#include "wobject.hpp"	// Object
+#include "object.hpp"	// Object
 
 
 /*

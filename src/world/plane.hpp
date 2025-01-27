@@ -23,7 +23,7 @@
 #ifndef PLANE_HPP
 #define PLANE_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define PLANE_TYPE	2
 #define PLANE_NAME	"Plane"

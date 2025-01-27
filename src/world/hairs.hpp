@@ -26,7 +26,7 @@
 #define HAIRS_TYPE 	77
 #define HAIRS_NAME 	"Hairs"
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "vector3.hpp"
 #include "lwo.hpp"	// Lwo
 

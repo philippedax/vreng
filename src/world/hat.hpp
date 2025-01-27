@@ -23,11 +23,12 @@
 #ifndef HAT_HPP
 #define HAT_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "cloth.hpp"
 
 #define HAT_TYPE	72
 #define HAT_NAME	"Hat"
+
 
 /**
  * Hat class

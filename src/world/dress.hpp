@@ -23,7 +23,7 @@
 #ifndef DRESS_HPP
 #define DRESS_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "cloth.hpp"
 
 #define DRESS_TYPE	73

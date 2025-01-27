@@ -23,11 +23,12 @@
 #ifndef SLIDER_HPP
 #define SLIDER_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "step.hpp"
 
 #define SLIDER_TYPE	78
 #define SLIDER_NAME	"Slider"
+
 
 /**
  * Slider class

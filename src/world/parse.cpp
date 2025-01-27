@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "parse.hpp"	// Parse
-#include "wobject.hpp"	// Object
+#include "object.hpp"	// Object
 #include "world.hpp"	// current
 #include "solid.hpp"	// Solid
 #include "color.hpp"	// getRGB

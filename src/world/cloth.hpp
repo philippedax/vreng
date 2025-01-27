@@ -23,7 +23,7 @@
 #ifndef CLOTH_HPP
 #define CLOTH_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include <list>
 
 #define CLOTH_TYPE	70

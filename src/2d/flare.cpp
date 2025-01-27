@@ -28,7 +28,7 @@
 #include "flare.hpp"
 #include "texture.hpp"	// open
 #include "img.hpp"	// Img
-#include "wobject.hpp"	// Pos
+#include "object.hpp"	// Pos
 #include "user.hpp"	// localuser
 
 

@@ -23,7 +23,7 @@
 #ifndef LIFT_HPP
 #define LIFT_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define LIFT_TYPE	50
 #define LIFT_NAME	"Lift"

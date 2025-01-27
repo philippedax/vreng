@@ -27,7 +27,7 @@
 #define SMOKE_NAME 	"Smoke"
 
 #include "vector3.hpp"
-#include "wobject.hpp"
+#include "object.hpp"
 #include <vector>
 
 #define SMOKE_NB	100	// number max of particles
@@ -40,12 +40,12 @@
  * PSmoke class
  */
 class PSmoke {
-private:
+ private:
   float ang[SMOKE_NA];	///< angles of octagon.
   float siz;		///< size of side.
   float speed;		///< speed of particle.
 
-public:
+ public:
   Vector3 loc;		///< location.
   Vector3 vel;		///< velocity.
   Vector3 acc;		///< acceleration.
@@ -63,7 +63,7 @@ public:
  * Smoke class
  */
 class Smoke: public Object {
-public:
+ public:
   static const OClass oclass;		///< class variable.
   const OClass* getOClass() {return &oclass;}
 
@@ -79,7 +79,7 @@ public:
 
   void render();
 
-private:
+ private:
   uint16_t npmax;	///< number max of particles.
   uint16_t np;		///< number of particles.
   float speed;		///< speed of particle.

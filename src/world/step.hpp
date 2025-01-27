@@ -23,7 +23,7 @@
 #ifndef STEP_HPP
 #define STEP_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include <vector>
 
 #define STEP_TYPE	6

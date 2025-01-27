@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "texture.hpp"
 #include "img.hpp"	// Img
-#include "wobject.hpp"	// Object
+#include "object.hpp"	// Object
 #include "http.hpp"	// httpOpen
 #include "url.hpp"	// check
 #include "format.hpp"	// getLoaderByMime

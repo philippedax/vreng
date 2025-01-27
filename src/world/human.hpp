@@ -23,7 +23,7 @@
 #ifndef HUMAN_HPP
 #define HUMAN_HPP
 
-#include "wobject.hpp"	// Pos
+#include "object.hpp"	// Pos
 
 #define HUMAN_TYPE 84
 #define HUMAN_NAME "Human"

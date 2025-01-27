@@ -23,7 +23,7 @@
 #ifndef DOOR_HPP
 #define DOOR_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define DOOR_TYPE	3
 #define DOOR_NAME	"Door"

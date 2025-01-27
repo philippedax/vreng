@@ -29,7 +29,7 @@
 #ifndef _3DS_HPP
 #define _3DS_HPP
 
-#include "wobject.hpp"	// Pos
+#include "object.hpp"	// Pos
 #include "vec3.hpp"	// Vec3
 #include <vector>
 

@@ -23,7 +23,7 @@
 #ifndef WINGS_HPP
 #define WINGS_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "cloth.hpp"
 
 #define WINGS_TYPE	74

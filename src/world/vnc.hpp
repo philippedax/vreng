@@ -44,7 +44,7 @@
 #define VNC_TYPE	35
 #define VNC_NAME	"Vnc"
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "vnccli.hpp"
 #include "vncauth.hpp"
 #include "gui.hpp"	// needed for X11

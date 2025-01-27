@@ -26,7 +26,7 @@
 #define SPOT_TYPE	88
 #define SPOT_NAME	"Spot"
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 
 /**

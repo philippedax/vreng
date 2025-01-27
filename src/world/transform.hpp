@@ -23,7 +23,7 @@
 #ifndef TRANSFORM_HPP
 #define TRANSFORM_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define TRANSFORM_TYPE	51
 #define TRANSFORM_NAME	"Transform"

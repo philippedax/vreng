@@ -23,7 +23,7 @@
 #ifndef WIND_HPP
 #define WIND_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define WIND_TYPE	54
 #define WIND_NAME	"Wind"

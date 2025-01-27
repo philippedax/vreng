@@ -23,11 +23,12 @@
 #ifndef TRAVOLATOR_HPP
 #define TRAVOLATOR_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "step.hpp"
 
 #define TRAVOLATOR_TYPE	60
 #define TRAVOLATOR_NAME	"Travolator"
+
 
 /**
  * Travolator class

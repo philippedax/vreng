@@ -26,7 +26,7 @@
 #define WALLS_TYPE 20
 #define WALLS_NAME "walls"
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 
 /**

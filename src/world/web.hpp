@@ -23,7 +23,7 @@
 #ifndef WEB_HPP
 #define WEB_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define WEB_TYPE	11
 #define WEB_NAME	"Web"

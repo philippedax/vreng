@@ -23,7 +23,7 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define MODEL_TYPE 	46
 #define MODEL_NAME 	"Model"

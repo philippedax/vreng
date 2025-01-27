@@ -23,7 +23,7 @@
 #ifndef RIVER_HPP
 #define RIVER_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define RIVER_TYPE	68
 #define RIVER_NAME	"River"

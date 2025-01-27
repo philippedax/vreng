@@ -23,7 +23,7 @@
 #ifndef CLOUD_HPP
 #define CLOUD_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define CLOUD_TYPE	57
 #define CLOUD_NAME	"Cloud"

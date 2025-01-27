@@ -23,7 +23,7 @@
 #ifndef HOST_HPP
 #define HOST_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define HOST_TYPE	17
 #define HOST_NAME	"Host"

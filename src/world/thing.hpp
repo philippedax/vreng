@@ -23,7 +23,7 @@
 #ifndef THING_HPP
 #define THING_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define THING_TYPE	4
 #define THING_NAME	"Thing"

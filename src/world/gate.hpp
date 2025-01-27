@@ -23,7 +23,7 @@
 #ifndef GATE_HPP
 #define GATE_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define GATE_TYPE	8
 #define GATE_NAME	"Gate"

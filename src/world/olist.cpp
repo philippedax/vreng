@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "olist.hpp"
-#include "wobject.hpp"	// Object
+#include "object.hpp"	// Object
 #include "stat.hpp"	// new_olist, del_olist
 
 #include <list>

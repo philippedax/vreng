@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "ai.hpp"
-#include "wobject.hpp"
+#include "object.hpp"
 #include "gui.hpp"	// getClicked
 #include "world.hpp"	// current()
 #include "cache.hpp"	// setCachePath

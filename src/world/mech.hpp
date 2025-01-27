@@ -23,7 +23,7 @@
 #ifndef MECH_HPP
 #define MECH_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define MECH_TYPE 33
 #define MECH_NAME "Mech"

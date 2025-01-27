@@ -24,7 +24,7 @@
 #define FRACTAL_HPP
 
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define FRACTAL_TYPE	83
 #define FRACTAL_NAME	"fractal"

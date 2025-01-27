@@ -23,7 +23,7 @@
 #ifndef PROJECTILE_HPP
 #define PROJECTILE_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define PROJECTILE_TYPE	14
 #define PROJECTILE_NAME	"Projectile"

@@ -23,7 +23,7 @@
 #ifndef RAIN_HPP
 #define RAIN_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "particle.hpp"
 
 #define RAIN_TYPE	64

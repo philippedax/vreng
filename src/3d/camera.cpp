@@ -26,7 +26,7 @@
 #include "render.hpp"
 #include "scene.hpp"	// getScene, setScene
 #include "solid.hpp"	// Solid
-#include "wobject.hpp"	// Object
+#include "object.hpp"	// Object
 #include "world.hpp"	// current
 #include "user.hpp"	// USER_TYPE
 #include "glu.hpp"	// gluProject alternative

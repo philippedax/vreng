@@ -23,7 +23,7 @@
 #ifndef LIGHT_HPP
 #define LIGHT_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include <list>
 
 #define LIGHT_TYPE	23

@@ -26,7 +26,7 @@
 #define FOG_TYPE	87
 #define FOG_NAME	"Fog"
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 /**
  * Fog class

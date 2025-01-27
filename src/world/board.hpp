@@ -23,7 +23,7 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define BOARD_TYPE	18
 #define BOARD_NAME	"Board"

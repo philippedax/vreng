@@ -23,7 +23,7 @@
 #ifndef PARTICLE_HPP
 #define PARTICLE_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define PARTICLE_TYPE	31
 #define PARTICLE_NAME	"Particle"

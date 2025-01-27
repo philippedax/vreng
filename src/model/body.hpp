@@ -23,7 +23,7 @@
 #ifndef BODY_HPP
 #define BODY_HPP
 
-#include "wobject.hpp"	// Pos
+#include "object.hpp"	// Pos
 #include "bap.hpp"
 #include "fap.hpp"
 #include "off.hpp"	// Off

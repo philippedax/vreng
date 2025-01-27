@@ -23,7 +23,7 @@
 #ifndef MOVIE_HPP
 #define MOVIE_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define MOVIE_TYPE	25
 #define MOVIE_NAME	"Movie"

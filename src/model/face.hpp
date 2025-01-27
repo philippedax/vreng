@@ -31,7 +31,7 @@
 #ifndef FACE_HPP
 #define FACE_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"	// Pos
 #include "bone.hpp"	// The bone class
 
 #include <list>

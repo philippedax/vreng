@@ -26,7 +26,7 @@
 #define FIRE_TYPE 	75
 #define FIRE_NAME 	"Fire"
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "vector3.hpp"
 
 

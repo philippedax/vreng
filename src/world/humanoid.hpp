@@ -23,7 +23,7 @@
 #ifndef HUMANOID_HPP
 #define HUMANOID_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define HUMANOID_TYPE 40
 #define HUMANOID_NAME "Humanoid"

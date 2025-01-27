@@ -26,7 +26,7 @@
 #define WATER_TYPE 	32
 #define WATER_NAME 	"Water"
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 
 /**

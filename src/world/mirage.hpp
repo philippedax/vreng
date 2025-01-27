@@ -23,7 +23,7 @@
 #ifndef MIRAGE_HPP
 #define MIRAGE_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define MIRAGE_TYPE	7
 #define MIRAGE_NAME	"Mirage"

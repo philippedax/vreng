@@ -23,7 +23,7 @@
 #ifndef DOWNLOAD_HPP
 #define DOWNLOAD_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define DOWNLOAD_TYPE	28
 #define DOWNLOAD_NAME	"Download"

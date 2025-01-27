@@ -23,7 +23,7 @@
 #ifndef BGCOLOR_HPP
 #define BGCOLOR_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define BGCOLOR_TYPE	22
 #define BGCOLOR_NAME	"Bgcolor"

@@ -23,7 +23,7 @@
 #ifndef DOC_HPP
 #define DOC_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define DOC_TYPE	19
 #define DOC_NAME	"Doc"

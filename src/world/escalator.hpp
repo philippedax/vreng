@@ -23,7 +23,7 @@
 #ifndef ESCALATOR_HPP
 #define ESCALATOR_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "step.hpp"
 
 #define ESCALATOR_TYPE	59

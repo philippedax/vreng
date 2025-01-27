@@ -23,7 +23,7 @@
 #ifndef GUIDE_HPP
 #define GUIDE_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define GUIDE_TYPE	48
 #define GUIDE_NAME	"guide"

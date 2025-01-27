@@ -30,7 +30,7 @@
 #include "netprop.hpp"	// NetProperty
 #include "channel.hpp"	// Channel
 #include "oclass.hpp"	// isValidType
-#include "wobject.hpp"	// Object
+#include "object.hpp"	// Object
 #include "stat.hpp"	// new_netobj
 
 #include <list>

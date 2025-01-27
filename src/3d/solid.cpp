@@ -27,7 +27,7 @@
 #include "vreng.hpp"
 #include "solid.hpp"
 #include "draw.hpp"	// STYLE
-#include "wobject.hpp"	// Object
+#include "object.hpp"	// Object
 #include "parse.hpp"	// printNumline
 #include "format.hpp"	// getModelByUrl
 #include "stat.hpp"	// new_solid

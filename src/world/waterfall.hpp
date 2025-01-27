@@ -23,7 +23,7 @@
 #ifndef WATERFALL_HPP
 #define WATERFALL_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "particle.hpp"
 
 #define WATERFALL_TYPE	62

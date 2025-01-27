@@ -23,7 +23,7 @@
 #ifndef ACCESSORY_HPP
 #define ACCESSORY_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "cloth.hpp"
 
 #define ACCESSORY_TYPE	80
@@ -33,7 +33,6 @@
  * Accessory class
  */
 class Accessory: public Cloth {
-
  public:
   static const OClass oclass;	///< class variable.
 

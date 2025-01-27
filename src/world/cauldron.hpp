@@ -23,7 +23,7 @@
 #ifndef CAULDRON_HPP
 #define CAULDRON_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define CAULDRON_TYPE	13
 #define CAULDRON_NAME	"Cauldron"

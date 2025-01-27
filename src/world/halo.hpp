@@ -23,7 +23,7 @@
 #ifndef HALO_HPP
 #define HALO_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "cloth.hpp"
 
 #define HALO_TYPE	71

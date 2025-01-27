@@ -26,7 +26,7 @@
 #define BIRD_TYPE	85
 #define BIRD_NAME	"Bird"
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 /**
  * Bird class

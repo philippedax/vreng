@@ -18,12 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-// wobject.cpp
+// object.cpp
 //
 // Objects management
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "wobject.hpp"
+#include "object.hpp"
 #include "matvec.hpp"	// V3 M4
 #include "world.hpp"	// World::current
 #include "user.hpp"	// localuser

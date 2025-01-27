@@ -26,7 +26,7 @@
 #define DRONE_TYPE	86
 #define DRONE_NAME	"Drone"
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 /**
  * Drone class

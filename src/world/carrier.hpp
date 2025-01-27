@@ -23,7 +23,7 @@
 #ifndef CARRIER_HPP
 #define CARRIER_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define CARRIER_TYPE	41
 #define CARRIER_NAME	"Carrier"

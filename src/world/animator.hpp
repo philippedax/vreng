@@ -23,7 +23,7 @@
 #ifndef ANIMATOR_HPP
 #define ANIMATOR_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define ANIMATOR_TYPE	38
 #define ANIMATOR_NAME	"Animator"

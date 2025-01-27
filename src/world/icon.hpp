@@ -23,7 +23,7 @@
 #ifndef ICON_HPP
 #define ICON_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 class Wall;
 

@@ -23,7 +23,7 @@
 #ifndef LWO_HPP
 #define LWO_HPP
 
-#include "wobject.hpp"	// Pos
+#include "object.hpp"	// Pos
 
 #define LW_MAX_NAME_LEN 500
 #define MK_ID(a,b,c,d) ((((uint32_t)(a))<<24)| \
@@ -58,7 +58,6 @@ typedef struct sFace {
  * Lwo class
  */
 class Lwo {
-
  private:
   float *vertex;
   tFace *face;

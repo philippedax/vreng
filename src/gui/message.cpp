@@ -27,7 +27,7 @@
 #include "message.hpp"
 #include "widgets.hpp"	// Widgets gw
 #include "theme.hpp"	// theme
-#include "wobject.hpp"	// Object
+#include "object.hpp"	// Object
 #include "user.hpp"	// userWriting
 #include "render.hpp"	// setCameraScissor
 #include "cache.hpp"	// check

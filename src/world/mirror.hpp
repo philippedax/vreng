@@ -23,7 +23,7 @@
 #ifndef MIRROR_HPP
 #define MIRROR_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define MIRROR_TYPE	29
 #define MIRROR_NAME	"Mirror"

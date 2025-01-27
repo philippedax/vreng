@@ -23,7 +23,7 @@
 #ifndef FLAG_HPP
 #define FLAG_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define FLAG_TYPE 	47
 #define FLAG_NAME 	"Flag"

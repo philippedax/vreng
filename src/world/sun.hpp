@@ -23,10 +23,11 @@
 #ifndef SUN_HPP
 #define SUN_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define SUN_TYPE	69
 #define SUN_NAME	"Sun"
+
 
 /**
  * Sun class

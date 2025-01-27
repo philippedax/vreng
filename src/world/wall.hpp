@@ -26,7 +26,7 @@
 #define WALL_TYPE	9
 #define WALL_NAME	"Wall"
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 
 /**

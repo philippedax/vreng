@@ -23,7 +23,7 @@
 #ifndef AREA_HPP
 #define AREA_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define AREA_TYPE	49
 #define AREA_NAME	"Area"

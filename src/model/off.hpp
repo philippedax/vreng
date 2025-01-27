@@ -23,7 +23,7 @@
 #ifndef OFF_HPP
 #define OFF_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"	// Pos
 
 /**
  * Off class

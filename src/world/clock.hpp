@@ -23,7 +23,7 @@
 #ifndef CLOCK_HPP
 #define CLOCK_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define CLOCK_TYPE	27
 #define	CLOCK_NAME	"Clock"

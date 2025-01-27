@@ -23,7 +23,7 @@
 // Collide management
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "wobject.hpp"
+#include "object.hpp"
 #include "col.hpp"
 #include "matvec.hpp"   // V3 M4
 #include "aoi.hpp"	// AOI_TYPE

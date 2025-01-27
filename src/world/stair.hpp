@@ -23,11 +23,12 @@
 #ifndef STAIR_HPP
 #define STAIR_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "step.hpp"
 
 #define STAIR_TYPE	58
 #define STAIR_NAME	"Stair"
+
 
 /**
  * Stair class

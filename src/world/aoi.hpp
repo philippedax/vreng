@@ -23,7 +23,7 @@
 #ifndef AOI_HPP
 #define AOI_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define AOI_TYPE	52
 #define AOI_NAME	"Aoi"

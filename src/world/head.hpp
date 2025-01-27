@@ -23,13 +23,14 @@
 #ifndef HEAD_HPP
 #define HEAD_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define HEAD_TYPE	81
 #define HEAD_NAME	"Head"
 
 #define LWO_SCALE	0.0028
 #define _3DS_SCALE	0.0220
+
 
 /**
  * Head class

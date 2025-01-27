@@ -26,7 +26,7 @@
 #define VRELET_TYPE	36
 #define VRELET_NAME	"Vrelet"
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "vjc.hpp"
 
 

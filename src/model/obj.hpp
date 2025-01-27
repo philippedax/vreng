@@ -33,7 +33,7 @@
 #include <string>
 #include <vector>
 
-#include "wobject.hpp"
+#include "object.hpp"	// Pos
 #include "vec3.hpp"	// Vec3
 
 #define MAX_TEXTURES 100	// The maximum amount of textures to load

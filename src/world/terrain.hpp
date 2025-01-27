@@ -23,12 +23,13 @@
 #ifndef TERRAIN_HPP
 #define TERRAIN_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define TERRAIN_TYPE	67
 #define TERRAIN_NAME	"Terrain"
 
 typedef struct {GLfloat x; GLfloat y; GLfloat z;} nVect;
+
 
 /**
  * Terrain class

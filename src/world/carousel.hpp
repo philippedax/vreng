@@ -23,7 +23,7 @@
 #ifndef CAROUSEL_HPP
 #define CAROUSEL_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "x3d.hpp"
 
 #define CAROUSEL_TYPE	53

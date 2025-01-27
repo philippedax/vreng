@@ -23,7 +23,7 @@
 #ifndef CART_HPP
 #define CART_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include <vector>
 
 #define CART_TYPE	42

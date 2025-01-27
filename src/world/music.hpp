@@ -23,7 +23,7 @@
 #ifndef MUSIC_HPP
 #define MUSIC_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 #define MUSIC_TYPE	24
 #define MUSIC_NAME	"Music"

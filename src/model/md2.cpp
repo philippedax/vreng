@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "md2.hpp"
-#include "wobject.hpp"	// Pos
+#include "object.hpp"	// Pos
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// open, close
 #include "file.hpp"	// read_*

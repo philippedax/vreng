@@ -25,7 +25,7 @@
 
 #include <string>
 #include <list>
-#include "wobject.hpp"
+#include "object.hpp"
 
 
 /**

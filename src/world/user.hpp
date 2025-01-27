@@ -23,7 +23,7 @@
 #ifndef USER_HPP
 #define USER_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 #include "move.hpp"	// MAXKEYS
 
 #define USER_TYPE	1

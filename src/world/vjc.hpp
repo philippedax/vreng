@@ -23,12 +23,11 @@
 #ifndef VJC_HPP
 #define VJC_HPP
 
+#include "object.hpp"
+
 #define VJC_TYPE	37
 #define VJC_NAME	"Vjc"
-
 #define DEF_URL_JAR	"/jar/vrengapp.jar"	// jar vjs server
-
-#include "wobject.hpp"
 
 //****************************************** begin of unviolable code
 // DON'T MODIFY THE FOLLOWING CONSTANTS !!!

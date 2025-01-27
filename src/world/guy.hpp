@@ -23,7 +23,7 @@
 #ifndef GUY_HPP
 #define GUY_HPP
 
-#include "wobject.hpp"
+#include "object.hpp"
 
 class Http;
 
