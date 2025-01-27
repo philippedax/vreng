@@ -637,7 +637,7 @@ class Object {
   /**< Sets an object name. */
 
   //
-  // Initializations (see wobject.cpp)
+  // Initializations (see object.cpp)
   //
  protected:
   void defaults()	{};

@@ -3340,3 +3340,4 @@
 3340 Lun 27 jan 2025 13:44:31 CET	rename WO to Object *pp
 3341 Lun 27 jan 2025 17:06:26 CET	cleanup include "wobject.hpp" *pp
 3342 Lun 27 jan 2025 18:31:27 CET	rename wobject.*pp to object.*pp *pp
+3343 Lun 27 jan 2025 19:03:58 CET	rename object() to getObject() *pp

@@ -117,7 +117,7 @@ void Humanoid::inits()
   bapparams = 186;
 
   body = new Body();
-  body->wobject = this;
+  body->object = this;
 
   body->bap = bap;
   body->setColors(skin, cloth);

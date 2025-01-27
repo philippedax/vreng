@@ -669,9 +669,9 @@ void Body::loadBodyParts(FILE *f)
     l = strtok(NULL, TOK_SEP);		// next token
     while (l) {
       if      (! stringcmp(l, "scale="))
-        l = wobject->parse()->parseFloat(l, &bd_scale, "scale");
+        l = object->parse()->parseFloat(l, &bd_scale, "scale");
       else if (! stringcmp(l, "tex="))
-        l = wobject->parse()->parseString(l, tex, "tex");
+        l = object->parse()->parseString(l, tex, "tex");
     }
   }
 
@@ -708,25 +708,25 @@ void Body::loadBodyParts(FILE *f)
         }
         else if (*l == '/') break;  // eol
         else if (! stringcmp(l, "url=")) {
-          l = wobject->parse()->parseString(l, bd_parts[i].url, "url");
+          l = object->parse()->parseString(l, bd_parts[i].url, "url");
           bd_draws++;
         }
         else if (! stringcmp(l, "scale=")) {
-          l = wobject->parse()->parseFloat(l, &bd_parts[i].scale, "scale");
+          l = object->parse()->parseFloat(l, &bd_parts[i].scale, "scale");
           bd_parts[i].scales[0] = bd_parts[i].scale;
           bd_parts[i].scales[1] = bd_parts[i].scale;
           bd_parts[i].scales[2] = bd_parts[i].scale;
         }
         else if (! stringcmp(l, "scalex="))
-          l = wobject->parse()->parseFloat(l, &bd_parts[i].scales[0],"scalex");
+          l = object->parse()->parseFloat(l, &bd_parts[i].scales[0],"scalex");
         else if (! stringcmp(l, "scaley="))
-          l = wobject->parse()->parseFloat(l, &bd_parts[i].scales[1],"scaley");
+          l = object->parse()->parseFloat(l, &bd_parts[i].scales[1],"scaley");
         else if (! stringcmp(l, "scalez="))
-          l = wobject->parse()->parseFloat(l, &bd_parts[i].scales[2],"scalez");
+          l = object->parse()->parseFloat(l, &bd_parts[i].scales[2],"scalez");
         else if (! stringcmp(l, "color="))
-          l = wobject->parse()->parseVector3f(l, bd_parts[i].color, "color");
+          l = object->parse()->parseVector3f(l, bd_parts[i].color, "color");
         else if (! stringcmp(l, "tex="))
-          l = wobject->parse()->parseString(l, bd_parts[i].texurl, "tex");
+          l = object->parse()->parseString(l, bd_parts[i].texurl, "tex");
       } end_while_parse(l);
     }
   }

@@ -95,7 +95,7 @@ const OClass * OClass::getOClass(uint8_t type_id)
   return otable[type_id];
 }
 
-/** Returns a wobject creator */
+/** Returns a object creator */
 Object * OClass::creatorInstance(uint8_t type_id, char *l)
 {
   if (! isValidType(type_id)) {
@@ -106,7 +106,7 @@ Object * OClass::creatorInstance(uint8_t type_id, char *l)
   return otable[type_id]->creator(l);
 }
 
-/** Returns a wobject replicator */
+/** Returns a object replicator */
 Object * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
 {
   if (! isValidType(type_id)) {
