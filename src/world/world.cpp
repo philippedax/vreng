@@ -24,7 +24,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "world.hpp"
-#include "wobject.hpp"	// Object
 #include "http.hpp"	// httpOpen httpRead
 #include "user.hpp"	// USER_TYPE
 #include "cache.hpp"	// setCachePath

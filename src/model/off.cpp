@@ -25,7 +25,6 @@
 #include "vreng.hpp"
 #include "off.hpp"
 #include "http.hpp"	// Http::httpOpen
-#include "wobject.hpp"	// Pos
 #include "cache.hpp"	// open, close
 
 

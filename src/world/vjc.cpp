@@ -25,9 +25,8 @@
 // should be compiled with ./configure --enable-vjs
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "wobject.hpp"
 #include "vjc.hpp"
-#include "matvec.hpp"   // V3 M4
+#include "matvec.hpp"   // V3
 #include "socket.hpp"	// setNoBlocking
 #include "nsl.hpp"	// my_getgethostbyname
 #include "netobj.hpp"	// NetObj

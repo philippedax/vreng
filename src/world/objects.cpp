@@ -23,7 +23,6 @@
 // Objects handling
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "wobject.hpp"
 #include "world.hpp"
 
 /***    object includes    ***/

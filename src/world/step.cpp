@@ -39,7 +39,7 @@ const float Step::LSPEED = 0.5;	// 1/2 ms
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Step::creator(char *l)
 {
   return new Step(l);
@@ -205,7 +205,7 @@ Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _m
   }
 }
 
-/* creation from Gui addobj */
+/** creation from Gui addobj */
 Step::Step(Object *user, char *geom)
 {
   parseSolid(geom);
@@ -213,7 +213,7 @@ Step::Step(Object *user, char *geom)
   inits();
   enableBehavior(DYNAMIC);
 
-  /* position in front of localuser */
+  // position in front of localuse/
   pos.x = user->pos.x + 0.7;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
@@ -309,7 +309,7 @@ bool Step::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-/* object intersects: up */
+/** object intersects: up */
 bool Step::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {

@@ -27,8 +27,6 @@
 #include <list>
 #include "wobject.hpp"
 
-class User;
-class Solid;
 
 /**
  * Vicinity class
@@ -68,13 +66,13 @@ class Vicinity {
 
   Object *obj;
   std::string objName;
-  User *user;
+  class User *user;
   Dist userDist;
   Size userSize;
   Size objSize;
   Vicin* viciList;
   VisuPos* visuList;
-  std::list<Solid*> solidLst; ///< solids list
+  std::list<class Solid*> solidLst; ///< solids list
   int listsize;
   int visuListSize;
 

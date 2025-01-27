@@ -23,15 +23,16 @@
 // Transforms vreng coordinates to OpenGl coordinates
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "wobject.hpp"
+#include "wobject.hpp"	// Object
 #include "matvec.hpp"   // V3 M4
 #include "solid.hpp"	// Solid
 #include "render.hpp"	// ::g.render
 #include "user.hpp"	// localuser
+
 #include <list>
 
 
-/* Updates objects in 3D */
+/** Updates objects in 3D */
 void Object::updateAll3D(Pos &pos)
 {
   if (! solid || removed) return;
@@ -64,7 +65,7 @@ void Object::update3D(Pos &pos)
   }
 }
 
-/* Updates camera in 3D */
+/** Updates camera in 3D */
 void Object::updateCamera(Pos &pos)
 {
 #if 1 //dax
@@ -89,7 +90,7 @@ void Object::updateCamera(Pos &pos)
   ::g.render.setCameraPosition(&matcam);
 }
 
-/* Returns three vectors (v, w, n) that describe the object's surface */
+/** Returns three vectors (v, w, n) that describe the object's surface */
 void Object::getSurfVecs(Pos &pos, V3 *v, V3 *w, V3 *normal)
 {
   M4 rot = mulM4(rotM4(pos.az, UZ), rotM4(pos.ax, UX));

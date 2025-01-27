@@ -3337,3 +3337,4 @@
 3337 Jeu 23 jan 2025 16:37:54 CET	cleanup cretaSheet book.*pp
 3338 Jeu 23 jan 2025 16:55:46 CET	cleanup action joystick.*pp
 3339 Jeu 23 jan 2025 17:13:23 CET	cleanup doAction book.cpp
+3340 Lun 27 jan 2025 13:44:31 CET	rename WO to Object *pp

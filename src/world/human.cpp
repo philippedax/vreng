@@ -26,7 +26,6 @@
 //-------------------------------------------------------------------
 #include "vreng.hpp"
 #include "human.hpp"
-#include "wobject.hpp"
 #include "user.hpp"	// localuser
 #include "pref.hpp"	// Pref
 
