@@ -331,7 +331,7 @@ int Parse::parseVreFile(char *buf, int buflen)
         continue;
       }
 
-      Object *wobject = NULL;
+      Object *object = NULL;
       uint8_t tid = parseLine(line, &tag_id);
 
       switch (tid) {
@@ -375,7 +375,7 @@ int Parse::parseVreFile(char *buf, int buflen)
             strcpy(line, "pop ");	// </local>
           }
           //trace1(DBG_FORCE, "LOCAL: type=%d line=%s", tag_id, line);
-          if (! (wobject = OClass::creatorInstance(tag_id, line))) {
+          if (! (object = OClass::creatorInstance(tag_id, line))) {
 	    return -1;
           }
           break;
@@ -411,7 +411,7 @@ int Parse::parseVreFile(char *buf, int buflen)
             ::g.timer.object.start();
 
             // call the creator() method of this object with object attributes
-            if (! (wobject = OClass::creatorInstance(tag_id, attr))) {
+            if (! (object = OClass::creatorInstance(tag_id, attr))) {
               error("parse error at line %d (creator), type=%d line=%s", numline, tag_id, line);
               return -1;
             }
@@ -466,26 +466,26 @@ char * Parse::skipAttribute(char *l)
  *   name pos url solid category description
  *   be carefull : the line has been tokenized by separators TOK_SEP=" ,<>\t\n"
  */
-char * Parse::parseAttributes(char *l, Object *wobject)
+char * Parse::parseAttributes(char *l, Object *object)
 {
   while (l) {
     if      (! stringcmp(l, "name=")) {
-      if (! wobject->name.given)
-        wobject->name.given = new char[OBJNAME_LEN];	// alloc name.given
-      l = parseName(l, wobject->name.given);
+      if (! object->name.given)
+        object->name.given = new char[OBJNAME_LEN];	// alloc name.given
+      l = parseName(l, object->name.given);
     }
     else if (! stringcmp(l, "pos=")) {
-      l = parsePosition(l, wobject->pos);
+      l = parsePosition(l, object->pos);
       continue;
     }
     else if ( ! stringcmp(l, "solid") || ! stringcmp(l, "geom") ) {
-      l = parseSolid(l, wobject);
+      l = parseSolid(l, object);
     }
     else if (! stringcmp(l, "category=")) {
-      l = parseDescr(l, wobject->name.category);
+      l = parseDescr(l, object->name.category);
     }
     else if ( ! stringcmp(l, "descr=") || ! stringcmp(l, "description=") ) {
-      l = parseDescr(l, wobject->name.infos);
+      l = parseDescr(l, object->name.infos);
     }
     else if (! strcmp(l, "/")) {
       l = nextToken();
@@ -675,7 +675,7 @@ char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
  * tag <solid || <geom
  * creates a solid and calls its parser
  */
-char * Parse::parseSolid(char *ptok, Object *wobject)
+char * Parse::parseSolid(char *ptok, Object *object)
 {
   if ( !ptok || !strlen(ptok) ) {
     error("parse error at line %d (no solid)", numline-1);
@@ -688,11 +688,11 @@ char * Parse::parseSolid(char *ptok, Object *wobject)
 
   Solid *solid = new Solid();	// creates the solid
 
-  if (wobject) {
-    wobject->addSolid(solid);	// add solid to solidList
+  if (object) {
+    object->addSolid(solid);	// add solid to solidList
   }
   else {
-    error("parseSolid: no wobject");
+    error("parseSolid: no object");
   }
 
   //
@@ -703,19 +703,19 @@ char * Parse::parseSolid(char *ptok, Object *wobject)
 }
 
 /** Parses a solid */
-char * Parse::parseSolid(char *ptok, const char *sep, Object *wobject)
+char * Parse::parseSolid(char *ptok, const char *sep, Object *object)
 {
   if (*ptok == '<') ptok++;
   strtok(ptok, sep);
-  return parseSolid(ptok, wobject);
+  return parseSolid(ptok, object);
 }
 
 /** Parses several solids */
-void Parse::parseSolids(char *ptok, const char *sep, Object *wobject)
+void Parse::parseSolids(char *ptok, const char *sep, Object *object)
 {
   strtok(ptok, sep);		// a solid is tokenized
   while (ptok) {
-    ptok = parseSolid(ptok, wobject);
+    ptok = parseSolid(ptok, object);
   }
 }
 

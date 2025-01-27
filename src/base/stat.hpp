@@ -45,8 +45,8 @@ void statSessionRTP(class Session *session);
 void statKbps();
 
 /*** memory ***/
-extern uint32_t new_wobject;
-extern uint32_t del_wobject;
+extern uint32_t new_object;
+extern uint32_t del_object;
 extern uint32_t new_world;
 extern uint32_t del_world;
 extern uint32_t new_solid;

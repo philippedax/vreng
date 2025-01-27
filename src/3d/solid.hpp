@@ -228,7 +228,7 @@ static const uint8_t FRAME_MAX;		// 255
     PROGRESS
   };
 
-  class Object	*wobject;	///< Object parent.
+  class Object	*object;	///< Object parent.
   class Texture *texture;	///< texture if exists.
   GLint*	dlists;		///< cached display list.
   GLint		ray_dlist;	///< ray display list.
@@ -237,7 +237,7 @@ static const uint8_t FRAME_MAX;		// 255
   virtual ~Solid();		///< destructor.
 
   // Accessors
-  Object* object() const;
+  Object* getObject() const;
   /**< Returns the associated Object. */
 
   void getDimBB(V3& bbsize) const;

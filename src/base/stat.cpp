@@ -31,8 +31,8 @@
 // global
 
 /*** memory ***/
-uint32_t new_wobject;
-uint32_t del_wobject;
+uint32_t new_object;
+uint32_t del_object;
 uint32_t new_world;
 uint32_t del_world;
 uint32_t new_solid;
@@ -237,7 +237,7 @@ void statMemory(FILE *fout)
 {
   fprintf(fout, "### Memory (new/delete) ###\n");
 
-  fprintf(fout, "WO      : n=%8d d=%8d\n", new_wobject, del_wobject);
+  fprintf(fout, "Object  : n=%8d d=%8d\n", new_object, del_object);
   fprintf(fout, "World   : n=%8d d=%8d\n", new_world, del_world);
   fprintf(fout, "Channel : n=%8d d=%8d\n", new_channel, del_channel);
   fprintf(fout, "Session : n=%8d d=%8d\n", new_session, del_session);

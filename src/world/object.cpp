@@ -35,7 +35,7 @@
 #include "payload.hpp"	// Payload
 #include "carrier.hpp"	// carrier->take
 #include "render.hpp"	// getVisiblePosition
-#include "stat.hpp"	// new_wobject
+#include "stat.hpp"	// new_object
 #include "timer.hpp"	// ::g.timer
 
 #include <list>
@@ -59,7 +59,7 @@ static struct Hash hashtable[NAME_HASH_SIZE];
 /** Object constructor */
 Object::Object()
 {
-  new_wobject++;
+  new_object++;
 
   netop = NULL;
   guip = NULL;
@@ -142,7 +142,7 @@ Object::~Object()
     delete netop;
     netop = NULL;
   }
-  del_wobject++;
+  del_object++;
 }
 
 /** Initializes Object. */
@@ -432,7 +432,7 @@ void Object::setReflexive(bool flag)
 void Object::addSolid(Solid* psolid)
 {
   _solidList.push_back(psolid);	// add solid to solidList
-  psolid->wobject = this;	// Solid is friend of Object
+  psolid->object = this;	// Solid is friend of Object
   solid = psolid;		// keep solid pointer in Object
 }
 
@@ -441,7 +441,7 @@ void Object::delSolids()
 {
   std::list<Solid*> solList = ::g.render.getSolidList();
   for (std::list<Solid*>::iterator it = solList.begin(); it != solList.end(); ++it) {
-    if ((*it)->wobject == this) {
+    if ((*it)->object == this) {
       delete *it;
     }
   }
@@ -1115,7 +1115,7 @@ OList * Object::delOList(OList *olist)
   return front;
 }
 
-/** Gets wobject by its number - static */
+/** Gets object by its number - static */
 Object * Object::byNum(uint16_t num)
 {
   for (std::vector<Object*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {

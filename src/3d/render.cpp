@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "render.hpp"
-#include "solid.hpp"	// Solid, object()
+#include "solid.hpp"	// Solid, getObject()
 #include "scene.hpp"	// getScene
 #include "texture.hpp"	// init
 #include "object.hpp"	// Object
@@ -213,12 +213,12 @@ void Render::renderOpaque(bool mini)
 
   for (std::list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
-    recordObject((*it)->object());		// records the name before displaying it
+    recordObject((*it)->getObject());		// records the name before displaying it
 
-    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
-      trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
-      (*it)->object()->render();
-      if ((*it)->object()->isBehavior(MIX_RENDER)) {	// mix render
+    if ((*it)->getObject()->isBehavior(SPECIFIC_RENDER)) {	// specific render
+      trace2(DBG_3D, " %s:%.1f", (*it)->getObject()->objectName(), (*it)->userdist);
+      (*it)->getObject()->render();
+      if ((*it)->getObject()->isBehavior(MIX_RENDER)) {	// mix render
         (*it)->displaySolid(Solid::OPAQUE);
       }
     }
@@ -229,12 +229,12 @@ void Render::renderOpaque(bool mini)
       else {					// multi solids
         glPushMatrix();
         (*it)->displaySolid(Solid::OPAQUE);	// main solid first
-        trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*it)->object()->objectName(), (*it)->userdist, (*it)->surfsize, (*it)->nbsolids);
+        trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*it)->getObject()->objectName(), (*it)->userdist, (*it)->surfsize, (*it)->nbsolids);
 
         for (std::list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::OPAQUE);
           (*jt)->rendered = true;
-          trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*jt)->object()->objectName(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
+          trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*jt)->getObject()->objectName(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
         }
         glPopMatrix();
       }
@@ -252,7 +252,7 @@ void Render::renderTransparent(bool mini)
     if ( (*it)->opaque == false &&
          (*it)->visible &&
          ! (*it)->rendered &&
-         ! (*it)->object()->removed ) {
+         ! (*it)->getObject()->removed ) {
       transparentList.push_back(*it);	// add to transparent list
     }
   }
@@ -265,29 +265,29 @@ void Render::renderTransparent(bool mini)
 
   // render transparentList
   for (std::list<Solid*>::iterator it = transparentList.begin(); it != transparentList.end() ; ++it) {
-    recordObject((*it)->object());	// records the name before displaying it
+    recordObject((*it)->getObject());	// records the name before displaying it
 
-    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      (*it)->object()->render();
-      if ((*it)->object()->isBehavior(MIX_RENDER)) {	// mix render
+    if ((*it)->getObject()->isBehavior(SPECIFIC_RENDER)) {
+      (*it)->getObject()->render();
+      if ((*it)->getObject()->isBehavior(MIX_RENDER)) {	// mix render
         (*it)->displaySolid(Solid::TRANSPARENT);
       }
-      trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
+      trace2(DBG_3D, " %s:%.1f", (*it)->getObject()->objectName(), (*it)->userdist);
     }
     else {
       if ((*it)->nbsolids == 1) {	// mono solid
         (*it)->displaySolid(Solid::TRANSPARENT);
-        trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
+        trace2(DBG_3D, " %s:%.1f", (*it)->getObject()->objectName(), (*it)->userdist);
       }
       else {				// multi solids
         glPushMatrix();
         (*it)->displaySolid(Solid::TRANSPARENT);
-        trace2(DBG_3D, " %s:%.1f#%d", (*it)->object()->objectName(), (*it)->userdist, (*it)->nbsolids);
+        trace2(DBG_3D, " %s:%.1f#%d", (*it)->getObject()->objectName(), (*it)->userdist, (*it)->nbsolids);
 
         for (std::list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::TRANSPARENT);
           (*jt)->rendered = true;
-          trace2(DBG_3D, " %s:%.1f#%d", (*jt)->object()->objectName(), (*jt)->userdist, (*jt)->nbsolids);
+          trace2(DBG_3D, " %s:%.1f#%d", (*jt)->getObject()->objectName(), (*jt)->userdist, (*jt)->nbsolids);
         }
         glPopMatrix();
       }
@@ -303,15 +303,15 @@ void Render::renderGround()
   groundList.sort(compDist);		// sort distances decreasingly
   for (std::list<Solid*>::iterator it = groundList.begin(); it != groundList.end() ; ++it) {
     materials();
-    recordObject((*it)->object());	// records the name before displaying it
-    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      (*it)->object()->render();
+    recordObject((*it)->getObject());	// records the name before displaying it
+    if ((*it)->getObject()->isBehavior(SPECIFIC_RENDER)) {
+      (*it)->getObject()->render();
     }
     else {
       (*it)->displaySolid(Solid::OPAQUE);
     }
     (*it)->rendered = true;
-    trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
+    trace2(DBG_3D, " %s:%.1f", (*it)->getObject()->objectName(), (*it)->userdist);
   }
 }
 
@@ -322,16 +322,16 @@ void Render::renderModel()
   modelList.sort(compDist);		// sort distances decreasingly
   for (std::list<Solid*>::iterator it = modelList.begin(); it != modelList.end() ; ++it) {
     materials();
-    recordObject((*it)->object());	// records the name before displaying it
-    //ok echo("%s", (*it)->object()->objectName());
-    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      (*it)->object()->render();
+    recordObject((*it)->getObject());	// records the name before displaying it
+    //ok echo("%s", (*it)->getObject()->objectName());
+    if ((*it)->getObject()->isBehavior(SPECIFIC_RENDER)) {
+      (*it)->getObject()->render();
     }
     else {
       (*it)->displaySolid(Solid::OPAQUE);
     }
     (*it)->rendered = true;
-    trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
+    trace2(DBG_3D, " %s:%.1f", (*it)->getObject()->objectName(), (*it)->userdist);
   }
 }
 
@@ -340,16 +340,16 @@ void Render::renderUser()
 {
   trace2(DBG_3D, "\nuser: ");
   for (std::list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
-    recordObject((*it)->object());	// records the name before displaying it
-    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      //echo("specific: %s/%s", (*it)->object()->typeName(), (*it)->object()->objectName());
-      (*it)->object()->render();
+    recordObject((*it)->getObject());	// records the name before displaying it
+    if ((*it)->getObject()->isBehavior(SPECIFIC_RENDER)) {
+      //echo("specific: %s/%s", (*it)->getObject()->typeName(), (*it)->getObject()->objectName());
+      (*it)->getObject()->render();
     }
     else {
       (*it)->displaySolid(Solid::USER);
     }
     (*it)->rendered = true;
-    trace2(DBG_3D, " %s", (*it)->object()->objectName());
+    trace2(DBG_3D, " %s", (*it)->getObject()->objectName());
     break;	// only one
   }
 }
@@ -359,14 +359,14 @@ void Render::renderFlary()
 {
   trace2(DBG_3D, "\nflary: ");
   for (std::list<Solid*>::iterator it = flaryList.begin(); it != flaryList.end() ; ++it) {
-    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      (*it)->object()->render();
+    if ((*it)->getObject()->isBehavior(SPECIFIC_RENDER)) {
+      (*it)->getObject()->render();
     }
     else {
       (*it)->displaySolid(Solid::FLASH);
     }
     (*it)->rendered = true;
-    trace2(DBG_3D, " %s", (*it)->object()->objectName());
+    trace2(DBG_3D, " %s", (*it)->getObject()->objectName());
   }
 }
 
@@ -397,13 +397,13 @@ void Render::renderSolids(bool mini)
       if ( (*it)->flashy || (*it)->flary ) {
         flaryList.push_back(*it);	// add to flary list
       }
-      else if ( (*it)->object()->type == GROUND_TYPE ) {
+      else if ( (*it)->getObject()->type == GROUND_TYPE ) {
         groundList.push_back(*it);	// add to ground list
       }
-      else if ( (*it)->object()->type == MODEL_TYPE ) {
+      else if ( (*it)->getObject()->type == MODEL_TYPE ) {
         modelList.push_back(*it);	// add to model list
       }
-      else if ( (*it)->object()->type == USER_TYPE ) {
+      else if ( (*it)->getObject()->type == USER_TYPE ) {
         userList.push_back(*it);	// add to user list
       }
       else {
@@ -531,7 +531,7 @@ void Render::lighting()
 void Render::highlight(char *object_type, int flash)
 {
   for (std::list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; it++) {
-    if (! strcasecmp((*it)->object()->typeName(), object_type)) {
+    if (! strcasecmp((*it)->getObject()->typeName(), object_type)) {
       switch (flash) {
       case 0: if (*it) (*it)->flashy = false; break;
       case 1: if (*it) (*it)->flashy = true; break;
@@ -844,13 +844,13 @@ void Render::stat()
 void Render::showSolidList()
 {
   for (std::list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-    echo("solidList: %s->%s", (*s)->object()->typeName(),(*s)->object()->objectName());
-    if (! strcasecmp((*s)->object()->typeName(), "User")) {
+    echo("solidList: %s->%s", (*s)->getObject()->typeName(),(*s)->getObject()->objectName());
+    if (! strcasecmp((*s)->getObject()->typeName(), "User")) {
       echo("User: %.1f %.1f %.1f %.1f (%d)",
-	   (*s)->object()->pos.x,
-	   (*s)->object()->pos.y,
-	   (*s)->object()->pos.z,
-	   (*s)->object()->pos.az,
+	   (*s)->getObject()->pos.x,
+	   (*s)->getObject()->pos.y,
+	   (*s)->getObject()->pos.z,
+	   (*s)->getObject()->pos.az,
 	   (*s)->visible
 	  );
     }
