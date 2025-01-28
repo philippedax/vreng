@@ -122,7 +122,6 @@ class Render {
   // Rendering
   /////////////
 
- public:
   Render();
   /**< Constructor. */
 
@@ -291,7 +290,6 @@ class Render {
   /////////////
   // Quit
   /////////////
-
  public:
   void quit();			///< Closes the 3d renderer.
 };
