@@ -1059,7 +1059,7 @@ char * Object::tokenize(char *l)
 //
 
 /** Deletes a pointer of this object in an olist */
-void Object::delFromList(list<Object*> &olist)
+void Object::delFromList(std::list<Object*> &olist)
 {
   for (std::list<Object*>::iterator it = olist.begin(); it != olist.end(); ++it) {
     if (*it == this) {

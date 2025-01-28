@@ -33,12 +33,10 @@
 #include "object.hpp"	// Object
 #include "stat.hpp"	// new_netobj
 
-#include <list>
-using namespace std;
 
 // local
 
-list<NetObj*> NetObj::netobjList;
+std::list<NetObj*> NetObj::netobjList;
 
 // network ids
 uint32_t NetObj::mySsrcId = 0;   // ssrc network format
@@ -109,7 +107,7 @@ NetObj::NetObj(Object *po, uint8_t nprop, Noid _noid)
 }
 
 /** Gets begin List */
-list<NetObj*>::iterator NetObj::getList()
+std::list<NetObj*>::iterator NetObj::getList()
 {
   return netobjList.begin();
 }
@@ -308,10 +306,11 @@ bool NetObj::isResponsible() const
   return (netprop && netprop->responsible);
 }
 
+#if 0 //notused
 /** Finds a Object pointer by its noid */
 Object * NetObj::getObjectByNoid() const
 {
-  for (list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+  for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it)->netop) {
       //dax if (noid.equal((*it)->netop->noid))
       if ((*it)->netop->noid.equal((*it)->netop->noid)) {
@@ -321,6 +320,7 @@ Object * NetObj::getObjectByNoid() const
   }
   return NULL;
 }
+#endif //notused
 
 /** Gets the property prop_id (its local copy) got from Network */
 void NetObj::getProperty(uint8_t prop_id, Payload *pp) const
@@ -480,7 +480,7 @@ void NetObj::sendDelete(const struct sockaddr_in *to)
 /** Gets a NetObj by name */
 NetObj * NetObj::getNetObj()
 {
-  for (list<NetObj*>::iterator it = netobjList.begin(); it != netobjList.end(); ++it) {
+  for (std::list<NetObj*>::iterator it = netobjList.begin(); it != netobjList.end(); ++it) {
     //dax if ((*it)->equalNoid((*it)->noid)) {
     if ((*it)->noid.equal((*it)->noid)) {
       return *it;	// NetObj found

@@ -121,7 +121,7 @@ int netTimeout()
   /*
    * for each netobj in netobjList
    */
-  for (list<NetObj*>::iterator it = NetObj::netobjList.begin(); it != NetObj::netobjList.end(); ++it) {
+  for (std::list<NetObj*>::iterator it = NetObj::netobjList.begin(); it != NetObj::netobjList.end(); ++it) {
     if (! OClass::isValidType((*it)->type)) {
       error("netTimout: invalid type (%d)", (*it)->type);
       return -1;

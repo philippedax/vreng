@@ -3345,3 +3345,4 @@
 3345 Mar 28 jan 2025 08:48:45 CET	rename rc.* to *.sh conf/
 3346 Mar 28 jan 2025 09:00:43 CET	cleanup conf/daemons.sh
 3347 Mar 28 jan 2025 09:30:53 CET	cleanup getObject() solid.*pp
+3348 Mar 28 jan 2025 09:46:35 CET	cleanup getObject() render.*pp

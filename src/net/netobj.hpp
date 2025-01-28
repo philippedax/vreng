@@ -26,7 +26,6 @@
 #include "noid.hpp"
 
 #include <list>
-using namespace std;
 
 
 /**
@@ -237,8 +236,8 @@ class NetObj {
    *  4) faire le delete object final
    */
 
-  Object * getObjectByNoid() const;
-  /**< Finds a Object pointer by its noid */
+  //notused Object * getObjectByNoid() const;
+  //notused /**< Finds a Object pointer by its noid */
 
   bool isResponsible() const;
 
