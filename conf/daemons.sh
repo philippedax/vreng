@@ -5,10 +5,10 @@
 # Philippe Dax - jun 2017
 #
 
-./rc.X11
-./rc.httpd
+./X11.sh
+./httpd.sh
 
-nohup ./rc.vacs &
-nohup ./rc.vaps &
-nohup ./rc.vjs &
-nohup ./rc.vrum &
+nohup ./vacs.sh &
+nohup ./vaps.sh &
+nohup ./vjs.sh &
+nohup ./vrum.sh &
