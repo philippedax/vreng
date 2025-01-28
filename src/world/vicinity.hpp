@@ -108,7 +108,6 @@ class Vicinity {
   virtual ~Vicinity();
 
   std::string getObjectName() { return objName; }
-  Object* getObject() { return obj; }
 
   void analTopo();
   void analVisual(int details);
