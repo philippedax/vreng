@@ -950,8 +950,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 void Solid::updateDist()
 {
   if (localuser) {
-    float dx = ABSF(localuser->pos.x - getObject()->pos.x);
-    float dy = ABSF(localuser->pos.y - getObject()->pos.y);
+    float dx = ABSF(localuser->pos.x - object->pos.x);
+    float dy = ABSF(localuser->pos.y - object->pos.y);
     userdist = sqrt(dx*dx + dy*dy);
   }
 }
@@ -1414,14 +1414,14 @@ void Solid::displayRay()
 
 void Solid::displayFlary()
 {
-  if (getObject()->flare) {
+  if (object->flare) {
     displayList(NORMAL);  // object alone
 
     glPushMatrix();
      glRotatef(RAD2DEG(localuser->pos.az), 0, 0, -1);	// one degree
-     glTranslatef(getObject()->pos.x, getObject()->pos.y, getObject()->pos.z);
+     glTranslatef(object->pos.x, object->pos.y, object->pos.z);
 
-     getObject()->flare->render(getObject()->pos);	// render the flare
+     object->flare->render(object->pos);	// render the flare
 
     glPopMatrix();
   }
@@ -1477,7 +1477,7 @@ int Solid::displayList(int display_mode = NORMAL)
          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
        }
        if (fog[0] > 0) {
-         //echo("fog=%f %s", fog[0], getObject()->objectName());
+         //echo("fog=%f %s", fog[0], object->objectName());
          glEnable(GL_FOG);
          glFogi(GL_FOG_MODE, GL_EXP);
          glFogf(GL_FOG_DENSITY, fog[0]);
@@ -1528,7 +1528,7 @@ int Solid::displayList(int display_mode = NORMAL)
       glEnable(GL_CLIP_PLANE0);			// enable clipping
       glStencilFunc(GL_EQUAL, 1, 1);		// draw only where the stencil == 1
 
-      getObject()->render();			// display the mirrored scene by mirror itself
+      object->render();				// display the mirrored scene by mirror itself
 
       glDisable(GL_CLIP_PLANE0);
      glPopMatrix();

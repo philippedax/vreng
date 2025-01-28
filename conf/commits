@@ -3343,3 +3343,4 @@
 3343 Lun 27 jan 2025 19:03:58 CET	rename object() to getObject() *pp
 3344 Lun 27 jan 2025 19:13:50 CET	rename wobject to object *pp
 3345 Mar 28 jan 2025 08:48:45 CET	rename rc.* to *.sh conf/
+3346 Mar 28 jan 2025 09:00:43 CET	cleanup conf/daemons.sh

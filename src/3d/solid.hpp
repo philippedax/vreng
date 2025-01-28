@@ -156,7 +156,7 @@ enum {
  * Solid class
  */
 class Solid {
-  friend class Render;
+ friend class Render;
 
  public:
   bool		visible;	///< should this solid be drawn ?.
@@ -212,14 +212,12 @@ static const uint8_t FRAME_MAX;		// 255
     DISPLAY,		///< render surfaces with plain colors.
     SELECT		///< selection in the Z-buffer.
   };
-
   enum render_type {
     OPAQUE,		///< opaque
     TRANSPARENT,	///< transparent
     FLASH,		///< flash effect
     USER		///< localuser
   };
-
   /* display modes */
   enum display_mode {
     NORMAL,
@@ -246,13 +244,14 @@ static const uint8_t FRAME_MAX;		// 255
 
   void getAbsBB(V3& bbcent, V3& bbsize);
   /**< Returns a bounding box for this solid.
-   * The bounding box is aligned with the world reference. */
+   * The bounding box is aligned with the world reference.
+   */
 
   void updateBB(GLfloat az);
   /**< Updates BB according to its orientation. */
 
   void getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *opa);
-  /* Returns materials. */
+  /**< Returns materials. */
 
   void setPosition(const M4& mpos);
   /**< Updates the solid position.
