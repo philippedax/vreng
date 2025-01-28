@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "vicinity.hpp"
 #include "matvec.hpp"   // V3
-#include "solid.hpp"	// Solid, getObject()
+#include "solid.hpp"	// Solid
 #include "user.hpp"	// localuser
 #include "render.hpp"	// getSolidList
 #include "pref.hpp"	// width3D
@@ -48,10 +48,10 @@ Vicinity::Vicinity()
 
   listsize = 0;
   for (std::list<Solid*>::iterator il = solidLst.begin(); il != solidLst.end() ; ++il) {
-    if (uselessType((*il)->getObject())) continue;
-    viciList[listsize].size = evalSize((*il)->getObject());
-    viciList[listsize].dist = evalDist((*il)->getObject(), obj);
-    viciList[listsize].object = (*il)->getObject();
+    if (uselessType((*il)->object)) continue;
+    viciList[listsize].size = evalSize((*il)->object);
+    viciList[listsize].dist = evalDist((*il)->object, obj);
+    viciList[listsize].object = (*il)->object;
     listsize++;
   }
   viciList.resize(listsize);
@@ -77,10 +77,10 @@ Vicinity::Vicinity(std::string objectName)
 
   listsize = 0;
   for (std::list<Solid*>::iterator il = solidLst.begin(); il != solidLst.end() ; ++il) {
-    if (uselessType((*il)->getObject())) continue;
-    viciList[listsize].size = evalSize((*il)->getObject());
-    viciList[listsize].dist = evalDist((*il)->getObject(), obj);
-    viciList[listsize].object = (*il)->getObject();
+    if (uselessType((*il)->object)) continue;
+    viciList[listsize].size = evalSize((*il)->object);
+    viciList[listsize].dist = evalDist((*il)->object, obj);
+    viciList[listsize].object = (*il)->object;
     listsize++;
   }
   viciList.resize(listsize);

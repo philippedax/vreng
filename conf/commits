@@ -3347,3 +3347,4 @@
 3347 Mar 28 jan 2025 09:30:53 CET	cleanup getObject() solid.*pp
 3348 Mar 28 jan 2025 09:46:35 CET	cleanup getObject() render.*pp
 3349 Mar 28 jan 2025 17:11:55 CET	cleanup notused getObjectById() netobj.*pp
+3350 Mar 28 jan 2025 17:14:14 CET	cleanup getObject() mirror.cpp
