@@ -235,9 +235,6 @@ static const uint8_t FRAME_MAX;		// 255
   virtual ~Solid();		///< destructor.
 
   // Accessors
-  Object* getObject() const;
-  /**< Returns the associated Object. */
-
   void getDimBB(V3& bbsize) const;
   void getRelBB(V3& bbcent, V3& bbsize) const;
   /**< Returns relative bounding-box. */

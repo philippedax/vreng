@@ -291,7 +291,7 @@ void Ase::readFile(tASEModel *pModel)
   // We count the objects then we count the materials.
   // Then for each material and each object we read the data in.
   // This will return the number of objects stored in the .ase file
-  pModel->numObjects   = getObjectCount();
+  pModel->numObjects   = objectCount();
 
   // This will return the number of materials stored in the .ase file
   pModel->numMaterials = getMaterialCount();
@@ -329,7 +329,7 @@ void Ase::readFile(tASEModel *pModel)
 }
 
 /** Returns the total object count in the .ase file */
-int Ase::getObjectCount()
+int Ase::objectCount()
 {
   char line[255] = {0};
   int cnt = 0;

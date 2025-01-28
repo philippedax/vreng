@@ -32,13 +32,9 @@
 #ifndef ASE_HPP
 #define ASE_HPP
 
-#include <iostream>
-#include <string>
 #include <vector>
 
 #include "vec3.hpp"	// Vec3
-
-using namespace std;
 
 
 /**
@@ -85,10 +81,10 @@ struct tASEMaterialInfo
  * This holds our model information.
  */
 struct tASEModel {
-  int numObjects;		///< The number of objects in the model
-  int numMaterials;		///< The number of materials for the model
-  vector<tASEMaterialInfo> pMaterials;	///< The list of material information
-  vector<tASEObject> pObject;	///< The object list for our model
+  int numObjects;				///< The number of objects in the model
+  int numMaterials;				///< The number of materials for the model
+  std::vector<tASEMaterialInfo> pMaterials;	///< The list of material information
+  std::vector<tASEObject> pObject;		///< The object list for our model
 };
 
 
@@ -142,7 +138,7 @@ class Ase {
   void readFile(tASEModel *pModel);
   /**< This is the main loop that parses the .ase file */
 
-  int getObjectCount();
+  int objectCount();
   /**< This returns the number of objects in the .ase file */
 
   int getMaterialCount();

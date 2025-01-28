@@ -1218,12 +1218,6 @@ void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi,
   *alp = alpha;
 }
 
-/** Gets Object parent from Solid - accessor */
-Object* Solid::getObject() const
-{
-  return object;
-}
-
 void Solid::setPosition(const M4 &mpos)
 {
   matpos = mpos;
