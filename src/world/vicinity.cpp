@@ -524,23 +524,6 @@ void Vicinity::actionList()
   }
 }
 
-int * Vicinity::getTypeFromAction(const char *actionName)
-{
-  int* acttype = new int[OBJECTSNUMBER+1];
-  int nbtype = 1;
-
-  for (int i=0; i <= OBJECTSNUMBER; i++) {
-    for (int j=0; j < ACTIONSNUMBER; j++) {
-      if ((isActionName(i, j)) && (! strcasecmp(getActionName(i, j), actionName))) {
-	acttype[nbtype] = i;
-	nbtype++;
-      }
-    }
-  }
-  acttype[0] = nbtype - 1;
-  return acttype;
-}
-
 char* Vicinity::translateNum2Type(int num)
 {
   char* str = new char[OBJNAME_LEN];
@@ -602,4 +585,21 @@ char* Vicinity::translateNum2Type(int num)
 
   strcpy(str, translate[num].c_str());
   return str;
+}
+
+int * Vicinity::getTypeFromAction(const char *actionName)
+{
+  int* acttype = new int[OBJECTSNUMBER+1];
+  int nbtype = 1;
+
+  for (int i=0; i <= OBJECTSNUMBER; i++) {
+    for (int j=0; j < ACTIONSNUMBER; j++) {
+      if ((isActionName(i, j)) && (! strcasecmp(getActionName(i, j), actionName))) {
+	acttype[nbtype] = i;
+	nbtype++;
+      }
+    }
+  }
+  acttype[0] = nbtype - 1;
+  return acttype;
 }

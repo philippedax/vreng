@@ -112,9 +112,8 @@ class Vicinity {
   /**< describe the scene viewed by the user and use the vicinity list for the AOI */
 
   static void show(const char *str);
-
-  static int* getTypeFromAction(const char *actionName);
   static char* translateNum2Type(int i);
+  static int* getTypeFromAction(const char *actionName);
 };
 
 #endif
