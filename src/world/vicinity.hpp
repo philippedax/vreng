@@ -48,16 +48,14 @@ class Vicinity {
     SIZE_LARGE,
     SIZE_HUGE
   } Size;
-
   typedef struct s_vicin {
     Object *object;
     Size size;
     Dist dist;
   } Vicin;
-
   typedef struct s_visuPos {
     Object *object;
-    int nbPixels;
+    int nbpixels;
     int xmin;
     int xmax;
     int ymin;
@@ -65,16 +63,16 @@ class Vicinity {
   } VisuPos;
 
   Object *obj;
-  std::string objName;
+  std::string objname;
   class User *user;
-  Dist userDist;
-  Size userSize;
-  Size objSize;
-  Vicin* viciList;
-  VisuPos* visuList;
-  std::list<class Solid*> solidLst; ///< solids list
+  Dist userdist;
+  Size usersize;
+  Size objsize;
+  Vicin* vicilist;
+  VisuPos* visulist;
+  int visusize;
   int listsize;
-  int visuListSize;
+  std::list<class Solid*> solidlst; ///< solids list
 
   /* private methods */
 
@@ -84,40 +82,35 @@ class Vicinity {
 
   // compare and sort methods
   static int cmpDist(const void *t1, const void *t2);
-  void sortDist();
-
   static int cmpInterest(const void *t1, const void *t2);
-  void sortInterest();
-
   static int cmpVisual(const void *t1, const void *t2);
+  static void show();
+
+  void sortDist();
+  void sortInterest();
   void sortVisual();
-
   bool uselessType(Object *obj);
-
   void describeTopo(Vicin tmp);
   void describeVisual();
-
   void setSize(Object *user);
-
   void actionList();
-
- public:
-  Vicinity();
-  Vicinity(std::string _objName);
-
-  virtual ~Vicinity();
-
-  std::string getObjectName() { return objName; }
-
   void analTopo();
   void analVisual(int details);
   void analVicinity();
+
+ public:
+  Vicinity();
+  Vicinity(std::string _objname);
+
+  virtual ~Vicinity();
+
+  std::string getObjectName() { return objname; }
+
   Object* searchProximityObject(char **typeObj, int nbre);
 
   void analScene();
   /**< describe the scene viewed by the user and use the vicinity list for the AOI */
 
-  static void show();
   static void show(const char *str);
 
   static int* getTypeFromAction(const char *actionName);

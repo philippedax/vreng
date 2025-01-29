@@ -3350,3 +3350,4 @@
 3350 Mar 28 jan 2025 17:14:14 CET	cleanup getObject() mirror.cpp
 3351 Mar 28 jan 2025 17:58:46 CET	cleanup getObject() vicinity.cpp
 3352 Mar 28 jan 2025 18:32:41 CET	cleanup getObjectCount ase.*pp
+3353 Mar 28 jan 2025 19:35:37 CET	cleanup getObject vicinity.hpp

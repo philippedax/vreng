@@ -37,76 +37,76 @@
 /** Constructor */
 Vicinity::Vicinity()
 {
-  solidLst = ::g.render.getSolidList();
+  solidlst = ::g.render.getSolidList();
   obj = static_cast<Object *> (localuser);
-  objName = obj->objectName();
+  objname = obj->objectName();
   setSize(user);
-  userDist = DIST_INCL;
-  objSize = userSize;
+  userdist = DIST_INCL;
+  objsize = usersize;
 
-  std::vector<Vicin> viciList(solidLst.size());
+  std::vector<Vicin> vicilist(solidlst.size());
 
   listsize = 0;
-  for (std::list<Solid*>::iterator il = solidLst.begin(); il != solidLst.end() ; ++il) {
+  for (std::list<Solid*>::iterator il = solidlst.begin(); il != solidlst.end() ; ++il) {
     if (uselessType((*il)->object)) continue;
-    viciList[listsize].size = evalSize((*il)->object);
-    viciList[listsize].dist = evalDist((*il)->object, obj);
-    viciList[listsize].object = (*il)->object;
+    vicilist[listsize].size = evalSize((*il)->object);
+    vicilist[listsize].dist = evalDist((*il)->object, obj);
+    vicilist[listsize].object = (*il)->object;
     listsize++;
   }
-  viciList.resize(listsize);
+  vicilist.resize(listsize);
 }
 
 /** Constructor */
 Vicinity::Vicinity(std::string objectName)
 {
   // On instancie l'objet
-  objName = strdup(objectName.c_str());
-  solidLst = ::g.render.getSolidList();
+  objname = strdup(objectName.c_str());
+  solidlst = ::g.render.getSolidList();
 
   // On cherche l'objet dans la liste
   obj = NULL;
-  obj->getObject(objName.c_str());
+  obj->getObject(objname.c_str());
   //echo("found object %s in the list of objects", obj->objectName());
 
   setSize(localuser);
-  userDist = evalDist(user, obj);
-  objSize = evalSize(obj);
+  userdist = evalDist(user, obj);
+  objsize = evalSize(obj);
 
-  std::vector<Vicin> viciList(solidLst.size());
+  std::vector<Vicin> vicilist(solidlst.size());
 
   listsize = 0;
-  for (std::list<Solid*>::iterator il = solidLst.begin(); il != solidLst.end() ; ++il) {
+  for (std::list<Solid*>::iterator il = solidlst.begin(); il != solidlst.end() ; ++il) {
     if (uselessType((*il)->object)) continue;
-    viciList[listsize].size = evalSize((*il)->object);
-    viciList[listsize].dist = evalDist((*il)->object, obj);
-    viciList[listsize].object = (*il)->object;
+    vicilist[listsize].size = evalSize((*il)->object);
+    vicilist[listsize].dist = evalDist((*il)->object, obj);
+    vicilist[listsize].object = (*il)->object;
     listsize++;
   }
-  viciList.resize(listsize);
-  //compile error// free(objName);
+  vicilist.resize(listsize);
+  //compile error// free(objname);
 }
 
 /** Evaluates the size of the avatar */
 void Vicinity::setSize(Object *user)
 {
   if ((user->pos.bbs.v[0] > 10) && (user->pos.bbs.v[1] > 4) && (user->pos.bbs.v[2] > 4))
-    userSize = SIZE_HUGE;
+    usersize = SIZE_HUGE;
   else if ((user->pos.bbs.v[0] > 5) && (user->pos.bbs.v[1] > 2) && (user->pos.bbs.v[2] > 2))
-    userSize = SIZE_LARGE;
+    usersize = SIZE_LARGE;
   else if ((user->pos.bbs.v[0] < 1) && (user->pos.bbs.v[1] < 0.5) && (user->pos.bbs.v[2] < 0.5))
-    userSize = SIZE_SMALL;
+    usersize = SIZE_SMALL;
   else if ((user->pos.bbs.v[0] < 0.5) && (user->pos.bbs.v[1] < 0.2) && (user->pos.bbs.v[2] < 0.2))
-    userSize = SIZE_TINY;
+    usersize = SIZE_TINY;
   else
-    userSize = SIZE_NORMAL;
+    usersize = SIZE_NORMAL;
 }
 
 /** Destructor */
 Vicinity::~Vicinity()
 {
-  if (viciList) delete viciList;
-  viciList = NULL;
+  if (vicilist) delete vicilist;
+  vicilist = NULL;
 }
 
 /** Evaluates the distance between 2 objects */
@@ -225,7 +225,7 @@ int Vicinity::cmpDist(const void *t1, const void *t2)
 /** Sorts distances */
 void Vicinity::sortDist()
 {
-  qsort((void *)viciList, listsize, sizeof(viciList[0]), cmpDist);
+  qsort((void *)vicilist, listsize, sizeof(vicilist[0]), cmpDist);
 }
 
 int Vicinity::cmpInterest(const void *t1, const void *t2)
@@ -268,7 +268,7 @@ int Vicinity::cmpInterest(const void *t1, const void *t2)
 
 void Vicinity::sortInterest()
 {
-  qsort((void *)viciList, listsize, sizeof(Vicin), cmpInterest);
+  qsort((void *)vicilist, listsize, sizeof(Vicin), cmpInterest);
 }
 
 /** Searchs an object at proximity */
@@ -277,10 +277,10 @@ Object* Vicinity::searchProximityObject(char** typeObj, int nb)
   sortDist();
 
   Object* o = NULL;
-  for (int i=0; i<listsize && viciList[i].dist <= DIST_NEAR; i++) {
+  for (int i=0; i<listsize && vicilist[i].dist <= DIST_NEAR; i++) {
     for (int j=0; j<nb ; j++) {
-      if (! strcasecmp((viciList[i].object)->typeName(), typeObj[j])) {
-	o = viciList[i].object;
+      if (! strcasecmp((vicilist[i].object)->typeName(), typeObj[j])) {
+	o = vicilist[i].object;
 	return o;
       }
     }
@@ -300,7 +300,7 @@ void Vicinity::describeTopo(Vicin vicin)
   case DIST_NEAR:  msg = "is near of"; break;
   case DIST_FAR:   msg = "is very far of"; break;
   }
-  echo("object %s %s %s", objName.c_str(), msg.c_str(), (vicin.object)->objectName());
+  echo("object %s %s %s", objname.c_str(), msg.c_str(), (vicin.object)->objectName());
 }
 
 /** Analyzes the scene */
@@ -326,15 +326,15 @@ void Vicinity::analTopo()
 #if 0 //debug
   for (int i=0; i < listsize; i++) {
     echo(" object (%s) size :%d dist:%d",
-	  (viciList[i].object)->objectName(),
+	  (vicilist[i].object)->objectName(),
 	  viciist[i].size,
-	  viciList[i].dist);
+	  vicilist[i].dist);
   }
 #endif
   if (listsize < toread) toread = listsize;
 
   for (int i=0; i < toread; i++) {
-    describeTopo(viciList[i]);
+    describeTopo(vicilist[i]);
   }
 }
 
@@ -356,14 +356,14 @@ int Vicinity::cmpVisual(const void *t1, const void *t2)
   VisuPos s2 = *((VisuPos*) t2);
 
   // decreasing order
-  if (s1.nbPixels > s2.nbPixels) return -1;
-  if (s1.nbPixels < s2.nbPixels) return 1;
+  if (s1.nbpixels > s2.nbpixels) return -1;
+  if (s1.nbpixels < s2.nbpixels) return 1;
   return 0;
 }
 
 void Vicinity::sortVisual()
 {
-  qsort((void *)visuList, visuListSize, sizeof(VisuPos), cmpVisual);
+  qsort((void *)visulist, visusize, sizeof(VisuPos), cmpVisual);
 }
 
 /**
@@ -375,20 +375,20 @@ void Vicinity::analVisual(int details)
 {
   int drawed = 0;
 
-  visuListSize = 0;
+  visusize = 0;
   ::g.render.getDrawedObjects(&drawed);
 
   if (drawed < 1) drawed = 5000;
 
-  visuList = new VisuPos[drawed];
+  visulist = new VisuPos[drawed];
 
   for (int i=0; i < drawed; i++) {
-    visuList[i].object = NULL;
-    visuList[i].nbPixels = 0;
-    visuList[i].xmin = -1;
-    visuList[i].xmax = -1;
-    visuList[i].ymin = -1;
-    visuList[i].ymax = -1;
+    visulist[i].object = NULL;
+    visulist[i].nbpixels = 0;
+    visulist[i].xmin = -1;
+    visulist[i].xmax = -1;
+    visulist[i].ymin = -1;
+    visulist[i].ymax = -1;
   }
 
   //TODO : super lourd mais tous ces calculs sont precalcules sur
@@ -418,23 +418,23 @@ void Vicinity::analVisual(int details)
 
 	// 3 boucles for je sais c pas bien ! mais j'y suis oblige
 	bool found = false;
-	for (int k=0; k < visuListSize; k++) {
-	  if (po && visuList[k].object && visuList[k].object == po) {
-	    visuList[k].nbPixels++;
+	for (int k=0; k < visusize; k++) {
+	  if (po && visulist[k].object && visulist[k].object == po) {
+	    visulist[k].nbpixels++;
 	    found = true;
-	    visuList[k].xmax = i;
-	    visuList[k].ymax = j;
+	    visulist[k].xmax = i;
+	    visulist[k].ymax = j;
 	    break;
 	  }
 	}
 	if (!found && po) {
-	  visuList[visuListSize].object = po;
-	  visuList[visuListSize].nbPixels++;
-	  visuList[visuListSize].xmin = i;
-	  visuList[visuListSize].xmax = i;
-	  visuList[visuListSize].ymin = j;
-	  visuList[visuListSize].ymax = j;
-	  visuListSize++;
+	  visulist[visusize].object = po;
+	  visulist[visusize].nbpixels++;
+	  visulist[visusize].xmin = i;
+	  visulist[visusize].xmax = i;
+	  visulist[visusize].ymin = j;
+	  visulist[visusize].ymax = j;
+	  visusize++;
 	}
       } //end while
     }
@@ -443,14 +443,14 @@ void Vicinity::analVisual(int details)
   sortVisual();
   describeVisual();
 
-  if (visuList) delete[] visuList;
-  visuList = NULL;
+  if (visulist) delete[] visulist;
+  visulist = NULL;
 }
 
 void Vicinity::describeVisual()
 {
   V3 coord = ::g.render.getVisiblePosition(obj);
-  //echo("coord de objet %s, x:%.2f y:%.2f", objName.c_str(), coord.v[0], coord.v[1]);
+  //echo("coord de objet %s, x:%.2f y:%.2f", objname.c_str(), coord.v[0], coord.v[1]);
 
   char* msg = NULL;
   char msgprecis[100];
@@ -461,16 +461,16 @@ void Vicinity::describeVisual()
   else if (coord.v[0] > ((::g.pref.width3D*2.0)/3.0)) msg = strdup("est sur la droite");
   else                                                msg = strdup("est devant"); 
   float deltaVisual = 0.0;
-  if (coord.v[0] < ((visuList[0].xmin+visuList[0].xmax)/2.0-deltaVisual)) {
-    sprintf(msgprecis, "est a gauche de %s", (visuList[0].object)->objectName());
+  if (coord.v[0] < ((visulist[0].xmin+visulist[0].xmax)/2.0-deltaVisual)) {
+    sprintf(msgprecis, "est a gauche de %s", (visulist[0].object)->objectName());
   }
-  else if (coord.v[0] < ((visuList[0].xmin+visuList[0].xmax)/2.0+deltaVisual)) {
-    sprintf(msgprecis, "est a droite de %s", (visuList[0].object)->objectName());
+  else if (coord.v[0] < ((visulist[0].xmin+visulist[0].xmax)/2.0+deltaVisual)) {
+    sprintf(msgprecis, "est a droite de %s", (visulist[0].object)->objectName());
   }
   else {
-    sprintf(msgprecis, "est pres de %s", (visuList[0].object)->objectName());
+    sprintf(msgprecis, "est pres de %s", (visulist[0].object)->objectName());
   }
-  echo("-> %s %s %s ! ok ?", objName.c_str(), msg, msgprecis);
+  echo("-> %s %s %s ! ok ?", objname.c_str(), msg, msgprecis);
   free(msg);
 }
 
@@ -507,8 +507,8 @@ void Vicinity::show(const char *str)
   echo("%s", str);
   int i=0;
 
-  OList *viciList = localuser->getVicinity(localuser);
-  for (OList *ol = viciList; ol && ol->pobject ; ol = ol->next, i++) {
+  OList *vicilist = localuser->getVicinity(localuser);
+  for (OList *ol = vicilist; ol && ol->pobject ; ol = ol->next, i++) {
     echo("%2d: %s", i, (ol->pobject)->objectName());
   }
 }
