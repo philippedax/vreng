@@ -20,8 +20,8 @@
 //---------------------------------------------------------------------------
 // ai.hpp
 //---------------------------------------------------------------------------
-#ifndef AIINIT_HPP
-#define AIINIT_HPP
+#ifndef AI_HPP
+#define AI_HPP
 
 #ifdef  __cplusplus
 extern "C" {
@@ -40,12 +40,12 @@ extern "C" {
 /* fonctions de transformation et d'appels */
 value recherche_Objet(value mot);
 value recherche_Type(value mot);
-value recherche_Typegen(value mot,value action);
+value recherche_Typegen(value mot, value action);
 value recherche_Func(value mot, value act);
 
 /* fonction de deplacement */
-value deplacement_to_Objet(value px, value py, value pz, value orientation,value dcptType);
-value deplacement_to_Proximite(value mot,value pos);
+value deplacement_to_Objet(value px, value py, value pz, value orientation, value dcptType);
+value deplacement_to_Proximite(value mot, value pos);
 
 /* fonction de question de point de vue */
 void viewed_objects(value mot);

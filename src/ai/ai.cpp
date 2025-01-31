@@ -38,40 +38,39 @@
 /** Initialization */
 void initOcaml()
 {
-  char *Argv[2];
+  char *args[2];
 
-  Argv[0] = "";
-  Argv[1] = NULL;
+  args[0] = "";
+  args[1] = NULL;
 #if HAVE_OCAML
-  caml_startup(Argv);
+  caml_startup(args);
 #endif
 }
 
 #if HAVE_OCAML
 
-/** fonctions de transformations de requetes */
-value recherche_Typegen(value ttype, value actiondemande)
+/** Fonctions de transformations de requetes */
+value recherche_Typegen(value _type, value _action)
 {
-  char *typechercher = const_cast<char *>(String_val(ttype));
-  char *action = const_cast<char *>(String_val(actiondemande));
+  char *type = const_cast<char *>(String_val(_type));
+  char *action = const_cast<char *>(String_val(_action));
 
   uint8_t oclick = 0;
   float oclicked[7];
 
   char *foundpos = new char[100];
   sprintf(foundpos, "N/A");
-  //echo("Here");
   int nbelem = 0;
-  Object** listObj = g.render.getDrawedObjects(&nbelem);
-  //echo("Here %s >> %s >> %d", listObj[1]->typeName(), typechercher, nbelem);
+  Object** objects = g.render.getDrawedObjects(&nbelem);
+  //echo("Here %s >> %s >> %d", objects[1]->typeName(), type, nbelem);
 
   int found = 0;
   int foundelem = 0;
 
   for (int i=1; i < nbelem; i++) {
-    echo("Here %d %s", i, listObj[i]->typeName());
+    echo("Here %d %s", i, objects[i]->typeName());
 
-    if (! strcasecmp(listObj[i]->typeName(), typechercher) && listObj[i]->isVisible()) {
+    if (! strcasecmp(objects[i]->typeName(), type) && objects[i]->isVisible()) {
       //echo("found a type !");
       if (found == 0) {
 	foundelem = i;
@@ -85,7 +84,7 @@ value recherche_Typegen(value ttype, value actiondemande)
 
   if (found == 1) {
     echo("Here: I execute the action on the object");
-    listObj[foundelem]->runAction(action);
+    objects[foundelem]->runAction(action);
   }
   if (found == -1 || found == 0) {
     g.gui.getClicked(&oclick, oclicked);
@@ -104,14 +103,14 @@ value recherche_Typegen(value ttype, value actiondemande)
     return Val_int(1);
   }
 
-  //XXX demande designation.
+  // demande designation.
   return Val_int(0);
 }
 
-value recherche_Type(value ttype)
+value recherche_Type(value _type)
 {
   value ret;
-  char *typechercher = const_cast<char *>(String_val(ttype));
+  char *type = const_cast<char *>(String_val(_type));
   uint8_t oclick = 0;
   float oclicked[7];
 
@@ -119,11 +118,11 @@ value recherche_Type(value ttype)
   sprintf(foundpos, "N/A");
 
   int nbelem = 0;
-  Object** listObj = g.render.getDrawedObjects(&nbelem);
+  Object** objects = g.render.getDrawedObjects(&nbelem);
 
   int found = 0;
   for (int i=0; i < nbelem; i++) {
-    if (! strcasecmp(listObj[i]->typeName(), typechercher) && listObj[i]->isVisible()) {
+    if (! strcasecmp(objects[i]->typeName(), type) && objects[i]->isVisible()) {
       if (found) {
 	found = 0;
 	break;
@@ -147,25 +146,24 @@ value recherche_Type(value ttype)
       g.gui.initClicked();
 
       /* enlever les highlights des objets de meme type */
-      g.render.highlight(typechercher, false);
+      g.render.highlight(type, false);
     }
     else {
       /* mettre en highlight les objets de meme type */
-      g.render.highlight(typechercher, true);
+      g.render.highlight(type, true);
     }
   }
   else {
     //echo("found a type auto");
     sprintf(foundpos,"%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",
-	    listObj[found]->pos.x,
-	    listObj[found]->pos.y,
-	    listObj[found]->pos.z,
-	    listObj[found]->pos.az,
-	    listObj[found]->pos.bbs.v[0],
-	    listObj[found]->pos.bbs.v[1],
-	    listObj[found]->pos.bbs.v[2]);
+	    objects[found]->pos.x,
+	    objects[found]->pos.y,
+	    objects[found]->pos.z,
+	    objects[found]->pos.az,
+	    objects[found]->pos.bbs.v[0],
+	    objects[found]->pos.bbs.v[1],
+	    objects[found]->pos.bbs.v[2]);
   }
-
   ret = copy_string(foundpos);
   delete[] foundpos;
   return ret;
@@ -192,13 +190,11 @@ value recherche_Objet(value mot)
 /** fontions de deplacement de l'utilisateur */
 value deplacement_to_Objet(value px, value py, value pz, value ori, value depl)
 {
-  int deplacement;
-
   float posx = static_cast<float>(Double_val(px));
   float posy = static_cast<float>(Double_val(py));
   float posz = static_cast<float>(Double_val(pz));
   float orient = static_cast<float>(Double_val(ori));
-  deplacement = static_cast<int>(Int_val(depl));
+  int deplacement = static_cast<int>(Int_val(depl));
 
   // Deplacement
   if (! deplacement) {
@@ -210,18 +206,17 @@ value deplacement_to_Objet(value px, value py, value pz, value ori, value depl)
   else {
     gotoXYZ(posx, posy, posz, orient);
   }
-
   return Val_int(0);
 }
 
 value recherche_Func(value mot, value act)
 {
   char *val = const_cast<char *>(String_val(mot));
-  char *actiontype = const_cast<char *>(String_val(act));
+  char *action = const_cast<char *>(String_val(act));
   int *listNumType = Vicinity::getTypeFromAction(val);
   int nbtype = listNumType[0];
 
-  //echo("I'am here %d %s %s !", nbtype, val, actiontype);
+  //echo("I'am here %d %s %s !", nbtype, val, action);
 
   if (nbtype > 0) {
     char** typelist = new char*[nbtype];
@@ -231,19 +226,19 @@ value recherche_Func(value mot, value act)
     }
 
     int nb = 0;
-    Object **listObj = g.render.getVisibleObjects(typelist, nbtype, &nb);
+    Object **objects = g.render.getVisibleObjects(typelist, nbtype, &nb);
 
-    if (nb > 0 && strcasecmp(actiontype, "NA")) {
+    if (nb > 0 && strcasecmp(action, "NA")) {
       //on lance la methode sur les objets visibles! faut-il la lancer sur tout?
       for (int l=0; l<nb; l++) {
-	if (!strcasecmp(listObj[l]->typeName(), actiontype))
-	  listObj[l]->runAction(val);
+	if (! strcasecmp(objects[l]->typeName(), action))
+	  objects[l]->runAction(val);
       }
     }
     else {
-      if (nb == 1 && listObj[0]) {
+      if (nb == 1 && objects[0]) {
         echo("object found, do \"%s\" action !", val);
-        listObj[0]->runAction(val);
+        objects[0]->runAction(val);
       }
       else if (nb > 1) {
         echo("ambiguity, %d objects found, be more precise", nb);
@@ -266,9 +261,8 @@ value recherche_Func(value mot, value act)
       }
     }
     if (typelist) delete[] typelist; typelist = NULL;
-    if (listObj) free(listObj);
+    if (objects) free(objects);
   }
-
   return Val_int(0);
 }
 
@@ -290,7 +284,6 @@ value deplacement_to_Proximite(value mot, value pos)
   if (! res) {
     gotoXYZ(posx, posy, posz, orient);
   }
-
   return Val_int(0);
 }
 
