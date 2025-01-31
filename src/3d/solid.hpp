@@ -288,9 +288,6 @@ static const uint8_t FRAME_MAX;		// 255
   void setFrame(uint8_t frame);
   /**< Changes the "frame" of the solid (ie its geometry). */
 
-  bool toggleBlinking();
-  /**< Checks if rendering of a blinking solid must be done. */
-
   void setRay(GLint x, GLint y);
   /**< Makes a ray between user'eyes and the center of the object. */
 
@@ -303,9 +300,6 @@ static const uint8_t FRAME_MAX;		// 255
   void resetFlashyEdges();
   /**< Resets the solid edges flashy. */
 
-  void vr2gl();
-  /**< Transposes vreng coordinates in opengl coordinates. */
-
   GLint getDlist() const;
   /**< Gets current displaylist number. */
 
@@ -317,15 +311,6 @@ static const uint8_t FRAME_MAX;		// 255
   void displaySolid(render_type layer);
   /**< Issue the OpenGL commands to draw the solid in the given mode.
        It is called with "layer" to allow drawing at different layers. */
-
-  int displayList(int layer);
-  /**< Renders a solid in display-list. */
-
-  void displayFlary();
-  /**< Renders attached flare to a solid. */
-
-  void displayRay();
-  /**< Displays ray. */
 
  private:
   uint8_t	iframe;		///< frame index.
@@ -349,6 +334,9 @@ static const uint8_t FRAME_MAX;		// 255
   void setBB(GLfloat w, GLfloat d, GLfloat h);
   /**< Sets BB sizes. */
 
+  void vr2gl();
+  /**< Transposes vreng coordinates in opengl coordinates. */
+
   void doTransform(int flag);
   /**< Makes transforms rotations and translations. */
 
@@ -360,6 +348,18 @@ static const uint8_t FRAME_MAX;		// 255
 
   char* getTok(char* l, uint16_t* stok);
   /** Gets current solid token. */
+
+  int displayList(int layer);
+  /**< Renders a solid in display-list. */
+
+  void displayFlary();
+  /**< Renders attached flare to a solid. */
+
+  void displayRay();
+  /**< Displays ray. */
+
+  bool toggleBlinking();
+  /**< Checks if rendering of a blinking solid must be done. */
 };
 
 #endif
