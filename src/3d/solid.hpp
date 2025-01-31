@@ -268,7 +268,7 @@ static const uint8_t FRAME_MAX;		// 255
   void setTransparent(float _alpha);
   /**< Sets transparent. */
 
-  void setFlashyEdges(bool flag);
+  void setFlashy(bool flag);
   /**< Sets the solid edges flashy. */
 
   void setFlary(bool flag);
@@ -294,10 +294,10 @@ static const uint8_t FRAME_MAX;		// 255
   void resetRay();
   /**< Resets ray. */
 
-  void setFlashyEdges(const GLfloat *_flashcol);
+  void setFlashy(const GLfloat *_flashcol);
   /**< Sets the solid edges flashy with this color. */
 
-  void resetFlashyEdges();
+  void resetFlashy();
   /**< Resets the solid edges flashy. */
 
   GLint getDlist() const;

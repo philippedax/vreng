@@ -403,10 +403,8 @@ void Object::setVisible(bool flag)
 /** Checks if is visible - accessor */
 bool Object::isVisible() const
 {
-  if (solid)
-    return solid->visible;
-  else
-    return false;
+  if (solid) return solid->visible;
+  else return false;
 }
 
 /** Sets a ray - accessor */
@@ -494,20 +492,19 @@ void Object::setFrame(uint8_t _frame)
 /** Set flashy - accessor */
 void Object::setFlashy(float *color)
 {
-  if (solid) solid->setFlashyEdges(color);
+  if (solid) solid->setFlashy(color);
 }
 
 /** Set flashy - accessor */
 void Object::setFlashy()
 {
-  if (solid) solid->setFlashyEdges(true);
+  if (solid) solid->setFlashy(true);
 }
 
 /** Reset flashy - accessor */
 void Object::resetFlashy()
 {
-  if (! isValid()) return;
-  if (solid) solid->resetFlashyEdges();
+  if (solid) solid->resetFlashy();
 }
 
 ////////////////

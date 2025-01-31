@@ -3354,3 +3354,4 @@
 3354 Mer 29 jan 2025 15:50:50 CET	cleanup usersize vicinity.*pp
 3355 Mer 29 jan 2025 16:00:46 CET	cleanup vicinity.*pp
 3356 Ven 31 jan 2025 08:58:02 CET	cleanup getObjectName vicinity.hpp
+3357 Ven 31 jan 2025 10:21:02 CET	cleanup private/public solid.hpp

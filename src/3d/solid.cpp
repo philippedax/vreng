@@ -1290,12 +1290,12 @@ void Solid::resetRay()
   }
 }
 
-void Solid::setFlashyEdges(bool flag)
+void Solid::setFlashy(bool flag)
 {
   flashy = flag;
 }
 
-void Solid::setFlashyEdges(const GLfloat *color)
+void Solid::setFlashy(const GLfloat *color)
 {
   flashy = true;
   for (int i=0; i<3; i++) {
@@ -1303,7 +1303,7 @@ void Solid::setFlashyEdges(const GLfloat *color)
   }
 }
 
-void Solid::resetFlashyEdges()
+void Solid::resetFlashy()
 {
   flashy = false;
 }
