@@ -18,9 +18,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-// caroussel.cpp
+// carousel.cpp
 //
-// Caroussel handling
+// Carousel handling
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "carousel.hpp"
@@ -74,9 +74,7 @@ void Carousel::behaviors()
 
 void Carousel::inits()
 {
-  //echo("urlx3d: %s", name.url);
   x3d = new X3d(name.url);
-
   initMobileObject(0);
 }
 

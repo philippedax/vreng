@@ -34,7 +34,6 @@
  * Carousel class
  */
 class Carousel: public Object {
-
  private:
   X3d * x3d;
   V3 dim;
