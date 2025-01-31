@@ -1330,15 +1330,6 @@ void Solid::setFrame(uint8_t _frame)
   frame = _frame % nbframes;
 }
 
-/** Transposes vreng to opengl coordinates system */
-void Solid::vr2gl()
-{
-  GLfloat gl_mat[16];
-
-  M4toV16(&matpos, gl_mat);
-  glMultMatrixf(gl_mat);
-}
-
 GLint Solid::getDlist() const
 {
   return dlists[0];
@@ -1432,13 +1423,16 @@ int Solid::displayList(int display_mode = NORMAL)
 
   glPushMatrix();
   {
-   vr2gl();	// transpose vreng coord to opengl coord
+   // Transposes vreng to opengl coordinates system
+   GLfloat gl_mat[16];
+
+   M4toV16(&matpos, gl_mat);
+   glMultMatrixf(gl_mat);
 
    switch (display_mode) {
 
    case NORMAL:
      glPushMatrix();
-
      if (object->type == USER_TYPE) {	// if localuser
        User *user = (User *) object;
        glPushMatrix();

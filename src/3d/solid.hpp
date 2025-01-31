@@ -334,9 +334,6 @@ static const uint8_t FRAME_MAX;		// 255
   void setBB(GLfloat w, GLfloat d, GLfloat h);
   /**< Sets BB sizes. */
 
-  void vr2gl();
-  /**< Transposes vreng coordinates in opengl coordinates. */
-
   void doTransform(int flag);
   /**< Makes transforms rotations and translations. */
 
