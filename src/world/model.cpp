@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "model.hpp"
 #include "move.hpp"	// gotoFront
-#include "format.hpp"	// getModelByMime
+#include "format.hpp"	// getModelByUrl
 #include "music.hpp"	// MUSIC_TYPE
 #include "texture.hpp"	// Texture::open
 #include "user.hpp"	// localuser

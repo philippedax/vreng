@@ -114,16 +114,6 @@ static const struct _icons icons[] = {
 };
 
 
-uint8_t Format::getLoaderByMime(const char *mime)
-{
-  const struct _file *t = imgs;
-  for ( ; t->ext ; t++) {
-    if (!strcmp(mime, t->mime))
-      break;
-  }
-  return t->loader;
-}
-
 uint8_t Format::getLoaderByUrl(char *url)
 {
   char *p = url + strlen(url)-1;
@@ -139,6 +129,18 @@ uint8_t Format::getLoaderByUrl(char *url)
   }
   return t->loader;
 }
+
+#if 0 //notused
+uint8_t Format::getLoaderByMime(const char *mime)
+{
+  const struct _file *t = imgs;
+  for ( ; t->ext ; t++) {
+    if (!strcmp(mime, t->mime))
+      break;
+  }
+  return t->loader;
+}
+#endif //notused
 
 /** Returns a loader by mime */
 uint8_t Format::getModelByMime(const char *mime)

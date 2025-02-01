@@ -28,7 +28,7 @@
 #include "object.hpp"	// Object
 #include "http.hpp"	// httpOpen
 #include "url.hpp"	// check
-#include "format.hpp"	// getLoaderByMime
+#include "format.hpp"	// getLoaderByUrl
 #include "thread.hpp"	// Vpthread_mutex_t
 #include "pref.hpp"	// quality3D
 
@@ -128,7 +128,7 @@ void Texture::update()
 /** image reader */
 int imageReader(void *_tex, char *buf, int len)
 {
-  Texture *tex = static_cast<Texture *>(_tex);
+  Texture *tex = static_cast<Texture *> (_tex);
 
   return tex->http->httpRead(buf, len);        // return read length
 }
@@ -137,7 +137,7 @@ int imageReader(void *_tex, char *buf, int len)
 void Texture::selectLoader(void *_tex, Http *_http)
 {
   if (! _http) return;
-  Texture *tex = static_cast<Texture *>(_tex);
+  Texture *tex = static_cast<Texture *> (_tex);
   tex->http = _http;
   //echo("texture: %s", tex->url);
 
@@ -193,7 +193,7 @@ Texture::Texture(const char *_url)
     url = new char[URL_LEN];
   strcpy(url, _url);
   // load image
-  switch (Format::getLoaderByUrl(const_cast<char *>(_url))) {
+  switch (Format::getLoaderByUrl(const_cast<char *> (_url))) {
     case IMG_GIF: Http::httpOpen(_url, selectLoader, this, 1); break; // multi-threaded
     default:      Http::httpOpen(_url, selectLoader, this, 0); break;
   }
@@ -219,7 +219,7 @@ GLuint Texture::open(const char *_url)
 
   // we must download the texture now
   strcpy(texture->url, _url);
-  switch (Format::getLoaderByUrl(const_cast<char *>(_url))) {
+  switch (Format::getLoaderByUrl(const_cast<char *> (_url))) {
     case IMG_GIF: Http::httpOpen(_url, selectLoader, texture, 1); break; // multi-threaded
     default:      Http::httpOpen(_url, selectLoader, texture, 0); break;
   }

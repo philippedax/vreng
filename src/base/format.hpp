@@ -267,14 +267,14 @@ struct _icons {
  */
 class Format {
  public:
-  static uint8_t getLoaderByMime(const char *str);
-  static uint8_t getLoaderByUrl(char *url);
-  static uint8_t getModelByMime(const char *str);
   static uint8_t getModelByUrl(char *url);
+  static uint8_t getModelByMime(const char *str);
   static uint8_t getPlayerByUrl(char *url);
   static uint8_t getPlayerByExt(const char *str);
   static bool    getExt(char *str, char *ext);
   static void    getImgByExt(char *str, char *img);
+  static uint8_t getLoaderByUrl(char *url);
+  //notused static uint8_t getLoaderByMime(const char *str);
 
 };
 
