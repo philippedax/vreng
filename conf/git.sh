@@ -1,4 +1,4 @@
-#! /bin/sh -x
+#! /bin/sh
 #
 # git.sh
 #
@@ -33,11 +33,11 @@ log()
   mess=$*
   log=conf/commits.log
   chmod 644 $log
-  #num=1
-  #if [ -f $log ] ; then
+  num=1
+  if [ -f $log ] ; then
     num=$(echo $(tail -1 $log) | cut -f1 -d ' ')
     num=$[ $num + 1 ]
-  #fi
+  fi
   echo "$num $(date)	$mess" >> $log
   echo "$num $(date)	$mess"
 }
@@ -93,9 +93,9 @@ main()
     commit|c|co)
       shift
       mess=$*
-      #commit $mess
+      commit $mess
       log $mess
-      #push
+      push
       ;;
     add)
       shift
