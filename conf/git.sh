@@ -31,7 +31,7 @@ usage()
 log()
 {
   mess=$*
-  hist=conf/commits
+  hist=conf/commits.log
   chmod 644 $hist
   num=1
   if [ -f $hist ] ; then

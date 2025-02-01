@@ -53,7 +53,7 @@ archive: dist
 	@-(cd archive; rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ))
 
 doxygen:
-	@(umask 022; doxygen conf/doxygen)
+	@(umask 022; doxygen conf/doxygen.conf)
 
 snapshot:
 	$(MAKE) dist distdir=$(PACKAGE_NAME)`date +"%y%m%d"`
