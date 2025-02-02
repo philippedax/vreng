@@ -34,7 +34,7 @@ static const float left_angle  = 20.0;
 static const float right_angle = 26.0;
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Fractal::creator(char *l)
 {
   return new Fractal(l);
@@ -54,7 +54,6 @@ Fractal::Fractal(char *l)
   behaviors();
   geometry();
   inits();
-  initImposedMovement(10);
 }
 
 void Fractal::behaviors()
@@ -63,8 +62,6 @@ void Fractal::behaviors()
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
-
-  mobileObject(1);
 }
 
 void Fractal::geometry()
@@ -87,6 +84,8 @@ void Fractal::inits()
   right_w_factor = pow(2.0, -1.0/right_alpha);
   left_h_factor  = pow(2.0, -2.0/(3*left_alpha));
   right_h_factor = pow(2.0, -2.0/(3*right_alpha));
+
+  stillObject(1);
 }
 
 void Fractal::parser(char *l)
@@ -122,7 +121,7 @@ void Fractal::drawbranch(float w, float x0, float z0, float x1, float z1)
   glEnd();
 }
   
-/* Recursively called */
+/** Recursively called */
 void Fractal::generate(float x, float z, float w, float h, float a, uint16_t l)
 {
   turtle_x = x;

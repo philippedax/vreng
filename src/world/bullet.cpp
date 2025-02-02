@@ -62,20 +62,20 @@ void Bullet::inits()
 {
   mobileObject(TTL);
 
-  /* network creation */
+  // network creation
   netop = createVolatile(PROPS);
   netop->declareCreation();
 
-  /* position */
+  // position
   pos.x = localuser->pos.x;
   pos.y = localuser->pos.y;
   pos.z = localuser->pos.z + 0.6 * localuser->height/2;
   pos.az = localuser->pos.az;
 
-  /* action */
+  // action
   move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
   move.lspeed.v[1] = lspeed * sin(localuser->pos.az);
-  initImposedMovement(TTL);
+  imposedMovement(TTL);
 
   Sound::playSound(DRIPSND);
 }
@@ -88,13 +88,13 @@ Bullet::Bullet(Object *pu, void *d, time_t s, time_t u)
   inits();
 }
 
-/* Creation: this method is invisible, called by user */
+/** Creation: this method is invisible, called by user */
 void Bullet::create(User *user, void *d, time_t s, time_t u)
 {
   new Bullet(user, d, s, u);
 }
 
-/* Replication from the network */
+/** Replication from the network */
 Object * Bullet::replicator(uint8_t type_id, Noid noid, Payload *pp)
 {
   return new Bullet(type_id, noid, pp);

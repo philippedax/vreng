@@ -311,7 +311,7 @@ void Object::enableImposedMovement()
 }
 
 /** Initializes an imposed movement */
-void Object::initImposedMovement(float ttl)
+void Object::imposedMovement(float ttl)
 {
   enableImposedMovement();
   move.ttl = (ttl < 0) ? -ttl : ttl;
@@ -566,7 +566,7 @@ void Object::moveObject(Object *po, void *d, time_t s, time_t u)
     po->move.manip = true;
   }
   po->enableBehavior(NO_ELEMENTARY_MOVE); 	// carrier
-  po->initImposedMovement(5); 			// carrier
+  po->imposedMovement(5); 			// carrier
   localuser->carrier->take(po);
 }
 
@@ -591,7 +591,7 @@ void Object::moveUserToObject(float sgn, float lttl, float attl)
   clearV3(localuser->move.lspeed);
   clearV3(localuser->move.aspeed);
   localuser->move.aspeed.v[0] = da / attl;
-  localuser->initImposedMovement(attl);		// start movement
+  localuser->imposedMovement(attl);		// start movement
   localuser->move.nocol = true;
 
   // second movement: user translation towards the object
@@ -621,7 +621,7 @@ void gotoXYZ(float gox, float goy, float goz, float az)
   clearV3(localuser->move.lspeed);
   clearV3(localuser->move.aspeed);
   localuser->move.aspeed.v[0] = da / attl;
-  localuser->initImposedMovement(attl);	// start orientation
+  localuser->imposedMovement(attl);	// start orientation
 
   localuser->move.next = new Move[1];	// build 2nd movement eg. translation
   localuser->move.next->ttl = lttl;	// needed for pthreaded endMovement

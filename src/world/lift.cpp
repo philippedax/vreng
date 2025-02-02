@@ -116,21 +116,21 @@ void Lift::up()
 {
   dest = MIN(pos.z + height, height * top);
   if ((pos.z + 0.1) >= top) return;
-  initImposedMovement((dest - pos.z) / speed);
+  imposedMovement((dest - pos.z) / speed);
 }
 
 void Lift::down()
 {
   dest = MAX(pos.z - height, height * bot);
   if ((pos.z - 0.1) <= bot) return;
-  initImposedMovement((dest - pos.z) / speed);
+  imposedMovement((dest - pos.z) / speed);
 }
 
 void Lift::call()
 {
   if (! state) {	// call only from outside
     dest = localuser->pos.z - localuser->height/2 - Lift::DEF_STEP;
-    initImposedMovement((dest - pos.z) / speed);
+    imposedMovement((dest - pos.z) / speed);
   }
 }
 

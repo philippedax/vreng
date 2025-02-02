@@ -252,7 +252,7 @@ bool Ball::whenIntersect(Object *pcur, Object *pold)
       move.lspeed.v[0] = (lspeed / 4) * cos(pcur->pos.az);
       move.lspeed.v[1] = (lspeed / 4) * sin(pcur->pos.az);
       ttl = 1;	// 1 sec
-      initImposedMovement(ttl);
+      imposedMovement(ttl);
       pcur->updatePositionAndGrid(pold);
     }
     pold->copyPositionAndBB(pcur);
@@ -282,7 +282,7 @@ void Ball::push()
   move.aspeed.v[0] = 0;
   ttl = Ball::TTL;
   ttl /= ratio();
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
   taken = false;
 }
 
@@ -294,7 +294,7 @@ void Ball::pull()
   move.aspeed.v[0] = 0;
   ttl = Ball::TTL;
   ttl /= ratio();
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
   taken = false;
 }
 
@@ -306,7 +306,7 @@ void Ball::shoot()
   move.aspeed.v[0] = aspeed;
   ttl = Ball::TTL;
   ttl /= ratio();
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
   taken = false;
 }
 
@@ -317,13 +317,13 @@ void Ball::up()
   move.lspeed.v[2] = zspeed / 2;
   move.aspeed.v[0] = aspeed;
   ttl = 1;	// 1 sec
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
 }
 
 void Ball::take()
 {
   ttl = MAXFLOAT;
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
   disablePermanentMovement();
   taken = true;
 }
@@ -332,7 +332,7 @@ void Ball::drop()
 {
   enablePermanentMovement();
   ttl = 0;
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
   taken = false;
 }
 
@@ -343,7 +343,7 @@ void Ball::turn()
   move.lspeed.v[2] = 0;
   move.aspeed.v[0] = aspeed * 2;
   ttl = 1;	// 1 sec
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
 }
 
 void Ball::destroy()

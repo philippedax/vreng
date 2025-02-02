@@ -575,7 +575,7 @@ class Object {
   void setLinearSpeed(float lspeed);
   /**< set permanent linear speed of an object. */
 
-  void initImposedMovement(float lasting);
+  void imposedMovement(float lasting);
   /**< Initializes movement on an object. */
 
   float diffTime(time_t sec, time_t usec);

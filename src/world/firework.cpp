@@ -91,7 +91,7 @@ Firework::Firework(char *l)
   behaviors();
   geometry();
   inits();
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
   generate();
 }
 

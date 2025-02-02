@@ -706,11 +706,11 @@ void Book::approach()
       temp->move.aspeed.v[2] = vax;
       temp->aright = azend;
       temp->aleft += daz;
-      temp->initImposedMovement(ttl);
+      temp->imposedMovement(ttl);
     }
-    if (left)  left->initImposedMovement(ttl);
-    if (right) right->initImposedMovement(ttl);
-    initImposedMovement(ttl);
+    if (left)  left->imposedMovement(ttl);
+    if (right) right->imposedMovement(ttl);
+    imposedMovement(ttl);
   }
 }
 

@@ -126,7 +126,7 @@ void Sheet::turnNext()
   clearV3(move.lspeed);
   clearV3(move.aspeed);
   move.aspeed.v[0] = -aspeed;
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
   Mp3::start(DEF_URL_NOISE);
 }
 
@@ -137,7 +137,7 @@ void Sheet::turnPrev()
   clearV3(move.lspeed);
   clearV3(move.aspeed);
   move.aspeed.v[0] = aspeed;
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
   Mp3::start(DEF_URL_NOISE);
 }
 
@@ -152,7 +152,7 @@ void Sheet::pullNext()
   move.lspeed.v[0] = dx / ttl;
   move.lspeed.v[1] = dy / ttl;
   move.aspeed.v[0] = -aspeed;
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
 }
 
 void Sheet::pullPrev()
@@ -166,7 +166,7 @@ void Sheet::pullPrev()
   move.lspeed.v[0] = dx / ttl;
   move.lspeed.v[1] = dy / ttl;
   move.aspeed.v[0] = aspeed;
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
 }
 
 /* pousser un tas gauche (pendant que le tas droit tourne) */
@@ -177,7 +177,7 @@ void Sheet::pushNext(float dist)
   float ttl = ABSF(deltaAngle(aleft, aright) / aspeed);
   move.lspeed.v[0] =  dist * sin(aleft) / ttl;
   move.lspeed.v[1] = -dist * cos(aleft) / ttl;
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
 }
 
 /* pousser un tas droit (pendant que le tas gauche tourne) */
@@ -188,7 +188,7 @@ void Sheet::pushPrev(float dist)
   float ttl = ABSF(deltaAngle(aleft, aright) / aspeed);
   move.lspeed.v[0] = -dist * sin(aright) / ttl;
   move.lspeed.v[1] =  dist * cos(aright) / ttl;
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
 }
 
 void Sheet::quit()

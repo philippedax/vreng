@@ -139,7 +139,7 @@ void Web::pivot()
 {
   clearV3(move.aspeed);
   move.aspeed.v[0] = aspeed;
-  initImposedMovement(TTL);
+  imposedMovement(TTL);
   if (*caption) {
     showCaption();
   }

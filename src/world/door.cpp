@@ -205,15 +205,15 @@ void Door::open()
   switch (mecanism) {
   case Door::ANGULAR:
     move.aspeed.v[0] = speed;
-    initImposedMovement(ABSF(deltaAngle(pos.az, aopen) / move.aspeed.v[0]));
+    imposedMovement(ABSF(deltaAngle(pos.az, aopen) / move.aspeed.v[0]));
     break;
   case Door::SLIDING:
     move.lspeed.v[0] = speed;
-    initImposedMovement(ABSF((pos.x - xopen) / move.lspeed.v[0]));
+    imposedMovement(ABSF((pos.x - xopen) / move.lspeed.v[0]));
     break;
   case Door::VERTICAL:
     move.lspeed.v[2] = speed;
-    initImposedMovement(ABSF((pos.z - zopen) / move.lspeed.v[2]));
+    imposedMovement(ABSF((pos.z - zopen) / move.lspeed.v[2]));
     break;
   }
   Sound::playSound(DOOROPENSND);
@@ -230,15 +230,15 @@ void Door::close()
   switch (mecanism) {
   case Door::ANGULAR:
     move.aspeed.v[0] = -speed;
-    initImposedMovement(ABSF(deltaAngle(pos.az, aclose) / move.aspeed.v[0]));
+    imposedMovement(ABSF(deltaAngle(pos.az, aclose) / move.aspeed.v[0]));
     break;
   case Door::SLIDING:
     move.lspeed.v[0] = -speed;
-    initImposedMovement(ABSF((pos.x - xclose) / move.lspeed.v[0]));
+    imposedMovement(ABSF((pos.x - xclose) / move.lspeed.v[0]));
     break;
   case Door::VERTICAL:
     move.lspeed.v[2] = -speed;
-    initImposedMovement(ABSF((pos.z - zclose) / move.lspeed.v[2]));
+    imposedMovement(ABSF((pos.z - zclose) / move.lspeed.v[2]));
     break;
   }
   state = CLOSED;

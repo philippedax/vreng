@@ -296,7 +296,7 @@ Icon::Icon(User *user, void *d)
 
   mobileObject(1);
   ttl = (taken) ? MAXFLOAT : 0;
-  initImposedMovement(ttl);
+  imposedMovement(ttl);
   disablePermanentMovement();
 
   // network creation
@@ -388,7 +388,7 @@ void Icon::pin(Icon *icon, void *d, time_t s, time_t u)
   icon->move.lspeed.v[0] = icon->lspeed * 4 * cos(localuser->pos.az);
   icon->move.lspeed.v[1] = icon->lspeed * 4 * sin(localuser->pos.az);
   icon->ttl = Icon::TTL * 10;
-  icon->initImposedMovement(icon->ttl);
+  icon->imposedMovement(icon->ttl);
   icon->disablePermanentMovement();
   icon->enableBehavior(COLLIDE_ONCE);
   icon->taken = false;
@@ -401,7 +401,7 @@ void Icon::push(Icon *icon, void *d, time_t s, time_t u)
   icon->move.lspeed.v[0] = icon->lspeed * cos(localuser->pos.az);
   icon->move.lspeed.v[1] = icon->lspeed * sin(localuser->pos.az);
   icon->ttl = Icon::TTL * 4;
-  icon->initImposedMovement(icon->ttl);
+  icon->imposedMovement(icon->ttl);
   icon->disablePermanentMovement();
   icon->enableBehavior(COLLIDE_ONCE);
   icon->taken = false;
@@ -416,7 +416,7 @@ void Icon::pull(Icon *icon, void *d, time_t s, time_t u)
     icon->move.lspeed.v[0] = -icon->lspeed * cos(localuser->pos.az);
     icon->move.lspeed.v[1] = -icon->lspeed * sin(localuser->pos.az);
     icon->ttl = Icon::TTL;
-    icon->initImposedMovement(icon->ttl);
+    icon->imposedMovement(icon->ttl);
     icon->disablePermanentMovement();
     icon->enableBehavior(COLLIDE_ONCE);
     icon->taken = false;
@@ -428,7 +428,7 @@ void Icon::carry(Icon *icon, void *d, time_t s, time_t u)
   if (! icon->taken) {
     icon->resetFlashy();
     icon->ttl = MAXFLOAT;
-    icon->initImposedMovement(icon->ttl);
+    icon->imposedMovement(icon->ttl);
     icon->disablePermanentMovement();
     icon->disableBehavior(COLLIDE_NEVER);
     icon->taken = true;
@@ -439,7 +439,7 @@ void Icon::leave(Icon *icon, void *d, time_t s, time_t u)
 {
   if (icon->taken) {
     icon->ttl = 0;
-    icon->initImposedMovement(icon->ttl);
+    icon->imposedMovement(icon->ttl);
     icon->taken = false;
   }
 }
@@ -449,7 +449,7 @@ void Icon::drop(Icon *icon, void *d, time_t s, time_t u)
   if (! icon->taken) {
     icon->enablePermanentMovement();
     icon->ttl = 0.;
-    icon->initImposedMovement(icon->ttl);
+    icon->imposedMovement(icon->ttl);
     icon->enableBehavior(COLLIDE_ONCE);
   }
 }
@@ -496,7 +496,7 @@ void Icon::turn(Icon *icon, void *d, time_t s, time_t u)
   clearV3(icon->move.aspeed);
   icon->move.aspeed.v[0] = icon->aspeed * 2;
   icon->ttl = Icon::TTL;
-  icon->initImposedMovement(icon->ttl);
+  icon->imposedMovement(icon->ttl);
   icon->disablePermanentMovement();
 }
 

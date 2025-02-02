@@ -90,7 +90,7 @@ void Bubble::behaviors()
 void Bubble::inits()
 {
   ephemeralObject(BUBBLETTL);
-  initImposedMovement(BUBBLETTL);		// alive delay
+  imposedMovement(BUBBLETTL);	// alive delay
   createVolatile(PROPS);
 }
 

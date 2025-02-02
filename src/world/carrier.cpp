@@ -71,7 +71,7 @@ void Carrier::take(Object *po)
   object->move.manip = true;
   object->move.lspeed.v[0] = lspeed;
   object->move.aspeed.v[1] = aspeed;
-  object->initImposedMovement(1);
+  object->imposedMovement(1);
   control = true;
 }
 

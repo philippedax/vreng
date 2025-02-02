@@ -192,7 +192,7 @@ bool Thing::whenIntersect(Object *pcur, Object *pold)
       // pushes the thing
       move.lspeed.v[0] = (lspeed / 2) * cos(pcur->pos.az);
       move.lspeed.v[1] = (lspeed / 2) * sin(pcur->pos.az);
-      initImposedMovement(1);	// 1 sec
+      imposedMovement(1);	// 1 sec
       break;
     default:
       pold->copyPositionAndBB(pcur);
