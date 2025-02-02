@@ -332,6 +332,14 @@ void Object::stopImposedMovement()
   }
 }
 
+/** Sets uniform linear speed */
+void Object::linearSpeed(float lspeed)
+{
+  move.lspeed.v[0] = lspeed;
+  move.lspeed.v[1] = lspeed;
+  move.lspeed.v[2] = lspeed;
+}
+
 /** Enables a permanent movement */
 void Object::enablePermanentMovement()
 {
@@ -345,18 +353,8 @@ void Object::enablePermanentMovement()
 
 void Object::enablePermanentMovement(float speed)
 {
-  move.lspeed.v[0] = speed;
-  move.lspeed.v[1] = speed;
-  move.lspeed.v[2] = speed;
+  linearSpeed(speed);
   enablePermanentMovement();
-}
-
-/** Sets uniform linear speed */
-void Object::setLinearSpeed(float lspeed)
-{
-  move.lspeed.v[0] = lspeed;
-  move.lspeed.v[1] = lspeed;
-  move.lspeed.v[2] = lspeed;
 }
 
 /** Disables a permanent movement */

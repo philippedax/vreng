@@ -81,7 +81,7 @@ void Accessory::inits()
   following = false;
 
   mobileObject(1);
-  setLinearSpeed(speed);
+  linearSpeed(speed);
   createNetObj(PROPS, ++oid);
 }
 

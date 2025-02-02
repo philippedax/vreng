@@ -572,7 +572,7 @@ class Object {
   void disablePermanentMovement();
   /**< Disables movement on an object. */
 
-  void setLinearSpeed(float lspeed);
+  void linearSpeed(float lspeed);
   /**< set permanent linear speed of an object. */
 
   void imposedMovement(float lasting);

@@ -85,7 +85,7 @@ void Fractal::inits()
   left_h_factor  = pow(2.0, -2.0/(3*left_alpha));
   right_h_factor = pow(2.0, -2.0/(3*right_alpha));
 
-  stillObject(1);
+  stillObject();
 }
 
 void Fractal::parser(char *l)
