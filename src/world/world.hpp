@@ -177,8 +177,6 @@ class World {
 
   void joinManager(const char *chanstr);
   /**< Sets the manager channel name and joins it. */
-
-  //notused void dumpworldVisit(const char *note);
 };
 
 #endif

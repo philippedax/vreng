@@ -882,21 +882,3 @@ void World::clearObjects()
   deleteList.clear();
   lightList.clear();
 }
-
-#if 0 //notused
-/** Lists worldVisit - debug */
-void World::dumpworldVisit(const char *note)
-{
-  int i=0;
-  printf("%s: ", note);
-  for (World *wp = worldVisit; wp && i<32; wp = wp->next, i++) {
-    printf("%s -> ", wp->name);
-    if (wp == wp->next) {
-      printf("loop\n");
-      return;
-    }
-  }
-  if (i==32) printf("LOOP\n");
-  else printf("\n");
-}
-#endif
