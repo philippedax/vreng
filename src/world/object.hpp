@@ -666,7 +666,7 @@ class Object {
   NetObj * createNetObj(uint8_t props, uint16_t oid);
   /**< Creates local permanent NetObj. */
 
-  NetObj * createVolatile(uint8_t props);
+  NetObj * createNetObj(uint8_t props);
   /**< Creates local volatile NetObj. */
 
   NetObj * replicate(uint8_t props, class Noid _noid);

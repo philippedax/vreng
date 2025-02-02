@@ -244,7 +244,7 @@ void Hat::wear()
   behaviors();
   inits();
   setPersist();
-  createVolatile(PROPS);
+  createNetObj(PROPS);
   addWearList();
 }
 

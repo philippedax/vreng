@@ -330,7 +330,7 @@ void User::inits()
   updateNames();
   mobileObject(LASTING);
   permanentMovement();	// gravity
-  netop = createVolatile(PROPS);
+  netop = createNetObj(PROPS);
   // netop->declareCreation(); // we don't need because delta do the job
 
   geometry();

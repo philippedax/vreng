@@ -118,7 +118,7 @@ void Guy::inits()
   Http::httpOpen(name.url, reader, this, 0);
 
   computeCurve();
-  netop = createVolatile(PROPS);
+  netop = createNetObj(PROPS);
 }
 
 /** Constructor from vre file */

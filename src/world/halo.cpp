@@ -161,7 +161,7 @@ void Halo::wear()
   setPersist();
   behaviors();
   inits();
-  createVolatile(PROPS);
+  createNetObj(PROPS);
   addWearList();
 }
 

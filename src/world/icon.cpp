@@ -300,7 +300,7 @@ Icon::Icon(User *user, void *d)
   stopMovement();
 
   // network creation
-  createVolatile(PROPS);
+  createNetObj(PROPS);
 
   // document's owner
   setOwner();

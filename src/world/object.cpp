@@ -544,7 +544,7 @@ NetObj * Object::createNetObj(uint8_t props, uint16_t oid)
 }
 
 /** Creates local volatile NetObj */
-NetObj * Object::createVolatile(uint8_t props)
+NetObj * Object::createNetObj(uint8_t props)
 {
   netop = new NetObj(this, props);
   return netop;

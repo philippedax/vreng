@@ -63,7 +63,7 @@ void Bullet::inits()
   mobileObject(TTL);
 
   // network creation
-  netop = createVolatile(PROPS);
+  netop = createNetObj(PROPS);
   netop->declareCreation();
 
   // position
