@@ -155,7 +155,7 @@ bool Object::updateLasting(time_t sec, time_t usec, float *lasting)
   }
 
   *lasting = 0;
-  stopImposedMovement();
+  stopMovement();
   return false;
 }
 
@@ -320,11 +320,13 @@ void Object::imposedMovement(float ttl)
 }
 
 /** Stops an imposed movement */
-void Object::stopImposedMovement()
+void Object::stopMovement()
 {
   move.ttl = 0;
   move.sec = 0;
   move.usec = 0;
+  if (move.perm_sec)  move.perm_sec  = 0;
+  if (move.perm_usec) move.perm_usec = 0;
   move.next = NULL;
   move.nocol = false;
   for (Move *pm = move.next; pm ; pm = pm->next) {

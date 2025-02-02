@@ -581,7 +581,7 @@ class Object {
   float diffTime(time_t sec, time_t usec);
   /**< Updates times on an object. */
 
-  void stopImposedMovement();
+  void stopMovement();
   /**< Stops a movement on an object. */
 
   bool testMoving();
