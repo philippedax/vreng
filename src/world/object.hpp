@@ -590,10 +590,10 @@ class Object {
   bool updateLasting(time_t sec, time_t usec, float *lasting);
   /**< Updates remaining times of the movement. */
 
-  void imposedMovement(time_t sec, time_t usec);
-  /**< Handles an object movement. */
+  void imposedMovements(time_t sec, time_t usec);
+  /**< Handles an imposed object movement. */
 
-  void permanentMovement(time_t sec, time_t usec);
+  void permanentMovements(time_t sec, time_t usec);
   /**< Handles a permanent object movement. */
 
   void setLasting(float maxlast);

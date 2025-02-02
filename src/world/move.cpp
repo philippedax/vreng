@@ -439,10 +439,10 @@ void Object::elemImposedMovement(float dt)
 }
 
 /** Object imposed movement for an object */
-void Object::imposedMovement(time_t sec, time_t usec)
+void Object::imposedMovements(time_t sec, time_t usec)
 {
   if (! isValid()) {
-    error("imposedMovement: %s type=%d invalid", name.given, type);
+    error("imposedMovements: %s type=%d invalid", name.given, type);
     return;
   }
   if (! isMoving() && ! move.manip) return;	// no moving
@@ -505,10 +505,10 @@ void Object::elemPermanentMovement(float dt)
 }
 
 /** Object permanent movement - called by world */
-void Object::permanentMovement(time_t sec, time_t usec)
+void Object::permanentMovements(time_t sec, time_t usec)
 {
   if (! isValid()) {
-    error("permanentMovement: type=%d invalid", type);
+    error("permanentMovements: type=%d invalid", type);
     return;
   }
 

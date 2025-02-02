@@ -296,8 +296,8 @@ void World::compute(time_t sec, time_t usec)
     // objects movement with imposed or permanent movements
     //
     for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-      (*it)->imposedMovement(sec, usec);	// object with imposed movement
-      (*it)->permanentMovement(sec, usec);	// object with permanent movement
+      (*it)->imposedMovements(sec, usec);	// object with imposed movement
+      (*it)->permanentMovements(sec, usec);	// object with permanent movement
     }
 
     break;
