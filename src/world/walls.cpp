@@ -115,7 +115,7 @@ Walls::Walls(char *l)
   enableBehavior(SPECIFIC_RENDER);
   geometry();
 
-  initStillObject();
+  stillObject();
 
   Http::httpOpen(name.url, reader, this, 0);
 

@@ -111,7 +111,7 @@ void Fire::behaviors()
 
 void Fire::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
 
   nowtime = 0;
   lasttime = 0;

@@ -107,7 +107,7 @@ void Wings::behaviors()
 /* sets position near the avatar */
 void Wings::inits()
 {
-  initMobileObject(ttl);
+  mobileObject(ttl);
   if (taken)
     enablePermanentMovement();  // follows user
 

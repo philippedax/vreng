@@ -81,7 +81,7 @@ Thing::Thing(char *l)
   parser(l);
   behaviors();
 
-  initMobileObject(1);
+  mobileObject(1);
   createNetObj(PROPS, ++oid);
 }
 
@@ -108,7 +108,7 @@ Thing::Thing(Object *user, char *_geom)
     vsql->insertRow(this);
   }
 
-  initMobileObject(1);
+  mobileObject(1);
   createNetObj(PROPS, ++oid);
 }
 
@@ -144,7 +144,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   enableBehavior(DYNAMIC);
   behaviors();
 
-  initMobileObject(1);
+  mobileObject(1);
   createNetObj(PROPS, oid);
 }
 

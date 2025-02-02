@@ -160,7 +160,7 @@ void Book::behaviors()
 /** Do specific initializations */
 void Book::inits()
 {
-  initMobileObject(1);
+  mobileObject(1);
   createNetObj(PROPS, ++oid);
 
   getDim(size);

@@ -63,7 +63,7 @@ void Slider::parser(char *l)
 
 void Slider::behaviors()
 {
-  initMobileObject(1);
+  mobileObject(1);
 }
 
 Slider::Slider(char *l)

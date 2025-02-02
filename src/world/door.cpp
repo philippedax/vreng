@@ -117,7 +117,7 @@ Door::Door(char *l)
 
   enableBehavior(PERSISTENT);
 
-  initMobileObject(1);
+  mobileObject(1);
   createNetObj(PROPS, ++oid);
 }
 

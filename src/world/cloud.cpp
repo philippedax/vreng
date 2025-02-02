@@ -119,7 +119,7 @@ void Cloud::behaviors()
 
 void Cloud::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
 
   obloids = new tObloid[number];
 

@@ -80,7 +80,7 @@ void Sun::geometry()
 
 void Sun::inits()
 {
-  initMobileObject(1);
+  mobileObject(1);
 
   ox = pos.x;
   oy = pos.y;

@@ -90,7 +90,7 @@ void Stair::build()
 
 void Stair::inits()
 {
-  initMobileObject(1);
+  mobileObject(1);
 }
 
 Stair::Stair(char *l)

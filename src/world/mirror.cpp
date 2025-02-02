@@ -49,7 +49,7 @@ void Mirror::behaviors()
 {
   enableBehavior(COLLIDE_ONCE);
 
-  initMobileObject(0);
+  mobileObject(0);
   createNetObj(PROPS, ++oid);
 
   setReflexive(state);

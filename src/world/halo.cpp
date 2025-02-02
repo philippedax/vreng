@@ -80,7 +80,7 @@ void Halo::behaviors()
 /* sets position near the avatar */
 void Halo::inits()
 {
-  initClothObject(ttl);
+  clothObject(ttl);
   if (taken)
     enablePermanentMovement();  // follows user
 

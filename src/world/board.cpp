@@ -55,7 +55,7 @@ void Board::inits()
 {
   dlist = 0;
   ::g.gui.setToBoard(this);
-  initMobileObject(0);
+  mobileObject(0);
   createNetObj(PROPS, ++oid);
 }
 

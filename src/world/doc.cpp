@@ -56,7 +56,7 @@ Doc::Doc(char *l)
 
   enableBehavior(TAKABLE);
 
-  initMobileObject(0);
+  mobileObject(0);
   createNetObj(PROPS, ++oid);
 }
 

@@ -131,7 +131,7 @@ void Hat::behaviors()
 /* sets position near the avatar */
 void Hat::inits()
 {
-  initClothObject(ttl);
+  clothObject(ttl);
   if (taken)
     enablePermanentMovement();  // follows user
 

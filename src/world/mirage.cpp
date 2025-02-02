@@ -132,7 +132,7 @@ void Mirage::behaviors()
   if (persist) enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
 
-  initMobileObject(1);
+  mobileObject(1);
   if (turn || roll || tilt || orbit || circular || flares) {
     enablePermanentMovement();
   }

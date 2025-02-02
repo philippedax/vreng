@@ -126,7 +126,7 @@ void Particle::geometry()
 
 void Particle::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
 
   switch (system) {
   case FIREWORK:

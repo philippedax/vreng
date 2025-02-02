@@ -92,7 +92,7 @@ Movie::Movie(char *l)
   strcpy(line, l);
   parser(l);
 
-  initMobileObject(0);
+  mobileObject(0);
 
   vidfmt = Format::getPlayerByUrl(name.url);
 

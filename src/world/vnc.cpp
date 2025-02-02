@@ -113,7 +113,7 @@ void Vnc::behaviors()
 /** Do sprecific initializations */
 void Vnc::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
   updatePosition();
   buildScreen();
   connectServer();

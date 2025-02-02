@@ -92,7 +92,7 @@ void Button::behaviors()
 
 void Button::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
   createNetObj(PROPS, ++oid);
 }
 

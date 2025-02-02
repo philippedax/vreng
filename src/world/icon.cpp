@@ -294,7 +294,7 @@ Icon::Icon(User *user, void *d)
   enableBehavior(REMOVABLE);
   enableBehavior(NO_ELEMENTARY_MOVE);
 
-  initMobileObject(1);
+  mobileObject(1);
   ttl = (taken) ? MAXFLOAT : 0;
   initImposedMovement(ttl);
   disablePermanentMovement();
@@ -328,7 +328,7 @@ Icon::Icon(uint8_t type_id, Noid _noid, Payload *pp)
 
   geometry();
   defaults();
-  initMobileObject(0);
+  mobileObject(0);
   taken = false;
 }
 

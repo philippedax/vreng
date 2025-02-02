@@ -75,7 +75,7 @@ Lift::Lift(char *l)
   parser(l);
 
   state = NONE;		// lift is empty
-  initMobileObject(0);
+  mobileObject(0);
   createNetObj(PROPS, ++oid);
 
   dest = pos.z;		// initial position

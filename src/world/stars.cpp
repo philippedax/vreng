@@ -224,7 +224,7 @@ void Stars::init()
 
   for (int n=0; n < number; n++) create(n, 100);
 
-  initEphemeralObject(0);
+  ephemeralObject(0);
 }
 
 Stars::Stars(char *l)

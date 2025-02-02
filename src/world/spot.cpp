@@ -111,7 +111,7 @@ Spot::Spot(char *l)
     pos.ax = -M_PI_2;		// horizontal
   //echo("spot: %.1f %.1f", pos.az, pos.ax);
 
-  initStillObject();
+  stillObject();
 }
 
 /** Created by movie */
@@ -133,7 +133,7 @@ Spot::Spot(Object *movie, void *d, time_t s, time_t u)
   pos.ax = movie->pos.ax - M_PI_2;	// horizontal
   //echo("pos: %.2f %.2f %.2f %.2f %.2f", pos.x,pos.y,pos.z,pos.az,pos.ax);
   
-  initStillObject();
+  stillObject();
 }
 
 void Spot::render()

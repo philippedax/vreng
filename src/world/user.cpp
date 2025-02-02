@@ -328,7 +328,7 @@ void User::inits()
 {
   setName();
   updateNames();
-  initMobileObject(LASTING);
+  mobileObject(LASTING);
   enablePermanentMovement();	// gravity
   netop = createVolatile(PROPS);
   // netop->declareCreation(); // we don't need because delta do the job
@@ -463,7 +463,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   }
   //echo("replica: new avatar: rctpname=%s", rtcpname);
 
-  initMobileObject(0);
+  mobileObject(0);
   addGui();			// informs Gui
   ::g.gui.expandAvatar();	// shows new avatar coming in
 

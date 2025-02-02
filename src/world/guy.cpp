@@ -107,7 +107,7 @@ void Guy::behaviors()
 /** Do specific initializations */
 void Guy::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
 
   step = CYCLES/2;
   incstep = 1.;
@@ -161,7 +161,7 @@ Guy::Guy(uint8_t type_id, Noid _noid, Payload *pp)
   defaults();
   geometry();
   behaviors();
-  initMobileObject(0);
+  mobileObject(0);
 }
 
 /** Reads curves file */

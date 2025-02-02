@@ -106,7 +106,7 @@ void Escalator::build()
 
 void Escalator::inits()
 {
-  initMobileObject(1);
+  mobileObject(1);
   createNetObj(PROPS, ++oid);
 }
 

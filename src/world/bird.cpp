@@ -81,7 +81,7 @@ void Bird::inits()
   wings = new Wings(model, scale, 1);
   posorig = pos;
 
-  initMobileObject(0);
+  mobileObject(0);
 
   if (flying) {
     fly();

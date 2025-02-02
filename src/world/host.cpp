@@ -54,7 +54,7 @@ Host::Host(char *l)
 {
   parser(l);
 
-  initMobileObject(0);
+  mobileObject(0);
   createNetObj(PROPS, ++oid);
 }
 

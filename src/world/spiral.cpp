@@ -83,7 +83,7 @@ void Spiral::build()
 
 void Spiral::inits()
 {
-  initStillObject();
+  stillObject();
 
   mobile = false;
   build();

@@ -64,7 +64,7 @@ void Fractal::behaviors()
   enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
 
-  initMobileObject(1);
+  mobileObject(1);
 }
 
 void Fractal::geometry()

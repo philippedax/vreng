@@ -86,7 +86,7 @@ void River::behaviors()
 				// if HIGH river position is over the other objects
   }
 
-  initFluidObject(0);		// fluid object
+  fluidObject(0);		// fluid object
 }
 
 void River::inits()

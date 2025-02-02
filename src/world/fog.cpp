@@ -76,7 +76,7 @@ Fog::Fog(char *l)
   behaviors();
   geometry();
 
-  initMobileObject(0);
+  mobileObject(0);
 }
 
 void Fog::render()

@@ -70,7 +70,7 @@ void Animator::behaviors()
 
 void Animator::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
   createNetObj(PROPS, ++oid);
 
   if (state == ACTIVE) {

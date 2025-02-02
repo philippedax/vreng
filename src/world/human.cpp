@@ -131,7 +131,7 @@ void Human::behaviors()
   enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
 
-  initMobileObject(0);
+  mobileObject(0);
 }
 
 void Human::geometry()

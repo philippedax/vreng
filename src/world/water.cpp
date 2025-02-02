@@ -95,7 +95,7 @@ void Water::behaviors()
 
 void Water::inits()
 {
-  initFluidObject(0);
+  fluidObject(0);
 
   getSolid()->setTransparent(color[3]);
   texid = Texture::current();

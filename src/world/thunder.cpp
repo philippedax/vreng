@@ -70,7 +70,7 @@ void Thunder::behaviors()
 
 void Thunder::inits()
 {
-  initEphemeralObject(0);
+  ephemeralObject(0);
 
   draw();
 }

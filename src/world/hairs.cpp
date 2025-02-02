@@ -77,7 +77,7 @@ Hairs::Hairs(char *l)
   enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
 
-  initMobileObject(0);
+  mobileObject(0);
 
   if (loader(name.url, scale)) {	// load model
     dlist = glGenLists(1);

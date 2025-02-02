@@ -106,7 +106,7 @@ Vrelet::Vrelet(char *l)
   enableBehavior(SPECIFIC_RENDER);      // interactive drawing
   enableBehavior(MIX_RENDER);		// drawing surface
 
-  initMobileObject(0);
+  mobileObject(0);
 
   Vjc::startApp(this);
   ::g.gui.setToVrelet(this);

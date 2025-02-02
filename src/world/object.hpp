@@ -656,17 +656,17 @@ class Object {
   void initObject(uint8_t mode);
   /**< Initializes object. */
 
-  void initMobileObject(float last);
-  void initEphemeralObject(float last);
+  void mobileObject(float last);
+  void ephemeralObject(float last);
   /**< Initializes mobile object. */
 
-  void initStillObject();
+  void stillObject();
   /**< Initializes still object. */
 
-  void initFluidObject(float last);
+  void fluidObject(float last);
   /**< Initializes fluid object. */
 
-  void initClothObject(float last);
+  void clothObject(float last);
   /**< Initializes cloth object. */
 
   NetObj * createNetObj(uint8_t props, uint16_t oid);

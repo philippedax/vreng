@@ -105,7 +105,7 @@ Plane::Plane(char *l)
   if (pos.ax) {	// inclinated
     geometry();
   }
-  initMobileObject(0);
+  mobileObject(0);
 }
 
 /** Intersection with an object */

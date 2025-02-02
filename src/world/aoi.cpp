@@ -81,7 +81,7 @@ void Aoi::behaviors()
 
 void Aoi::inits()
 {
-  initStillObject();
+  stillObject();
 }
 
 Aoi::Aoi(char *l)
@@ -117,7 +117,7 @@ void Aoi::aoiEnter()
   }
 
   /* initializes local user's avatar */
-  localuser->initMobileObject(0);
+  localuser->mobileObject(0);
   localuser->netop->set(NetObj::NET_VOLATILE);
 
   /* publishes to other VREng processes we are there (no latency) */

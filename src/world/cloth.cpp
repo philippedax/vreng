@@ -81,7 +81,7 @@ void Cloth::parser(char *l)
   end_while_parse(l);
 }
 
-/* solid geometry */
+/** solid geometry */
 void Cloth::geometry()
 {
   char s[128];
@@ -115,10 +115,10 @@ void Cloth::behaviors()
   }
 }
 
-/* sets position near the avatar */
+/** sets position near the avatar */
 void Cloth::inits()
 {
-  initClothObject(ttl);
+  clothObject(ttl);
   if (taken)
     enablePermanentMovement();	// follows user
 
@@ -147,7 +147,7 @@ void Cloth::inits()
   updatePosition();
 }
 
-/* Sets an unique name */
+/** Sets an unique name */
 void Cloth::setName(const char *modelname)
 {
   if (localuser)
@@ -162,7 +162,7 @@ void Cloth::setName()
   setName(typeName());
 }
 
-/* Creation from xml file */
+/** Creation from xml file */
 Cloth::Cloth(char *l)
 {
   parser(l);

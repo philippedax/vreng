@@ -84,7 +84,7 @@ void Travolator::build()
 
 void Travolator::inits()
 {
-  initMobileObject(1);
+  mobileObject(1);
 }
 
 Travolator::Travolator(char *l)

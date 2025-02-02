@@ -109,7 +109,7 @@ void Text::behaviors()
 
 void Text::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
 
   if (! loadFont()) return;
 

@@ -107,7 +107,7 @@ void Head::behaviors()
   enableBehavior(COLLIDE_NEVER);
   //dax enableBehavior(PERMANENT_MOVEMENT);	// follows user
 
-  initMobileObject(0);
+  mobileObject(0);
 }
 
 /* Sets an unique name */

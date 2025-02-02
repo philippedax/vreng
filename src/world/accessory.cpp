@@ -80,7 +80,7 @@ void Accessory::inits()
   ttl = MAXFLOAT;
   following = false;
 
-  initMobileObject(1);
+  mobileObject(1);
   setLinearSpeed(speed);
   createNetObj(PROPS, ++oid);
 }

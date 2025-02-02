@@ -66,7 +66,7 @@ Sheet::Sheet(Book* _book, char* l)
 
   enableBehavior(COLLIDE_NEVER);
 
-  initMobileObject(1);
+  mobileObject(1);
 }
 
 void Sheet::changePosition(float lasting)

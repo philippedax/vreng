@@ -88,7 +88,7 @@ Music::Music(char *l)
 
   enableBehavior(COLLIDE_NEVER);
 
-  initMobileObject(0);
+  mobileObject(0);
 
   if ((! stringcmp(statestr, "play")) || (! stringcmp(statestr, "loop")))
     play(this, (void *) 1, 0L, 0L);

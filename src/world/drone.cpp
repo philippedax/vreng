@@ -83,7 +83,7 @@ void Drone::inits()
   posorig = pos;
   wings = new Wings(model, scale, 3, color);
 
-  initMobileObject(0);
+  mobileObject(0);
 
   if (flying)
     fly();

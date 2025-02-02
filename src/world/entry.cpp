@@ -35,7 +35,7 @@ Entry * Entry::entry = NULL;
 void Entry::funcs() {}
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Entry::creator(char *l)
 {
   return new Entry(l);
@@ -58,7 +58,7 @@ Entry::Entry(char *l)
   entry = this;
 }
 
-/* set by gate */
+/** set by gate */
 Entry::Entry(float *newpos)
 {
   pos.x = newpos[0];
@@ -72,7 +72,7 @@ Entry * Entry::current()
   return entry;
 }
 
-/* queried by user */
+/** queried by user */
 void Entry::query(User *user)
 {
   if (user) {

@@ -34,7 +34,7 @@ const OClass Cauldron::oclass(CAULDRON_TYPE, "Cauldron", Cauldron::creator);
 const float Cauldron::DELTAZ = 0.02;	// 2 cm
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Cauldron::creator(char *l)
 {
   return new Cauldron(l);
@@ -51,7 +51,7 @@ Cauldron::Cauldron(char *l)
   parser(l);
 
   enableBehavior(PERMANENT_MOVEMENT);
-  initMobileObject(MAXFLOAT);
+  mobileObject(MAXFLOAT);
 }
 
 void Cauldron::changePermanent(float lasting)
@@ -81,7 +81,7 @@ bool Cauldron::whenIntersect(Object *pcur, Object *pold)
   return true;
 }
 
-/* Creates a ball */
+/** Creates a ball */
 void Cauldron::create_cb(Cauldron *cauldron, void *data, time_t sec, time_t usec)
 {
   if (isAction(BALL_TYPE, Ball::CREATE))

@@ -600,7 +600,7 @@ void Mech::geometry()
 
 void Mech::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
 
   rotz = static_cast<float>(RAD2DEG(pos.az));
   roty = static_cast<float>(RAD2DEG(pos.ax));

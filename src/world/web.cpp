@@ -81,7 +81,7 @@ Web::Web(char *l)
   parser(l);
   angori = pos.az;	// keep initial angle
 
-  initMobileObject(TTL);
+  mobileObject(TTL);
   createNetObj(PROPS, ++oid);
 }
 

@@ -107,7 +107,7 @@ void Ball::behaviors()
 
 void Ball::inits()
 {
-  initMobileObject(TTL);
+  mobileObject(TTL);
   enablePermanentMovement();	// follow gravity force
   createVolatile(PROPS);
 }
@@ -186,7 +186,7 @@ Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
   defaults();
   geometry();
   behaviors();
-  initMobileObject(0);
+  mobileObject(0);
 }
 
 void Ball::updateTime(time_t sec, time_t usec, float *lasting)

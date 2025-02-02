@@ -57,7 +57,7 @@ void Flag::behaviors()
 
 void Flag::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
 
   width = pos.bbs.v[0];
   height = pos.bbs.v[2];

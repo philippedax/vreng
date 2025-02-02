@@ -84,7 +84,7 @@ void Terrain::geometry()
 
 void Terrain::inits()
 {
-  initStillObject();
+  stillObject();
 
   if (level > 10) level = DEF_LEVEL;
   if (div <= 1 || div > 3) div = DEF_DIV;

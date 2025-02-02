@@ -75,7 +75,7 @@ void Carousel::behaviors()
 void Carousel::inits()
 {
   x3d = new X3d(name.url);
-  initMobileObject(0);
+  mobileObject(0);
 }
 
 /** constructor */

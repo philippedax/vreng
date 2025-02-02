@@ -105,7 +105,7 @@ void Humanoid::behaviors()
 /** Inits humanoid */
 void Humanoid::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
 
   sdudp = -1;
   sdtcp = -1;

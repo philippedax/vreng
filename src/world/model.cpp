@@ -89,7 +89,7 @@ Model::Model(char *l)
   scaler();
   drawer();
 
-  initMobileObject(1);
+  mobileObject(1);
 }
 
 /** Sets solid geometry */
@@ -169,7 +169,7 @@ Model::Model(Object *user, char *url, float _scale)
   pos.z = localuser->pos.z;
   updatePosition();
 
-  initMobileObject(1);
+  mobileObject(1);
 }
 
 /** Loads a model */

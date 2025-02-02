@@ -63,7 +63,7 @@ void Bumper::parser(char *l)
 
 void Bumper::behaviors()
 {
-  initMobileObject(1);
+  mobileObject(1);
 }
 
 Bumper::Bumper(char *l)

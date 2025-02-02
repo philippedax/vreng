@@ -50,7 +50,7 @@ Download::Download(char *l)
 {
   parser(l);
   enableBehavior(COLLIDE_NEVER);
-  initStillObject();
+  stillObject();
 }
 
 void Download::get(Download *wo, void *d, time_t s, time_t u)

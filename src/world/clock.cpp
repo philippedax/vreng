@@ -43,7 +43,7 @@ Clock::Clock(char *l)
   enableBehavior(NO_BBABLE);
   enableBehavior(PERMANENT_MOVEMENT);
 
-  initMobileObject(0);
+  mobileObject(0);
 
   if (! haveneedle) needle = oid;
   inits();
@@ -59,13 +59,13 @@ Clock::Clock()
   enableBehavior(UNVISIBLE);
   enableBehavior(PERMANENT_MOVEMENT);
 
-  initMobileObject(0);
+  mobileObject(0);
 
   needle = SECOND;
   inits();
 }
 
-/* Inits time */
+/** Inits time */
 void Clock::inits()
 {
   time_t t = time(0);

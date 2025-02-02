@@ -85,7 +85,7 @@ Widget::Widget(char *l)
   behaviors();
   inits();
 
-  initMobileObject(0);
+  mobileObject(0);
   updatePosition();
 }
 

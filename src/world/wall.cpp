@@ -54,7 +54,7 @@ Wall::Wall(char *l)
 {
   parser(l);
 
-  initMobileObject(0);
+  mobileObject(0);
 }
 
 /** creation from gui addobject */
@@ -66,7 +66,7 @@ Wall::Wall(Object *user, char *geom)
   parseSolid(geom);
 
   enableBehavior(DYNAMIC);
-  initMobileObject(0);
+  mobileObject(0);
 
   pos.x = user->pos.x + 0.7;	// in front of localuser
   pos.y = user->pos.y;

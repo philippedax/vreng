@@ -147,7 +147,7 @@ Guide::Guide(char *l)
   parser(l);
   behaviors();
 
-  initMobileObject(0);
+  mobileObject(0);
   createNetObj(PROPS, ++oid);
 
   pos.az = atan((path[seg+1][1]-path[seg][1]) / (path[seg+1][0]-path[seg][0]));

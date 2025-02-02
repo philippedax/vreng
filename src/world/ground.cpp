@@ -47,7 +47,7 @@ Ground::Ground(char *l)
 {
   parser(l);
 
-  initStillObject();
+  stillObject();
   World::current()->setGround(pos.z + pos.bbs.v[2]);
   //echo("ground: z=%.2f bb=%.2f gr=%.2f",pos.z,pos.bbs.v[2],pos.z+pos.bbs.v[2]);
 }
@@ -56,7 +56,7 @@ Ground::Ground(Object *user, char *geom)
 {
   parseSolid(geom);
 
-  initMobileObject(0);
+  mobileObject(0);
 
   pos.x = user->pos.x;
   pos.y = user->pos.y;

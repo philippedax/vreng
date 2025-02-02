@@ -105,7 +105,7 @@ void Smoke::geometry()
 /** Do specific inits */
 void Smoke::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
   np = 0;
   srand(time(NULL));
 }

@@ -66,7 +66,7 @@ void Dart::inits()
   pos.z = localuser->pos.z + 0.6 * localuser->height/2;
   pos.az = localuser->pos.az;
 
-  initMobileObject(TTL);
+  mobileObject(TTL);
 
   /* action */
   move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
@@ -109,7 +109,7 @@ Dart::Dart(uint8_t type_id, Noid _noid, Payload *pp)
   defaults();
   geometry();
   behaviors();
-  initMobileObject(0);
+  mobileObject(0);
 }
 
 void Dart::get_hit(Dart *pcur, Payload *pp)

@@ -97,7 +97,7 @@ void Gate::behaviors()
 /** Initializations */
 void Gate::inits()
 {
-  initMobileObject(0);
+  mobileObject(0);
   createNetObj(PROPS, ++oid);
 }
 

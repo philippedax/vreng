@@ -60,7 +60,7 @@ void Bullet::behaviors()
 
 void Bullet::inits()
 {
-  initMobileObject(TTL);
+  mobileObject(TTL);
 
   /* network creation */
   netop = createVolatile(PROPS);

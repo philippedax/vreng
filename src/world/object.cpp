@@ -218,13 +218,13 @@ void Object::initObject(uint8_t _mode)
 }
 
 /** Initializes still object */
-void Object::initStillObject()
+void Object::stillObject()
 {
   initObject(STILL);
 }
 
 /** Initializes mobile object */
-void Object::initMobileObject(float last)
+void Object::mobileObject(float last)
 {
   initObject(MOBILE);
   if (last) {
@@ -233,7 +233,7 @@ void Object::initMobileObject(float last)
 }
 
 /** Initializes fluid object */
-void Object::initFluidObject(float last)
+void Object::fluidObject(float last)
 {
   initObject(FLUID);
   if (last) {
@@ -242,7 +242,7 @@ void Object::initFluidObject(float last)
 }
 
 /** Initializes cloth object */
-void Object::initClothObject(float last)
+void Object::clothObject(float last)
 {
   initObject(CLOTH);
   if (last) {
@@ -251,7 +251,7 @@ void Object::initClothObject(float last)
 }
 
 /** Initializes ephemeral object */
-void Object::initEphemeralObject(float last)
+void Object::ephemeralObject(float last)
 {
   initObject(MOBILE);
   if (last) {

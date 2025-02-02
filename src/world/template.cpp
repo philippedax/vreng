@@ -60,7 +60,7 @@ void Template::behaviors()
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 
-  initMobileObject(0);
+  mobileObject(0);
   updatePosition();
 }
 
