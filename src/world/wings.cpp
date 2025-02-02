@@ -255,7 +255,7 @@ void Wings::start()
 
 void Wings::stop()
 {
-  disablePermanentMovement();
+  stopMovement();
 }
 
 void Wings::draw()

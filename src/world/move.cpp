@@ -359,13 +359,6 @@ void Object::enablePermanentMovement(float speed)
   enablePermanentMovement();
 }
 
-/** Disables a permanent movement */
-void Object::disablePermanentMovement()
-{
-  move.perm_sec = 0;
-  move.perm_usec = 0;
-}
-
 /** Elementary user movement */
 void User::elemUserMovement(const float tabdt[])
 {

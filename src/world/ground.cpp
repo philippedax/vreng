@@ -31,7 +31,7 @@
 const OClass Ground::oclass(GROUND_TYPE, "Ground", Ground::creator);
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Ground::creator(char *l)
 {
   return new Ground(l);
@@ -64,11 +64,11 @@ Ground::Ground(Object *user, char *geom)
   updatePosition();
 }
 
-/* Intersection with an object */
+/** Intersection with an object */
 bool Ground::whenIntersect(Object *pcur, Object *pold)
 {
   pold->setLasting(0);
-  pold->disablePermanentMovement();
+  pold->stopMovement();
   pold->copyPositionAndBB(pcur);
   return true;
 }

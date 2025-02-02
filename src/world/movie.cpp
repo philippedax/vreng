@@ -406,7 +406,7 @@ void Movie::stop()
       break;
   }
 
-  disablePermanentMovement();
+  stopMovement();
 
   if (videobuf) delete[] videobuf;
   videobuf = NULL;
@@ -414,7 +414,7 @@ void Movie::stop()
   texframe = NULL;
 }
 
-/* Pause  / Continue */
+/** Pause  / Continue */
 void Movie::pause()
 {
   if (state == PLAYING || state == LOOP) {
@@ -425,7 +425,7 @@ void Movie::pause()
   }
 }
 
-/* Replay one time */
+/** Replay one time */
 void Movie::rewind()
 {
   if (state != PLAYING && state != LOOP && fp) {
@@ -438,7 +438,7 @@ void Movie::rewind()
   }
 }
 
-/* Play continuesly */
+/** Play continuesly */
 void Movie::loop()
 {
   if (state == INACTIVE) {
@@ -450,7 +450,7 @@ void Movie::loop()
   }
 }
 
-/* callbacks actions */
+/** callbacks actions */
 
 void Movie::play_cb(Movie *movie, void *d, time_t s, time_t u)
 {

@@ -125,7 +125,7 @@ bool Plane::whenIntersect(Object *pcur, Object *pold)
     computeNormal(pold, &normal);
     bounceTrajectory(pold, &normal);
     pold->setLasting(0);
-    pold->disablePermanentMovement();
+    pold->stopMovement();
     pold->copyPositionAndBB(pcur);
     }
     break;

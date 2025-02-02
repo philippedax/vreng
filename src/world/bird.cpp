@@ -195,7 +195,7 @@ void Bird::fly()
 void Bird::pause()
 {
   flying = false;
-  disablePermanentMovement();
+  stopMovement();
   wings->stop();
 }
 

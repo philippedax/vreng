@@ -204,7 +204,7 @@ bool Terrain::whenIntersect(Object *pcur, Object *pold)
 {
   echo("terrain intersect: %s", pcur->objectName());
   pold->setLasting(0);
-  pold->disablePermanentMovement();
+  pold->stopMovement();
   pold->copyPositionAndBB(pcur);
   return true;
 }

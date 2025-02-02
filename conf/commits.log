@@ -3371,3 +3371,4 @@
 3371 Dim  2 fév 2025 14:40:38 CET	renaming {imposed,permanent}Movements move/*.cpp
 3372 Dim  2 fév 2025 15:08:39 CET	renaming initImposed}Movement move.cpp
 3373 Dim  2 fév 2025 15:24:32 CET	renaming setLinearSpeed to linearSpeed move.cpp
+3374 Dim  2 fév 2025 17:30:15 CET	renaming stopImposedMovement to stopMovement move.cpp

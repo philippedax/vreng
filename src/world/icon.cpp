@@ -70,7 +70,7 @@ bool Icon::isMoving()
   return testMoving();
 }
 
-/* sollicited movements */
+/** sollicited movements */
 void Icon::changePosition(float lasting)
 {
   if (! taken) {
@@ -148,7 +148,7 @@ char * Icon::getParam(char *ptok)
   return ptok;
 }
 
-/* called by GUI */
+/** called by GUI */
 Icon::Icon(User *user, void *d)
 {
   char *infos = static_cast<char *>(d);
@@ -297,7 +297,7 @@ Icon::Icon(User *user, void *d)
   mobileObject(1);
   ttl = (taken) ? MAXFLOAT : 0;
   imposedMovement(ttl);
-  disablePermanentMovement();
+  stopMovement();
 
   // network creation
   createVolatile(PROPS);
@@ -314,7 +314,7 @@ Icon::Icon(User *user, void *d)
   }
 }
 
-/* Replication from the network */
+/** Replication from the network */
 Object * Icon::replicator(uint8_t type_id, Noid noid, Payload *pp)
 {
   return new Icon(type_id, noid, pp);
@@ -363,7 +363,7 @@ bool Icon::whenIntersect(Object *pcur, Object *pold)
   return true;
 }
 
-/* this method is invisible: called by Wall::whenIntersect */
+/** this method is invisible: called by Wall::whenIntersect */
 void Icon::stick(Wall *pwall, void *_picon, time_t s, time_t u)
 {
   Icon *picon = static_cast<Icon *>(_picon);
@@ -389,7 +389,7 @@ void Icon::pin(Icon *icon, void *d, time_t s, time_t u)
   icon->move.lspeed.v[1] = icon->lspeed * 4 * sin(localuser->pos.az);
   icon->ttl = Icon::TTL * 10;
   icon->imposedMovement(icon->ttl);
-  icon->disablePermanentMovement();
+  icon->stopMovement();
   icon->enableBehavior(COLLIDE_ONCE);
   icon->taken = false;
 }
@@ -402,7 +402,7 @@ void Icon::push(Icon *icon, void *d, time_t s, time_t u)
   icon->move.lspeed.v[1] = icon->lspeed * sin(localuser->pos.az);
   icon->ttl = Icon::TTL * 4;
   icon->imposedMovement(icon->ttl);
-  icon->disablePermanentMovement();
+  icon->stopMovement();
   icon->enableBehavior(COLLIDE_ONCE);
   icon->taken = false;
 }
@@ -417,7 +417,7 @@ void Icon::pull(Icon *icon, void *d, time_t s, time_t u)
     icon->move.lspeed.v[1] = -icon->lspeed * sin(localuser->pos.az);
     icon->ttl = Icon::TTL;
     icon->imposedMovement(icon->ttl);
-    icon->disablePermanentMovement();
+    icon->stopMovement();
     icon->enableBehavior(COLLIDE_ONCE);
     icon->taken = false;
   }
@@ -429,7 +429,7 @@ void Icon::carry(Icon *icon, void *d, time_t s, time_t u)
     icon->resetFlashy();
     icon->ttl = MAXFLOAT;
     icon->imposedMovement(icon->ttl);
-    icon->disablePermanentMovement();
+    icon->stopMovement();
     icon->disableBehavior(COLLIDE_NEVER);
     icon->taken = true;
   }
@@ -497,7 +497,7 @@ void Icon::turn(Icon *icon, void *d, time_t s, time_t u)
   icon->move.aspeed.v[0] = icon->aspeed * 2;
   icon->ttl = Icon::TTL;
   icon->imposedMovement(icon->ttl);
-  icon->disablePermanentMovement();
+  icon->stopMovement();
 }
 
 void Icon::destroy(Icon *icon, void *d, time_t s, time_t u)
