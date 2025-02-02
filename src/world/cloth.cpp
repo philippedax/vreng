@@ -120,7 +120,7 @@ void Cloth::inits()
 {
   clothObject(ttl);
   if (taken)
-    enablePermanentMovement();	// follows user
+    permanentMovement();	// follows user
 
   if (! taken)  return;
   switch (article) {

@@ -109,7 +109,7 @@ void Wings::inits()
 {
   mobileObject(ttl);
   if (taken)
-    enablePermanentMovement();  // follows user
+    permanentMovement();  // follows user
 
   if (! taken)  return;
 
@@ -250,7 +250,7 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
 
 void Wings::start()
 {
-  enablePermanentMovement();
+  permanentMovement();
 }
 
 void Wings::stop()

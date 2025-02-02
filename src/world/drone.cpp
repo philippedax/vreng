@@ -200,7 +200,7 @@ void Drone::fly()
     flying = true;
     enableBehavior(SPECIFIC_RENDER);
 
-    enablePermanentMovement();
+    permanentMovement();
     wings->start();
   }
 }

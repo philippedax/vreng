@@ -343,7 +343,7 @@ void Object::linearSpeed(float lspeed)
 }
 
 /** Enables a permanent movement */
-void Object::enablePermanentMovement()
+void Object::permanentMovement()
 {
   struct timeval t;
 
@@ -353,10 +353,10 @@ void Object::enablePermanentMovement()
   move.next = NULL;
 }
 
-void Object::enablePermanentMovement(float speed)
+void Object::permanentMovement(float speed)
 {
   linearSpeed(speed);
-  enablePermanentMovement();
+  permanentMovement();
 }
 
 /** Elementary user movement */

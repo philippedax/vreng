@@ -329,7 +329,7 @@ void User::inits()
   setName();
   updateNames();
   mobileObject(LASTING);
-  enablePermanentMovement();	// gravity
+  permanentMovement();	// gravity
   netop = createVolatile(PROPS);
   // netop->declareCreation(); // we don't need because delta do the job
 

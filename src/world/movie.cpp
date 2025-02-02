@@ -380,7 +380,7 @@ void Movie::play()
 {
   if (state == INACTIVE) {
     state = PLAYING;
-    enablePermanentMovement();	// to get frames
+    permanentMovement();	// to get frames
     inits();
   }
 }
@@ -444,7 +444,7 @@ void Movie::loop()
   if (state == INACTIVE) {
     if (vidfmt == PLAYER_MPG) {
       state = LOOP;
-      enablePermanentMovement();	// to get frames
+      permanentMovement();	// to get frames
       inits();
     }
   }

@@ -187,7 +187,7 @@ void Bird::quit()
 void Bird::fly()
 {
   enableBehavior(SPECIFIC_RENDER);
-  enablePermanentMovement();
+  permanentMovement();
   wings->start();
   flying = true;
 }

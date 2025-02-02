@@ -108,7 +108,7 @@ void Ball::behaviors()
 void Ball::inits()
 {
   mobileObject(TTL);
-  enablePermanentMovement();	// follow gravity force
+  permanentMovement();	// follow gravity force
   createVolatile(PROPS);
 }
 
@@ -330,7 +330,7 @@ void Ball::take()
 
 void Ball::drop()
 {
-  enablePermanentMovement();
+  permanentMovement();
   ttl = 0;
   imposedMovement(ttl);
   taken = false;

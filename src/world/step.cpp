@@ -151,7 +151,7 @@ void Step::build()
     }
   }
   if (mobile) {
-    enablePermanentMovement(speed);
+    permanentMovement(speed);
   }
 }
 
@@ -200,7 +200,7 @@ Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _m
   forceNames(typname);
 
   if (mobile) {    // escalator or travolator
-    enablePermanentMovement(speed);
+    permanentMovement(speed);
     //dax state = ACTIVE;	// only one step !!!
   }
 }

@@ -447,7 +447,7 @@ void Icon::leave(Icon *icon, void *d, time_t s, time_t u)
 void Icon::drop(Icon *icon, void *d, time_t s, time_t u)
 {
   if (! icon->taken) {
-    icon->enablePermanentMovement();
+    icon->permanentMovement();
     icon->ttl = 0.;
     icon->imposedMovement(icon->ttl);
     icon->enableBehavior(COLLIDE_ONCE);

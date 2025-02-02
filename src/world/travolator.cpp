@@ -79,7 +79,7 @@ void Travolator::build()
     Step *step = new Step(npos, pos, "travolator", geomsolid, true, length, speed, 0);
     travList.push_back(step);
   }
-  enablePermanentMovement(speed);
+  permanentMovement(speed);
 }
 
 void Travolator::inits()

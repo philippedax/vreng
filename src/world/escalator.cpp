@@ -101,7 +101,7 @@ void Escalator::build()
     Step *step = new Step(npos, pos, "escalator", geomsolid, true, height, speed, dir);
     escaList.push_back(step);
   }
-  enablePermanentMovement(speed);
+  permanentMovement(speed);
 }
 
 void Escalator::inits()

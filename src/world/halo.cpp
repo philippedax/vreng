@@ -82,7 +82,7 @@ void Halo::inits()
 {
   clothObject(ttl);
   if (taken)
-    enablePermanentMovement();  // follows user
+    permanentMovement();  // follows user
 
   if (! taken)  return;
   if (localuser) dz += localuser->height / 2;

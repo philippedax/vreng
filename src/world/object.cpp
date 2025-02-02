@@ -172,7 +172,7 @@ void Object::initObject(uint8_t _mode)
       }
       mobileList.push_back(this);	// add to mobileList
       if (isBehavior(PERMANENT_MOVEMENT)) {
-        enablePermanentMovement();
+        permanentMovement();
       }
       break;
     case FLUID:

@@ -132,7 +132,7 @@ void Particle::inits()
   case FIREWORK:
     break;
   default:     
-    enablePermanentMovement();
+    permanentMovement();
     break;
   }
 

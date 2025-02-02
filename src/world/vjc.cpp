@@ -82,7 +82,7 @@ Vjc::Vjc(char *l)
   parser(l);
 
   initObject(INVISIBLE);
-  enablePermanentMovement();
+  permanentMovement();
 
   setServer(this);
   sock = NULL;

@@ -134,7 +134,7 @@ void Mirage::behaviors()
 
   mobileObject(1);
   if (turn || roll || tilt || orbit || circular || flares) {
-    enablePermanentMovement();
+    permanentMovement();
   }
 }
 
