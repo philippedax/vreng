@@ -109,7 +109,7 @@ void Slider::changePosition(float lasting)
 bool Slider::whenIntersect(Object *pcur, Object *pold)
 {
   capted = pcur;
-  enableImposedMovement();
+  imposedMovement(MAXFLOAT);
   state = ACTIVE;
   return true;
 }

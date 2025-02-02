@@ -562,9 +562,6 @@ class Object {
   //
 
  public:
-  void enableImposedMovement();
-  /**< Enables movement on an object. */
-
   void permanentMovement();
   void permanentMovement(float lspeed);
   /**< Enables permanent movement on an object. */

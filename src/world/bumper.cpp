@@ -124,7 +124,7 @@ bool Bumper::whenIntersect(Object *pcur, Object *pold)
       pcur->pos.z = pold->pos.z - (forcez * dz);
       pcur->projectPosition(pold, pcur);
       capted = pcur;
-      enableImposedMovement();
+      imposedMovement(MAXFLOAT);
       state = ACTIVE;
       break;
     }

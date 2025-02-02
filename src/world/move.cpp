@@ -300,20 +300,16 @@ float Object::diffTime(time_t sec, time_t usec)
   return static_cast<float>((sec - move.sec)) + (static_cast<float>((usec - move.usec) / 1e6));
 }
 
-/** Enables an imposed movement */
-void Object::enableImposedMovement()
-{
-  struct timeval t;
-
-  gettimeofday(&t, NULL);
-  move.sec = t.tv_sec;
-  move.usec = t.tv_usec;
-}
-
 /** Initializes an imposed movement */
 void Object::imposedMovement(float ttl)
 {
-  enableImposedMovement();
+  if (move.sec == 0 && move.usec == 0) {
+    struct timeval t;
+
+    gettimeofday(&t, NULL);
+    move.sec = t.tv_sec;
+    move.usec = t.tv_usec;
+  }
   move.ttl = (ttl < 0) ? -ttl : ttl;
   move.next = NULL;
   move.nocol = false;	// with collision

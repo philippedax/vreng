@@ -74,7 +74,7 @@ void Animator::inits()
   createNetObj(PROPS, ++oid);
 
   if (state == ACTIVE) {
-    enableImposedMovement();
+    imposedMovement(MAXFLOAT);
   }
 }
 
