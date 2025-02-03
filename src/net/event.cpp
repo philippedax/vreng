@@ -138,7 +138,7 @@ int netTimeout()
             continue;	// skip static properties
           }
       }
-      NetProperty *pprop = (*it)->netprop + i;
+      NetProperty *pprop = (*it)->prop + i;
       
       /*
        * test if refresh timeout reached
@@ -165,10 +165,10 @@ int netTimeout()
         }
         else { // volatile object (user, ball, dart, bullet, sheet, icon)
           if (pprop->responsible) {
-            echo("netTimeout: (volatile) should assume death of %s I am responsible for", (*it)->pobject->objectName());
+            echo("netTimeout: (volatile) should assume death of %s I am responsible for", (*it)->object->objectName());
             return -1;
           }
-          echo("netTimeout: (volatile) assuming death of %s [%s] (unseen for %.2fs)", (*it)->pobject->objectName(), (*it)->noid.getNoid(), Timer::diffDates(pprop->last_seen, now));
+          echo("netTimeout: (volatile) assuming death of %s [%s] (unseen for %.2fs)", (*it)->object->objectName(), (*it)->noid.getNoid(), Timer::diffDates(pprop->last_seen, now));
           (*it)->declareDeletion();
           (*it)->requestDeletion();	// discard the dead
           // no reason to continue after a requestDeletion

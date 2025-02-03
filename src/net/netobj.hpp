@@ -70,7 +70,6 @@ class NetObj {
    */
 
  public:
-
   enum {
     NET_VOLATILE,	// replica
     NET_PERMANENT	// local
@@ -80,8 +79,8 @@ class NetObj {
   uint8_t type;			///< NetObj type
   uint8_t nbprop;		///< number of properties
   uint8_t state;		///< permanent or valatile (not a true bool)
-  class Object *pobject;	///< pointer on the Object
-  class NetProperty *netprop;	///< netobj properties
+  class Object *object;		///< pointer on the Object
+  class NetProperty *prop;	///< netobj properties
 
   NetObj();
   /**< Constructor for local */
@@ -104,7 +103,6 @@ class NetObj {
    * To do necessarly before the final delete.
    */
 
- public:
   static std::list<NetObj*> netobjList;
   /**< netobj list. */
 
@@ -160,7 +158,6 @@ class NetObj {
    *         then the version vector (nprop *pn).
    */
 
- public:
   void sendDelta(uint8_t prop_id);
   /**<
    * Send a multicast packet of type '0x02' = Delta,

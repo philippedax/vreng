@@ -698,7 +698,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
     error("inDelta: invalid property prop_id=%d" "(type=%d, nprop=%d)", prop_id, pn->type, nprop);
     return;
   }
-  NetProperty *pprop = pn->netprop + prop_id;
+  NetProperty *pprop = pn->prop + prop_id;
 
   /*
    * depends on prop version
@@ -771,7 +771,7 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   // gets properties
   uint8_t nprop = pn->getProperties();
   for (int i=0; i < nprop; i++) {
-    if (getPayload("h", &(pn->netprop[i].version)) < 0) {
+    if (getPayload("h", &(pn->prop[i].version)) < 0) {
       return;
     }
   }

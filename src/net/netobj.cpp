@@ -55,7 +55,7 @@ void NetObj::defaults()
 {
   new_netobj++;
   nbprop = 0;
-  netprop = NULL;
+  prop = NULL;
 }
 
 /** Creates local generic NetObj */
@@ -63,7 +63,7 @@ NetObj::NetObj()
 {
   defaults();
   type = 0;
-  pobject = NULL;
+  object = NULL;
   state = NET_PERMANENT;
   setNoid();
 }
@@ -73,14 +73,14 @@ NetObj::NetObj(Object *po, uint8_t nprop, uint16_t oid)
 {
   defaults();
   type = po->typeId();
-  pobject = po;
+  object = po;
   state = NET_PERMANENT;
   setProperties(nprop);
 
   char str[80];
   sprintf(str, "%d/%d", type, oid);
   setNetName(str, state);     // net objname
-  trace1(DBG_NET, "NetObj: str=%s %s", str, pobject->objectName());
+  trace1(DBG_NET, "NetObj: str=%s %s", str, object->objectName());
 }
 
 /** Creates volatile NetObj */
@@ -88,7 +88,7 @@ NetObj::NetObj(Object *po, uint8_t nprop)
 {
   defaults();
   type = po->type;
-  pobject = po;
+  object = po;
   state = NET_VOLATILE;
   setProperties(nprop);
   set(state);
@@ -100,7 +100,7 @@ NetObj::NetObj(Object *po, uint8_t nprop, Noid _noid)
 {
   defaults();
   type = po->type;
-  pobject = po;
+  object = po;
   state = NET_VOLATILE;
   noid = _noid;
   setProperties(nprop);
@@ -186,16 +186,16 @@ void NetObj::addToList()
 
 void NetObj::initProperties(bool _responsible)
 {
-  if (netprop) return; //error("initProperties: netprop already exists (type=%d)", type);
+  if (prop) return; //error("initProperties: prop already exists (type=%d)", type);
 
   uint8_t np = NetProperty::getProperties(type);
   if (!np) return;
-  trace1(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, pobject->objectName(), np, _responsible);
+  trace1(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, object->objectName(), np, _responsible);
 
-  netprop = new NetProperty[np];
+  prop = new NetProperty[np];
 
   for (int i=0; i<np; i++) {
-    NetProperty *pprop = netprop + i;
+    NetProperty *pprop = prop + i;
     pprop->responsible = _responsible;
     pprop->version = 0;
     pprop->resetDates();
@@ -269,7 +269,7 @@ void NetObj::setNetName(const char *s, bool _state)
   noid.obj_id = htons(obj_id);
 
   if (getNetObj()) {
-    return;	//error("setNetName: %s already seen %d/%d", pobject->objectName(), scene_id, obj_id);
+    return;	//error("setNetName: %s already seen %d/%d", object->objectName(), scene_id, obj_id);
   }
   netobjList.push_back(this);	// add to list
 }
@@ -289,8 +289,8 @@ NetObj::~NetObj()
   netobjList.remove(this);
 
   memset(&noid, 0, sizeof(noid));
-  //if (netprop) delete[] netprop;
-  netprop = NULL;
+  //if (prop) delete[] prop;
+  prop = NULL;
   del_netobj++;
 }
 
@@ -303,7 +303,7 @@ bool NetObj::isPermanent() const
 /** Is responsible */
 bool NetObj::isResponsible() const
 {
-  return (netprop && netprop->responsible);
+  return (prop && prop->responsible);
 }
 
 #if 0 //notused
@@ -325,13 +325,13 @@ Object * NetObj::getObjectByNoid() const
 /** Gets the property prop_id (its local copy) got from Network */
 void NetObj::getProperty(uint8_t prop_id, Payload *pp) const
 {
-  if (pobject) pobject->getProperty(prop_id, pp);
+  if (object) object->getProperty(prop_id, pp);
 }
 
 /** Puts the property (its local copy) to be sent to Network */
 void NetObj::putProperty(uint8_t prop_id, Payload *pp)
 {
-  if (pobject) pobject->putProperty(prop_id, pp);
+  if (object) object->putProperty(prop_id, pp);
 }
 
 void NetObj::getAllProperties(Payload *pp) const
@@ -355,7 +355,7 @@ void NetObj::putAllProperties(Payload *pp)
 /** Removes netobj */
 void NetObj::requestDeletion()
 {
-  if (pobject) pobject->deleteReplica();
+  if (object) object->deleteReplica();
 }
 
 /** Creates a replicated object */
@@ -375,12 +375,12 @@ NetObj * NetObj::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
 /** Sends a multicast packet of type '0x02' = Delta */
 void NetObj::sendDelta(uint8_t prop_id)
 {
-  if (! netprop) {
-    error("sendDelta: netprop NULL");
+  if (! prop) {
+    error("sendDelta: prop NULL");
     return;
   }
 
-  NetProperty *pprop = netprop + prop_id;
+  NetProperty *pprop = prop + prop_id;
   pprop->setResponsible(true);
   pprop->resetDates();
 
@@ -410,7 +410,7 @@ void NetObj::sendCreate(const struct sockaddr_in *to)
 
   uint8_t nprop = getProperties(type);
   for (int i=0; i < nprop; i++) {
-    pp.putPayload("h", netprop[i].version);
+    pp.putPayload("h", prop[i].version);
   }
 
   trace1(DBG_NET, "sendCreate: nobj=%s to=%s", noid.getNoid(), inet4_ntop(&to->sin_addr));
@@ -448,7 +448,7 @@ void NetObj::declareDelta(uint8_t prop_id)
     error("declareDelta: invalid prop_id=%d > nprop=%d (type=%d)", prop_id, nprop, type);
     return;
   }
-  NetProperty *pprop = netprop + prop_id;
+  NetProperty *pprop = prop + prop_id;
   pprop->setResponsible(true);
   pprop->version += 1 + abs(rand() % VREP_VERS_JUMP); /* %10 */
   sendDelta(prop_id);

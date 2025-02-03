@@ -3375,3 +3375,4 @@
 3375 Dim  2 fév 2025 17:50:14 CET	renaming disablePermmanentMovement to stopMovement
 3376 Dim  2 fév 2025 18:12:12 CET	renaming enablePermanentMovement to permanentMovement
 3377 Dim  2 fév 2025 18:29:01 CET	renaming enableImposedMovement to imposedMovement
+3378 Dim  2 fév 2025 18:46:47 CET	renaming createVolatile to createNetObj
