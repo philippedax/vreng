@@ -13,7 +13,14 @@ The rules for this file:
 ------------------------------------------
 
 ++ 9 [2024/12]
-== 9.4 (2024/12)
+== 9.4 (2025/02)
+-- 9.4.8
+	- rename updateToNetwork to publish
+	(2025/02/03, Philippe Dax)
+	- add conf/prerequis
+	- update build
+	(2024/11/01, Philippe Dax)
+
 -- 9.4.7
 	- remove bin/ etc/ log/
 	(2024/10/09, Philippe Dax)

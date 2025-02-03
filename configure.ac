@@ -26,7 +26,7 @@
 #
 # Check name, version, config
 #
-AC_INIT([vreng],[9.4.7],[philippe.dax@gmail.com])
+AC_INIT([vreng],[9.4.8],[philippe.dax@gmail.com])
 
 AC_CONFIG_SRCDIR([src/base/vreng.cpp])
 

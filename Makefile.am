@@ -33,8 +33,10 @@ TARLINK_XZ = $(PACKAGE_NAME).tar.xz
 # maintainer's targets
 #
 dist dist-all:
+	automake -af
 	-make dist-gzip
 	-make dist-xz
+	@-rm compile missing install-sh config.sub config.guess depcomp
 
 clean-tar:
 	-tar xpf $(TARBALL_GZ)
