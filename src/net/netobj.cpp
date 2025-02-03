@@ -112,12 +112,6 @@ std::list<NetObj*>::iterator NetObj::getList()
   return netobjList.begin();
 }
 
-/** Clears List */
-void NetObj::clearList()
-{
-  netobjList.clear();
-}
-
 /** Sets ssrc manager */
 void NetObj::setMgrSsrc(uint32_t mgr_ssrc_id)
 {

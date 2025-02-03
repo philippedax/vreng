@@ -79,6 +79,8 @@ class Channel {
   static void initReflector();
   /**< Reflector Initialization */
 
+  static void newChanStr(char *chan_str);
+
  public:
   uint32_t	ssrc;		///< ssrcid
   uint32_t	group;		///< group address
@@ -151,10 +153,6 @@ class Channel {
 //
 // ChanStr
 //
- private:
-  static void newChanStr(char *chan_str);
-
- public:
   static void getGroup(const char *chanstr, char *group);
   static uint16_t getPort(const char *chanstr);
   static uint8_t getTtl(const char *chanstr);

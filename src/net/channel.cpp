@@ -81,9 +81,9 @@ void Channel::init()
     initReflector();
     first = false;
   }
-  Channel::clearList();
+  clearList();
   Session::clearList();
-  NetObj::clearList();
+  //NetObj::clearList();
 }
 
 /** Creates a new Channel */

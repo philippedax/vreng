@@ -243,9 +243,6 @@ class NetObj {
   static std::list<NetObj*>::iterator getList();
   /**< Gets the NetObj list. */
 
-  static void clearList();
-  /**< Clears the NetObj list */
-
   static NetObj *replicateObject(uint8_t type, class Noid noid, class Payload *pp);
   /**<
    * Dispatching the replicated object.
