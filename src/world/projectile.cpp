@@ -48,7 +48,7 @@ void Projectile::changePosition(float lasting)
 }
 
 /* Updates to the network */
-bool Projectile::updateToNetwork(const Pos &oldpos)
+bool Projectile::publish(const Pos &oldpos)
 {
   bool change = false;
 

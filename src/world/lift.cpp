@@ -81,8 +81,8 @@ Lift::Lift(char *l)
   dest = pos.z;		// initial position
 }
 
-/* Updates towards the network */
-bool Lift::updateToNetwork(const Pos &oldpos)
+/** Updates towards the network */
+bool Lift::publish(const Pos &oldpos)
 {
   bool change = false;
 
@@ -149,7 +149,7 @@ void Lift::call_cb(Lift *lift, void *d, time_t s, time_t u)
   lift->call();
 }
 
-/* somebody intersects */
+/** somebody intersects */
 bool Lift::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {

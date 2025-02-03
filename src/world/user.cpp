@@ -525,7 +525,7 @@ User::~User()
 }
 
 /** Updates local user towards the network */
-bool User::updateToNetwork(const Pos &opos)
+bool User::publish(const Pos &opos)
 {
   bool change = false;
 

@@ -33,7 +33,7 @@
  * Projectile class
  */
 class Projectile: public Object {
-  friend class User; // access to member "hit"
+ friend class User;	// access to member "hit"
 
  protected:
   float lspeed;		///< linear speed
@@ -65,7 +65,7 @@ class Projectile: public Object {
 
   void whenWallsIntersect(Object *pold, V3 *norm);
 
-  bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
 
   void quit() {};
   /**< Quits. */

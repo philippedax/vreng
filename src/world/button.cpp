@@ -104,7 +104,7 @@ Button::Button(char *l)
 }
 
 /* Updates towards the network */
-bool Button::updateToNetwork(const Pos &oldpos)
+bool Button::publish(const Pos &oldpos)
 {
   bool change = false;
 

@@ -94,13 +94,6 @@ class User: public Object {
   int   lastmess;		///< last message number.
   int   lastrequest;
 
-#if 0
-  uint8_t weight;
-  /* Adding aura (=sphere) of user object */
-  float aura_center[3]; // center of sphere
-  float aura_radius;    // sphere's radius
-#endif
-
  public:
   float width;		///< body width.
   float depth;		///< body depth.
@@ -181,7 +174,7 @@ class User: public Object {
   void updateTime(time_t sec, time_t usec, float *last);
   /**< Updates times. */
 
-  bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
   /**< Publishes position to the network. */
 
   bool whenIntersect(Object *pcur, Object *pold);

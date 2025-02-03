@@ -33,7 +33,6 @@
  * Button class
  */
 class Button: public Object {
-
  private:
   static const uint8_t USENAME_MAX;
   static const uint8_t ACTION_LEN;
@@ -54,7 +53,7 @@ class Button: public Object {
 
   const OClass* getOClass() {return &oclass;}
 
-  bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
 
   static void funcs();	///< init funlist
 

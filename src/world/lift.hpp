@@ -69,7 +69,7 @@ class Lift: public Object {
 
   void changePosition(float lasting);
 
-  bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
 
   bool whenIntersect(Object *pcur, Object *pold);
 

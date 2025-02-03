@@ -178,6 +178,7 @@ class NetObj {
   /**<
    * Send a Delete '0x04' packet to the unicast sender.
    * Format: '0x04' (c), netobj name (n).
+   */
 
   void requestDeletion();
   /**<
@@ -188,7 +189,6 @@ class NetObj {
    *  3) deleteNetObj
    *     le nom devient invalide, plus aucun declare n'est possible
    *  4) faire le delete object final
-   */
    */
 
   //

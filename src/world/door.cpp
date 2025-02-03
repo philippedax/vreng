@@ -37,7 +37,7 @@ const OClass Door::oclass(DOOR_TYPE, "Door", Door::creator);
 static uint16_t oid = 0;
 
 
-/* Creates from vre file */
+/** Creates from vre file */
 Object * Door::creator(char *l)
 {
   return new Door(l);
@@ -82,7 +82,7 @@ void Door::parser(char *l)
   end_while_parse(l);
 }
 
-/* Constructor */
+/** Constructor */
 Door::Door(char *l)
 {
   parser(l);
@@ -165,8 +165,8 @@ void Door::changePosition(float lasting)
   }
 }
 
-/* Updates the network */
-bool Door::updateToNetwork(const Pos &oldpos)
+/** Updates the network */
+bool Door::publish(const Pos &oldpos)
 {
   bool change = false;
 
@@ -181,7 +181,7 @@ bool Door::updateToNetwork(const Pos &oldpos)
   return change;
 }
 
-/* Intersects with an object */
+/** Intersects with an object */
 bool Door::whenIntersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {

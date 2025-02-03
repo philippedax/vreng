@@ -90,7 +90,7 @@ class Door: public Object {
   void updateTime(time_t, time_t, float *lasting);
   /**< Updates time */
 
-  bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
   /**< Publishes position */
 
   bool whenIntersect(Object *pcur, Object *pold);
