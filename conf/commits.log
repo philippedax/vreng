@@ -3379,3 +3379,4 @@
 3379 Lun  3 fév 2025 08:57:35 CET	renaming pobject to object netobj.*pp
 3380 Lun  3 fév 2025 09:39:13 CET	cleanup clearList channel.cpp
 3381 Lun  3 fév 2025 09:50:40 CET	cleanup notused netobj.*pp
+3382 Lun  3 fév 2025 09:56:32 CET	cleanup private filterQuery noid.*pp

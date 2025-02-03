@@ -314,8 +314,8 @@ void NetObj::putProperty(uint8_t prop_id, Payload *pp)
 
 void NetObj::getAllProperties(Payload *pp) const
 {
-  uint8_t _nbprop = getProperties(type);
-  for (int p=0; p < _nbprop; p++) {
+  uint8_t nbp = getProperties(type);
+  for (int p=0; p < nbp; p++) {
     getProperty(p, pp);
   }
 }
@@ -323,9 +323,9 @@ void NetObj::getAllProperties(Payload *pp) const
 /** Puts all properties of the netobj */
 void NetObj::putAllProperties(Payload *pp)
 {
-  uint8_t _nbprop = getProperties(type);
+  uint8_t nbp = getProperties(type);
 
-  for (int p=0; p < _nbprop; p++) {
+  for (int p=0; p < nbp; p++) {
     putProperty(p, pp);
   }
 }

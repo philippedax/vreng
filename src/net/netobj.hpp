@@ -69,6 +69,13 @@ class NetObj {
    * A declareCreation on such netobj produces a fatal.
    */
 
+  void putAllProperties(class Payload *pp);
+  /**<
+   * Puts all properties of this netobj.
+   * The payload is initialized before, and filled here.
+   * Called to known the Payload after one declareCreation.
+   */
+
  public:
   enum {
     NET_VOLATILE,	// replica
@@ -210,18 +217,6 @@ class NetObj {
    * Typically called to fill a payload before a sendDelta.
    */
 
-  void getAllProperties(class Payload *pp) const;
-  /**<
-   * Gets all properties from the network.
-   */
-
-  void putAllProperties(class Payload *pp);
-  /**<
-   * Puts all properties of this netobj.
-   * The payload is initialized before, and filled here.
-   * Called to known the Payload after one declareCreation.
-   */
-
   void requestDeletion();
   /**<
    * Supprime object du monde, si object n'est pas le local user
@@ -231,6 +226,11 @@ class NetObj {
    *  3) deleteNetObj
    *     le nom devient invalide, plus aucun declare n'est possible
    *  4) faire le delete object final
+   */
+
+  void getAllProperties(class Payload *pp) const;
+  /**<
+   * Gets all properties from the network.
    */
 
   bool isResponsible() const;
