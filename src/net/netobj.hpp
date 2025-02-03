@@ -69,6 +69,13 @@ class NetObj {
    * A declareCreation on such netobj produces a fatal.
    */
 
+  void setProperties(uint8_t _nbprop);
+
+  static void setProperties(uint8_t type_id, uint8_t _nbprop);
+  /**<
+   * Sets the number of properties for this type
+   */
+
   void putAllProperties(class Payload *pp);
   /**<
    * Puts all properties of this netobj.
@@ -193,13 +200,6 @@ class NetObj {
    * Returns le number of properties for this type.
    * numbered from 0 to propertiesnumber-1.
    * Typically called after an incomingCreate.
-   */
-
-  void setProperties(uint8_t _nbprop);
-
-  static void setProperties(uint8_t type_id, uint8_t _nbprop);
-  /**<
-   * Sets the number of properties for this type
    */
 
   void getProperty(uint8_t prop, class Payload *pp) const;
