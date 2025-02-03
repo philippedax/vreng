@@ -31,7 +31,6 @@
 #include "oclass.hpp"	// isValidType
 
 #include <list>
-using namespace std;
 
 
 /** Builds a concataned string name */
@@ -52,8 +51,8 @@ bool Noid::equal(Noid n2) const
 /** Gets a NetObj by name */
 NetObj * Noid::getNetObj()
 {
-  list<NetObj*>::iterator it;
-  for (list<NetObj*>::iterator it = NetObj::getList(); it != NetObj::netobjList.end(); ++it) {
+  std::list<NetObj*>::iterator it;
+  for (std::list<NetObj*>::iterator it = NetObj::getList(); it != NetObj::netobjList.end(); ++it) {
     if (! equal((*it)->noid)) {
       if (! OClass::isValidType((*it)->type)) {
         error("getNetObj: bad type=%d", (*it)->type); return NULL;

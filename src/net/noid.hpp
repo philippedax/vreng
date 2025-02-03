@@ -65,6 +65,7 @@ class Noid {
   bool equal(Noid noid2) const;
   /**< Returns 0 if differents, other if equals */
 
+ private:
   int filterQuery();
   /**< Heuristic to avoid to send bunch of Query */
 };
