@@ -3381,3 +3381,4 @@
 3381 Lun  3 fév 2025 09:50:40 CET	cleanup notused netobj.*pp
 3382 Lun  3 fév 2025 09:56:32 CET	cleanup private filterQuery noid.*pp
 3383 Lun  3 fév 2025 10:08:11 CET	cleanup private putAllProperties netobj.hpp
+3384 Lun  3 fév 2025 10:21:18 CET	cleanup private setProperties netobj.hpp

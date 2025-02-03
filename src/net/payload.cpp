@@ -407,36 +407,6 @@ int Payload::tellPayload(const char *str)
   return -1;
 }
 
-void Payload::dump(FILE *f)
-{
-  fprintf(f, "dump: len=%d 0x%03x, idx=%d 0x%03x\n", len, len, idx, idx);
-
-  char adr[4], hex[49], asc[17];
-
-  for (int i=0; i<len; ) {
-    memset(adr, 0, sizeof(adr));
-    memset(hex, 0, sizeof(hex));
-    memset(asc, 0, sizeof(asc));
-    sprintf(adr, "%03x", i);
-    for (int j=0; j<16; j++, i++) {
-      int c = (uint8_t) data[i];
-      sprintf(&hex[j*3], "%02x ", c);
-      if (isprint(c))
-        sprintf(&asc[j], "%c", c);
-      else
-        sprintf(&asc[j], ".");
-      if (i == len-1) {
-        sprintf(&hex[(j+1)*3], ">  ");
-        sprintf(&asc[j+1], ">");
-        i = len;
-        break;
-      }
-    }
-    fprintf(f, "%s:  %s  | %s |\n", adr, hex, asc);
-  }
-  fflush(f);
-}
-
 /**
  * Sends a payload
  *
@@ -692,7 +662,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
     return;
   }
 
-  /* verify prop_id */
+  // verify prop_id
   uint8_t nprop = pn->getProperties();
   if (prop_id >= nprop) {
     error("inDelta: invalid property prop_id=%d" "(type=%d, nprop=%d)", prop_id, pn->type, nprop);
@@ -700,9 +670,9 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
   }
   NetProperty *pprop = pn->prop + prop_id;
 
-  /*
-   * depends on prop version
-   */
+  //
+  // depends on prop version
+  //
   // in complement to 2: d gives the distance, same throught the boundary
   int16_t d = pprop->version - vers_id;	// versions difference
   if (abs(d) > 5000) {	// very far
@@ -717,7 +687,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
     pprop->version = vers_id;
     return;
   }
-  /* same versions, 2 responsibles: conflict */
+  // same versions, 2 responsibles: conflict
   else if (pprop->responsible) {
     // resolved by getting a new random version
     // publishes new version to sender in unicast
@@ -737,29 +707,24 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   if (getPayload("cnc", &type_id, &noid, &perm) < 0) {
     return;
   }
-  if (noid.getNetObj()) return;  // local copy already exists -> ignore this request
+  if (noid.getNetObj()) {
+    return;	// local copy already exists -> ignore this request
+  }
 
   trace1(DBG_NET, "inCreate: nobj=%s (type=%d), perm=%d", noid.getNoid(), type_id, perm);
   //dump(stderr);
 
   //
-  // creates the replicated object
+  // Creates the replicated object
   // glue with Object
   // very important !!!
   //
-  NetObj *pn = NetObj::replicateObject(type_id, noid, this);
-  if (!pn) {
+  NetObj *pn = NetObj::replicate(type_id, noid, this);
+  if (! pn) {
     error("inCreate: can't replicate object, type=%d", type_id);
     return;
   }
 
-#if 0 //debug
-  if (pn->type != type_id) {
-    error("inCreate: bad type=%d", type_id);
-    return;
-  }
-#endif
-  //dax if (! pn->equalNoid(pn->noid)) {
   if (! pn->noid.equal(pn->noid)) {
     error("inCreate: bad noid=%s", pn->noid.getNoid());
     return;
@@ -831,4 +796,34 @@ void Payload::incomingUnknown(const struct sockaddr_in *from, int size)
           data[8], data[9], data[10], data[11],
           data[12], data[13], data[14], data[15]);
   }
+}
+
+void Payload::dump(FILE *f)
+{
+  fprintf(f, "dump: len=%d 0x%03x, idx=%d 0x%03x\n", len, len, idx, idx);
+
+  char adr[4], hex[49], asc[17];
+
+  for (int i=0; i<len; ) {
+    memset(adr, 0, sizeof(adr));
+    memset(hex, 0, sizeof(hex));
+    memset(asc, 0, sizeof(asc));
+    sprintf(adr, "%03x", i);
+    for (int j=0; j<16; j++, i++) {
+      int c = (uint8_t) data[i];
+      sprintf(&hex[j*3], "%02x ", c);
+      if (isprint(c))
+        sprintf(&asc[j], "%c", c);
+      else
+        sprintf(&asc[j], ".");
+      if (i == len-1) {
+        sprintf(&hex[(j+1)*3], ">  ");
+        sprintf(&asc[j+1], ">");
+        i = len;
+        break;
+      }
+    }
+    fprintf(f, "%s:  %s  | %s |\n", adr, hex, asc);
+  }
+  fflush(f);
 }

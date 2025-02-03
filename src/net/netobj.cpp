@@ -118,12 +118,6 @@ void NetObj::setMgrSsrc(uint32_t mgr_ssrc_id)
   myMgrSsrcId = mgr_ssrc_id;
 }
 
-/** Gets ssrc manager */
-uint32_t NetObj::getMgrSsrc()
-{
-  return myMgrSsrcId;
-}
-
 /** Sets ssrc */
 void NetObj::setSsrc(uint32_t ssrc_id)
 {
@@ -236,11 +230,11 @@ void NetObj::set(bool _state)
   // MS.: Objects need a unique ID from the start,
   // not just for networked objects, so that the
   // Vjc controller apps can tell them apart.
-  setNoid();
 
   state = _state;
+  setNoid();
   initProperties(true);			// new: then we are responsible
-  netobjList.push_back(this);	// add to list
+  netobjList.push_back(this);		// add to list
 }
 
 /** Builds a netobj name from the string "scene_id/obj_id" */
@@ -263,7 +257,7 @@ void NetObj::setNetName(const char *s, bool _state)
   noid.obj_id = htons(obj_id);
 
   if (getNetObj()) {
-    return;	//error("setNetName: %s already seen %d/%d", object->objectName(), scene_id, obj_id);
+    return;	//error("%s already seen %d/%d", object->objectName(), scene_id, obj_id);
   }
   netobjList.push_back(this);	// add to list
 }
@@ -272,7 +266,7 @@ void NetObj::setNetName(const char *s, bool _state)
 void NetObj::deleteFromList()
 {
   if (! getNetObj()) {
-    return;	//error("deleteFromList: already unnamed/deleted type=%d", type);
+    return;	//error("already unnamed/deleted type=%d", type);
   }
   netobjList.remove(this);
 }
@@ -337,15 +331,16 @@ void NetObj::requestDeletion()
 }
 
 /** Creates a replicated object */
-NetObj * NetObj::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
+NetObj * NetObj::replicate(uint8_t type_id, Noid noid, Payload *pp)
 {
-  Object *po = OClass::replicatorInstance(type_id, noid, pp);  // factory
+  Object *o = OClass::replicatorInstance(type_id, noid, pp);  // factory
 
-  if (po) {
-    if (! po->netop) {
-      error("replicateObject: no po->netop for type=%d", type_id); return NULL;
+  if (o) {
+    if (! o->netop) {
+      error("replicate: no o->netop for type=%d", type_id);
+      return NULL;
     }
-    return po->netop;	// OK
+    return o->netop;	// OK
   }
   return NULL;		// BAD
 }

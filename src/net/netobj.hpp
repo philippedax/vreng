@@ -130,6 +130,9 @@ class NetObj {
    * One declareCreation is wish latter, when props are set.
    */
 
+  //
+  // Declares
+  //
   void declareCreation();
   /**<
    * We assume the header yet initialized,
@@ -150,19 +153,9 @@ class NetObj {
    * To call when we want destroy the object before a deleteNetObj.
    */
 
-  // static methods for static members
-  static void setSsrc(uint32_t ssrc_id);
-  static void setMgrSsrc(uint32_t ssrc_id);
-  static void setHost(uint32_t host_id);
-  static void setPort(uint16_t port_id);
-  static void setObj(uint16_t obj_id);
-  static uint32_t getSsrc();
-  static uint32_t getMgrSsrc();
-  static uint32_t getHost();
-  static uint16_t getPort();
-  static uint16_t getObj();
-
-  // Send
+  //
+  // Sends
+  //
   void sendCreate(const struct sockaddr_in *to);
   /**<
    * Send a '0x01' packet to mentionned unicast address for the current object
@@ -185,8 +178,22 @@ class NetObj {
   /**<
    * Send a Delete '0x04' packet to the unicast sender.
    * Format: '0x04' (c), netobj name (n).
+
+  void requestDeletion();
+  /**<
+   * Supprime object du monde, si object n'est pas le local user
+   * The sequence must include deleteNetObj.
+   *  1) faire le menage et afficher tout ce qui est necessaire.
+   *  2) si la decision a ete prise localement: declareDeletion
+   *  3) deleteNetObj
+   *     le nom devient invalide, plus aucun declare n'est possible
+   *  4) faire le delete object final
+   */
    */
 
+  //
+  // Properties
+  //
   void initProperties(bool responsible);
   /**<
    * Initializes responsibilities (false=no, true=yes).
@@ -217,17 +224,6 @@ class NetObj {
    * Typically called to fill a payload before a sendDelta.
    */
 
-  void requestDeletion();
-  /**<
-   * Supprime object du monde, si object n'est pas le local user
-   * The sequence must include deleteNetObj.
-   *  1) faire le menage et afficher tout ce qui est necessaire.
-   *  2) si la decision a ete prise localement: declareDeletion
-   *  3) deleteNetObj
-   *     le nom devient invalide, plus aucun declare n'est possible
-   *  4) faire le delete object final
-   */
-
   void getAllProperties(class Payload *pp) const;
   /**<
    * Gets all properties from the network.
@@ -240,7 +236,7 @@ class NetObj {
   static std::list<NetObj*>::iterator getList();
   /**< Gets the NetObj list. */
 
-  static NetObj *replicateObject(uint8_t type, class Noid noid, class Payload *pp);
+  static NetObj *replicate(uint8_t type, class Noid noid, class Payload *pp);
   /**<
    * Dispatching the replicated object.
    * Creates a replication (local copy) of the object.
@@ -256,6 +252,17 @@ class NetObj {
    * Header vers noid se fait en lisant directement dans la struct
    * Naming is done by create or createNetObj.
    */
+
+  // static methods for static members
+  static void setSsrc(uint32_t ssrc_id);
+  static void setMgrSsrc(uint32_t ssrc_id);
+  static void setHost(uint32_t host_id);
+  static void setPort(uint16_t port_id);
+  static void setObj(uint16_t obj_id);
+  static uint32_t getSsrc();
+  static uint32_t getHost();
+  static uint16_t getPort();
+  static uint16_t getObj();
 };
 
 #endif
