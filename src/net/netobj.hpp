@@ -233,9 +233,6 @@ class NetObj {
    *  4) faire le delete object final
    */
 
-  //notused Object * getObjectByNoid() const;
-  //notused /**< Finds a Object pointer by its noid */
-
   bool isResponsible() const;
 
   bool isPermanent() const;

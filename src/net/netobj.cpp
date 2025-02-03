@@ -300,22 +300,6 @@ bool NetObj::isResponsible() const
   return (prop && prop->responsible);
 }
 
-#if 0 //notused
-/** Finds a Object pointer by its noid */
-Object * NetObj::getObjectByNoid() const
-{
-  for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if ((*it)->netop) {
-      //dax if (noid.equal((*it)->netop->noid))
-      if ((*it)->netop->noid.equal((*it)->netop->noid)) {
-        return *it;	// found
-      }
-    }
-  }
-  return NULL;
-}
-#endif //notused
-
 /** Gets the property prop_id (its local copy) got from Network */
 void NetObj::getProperty(uint8_t prop_id, Payload *pp) const
 {
