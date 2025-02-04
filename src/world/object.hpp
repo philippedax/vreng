@@ -246,7 +246,7 @@ class Object {
   virtual void permanent(float lasting)			{}
   /**< Changes the position during a permanent movement. */
 
-  virtual void timing(time_t s, time_t us, float *lasting)	{}
+  virtual void timing(time_t s, time_t us, float *last)	{}
   /**< Updates remaining times of the movement. */
 
   virtual bool publish(const Pos &pos)			{ return false; }
@@ -258,7 +258,7 @@ class Object {
   virtual bool intersectOut(Object *pcur, Object *pold)	{ return false; }
   /**< Handles an outgoing collision with another object. */
 
-  virtual void whenWallsIntersect(Object *wo, V3 *norm)	{}
+  virtual void wallsIntersect(Object *wo, V3 *norm)	{}
   /**< Handles collisions with walls. */
 
   virtual void render()					{}

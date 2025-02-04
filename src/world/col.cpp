@@ -197,7 +197,7 @@ bool Object::outgoingNeighbor(Object *o, Object *neighbor)
  */
 void Object::generalIntersect(Object *o, OList *vicinity)
 {
-#if 0
+#if 1
   // check walls
   V3 normal;
   if (Walls::intersect(pos.bbc, pos.bbs, normal)) {
