@@ -59,7 +59,7 @@ class Projectile: public Object {
 
   void changePosition(float lasting);
 
-  void updateTime(time_t s, time_t us, float *plasting);
+  void timing(time_t s, time_t us, float *plasting);
 
   bool whenIntersect(Object *pcur, Object *pold);
 

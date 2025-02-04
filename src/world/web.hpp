@@ -56,7 +56,7 @@ class Web: public Object {
   static Object * (creator)(char *l);
   /**< Creates from fileline. */
 
-  void updateTime(time_t sec, time_t usec, float *lasting);
+  void timing(time_t sec, time_t usec, float *lasting);
 
   void changePosition(float lasting);
 

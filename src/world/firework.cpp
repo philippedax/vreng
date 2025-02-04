@@ -110,7 +110,7 @@ void Firework::generate()
   state = ACTIVE;
 }
 
-void Firework::updateTime(time_t sec, time_t usec, float *lasting)
+void Firework::timing(time_t sec, time_t usec, float *lasting)
 {
   if (! updateLasting(sec, usec, lasting)) state = INACTIVE;
 }

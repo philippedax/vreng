@@ -39,7 +39,7 @@ Object * Animator::creator(char *l)
   return new Animator(l);
 }
 
-/* default member values */
+/** default member values */
 void Animator::defaults()
 {
   frame = 0;
@@ -47,7 +47,7 @@ void Animator::defaults()
   ttl = 0;
 }
 
-/* parser */
+/** parser */
 void Animator::parser(char *l)
 {
   defaults();
@@ -78,7 +78,7 @@ void Animator::inits()
   }
 }
 
-/* constructor */
+/** constructor */
 Animator::Animator(char *l)
 {
   parser(l);
@@ -91,7 +91,7 @@ bool Animator::isMoving()
   return (state != INACTIVE);
 }
 
-void Animator::updateTime(time_t sec, time_t usec, float *lasting)
+void Animator::timing(time_t sec, time_t usec, float *lasting)
 {
   *lasting = diffTime(sec, usec);
   if (*lasting > ttl) {

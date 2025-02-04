@@ -83,7 +83,7 @@ void Sheet::changePosition(float lasting)
   pos.y = center.v[1] + size.v[0] * sin(pos.az);
 }
 
-void Sheet::updateTime(time_t s, time_t us, float *lasting)
+void Sheet::timing(time_t s, time_t us, float *lasting)
 {
   if (move.aspeed.v[0] == aspeed)	// turning right
     move.ttl = MIN(ABSF(deltaAngle(pos.az, aright)/move.aspeed.v[0]), move.ttl);

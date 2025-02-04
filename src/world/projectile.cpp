@@ -32,7 +32,7 @@
 const OClass Projectile::oclass(PROJECTILE_TYPE, "Projectile", NULL);
 
 
-void Projectile::updateTime(time_t s, time_t us, float *plasting)
+void Projectile::timing(time_t s, time_t us, float *plasting)
 {
   if (! updateLasting(s, us, plasting)) {
     /* the projectile has spent its time to live => it must be destroyed */

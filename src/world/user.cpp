@@ -542,7 +542,7 @@ bool User::publish(const Pos &opos)
 }
 
 /** Updates times array */
-void User::updateTime(time_t sec, time_t usec, float *lasting)
+void User::timing(time_t sec, time_t usec, float *lasting)
 {
   updateLasting(sec, usec, lasting);
 }

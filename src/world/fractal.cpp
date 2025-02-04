@@ -175,11 +175,6 @@ void Fractal::step()
   turtle_z += turtle_r * sin(turtle_theta*M_PI_180);
 }
 
-void Fractal::updateTime(time_t sec, time_t usec, float *lasting)
-{
-  if (! updateLasting(sec, usec, lasting)) state = INACTIVE;
-}
-
 void Fractal::render()
 {
   //if (state == INACTIVE) return;

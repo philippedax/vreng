@@ -77,7 +77,7 @@ bool Bumper::isMoving()
   return (state != INACTIVE);
 }
 
-void Bumper::updateTime(time_t sec, time_t usec, float *lasting)
+void Bumper::timing(time_t sec, time_t usec, float *lasting)
 {
   *lasting = diffTime(sec, usec);
   if (*lasting > move.ttl) {

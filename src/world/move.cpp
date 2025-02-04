@@ -87,7 +87,7 @@ void Object::updateKeys(time_t sec, time_t usec)
 }
 
 /** Fills times's array for each user movement direction */
-void User::updateTime(float lastings[])
+void User::timing(float lastings[])
 {
   for (int k=0; k < MAXKEYS; k++) {
     lastings[k] = static_cast<float>(kpdur_s[k]) + static_cast<float>(kpdur_u[k]) / 1e6;
@@ -378,7 +378,7 @@ void User::userMovement(time_t sec, time_t usec)
 
   copyPositionAndBB(pos);	// keep pos for network
   updateKeys(sec, usec);
-  updateTime(keylastings);
+  timing(keylastings);
 
   float lasting = -1.;
   for (int k=0; k < MAXKEYS; k++) {
@@ -439,7 +439,7 @@ void Object::imposedMovements(time_t sec, time_t usec)
   copyPositionAndBB(pos);		// keep pos for network
 
   float lasting = -1;
-  updateTime(sec, usec, &lasting);	// handled by each object only for imposed movements
+  timing(sec, usec, &lasting);	// handled by each object only for imposed movements
 
   move.next = NULL;
 
@@ -533,7 +533,7 @@ void Object::permanentMovements(time_t sec, time_t usec)
         }
       }
     }
-    updateTime(sec, usec, &lasting);	// never called FIXME!
+    timing(sec, usec, &lasting);	// never called FIXME!
 
     if (netop && netop->isResponsible()) {
       publish(pos);			// handled by each object

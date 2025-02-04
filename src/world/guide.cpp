@@ -56,7 +56,7 @@ static float userpos[4];	///< initial position of user
 static float path[GUIDE_MAX][5]; ///< array of position[syz]-speed-pause in the path
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Guide::creator(char *l)
 {
   return new Guide(l);
@@ -159,12 +159,12 @@ Guide::Guide(char *l)
   draw(color);	// draw path
 }
 
-void Guide::updateTime(time_t sec, time_t usec, float *lasting)
+void Guide::timing(time_t sec, time_t usec, float *lasting)
 {
   updateLasting(sec, usec, lasting);
 }
 
-/* Stucks the user on the guide */
+/** Stucks the user on the guide */
 void Guide::stuckUser()
 {
   // save initial position of the user
@@ -188,7 +188,7 @@ void sigguide(int s)
   guide->pause = false;
 }
 
-/* Do the elementary movement */
+/** Do the elementary movement */
 void Guide::motion(float *dx, float *dy, float *dz)
 {
   float nn = sqrt( (path[seg+1][0]-path[seg][0]) * (path[seg+1][0]-path[seg][0]) +
@@ -373,7 +373,7 @@ void Guide::draw(float *color)
   glEndList();
 }
 
-/* Renders the ramp */
+/** Renders the ramp */
 void Guide::render()
 {
   if (! show || dlist < 0) return;

@@ -87,7 +87,7 @@ class Door: public Object {
   void changePosition(float lasting);
   /**< Makes changes on position */
 
-  void updateTime(time_t, time_t, float *lasting);
+  void timing(time_t, time_t, float *lasting);
   /**< Updates time */
 
   bool publish(const Pos &oldpos);

@@ -71,7 +71,7 @@ class Guide: public Object {
   static Object * (creator)(char *l);
   /**< Create from fileline. */
 
-  void updateTime(time_t sec, time_t usec, float *lasting);
+  void timing(time_t sec, time_t usec, float *lasting);
 
   void changePermanent(float lasting);
   /**< Perpetually movement. */

@@ -191,7 +191,7 @@ Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
 }
 
 /** Update time lasting */
-void Ball::updateTime(time_t sec, time_t usec, float *lasting)
+void Ball::timing(time_t sec, time_t usec, float *lasting)
 {
   updateLasting(sec, usec, lasting);
 }

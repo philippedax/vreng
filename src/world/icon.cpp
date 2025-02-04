@@ -59,7 +59,7 @@ const float Icon::HEIGHT = 0.32;
 static const char *COLOR = "1 1 1";	// white
 
 
-void Icon::updateTime(time_t sec, time_t usec, float *lasting)
+void Icon::timing(time_t sec, time_t usec, float *lasting)
 {
   updateLasting(sec, usec, lasting);
 }

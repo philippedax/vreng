@@ -67,7 +67,7 @@ class Animator: public Object {
 
   void changePosition(float lasting);
 
-  void updateTime(time_t, time_t, float *);
+  void timing(time_t, time_t, float *);
 
   bool whenIntersect(Object *pcur, Object *pold);
 

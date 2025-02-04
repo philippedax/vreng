@@ -76,7 +76,7 @@ class Vrelet: public Object {
   void changePosition(float lasting);
   /**< Propagates the last deltas to the object's position */
 
-  void updateTime(time_t s, time_t us, float *lasting);
+  void timing(time_t s, time_t us, float *lasting);
   /**< Dummy: always say we need to move */
 
   bool whenIntersect(Object *pcur, Object *pold);

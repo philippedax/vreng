@@ -52,7 +52,7 @@ class Slider: public Step {
   void changePosition(float lasting);
   /**< Changes the position after a triggered movement. */
 
-  void updateTime(time_t sec, time_t usec, float *lasting);
+  void timing(time_t sec, time_t usec, float *lasting);
   /**< Updates remaining times of the movement. */
 
   bool whenIntersect(Object *pcur, Object *pold);

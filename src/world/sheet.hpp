@@ -74,7 +74,7 @@ class Sheet: public Object {
   /**< Constructor called by Book */
 
   void changePosition(float lasting);
-  void updateTime(time_t s, time_t us, float *lasting);
+  void timing(time_t s, time_t us, float *lasting);
   bool whenIntersect(Object *pcur, Object *pold);
   void quit();
 

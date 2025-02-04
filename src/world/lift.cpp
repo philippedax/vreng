@@ -93,7 +93,7 @@ bool Lift::publish(const Pos &oldpos)
   return change;
 }
 
-void Lift::updateTime(time_t sec, time_t usec, float *lasting)
+void Lift::timing(time_t sec, time_t usec, float *lasting)
 {
   updateLasting(sec, usec, lasting);
 }

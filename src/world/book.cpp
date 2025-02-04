@@ -299,7 +299,7 @@ void Book::changePosition(float dt)
   pos.ax += dt * move.aspeed.v[2];
 }
 
-void Book::updateTime(time_t sec, time_t usec, float *dt)
+void Book::timing(time_t sec, time_t usec, float *dt)
 {
   updateLasting(sec, usec, dt);
 }

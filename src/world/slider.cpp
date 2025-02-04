@@ -77,7 +77,7 @@ bool Slider::isMoving()
   return (state != INACTIVE);
 }
 
-void Slider::updateTime(time_t sec, time_t usec, float *lasting)
+void Slider::timing(time_t sec, time_t usec, float *lasting)
 {
   *lasting = diffTime(sec, usec);
   if (*lasting > move.ttl) {

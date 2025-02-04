@@ -38,7 +38,7 @@ const OClass Vrelet::oclass(VRELET_TYPE, "Vrelet", Vrelet::creator);
 void Vrelet::funcs() {}
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Vrelet::creator(char *l)
 {
   return new Vrelet(l);
@@ -50,7 +50,7 @@ void Vrelet::defaults()
   fx = fy = 1.;
 }
 
-/* Vrelet parser */
+/** Vrelet parser */
 void Vrelet::parser(char *l)
 {
   bool goturl = false;
@@ -112,7 +112,7 @@ Vrelet::Vrelet(char *l)
   ::g.gui.setToVrelet(this);
 }
 
-/* Send a notification to the child saying a click occured */
+/** Send a notification to the child saying a click occured */
 void Vrelet::sendClick(int x, int y)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_CLICK, VJC_MSGV_CLICK);
@@ -122,7 +122,7 @@ void Vrelet::sendClick(int x, int y)
   delete msg;
 }
 
-/* Send some object's position to the child */
+/** Send some object's position to the child */
 void Vrelet::sendPos(Object *po)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_POS, VJC_MSGV_SET);
@@ -133,7 +133,7 @@ void Vrelet::sendPos(Object *po)
   delete msg;
 }
 
-/* Same as sendPos, except that no position is sent */
+/** Same as sendPos, except that no position is sent */
 void Vrelet::sendPosError(uint8_t type, uint32_t ssrc, uint16_t port, uint16_t id)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_POS, VJC_MSGV_ERROR);
@@ -146,7 +146,7 @@ void Vrelet::sendPosError(uint8_t type, uint32_t ssrc, uint16_t port, uint16_t i
   delete msg;
 }
 
-/* Answer a child's query */
+/** Answer a child's query */
 void Vrelet::answerTypeQuery(int _type)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_QUERY, VJC_MSGV_QANS);
@@ -169,7 +169,7 @@ void Vrelet::answerTypeQuery(int _type)
   delete msg;
 }
 
-/* Deal with input from the client app */
+/** Deal with input from the client app */
 void Vrelet::readApp()
 {
   bool processed = false;
@@ -291,7 +291,7 @@ void Vrelet::readApp()
   }
 }
 
-/* React to a user click on our surface */
+/** React to a user click on our surface */
 void Vrelet::click(V3 dir)
 {
   // calculate the intersection between the click vector and our primary surface
@@ -324,8 +324,8 @@ void Vrelet::click(V3 dir)
   sendClick(x, y);
 }
 
-/* Dummy: always say we need to move */
-void Vrelet::updateTime(time_t s, time_t us, float *lasting)
+/** Dummy: always say we need to move */
+void Vrelet::timing(time_t s, time_t us, float *lasting)
 {
   *lasting = 1.;
 }
@@ -350,14 +350,14 @@ void Vrelet::deltaPos(Object *po)
   po->pos.ax += angDelta.v[1];
 }
 
-/* Return yes if the child has sent a delta request */
+/** Return yes if the child has sent a delta request */
 bool Vrelet::isMoving()
 {
   readApp();
   return (wantDelta > 0 || needRedraw);
 }
 
-/* Propagate the last deltas to the object's position */
+/** Propagate the last deltas to the object's position */
 void Vrelet::changePosition(float lasting)
 {
   if      (wantDelta == VJC_MSGV_SET) setPos(this);
@@ -372,7 +372,7 @@ void Vrelet::changePosition(float lasting)
   }
 }
 
-/* Send the client a notification that a thing just entered/exited its BB */
+/** Send the client a notification that a thing just entered/exited its BB */
 void Vrelet::sendIntersect(Object *pcur, Object *pold, int inOrOut)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_ISEC, inOrOut);
@@ -385,21 +385,21 @@ void Vrelet::sendIntersect(Object *pcur, Object *pold, int inOrOut)
   delete msg;
 }
 
-/* An ingoing intersection occured */
+/** An ingoing intersection occured */
 bool Vrelet::whenIntersect(Object *pcur, Object *pold)
 {
   sendIntersect(pcur, pold, VJC_MSGV_ISECIN);
   return true;
 }
 
-/* An outgoing intersection occured */
+/** An outgoing intersection occured */
 bool Vrelet::whenIntersectOut(Object *pcur, Object *pold)
 {
   sendIntersect(pcur, pold, VJC_MSGV_ISECOUT);
   return true;
 }
 
-/* Turn the app child off */
+/** Turn the app child off */
 void Vrelet::quit()
 {
   glDeleteLists(dlist, 1);
@@ -411,7 +411,7 @@ void Vrelet::quit()
  * 2D Object manipulation
  */
 
-/* 2D Creation */
+/** 2D Creation */
 tObject2D * Vrelet::newObject2D(tObject2D *o2l, int _type, int _tag, V3 _color)
 {
   tObject2D *o2 = new tObject2D[1];
@@ -423,7 +423,7 @@ tObject2D * Vrelet::newObject2D(tObject2D *o2l, int _type, int _tag, V3 _color)
   return o2;
 }
 
-/* Remove one object from a list */
+/** Remove one object from a list */
 tObject2D * Vrelet::removeObject2D(tObject2D *o2l, int _type, int _tag)
 {
   tObject2D *ret = o2l;
@@ -446,7 +446,7 @@ tObject2D * Vrelet::removeObject2D(tObject2D *o2l, int _type, int _tag)
   return o2l;
 }
 
-/* Free an object's point list */
+/** Free an object's point list */
 void Vrelet::freePointList(tPointList *pts)
 {
   while (pts) {
@@ -457,7 +457,7 @@ void Vrelet::freePointList(tPointList *pts)
   }
 }
 
-/* Free an object2D and its point list */
+/** Free an object2D and its point list */
 void Vrelet::freeObject2D(tObject2D *_o2)
 {
   if (! _o2) error("vrelet: attempt to free a null 2d object");
@@ -468,7 +468,7 @@ void Vrelet::freeObject2D(tObject2D *_o2)
   }
 }
 
-/* Free an object2d list */
+/** Free an object2d list */
 void Vrelet::freeObject2DList(tObject2D *o2l)
 {
   tObject2D *pl = o2l;
@@ -481,7 +481,7 @@ void Vrelet::freeObject2DList(tObject2D *o2l)
   }
 }
 
-/* Add a point to the point list */
+/** Add a point to the point list */
 void Vrelet::addPoint(tObject2D *_o2, V3 _point)
 {
   tPointList *pts = new tPointList[1];
@@ -492,7 +492,7 @@ void Vrelet::addPoint(tObject2D *_o2, V3 _point)
   _o2->points = pts;
 }
 
-/* Draws the Vrelet's 2D object list */
+/** Draws the Vrelet's 2D object list */
 void Vrelet::draw()
 {
   float rx = incrx / fx;
@@ -548,7 +548,7 @@ void Vrelet::draw()
   glEndList();
 }
 
-/* Displays the Vrelet's 2D object list */
+/** Displays the Vrelet's 2D object list */
 void Vrelet::render()
 {
   if (dlist) {

@@ -117,7 +117,7 @@ class Book: public Object {
   void changePosition(float lasting);
   /**< When changing position */
 
-  void updateTime(time_t, time_t, float *);
+  void timing(time_t, time_t, float *);
   /**< Updates delays */
 
   bool publish(const Pos &oldpos);

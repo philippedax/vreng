@@ -114,7 +114,7 @@ class Ball: public Object {
   void changePermanent(float lasting);
   /**< Does permanent position changes. */
 
-  void updateTime(time_t s, time_t u, float *lasting);
+  void timing(time_t s, time_t u, float *lasting);
   /**< Updates times. */
 
   bool publish(const Pos &oldpos);

@@ -171,17 +171,17 @@ class User: public Object {
   void changePermanent(float lasting);
   /**< Permanent movement. */
 
-  void updateTime(time_t sec, time_t usec, float *last);
+  void timing(time_t sec, time_t usec, float *last);
   /**< Updates times. */
+
+  void timing(float lasting[]);
+  /**< Fills delays's array for each user motion direction. */
 
   bool publish(const Pos &oldpos);
   /**< Publishes position to the network. */
 
   bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
-
-  void updateTime(float lasting[]);
-  /**< Fills delays's array for each user motion direction. */
 
   void changePosition(const float lasting[]);
   /**< Does the motion in each direction. */

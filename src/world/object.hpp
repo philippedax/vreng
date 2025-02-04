@@ -246,7 +246,7 @@ class Object {
   virtual void changePermanent(float lasting)		{}
   /**< Changes the position during a permanent movement. */
 
-  virtual void updateTime(time_t s, time_t us, float *lasting)	{}
+  virtual void timing(time_t s, time_t us, float *lasting)	{}
   /**< Updates remaining times of the movement. */
 
   virtual bool publish(const Pos &pos)			{ return false; }

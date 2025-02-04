@@ -41,9 +41,6 @@ class Fractal: public Object {
 
   Fractal(char *l);	///< Constructor
 
-  void updateTime(time_t s, time_t u, float *lasting);
-  /**< Updates times. */
-
   void changePosition(float lasting);
 
   void render();

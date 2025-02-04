@@ -220,7 +220,7 @@ Step::Step(Object *user, char *geom)
   updatePosition();
 }
 
-void Step::updateTime(time_t sec, time_t usec, float *dt)
+void Step::timing(time_t sec, time_t usec, float *dt)
 {
   updateLasting(sec, usec, dt);
 }

@@ -85,7 +85,7 @@ Web::Web(char *l)
   createNetObj(PROPS, ++oid);
 }
 
-void Web::updateTime(time_t sec, time_t usec, float *lasting)
+void Web::timing(time_t sec, time_t usec, float *lasting)
 {
   updateLasting(sec, usec, lasting);
 }

@@ -41,7 +41,7 @@ class Firework: public Particle {
 
   Firework(char *l);	///< Constructor
 
-  void updateTime(time_t s, time_t u, float *lasting);
+  void timing(time_t s, time_t u, float *lasting);
   /**< Updates times. */
 
   void changePosition(float lasting);

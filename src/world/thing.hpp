@@ -80,7 +80,7 @@ class Thing: public Object {
   void changePermanent(float lasting);
   /**< Permanent movement */
 
-  void updateTime(time_t s, time_t us, float *lasting);
+  void timing(time_t s, time_t us, float *lasting);
   /**< Updates lasting time */
 
   bool publish(const Pos &oldpos);

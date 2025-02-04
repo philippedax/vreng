@@ -121,7 +121,7 @@ Door::Door(char *l)
   createNetObj(PROPS, ++oid);
 }
 
-void Door::updateTime(time_t s, time_t us, float *lasting)
+void Door::timing(time_t s, time_t us, float *lasting)
 {
   switch (mecanism) {
   case ANGULAR:

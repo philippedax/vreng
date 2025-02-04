@@ -88,7 +88,7 @@ class Step: public Object {
   bool whenIntersectOut(Object *pcur, Object *pold);
   /**< When an other object leaves intersection */
 
-  void updateTime(time_t s, time_t us, float *lasting);
+  void timing(time_t s, time_t us, float *lasting);
   /**< Updates lasting time */
 
   void changePermanent(float lasting);

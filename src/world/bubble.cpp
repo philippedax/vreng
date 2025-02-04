@@ -131,7 +131,7 @@ void Bubble::changePosition(float lasting)
   }
 }
 
-void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
+void Bubble::timing(time_t sec, time_t usec, float *lasting)
 {
   if (! updateLasting(sec, usec, lasting)) {
     /* the text has elapsed its live time, it must be destroyed */

@@ -148,7 +148,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   createNetObj(PROPS, oid);
 }
 
-void Thing::updateTime(time_t sec, time_t usec, float *lasting)
+void Thing::timing(time_t sec, time_t usec, float *lasting)
 {
   updateLasting(sec, usec, lasting);
 }

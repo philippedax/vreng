@@ -114,7 +114,7 @@ class Icon: public Object {
   void changePermanent(float lasting);
   /**< Does permanent position changes */
 
-  void updateTime(time_t, time_t, float *);
+  void timing(time_t, time_t, float *);
   /**< Updates times */
 
   bool publish(const Pos &oldpos);

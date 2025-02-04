@@ -67,7 +67,7 @@ class Bubble: public Object {
 
   Bubble(class User *user, char *string, const float *color, bool face);	///< Constructor.
 
-  void updateTime(time_t s, time_t us, float *lasting);
+  void timing(time_t s, time_t us, float *lasting);
   /**< Updates lasting time. */
 
   void changePosition(float lasting);
