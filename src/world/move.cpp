@@ -358,8 +358,8 @@ void Object::permanentMovement(float speed)
 /** Elementary user movement */
 void User::elemUserMovement(const float tabdt[])
 {
-  Object *wo = new Object();
-  copyPositionAndBB(wo);	// keep pos for intersection
+  Object *o = new Object();
+  copyPositionAndBB(o);		// keep pos for intersection
 
   imposed(tabdt);
 
@@ -367,8 +367,8 @@ void User::elemUserMovement(const float tabdt[])
     echo("pos: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
   }
   updatePosition();
-  checkVicinity(wo);
-  delete wo;
+  checkVicinity(o);
+  delete o;
 }
 
 /** User general movement */
@@ -420,10 +420,10 @@ void Object::elemImposedMovement(float dt)
   updatePosition();
 
   if (! isBehavior(COLLIDE_NEVER)) {
-    Object *wo = new Object();
-    copyPositionAndBB(wo);	// keep pos for intersection
-    checkVicinity(wo);
-    delete wo;
+    Object *o = new Object();
+    copyPositionAndBB(o);	// keep pos for intersection
+    checkVicinity(o);
+    delete o;
   }
 }
 
@@ -436,7 +436,7 @@ void Object::imposedMovements(time_t sec, time_t usec)
   }
   if (! isMoving() && ! move.manip) return;	// no moving
 
-  copyPositionAndBB(pos);		// keep pos for network
+  copyPositionAndBB(pos);		// keep pos for netork
 
   float lasting = -1;
   timing(sec, usec, &lasting);	// handled by each object only for imposed movements
@@ -480,8 +480,8 @@ void Object::elemPermanentMovement(float dt)
     update3D(pos);
     return;
   }
-  Object *wo = new Object();
-  copyPositionAndBB(wo);	// keep pos for intersection
+  Object *o = new Object();
+  copyPositionAndBB(o);		// keep pos for intersection
 
   permanent(dt);		// handled by each object
 
@@ -489,8 +489,8 @@ void Object::elemPermanentMovement(float dt)
     localuser->checkPosition();	// check out-of-bounds
   }
   updatePosition();
-  checkVicinity(wo);
-  delete wo;
+  checkVicinity(o);
+  delete o;
 }
 
 /** Object permanent movement - called by world */

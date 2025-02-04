@@ -3391,3 +3391,4 @@
 3391 Mar  4 fév 2025 11:10:31 CET	renaming changePermanent to permanent wo/
 3392 Mar  4 fév 2025 11:20:41 CET	cleanup conf/commits.log
 3393 Mar  4 fév 2025 15:35:13 CET	renaming whenIntersect to intersect wo/
+3394 Mar  4 fév 2025 15:46:31 CET	cleanup col.cpp
