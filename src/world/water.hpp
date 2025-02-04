@@ -67,8 +67,8 @@ class Water: public Object {
 
   void permanent(float lasting);
 
-  bool whenIntersect(Object *pcur, Object *pold);
-  bool whenIntersectOut(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
+  bool intersectOut(Object *pcur, Object *pold);
 
   void render();
 

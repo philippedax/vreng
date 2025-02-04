@@ -30,6 +30,7 @@
 
 #define DIM_FLAG	40
 
+
 /**
  * Flag class
  */

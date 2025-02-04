@@ -75,7 +75,7 @@ Wall::Wall(Object *user, char *geom)
 }
 
 /** Intersection with an object */
-bool Wall::whenIntersect(Object *pcur, Object *pold)
+bool Wall::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

@@ -110,7 +110,7 @@ void Bumper::imposed(float lasting)
   }
 }
 
-bool Bumper::whenIntersect(Object *pcur, Object *pold)
+bool Bumper::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
     case USER_TYPE:

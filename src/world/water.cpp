@@ -170,7 +170,7 @@ void Water::render()
   glPopMatrix();
 }
 
-bool Water::whenIntersect(Object *pcur, Object *pold)
+bool Water::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
 
@@ -202,7 +202,7 @@ bool Water::whenIntersect(Object *pcur, Object *pold)
   return true;
 }
 
-bool Water::whenIntersectOut(Object *pcur, Object *pold)
+bool Water::intersectOut(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) signal(SIGUSR2, SIG_IGN);
   return true;

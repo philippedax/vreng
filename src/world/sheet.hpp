@@ -75,7 +75,7 @@ class Sheet: public Object {
 
   void imposed(float lasting);
   void timing(time_t s, time_t us, float *lasting);
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   void quit();
 
   void turnPrev();

@@ -57,7 +57,7 @@ class Doc: public Object {
   static Object * (creator)(char *l);
   /** Creates from fileline. */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an intersect occurs. */
 
   bool publish(const Pos &oldpos);

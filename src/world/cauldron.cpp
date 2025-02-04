@@ -59,7 +59,7 @@ void Cauldron::permanent(float lasting)
   pos.z -= lasting * GRAVITY / 4;
 }
 
-bool Cauldron::whenIntersect(Object *pcur, Object *pold)
+bool Cauldron::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

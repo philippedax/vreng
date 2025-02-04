@@ -98,7 +98,7 @@ void Sheet::timing(time_t s, time_t us, float *lasting)
   }
 }
 
-bool Sheet::whenIntersect(Object *pcur, Object *pold)
+bool Sheet::intersect(Object *pcur, Object *pold)
 {
   projectPosition(pcur, pold);
   return true;

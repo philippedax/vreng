@@ -55,7 +55,7 @@ class Slider: public Step {
   void timing(time_t sec, time_t usec, float *lasting);
   /**< Updates remaining times of the movement. */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
   void quit();

@@ -200,7 +200,7 @@ void Terrain::draw()
 }
 
 /** Intersection with an object */
-bool Terrain::whenIntersect(Object *pcur, Object *pold)
+bool Terrain::intersect(Object *pcur, Object *pold)
 {
   echo("terrain intersect: %s", pcur->objectName());
   pold->setLasting(0);

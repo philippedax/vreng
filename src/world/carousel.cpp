@@ -98,7 +98,7 @@ void Carousel::render()
   glPopMatrix();
 }
 
-bool Carousel::whenIntersect(Object *pcur, Object *pold)
+bool Carousel::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

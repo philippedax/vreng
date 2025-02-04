@@ -252,10 +252,10 @@ class Object {
   virtual bool publish(const Pos &pos)			{ return false; }
   /**< Publishes changes to the network. */
 
-  virtual bool whenIntersect(Object *pcur, Object *pold)	{ return false; }
+  virtual bool intersect(Object *pcur, Object *pold)	{ return false; }
   /**< Handles an ingoing collision with another object. */
 
-  virtual bool whenIntersectOut(Object *pcur, Object *pold)	{ return false; }
+  virtual bool intersectOut(Object *pcur, Object *pold)	{ return false; }
   /**< Handles an outgoing collision with another object. */
 
   virtual void whenWallsIntersect(Object *wo, V3 *norm)	{}

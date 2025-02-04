@@ -33,7 +33,7 @@ const OClass Spiral::oclass(SPIRAL_TYPE, "Spiral", Spiral::creator);
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** Creation from a file */
 Object * Spiral::creator(char *l)
 {
   return new Spiral(l);

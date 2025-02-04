@@ -79,10 +79,10 @@ class Vrelet: public Object {
   void timing(time_t s, time_t us, float *lasting);
   /**< Dummy: always say we need to move */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< Notify the controler that an ingoing intersection occured */
 
-  bool whenIntersectOut(Object *pcur, Object *pold);
+  bool intersectOut(Object *pcur, Object *pold);
   /**< Notify the controler that an outgoing intersection occured */
 
   void render();

@@ -64,10 +64,10 @@ class Gate: public Object {
   static Object * (creator)(char *l);
   /**< Creates from file line. */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
-  bool whenIntersectOut(Object *pcur, Object *pold);
+  bool intersectOut(Object *pcur, Object *pold);
   /**< When an other object leave intersection. */
 
   bool publish(const Pos &oldpos);

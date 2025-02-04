@@ -31,7 +31,7 @@
 #include "bullet.hpp"	// BULLET_TYPE
 #include "step.hpp"	// STEP_TYPE
 #include "move.hpp"	// GRAVITY
-#include "walls.hpp"	// whenIntersect
+#include "walls.hpp"	// intersect
 #include "sql.hpp"	// getCountCart
 #include "carrier.hpp"	// Carrier
 #include "cart.hpp"	// Cart
@@ -624,7 +624,7 @@ void User::dartPutHit(Dart *pdart, Payload *pp)
 }
 
 /** Intersection with an other object */
-bool User::whenIntersect(Object *pcur, Object *pold)
+bool User::intersect(Object *pcur, Object *pold)
 {
   // User has no control over ghost objects
   if (pcur->isBehavior(COLLIDE_GHOST)) return true;

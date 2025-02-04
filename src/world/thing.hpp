@@ -86,7 +86,7 @@ class Thing: public Object {
   bool publish(const Pos &oldpos);
   /**< Publishes to network */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< Intersects with a mobile object */
 
   void quit();

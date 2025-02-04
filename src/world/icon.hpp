@@ -120,7 +120,7 @@ class Icon: public Object {
   bool publish(const Pos &oldpos);
   /**< Publishes to network */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< Handles collisions */
 
   void quit();

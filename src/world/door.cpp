@@ -182,7 +182,7 @@ bool Door::publish(const Pos &oldpos)
 }
 
 /** Intersects with an object */
-bool Door::whenIntersect(Object *pcur, Object *pold)
+bool Door::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

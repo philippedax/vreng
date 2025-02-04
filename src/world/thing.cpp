@@ -185,7 +185,7 @@ void Thing::dropIntoBasket(Thing *thing, void *d, time_t s, time_t u)
   localuser->cart->addToCart(thing);
 }
 
-bool Thing::whenIntersect(Object *pcur, Object *pold)
+bool Thing::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
     case USER_TYPE:

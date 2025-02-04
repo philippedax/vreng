@@ -88,7 +88,7 @@ class Music: public Object {
   static Object * (creator)(char *l);
   /**< Create from file */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< Intersects with another object */
 
   void quit();

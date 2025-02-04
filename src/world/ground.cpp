@@ -65,7 +65,7 @@ Ground::Ground(Object *user, char *geom)
 }
 
 /** Intersection with an object */
-bool Ground::whenIntersect(Object *pcur, Object *pold)
+bool Ground::intersect(Object *pcur, Object *pold)
 {
   pold->setLasting(0);
   pold->stopMovement();

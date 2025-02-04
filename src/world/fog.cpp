@@ -29,7 +29,7 @@
 const OClass Fog::oclass(FOG_TYPE, "Fog", Fog::creator);
 
 
-/* creation from a file */
+/** Creation from a file */
 Object * Fog::creator(char *l)
 {
   return new Fog(l);

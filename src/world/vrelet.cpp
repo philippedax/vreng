@@ -386,14 +386,14 @@ void Vrelet::sendIntersect(Object *pcur, Object *pold, int inOrOut)
 }
 
 /** An ingoing intersection occured */
-bool Vrelet::whenIntersect(Object *pcur, Object *pold)
+bool Vrelet::intersect(Object *pcur, Object *pold)
 {
   sendIntersect(pcur, pold, VJC_MSGV_ISECIN);
   return true;
 }
 
 /** An outgoing intersection occured */
-bool Vrelet::whenIntersectOut(Object *pcur, Object *pold)
+bool Vrelet::intersectOut(Object *pcur, Object *pold)
 {
   sendIntersect(pcur, pold, VJC_MSGV_ISECOUT);
   return true;

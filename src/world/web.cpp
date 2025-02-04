@@ -44,7 +44,8 @@ enum {
   VERSO
 };
 
-/* creation from a file */
+
+/** creation from a file */
 Object * Web::creator(char *l)
 {
   return new Web(l);
@@ -146,8 +147,8 @@ void Web::pivot()
   face ^= 1;	// switch face
 }
 
-/* object intersects: projection */
-bool Web::whenIntersect(Object *pcur, Object *pold)
+/** object intersects: projection */
+bool Web::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:
@@ -160,7 +161,7 @@ bool Web::whenIntersect(Object *pcur, Object *pold)
   }
 }
 
-/* Opens browser */
+/** Opens browser */
 void Web::open_cb(Web *web, void *d, time_t s, time_t u)
 {
   Browser::start(web->name.url);
@@ -172,13 +173,13 @@ void Web::open_cb(Web *web, void *d, time_t s, time_t u)
 #endif
 }
 
-/* Pivot */
+/** Pivot */
 void Web::pivot_cb(Web *web, void *d, time_t s, time_t u)
 {
   web->pivot();
 }
 
-/* Caption */
+/** Caption */
 void Web::caption_cb(Web *web, void *d, time_t s, time_t u)
 {
   web->showCaption();

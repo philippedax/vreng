@@ -49,7 +49,7 @@ class Cauldron: public Object {
   static Object * (creator)(char *l);
   /**< Create from fileline */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
   void permanent(float lasting);

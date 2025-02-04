@@ -62,7 +62,7 @@ Area::Area(char *l)
 }
 
 /** Intersection with an object */
-bool Area::whenIntersect(Object *pcur, Object *pold)
+bool Area::intersect(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) {
     inside = true;
@@ -71,7 +71,7 @@ bool Area::whenIntersect(Object *pcur, Object *pold)
   return true;
 }
 
-bool Area::whenIntersectOut(Object *pcur, Object *pold)
+bool Area::intersectOut(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) {
     inside = false;

@@ -71,9 +71,9 @@ class Lift: public Object {
 
   bool publish(const Pos &oldpos);
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
 
-  bool whenIntersectOut(Object *pcur, Object *pold);
+  bool intersectOut(Object *pcur, Object *pold);
 
   void quit();
 

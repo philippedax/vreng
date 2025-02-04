@@ -338,7 +338,7 @@ bool Icon::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Icon::whenIntersect(Object *pcur, Object *pold)
+bool Icon::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case WALL_TYPE:
@@ -363,7 +363,7 @@ bool Icon::whenIntersect(Object *pcur, Object *pold)
   return true;
 }
 
-/** this method is invisible: called by Wall::whenIntersect */
+/** this method is invisible: called by Wall::intersect */
 void Icon::stick(Wall *pwall, void *_picon, time_t s, time_t u)
 {
   Icon *picon = static_cast<Icon *>(_picon);

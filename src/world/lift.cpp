@@ -150,7 +150,7 @@ void Lift::call_cb(Lift *lift, void *d, time_t s, time_t u)
 }
 
 /** somebody intersects */
-bool Lift::whenIntersect(Object *pcur, Object *pold)
+bool Lift::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:
@@ -175,7 +175,7 @@ bool Lift::whenIntersect(Object *pcur, Object *pold)
   return true;
 }
 
-bool Lift::whenIntersectOut(Object *pcur, Object *pold)
+bool Lift::intersectOut(Object *pcur, Object *pold)
 {
   if (state == CARRYING) {
     pcur->updatePositionAndGrid(pold);

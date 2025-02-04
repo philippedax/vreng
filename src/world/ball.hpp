@@ -120,10 +120,10 @@ class Ball: public Object {
   bool publish(const Pos &oldpos);
   /**< Publishes to network. */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< Handles collisions. */
 
-  void whenWallsIntersect(Object *pold, V3 *norm);
+  void wallsIntersect(Object *pold, V3 *norm);
   /**< Handles collisions with a wall. */
 
   void quit();

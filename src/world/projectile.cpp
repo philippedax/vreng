@@ -59,7 +59,7 @@ bool Projectile::publish(const Pos &oldpos)
   return change;
 }
 
-bool Projectile::whenIntersect(Object *pcur, Object *pold)
+bool Projectile::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:
@@ -76,7 +76,7 @@ bool Projectile::whenIntersect(Object *pcur, Object *pold)
   return true;
 }
 
-void Projectile::whenWallsIntersect(Object *pold, V3 *normal)
+void Projectile::wallsIntersect(Object *pold, V3 *normal)
 {
   enableBehavior(COLLIDE_ONCE);
   bounceTrajectory(pold, normal);

@@ -90,7 +90,7 @@ Clip::Clip(char *l)
   state = RTP_INACTIVE;
 }
 
-bool Clip::whenIntersect(Object *pcur, Object *pold)
+bool Clip::intersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

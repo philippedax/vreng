@@ -76,10 +76,10 @@ class Guide: public Object {
   void permanent(float lasting);
   /**< Perpetually movement. */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
-  bool whenIntersectOut(Object *pcur, Object *pold);
+  bool intersectOut(Object *pcur, Object *pold);
   /**< When an object leaves intersection. */
 
   bool publish(const Pos &oldpos);

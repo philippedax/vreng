@@ -61,9 +61,9 @@ class Projectile: public Object {
 
   void timing(time_t s, time_t us, float *plasting);
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
 
-  void whenWallsIntersect(Object *pold, V3 *norm);
+  void wallsIntersect(Object *pold, V3 *norm);
 
   bool publish(const Pos &oldpos);
 

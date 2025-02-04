@@ -310,7 +310,7 @@ bool Step::publish(const Pos &oldpos)
 }
 
 /** object intersects: up */
-bool Step::whenIntersect(Object *pcur, Object *pold)
+bool Step::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
     case USER_TYPE:
@@ -342,7 +342,7 @@ bool Step::whenIntersect(Object *pcur, Object *pold)
   return true;
 }
 
-bool Step::whenIntersectOut(Object *pcur, Object *pold)
+bool Step::intersectOut(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) {
     stuck = false;

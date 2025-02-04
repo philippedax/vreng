@@ -43,7 +43,7 @@ Aoi *currentAoi = NULL;  ///< points to current AoI where localuser is in
 /**
  * Intersection with AoI object must be manage by VREng general intersection
  * procedure (see col.c).  That's why AoI does not need any
- * "whenIntersect" function.  Therefore, the procedure initAoiFuncList
+ * "intersect" function.  Therefore, the procedure initAoiFuncList
  * below sets this member to NULL.  The main reason for this is that AoI
  * are objects we want to be able to go through. The only event we are
  * interested in is when a collision occurs.

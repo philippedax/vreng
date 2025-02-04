@@ -49,7 +49,7 @@ class Ground: public Object {
   Ground(Object *user, char *form);
   /**< Contructor from GUI */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
   void quit();

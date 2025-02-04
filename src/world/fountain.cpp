@@ -30,7 +30,7 @@
 const OClass Fountain::oclass(FOUNTAIN_TYPE, "Fountain", Fountain::creator);
 
 
-/* creation from a file */
+/** Creation from a file */
 Object * Fountain::creator(char *l)
 {
   return new Fountain(l);

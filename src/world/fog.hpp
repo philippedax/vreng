@@ -28,6 +28,7 @@
 
 #include "object.hpp"
 
+
 /**
  * Fog class
  */

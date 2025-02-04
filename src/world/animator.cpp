@@ -123,7 +123,7 @@ void Animator::stop(Animator *animator, void *d, time_t s, time_t u)
 }
 
 /* object intersects: stop */
-bool Animator::whenIntersect(Object *pcur, Object *pold)
+bool Animator::intersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

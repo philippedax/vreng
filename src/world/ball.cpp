@@ -242,7 +242,7 @@ bool Ball::publish(const Pos &oldpos)
 }
 
 /** Intersects with an other object */
-bool Ball::whenIntersect(Object *pcur, Object *pold)
+bool Ball::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case BALL_TYPE:
@@ -271,7 +271,7 @@ bool Ball::whenIntersect(Object *pcur, Object *pold)
 }
 
 /** Intersects with walls */
-void Ball::whenWallsIntersect(Object *pold, V3 *normal)
+void Ball::wallsIntersect(Object *pold, V3 *normal)
 {
   enableBehavior(COLLIDE_ONCE);
   bounceTrajectory(pold, normal);

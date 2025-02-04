@@ -151,8 +151,8 @@ static float dotprod(float ax, float ay, float bx, float by)
   return ax*bx + ay*by;
 }
 
-/* Intersection with an object */
-int Walls::whenIntersect(const V3& center, const V3& size, V3& normal)
+/** Intersection with an object */
+int Walls::intersect(const V3& center, const V3& size, V3& normal)
 {
   Walls *walls = wallsList;
   V3 cur_normal;
@@ -218,7 +218,7 @@ int Walls::whenIntersect(const V3& center, const V3& size, V3& normal)
   else return 1;
 }
 
-/* Draw walls */
+/** Draw walls */
 void Walls::draw()
 {
   dlist = glGenLists(1);
@@ -235,7 +235,7 @@ void Walls::draw()
   glEndList();
 }
 
-/* Render walls */
+/** Render walls */
 void Walls::render()
 {
   glPushMatrix();
@@ -247,7 +247,7 @@ void Walls::render()
   glPopMatrix();
 }
 
-/* Free the walls list */
+/** Free the walls list */
 void Walls::quit()
 {
   while (wallsList) {

@@ -82,10 +82,10 @@ class Step: public Object {
   static Object * (creator)(char *l);
   /**< Create from fileline */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
-  bool whenIntersectOut(Object *pcur, Object *pold);
+  bool intersectOut(Object *pcur, Object *pold);
   /**< When an other object leaves intersection */
 
   void timing(time_t s, time_t us, float *lasting);

@@ -60,7 +60,7 @@ class Web: public Object {
 
   void imposed(float lasting);
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
 
   void quit();
   /**< Quits. */

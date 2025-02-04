@@ -54,7 +54,7 @@ class Wall: public Object {
   Wall(Object *user, char *forme);
   /**< Contructor from user */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
  private:

@@ -57,7 +57,7 @@ class Plane: public Object {
 
   static void funcs();	///< init funclist.
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
   void quit();

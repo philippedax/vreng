@@ -56,7 +56,7 @@ class Host: public Object {
   static Object * (creator)(char *l);
   /**< Creates from fileline */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
   bool publish(const Pos &oldpos);

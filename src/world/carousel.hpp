@@ -53,7 +53,7 @@ class Carousel: public Object {
 
   void render();
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
 
  private:
   void defaults(); //default values for the object

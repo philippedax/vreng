@@ -109,7 +109,7 @@ Plane::Plane(char *l)
 }
 
 /** Intersection with an object */
-bool Plane::whenIntersect(Object *pcur, Object *pold)
+bool Plane::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

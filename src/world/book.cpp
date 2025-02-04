@@ -309,7 +309,7 @@ bool Book::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Book::whenIntersect(Object *pcur, Object *pold)
+bool Book::intersect(Object *pcur, Object *pold)
 {
   if (state == OPENED) projectPosition(pcur, pold);
   return true;

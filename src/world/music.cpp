@@ -94,7 +94,7 @@ Music::Music(char *l)
     play(this, (void *) 1, 0L, 0L);
 }
 
-bool Music::whenIntersect(Object *pcur, Object *pold)
+bool Music::intersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

@@ -57,7 +57,7 @@ class Mirror: public Object {
 
   static Object * (creator)(char *l);
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an intersection occurs */
 
   bool publish(const Pos &oldpos);

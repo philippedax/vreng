@@ -28,6 +28,7 @@
 #define RIVER_TYPE	68
 #define RIVER_NAME	"River"
 
+
 /**
  * River class
  */

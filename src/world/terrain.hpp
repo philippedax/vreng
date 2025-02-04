@@ -67,7 +67,7 @@ class Terrain: public Object {
   static Object * (creator)(char *l);
   /**< Creates from fileline */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< Intersects */
 
   void render();

@@ -281,7 +281,7 @@ void Guide::permanent(float lasting)
  * user intersects: follows guide
  * moving the guide first
  */
-bool Guide::whenIntersect(Object *pcur, Object *pold)
+bool Guide::intersect(Object *pcur, Object *pold)
 {
   static bool once = true;
 
@@ -341,7 +341,7 @@ void Guide::restore()
   stuck = false;
 }
 
-bool Guide::whenIntersectOut(Object *pcur, Object *pold)
+bool Guide::intersectOut(Object *pcur, Object *pold)
 {
   //echo("out guide");
   if (pcur->type == USER_TYPE) {

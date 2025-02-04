@@ -27,7 +27,7 @@
 #include "col.hpp"
 #include "matvec.hpp"   // V3 M4
 #include "aoi.hpp"	// AOI_TYPE
-#include "walls.hpp"	// whenIntersect
+#include "walls.hpp"	// intersect
 #include "user.hpp"	// USER_TYPE
 #include "world.hpp"	// current
 #include "olist.hpp"	// OList
@@ -128,7 +128,7 @@ void Object::ingoingWalls(Object *wo)
 {
   V3 normal;
 
-  if (Walls::whenIntersect(pos.bbc, pos.bbs, normal)) {
+  if (Walls::intersect(pos.bbc, pos.bbs, normal)) {
     float nx = normal.v[0];
     float ny = normal.v[1];
     float cx = pos.x;
@@ -197,6 +197,14 @@ bool Object::outgoingNeighbor(Object *wo, Object *neighbor)
  */
 void Object::generalIntersect(Object *wo, OList *vicinity)
 {
+#if 0
+  // check walls
+  V3 normal;
+  if (Walls::intersect(pos.bbc, pos.bbs, normal)) {
+    wallsIntersect(wo, &normal);
+  }
+#endif
+
   //
   // Checks neighbors
   //
@@ -238,7 +246,7 @@ void Object::generalIntersect(Object *wo, OList *vicinity)
           ;
         break;	// avoids a warning
       default:
-        if (! neighbor->whenIntersect(this, wo)) {	// done by the object itself
+        if (! neighbor->intersect(this, wo)) {	// done by the object itself
           vl = vl->next;
           continue;
         }
@@ -269,8 +277,8 @@ void Object::generalIntersect(Object *wo, OList *vicinity)
         }
       }
     }
-    else if (outgoingNeighbor(wo, neighbor)) {		// current object leaves intersection
-      neighbor->whenIntersectOut(this, wo);		// handled by each object
+    else if (outgoingNeighbor(wo, neighbor)) {	// current object leaves intersection
+      neighbor->intersectOut(this, wo);		// handled by each object
     }
     if (vl) {
       vl = vl->next;

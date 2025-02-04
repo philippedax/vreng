@@ -180,7 +180,7 @@ class User: public Object {
   bool publish(const Pos &oldpos);
   /**< Publishes position to the network. */
 
-  bool whenIntersect(Object *pcur, Object *pold);
+  bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
   void imposed(const float lasting[]);

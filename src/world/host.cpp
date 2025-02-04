@@ -64,7 +64,7 @@ bool Host::publish(const Pos &oldpos)
 }
 
 /* object intersects: stop */
-bool Host::whenIntersect(Object *pcur, Object *pold)
+bool Host::intersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

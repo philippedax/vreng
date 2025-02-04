@@ -77,7 +77,7 @@ bool Board::publish(const Pos &oldpos)
 }
 
 /* object intersect: projection */
-bool Board::whenIntersect(Object *pcur, Object *pold)
+bool Board::intersect(Object *pcur, Object *pold)
 {
   projectPosition(pcur, pold);
   return true;

@@ -73,7 +73,7 @@ bool Mirror::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Mirror::whenIntersect(Object *pcur, Object *pold)
+bool Mirror::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case ICON_TYPE:

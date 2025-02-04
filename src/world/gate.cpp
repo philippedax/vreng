@@ -192,7 +192,7 @@ void Gate::enter()
 }
 
 /** When an intersection occurs */
-bool Gate::whenIntersect(Object *pcur, Object *pold)
+bool Gate::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:
@@ -248,7 +248,7 @@ bool Gate::whenIntersect(Object *pcur, Object *pold)
 }
 
 /** Leaves intersection */
-bool Gate::whenIntersectOut(Object *pcur, Object *pold)
+bool Gate::intersectOut(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) {
     cntcol = 0;

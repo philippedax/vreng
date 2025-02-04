@@ -61,7 +61,7 @@ class Walls: public Object {
 
   void quit();	///< Quits
 
-  static int whenIntersect(const V3& center, const V3& size, V3& norm);
+  static int intersect(const V3& center, const V3& size, V3& norm);
 
  private:
   void parser(char *l);

@@ -3389,3 +3389,4 @@
 3389 Mar  4 fév 2025 10:17:53 CET	renaming updateTime to timing wo/
 3390 Mar  4 fév 2025 10:39:06 CET	renaming changePostion to imposed wo
 3391 Mar  4 fév 2025 11:10:31 CET	renaming changePermanent to permanent wo/
+3392 Mar  4 fév 2025 11:20:41 CET	cleanup conf/commits.log

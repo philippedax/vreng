@@ -65,7 +65,7 @@ bool Doc::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Doc::whenIntersect(Object *pcur, Object *pold)
+bool Doc::intersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;
