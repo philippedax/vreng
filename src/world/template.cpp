@@ -84,7 +84,7 @@ void Template::buildScreen()
 }
 
 /* Computes something at each loop */
-void Template::changePermanent(float lasting)
+void Template::permanent(float lasting)
 {
 }
 

@@ -111,7 +111,7 @@ void Smoke::inits()
 }
 
 /** When moving */
-void Smoke::changePermanent(float dt)
+void Smoke::permanent(float dt)
 {
   if (np++ > npmax) {
     np = 0;	// regenerate the flow

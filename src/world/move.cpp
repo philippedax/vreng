@@ -476,14 +476,14 @@ void Object::imposedMovements(time_t sec, time_t usec)
 void Object::elemPermanentMovement(float dt)
 {
   if (isBehavior(COLLIDE_NEVER)) {
-    changePermanent(dt);	// handled by each object
+    permanent(dt);		// handled by each object
     update3D(pos);
     return;
   }
   Object *wo = new Object();
   copyPositionAndBB(wo);	// keep pos for intersection
 
-  changePermanent(dt);		// handled by each object
+  permanent(dt);		// handled by each object
 
   if (this == localuser) {
     localuser->checkPosition();	// check out-of-bounds

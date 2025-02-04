@@ -92,7 +92,7 @@ Accessory::Accessory(char *l)
   inits();
 }
 
-void Accessory::changePermanent(float lasting)
+void Accessory::permanent(float lasting)
 {
   if (! following)  return;
 

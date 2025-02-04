@@ -113,7 +113,7 @@ void Sun::draw()
 }
 
 /* system of equations handling permanent motion */
-void Sun::changePermanent(float lasting)
+void Sun::permanent(float lasting)
 {
   float ang = DEG2RAD(rot);
   float sina = sin(ang);

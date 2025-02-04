@@ -111,7 +111,7 @@ class Icon: public Object {
   void imposed(float lasting);
   /**< Does any position changes */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Does permanent position changes */
 
   void timing(time_t, time_t, float *);

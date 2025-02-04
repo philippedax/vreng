@@ -98,7 +98,7 @@ Drone::Drone(char *l)
 }
 
 /** Computes postion at each loop */
-void Drone::changePermanent(float lasting)
+void Drone::permanent(float lasting)
 {
   if (! flying) return;
 

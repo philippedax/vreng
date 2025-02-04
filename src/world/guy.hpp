@@ -147,7 +147,7 @@ class Guy: public Object {
   static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a guy coming from the Network. */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
 
   void render();
   /**< Specific rendering. */

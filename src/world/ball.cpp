@@ -230,7 +230,7 @@ void Ball::imposed(float lasting)
 }
 
 /** Permanent movements */
-void Ball::changePermanent(float lasting)
+void Ball::permanent(float lasting)
 {
   pos.z  -= lasting * gravity;
 }

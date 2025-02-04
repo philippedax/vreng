@@ -92,7 +92,7 @@ Flag::Flag(char *l)
   inits();
 }
 
-void Flag::changePermanent(float dt)
+void Flag::permanent(float dt)
 {
   if (wiggle == 2) {
     for (int y=0; y < DIM_FLAG; y++) {

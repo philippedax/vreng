@@ -91,7 +91,7 @@ class Step: public Object {
   void timing(time_t s, time_t us, float *lasting);
   /**< Updates lasting time */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Permanent movement */
 
   bool publish(const Pos &oldpos);

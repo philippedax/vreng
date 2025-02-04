@@ -52,7 +52,7 @@ class Cauldron: public Object {
   bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Change permanent */
 
  private:

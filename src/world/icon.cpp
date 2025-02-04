@@ -91,7 +91,7 @@ void Icon::imposed(float lasting)
 }
 
 /** permanent movements */
-void Icon::changePermanent(float lasting)
+void Icon::permanent(float lasting)
 {
   pos.z -= lasting * GRAVITY / 2;
 }

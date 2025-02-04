@@ -85,7 +85,7 @@ class Particle: public Object {
   static Object * (creator)(char *l);
   /**< Creates from file line */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Equations to move permanently */
 
   void render();

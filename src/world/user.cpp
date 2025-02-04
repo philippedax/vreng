@@ -606,7 +606,7 @@ void User::imposed(float lasting)
 }
 
 /** Equations system handling permanent motions */
-void User::changePermanent(float lasting)
+void User::permanent(float lasting)
 {
   if (! pause_gravity) {
     pos.z -= lasting * GRAVITY;

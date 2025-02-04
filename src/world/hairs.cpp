@@ -285,7 +285,7 @@ void Hairs::render()
   nf++;
 }
 
-void Hairs::changePermanent(float dt)
+void Hairs::permanent(float dt)
 {
   static bool first = true;
 

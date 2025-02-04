@@ -397,7 +397,7 @@ class Vjc: public Object {
   static Object * (creator)(char *l);
   /**< Creates from fileline */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Used to scan the sockets for incoming messages */
 
   void quit();

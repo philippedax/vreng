@@ -252,7 +252,7 @@ bool Model::isMoving()
 }
 
 /** Permanent movement of a model */
-void Model::changePermanent(float lasting)
+void Model::permanent(float lasting)
 {
   pos.x = localuser->pos.x;
   pos.y = localuser->pos.y;

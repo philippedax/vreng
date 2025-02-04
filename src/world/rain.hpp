@@ -49,7 +49,7 @@ class Rain: public Particle {
 
   static void funcs();	///< init funclist
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Equations to move permanently */
 
  private:

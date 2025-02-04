@@ -201,7 +201,7 @@ Head::Head(User *user, const char *url, const float *skin)
   phead = this;		// if commented Fire is allways selected FIXME!
 }
 
-void Head::changePermanent(float lasting)
+void Head::permanent(float lasting)
 {
   pos.x = localuser->pos.x + dx;
   pos.y = localuser->pos.y + dy;

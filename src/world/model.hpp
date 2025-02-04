@@ -74,8 +74,8 @@ class Model: public Object {
   bool isMoving();
   /**< Checks if is moving. */
 
-  void changePermanent(float lasting);
-  /**< Imposed movement. */
+  void permanent(float lasting);
+  /**< permanent movement. */
 
   void quit();
   /**< Quits. */

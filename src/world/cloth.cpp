@@ -170,7 +170,7 @@ Cloth::Cloth(char *l)
   inits();
 }
 
-void Cloth::changePermanent(float lasting)
+void Cloth::permanent(float lasting)
 {
   if (taken) {
     pos.x = localuser->pos.x + dx;

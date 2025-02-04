@@ -203,7 +203,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
 }
 
 /* system of equations handling permanent motion */
-void Mirage::changePermanent(float lasting)
+void Mirage::permanent(float lasting)
 {
   if (turn) {
     pos.az -= sign * (lasting * azspeed);

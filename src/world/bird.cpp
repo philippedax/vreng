@@ -98,7 +98,7 @@ Bird::Bird(char *l)
 }
 
 /** Computes position at each loop */
-void Bird::changePermanent(float lasting)
+void Bird::permanent(float lasting)
 {
   srand(time(NULL));
 

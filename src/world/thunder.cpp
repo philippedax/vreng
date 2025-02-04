@@ -130,7 +130,7 @@ void Thunder::draw()
 }
 
 /** Makes changes */
-void Thunder::changePermanent(float lasting)
+void Thunder::permanent(float lasting)
 {
   if ((rand()%period) == 0) {	// [0..PERIOD]
     if (dlist > 0) {

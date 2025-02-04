@@ -75,7 +75,7 @@ class Smoke: public Object {
   static Object * (creator)(char *l);
   ///< Creates from fileline.
 
-  void changePermanent(float dt);
+  void permanent(float dt);
 
   void render();
 

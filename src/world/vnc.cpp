@@ -190,7 +190,7 @@ void Vnc::displayTexture(bool mipmap)
 }
 
 /** Makes video frames changes */
-void Vnc::changePermanent(float lasting)
+void Vnc::permanent(float lasting)
 {
   if (connected && vncClient) {
     fd_set rmask;

@@ -110,7 +110,7 @@ Water::Water(char *l)
   inits();
 }
 
-void Water::changePermanent(float lasting)
+void Water::permanent(float lasting)
 {
   // unused !!!
   //play = ::g.timer.isRate(RATE);

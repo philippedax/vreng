@@ -516,7 +516,7 @@ void Wings::draw(uint8_t _model)
   glEndList();
 }
 
-void Wings::changePermanent(float lasting)
+void Wings::permanent(float lasting)
 {
   if (! active) return;
 

@@ -81,7 +81,7 @@ class Humanoid: public Object {
   static Object * (creator)(char *l);
   /**< Creates from fileline. */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Changes permanent. */
 
   void render();

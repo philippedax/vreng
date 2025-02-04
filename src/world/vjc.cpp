@@ -105,7 +105,7 @@ void Vjc::setServer(Vjc *_server)
 }
 
 /* Used to send pings to the server */
-void Vjc::changePermanent(float lasting)
+void Vjc::permanent(float lasting)
 {
   getServer()->ping();
 }

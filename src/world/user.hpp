@@ -168,7 +168,7 @@ class User: public Object {
   void imposed(float lasting);
   /**< Imposed movement. */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Permanent movement. */
 
   void timing(time_t sec, time_t usec, float *last);

@@ -296,7 +296,7 @@ int Humanoid::getLine()
 }
 
 /** System of equations handling permanent motion */
-void Humanoid::changePermanent(float lasting)
+void Humanoid::permanent(float lasting)
 {
   static float angle = 0;
 

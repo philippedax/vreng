@@ -65,7 +65,7 @@ class Clock: public Object {
 
   static Object * (creator)(char *l);
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
 
   void quit();
 

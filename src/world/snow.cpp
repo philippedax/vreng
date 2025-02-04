@@ -67,7 +67,7 @@ Snow::Snow(Cloud *cloud, void *d, time_t s, time_t u)
   state = ACTIVE;
 }
 
-void Snow::changePermanent(float dt)
+void Snow::permanent(float dt)
 {
   if (state == INACTIVE) return;
 

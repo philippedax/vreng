@@ -284,7 +284,7 @@ bool Guy::publish(const Pos &oldpos)
 }
 
 /** Do eaquations when permanently moving */
-void Guy::changePermanent(float lasting)
+void Guy::permanent(float lasting)
 {
   if (animing) {
     step = int( fmod((double) step + incstep, CYCLES) );

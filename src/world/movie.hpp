@@ -84,7 +84,7 @@ class Movie: public Object {
   static Object * (creator)(char *l);
   /**< Creates from file line. */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Change permanent (frames). */
 
   void quit();

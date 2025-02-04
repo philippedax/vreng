@@ -235,7 +235,7 @@ Stars::Stars(char *l)
   init();
 }
 
-void Stars::changePermanent(float lasting)
+void Stars::permanent(float lasting)
 {
   move();
   update();

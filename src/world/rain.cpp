@@ -70,7 +70,7 @@ Rain::Rain(Cloud *cloud, void *d, time_t s, time_t u)
   //sound_continue();
 }
 
-void Rain::changePermanent(float dt)
+void Rain::permanent(float dt)
 {
   if (state == INACTIVE) return;
 

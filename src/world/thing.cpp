@@ -153,7 +153,7 @@ void Thing::timing(time_t sec, time_t usec, float *lasting)
   updateLasting(sec, usec, lasting);
 }
 
-void Thing::changePermanent(float lasting)
+void Thing::permanent(float lasting)
 {
   if (state == DROPPED) {
     trace1(DBG_WO, "thingChangePermanent: x=%.2f y=%.2f z=%.2f ttl=%.2f lasting=%.2f", pos.x, pos.y, pos.z, move.ttl, lasting);

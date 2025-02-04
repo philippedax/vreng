@@ -54,7 +54,7 @@ Cauldron::Cauldron(char *l)
   mobileObject(MAXFLOAT);
 }
 
-void Cauldron::changePermanent(float lasting)
+void Cauldron::permanent(float lasting)
 {
   pos.z -= lasting * GRAVITY / 4;
 }

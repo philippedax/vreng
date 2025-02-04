@@ -142,7 +142,7 @@ void Human::geometry()
   parseSolid(s);
 }
 
-void Human::changePermanent(float lasting)
+void Human::permanent(float lasting)
 {
   if (usercontrol && localuser) {
     // follow localuser movement

@@ -226,7 +226,7 @@ class Hairs: public Object {
   static Object * (creator)(char *l);
   ///< Creates from fileline.
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   void render();
   void quit();
 

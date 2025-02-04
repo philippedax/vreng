@@ -453,7 +453,7 @@ void Mech::draw()
 }
 
 /* system of equations handling permanent motion */
-void Mech::changePermanent(float lasting)
+void Mech::permanent(float lasting)
 {
   float angle;
   static int step;

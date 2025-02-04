@@ -225,7 +225,7 @@ void Step::timing(time_t sec, time_t usec, float *dt)
   updateLasting(sec, usec, dt);
 }
 
-void Step::changePermanent(float lasting)
+void Step::permanent(float lasting)
 {
   if (! mobile) return;
   if (state == INACTIVE) return;	// not running

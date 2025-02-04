@@ -75,7 +75,7 @@ void Clock::inits()
   hour = ptime->tm_hour;
   sec_last = min_last = hour_last = 255;
 
-  changePermanent(60.);
+  permanent(60.);
 }
 
 void Clock::parser(char *l)
@@ -101,7 +101,7 @@ void Clock::parser(char *l)
   end_while_parse(l);
 }
 
-void Clock::changePermanent(float lasting)
+void Clock::permanent(float lasting)
 {
   time_t t = time(0);
   struct tm *ptime = localtime(&t);

@@ -183,7 +183,7 @@ void Fire::draw(float ex, float ey, float dx, float dy, float a)
   glEnd();
 }
 
-void Fire::changePermanent(float dt)
+void Fire::permanent(float dt)
 {
   struct sParticle *p;
 

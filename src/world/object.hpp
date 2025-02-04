@@ -243,7 +243,7 @@ class Object {
   virtual void imposed(float lasting)			{}
   /**< Changes the position after a triggered movement. */
 
-  virtual void changePermanent(float lasting)		{}
+  virtual void permanent(float lasting)			{}
   /**< Changes the position during a permanent movement. */
 
   virtual void timing(time_t s, time_t us, float *lasting)	{}

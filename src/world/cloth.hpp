@@ -90,7 +90,7 @@ class Cloth: public Object {
   static Object * (creator)(char *l);
   /**< Creation from a file */
 
-  virtual void changePermanent(float lasting);
+  virtual void permanent(float lasting);
   /**< movement */
 
   virtual void quit();

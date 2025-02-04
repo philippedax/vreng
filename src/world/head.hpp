@@ -81,7 +81,7 @@ class Head: public Object {
   static Object * (creator)(char *l);
   /**< Creation from a file */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< movement */
 
   void render();

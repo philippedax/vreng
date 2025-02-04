@@ -106,7 +106,7 @@ class Wings: public Object {
   Wings(uint8_t model, float scale, float aspeed);			///< Constructor from bird.
   Wings(uint8_t model, float scale, float aspeed, float *color);	///< Constructor from drone.
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Changes. */
 
   void draw();

@@ -158,7 +158,7 @@ void Cloud::draw(int n)
   glEndList();
 }
 
-void Cloud::changePermanent(float lasting)
+void Cloud::permanent(float lasting)
 {
   if (state == INACTIVE) return;
 

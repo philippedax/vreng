@@ -45,7 +45,7 @@ class Accessory: public Cloth {
   static Object * (creator)(char *l);
   /**< Create from fileline. */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Position movement. */
 
   void quit();

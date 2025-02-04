@@ -104,7 +104,7 @@ class Human : public Object {
 
   static Object * (creator)(char *l);
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   
   void render();
   /**< Specific rendering. */

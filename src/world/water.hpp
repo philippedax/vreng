@@ -65,7 +65,7 @@ class Water: public Object {
   static Object * (creator)(char *l);
   ///< Creates from fileline.
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
 
   bool whenIntersect(Object *pcur, Object *pold);
   bool whenIntersectOut(Object *pcur, Object *pold);

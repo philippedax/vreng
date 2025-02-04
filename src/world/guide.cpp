@@ -256,7 +256,7 @@ void Guide::progress(Object *po)
   }
 }
 
-void Guide::changePermanent(float lasting)
+void Guide::permanent(float lasting)
 {
   if (testing) {
     if (path[seg][3]) {	// speed present

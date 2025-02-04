@@ -73,7 +73,7 @@ class Guide: public Object {
 
   void timing(time_t sec, time_t usec, float *lasting);
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Perpetually movement. */
 
   bool whenIntersect(Object *pcur, Object *pold);

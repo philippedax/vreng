@@ -303,7 +303,7 @@ void Particle::regenerate(float dt)
   }
 }
 
-void Particle::changePermanent(float dt)
+void Particle::permanent(float dt)
 {
   if (state == INACTIVE) return;
   regenerate(dt);

@@ -330,7 +330,7 @@ void Movie::bind_frame()
 }
 
 /** Gets stream video frames */
-void Movie::changePermanent(float lasting)
+void Movie::permanent(float lasting)
 {
   if (state == INACTIVE || state == PAUSE) return;
 

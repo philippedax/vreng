@@ -77,7 +77,7 @@ class Thing: public Object {
   static Object * (creator)(char *l);
   /**< Creates from a file */
 
-  void changePermanent(float lasting);
+  void permanent(float lasting);
   /**< Permanent movement */
 
   void timing(time_t s, time_t us, float *lasting);
