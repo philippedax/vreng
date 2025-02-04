@@ -60,7 +60,7 @@ void Ball::defaults()
 {
   lspeed = LSPEED;
   zspeed = ZSPEED;
-  aspeed = ASPEED; // * static_cast<float>(drand48());
+  aspeed = ASPEED;
   gravity = GRAVITY / 2;
   ttl = TTL;
   taken = false;
@@ -72,7 +72,7 @@ void Ball::setName()
   oid++;
   if (! name.given)
     name.given = new char[OBJNAME_LEN];
-  sprintf(name.given, "%s-%s.%d", BALL_NAME, ::g.user /*localuser->objectName()*/, oid);
+  sprintf(name.given, "%s-%s.%d", BALL_NAME, ::g.user, oid);
 }
 
 /** Solid geometry */
@@ -112,7 +112,7 @@ void Ball::inits()
   createNetObj(PROPS);
 }
 
-/** Create from fileline */
+/** Creation from fileline */
 Ball::Ball(char *l)
 {
   parser(l);
@@ -120,7 +120,7 @@ Ball::Ball(char *l)
   inits();
 }
 
-/** Created by the cauldron */
+/** Creation by the cauldron */
 Ball::Ball(Object *cauldron, void *d, time_t s, time_t u)
 {
   defaults();
@@ -129,7 +129,7 @@ Ball::Ball(Object *cauldron, void *d, time_t s, time_t u)
   behaviors();
   inits();
 
-  /* random position */
+  // random position
   srand(time(NULL));
   pos.x = cauldron->pos.x + static_cast<float>(drand48()) * 2 -1;
   pos.y = cauldron->pos.y + static_cast<float>(drand48()) * 2 -1;
@@ -140,7 +140,7 @@ Ball::Ball(Object *cauldron, void *d, time_t s, time_t u)
 Ball::Ball(World *world, void *d, time_t s, time_t u)
 {
   char *nam = static_cast<char *>(d);	// name of the ball
-  if (!nam)  return;
+  if (! nam)  return;
 
   char *p = nam;
   while (*p && !isdigit(*p)) p++;
@@ -154,7 +154,7 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
   inits();
 }
 
-/** Created by the user - via addobj (GUI) */
+/** Creation by the user - via addobj (GUI) */
 Ball::Ball(Object *user, char *solid)
 {
   defaults();
@@ -163,7 +163,7 @@ Ball::Ball(Object *user, char *solid)
   inits();
   parseSolid(solid);
 
-  /* position in front of user */
+  // position in front of user
   pos.x = user->pos.x + 0.4;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
@@ -176,6 +176,7 @@ Object * Ball::replicator(uint8_t type_id, Noid noid, Payload *pp)
   return new Ball(type_id, noid, pp);
 }
 
+/** Creation from the network */
 Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
 {
   setType(type_id);
@@ -189,11 +190,13 @@ Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
   mobileObject(0);
 }
 
+/** Update time lasting */
 void Ball::updateTime(time_t sec, time_t usec, float *lasting)
 {
   updateLasting(sec, usec, lasting);
 }
 
+/** Checks is moving */
 bool Ball::isMoving()
 {
   if (taken)
@@ -274,6 +277,7 @@ void Ball::whenWallsIntersect(Object *pold, V3 *normal)
   bounceTrajectory(pold, normal);
 }
 
+/** Action push */
 void Ball::push()
 {
   move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
@@ -286,6 +290,7 @@ void Ball::push()
   taken = false;
 }
 
+/** Action pull */
 void Ball::pull()
 {
   move.lspeed.v[0] = -lspeed * cos(localuser->pos.az);
@@ -298,6 +303,7 @@ void Ball::pull()
   taken = false;
 }
 
+/** Action shoot */
 void Ball::shoot()
 {
   move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
@@ -310,6 +316,7 @@ void Ball::shoot()
   taken = false;
 }
 
+/** Action up */
 void Ball::up()
 {
   move.lspeed.v[0] = 0;
@@ -320,6 +327,7 @@ void Ball::up()
   imposedMovement(ttl);
 }
 
+/** Action take */
 void Ball::take()
 {
   ttl = MAXFLOAT;
@@ -328,6 +336,7 @@ void Ball::take()
   taken = true;
 }
 
+/** Action drop */
 void Ball::drop()
 {
   permanentMovement();
@@ -336,6 +345,7 @@ void Ball::drop()
   taken = false;
 }
 
+/** Action turn */
 void Ball::turn()
 {
   clearV3(move.lspeed);
@@ -346,6 +356,7 @@ void Ball::turn()
   imposedMovement(ttl);
 }
 
+/** Action destroy */
 void Ball::destroy()
 {
   taken = false;
