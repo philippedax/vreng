@@ -759,10 +759,10 @@ void Object::updatePositionAndGrid(Pos &oldpos)
   if (! isBehavior(NO_BBABLE)) updGrid(oldpos);
 }
 
-void Object::updatePositionAndGrid(Object *pold)
+void Object::updatePositionAndGrid(Object *old)
 {
   updatePosition();
-  if (! isBehavior(NO_BBABLE)) updGrid(pold);
+  if (! isBehavior(NO_BBABLE)) updGrid(old);
 }
 
 /** Updates distance - accessor */

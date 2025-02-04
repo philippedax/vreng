@@ -56,18 +56,18 @@ bool Carrier::underControl() const
 }
 
 /** Takes control of the mouse to enter in manipulation mode */
-void Carrier::take(Object *po)
+void Carrier::take(Object *o)
 {
-  if (po->mode != MOBILE) {
-    echo("%s is not mobile", po->objectName());
+  if (o->mode != MOBILE) {
+    echo("%s is not mobile", o->objectName());
     return;
   }
 
   ::g.gui.showManipulator();
   ::g.gui.expandNavig();	// shows Manipulator palette
-  echo("take control of %s", po->objectName());
+  echo("take control of %s", o->objectName());
 
-  object = po;
+  object = o;
   object->move.manip = true;
   object->move.lspeed.v[0] = lspeed;
   object->move.aspeed.v[1] = aspeed;
