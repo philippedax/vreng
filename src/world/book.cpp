@@ -289,7 +289,7 @@ void Book::setTex(char *s, char *yn, char *xn)
   sprintf(s, "%s yn=\"%s\" xn=\"%s\" />", strdup(s), yn, xn);
 }
 
-void Book::changePosition(float dt)
+void Book::imposed(float dt)
 {
   pos.x  += dt * move.lspeed.v[0];
   pos.y  += dt * move.lspeed.v[1];

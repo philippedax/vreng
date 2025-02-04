@@ -86,7 +86,7 @@ void Bumper::timing(time_t sec, time_t usec, float *lasting)
   }
 }
 
-void Bumper::changePosition(float lasting)
+void Bumper::imposed(float lasting)
 {
   static uint8_t tilts = 5;
 

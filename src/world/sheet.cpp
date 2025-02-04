@@ -69,7 +69,7 @@ Sheet::Sheet(Book* _book, char* l)
   mobileObject(1);
 }
 
-void Sheet::changePosition(float lasting)
+void Sheet::imposed(float lasting)
 {
   pos.az += lasting * move.aspeed.v[0];
 

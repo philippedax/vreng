@@ -115,7 +115,7 @@ void Firework::timing(time_t sec, time_t usec, float *lasting)
   if (! updateLasting(sec, usec, lasting)) state = INACTIVE;
 }
 
-void Firework::changePosition(float dt)
+void Firework::imposed(float dt)
 {
   for (int i=0; i < number; i++) {
     particles[i].pos[0] += particles[i].vel[0] * dt;

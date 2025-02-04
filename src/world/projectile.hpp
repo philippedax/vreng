@@ -57,7 +57,7 @@ class Projectile: public Object {
 
   static void funcs();	///< init funclist
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
 
   void timing(time_t s, time_t us, float *plasting);
 

@@ -205,7 +205,7 @@ bool Ball::isMoving()
 }
 
 /** Imposed movements */
-void Ball::changePosition(float lasting)
+void Ball::imposed(float lasting)
 {
   if (! taken) {
     pos.x  += lasting * move.lspeed.v[0] * ratio();

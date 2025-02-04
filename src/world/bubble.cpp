@@ -118,7 +118,7 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   }
 }
 
-void Bubble::changePosition(float lasting)
+void Bubble::imposed(float lasting)
 {
   if (state == ACTIVE) {
     setPosition();

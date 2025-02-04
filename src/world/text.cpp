@@ -171,7 +171,7 @@ float Text::lenText(const char *_text)
   return (strlen(_text)+1) * GLYPHSIZ;
 }
 
-void Text::changePosition(float lasting)
+void Text::imposed(float lasting)
 {
   if (! localuser) return;
 

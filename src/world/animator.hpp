@@ -65,7 +65,7 @@ class Animator: public Object {
 
   bool isMoving();
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
 
   void timing(time_t, time_t, float *);
 

@@ -58,7 +58,7 @@ class Web: public Object {
 
   void timing(time_t sec, time_t usec, float *lasting);
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
 
   bool whenIntersect(Object *pcur, Object *pold);
 

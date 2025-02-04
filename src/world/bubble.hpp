@@ -70,7 +70,7 @@ class Bubble: public Object {
   void timing(time_t s, time_t us, float *lasting);
   /**< Updates lasting time. */
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
   /**< Imposed movement. */
 
   bool publish(const Pos &oldpos);

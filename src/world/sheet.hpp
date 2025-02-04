@@ -73,7 +73,7 @@ class Sheet: public Object {
   Sheet(class Book* _book, char* l);
   /**< Constructor called by Book */
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
   void timing(time_t s, time_t us, float *lasting);
   bool whenIntersect(Object *pcur, Object *pold);
   void quit();

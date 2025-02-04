@@ -76,7 +76,7 @@ class Carrier: public Object {
   void take(Object *po);
   /**< handle position changes
    * Takes control of the object to manipulate it.
-   * The position/orientation of the object will be changed by changePosition
+   * The position/orientation of the object will be changed by imposed
    * and the object will be updated in the 3D */
 
   void leave();

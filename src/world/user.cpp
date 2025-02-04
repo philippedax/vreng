@@ -583,7 +583,7 @@ void User::userRequesting(const char *usermsg)
 }
 
 /** Imposed movement via keys or navig_menu or joystick */
-void User::changePosition(float lasting)
+void User::imposed(float lasting)
 {
   pos.x += lasting * move.lspeed.v[0];
   pos.y += lasting * move.lspeed.v[1];

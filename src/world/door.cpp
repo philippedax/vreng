@@ -148,7 +148,7 @@ void Door::timing(time_t s, time_t us, float *lasting)
     Sound::playSound(DOORCLOSESND);
 }
 
-void Door::changePosition(float lasting)
+void Door::imposed(float lasting)
 {
   switch (mecanism) {
   case ANGULAR:

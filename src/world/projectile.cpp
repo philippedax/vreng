@@ -40,7 +40,7 @@ void Projectile::timing(time_t s, time_t us, float *plasting)
   }
 }
 
-void Projectile::changePosition(float lasting)
+void Projectile::imposed(float lasting)
 {
   pos.x += lasting * move.lspeed.v[0];
   pos.y += lasting * move.lspeed.v[1];

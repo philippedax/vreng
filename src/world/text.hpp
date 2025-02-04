@@ -72,7 +72,7 @@ class Text: public Object {
   static Object * (creator)(char *l);
   /**< Creates from fileline. */
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
   /**< Follows localuser */
 
   void expire();

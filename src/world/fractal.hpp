@@ -41,8 +41,6 @@ class Fractal: public Object {
 
   Fractal(char *l);	///< Constructor
 
-  void changePosition(float lasting);
-
   void render();
 
   static void funcs();	///< init funclist

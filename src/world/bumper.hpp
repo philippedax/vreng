@@ -48,7 +48,7 @@ class Bumper: public Step {
   bool isMoving();
   /**< Checks if object is moving. */
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
   /**< Changes the position after a triggered movement. */
 
   void timing(time_t sec, time_t usec, float *lasting);

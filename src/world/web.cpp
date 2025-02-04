@@ -90,7 +90,7 @@ void Web::timing(time_t sec, time_t usec, float *lasting)
   updateLasting(sec, usec, lasting);
 }
 
-void Web::changePosition(float lasting)
+void Web::imposed(float lasting)
 { 
   static float roting = 0;
 

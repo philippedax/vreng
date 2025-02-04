@@ -108,7 +108,7 @@ class Icon: public Object {
   bool isMoving();
   /**< Checks if object is moving */
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
   /**< Does any position changes */
 
   void changePermanent(float lasting);

@@ -165,7 +165,7 @@ class User: public Object {
   static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a remote avatar. */
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
   /**< Imposed movement. */
 
   void changePermanent(float lasting);
@@ -183,7 +183,7 @@ class User: public Object {
   bool whenIntersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
-  void changePosition(const float lasting[]);
+  void imposed(const float lasting[]);
   /**< Does the motion in each direction. */
 
   void userMovement(time_t sec, time_t usec);

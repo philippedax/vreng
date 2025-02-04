@@ -240,7 +240,7 @@ class Object {
   virtual bool isMoving()				{ return testMoving(); }
   /**< Checks whether object is moving. */
 
-  virtual void changePosition(float lasting)		{}
+  virtual void imposed(float lasting)			{}
   /**< Changes the position after a triggered movement. */
 
   virtual void changePermanent(float lasting)		{}

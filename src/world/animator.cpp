@@ -100,7 +100,7 @@ void Animator::timing(time_t sec, time_t usec, float *lasting)
   }
 }
 
-void Animator::changePosition(float lasting)
+void Animator::imposed(float lasting)
 {
   if (lasting > ttl) {
     nb_frames = getFrames();	// get frames number from the solid

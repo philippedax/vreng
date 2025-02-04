@@ -98,7 +98,7 @@ void Lift::timing(time_t sec, time_t usec, float *lasting)
   updateLasting(sec, usec, lasting);
 }
 
-void Lift::changePosition(float lasting)
+void Lift::imposed(float lasting)
 {
   if (ABSF(dest - pos.z) <= 0.1) return;  // same level
 

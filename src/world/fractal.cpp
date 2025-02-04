@@ -101,10 +101,6 @@ void Fractal::parser(char *l)
   end_while_parse(l);
 }
 
-void Fractal::changePosition(float dt)
-{
-}
-
 void Fractal::drawbranch(float w, float x0, float z0, float x1, float z1)
 {
   if (w < 1.5) {

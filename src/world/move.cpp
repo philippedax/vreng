@@ -220,7 +220,7 @@ void Object::changePositionOneDir(uint8_t move_key, float lasting)
 }
 
 /** Does the movement for each direction */
-void User::changePosition(const float lastings[])
+void User::imposed(const float lastings[])
 {
   for (int k=0; (k < MAXKEYS); k++) {
     if (lastings[k] > MIN_KEYLASTING) {
@@ -361,7 +361,7 @@ void User::elemUserMovement(const float tabdt[])
   Object *wo = new Object();
   copyPositionAndBB(wo);	// keep pos for intersection
 
-  changePosition(tabdt);
+  imposed(tabdt);
 
   if (checkPosition()) {	// sanity check
     echo("pos: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
@@ -415,7 +415,7 @@ void User::userMovement(time_t sec, time_t usec)
 /** Elementary imposed movement for an object */
 void Object::elemImposedMovement(float dt)
 {
-  changePosition(dt);		// handled by each object
+  imposed(dt);		// handled by each object
 
   updatePosition();
 

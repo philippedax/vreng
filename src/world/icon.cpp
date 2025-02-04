@@ -71,7 +71,7 @@ bool Icon::isMoving()
 }
 
 /** sollicited movements */
-void Icon::changePosition(float lasting)
+void Icon::imposed(float lasting)
 {
   if (! taken) {
     float ratio = MAX(::g.timer.rate() / 40., 1);

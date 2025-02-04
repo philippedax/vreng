@@ -73,7 +73,7 @@ class Vrelet: public Object {
   bool isMoving();
   /**< Returns yes if the child has sent a delta request */
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
   /**< Propagates the last deltas to the object's position */
 
   void timing(time_t s, time_t us, float *lasting);

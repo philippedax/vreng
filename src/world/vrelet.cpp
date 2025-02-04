@@ -358,7 +358,7 @@ bool Vrelet::isMoving()
 }
 
 /** Propagate the last deltas to the object's position */
-void Vrelet::changePosition(float lasting)
+void Vrelet::imposed(float lasting)
 {
   if      (wantDelta == VJC_MSGV_SET) setPos(this);
   else if (wantDelta == VJC_MSGV_UPD) deltaPos(this);

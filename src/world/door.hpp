@@ -84,7 +84,7 @@ class Door: public Object {
   static Object * (creator)(char *l);
   /**< Create from fileline */
 
-  void changePosition(float lasting);
+  void imposed(float lasting);
   /**< Makes changes on position */
 
   void timing(time_t, time_t, float *lasting);

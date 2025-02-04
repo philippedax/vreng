@@ -86,7 +86,7 @@ void Slider::timing(time_t sec, time_t usec, float *lasting)
   }
 }
 
-void Slider::changePosition(float lasting)
+void Slider::imposed(float lasting)
 {
   if (! capted) return;
 
