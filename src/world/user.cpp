@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // user.cpp
 //
-// User management
+// Local User management (localuser)
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "user.hpp"
@@ -46,15 +46,15 @@
 #include "rtp.hpp"	// RTPNAME_LEN
 #include "pref.hpp"	// user
 #include "color.hpp"	// Color
+#include "humanoid.hpp"	// Humanoid
 #include "human.hpp"	// Human
 #include "guy.hpp"	// Guy
+#include "head.hpp"	// Head
 #include "entry.hpp"	// query
 #include "halo.hpp"	// Halo
 #include "hat.hpp"	// Hat
 #include "dress.hpp"	// Dress
 #include "wings.hpp"	// Wings
-#include "head.hpp"	// Head
-#include "humanoid.hpp"	// Humanoid
 
 
 const OClass User::oclass(USER_TYPE, "User", NULL, User::replicator);
@@ -397,7 +397,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
 
   netop = replicate(PROPS, _noid);
 
-  /* hack to retrieve the name and the mapping */
+  // hack to retrieve the name and the mapping
   netop->getProperty(/*  0 */ PROPHNAME, pp);
   netop->getProperty(/*  1 */ PROPMAPFRONT, pp);
   netop->getProperty(/*  2 */ PROPMAPBACK, pp);
@@ -413,7 +413,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
       ((idxgeom = pp->tellPayload("shape=\"humanoid\" dim=")) > 0) ||
       ((idxgeom = pp->tellPayload("shape=\"guy\" dim=")) > 0)
      ) {
-    /* get replicated user characteristics from the network */
+    // get replicated user characteristics from the network
     //echo("idxgeom=%d[%02x]", idxgeom, idxgeom);
     netop->getProperty(/* 09 */ PROPMENSURATION, pp);
     netop->getProperty(/* 10 */ PROPMAPLEFT, pp);
@@ -467,7 +467,6 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   addGui();			// informs Gui
   ::g.gui.expandAvatar();	// shows new avatar coming in
 
-  //echo("replica: avatar=%s uface=%s", avatar, uface);
   //echo("replica: name=%s ssrc=%x rtcpname=%s email=%s", objectName(), ssrc, rtcpname, email);
 }
 
