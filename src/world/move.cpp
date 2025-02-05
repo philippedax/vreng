@@ -119,9 +119,9 @@ void * endMovement(void *arg)
 }
 
 /** Updates time lasting */
-bool Object::updateLasting(time_t sec, time_t usec, float *lasting)
+bool Object::updateLasting(time_t sec, time_t usec, float *last)
 {
-  *lasting = diffTime(sec, usec);
+  *last = diffTime(sec, usec);
   if (move.ttl < 0.0005) return false;
   if (move.next) {
     //echo("next1: ttl=%.1f nocol=%d", move.ttl, move.nocol);
@@ -147,74 +147,74 @@ bool Object::updateLasting(time_t sec, time_t usec, float *lasting)
     }
     return true;
   }
-  if (*lasting < move.ttl) {
-    move.ttl -= *lasting;
+  if (*last < move.ttl) {
+    move.ttl -= *last;
     move.sec = sec;
     move.usec = usec;
     return true;
   }
 
-  *lasting = 0;
+  *last = 0;
   stopMovement();
   return false;
 }
 
 /** Modifies user position in one direction */
-void User::moveDirection(uint8_t move_key, float lasting)
+void User::moveDirection(uint8_t move_key, float last)
 {
   if (carrier && carrier->underControl()) {  // Manipulator
     echo("onedir: k=%d", move_key);
-    carrier->mouseEvent(move_key, lasting);
-    //dax carrier->keyEvent(move_key, lasting); //arrow keys
+    carrier->mouseEvent(move_key, last);
+    //dax carrier->keyEvent(move_key, last); //arrow keys
     return;
   }
 
   // Navigator
   switch (move_key) {
     case KEY_FW:  // move forward
-      pos.x += lasting * lspeed * cos(pos.az);
-      pos.y += lasting * lspeed * sin(pos.az);
+      pos.x += last * lspeed * cos(pos.az);
+      pos.y += last * lspeed * sin(pos.az);
       break;
     case KEY_BW:  // move backward
-      pos.x -= lasting * lspeed * cos(pos.az);
-      pos.y -= lasting * lspeed * sin(pos.az);
+      pos.x -= last * lspeed * cos(pos.az);
+      pos.y -= last * lspeed * sin(pos.az);
       break;
     case KEY_MR:  // move right
-      pos.x += lasting * lspeed * sin(pos.az);
-      pos.y -= lasting * lspeed * cos(pos.az);
+      pos.x += last * lspeed * sin(pos.az);
+      pos.y -= last * lspeed * cos(pos.az);
       break;
     case KEY_ML:  // move left
-      pos.x -= lasting * lspeed * sin(pos.az);
-      pos.y += lasting * lspeed * cos(pos.az);
+      pos.x -= last * lspeed * sin(pos.az);
+      pos.y += last * lspeed * cos(pos.az);
       break;
     case KEY_RI:  // turn right
-      pos.az -= lasting * aspeed;
+      pos.az -= last * aspeed;
       pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
       break;
     case KEY_LE:  // turn left
-      pos.az += lasting * aspeed;
+      pos.az += last * aspeed;
       pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
       break;
     case KEY_MD:  // roll down
-       pos.ay = MIN(pos.ay + lasting * aspeed, M_2PI_5);
+       pos.ay = MIN(pos.ay + last * aspeed, M_2PI_5);
        break;
     case KEY_MU:  // roll up
-      pos.ay = MAX(pos.ay - lasting * aspeed, -M_2PI_5);
+      pos.ay = MAX(pos.ay - last * aspeed, -M_2PI_5);
       break;
     case KEY_HO:  // stand up
       pos.ay = pos.ax = 0;
       break;
     case KEY_UP:  // move up
-      pos.z += lasting * lspeed;
+      pos.z += last * lspeed;
       break;
     case KEY_DO:  // move down
-      pos.z -= lasting * lspeed;
+      pos.z -= last * lspeed;
       break;
     case KEY_TL:  // tilt left
-      pos.ax = pos.ax + lasting * aspeed;
+      pos.ax = pos.ax + last * aspeed;
       break;
     case KEY_TR:  // tilt right
-      pos.ax = pos.ax - lasting * aspeed;
+      pos.ax = pos.ax - last * aspeed;
       break;
     }
 }
@@ -297,7 +297,7 @@ float Object::getLasting() const
 /** Returns delta time */
 float Object::diffTime(time_t sec, time_t usec)
 {
-  return static_cast<float>((sec - move.sec)) + (static_cast<float>((usec - move.usec) / 1e6));
+  return static_cast<float> ((sec - move.sec)) + (static_cast<float>((usec - move.usec) / 1e6));
 }
 
 /** Initializes an imposed movement */
@@ -349,6 +349,7 @@ void Object::permanentMovement()
   move.next = NULL;
 }
 
+/** Permanent movement */
 void Object::permanentMovement(float speed)
 {
   linearSpeed(speed);
@@ -380,17 +381,17 @@ void User::userMovement(time_t sec, time_t usec)
   updateKeys(sec, usec);
   timing(keylastings);
 
-  float lasting = -1.;
+  float last = -1.;
   for (int k=0; k < MAXKEYS; k++) {
-    if (keylastings[k] > lasting) {
-      lasting = keylastings[k];
+    if (keylastings[k] > last) {
+      last = keylastings[k];
     }
   }
 
-  if (lasting > MIN_LASTING) {	// user is moving
+  if (last > MIN_LASTING) {	// user is moving
     float maxlast = getLasting();
     maxlast = maxlast ? maxlast : 1;
-    int nbmoves = int( (lasting / maxlast) );
+    int nbmoves = int( (last / maxlast) );
     float tabdt[MAXKEYS];
 
     for (int m=0; m <= nbmoves; m++) {
@@ -438,26 +439,26 @@ void Object::imposedMovements(time_t sec, time_t usec)
 
   copyPositionAndBB(pos);		// keep pos for netork
 
-  float lasting = -1;
-  timing(sec, usec, &lasting);	// handled by each object only for imposed movements
+  float last = -1;
+  timing(sec, usec, &last);	// handled by each object only for imposed movements
 
   move.next = NULL;
 
-  if (lasting > MIN_LASTING) {
+  if (last > MIN_LASTING) {
     float maxlast = getLasting();
     maxlast = maxlast ? maxlast : 1;
     // spliting movement in m elementary movements
     float tabdt = 0.;
-    int nbmoves = int( (lasting / maxlast) );
+    int nbmoves = int( (last / maxlast) );
 
     for (int m=0; m <= nbmoves; m++) {
-      if (lasting > maxlast) {
+      if (last > maxlast) {
         tabdt = maxlast;
-        lasting -= maxlast;
+        last -= maxlast;
       }
       else {
-        tabdt = lasting;
-        lasting = 0;
+        tabdt = last;
+        last = 0;
       }
       elemImposedMovement(tabdt);
       if (isBehavior(NO_ELEMENTARY_MOVE)) {
@@ -504,26 +505,26 @@ void Object::permanentMovements(time_t sec, time_t usec)
   if (move.perm_sec > 0) {	// is permanent movement activated ?
     copyPositionAndBB(pos);
 
-    float lasting = static_cast<float>((sec - move.perm_sec)) + static_cast<float>((usec - move.perm_usec) / 1e6);
+    float last = static_cast<float>((sec - move.perm_sec)) + static_cast<float>((usec - move.perm_usec) / 1e6);
     move.perm_sec = sec;
     move.perm_usec = usec;
     move.next = NULL;
 
-    if (lasting > 0 /* MIN_LASTING */) {
+    if (last > 0 /* MIN_LASTING */) {
       float maxlast = getLasting();
       maxlast = maxlast ? maxlast : 1;
       float tabdt = 0.;
-      int nbmoves = int( (lasting / maxlast) );
+      int nbmoves = int( (last / maxlast) );
       nbmoves = MIN(nbmoves, MIN_MOVES);
 
       for (int m=0; m <= nbmoves; m++) {
-        if (lasting > maxlast) {
+        if (last > maxlast) {
           tabdt = maxlast;
-          lasting -= maxlast;
+          last -= maxlast;
         }
         else {
-          tabdt = lasting;
-          lasting = 0;
+          tabdt = last;
+          last = 0;
         }
 
         elemPermanentMovement(tabdt);
@@ -533,7 +534,7 @@ void Object::permanentMovements(time_t sec, time_t usec)
         }
       }
     }
-    timing(sec, usec, &lasting);	// never called FIXME!
+    timing(sec, usec, &last);	// never called FIXME!
 
     if (netop && netop->isResponsible()) {
       publish(pos);			// handled by each object

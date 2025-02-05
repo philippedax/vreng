@@ -3400,3 +3400,4 @@
 3400 Mer  5 fév 2025 10:09:26 CET	rename findObj to findObject olist.*pp
 3401 Mer  5 fév 2025 10:27:50 CET	rename changePositionOneDir to moveDirection move.cpp
 3402 Mer  5 fév 2025 11:00:42 CET	move *Key from object.hpp to user.hpp
+3403 Mer  5 fév 2025 11:14:42 CET	cleanup user.cpp
