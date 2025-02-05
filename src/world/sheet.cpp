@@ -69,13 +69,13 @@ Sheet::Sheet(Book* _book, char* l)
   mobileObject(1);
 }
 
-void Sheet::imposed(float lasting)
+void Sheet::imposed(float dt)
 {
-  pos.az += lasting * move.aspeed.v[0];
+  pos.az += dt * move.aspeed.v[0];
 
-  center.v[0] += lasting * move.lspeed.v[0];
-  center.v[1] += lasting * move.lspeed.v[1];
-  center.v[2] += lasting * move.lspeed.v[2];
+  center.v[0] += dt * move.lspeed.v[0];
+  center.v[1] += dt * move.lspeed.v[1];
+  center.v[2] += dt * move.lspeed.v[2];
 
   // pour x et y, on utilise l'attribut center pour garder une trace du passe
   // (sinon, pb car x et y sont remis par defaut au centre de la box)
@@ -83,14 +83,14 @@ void Sheet::imposed(float lasting)
   pos.y = center.v[1] + size.v[0] * sin(pos.az);
 }
 
-void Sheet::timing(time_t s, time_t us, float *lasting)
+void Sheet::timing(time_t s, time_t us, float *dt)
 {
   if (move.aspeed.v[0] == aspeed)	// turning right
     move.ttl = MIN(ABSF(deltaAngle(pos.az, aright)/move.aspeed.v[0]), move.ttl);
   else if (move.aspeed.v[0] == -aspeed) // turning left
     move.ttl = MIN(ABSF(deltaAngle(pos.az, aleft)/move.aspeed.v[0]), move.ttl);
 
-  if (! updateLasting(s, us, lasting)) {
+  if (! lasting(s, us, dt)) {
     if (book->fwd > 0) book->forward(NULL, 0, 0);
     book->fwd--;
     if (book->bwd > 0) book->backward(NULL, 0, 0);

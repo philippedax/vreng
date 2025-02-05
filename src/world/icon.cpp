@@ -59,9 +59,9 @@ const float Icon::HEIGHT = 0.32;
 static const char *COLOR = "1 1 1";	// white
 
 
-void Icon::timing(time_t sec, time_t usec, float *lasting)
+void Icon::timing(time_t sec, time_t usec, float *dt)
 {
-  updateLasting(sec, usec, lasting);
+  lasting(sec, usec, dt);
 }
 
 bool Icon::isMoving()
@@ -71,15 +71,15 @@ bool Icon::isMoving()
 }
 
 /** sollicited movements */
-void Icon::imposed(float lasting)
+void Icon::imposed(float dt)
 {
   if (! taken) {
     float ratio = MAX(::g.timer.rate() / 40., 1);
-    pos.x  += lasting * move.lspeed.v[0] * ratio;
-    pos.y  += lasting * move.lspeed.v[1] * ratio;
-    pos.z  += lasting * move.lspeed.v[2] * ratio;
-    pos.az += lasting * move.aspeed.v[0] * ratio;
-    pos.ax += lasting * move.aspeed.v[2] * ratio;
+    pos.x  += dt * move.lspeed.v[0] * ratio;
+    pos.y  += dt * move.lspeed.v[1] * ratio;
+    pos.z  += dt * move.lspeed.v[2] * ratio;
+    pos.az += dt * move.aspeed.v[0] * ratio;
+    pos.ax += dt * move.aspeed.v[2] * ratio;
   }
   else {
     float off = 0.4;
@@ -91,9 +91,9 @@ void Icon::imposed(float lasting)
 }
 
 /** permanent movements */
-void Icon::permanent(float lasting)
+void Icon::permanent(float dt)
 {
-  pos.z -= lasting * GRAVITY / 2;
+  pos.z -= dt * GRAVITY / 2;
 }
 
 /** creation: this method is invisible: called by GUI::putIcon */

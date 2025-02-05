@@ -93,19 +93,19 @@ bool Lift::publish(const Pos &oldpos)
   return change;
 }
 
-void Lift::timing(time_t sec, time_t usec, float *lasting)
+void Lift::timing(time_t sec, time_t usec, float *dt)
 {
-  updateLasting(sec, usec, lasting);
+  lasting(sec, usec, dt);
 }
 
-void Lift::imposed(float lasting)
+void Lift::imposed(float dt)
 {
   if (ABSF(dest - pos.z) <= 0.1) return;  // same level
 
   int sign = (dest > pos.z) ? 1 : -1;
-  pos.z += sign * lasting * speed;
+  pos.z += sign * dt * speed;
   if (state == CARRYING) {
-    localuser->pos.z += sign * lasting * speed;	// user follows the lift
+    localuser->pos.z += sign * dt * speed;	// user follows the lift
     //dax localuser->updatePositionAndGrid(localuser->pos);
     localuser->updatePosition();
     localuser->updateCamera(pos);

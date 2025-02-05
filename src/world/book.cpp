@@ -301,7 +301,7 @@ void Book::imposed(float dt)
 
 void Book::timing(time_t sec, time_t usec, float *dt)
 {
-  updateLasting(sec, usec, dt);
+  lasting(sec, usec, dt);
 }
 
 bool Book::publish(const Pos &oldpos)

@@ -159,9 +159,9 @@ Guide::Guide(char *l)
   draw(color);	// draw path
 }
 
-void Guide::timing(time_t sec, time_t usec, float *lasting)
+void Guide::timing(time_t sec, time_t usec, float *dt)
 {
-  updateLasting(sec, usec, lasting);
+  lasting(sec, usec, dt);
 }
 
 /** Stucks the user on the guide */
@@ -256,7 +256,7 @@ void Guide::progress(Object *po)
   }
 }
 
-void Guide::permanent(float lasting)
+void Guide::permanent(float dt)
 {
   if (testing) {
     if (path[seg][3]) {	// speed present

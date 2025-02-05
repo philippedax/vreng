@@ -119,9 +119,9 @@ void * endMovement(void *arg)
 }
 
 /** Updates time lasting */
-bool Object::updateLasting(time_t sec, time_t usec, float *last)
+bool Object::lasting(time_t sec, time_t usec, float *dt)
 {
-  *last = diffTime(sec, usec);
+  *dt = diffTime(sec, usec);
   if (move.ttl < 0.0005) return false;
   if (move.next) {
     //echo("next1: ttl=%.1f nocol=%d", move.ttl, move.nocol);
@@ -147,14 +147,14 @@ bool Object::updateLasting(time_t sec, time_t usec, float *last)
     }
     return true;
   }
-  if (*last < move.ttl) {
-    move.ttl -= *last;
+  if (*dt < move.ttl) {
+    move.ttl -= *dt;
     move.sec = sec;
     move.usec = usec;
     return true;
   }
 
-  *last = 0;
+  *dt = 0;
   stopMovement();
   return false;
 }

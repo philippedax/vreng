@@ -191,9 +191,9 @@ Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
 }
 
 /** Update time lasting */
-void Ball::timing(time_t sec, time_t usec, float *lasting)
+void Ball::timing(time_t sec, time_t usec, float *dt)
 {
-  updateLasting(sec, usec, lasting);
+  lasting(sec, usec, dt);
 }
 
 /** Checks is moving */
@@ -205,14 +205,14 @@ bool Ball::isMoving()
 }
 
 /** Imposed movements */
-void Ball::imposed(float lasting)
+void Ball::imposed(float dt)
 {
   if (! taken) {
-    pos.x  += lasting * move.lspeed.v[0] * ratio();
-    pos.y  += lasting * move.lspeed.v[1] * ratio();
-    pos.z  += lasting * move.lspeed.v[2] * ratio();
-    pos.az += lasting * move.aspeed.v[0] * ratio();
-    pos.ax += lasting * move.aspeed.v[2] * ratio();
+    pos.x  += dt * move.lspeed.v[0] * ratio();
+    pos.y  += dt * move.lspeed.v[1] * ratio();
+    pos.z  += dt * move.lspeed.v[2] * ratio();
+    pos.az += dt * move.aspeed.v[0] * ratio();
+    pos.ax += dt * move.aspeed.v[2] * ratio();
 
     // reduce speed
     move.lspeed.v[0] /= 1.02;
@@ -230,9 +230,9 @@ void Ball::imposed(float lasting)
 }
 
 /** Permanent movements */
-void Ball::permanent(float lasting)
+void Ball::permanent(float dt)
 {
-  pos.z  -= lasting * gravity;
+  pos.z  -= dt * gravity;
 }
 
 /** Updates to the network */

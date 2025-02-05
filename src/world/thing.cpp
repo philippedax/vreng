@@ -148,17 +148,17 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   createNetObj(PROPS, oid);
 }
 
-void Thing::timing(time_t sec, time_t usec, float *lasting)
+void Thing::timing(time_t sec, time_t usec, float *dt)
 {
-  updateLasting(sec, usec, lasting);
+  lasting(sec, usec, dt);
 }
 
-void Thing::permanent(float lasting)
+void Thing::permanent(float dt)
 {
   if (state == DROPPED) {
-    trace1(DBG_WO, "thingChangePermanent: x=%.2f y=%.2f z=%.2f ttl=%.2f lasting=%.2f", pos.x, pos.y, pos.z, move.ttl, lasting);
+    trace1(DBG_WO, "thingChangePermanent: x=%.2f y=%.2f z=%.2f ttl=%.2f dt=%.2f", pos.x, pos.y, pos.z, move.ttl, dt);
     /* drop this thing by gravity */
-    pos.z -= lasting * GRAVITY;
+    pos.z -= dt * GRAVITY;
 
     /* test if finished */
     if (move.ttl == 0) {

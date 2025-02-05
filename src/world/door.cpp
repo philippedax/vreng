@@ -121,7 +121,7 @@ Door::Door(char *l)
   createNetObj(PROPS, ++oid);
 }
 
-void Door::timing(time_t s, time_t us, float *lasting)
+void Door::timing(time_t s, time_t us, float *last)
 {
   switch (mecanism) {
   case ANGULAR:
@@ -144,23 +144,23 @@ void Door::timing(time_t s, time_t us, float *lasting)
     break;
   }
 
-  if (! updateLasting(s, us, lasting) && state == CLOSED)
+  if (! lasting(s, us, last) && state == CLOSED)
     Sound::playSound(DOORCLOSESND);
 }
 
-void Door::imposed(float lasting)
+void Door::imposed(float dt)
 {
   switch (mecanism) {
   case ANGULAR:
-    pos.az += lasting * move.aspeed.v[0];
+    pos.az += dt * move.aspeed.v[0];
     pos.x = center.v[0] + size.v[0] * cos(pos.az);
     pos.y = center.v[1] + size.v[0] * sin(pos.az);
     break;
   case SLIDING:
-    pos.x += lasting * move.lspeed.v[0];
+    pos.x += dt * move.lspeed.v[0];
     break;
   case VERTICAL:
-    pos.z += lasting * move.lspeed.v[2];
+    pos.z += dt * move.lspeed.v[2];
     break;
   }
 }

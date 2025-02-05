@@ -86,18 +86,18 @@ Web::Web(char *l)
   createNetObj(PROPS, ++oid);
 }
 
-void Web::timing(time_t sec, time_t usec, float *lasting)
+void Web::timing(time_t sec, time_t usec, float *dt)
 {
-  updateLasting(sec, usec, lasting);
+  lasting(sec, usec, dt);
 }
 
-void Web::imposed(float lasting)
+void Web::imposed(float dt)
 { 
   static float roting = 0;
 
   if (roting < M_PI) {
-    pos.az += lasting * move.aspeed.v[0];
-    roting += lasting * move.aspeed.v[0];
+    pos.az += dt * move.aspeed.v[0];
+    roting += dt * move.aspeed.v[0];
   }
   else {
     roting = 0;

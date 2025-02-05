@@ -131,9 +131,9 @@ void Bubble::imposed(float lasting)
   }
 }
 
-void Bubble::timing(time_t sec, time_t usec, float *lasting)
+void Bubble::timing(time_t sec, time_t usec, float *last)
 {
-  if (! updateLasting(sec, usec, lasting)) {
+  if (! lasting(sec, usec, last)) {
     /* the text has elapsed its live time, it must be destroyed */
     if (bubtext) {
       bubtext->expire();	// delete text inside Bubble

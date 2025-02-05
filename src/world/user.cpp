@@ -541,9 +541,9 @@ bool User::publish(const Pos &opos)
 }
 
 /** Updates times array */
-void User::timing(time_t sec, time_t usec, float *lasting)
+void User::timing(time_t sec, time_t usec, float *dt)
 {
-  updateLasting(sec, usec, lasting);
+  lasting(sec, usec, dt);
 }
 
 /** Informs a message sent by localuser */
@@ -582,12 +582,12 @@ void User::userRequesting(const char *usermsg)
 }
 
 /** Imposed movement via keys or navig_menu or joystick */
-void User::imposed(float lasting)
+void User::imposed(float dt)
 {
-  pos.x += lasting * move.lspeed.v[0];
-  pos.y += lasting * move.lspeed.v[1];
-  pos.z += lasting * move.lspeed.v[2];
-  pos.az += lasting * move.aspeed.v[0];
+  pos.x += dt * move.lspeed.v[0];
+  pos.y += dt * move.lspeed.v[1];
+  pos.z += dt * move.lspeed.v[2];
+  pos.az += dt * move.aspeed.v[0];
   updatePosition();
 
   if (localuser->human) {
@@ -605,10 +605,10 @@ void User::imposed(float lasting)
 }
 
 /** Equations system handling permanent motions */
-void User::permanent(float lasting)
+void User::permanent(float dt)
 {
   if (! pause_gravity) {
-    pos.z -= lasting * GRAVITY;
+    pos.z -= dt * GRAVITY;
   }
 }
 

@@ -240,13 +240,13 @@ class Object {
   virtual bool isMoving()				{ return testMoving(); }
   /**< Checks whether object is moving. */
 
-  virtual void imposed(float lasting)			{}
+  virtual void imposed(float dt)			{}
   /**< Changes the position after a triggered movement. */
 
-  virtual void permanent(float lasting)			{}
+  virtual void permanent(float dt)			{}
   /**< Changes the position during a permanent movement. */
 
-  virtual void timing(time_t s, time_t us, float *last)	{}
+  virtual void timing(time_t s, time_t us, float *dt)	{}
   /**< Updates remaining times of the movement. */
 
   virtual bool publish(const Pos &pos)			{ return false; }
@@ -555,7 +555,7 @@ class Object {
   void linearSpeed(float lspeed);
   /**< set permanent linear speed of an object. */
 
-  void imposedMovement(float lasting);
+  void imposedMovement(float dt);
   /**< Initializes movement on an object. */
 
   float diffTime(time_t sec, time_t usec);
@@ -567,7 +567,7 @@ class Object {
   bool testMoving();
   /**< Tests if object is moving. */
 
-  bool updateLasting(time_t sec, time_t usec, float *lasting);
+  bool lasting(time_t sec, time_t usec, float *dt);
   /**< Updates remaining times of the movement. */
 
   void imposedMovements(time_t sec, time_t usec);
@@ -589,10 +589,10 @@ class Object {
   /**< User moves the object. */
 
  private:
-  void elemImposedMovement(float lasting);
+  void elemImposedMovement(float dt);
   /**< Handles an elementary object movement. */
 
-  void elemPermanentMovement(float lasting);
+  void elemPermanentMovement(float dt);
   /**< Handles an elementary permanent object movement. */
 
   //

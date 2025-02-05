@@ -32,19 +32,19 @@
 const OClass Projectile::oclass(PROJECTILE_TYPE, "Projectile", NULL);
 
 
-void Projectile::timing(time_t s, time_t us, float *plasting)
+void Projectile::timing(time_t s, time_t us, float *dt)
 {
-  if (! updateLasting(s, us, plasting)) {
+  if (! lasting(s, us, dt)) {
     /* the projectile has spent its time to live => it must be destroyed */
     toDelete();	// delete projectile
   }
 }
 
-void Projectile::imposed(float lasting)
+void Projectile::imposed(float dt)
 {
-  pos.x += lasting * move.lspeed.v[0];
-  pos.y += lasting * move.lspeed.v[1];
-  pos.z += lasting * move.lspeed.v[2];
+  pos.x += dt * move.lspeed.v[0];
+  pos.y += dt * move.lspeed.v[1];
+  pos.z += dt * move.lspeed.v[2];
 }
 
 /* Updates to the network */

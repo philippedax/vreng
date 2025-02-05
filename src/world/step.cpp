@@ -222,10 +222,10 @@ Step::Step(Object *user, char *geom)
 
 void Step::timing(time_t sec, time_t usec, float *dt)
 {
-  updateLasting(sec, usec, dt);
+  lasting(sec, usec, dt);
 }
 
-void Step::permanent(float lasting)
+void Step::permanent(float dt)
 {
   if (! mobile) return;
   if (state == INACTIVE) return;	// not running
@@ -238,9 +238,9 @@ void Step::permanent(float lasting)
 
   if (dir > 0) { 				// escalator upwards
     //echo("z=%.2f %s", pos.z, objectName());
-    pos.x += (lasting * move.lspeed.v[2] * sin(pos.az));
-    pos.y += (lasting * move.lspeed.v[2] * cos(pos.az));
-    pos.z += (lasting * move.lspeed.v[2]);
+    pos.x += (dt * move.lspeed.v[2] * sin(pos.az));
+    pos.y += (dt * move.lspeed.v[2] * cos(pos.az));
+    pos.z += (dt * move.lspeed.v[2]);
     if (pos.z >= (ipos.z + height - sz)) {	// rewind step
       //echo("+ %.2f", pos.z);
       pos = ipos;
@@ -265,9 +265,9 @@ void Step::permanent(float lasting)
     }
   }
   else if (dir < 0) {				// escalator downwards
-    pos.x -= lasting * move.lspeed.v[2] * sin(pos.az);
-    pos.y -= lasting * move.lspeed.v[2] * cos(pos.az);
-    pos.z -= lasting * move.lspeed.v[2];
+    pos.x -= dt * move.lspeed.v[2] * sin(pos.az);
+    pos.y -= dt * move.lspeed.v[2] * cos(pos.az);
+    pos.z -= dt * move.lspeed.v[2];
     if (pos.z < (ipos.z - height + sz)) {	// rewind step
       pos = ipos;
     }
@@ -284,8 +284,8 @@ void Step::permanent(float lasting)
     }
   }
   else {					// travolator horizontal
-    pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
-    pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);
+    pos.x -= dt * move.lspeed.v[0] * sin(pos.az);
+    pos.y -= dt * move.lspeed.v[1] * cos(pos.az);
     if (pos.x >= (ipos.x + length - sx)) {	// rewind step
       pos = ipos;
     }
