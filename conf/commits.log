@@ -3397,3 +3397,4 @@
 3397 Mar  4 fév 2025 16:51:18 CET	cleanup wallsIntersect col.cpp
 3398 Mer  5 fév 2025 09:28:26 CET	cleanup removeObject cart.*pp
 3399 Mer  5 fév 2025 10:00:33 CET	rename pobject to object olist.*pp
+3400 Mer  5 fév 2025 10:09:26 CET	rename findObj to findObject olist.*pp

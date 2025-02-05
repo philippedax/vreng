@@ -384,7 +384,7 @@ class Object {
   void updateKeys(time_t sec, time_t usec);
   /**< Updates the keydifftime arrays. */
 
-  void changePositionOneDir(const uint8_t move_type, const float last);
+  void moveDirection(const uint8_t move_type, const float last);
   /**< Modifies user position in one direction. */
 
   //

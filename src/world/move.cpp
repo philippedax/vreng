@@ -160,7 +160,7 @@ bool Object::updateLasting(time_t sec, time_t usec, float *lasting)
 }
 
 /** Modifies user position in one direction */
-void Object::changePositionOneDir(uint8_t move_key, float lasting)
+void Object::moveDirection(uint8_t move_key, float lasting)
 {
   if (carrier && carrier->underControl()) {  // Manipulator
     echo("onedir: k=%d", move_key);
@@ -224,7 +224,7 @@ void User::imposed(const float lastings[])
 {
   for (int k=0; (k < MAXKEYS); k++) {
     if (lastings[k] > MIN_KEYLASTING) {
-      changePositionOneDir(k, lastings[k] * (kpressed[KEY_SP]+1));
+      moveDirection(k, lastings[k] * (kpressed[KEY_SP]+1));
     }
   }
 
