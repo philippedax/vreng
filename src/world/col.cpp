@@ -211,16 +211,16 @@ void Object::generalIntersect(Object *o, OList *vicinity)
   int scans = 0;
   int rescans = 0;
   // held the first object
-  Object *ohead = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
+  Object *ohead = (vicinity && vicinity->object) ? vicinity->object : NULL;
 
   // Scans neighbors for collision discovery
   for (OList *vl = vicinity; vl ; scans++) {
-    if (! vl->pobject) {
+    if (! vl->object) {
       vl = vl->next;
       continue;
     }  // discard non existant object
 
-    Object *neighbor = vl->pobject;
+    Object *neighbor = vl->object;
 
     // Stop scanning if neighbor has already been seen
     if ((neighbor == ohead) && (scans >= 1)) {
@@ -541,7 +541,7 @@ void Object::checkVicinity(Object *o)
 
     generalIntersect(o, vicinity);   // check intersect
 
-    vicinity->remove();
+    vicinity->removeObject();
   }
 }
 

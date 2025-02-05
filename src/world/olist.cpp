@@ -43,22 +43,22 @@ OList::~OList()
 }
 
 /** Removes all objects from a olist */
-void OList::remove()
+void OList::removeObject()
 {
-  for (OList *list = this; list ; ) {
-    OList *next = list->next;
-    if (list && list->pobject && list->pobject->type) {
-      delete list;
+  for (OList *objs = this; objs ; ) {
+    OList *next = objs->next;
+    if (objs && objs->object && objs->object->type) {
+      delete objs;
     }
-    list = next;
+    objs = next;
   }
 }
 
 /** Clears flags "pointed" of all objects in an olist - called by col.cpp */
 void OList::clearPointed()
 {
-  for (OList *list = this; list && list->pobject; list = list->next) {
-    list->pobject->pointed = false;
+  for (OList *list = this; list && list->object; list = list->next) {
+    list->object->pointed = false;
   }
 }
 

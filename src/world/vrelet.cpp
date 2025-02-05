@@ -268,7 +268,7 @@ void Vrelet::readApp()
         // propagate the changes
         OList *viciList = who->getVicinity(pold);
         who->generalIntersect(pold, viciList);
-        viciList->remove();
+        viciList->removeObject();
         delete pold;
       }
       processed = true;

@@ -130,7 +130,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
   OList *vicilist = object->getVicinity(poldobj);
   object->generalIntersect(poldobj, vicilist);
   if (*name.type) {	//FIXME: segfault
-    vicilist->remove();
+    vicilist->removeObject();
   }
   delete poldobj;
   object->updGrid(poldobj);

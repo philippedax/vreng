@@ -1072,7 +1072,7 @@ OList * Object::addToList(OList *olist)
   if (! isValid()) return olist;
 
   OList *ol = new OList();
-  ol->pobject = this;
+  ol->object = this;
   ol->next = olist;
   return ol;
 }
@@ -1081,7 +1081,7 @@ OList * Object::addToList(OList *olist)
 OList * Object::addOListOnce(OList *olist)
 {
   for (OList *ol = olist; ol ; ol = ol->next) {
-    if (ol->pobject && ol->pobject == this) {
+    if (ol->object && ol->object == this) {
       return olist;		// already in the list
     }
   }
@@ -1097,7 +1097,7 @@ OList * Object::delOList(OList *olist)
     return NULL;
   }
   for (ol = olist; ol ; ol = ol->next) {  // sometimes crashes
-    if (ol->pobject == this) {
+    if (ol->object == this) {
       if (ol->next) {
         front = ol->next;
         if (ol) {
@@ -1128,10 +1128,10 @@ OList * Object::addListToList(OList *l1, OList *l2)
     if (! l2) {
       return NULL;
     }
-    if (! l2->pobject) {
+    if (! l2->object) {
       return NULL;
     }
-    if (l2->pobject != this) {
+    if (l2->object != this) {
       return l2;
     }
     else {
@@ -1139,13 +1139,13 @@ OList * Object::addListToList(OList *l1, OList *l2)
     }
   }
   else {
-    if (l1->pobject && !(l1->pobject->pointed) && (l1->pobject != this)) {
-      l1->pobject->pointed = true;
+    if (l1->object && !(l1->object->pointed) && (l1->object != this)) {
+      l1->object->pointed = true;
       if (l1->next) {
-        return  addListToList(l1->next, l1->pobject->addOListOnce(l2));
+        return  addListToList(l1->next, l1->object->addOListOnce(l2));
       }
       else {
-        return l1->pobject->addOListOnce(l2);
+        return l1->object->addOListOnce(l2);
       }
     }
     else {

@@ -3395,3 +3395,4 @@
 3395 Mar  4 fév 2025 15:59:36 CET	cleanup move.cpp
 3396 Mar  4 fév 2025 16:19:45 CET	cleanup carrier.cpp
 3397 Mar  4 fév 2025 16:51:18 CET	cleanup wallsIntersect col.cpp
+3398 Mer  5 fév 2025 09:28:26 CET	cleanup removeObject cart.*pp
