@@ -41,7 +41,7 @@ class OList {
   void clearPointed();
   /**< Clears flags "ispointed" of all objects in a list. */
 
-  static Object *findObj(uint8_t type_id, uint32_t src_id, uint16_t port_id, uint16_t obj_id);
+  static Object *findObject(uint8_t type_id, uint32_t src_id, uint16_t port_id, uint16_t obj_id);
   /**< Returns the object identified by type and id from the mobile list. */
 };
 

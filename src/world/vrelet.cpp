@@ -234,7 +234,7 @@ void Vrelet::readApp()
     uint16_t id   = msg->read16();
 
     // locate the object
-    Object *who = ((type==0) ? this : OList::findObj(type, src, port, id));
+    Object *who = ((type==0) ? this : OList::findObject(type, src, port, id));
     if (! who) {
       // we didn't find anything that matched
       sendPosError(type, src, port, id);

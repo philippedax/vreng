@@ -63,7 +63,7 @@ void OList::clearPointed()
 }
 
 /** Returns the object from the mobile list - static */
-Object * OList::findObj(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
+Object * OList::findObject(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
 {
   for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end() ; ++it) {
     if (((*it)->type == _type)
