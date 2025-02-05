@@ -94,6 +94,18 @@ class User: public Object {
   int   lastmess;		///< last message number.
   int   lastrequest;
 
+  //
+  // keys (see move.cpp)
+  //
+  void clearKeys();
+  /**< Clears keys times array. */
+
+  void updateKeys(time_t sec, time_t usec);
+  /**< Updates the keydifftime arrays. */
+
+  void moveDirection(const uint8_t move_type, const float last);
+  /**< Modifies user */
+
  public:
   float width;		///< body width.
   float depth;		///< body depth.

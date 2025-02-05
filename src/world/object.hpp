@@ -374,20 +374,6 @@ class Object {
   /**< Initialize owner. */
 
   //
-  // keys (see move.cpp)
-  //
-
- public:
-  void clearKeyTab();
-  /**< Clears keys times array. */
-
-  void updateKeys(time_t sec, time_t usec);
-  /**< Updates the keydifftime arrays. */
-
-  void moveDirection(const uint8_t move_type, const float last);
-  /**< Modifies user position in one direction. */
-
-  //
   // Parsing vre lines (see parse.cpp)
   //
 

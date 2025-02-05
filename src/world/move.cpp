@@ -64,7 +64,7 @@ void changeKey(int k_id, bool pressed, time_t sec, time_t usec)
 }
 
 /** Clears keys times array */
-void Object::clearKeyTab()
+void User::clearKeys()
 {
   for (int k=0; k < MAXKEYS; k++) {
     kpressed[k] = false;
@@ -74,7 +74,7 @@ void Object::clearKeyTab()
 }
 
 /** Updates the keydifftime arrays */
-void Object::updateKeys(time_t sec, time_t usec)
+void User::updateKeys(time_t sec, time_t usec)
 {
   for (int k=0; k < MAXKEYS; k++) {
     if (kpressed[k]) {
@@ -160,7 +160,7 @@ bool Object::updateLasting(time_t sec, time_t usec, float *lasting)
 }
 
 /** Modifies user position in one direction */
-void Object::moveDirection(uint8_t move_key, float lasting)
+void User::moveDirection(uint8_t move_key, float lasting)
 {
   if (carrier && carrier->underControl()) {  // Manipulator
     echo("onedir: k=%d", move_key);

@@ -343,7 +343,7 @@ void User::inits()
     setView(Render::VIEW_FIRST_PERSON);
   setVisible(true);
   setRtcp();		// network identity
-  clearKeyTab();	// reset keys for movement
+  clearKeys();		// reset keys for movement
   addGui();		// informs GUI
 
   // attach carrier & cart
