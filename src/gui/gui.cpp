@@ -164,7 +164,7 @@ void Gui::removeCart(Object *cart, int action)
     break;
   case Cart::REMOVE:
     echo("%s removed from basket", cart->objectName());
-    localuser->cart->removeFromCart(cart);
+    localuser->cart->removeObject(cart);
     break;
   }
 }

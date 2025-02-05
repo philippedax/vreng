@@ -68,124 +68,124 @@ Cart::Cart(char *l)
  * and calls the addCart to manage the cart widget
  * called by Thing::dropIntoBasket
  */
-void Cart::addToCart(Object *po)
+void Cart::addToCart(Object *o)
 {
   // find object's world list and remove object from it
-  switch (po->mode) {
+  switch (o->mode) {
     case MOBILE:
-      po->delFromList(mobileList);
-      po->setVisible(false);	// render invisible the object
+      o->delFromList(mobileList);
+      o->setVisible(false);	// render invisible the object
       vsql = new VSql();	// first take the VSql handle;
       if (vsql) {
-        vsql->insertRow(po);
-        //echo("cartRow: (%s,%s)", po->objectName(), po->ownerName());
+        vsql->insertRow(o);
+        //echo("cartRow: (%s,%s)", o->objectName(), o->ownerName());
       }
     default:
       break;
   }
 
   // remove object from collision checking grid
-  po->delGrid();
+  o->delGrid();
 
   // informs the GUI
-  po->guip = ::g.gui.addCart(po);
+  o->guip = ::g.gui.addCart(o);
   if (! number) {
     ::g.gui.showCartDialog(true);	// popup cartDialog
   }
 
   // net deletion declaration
-  if (! po->isPermanent() && po->netop) {
-    delete po->netop;
+  if (! o->isPermanent() && o->netop) {
+    delete o->netop;
   }
-  po->netop = NULL;
+  o->netop = NULL;
 
-  cartList.push_back(po);
+  cartList.push_back(o);
   number++;
 }
 
 /**
  * Leaves the object in the current world
  */
-void Cart::leave(Object *po)
+void Cart::leave(Object *o)
 {
   // remove object from the cartList
   for (std::vector<Object*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
-    if (*it == po) {
+    if (*it == o) {
       cartList.pop_back();
     }
   }
 
   // set the object's new coordinates & state
   float near = 0.5;
-  po->pos.x = localuser->pos.x + near * cos(localuser->pos.az);
-  po->pos.y = localuser->pos.y + near * sin(localuser->pos.az);
-  po->pos.z = localuser->pos.z + 0.5;	// visible by eyes
-  po->move.ttl = 0;
+  o->pos.x = localuser->pos.x + near * cos(localuser->pos.az);
+  o->pos.y = localuser->pos.y + near * sin(localuser->pos.az);
+  o->pos.z = localuser->pos.z + 0.5;	// visible by eyes
+  o->move.ttl = 0;
 
   // restore object into mobileList
-  mobileList.push_back(po);
+  mobileList.push_back(o);
 
   // render visible the object coming back into the world
-  po->setVisible(true);
-  po->enableBehavior(PERSISTENT);
+  o->setVisible(true);
+  o->enableBehavior(PERSISTENT);
 
   // show the object
-  po->updatePosition();
+  o->updatePosition();
 
   // update the object's name with the type name as prefix
   char tmpname[64];
-  sprintf(tmpname, "%s-%s", po->typeName(), po->objectName());
-  if (! po->name.given)
-    po->name.given = new char[OBJNAME_LEN];
-  strcpy(po->name.given, tmpname);
-  po->updateNames();
+  sprintf(tmpname, "%s-%s", o->typeName(), o->objectName());
+  if (! o->name.given)
+    o->name.given = new char[OBJNAME_LEN];
+  strcpy(o->name.given, tmpname);
+  o->updateNames();
 
   // owner is user
-  po->setOwner();
+  o->setOwner();
 
   // declare that the object has moved for VSql update
-  po->pos.alter = true;
+  o->pos.alter = true;
 
   vsql = new VSql();     // first take the VSql handle;
   if (vsql) {
-    po->vsql = vsql;		// copy it into the object
-    vsql->deleteRow(po, CART_NAME, po->objectName(), "");
-    vsql->insertRow(po);
-    trace1(DBG_SQL, "leaveFromCart: %s", po->objectName());
+    o->vsql = vsql;		// copy it into the object
+    vsql->deleteRow(o, CART_NAME, o->objectName(), "");
+    vsql->insertRow(o);
+    trace1(DBG_SQL, "leave: %s", o->objectName());
   }
 
   // declare the object creation to the network
-  if (! po->isPermanent() && po->netop)
-    po->netop->declareCreation();
+  if (! o->isPermanent() && o->netop)
+    o->netop->declareCreation();
 
   if (number) number--;
   if (! number) ::g.gui.showCartDialog(false);	// switch-off cartDialog
-  po->resetFlashy();
+  o->resetFlashy();
 }
 
 /**
  * Removes the object, (removeCart yet called)
  */
-void Cart::removeFromCart(Object *po)
+void Cart::removeObject(Object *o)
 {
   // remove from cartList
   for (std::vector<Object*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
-    if (*it == po) {
+    if (*it == o) {
       cartList.pop_back();
     }
   }
 
   vsql = new VSql();     // first take the VSql handle;
   if (vsql) {
-    vsql->deleteRow(po, CART_NAME, po->objectName(), "");
-    trace1(DBG_SQL, "removeFromCart: %s", po->objectName());
+    vsql->deleteRow(o, CART_NAME, o->objectName(), "");
+    trace1(DBG_SQL, "removeObject: %s", o->objectName());
   }
 
   if (number) number--;
   if (! number) ::g.gui.showCartDialog(false);	// switch-off cartDialog
 
   // destroy object from cart
-  po->toDelete();
+  o->toDelete();
 }
 
 void Cart::quit()

@@ -55,13 +55,13 @@ class Cart: public Object {
 
   static void funcs();	///< init funclist
 
-  void addToCart(Object *po);
+  void addToCart(Object *o);
   /**< called by thingAddToCart */
 
-  void removeFromCart(Object *po);
+  void removeObject(Object *o);
   /**< called by GuiRemoveCart (target = "REMOVE") */
 
-  void leave(Object *po);
+  void leave(Object *o);
   /**< called by GuiRemoveCart (target = "LEAVE") */
 
   void quit();
