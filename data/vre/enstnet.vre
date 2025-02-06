@@ -6,7 +6,7 @@
 </meta> 
 <scene>
 <wall name="underground" pos="0 0 -12.25 0"> 
- <solid dim="300 300 0.25" zp="/gif/water1.gif" /> 
+ <solid dim="300 300 0.25" zp="/gif/water.gif" /> 
 </wall>
 
 <!-- *********** ILES ********** -->

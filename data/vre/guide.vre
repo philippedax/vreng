@@ -66,7 +66,7 @@
 
 <water name="water-1" pos="56.5 0 0.6 1.57 0"
   amplitude="1" freq="2" phase="1">
-  <solid dim="3.6 3.6 .02" zp="/gif/water1.gif" />
+  <solid dim="3.6 3.6 .02" zp="/gif/water.gif" />
 </water>
 -->
 

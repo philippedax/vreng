@@ -417,7 +417,7 @@ url="http://www.stud.enst.fr/~bellard/">
 <!-- water -->
 <water name="swimming-pool" pos="0 -4.25 0.05 1.57"
 amplitude="1" freq="1" phase="1">
-<solid dim="3.4 3.8 .01" zp="/gif/water1.gif" />
+<solid dim="3.4 3.8 .01" zp="/gif/water.gif" />
 </water>
 
 <!-- swim-bottom -->
