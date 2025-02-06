@@ -3405,4 +3405,5 @@
 3405 Mer  5 fév 2025 14:35:47 CET	rename updateLasting to lasting world/
 3406 Jeu  6 fév 2025 08:58:52 CET	add desert.gif
 3407 Jeu  6 fév 2025 09:11:31 CET	fix add conf/git.sh
-3408 Jeu  6 fév 2025 09:28:18 CET	update water data/vre/Rendezvous.vre data/vre/beach.vre data/vre/board.vre data/vre/campus.vre data/vre/checker.vre data/vre/classroom.vre data/vre/cubes.vre data/vre/danzart.vre data/vre/dax.vre data/vre/desktops.vre data/vre/enstnet.vre data/vre/entree.vre data/vre/eric.vre data/vre/factory.vre data/vre/fan.vre data/vre/felon.vre data/vre/forest.vre data/vre/forest2.vre data/vre/guide.vre data/vre/house.vre data/vre/infres.vre data/vre/labyrinthe.vre data/vre/land.vre data/vre/maze.vre data/vre/meeting.vre data/vre/mouret.vre data/vre/movies.vre data/vre/mythology.vre data/vre/pyramid.vre data/vre/ring.vre data/vre/romain.vre data/vre/sandbox.vre data/vre/stadium.vre data/vre/students.vre data/vre/tarots.vre data/vre/telecomparis.vre data/vre/temple.vre data/vre/tests.vre data/vre/worlds
+3408 Jeu  6 fév 2025 09:28:18 CET	update water data/vre/Rendezvous.vre
+3409 Jeu  6 fév 2025 09:30:23 CET	update data/vre/pyramid.vre
