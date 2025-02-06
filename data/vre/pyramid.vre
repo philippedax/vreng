@@ -12,12 +12,6 @@
 
 <entry pos="-20 15 10"></entry>
 
-<!-- level 0 m -->
-<ground name="level0-1" pos="-17.5 15 -.05"> <solid dim="35 100 .1" zp="/gif/sable.gif" /></ground>
-<ground name="level0-2" pos="32.5 -10.5 -.05"> <solid dim="65 49 .1" zp="/gif/grass.gif" /></ground>
-<ground name="level0-3" pos="32.5 40.5 -.05"> <solid dim="65 49 .1" zp="/gif/grass.gif" /></ground>
-<ground name="level0-4" pos="33.5 15 -.05"> <solid dim="63 2 .1" zp="/gif/grass.gif" /></ground>
-
 <!-- level -2.6 m -->
 <ground name="level1-1" pos="19.5 20 -2.6"> <solid dim="9 20 .2" zp="/gif/marble.gif" /></ground>
 <ground name="level1-2" pos="7.5 15 -2.6"> <solid dim="15 30 .2" zp="/gif/marble.gif" /></ground>
@@ -26,79 +20,78 @@
 <ground name="level1-5" pos="27 14 -2.6"> <solid dim="6 24 .2" zp="/gif/marble.gif" /></ground>
 <ground name="level1-6" pos="22.5 6 -2.6"> <solid dim="15 4 .2" zp="/gif/marble.gif" /></ground>
 
-<wall name="w1" pos=".585 .75 -1.35"> <solid dim=".17 .5 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w2" pos=".75 .585 -1.35"> <solid dim=".5 .17 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w4" pos="15 .585 -1.35"> <solid dim="28 .17 2.3" dif=".5 .4 .2"  yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w5" pos="11.585 .5 -1.35"> <solid dim=".17 1 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w7" pos="17.585 .5 -1.35"> <solid dim=".17 1 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w8" pos="25.585 .5 -1.35"> <solid dim=".17 1 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w9" pos="29.585 .75 -1.35"> <solid dim=".17 .5 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w10" pos="29.25 .585 -1.35"> <solid dim=".5 .17 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w11" pos=".585 7.5 -1.35"> <solid dim=".17 13 2.3" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w12" pos="11.585 5.5 -1.35"> <solid dim=".17 9 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w13" pos="17.585 2.5 -1.35"> <solid dim=".17 3 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w14" pos="21.585 3.5 -1.35"> <solid dim=".17 5 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w15" pos="25.585 7 -1.35"> <solid dim=".17 12 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w16" pos="29.585 15 -1.35"> <solid dim=".17 28 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w17" pos="2.5 2.585 -1.35"> <solid dim="1 .17 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w18" pos="3.585 2.75 -1.35"> <solid dim=".17 .5 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w19" pos="3.5 2.585 -1.35"> <solid dim="1 .17 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w20" pos="5.5 2.585 -1.35"> <solid dim="3 .17 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w21" pos="7.585 2.75 -1.35"> <solid dim=".17 .5 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w22" pos="7.25 2.585 -1.35"> <solid dim=".5 .17 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w23" pos="9.585 6 -1.35"> <solid dim=".17 8 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w24" pos="13.585 4 -1.35"> <solid dim=".17 4 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w26" pos="19.585 7 -1.35"> <solid dim=".17 10 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w27" pos="23.585 11 -1.35"> <solid dim=".17 18 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w29" pos="27.585 12.5 -1.35"> <solid dim=".17 3 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w30" pos="3.585 6 -1.35"> <solid dim=".17 6 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
-<wall name="w31" pos="7.585 1.5 -1.35"> <solid dim=".17 15 2.3" dif=".5 .4 .2" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
+<wall name="w1" pos=".58 .75 -1.35"> <solid dim=".17 .5 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w2" pos=".75 .58 -1.35"> <solid dim=".5 .17 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w4" pos="15 .58 -1.35"> <solid dim="28 .17 2.3"  tx="/gif/stones2.gif" /></wall>
+<wall name="w5" pos="11.58 .5 -1.35"> <solid dim=".17 1 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w7" pos="17.58 .5 -1.35"> <solid dim=".17 1 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w8" pos="25.58 .5 -1.35"> <solid dim=".17 1 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w9" pos="29.58 .75 -1.35"> <solid dim=".17 .5 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w10" pos="29.25 .58 -1.35"> <solid dim=".5 .17 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w11" pos=".58 7.5 -1.35"> <solid dim=".17 13 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w12" pos="11.58 5.5 -1.35"> <solid dim=".17 9 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w13" pos="17.58 2.5 -1.35"> <solid dim=".17 3 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w14" pos="21.58 3.5 -1.35"> <solid dim=".17 5 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w15" pos="25.58 7 -1.35"> <solid dim=".17 12 2.3" tx="/gif/stones2.gif"  /></wall>
+<wall name="w16" pos="29.58 15 -1.35"> <solid dim=".17 28 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w17" pos="2.5 2.58 -1.35"> <solid dim="1 .17 2.3" tx="/gif/stones2.gif"  /></wall>
+<wall name="w18" pos="3.58 2.75 -1.35"> <solid dim=".17 .5 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w19" pos="3.5 2.58 -1.35"> <solid dim="1 .17 2.3" tx="/gif/stones2.gif"  /></wall>
+<wall name="w20" pos="5.5 2.58 -1.35"> <solid dim="3 .17 2.3" tx="/gif/stones2.gif"  /></wall>
+<wall name="w21" pos="7.58 2.75 -1.35"> <solid dim=".17 .5 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w22" pos="7.25 2.58 -1.35"> <solid dim=".5 .17 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w23" pos="9.58 6 -1.35"> <solid dim=".17 8 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w24" pos="13.58 4 -1.35"> <solid dim=".17 4 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w26" pos="19.58 7 -1.35"> <solid dim=".17 10 2.3" tx="/gif/stones2.gif"  /></wall>
+<wall name="w27" pos="23.58 11 -1.35"> <solid dim=".17 18 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w29" pos="27.58 12.5 -1.35"> <solid dim=".17 3 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w30" pos="3.58 6 -1.35"> <solid dim=".17 6 2.3" tx="/gif/stones2.gif" /></wall>
+<wall name="w31" pos="7.58 1.5 -1.35"> <solid dim=".17 15 2.3" tx="/gif/stones2.gif" /></wall>
 
-<wall name="frontal" pos="5.585 11 -1.35"> <solid dim=".17 14 2.3" yn="/gif/stones2.gif" yp="/gif/stones2.gif" xn="/gif/stones2.gif" xp="/gif/stones2.gif" /></wall>
+<wall name="frontal" pos="5.58 11 -1.35"> <solid dim=".17 14 2.3" tx="/gif/stones2.gif" /></wall>
 
-<wall name="w33" pos="16 4.585 -1.35"> <solid dim="2 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w35" pos="17.585 4.25 -1.35"> <solid dim=".17 .5 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w36" pos="17.335 4.585 -1.35"> <solid dim=".37 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w37" pos=".5 6.585 -1.35"> <solid dim="1 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w38" pos="1.5 6.585 -1.35"> <solid dim="1 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w39" pos="13.585 6.5 -1.35"> <solid dim=".17 1 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w40" pos="13.75 6.585 -1.35"> <solid dim=".5 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w41" pos="15.5 6.585 -1.35"> <solid dim="3 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w42" pos="17.585 6.75 -1.35"> <solid dim=".17 .5 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w43" pos="17.5 6.585 -1.35"> <solid dim="1 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w44" pos="19.5 6.585 -1.35"> <solid dim="3 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w45" pos="21.585 6.5 -1.35"> <solid dim=".17 1 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w46" pos="21.25 6.585 -1.35"> <solid dim=".5 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w47" pos="13.585 1.5 -1.35"> <solid dim=".17 7 2.35" dif=".5 .4 .2" /></wall>
-<wall name="w48" pos="17.585 9 -1.35"> <solid dim=".17 4 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w49" pos="21.585 9.5 -1.35"> <solid dim=".17 5 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w50" pos="2.5 9.585 -1.35"> <solid dim="1 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w50" pos="3.585 9.25 -1.35"> <solid dim=".17 .5 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w51" pos="3.335 9.585 -1.35"> <solid dim=".37 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w53" pos="3 11.585 -1.35"> <solid dim="2 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w54" pos="9.585 11.75 -1.35"> <solid dim=".17 .5 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w55" pos="9.75 11.585 -1.35"> <solid dim=".5 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w56" pos="1.5 11.585 -1.35"> <solid dim="1 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w57" pos="11.585 11.75 -1.35"> <solid dim=".17 .5 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w58" pos="11.25 11.585 -1.35"> <solid dim=".5 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w59" pos="16 11.585 -1.35"> <solid dim="2 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w60" pos="17.585 11.25 -1.35"> <solid dim=".17 .5 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w61" pos="17.335 11.585 -1.35"> <solid dim=".37 .17 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w62" pos="9.585 14.5 -1.35"> <solid dim=".17 5 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w63" pos="11.585 15 -1.35"> <solid dim=".17 6 2.3" dif=".5 .4 .2" /></wall>
-<wall name="w64" pos=".5 13.585 -1.35"> <solid dim="1 .17 2.3" yn="/gif/stones.gif" /></wall>
-<wall name="w65" pos="2 13.585 -1.35"> <solid dim="2 .17 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w66" pos="3.585 13.75 -1.35"> <solid dim=".17 .5 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w67" pos="3.25 13.585 -1.35"> <solid dim=".5 .17 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
+<mirage name="w33" pos="16 4.58 -1.35"> <solid dim="2 .17 2.3" dif="grey" /></mirage>
+<mirage name="w35" pos="17.58 4.25 -1.35"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage name="w36" pos="17.33 4.58 -1.35"> <solid dim=".37 .17 2.3" dif="grey" /></mirage>
+<mirage name="w37" pos=".5 6.58 -1.35"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage name="w38" pos="1.5 6.58 -1.35"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage name="w39" pos="13.58 6.5 -1.35"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage name="w40" pos="13.75 6.58 -1.35"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage name="w41" pos="15.5 6.58 -1.35"> <solid dim="3 .17 2.3" dif="grey" /></mirage>
+<mirage name="w42" pos="17.58 6.75 -1.35"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage name="w43" pos="17.5 6.58 -1.35"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage name="w44" pos="19.5 6.58 -1.35"> <solid dim="3 .17 2.3" dif="grey" /></mirage>
+<mirage name="w45" pos="21.58 6.5 -1.35"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage name="w46" pos="21.25 6.58 -1.35"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage name="w47" pos="13.58 1.5 -1.35"> <solid dim=".17 7 2.35" dif="grey" /></mirage>
+<mirage name="w48" pos="17.58 9 -1.35"> <solid dim=".17 4 2.3" dif="grey" /></mirage>
+<mirage name="w49" pos="21.58 9.5 -1.35"> <solid dim=".17 5 2.3" dif="grey" /></mirage>
+<mirage name="w50" pos="2.5 9.58 -1.35"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage name="w50" pos="3.58 9.25 -1.35"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage name="w51" pos="3.33 9.58 -1.35"> <solid dim=".37 .17 2.3" dif="grey" /></mirage>
+<mirage name="w53" pos="3 11.58 -1.35"> <solid dim="2 .17 2.3" dif="grey" /></mirage>
+<mirage name="w54" pos="9.58 11.75 -1.35"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage name="w55" pos="9.75 11.58 -1.35"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage name="w56" pos="1.5 11.58 -1.35"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage name="w57" pos="11.58 11.75 -1.35"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage name="w58" pos="11.25 11.58 -1.35"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage name="w59" pos="16 11.58 -1.35"> <solid dim="2 .17 2.3" dif="grey" /></mirage>
+<mirage name="w60" pos="17.58 11.25 -1.35"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage name="w61" pos="17.33 11.58 -1.35"> <solid dim=".37 .17 2.3" dif="grey" /></mirage>
+<mirage name="w62" pos="9.58 14.5 -1.35"> <solid dim=".17 5 2.3" dif="grey" /></mirage>
+<mirage name="w63" pos="11.58 15 -1.35"> <solid dim=".17 6 2.3" dif="grey" /></mirage>
+<mirage name="w64" pos=".5 13.58 -1.35"> <solid dim="1 .17 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w65" pos="2 13.58 -1.35"> <solid dim="2 .17 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w66" pos="3.58 13.75 -1.35"> <solid dim=".17 .5 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w67" pos="3.25 13.58 -1.35"> <solid dim=".5 .17 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w68" pos="3.58 14.5 -1.35"> <solid dim=".17 1 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w69" pos="13.58 14.25 -1.35"> <solid dim=".17 .5 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w70" pos="13.75 14.58 -1.35"> <solid dim=".5 .17 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w71" pos="19.5 14.58 -1.35"> <solid dim="11 .17 2.3" dif="brown" /></mirage>
+<mirage name="w72" pos="25.58 14.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage name="w73" pos="25.25 14.58 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></mirage>
 
-<wall name="w68" pos="3.585 14.5 -1.35"> <solid dim=".17 1 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w69" pos="13.585 14.25 -1.35"> <solid dim=".17 .5 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w70" pos="13.75 14.585 -1.35"> <solid dim=".5 .17 2.3" dif="brown" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w71" pos="19.5 14.585 -1.35"> <solid dim="11 .17 2.3" dif="brown" /></wall>
-<wall name="w72" pos="25.585 14.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall name="w73" pos="25.25 14.585 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></wall>
-
-<!-- stairs 1 (0m -2.5m) -->
+<!-- stairs 1 (0m -2.5m) entry -->
 <step pos="1.96 14.5 -2.45 1.57"> <solid dim="1 .08 .1" dif="grey20" /></step>
 <step pos="1.88 14.5 -2.35 1.57"> <solid dim="1 .08 .1" dif="grey20" /></step>
 <step pos="1.80 14.5 -2.25 1.57"> <solid dim="1 .08 .1" dif="grey20" /></step>
@@ -152,102 +145,102 @@
 <step pos="0.12 15.5 -0.15 1.57"> <solid dim="1 .08 .1" dif="grey20" /></step>
 <step pos="0.04 15.5 -0.05 1.57"> <solid dim="1 .08 .1" dif="grey20" /></step>
 
-<wall name="w74" pos="25.585 18 -1.35"> <solid dim=".17 6 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w75" pos=".5 16.585 -1.35"> <solid dim="1 .17 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w76" pos=".585 16.5 -1.35"> <solid dim=".17 1 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w77" pos="2 16.585 -1.35"> <solid dim="2 .17 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w78" pos="3.585 16.25 -1.35"> <solid dim=".17 .5 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w79" pos="3.335 16.585 -1.35"> <solid dim=".37 .17 2.3" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="w80" pos="13.585 16.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall name="w81" pos="13.75 16.585 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></wall>
-<wall name="w82" pos="17 16.585 -1.35"> <solid dim="6 .17 2.3" dif="brown" /></wall>
-<wall name="w83" pos="21.585 16.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall name="w84" pos="21.75 16.585 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></wall>
-<wall name="w85" pos=".585 23 -1.35"> <solid dim=".17 12 2.3" dif="brown" /></wall>
-<wall name="w86" pos="13.585 22.5 -1.35"> <solid dim=".17 11 2.3" dif="brown" /></wall>
-<wall name="w87" pos="21.585 19 -1.35"> <solid dim=".17 4 2.3" dif="brown" /></wall>
-<wall name="w88" pos="2.585 18.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall name="w89" pos="2.75 18.585 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></wall>
-<wall pos="3.5 18.585 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></wall>
-<wall pos="4.585 18.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos="4.5 18.585 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></wall>
-<wall pos="5.585 18.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos="5.5 18.585 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></wall>
-<wall pos="6.5 18.585 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></wall>
-<wall pos="7.585 18.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos="7.5 18.585 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></wall>
-<wall pos="9.5 18.585 -1.35"> <solid dim="3 .17 2.3" dif="brown" /></wall>
-<wall pos="11.585 18.5 -1.35"> <solid dim=".17 1 2.3" dif="brown" /></wall>
-<wall pos="11.25 18.585 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></wall>
-<wall pos="17.5 18.585 -1.35"> <solid dim="5 .17 2.3" dif="brown" /></wall>
-<wall pos="2.585 23.5 -1.35"> <solid dim=".17 9 2.3" dif="brown" /></wall>
-<wall pos="4.585 21 -1.35"> <solid dim=".17 4 2.3" dif="brown" /></wall>
-<wall pos="11.585 24.5 -1.35"> <solid dim=".17 11 2.3" dif="brown" /></wall>
-<wall pos="6.585 20.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos="6.75 20.585 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></wall>
-<wall pos="7.5 20.585 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></wall>
-<wall pos="8.585 20.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos="8.25 20.585 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></wall>
-<wall pos="6.585 24.5 -1.35"> <solid dim=".17 7 2.35" dif="brown" /></wall>
-<wall pos="8.585 25.5 -1.35"> <solid dim=".17 9 2.3" dif="brown" /></wall>
-<wall pos="17.585 24.5 -1.35"> <solid dim=".17 7 2.35" dif="brown" /></wall>
-<wall pos="21.585 21.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos="21.75 21.585 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></wall>
-<wall pos="23.5 21.585 -1.35"> <solid dim="3 .17 2.3" dif="brown" /></wall>
-<wall pos="25.585 21.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos="25.335 21.585 -1.35"> <solid dim=".37 .17 2.3" dif="brown" /></wall>
-<wall pos="17.5 22.585 -1.35"> <solid dim="5 .17 2.3" dif="brown" /></wall>
-<wall pos="21.5 23.585 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></wall>
-<wall pos="22.585 23.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos="22.5 23.585 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></wall>
-<wall pos="25 23.585 -1.35"> <solid dim="4 .17 2.3" dif="brown" /></wall>
-<wall pos="27.585 23.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos="27.335 23.585 -1.35"> <solid dim=".37 .17 2.3" dif="brown" /></wall>
-<wall pos="4.585 27 -1.35"> <solid dim=".17 6 2.3" dif="brown" /></wall>
-<wall pos="15.585 27 -1.35"> <solid dim=".17 6 2.3" dif="brown" /></wall>
-<wall pos="19.585 26 -1.35"> <solid dim=".17 4 2.3" dif="brown" /></wall>
-<wall pos="22.585 27 -1.35"> <solid dim=".17 6 2.3" dif="brown" /></wall>
+<mirage name="w74" pos="25.58 18 -1.35"> <solid dim=".17 6 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w75" pos=".5 16.58 -1.35"> <solid dim="1 .17 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w76" pos=".58 16.5 -1.35"> <solid dim=".17 1 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w77" pos="2 16.58 -1.35"> <solid dim="2 .17 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w78" pos="3.58 16.25 -1.35"> <solid dim=".17 .5 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w79" pos="3.33 16.58 -1.35"> <solid dim=".37 .17 2.3" tx="/gif/stones.gif" /></mirage>
+<mirage name="w80" pos="13.58 16.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage name="w81" pos="13.75 16.58 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></mirage>
+<mirage name="w82" pos="17 16.58 -1.35"> <solid dim="6 .17 2.3" dif="brown" /></mirage>
+<mirage name="w83" pos="21.58 16.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage name="w84" pos="21.75 16.58 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></mirage>
+<mirage name="w85" pos=".58 23 -1.35"> <solid dim=".17 12 2.3" dif="brown" /></mirage>
+<mirage name="w86" pos="13.58 22.5 -1.35"> <solid dim=".17 11 2.3" dif="brown" /></mirage>
+<mirage name="w87" pos="21.58 19 -1.35"> <solid dim=".17 4 2.3" dif="brown" /></mirage>
+<mirage name="w88" pos="2.58 18.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage name="w89" pos="2.75 18.58 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></mirage>
+<mirage pos="3.5 18.58 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></mirage>
+<mirage pos="4.58 18.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos="4.5 18.58 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></mirage>
+<mirage pos="5.58 18.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos="5.5 18.58 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></mirage>
+<mirage pos="6.5 18.58 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></mirage>
+<mirage pos="7.58 18.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos="7.5 18.58 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></mirage>
+<mirage pos="9.5 18.58 -1.35"> <solid dim="3 .17 2.3" dif="brown" /></mirage>
+<mirage pos="11.58 18.5 -1.35"> <solid dim=".17 1 2.3" dif="brown" /></mirage>
+<mirage pos="11.25 18.58 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></mirage>
+<mirage pos="17.5 18.58 -1.35"> <solid dim="5 .17 2.3" dif="brown" /></mirage>
+<mirage pos="2.58 23.5 -1.35"> <solid dim=".17 9 2.3" dif="brown" /></mirage>
+<mirage pos="4.58 21 -1.35"> <solid dim=".17 4 2.3" dif="brown" /></mirage>
+<mirage pos="11.58 24.5 -1.35"> <solid dim=".17 11 2.3" dif="brown" /></mirage>
+<mirage pos="6.58 20.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos="6.75 20.58 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></mirage>
+<mirage pos="7.5 20.58 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></mirage>
+<mirage pos="8.58 20.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos="8.25 20.58 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></mirage>
+<mirage pos="6.58 24.5 -1.35"> <solid dim=".17 7 2.35" dif="brown" /></mirage>
+<mirage pos="8.58 25.5 -1.35"> <solid dim=".17 9 2.3" dif="brown" /></mirage>
+<mirage pos="17.58 24.5 -1.35"> <solid dim=".17 7 2.35" dif="brown" /></mirage>
+<mirage pos="21.58 21.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos="21.75 21.58 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></mirage>
+<mirage pos="23.5 21.58 -1.35"> <solid dim="3 .17 2.3" dif="brown" /></mirage>
+<mirage pos="25.58 21.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos="25.33 21.58 -1.35"> <solid dim=".37 .17 2.3" dif="brown" /></mirage>
+<mirage pos="17.5 22.58 -1.35"> <solid dim="5 .17 2.3" dif="brown" /></mirage>
+<mirage pos="21.5 23.58 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></mirage>
+<mirage pos="22.58 23.75 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos="22.5 23.58 -1.35"> <solid dim="1 .17 2.3" dif="brown" /></mirage>
+<mirage pos="25 23.58 -1.35"> <solid dim="4 .17 2.3" dif="brown" /></mirage>
+<mirage pos="27.58 23.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos="27.33 23.58 -1.35"> <solid dim=".37 .17 2.3" dif="brown" /></mirage>
+<mirage pos="4.58 27 -1.35"> <solid dim=".17 6 2.3" dif="brown" /></mirage>
+<mirage pos="15.58 27 -1.35"> <solid dim=".17 6 2.3" dif="brown" /></mirage>
+<mirage pos="19.58 26 -1.35"> <solid dim=".17 4 2.3" dif="brown" /></mirage>
+<mirage pos="22.58 27 -1.35"> <solid dim=".17 6 2.3" dif="brown" /></mirage>
 
 <ground name="level1-7" pos="28 28 -2.6"> <solid dim="4 4 .2" zp="/gif/marble.gif" /></ground>
 <ground name="level1-8" pos="27 28.5 -2.6"> <solid dim="6 3 .2" zp="/gif/marble.gif" /></ground>
 
-<wall pos=".585 29.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos=".75 29.585 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></wall>
-<wall pos="15 29.585 -1.35"> <solid dim="28 .17 2.3" dif="brown" /></wall>
-<wall pos="29.585 29.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></wall>
-<wall pos="29.335 29.585 -1.35"> <solid dim=".37 .17 2.3" dif="brown" /></wall>
-<wall pos=".585 .75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos=".75 .585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="4 15 -5.1"> <solid dim="4 15 .1" dif=".4 .33 .17" /></wall>
-<wall pos="15 .585 -3.85"> <solid dim="28 .17 2.3" dif=".38 .36 .2" /></wall>
+<mirage pos=".58 29.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos=".75 29.58 -1.35"> <solid dim=".5 .17 2.3" dif="brown" /></mirage>
+<mirage pos="15 29.58 -1.35"> <solid dim="28 .17 2.3" dif="brown" /></mirage>
+<mirage pos="29.58 29.25 -1.35"> <solid dim=".17 .5 2.3" dif="brown" /></mirage>
+<mirage pos="29.33 29.58 -1.35"> <solid dim=".37 .17 2.3" dif="brown" /></mirage>
+<mirage pos=".58 .75 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></mirage>
+<mirage pos=".75 .58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></mirage>
+<mirage pos="4 15 -5.1"> <solid dim="4 15 .1" dif=".4 .33 .17" /></mirage>
+<mirage pos="15 .58 -3.85"> <solid dim="28 .17 2.3" dif="pink" /></mirage>
 
 <ground name="level2-1" pos="19 3.5 -5.1"> <solid dim="22 7 .2" zp="/gif/stones.gif" /></ground>
 
-<wall pos="14.585 .5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="16.585 .5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="25.585 .5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="29.585 .75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="29.25 .585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos=".585 15 -3.85"> <solid dim=".17 28 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="14.585 6.5 -3.85"> <solid dim=".17 11 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="16.585 1.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="25.585 3 -3.85"> <solid dim=".17 4 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="29.585 15 -3.85"> <solid dim=".17 28 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 2.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.75 2.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="6.5 2.585 -3.85"> <solid dim="7 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="1.585 2.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="1.25 2.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="16.585 2.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="16.75 2.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="18 2.585 -3.85"> <solid dim="2 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="19.585 2.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="19.25 2.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.585 2.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.75 2.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="25 2.585 -3.85"> <solid dim="6 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 4.5 -3.85"> <solid dim=".17 3 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="1.585 7 -3.85"> <solid dim=".17 8 2.3" dif=".38 .36 .2" /></wall>
+<wall pos="14.58 .5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></wall>
+<wall pos="16.58 .5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></wall>
+<wall pos="25.58 .5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></wall>
+<wall pos="29.58 .75 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></wall>
+<wall pos="29.25 .58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
+<wall pos=".58 15 -3.85"> <solid dim=".17 28 2.3" dif="pink" /></wall>
+<wall pos="14.58 6.5 -3.85"> <solid dim=".17 11 2.3" dif="pink" /></wall>
+<wall pos="16.58 1.5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></wall>
+<wall pos="25.58 3 -3.85"> <solid dim=".17 4 2.3" dif="pink" /></wall>
+<wall pos="29.58 15 -3.85"> <solid dim=".17 28 2.3" dif="pink" /></wall>
+<wall pos="2.58 2.75 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></wall>
+<wall pos="2.75 2.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
+<wall pos="6.5 2.58 -3.85"> <solid dim="7 .17 2.3" dif="pink" /></wall>
+<wall pos="1.58 2.75 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></wall>
+<wall pos="1.25 2.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
+<wall pos="16.58 2.5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></wall>
+<wall pos="16.75 2.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
+<wall pos="18 2.58 -3.85"> <solid dim="2 .17 2.3" dif="pink" /></wall>
+<wall pos="19.58 2.75 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></wall>
+<wall pos="19.25 2.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
+<wall pos="21.58 2.75 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></wall>
+<wall pos="21.75 2.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
+<wall pos="25 2.58 -3.85"> <solid dim="6 .17 2.3" dif="pink" /></wall>
+<wall pos="2.58 4.5 -3.85"> <solid dim=".17 3 2.3" dif="pink" /></wall>
+<wall pos="1.58 7 -3.85"> <solid dim=".17 8 2.3" dif="pink" /></wall>
 
 <!-- stairs 3 (-5m -2.5m) -->
 <step pos="15.5 3.96 -4.95 0"> <solid dim="1 .08 .1" dif="grey40" /></step>
@@ -277,32 +270,32 @@
 <step pos="15.5 2.04 -2.55 0"> <solid dim="1 .08 .1" dif="grey40" /></step>
 
 <!-- level -5m -->
-<wall pos="16.585 4 -3.85"> <solid dim=".17 2 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="19.585 5.5 -3.85"> <solid dim=".17 5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.585 7.5 -3.85"> <solid dim=".17 9 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="5 4.585 -3.85"> <solid dim="2 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="6.585 4.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="6.25 4.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="23.585 9 -3.85"> <solid dim=".17 10 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="27.5 4.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="27.585 4.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="6.585 6.5 -3.85"> <solid dim=".17 3 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="16.585 5.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="16.75 5.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="17.5 5.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 6.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.75 6.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="4 6.585 -3.85"> <solid dim="2 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="16.585 8.5 -3.85"> <solid dim=".17 5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="25.585 10 -3.85"> <solid dim=".17 8 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 10 -3.85"> <solid dim=".17 6 2.3" dif=".38 .36 .2" /></wall>
+<wall pos="16.58 4 -3.85"> <solid dim=".17 2 2.3" dif="pink" /></wall>
+<wall pos="19.58 5.5 -3.85"> <solid dim=".17 5 2.3" dif="pink" /></wall>
+<wall pos="21.58 7.5 -3.85"> <solid dim=".17 9 2.3" dif="pink" /></wall>
+<wall pos="5 4.58 -3.85"> <solid dim="2 .17 2.3" dif="pink" /></wall>
+<wall pos="6.58 4.75 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></wall>
+<wall pos="6.25 4.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
+<wall pos="23.58 9 -3.85"> <solid dim=".17 10 2.3" dif="pink" /></wall>
+<wall pos="27.5 4.58 -3.85"> <solid dim="1 .17 2.3" dif="pink" /></wall>
+<wall pos="27.58 4.5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></wall>
+<wall pos="6.58 6.5 -3.85"> <solid dim=".17 3 2.3" dif="pink" /></wall>
+<wall pos="16.58 5.5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></wall>
+<wall pos="16.75 5.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
+<wall pos="17.5 5.58 -3.85"> <solid dim="1 .17 2.3" dif="pink" /></wall>
+<wall pos="2.58 6.5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></wall>
+<wall pos="2.75 6.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
+<wall pos="4 6.58 -3.85"> <solid dim="2 .17 2.3" dif="pink" /></wall>
+<wall pos="16.58 8.5 -3.85"> <solid dim=".17 5 2.3" dif="pink" /></wall>
+<wall pos="25.58 10 -3.85"> <solid dim=".17 8 2.3" dif="pink" /></wall>
+<wall pos="2.58 10 -3.85"> <solid dim=".17 6 2.3" dif="pink" /></wall>
 
 <ground name="level2-2" pos="10.5 18.5 -5.1"> <solid dim="3 23 .2" zp="/gif/stones.gif" /></ground>
 <ground name="level2-3" pos="21.5 18.5 -5.1"> <solid dim="17 23 .2" zp="/gif/stones.gif" /></ground>
 
-<wall pos="5 8.585 -3.85"> <solid dim="2 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="6.585 8.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="6.25 8.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
+<wall pos="5 8.58 -3.85"> <solid dim="2 .17 2.3" dif="pink" /></wall>
+<wall pos="6.58 8.5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></wall>
+<wall pos="6.25 8.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
 
 <!-- stairs 4 (-5m -2.5m) -->
 <step pos="15.5 8.04 -4.95 0"> <solid dim="1 .08 .1" dif="grey30" /></step>
@@ -331,115 +324,115 @@
 <step pos="15.5 9.88 -2.65 0"> <solid dim="1 .08 .1" dif="grey30" /></step>
 <step pos="15.5 9.96 -2.55 0"> <solid dim="1 .08 .1" dif="grey30" /></step>
 
-<wall pos="18.5 8.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="19.585 8.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="19.25 8.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="27.585 8.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="27.5 8.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="6.585 10 -3.85"> <solid dim=".17 2 2.3" dif=".38 .36 .2" /></wall>
+<wall pos="18.5 8.58 -3.85"> <solid dim="1 .17 2.3" dif="pink" /></wall>
+<wall pos="19.58 8.5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></wall>
+<wall pos="19.25 8.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></wall>
+<wall pos="27.58 8.75 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></wall>
+<wall pos="27.5 8.58 -3.85"> <solid dim="1 .17 2.3" dif="pink" /></wall>
+<wall pos="6.58 10 -3.85"> <solid dim=".17 2 2.3" dif="pink" /></wall>
 
 <ground name="level2-4" pos="19 19.5 -5.1"> <solid dim="22 3 .2" zp="/gif/stones.gif" /></ground>
 
-<wall pos="19.585 11.5 -3.85"> <solid dim=".17 5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="27.585 10.5 -3.85"> <solid dim=".17 3 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="5 11.585 -3.85"> <solid dim="2 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="6.585 11.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="6.5 11.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="8.5 11.585 -3.85"> <solid dim="3 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="10.585 11.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="10.5 11.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="11.585 11.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="11.5 11.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="13.5 11.585 -3.85"> <solid dim="3 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="15.585 11.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="15.5 11.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="16.585 11.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="16.5 11.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="17.585 11.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="17.25 11.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="11.585 16.5 -3.85"> <solid dim=".17 9 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="15.585 12.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="17.585 14 -3.85"> <solid dim=".17 4 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="27.585 12.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="27.5 12.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 13.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.75 13.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="3.5 13.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="5.585 14 -3.85"> <solid dim=".17 2 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="7.585 19 -3.85"> <solid dim=".17 12 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="9.585 18.5 -3.85"> <solid dim=".17 11 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="13.585 16 -3.85"> <solid dim=".17 6 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.585 15 -3.85"> <solid dim=".17 4 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 15.5 -3.85"> <solid dim=".17 3 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="15.585 16.5 -3.85"> <solid dim=".17 5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="23.585 14.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="23.75 14.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="24.5 14.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="25.585 14.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="25.5 14.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="26.5 14.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="4.5 15.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="5.585 15.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="5.25 15.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="19.585 20 -3.85"> <solid dim=".17 10 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="5.585 18 -3.85"> <solid dim=".17 4 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="25.585 19 -3.85"> <solid dim=".17 6 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 17.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.75 17.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="3.5 17.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.585 17.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.75 17.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="24.5 17.585 -3.85"> <solid dim="5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="29 17.585 -3.85"> <solid dim="2 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 18.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.585 18.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos=".5 19.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 19.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.75 19.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="13.585 19.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="13.75 19.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="14.5 19.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="15.585 19.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="15.75 19.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="18.5 19.585 -3.85"> <solid dim="5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.585 19.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.335 19.585 -3.85"> <solid dim=".37 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="23.585 23 -3.85"> <solid dim=".17 8 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="27.585 24.5 -3.85"> <solid dim=".17 11 2.3" dif=".38 .36 .2" /></wall>
-<wall pos=".5 21.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="1.5 21.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 21.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.335 21.585 -3.85"> <solid dim=".37 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="5.585 24 -3.85"> <solid dim=".17 6 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="11.585 21.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="11.75 21.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="14 21.585 -3.85"> <solid dim="4 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="17.585 21.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="17.5 21.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.585 22 -3.85"> <solid dim=".17 2 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 23 -3.85"> <solid dim=".17 2 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="11.585 24 -3.85"> <solid dim=".17 4 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="17.585 24.5 -3.85"> <solid dim=".17 5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="15.585 24.5 -3.85"> <solid dim=".17 3 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.585 23.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21.75 23.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="24 23.585 -3.85"> <solid dim="4 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 24.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.75 24.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="3.5 24.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="13.585 24.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.585 26 -3.85"> <solid dim=".17 2 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="7.585 25.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="7.75 25.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="8.5 25.585 -3.85"> <solid dim="1 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="9.585 25.75 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="9.25 25.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="19.585 25.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="19.75 25.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="21 25.585 -3.85"> <solid dim="2 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="7.585 28 -3.85"> <solid dim=".17 4 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="9.585 26.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="19.585 28 -3.85"> <solid dim=".17 4 2.3" dif=".38 .36 .2" /></wall>
+<mirage pos="19.58 11.5 -3.85"> <solid dim=".17 5 2.3" dif="grey" /></mirage>
+<mirage pos="27.58 10.5 -3.85"> <solid dim=".17 3 2.3" dif="grey" /></mirage>
+<mirage pos="5 11.58 -3.85"> <solid dim="2 .17 2.3" dif="grey" /></mirage>
+<mirage pos="6.58 11.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="6.5 11.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="8.5 11.58 -3.85"> <solid dim="3 .17 2.3" dif="grey" /></mirage>
+<mirage pos="10.58 11.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="10.5 11.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="11.58 11.75 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="11.5 11.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="13.5 11.58 -3.85"> <solid dim="3 .17 2.3" dif="grey" /></mirage>
+<mirage pos="15.58 11.75 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="15.5 11.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="16.58 11.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="16.5 11.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="17.58 11.75 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="17.25 11.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="11.58 16.5 -3.85"> <solid dim=".17 9 2.3" dif="grey" /></mirage>
+<mirage pos="15.58 12.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="17.58 14 -3.85"> <solid dim=".17 4 2.3" dif="grey" /></mirage>
+<mirage pos="27.58 12.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="27.5 12.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="2.58 13.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="2.75 13.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="3.5 13.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="5.58 14 -3.85"> <solid dim=".17 2 2.3" dif="grey" /></mirage>
+<mirage pos="7.58 19 -3.85"> <solid dim=".17 12 2.3" dif="grey" /></mirage>
+<mirage pos="9.58 18.5 -3.85"> <solid dim=".17 11 2.3" dif="grey" /></mirage>
+<mirage pos="13.58 16 -3.85"> <solid dim=".17 6 2.3" dif="grey" /></mirage>
+<mirage pos="21.58 15 -3.85"> <solid dim=".17 4 2.3" dif="grey" /></mirage>
+<mirage pos="2.58 15.5 -3.85"> <solid dim=".17 3 2.3" dif="grey" /></mirage>
+<mirage pos="15.58 16.5 -3.85"> <solid dim=".17 5 2.3" dif="grey" /></mirage>
+<mirage pos="23.58 14.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="23.75 14.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="24.5 14.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="25.58 14.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="25.5 14.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="26.5 14.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="4.5 15.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="5.58 15.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="5.25 15.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="19.58 20 -3.85"> <solid dim=".17 10 2.3" dif="grey" /></mirage>
+<mirage pos="5.58 18 -3.85"> <solid dim=".17 4 2.3" dif="grey" /></mirage>
+<mirage pos="25.58 19 -3.85"> <solid dim=".17 6 2.3" dif="grey" /></mirage>
+<mirage pos="2.58 17.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="2.75 17.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="3.5 17.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="21.58 17.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="21.75 17.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="24.5 17.58 -3.85"> <solid dim="5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="29 17.58 -3.85"> <solid dim="2 .17 2.3" dif="grey" /></mirage>
+<mirage pos="2.58 18.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="21.58 18.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos=".5 19.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="2.58 19.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="2.75 19.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="13.58 19.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="13.75 19.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="14.5 19.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="15.58 19.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="15.75 19.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="18.5 19.58 -3.85"> <solid dim="5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="21.58 19.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="21.33 19.58 -3.85"> <solid dim=".37 .17 2.3" dif="grey" /></mirage>
+<mirage pos="23.58 23 -3.85"> <solid dim=".17 8 2.3" dif="grey" /></mirage>
+<mirage pos="27.58 24.5 -3.85"> <solid dim=".17 11 2.3" dif="grey" /></mirage>
+<mirage pos=".5 21.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="1.5 21.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="2.58 21.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="2.33 21.58 -3.85"> <solid dim=".37 .17 2.3" dif="grey" /></mirage>
+<mirage pos="5.58 24 -3.85"> <solid dim=".17 6 2.3" dif="grey" /></mirage>
+<mirage pos="11.58 21.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="11.75 21.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="14 21.58 -3.85"> <solid dim="4 .17 2.3" dif="grey" /></mirage>
+<mirage pos="17.58 21.75 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="17.5 21.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="21.58 22 -3.85"> <solid dim=".17 2 2.3" dif="grey" /></mirage>
+<mirage pos="2.58 23 -3.85"> <solid dim=".17 2 2.3" dif="grey" /></mirage>
+<mirage pos="11.58 24 -3.85"> <solid dim=".17 4 2.3" dif="grey" /></mirage>
+<mirage pos="17.58 24.5 -3.85"> <solid dim=".17 5 2.3" dif="grey" /></mirage>
+<mirage pos="15.58 24.5 -3.85"> <solid dim=".17 3 2.3" dif="grey" /></mirage>
+<mirage pos="21.58 23.25 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="21.75 23.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="24 23.58 -3.85"> <solid dim="4 .17 2.3" dif="grey" /></mirage>
+<mirage pos="2.58 24.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="2.75 24.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="3.5 24.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="13.58 24.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="2.58 26 -3.85"> <solid dim=".17 2 2.3" dif="grey" /></mirage>
+<mirage pos="7.58 25.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="7.75 25.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="8.5 25.58 -3.85"> <solid dim="1 .17 2.3" dif="grey" /></mirage>
+<mirage pos="9.58 25.75 -3.85"> <solid dim=".17 .5 2.3" dif="grey" /></mirage>
+<mirage pos="9.25 25.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="19.58 25.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="19.75 25.58 -3.85"> <solid dim=".5 .17 2.3" dif="grey" /></mirage>
+<mirage pos="21 25.58 -3.85"> <solid dim="2 .17 2.3" dif="grey" /></mirage>
+<mirage pos="7.58 28 -3.85"> <solid dim=".17 4 2.3" dif="grey" /></mirage>
+<mirage pos="9.58 26.5 -3.85"> <solid dim=".17 1 2.3" dif="grey" /></mirage>
+<mirage pos="19.58 28 -3.85"> <solid dim=".17 4 2.3" dif="grey" /></mirage>
 
 <!-- stairs 5 (-2.5m -5m) -->
 <step pos="25.96 26.5 -4.95 1.57"> <solid dim="1 .08 .1" dif="orange" /></step>
@@ -468,89 +461,89 @@
 <step pos="24.12 26.5 -2.65 1.57"> <solid dim="1 .08 .1" dif="orange" /></step>
 <step pos="24.04 26.5 -2.55 1.57"> <solid dim="1 .08 .1" dif="orange" /></step>
 
-<wall pos="2.585 27.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="2.75 27.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="4 27.585 -3.85"> <solid dim="2 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="5.585 27.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="5.335 27.585 -3.85"> <solid dim=".37 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="9.585 27.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="9.75 27.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="13.5 27.585 -3.85"> <solid dim="7 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="17.585 27.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="17.335 27.585 -3.85"> <solid dim=".37 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="22 27.585 -3.85"> <solid dim="2 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="23.585 27.5 -3.85"> <solid dim=".17 1 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="23.25 27.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="23.585 29 -3.85"> <solid dim=".17 2 2.3" dif=".38 .36 .2" /></wall>
-<wall pos=".585 29.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos=".75 29.585 -3.85"> <solid dim=".5 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="15 29.585 -3.85"> <solid dim="28 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="29.585 29.25 -3.85"> <solid dim=".17 .5 2.3" dif=".38 .36 .2" /></wall>
-<wall pos="29.335 29.585 -3.85"> <solid dim=".37 .17 2.3" dif=".38 .36 .2" /></wall>
-<wall pos=".585 .75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos=".75 .585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
+<mirage pos="2.58 27.25 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></mirage>
+<mirage pos="2.75 27.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></mirage>
+<mirage pos="4 27.58 -3.85"> <solid dim="2 .17 2.3" dif="pink" /></mirage>
+<mirage pos="5.58 27.25 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></mirage>
+<mirage pos="5.33 27.58 -3.85"> <solid dim=".37 .17 2.3" dif="pink" /></mirage>
+<mirage pos="9.58 27.25 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></mirage>
+<mirage pos="9.75 27.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></mirage>
+<mirage pos="13.5 27.58 -3.85"> <solid dim="7 .17 2.3" dif="pink" /></mirage>
+<mirage pos="17.58 27.25 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></mirage>
+<mirage pos="17.33 27.58 -3.85"> <solid dim=".37 .17 2.3" dif="pink" /></mirage>
+<mirage pos="22 27.58 -3.85"> <solid dim="2 .17 2.3" dif="pink" /></mirage>
+<mirage pos="23.58 27.5 -3.85"> <solid dim=".17 1 2.3" dif="pink" /></mirage>
+<mirage pos="23.25 27.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></mirage>
+<mirage pos="23.58 29 -3.85"> <solid dim=".17 2 2.3" dif="pink" /></mirage>
+<mirage pos=".58 29.25 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></mirage>
+<mirage pos=".75 29.58 -3.85"> <solid dim=".5 .17 2.3" dif="pink" /></mirage>
+<mirage pos="15 29.58 -3.85"> <solid dim="28 .17 2.3" dif="pink" /></mirage>
+<mirage pos="29.58 29.25 -3.85"> <solid dim=".17 .5 2.3" dif="pink" /></mirage>
+<mirage pos="29.33 29.58 -3.85"> <solid dim=".37 .17 2.3" dif="pink" /></mirage>
+<mirage pos=".58 .75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></mirage>
+<mirage pos=".75 .58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></mirage>
 
 <ground name="level3-1" pos="1 15 -7.6"> <solid dim="2 30 .2" zp="/gif/stones1.gif" /></ground>
-<wall pos="15 .585 -6.35"> <solid dim="28 .17 2.3" dif=".34 .32 .14" /></wall>
+<wall pos="15 .58 -6.35"> <solid dim="28 .17 2.3" dif="wheat" /></wall>
 <ground name="level3-2" pos="16 7.5 -7.6"> <solid dim="28 15 .2" zp="/gif/stones1.gif" /></ground>
 
-<wall pos="1.585 .5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="27.585 .5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="29.585 .75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="29.25 .585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos=".585 15 -6.35"> <solid dim=".17 28 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.585 3 -6.35"> <solid dim=".17 4 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="27.585 7.5 -6.35"> <solid dim=".17 13 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="29.585 15 -6.35"> <solid dim=".17 28 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.585 2.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.75 2.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="3.5 2.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.585 2.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.25 2.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.585 3.5 -6.35"> <solid dim=".17 3 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="20.585 5 -6.35"> <solid dim=".17 6 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.585 3.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.585 4 -6.35"> <solid dim=".17 2 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.5 3.585 -6.35"> <solid dim="5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.585 3.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.75 3.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="15.5 3.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="16.585 3.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="16.5 3.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="21 3.585 -6.35"> <solid dim="8 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="25.585 3.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="25.25 3.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.585 5.5 -6.35"> <solid dim=".17 3 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="16.585 5 -6.35"> <solid dim=".17 2 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="25.585 8.5 -6.35"> <solid dim=".17 9 2.3" dif=".34 .32 .14" /></wall>
-<wall pos=".5 5.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.5 5.585 -6.35"> <solid dim="3 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.585 5.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.335 5.585 -6.35"> <solid dim=".37 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 5.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.75 5.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.5 5.585 -6.35"> <solid dim="3 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.585 5.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.5 5.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="11.5 5.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.585 5.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.75 5.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="23.585 7 -6.35"> <solid dim=".17 4 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 6.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="16.585 6.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="16.75 6.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="18 6.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4 7.585 -6.35"> <solid dim="4 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 7.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.25 7.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="9 7.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.585 7.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.5 7.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.5 7.585 -6.35"> <solid dim="3 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.585 7.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.25 7.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="16.585 8 -6.35"> <solid dim=".17 2 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 9.5 -6.35"> <solid dim=".17 3 2.3" dif=".34 .32 .14" /></wall>
+<wall pos="1.58 .5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="27.58 .5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="29.58 .75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="29.25 .58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos=".58 15 -6.35"> <solid dim=".17 28 2.3" dif="wheat" /></wall>
+<wall pos="10.58 3 -6.35"> <solid dim=".17 4 2.3" dif="wheat" /></wall>
+<wall pos="27.58 7.5 -6.35"> <solid dim=".17 13 2.3" dif="wheat" /></wall>
+<wall pos="29.58 15 -6.35"> <solid dim=".17 28 2.3" dif="wheat" /></wall>
+<wall pos="2.58 2.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="2.75 2.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="3.5 2.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="4.58 2.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="4.25 2.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="12.58 3.5 -6.35"> <solid dim=".17 3 2.3" dif="wheat" /></wall>
+<wall pos="20.58 5 -6.35"> <solid dim=".17 6 2.3" dif="wheat" /></wall>
+<wall pos="2.58 3.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="4.58 4 -6.35"> <solid dim=".17 2 2.3" dif="wheat" /></wall>
+<wall pos="8.5 3.58 -6.35"> <solid dim="5 .17 2.3" dif="wheat" /></wall>
+<wall pos="14.58 3.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="14.75 3.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="15.5 3.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="16.58 3.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="16.5 3.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="21 3.58 -6.35"> <solid dim="8 .17 2.3" dif="wheat" /></wall>
+<wall pos="25.58 3.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="25.25 3.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="14.58 5.5 -6.35"> <solid dim=".17 3 2.3" dif="wheat" /></wall>
+<wall pos="16.58 5 -6.35"> <solid dim=".17 2 2.3" dif="wheat" /></wall>
+<wall pos="25.58 8.5 -6.35"> <solid dim=".17 9 2.3" dif="wheat" /></wall>
+<wall pos=".5 5.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="2.5 5.58 -6.35"> <solid dim="3 .17 2.3" dif="wheat" /></wall>
+<wall pos="4.58 5.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="4.33 5.58 -6.35"> <solid dim=".37 .17 2.3" dif="wheat" /></wall>
+<wall pos="6.58 5.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="6.75 5.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="8.5 5.58 -6.35"> <solid dim="3 .17 2.3" dif="wheat" /></wall>
+<wall pos="10.58 5.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="10.5 5.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="11.5 5.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="12.58 5.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="12.75 5.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="23.58 7 -6.35"> <solid dim=".17 4 2.3" dif="wheat" /></wall>
+<wall pos="6.58 6.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="16.58 6.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="16.75 6.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="18 6.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="4 7.58 -6.35"> <solid dim="4 .17 2.3" dif="wheat" /></wall>
+<wall pos="6.58 7.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="6.25 7.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="9 7.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="10.58 7.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="10.5 7.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="12.5 7.58 -6.35"> <solid dim="3 .17 2.3" dif="wheat" /></wall>
+<wall pos="14.58 7.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="14.25 7.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="16.58 8 -6.35"> <solid dim=".17 2 2.3" dif="wheat" /></wall>
+<wall pos="6.58 9.5 -6.35"> <solid dim=".17 3 2.3" dif="wheat" /></wall>
 
 <!-- stairs 6 (-5m -7.5m) -->
 <step pos="8.5 8.96 -7.45 0"> <solid dim="1 .08 .1" dif="purple" /></step>
@@ -579,7 +572,7 @@
 <step pos="8.5 7.12 -5.15 0"> <solid dim="1 .08 .1" dif="purple" /></step>
 <step pos="8.5 7.04 -5.05 0"> <solid dim="1 .08 .1" dif="purple" /></step>
 
-<wall name="w999" pos="10.585 10 -6.35"> <solid dim=".17 4 2.3" dif=".34 .32 .14" /></wall>
+<wall name="w999" pos="10.58 10 -6.35"> <solid dim=".17 4 2.3" dif="wheat" /></wall>
 
 <!-- stairs 7 (-5m -7.5m) -->
 <step pos="12.5 8.96 -7.45 0"> <solid dim="1 .08 .1" dif="red" /></step>
@@ -608,186 +601,191 @@
 <step pos="12.5 7.12 -5.15 0"> <solid dim="1 .08 .1" dif="red" /></step>
 <step pos="12.5 7.04 -5.05 0"> <solid dim="1 .08 .1" dif="red" /></step>
 
-<wall pos="14.585 10 -6.35"> <solid dim=".17 4 2.3" dif=".34 .32 .14" /></wall>
-<wall pos=".5 9.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="3 9.585 -6.35"> <solid dim="4 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="16.585 9.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="16.75 9.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="20 9.585 -6.35"> <solid dim="6 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="23.585 9.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="23.335 9.585 -6.35"> <solid dim=".37 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4 11.585 -6.35"> <solid dim="4 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 11.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.75 11.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="9.5 11.585 -6.35"> <solid dim="5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="18.5 11.585 -6.35"> <solid dim="11 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos=".5 13.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="7.5 13.585 -6.35"> <solid dim="13 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.585 13.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.5 13.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="20 13.585 -6.35"> <solid dim="10 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="25.585 13.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="25.335 13.585 -6.35"> <solid dim=".37 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.585 18.5 -6.35"> <solid dim=".17 9 2.3" dif=".34 .32 .14" /></wall>
+<wall pos="14.58 10 -6.35"> <solid dim=".17 4 2.3" dif="wheat" /></wall>
+<wall pos=".5 9.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="3 9.58 -6.35"> <solid dim="4 .17 2.3" dif="wheat" /></wall>
+<wall pos="16.58 9.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="16.75 9.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="20 9.58 -6.35"> <solid dim="6 .17 2.3" dif="wheat" /></wall>
+<wall pos="23.58 9.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="23.33 9.58 -6.35"> <solid dim=".37 .17 2.3" dif="wheat" /></wall>
+<wall pos="4 11.58 -6.35"> <solid dim="4 .17 2.3" dif="wheat" /></wall>
+<wall pos="6.58 11.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="6.75 11.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="9.5 11.58 -6.35"> <solid dim="5 .17 2.3" dif="wheat" /></wall>
+<wall pos="18.5 11.58 -6.35"> <solid dim="11 .17 2.3" dif="wheat" /></wall>
+<wall pos=".5 13.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="7.5 13.58 -6.35"> <solid dim="13 .17 2.3" dif="wheat" /></wall>
+<wall pos="14.58 13.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="14.5 13.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="20 13.58 -6.35"> <solid dim="10 .17 2.3" dif="wheat" /></wall>
+<wall pos="25.58 13.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="25.33 13.58 -6.35"> <solid dim=".37 .17 2.3" dif="wheat" /></wall>
+<wall pos="14.58 18.5 -6.35"> <solid dim=".17 9 2.3" dif="wheat" /></wall>
 
 <ground name="level3-3" pos="17 22.5 -7.6"> <solid dim="26 15 .2" zp="/gif/stones1.gif" /></ground>
 
-<wall pos="6.585 16 -6.35"> <solid dim=".17 2 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="23 15.585 -6.35"> <solid dim="14 .17 2.3" dif=".34 .32 .14" /></wall>
+<wall pos="6.58 16 -6.35"> <solid dim=".17 2 2.3" dif="wheat" /></wall>
+<wall pos="23 15.58 -6.35"> <solid dim="14 .17 2.3" dif="wheat" /></wall>
 
-<ground name="level3-4" pos="16 23 -7.6"> <solid dim="28 14 .2" dif=".372 .305 .207" /></ground>
+<ground name="level3-4" pos="16 23 -7.6"> <solid dim="28 14 .2" dif="grey" /></ground>
 
-<wall pos=".5 17.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="3.5 17.585 -6.35"> <solid dim="5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 17.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.25 17.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.5 17.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.585 17.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10 17.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.585 17.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.5 17.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.585 17.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="15 17.585 -6.35"> <solid dim="4 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="17.585 17.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="17.25 17.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="20 17.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="21.585 17.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="21.5 17.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="22.5 17.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="23.585 17.75 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="23.5 17.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="24.5 17.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="28 17.585 -6.35"> <solid dim="4 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.585 19 -6.35"> <solid dim=".17 2 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="17.585 22 -6.35"> <solid dim=".17 8 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="21.585 22 -6.35"> <solid dim=".17 8 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="23.585 22.5 -6.35"> <solid dim=".17 9 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.5 19.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.585 19.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4 19.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.585 19.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.5 19.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 19.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8 19.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.585 19.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.5 19.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.585 19.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12 19.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="19.585 23 -6.35"> <solid dim=".17 8 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="25.585 19.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.585 21 -6.35"> <solid dim=".17 2 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="25.585 20.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="25.75 20.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="28 20.585 -6.35"> <solid dim="4 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.5 21.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.585 21.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.5 21.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.585 21.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6 21.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 21.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.5 21.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.585 21.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.5 21.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.5 21.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.585 21.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="25.585 23.5 -6.35"> <solid dim=".17 5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.585 23 -6.35"> <solid dim=".17 2 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.585 23 -6.35"> <solid dim=".17 2 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="27.585 24.5 -6.35"> <solid dim=".17 5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.5 23.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4 23.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.585 23.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.5 23.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 23.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8 23.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.5 23.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.585 23.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.5 23.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.585 23.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="13.5 23.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.585 23.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.25 23.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.585 25 -6.35"> <solid dim=".17 2 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.585 24.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="0.5 25.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2 25.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.585 25.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.5 25.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.585 25.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.5 25.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 25.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.5 25.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.585 25.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.5 25.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12 25.585 -6.35"> <solid dim="2 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.585 25.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.585 25.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.25 25.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="6.585 27 -6.35"> <solid dim=".17 2 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.585 26.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.5 27.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="2.585 27.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.5 27.585 -6.35"> <solid dim="11 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="4.585 27.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="8.585 27.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="10.585 27.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="12.585 27.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.585 27.5 -6.35"> <solid dim=".17 1 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="14.25 27.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="17 27.585 -6.35"> <solid dim="4 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="19.585 27.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="19.5 27.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="21.5 27.585 -6.35"> <solid dim="3 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="23.585 27.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="23.5 27.585 -6.35"> <solid dim="1 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="25.5 27.585 -6.35"> <solid dim="3 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="27.585 27.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="27.335 27.585 -6.35"> <solid dim=".37 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos=".585 29.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos=".75 29.585 -6.35"> <solid dim=".5 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="15 29.585 -6.35"> <solid dim="28 .17 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="29.585 29.25 -6.35"> <solid dim=".17 .5 2.3" dif=".34 .32 .14" /></wall>
-<wall pos="29.335 29.585 -6.35"> <solid dim=".37 .17 2.3" dif=".34 .32 .14" /></wall>
+<wall pos=".5 17.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="3.5 17.58 -6.35"> <solid dim="5 .17 2.3" dif="wheat" /></wall>
+<wall pos="6.58 17.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="6.25 17.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="8.5 17.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="8.58 17.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="10 17.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="10.58 17.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="12.5 17.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="12.58 17.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="15 17.58 -6.35"> <solid dim="4 .17 2.3" dif="wheat" /></wall>
+<wall pos="17.58 17.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="17.25 17.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="20 17.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="21.58 17.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="21.5 17.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="22.5 17.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="23.58 17.75 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="23.5 17.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="24.5 17.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="28 17.58 -6.35"> <solid dim="4 .17 2.3" dif="wheat" /></wall>
+<wall pos="12.58 19 -6.35"> <solid dim=".17 2 2.3" dif="wheat" /></wall>
+<wall pos="17.58 22 -6.35"> <solid dim=".17 8 2.3" dif="wheat" /></wall>
+<wall pos="21.58 22 -6.35"> <solid dim=".17 8 2.3" dif="wheat" /></wall>
+<wall pos="23.58 22.5 -6.35"> <solid dim=".17 9 2.3" dif="wheat" /></wall>
+<wall pos="2.5 19.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="2.58 19.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="4 19.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="4.58 19.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="6.5 19.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="6.58 19.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="8 19.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="8.58 19.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="10.5 19.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="10.58 19.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="12 19.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="19.58 23 -6.35"> <solid dim=".17 8 2.3" dif="wheat" /></wall>
+<wall pos="25.58 19.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="10.58 21 -6.35"> <solid dim=".17 2 2.3" dif="wheat" /></wall>
+<wall pos="25.58 20.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="25.75 20.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="28 20.58 -6.35"> <solid dim="4 .17 2.3" dif="wheat" /></wall>
+<wall pos="2.5 21.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="2.58 21.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="4.5 21.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="4.58 21.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="6 21.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="6.58 21.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="8.5 21.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="8.58 21.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="10.5 21.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="12.5 21.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="12.58 21.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="25.58 23.5 -6.35"> <solid dim=".17 5 2.3" dif="wheat" /></wall>
+<wall pos="2.58 23 -6.35"> <solid dim=".17 2 2.3" dif="wheat" /></wall>
+<wall pos="8.58 23 -6.35"> <solid dim=".17 2 2.3" dif="wheat" /></wall>
+<wall pos="27.58 24.5 -6.35"> <solid dim=".17 5 2.3" dif="wheat" /></wall>
+<wall pos="2.5 23.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="4 23.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="4.58 23.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="6.5 23.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="6.58 23.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="8 23.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="10.5 23.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="10.58 23.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="12.5 23.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="12.58 23.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="13.5 23.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="14.58 23.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="14.25 23.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="10.58 25 -6.35"> <solid dim=".17 2 2.3" dif="wheat" /></wall>
+<wall pos="14.58 24.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="0.5 25.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="2 25.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="2.58 25.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="4.5 25.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="4.58 25.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="6.5 25.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="6.58 25.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="8.5 25.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="8.58 25.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="10.5 25.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="12 25.58 -6.35"> <solid dim="2 .17 2.3" dif="wheat" /></wall>
+<wall pos="12.58 25.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="14.58 25.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="14.25 25.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="6.58 27 -6.35"> <solid dim=".17 2 2.3" dif="wheat" /></wall>
+<wall pos="14.58 26.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="2.5 27.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="2.58 27.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="8.5 27.58 -6.35"> <solid dim="11 .17 2.3" dif="wheat" /></wall>
+<wall pos="4.58 27.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="8.58 27.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="10.58 27.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="12.58 27.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="14.58 27.5 -6.35"> <solid dim=".17 1 2.3" dif="wheat" /></wall>
+<wall pos="14.25 27.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="17 27.58 -6.35"> <solid dim="4 .17 2.3" dif="wheat" /></wall>
+<wall pos="19.58 27.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="19.5 27.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="21.5 27.58 -6.35"> <solid dim="3 .17 2.3" dif="wheat" /></wall>
+<wall pos="23.58 27.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="23.5 27.58 -6.35"> <solid dim="1 .17 2.3" dif="wheat" /></wall>
+<wall pos="25.5 27.58 -6.35"> <solid dim="3 .17 2.3" dif="wheat" /></wall>
+<wall pos="27.58 27.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="27.33 27.58 -6.35"> <solid dim=".37 .17 2.3" dif="wheat" /></wall>
+<wall pos=".58 29.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos=".75 29.58 -6.35"> <solid dim=".5 .17 2.3" dif="wheat" /></wall>
+<wall pos="15 29.58 -6.35"> <solid dim="28 .17 2.3" dif="wheat" /></wall>
+<wall pos="29.58 29.25 -6.35"> <solid dim=".17 .5 2.3" dif="wheat" /></wall>
+<wall pos="29.33 29.58 -6.35"> <solid dim=".37 .17 2.3" dif="wheat" /></wall>
 
-<ground name="g1" pos="-17.5 15 -.15"> <solid dim="35 100 .1" zp="/gif/shingles.gif" yn="/gif/shingles.gif" yp="/gif/shingles.gif" xn="/gif/shingles.gif" xp="/gif/shingles.gif" zn="/gif/shingles.gif" /></ground>
-<ground name="g2" pos="32.5 -10.5 -.15"> <solid dim="65 49 .1" zp="/gif/shingles.gif" yn="/gif/shingles.gif" yp="/gif/shingles.gif" xn="/gif/shingles.gif" xp="/gif/shingles.gif" zn="/gif/shingles.gif" /></ground>
-<ground name="g3" pos="32.5 40.5 -.15"> <solid dim="65 49 .1" zp="/gif/shingles.gif" yn="/gif/shingles.gif" yp="/gif/shingles.gif" xn="/gif/shingles.gif" xp="/gif/shingles.gif" zn="/gif/shingles.gif" /></ground>
-<ground name="g4" pos="33.5 15 -.15"> <solid dim="63 2 .1" yn="/gif/shingles.gif" yp="/gif/shingles.gif" xn="/gif/shingles.gif" xp="/gif/shingles.gif" zp="/gif/shingles.gif" zn="/gif/shingles.gif" /></ground>
+<!-- level 0 m -->
+<ground name="g1" pos="-17.5 15 -.15"> <solid dim="35 100 .1" tx="/gif/desert.gif"  /></ground>
+<ground name="g2" pos="32.5 -10.5 -.15"> <solid dim="65 49 .1" tx="/gif/desert.gif" /></ground>
+<ground name="g3" pos="32.5 40.5 -.15"> <solid dim="65 49 .1" tx="/gif/desert.gif"  /></ground>
+<ground name="g4" pos="33.5 15 -.15"> <solid dim="63 2 .1" tx="/gif/desert.gif" /></ground>
+
+<!-- degrees of pyramid -->
+<step name="p1" pos="15 15 0">   <solid dim="30 30 1" dif="grey40" /></step>
+<step name="p2" pos="15 15 1">   <solid dim="29 29 1" dif="grey40" /></step>
+<step name="p3" pos="15 15 2">   <solid dim="28 28 1" dif="grey40" /></step>
+<step name="p4" pos="15 15 3">   <solid dim="27 27 1" dif="grey40" /></step>
+<step name="p5" pos="15 15 4">   <solid dim="26 26 1" dif="grey40" /></step>
+<step name="p6" pos="15 15 5">   <solid dim="25 25 1" dif="grey40" /></step>
+<step name="p7" pos="15 15 6">   <solid dim="24 24 1" dif="grey40" /></step>
+<step name="p8" pos="15 15 7">   <solid dim="23 23 1" dif="grey40" /></step>
+<step name="p9" pos="15 15 8">   <solid dim="22 22 1" dif="grey40" /></step>
+<step name="p10" pos="15 15 9">  <solid dim="21 21 1" dif="grey40" /></step>
+<step name="p11" pos="15 15 10"> <solid dim="20 20 1" dif="grey40" /></step>
+<step name="p12" pos="15 15 11"> <solid dim="19 19 1" dif="grey40" /></step>
+<step name="p13" pos="15 15 12"> <solid dim="18 18 1" dif="grey40" /></step>
+<step name="p14" pos="15 15 13"> <solid dim="17 17 1" dif="grey40" /></step>
+<step name="p15" pos="15 15 14"> <solid dim="16 16 1" dif="grey40" /></step>
+<step name="p16" pos="15 15 15"> <solid dim="15 15 1" dif="grey40" /></step>
+<step name="p17" pos="15 15 16"> <solid dim="14 14 1" dif="grey40" /></step>
+<step name="p18" pos="15 15 17"> <solid dim="13 13 1" dif="grey40" /></step>
+<step name="p19" pos="15 15 18"> <solid dim="12 12 1" dif="grey40" /></step>
+<step name="p20" pos="15 15 19"> <solid dim="11 11 1" dif="grey40" /></step>
+<step name="p21" pos="15 15 20"> <solid dim="10 10 1" dif="grey40" /></step>
+<step name="p22" pos="15 15 21"> <solid dim="9 9 1"   dif="grey40" /></step>
+<step name="p23" pos="15 15 22"> <solid dim="8 8 1"   dif="grey40" /></step>
+<step name="p24" pos="15 15 23"> <solid dim="7 7 1"   dif="grey40" /></step>
+<step name="p25" pos="15 15 24"> <solid dim="6 6 1"   dif="grey40" /></step>
+<step name="p26" pos="15 15 25"> <solid dim="5 5 1"   dif="grey40" /></step>
+<step name="p27" pos="15 15 26"> <solid dim="4 4 1"   dif="grey40" /></step>
+<step name="p28" pos="15 15 27"> <solid dim="3 3 1"   dif="grey40" /></step>
+<step name="p29" pos="15 15 28"> <solid dim="2 2 1"   dif="grey40" /></step>
+<step name="p30" pos="15 15 29"> <solid dim="1 1 1"   dif="grey40" /></step>
 
 <!-- entrance -->
-<wall pos="0 13.85 1"> <solid dim="4 .3 2" yn="/gif/stuc.gif" yp="/gif/stuc.gif" xp="/gif/stuc.gif" xn="/gif/stuc.gif" /></wall>
-<wall pos="0 16.15 1"> <solid dim="4 .3 2" yn="/gif/stuc.gif" yp="/gif/stuc.gif" xp="/gif/stuc.gif" xn="/gif/stuc.gif" /></wall>
-<wall pos="0 15 2.15"> <solid dim="4 2.8 .3" yn="/gif/stuc.gif" yp="/gif/stuc.gif" xp="/gif/stuc.gif" zn="/gif/stuc.gif" /></wall>
+<wall pos="0 13.85 1"> <solid dim="4 .3 2"   tx="/gif/stuc.gif" /></wall>
+<wall pos="0 16.15 1"> <solid dim="4 .3 2"   tx="/gif/stuc.gif" /></wall>
+<wall pos="0 15 2.15"> <solid dim="4 2.8 .3" tx="/gif/stuc.gif" /></wall>
 
-<!-- pyramid -->
-<wall name="base1" pos="15 7 .5"> <solid dim="30 14 1" dif=".37 .3 .1" /></wall>
-<wall name="base2" pos="15 23 .5"> <solid dim="30 14 1" dif=".37 .3 .1" /></wall>
-<wall name="p3" pos="16 15 .5"> <solid dim="28 2 1" yn="/gif/stones.gif" yp="/gif/stones.gif" xn="/gif/stones.gif" xp="/gif/stones.gif" /></wall>
-<wall name="p4" pos="15 7.5 1.5"> <solid dim="28 13 1" dif=".37 .3 .1" /></wall>
-<wall name="p5" pos="15 22.5 1.5"> <solid dim="28 13 1" dif=".37 .3 .1" /></wall>
-<wall name="p6" pos="15.5 15 1.5"> <solid dim="27 2 1" dif=".37 .3 .1" /></wall>
-<wall name="p7" pos="15 15 2.5"> <solid dim="26 26 1" dif=".37 .3 .1" /></wall>
-<wall name="p8" pos="15 15 3.5"> <solid dim="24 24 1" dif=".37 .3 .1" /></wall>
-<wall name="p9" pos="15 15 4.5"> <solid dim="22 22 1" dif=".37 .3 .1" /></wall>
-<wall name="p10" pos="15 15 5.5"> <solid dim="20 20 1" dif=".37 .3 .1" /></wall>
-<wall name="p11" pos="15 15 6.5"> <solid dim="18 18 1" dif=".37 .3 .1" /></wall>
-<wall name="p12" pos="15 15 7.5"> <solid dim="16 16 1" dif=".37 .3 .1" /></wall>
-<wall name="p13" pos="15 15 8.5"> <solid dim="14 14 1" dif=".37 .3 .1" /></wall>
-<wall name="p14" pos="15 15 9.5"> <solid dim="12 12 1" dif=".37 .3 .1" /></wall>
-<wall name="p15" pos="15 15 10.5"> <solid dim="10 10 1" dif=".37 .3 .1" /></wall>
-<wall name="p16" pos="15 15 11.5"> <solid dim="8 8 1" dif=".37 .3 .1" /></wall>
-<wall name="p17" pos="15 15 12.5"> <solid dim="6 6 1" dif=".37 .3 .1" /></wall>
-<wall name="p18" pos="15 15 13.5"> <solid dim="4 4 1" dif=".37 .3 .1" /></wall>
-<wall name="p22" pos="13.6 15 14.5"> <solid dim=".2 3 3" dif=".37 .3 .1" /></wall>
-<wall name="p23" pos="15 13.6 14.5"> <solid dim="3 .2 3" dif=".37 .3 .1" /></wall>
-<wall name="p24" pos="15 16.6 14.5"> <solid dim="3 .2 3" dif=".37 .3 .1" /></wall>
-<wall name="p25" pos="15 15 16.1"> <solid dim="3.5 3.5 .2" dif=".37 .3 .1" /></wall>
-<wall name="p26" pos="15 15 16.3"> <solid dim="3 3 .2" dif=".37 .3 .1" /></wall>
-<wall name="p27" pos="15 15 16.5"> <solid dim="2.5 2.5 .2" dif=".37 .3 .1" /></wall>
-<wall name="p28" pos="15 15 16.7"> <solid dim="2 2 .2" dif=".37 .3 .1" /></wall>
-<wall name="p29" pos="15 15 16.9"> <solid dim="1.5 1.5 .2" dif=".37 .3 .1" /></wall>
-<wall name="top" pos="15 15 17.1"> <solid dim="1 1 .2" dif=".37 .3 .1" /></wall>
-
+<!-- trees -->
 <mirage pos="-3 7 1.5"> <solid shape="cone" rb=".5" rt="0" h="4" dif="green" /></mirage>
 <mirage pos="-3 7 0"> <solid shape="cone" rb=".17" rt=".17" h="2" tx="/gif/wood.gif" /></mirage>
 <mirage pos="-5 5 1"> <solid shape="cone" rb=".2" rt="0" h="3" dif="green" /></mirage>
@@ -796,7 +794,7 @@
 <mirage pos="-4.3 6 0"> <solid shape="cone" rb=".14" rt=".13" h="1.2" tx="/gif/wood.gif" /></mirage>
 <mirage pos="-5.3 6 1.3"> <solid shape="cone" rb=".2" rt="0" h="3.7" dif="green" /></mirage>
 <mirage pos="-5.3 6 0"> <solid shape="cone" rb=".07" rt=".07" h="1.8" tx="/gif/wood.gif" /></mirage>
-<mirage pos="-5.8 5.8 .8"> <solid shape="cone" rb=".6" rt="0" h="2.5" dif="green" /></mirage>
+<mirage pos="-6.8 5.8 .8"> <solid shape="cone" rb=".6" rt="0" h="2.5" dif="green" /></mirage>
 <mirage pos="-5.8 5.8 0"> <solid shape="cone" rb=".2" rt=".2" h="1.3" tx="/gif/wood.gif" /></mirage>
 
 </scene>
