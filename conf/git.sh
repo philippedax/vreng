@@ -90,28 +90,32 @@ main()
   *)
     oper=$1
     case $oper in
-    commit|c|co)
+    commit|c|co)	# commit
       shift
       mess=$*
       commit $mess
       log $mess
       push
       ;;
-    add)
+    add)		# add
       shift
-      files=$*
+      if [ test -f $1 ]; then
+        files=$*
+      else
+        usage
+      fi
       add $files
       ;;
-    push)
+    push)		# push
       push
       ;;
-    merge)
+    merge)		# merge
       branch=$2
       merge $branch
       push
       log "merge $branch"
       ;;
-    *)
+    *)			# bad
       echo "bad oper $oper"
       usage
       ;;
