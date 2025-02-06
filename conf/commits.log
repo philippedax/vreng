@@ -3402,3 +3402,4 @@
 3402 Mer  5 fév 2025 11:00:42 CET	move *Key from object.hpp to user.hpp
 3403 Mer  5 fév 2025 11:14:42 CET	cleanup user.cpp
 3404 Mer  5 fév 2025 13:07:48 CET	cleanup last move.cpp
+3405 Mer  5 fév 2025 14:35:47 CET	rename updateLasting to lasting world/
