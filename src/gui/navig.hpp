@@ -25,6 +25,8 @@
 
 #include "widgets.hpp"
 
+#define MAX_CLICKS	5	// number of clicks in the z buffer
+
 
 /**
  * Navig class

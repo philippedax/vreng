@@ -210,9 +210,9 @@ void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
   //Sound::playSound(CLICKSND);
 
   // current clic
-  static uint8_t z = 0;		// first object
-  Object* object = gw.pointedObject(x, y, objinfo, z % 3);
-  z++;				// next object hidden in the z buffer
+  static uint8_t clic = 0;		// first object
+  Object* object = gw.pointedObject(x, y, objinfo, clic % MAX_CLICKS);
+  clic++;				// next object hidden in the z buffer
 
   if (object) {
     gw.gui.selected_object = object;
