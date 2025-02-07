@@ -211,7 +211,7 @@ void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
 
   // current clic
   static uint8_t clic = 0;		// first object
-  Object* object = gw.pointedObject(x, y, objinfo, clic % MAX_CLICKS);
+  Object* object = gw.pointedObject(x, y, objinfo, clic % MAX_DEPTH);
   clic++;				// next object hidden in the z buffer
 
   if (object) {

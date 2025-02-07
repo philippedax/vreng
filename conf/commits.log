@@ -3412,3 +3412,4 @@
 3412 Ven  7 fév 2025 09:35:24 CET	update data/vre/pyramid.vre
 3413 Ven  7 fév 2025 10:02:05 CET	add MAX_CLICKS in z buffer navig.*pp
 3414 Ven  7 fév 2025 12:23:52 CET	increse MAX_CLICKS to 20 navig.hpp
+3415 Ven  7 fév 2025 12:25:23 CET	increase MAX_CLICKS to 20 navig.hpp
