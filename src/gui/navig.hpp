@@ -25,7 +25,7 @@
 
 #include "widgets.hpp"
 
-#define MAX_DEPTH	20	// number max of clicks in the z buffer
+#define MAX_CLICKS_DEPTH	20	// number max of clicks in the z buffer
 
 
 /**
