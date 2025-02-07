@@ -601,9 +601,8 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
 
   for (int hit=0; hit < hits; hit++) {
     if (::g.pref.trace) {
-      echo("hit: %d/%d num=%d min=%ud name=%s/%s",
+      echo("hit: %d/%d num=%d min=%u %s",
             hit, hits, psel[3], psel[1],
-            Object::byNum(psel[3])->typeName(),
             Object::byNum(psel[3])->objectName());
     }
     hitlist[hit] = psel;
