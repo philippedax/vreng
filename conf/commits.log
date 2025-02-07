@@ -3410,3 +3410,4 @@
 3410 Jeu  6 fév 2025 12:02:31 CET	cleanup conf/commit.log
 3411 Ven  7 fév 2025 09:33:56 CET	cleanup conf/commit.log
 3412 Ven  7 fév 2025 09:35:24 CET	update data/vre/pyramid.vre
+3413 Ven  7 fév 2025 10:02:05 CET	add MAX_CLICKS in z buffer navig.*pp
