@@ -3417,3 +3417,4 @@
 3417 Ven  7 fév 2025 13:36:16 CET	increase MAX_CLICKS_DEPTH to 20 navig.hpp
 3418 Ven  7 fév 2025 16:47:16 CET	update data/vre/pyramid.vre
 3419 Sam  8 fév 2025 13:39:41 CET	cleanup objectName() stair.cpp
+3420 Sam  8 fév 2025 13:44:17 CET	cleanup objectName() spiral.cpp
