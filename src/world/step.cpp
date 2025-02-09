@@ -176,7 +176,7 @@ Step::Step(char *l)
 }
 
 /** Creation from super structure : escalator, travalator, stair, spiral */
-Step::Step(Pos& npos, Pos& _ipos, const char *name, const char *geom, bool _mobile, float _size, float _speed, int _dir)
+Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _mobile, float _size, float _speed, int _dir)
 {
   pos = npos;
   pos.x = npos.x;
@@ -201,7 +201,7 @@ Step::Step(Pos& npos, Pos& _ipos, const char *name, const char *geom, bool _mobi
   }
 
   inits();
-  forceNames(name);
+  forceNames(typname);
 
   if (mobile) {    // escalator or travolator
     permanentMovement(speed);

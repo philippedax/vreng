@@ -678,12 +678,12 @@ Object * Object::getObject(const char *name)
   return NULL;              // not found
 }
 
-/** Forces Object name.type name.implicit */
-void Object::forceNames(const char *newname)
+/** Forces Object name.type and name.implicit */
+void Object::forceNames(const char *typname)
 {
-  strcpy(name.type, newname);
+  strcpy(name.type, typname);
   name.implicit = new char[OBJNAME_LEN];
-  sprintf(name.implicit, "%s%d", newname, num);
+  sprintf(name.implicit, "%s%d", typname, num);
   if (isupper(*(name.implicit))) {
     *name.implicit = tolower(*(name.implicit)); // name.implicit in lowercase
   }

@@ -77,7 +77,7 @@ void Spiral::build()
     npos.z = pos.z + (sz * n * 2);
     npos.az = pos.az + (delta * n);
 
-    new Step(npos, pos, objectName(), geomsolid, false, height, 0, 1);
+    new Step(npos, pos, "spiral", geomsolid, false, height, 0, 1);
   }
 }
 

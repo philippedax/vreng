@@ -603,17 +603,17 @@ class Object {
   static void initNames();
   /**< inits hash_table of names. */
 
-  void forceNames(const char *name);
-  /**< Forces names. */
+  void forceNames(const char *typname);
+  /**< Forces name.type & name.implicit. */
 
   void updateNames();
   /**< Updates names. */
 
-  Object *getObject(const char *str);
+  Object *getObject(const char *strname);
   /**< Gets an object by its name. */
 
  private:
-  void setObjectName(const char *str);
+  void setObjectName(const char *strname);
   /**< Sets an object name. */
 
   //

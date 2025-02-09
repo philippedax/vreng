@@ -76,7 +76,7 @@ void Travolator::build()
     npos.x = pos.x - sin(pos.az) * (sx * n);
     npos.y = pos.y - cos(pos.az) * (sy * n);
 
-    Step *step = new Step(npos, pos, objectName(), geomsolid, true, length, speed, 0);
+    Step *step = new Step(npos, pos, "travalator", geomsolid, true, length, speed, 0);
     travList.push_back(step);
   }
   permanentMovement(speed);
