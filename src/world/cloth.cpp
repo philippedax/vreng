@@ -148,12 +148,14 @@ void Cloth::inits()
 }
 
 /** Sets an unique name */
-void Cloth::setName(const char *modelname)
+void Cloth::setName(const char *_name)
 {
-  if (localuser)
-    if (! name.given)
+  if (localuser) {
+    if (! name.given) {
       name.given = new char[OBJNAME_LEN];
-    sprintf(name.given,"%s&%s", modelname, ::g.user);
+    }
+    sprintf(name.given,"%s&%s", _name, ::g.user);
+  }
   updateNames();
 }
 

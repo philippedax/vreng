@@ -34,7 +34,6 @@
  * Cloth class
  */
 class Cloth: public Object {
-
  protected:
   static std::list<Object*> wearList;
 
@@ -66,7 +65,6 @@ class Cloth: public Object {
     PROPAY,
     PROPS       ///< last item = properties number
   };
-
   /* actions */
   enum cloth_action {
     WEAR,
@@ -97,7 +95,7 @@ class Cloth: public Object {
   /**< Quits */
 
  protected:
-  void setName(const char *modelname);
+  void setName(const char *_name);
   /**< Sets qualified name */
 
   void setName();
@@ -125,7 +123,6 @@ class Cloth: public Object {
 
   void inits();
   /**< Do specific inits */
-
 };
 
 #endif
