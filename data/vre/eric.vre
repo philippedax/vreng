@@ -48,13 +48,13 @@
 
 <!-- le parking -->
 <step pos="12 -13 .01">
-<solid dim="1 16 .02" zp="/gif/stone78.gif" zprs="1" zprt="5" />
+<solid dim="1 16 .02" zp="/gif/stones.gif" zprs="1" zprt="5" />
 </step>
 <step pos="28 -13 .01">
-<solid dim="1 16 .02" zp="/gif/stone78.gif" zprs="1" zprt="5" />
+<solid dim="1 16 .02" zp="/gif/stones.gif" zprs="1" zprt="5" />
 </step>
 <step pos="20 -20.5 .05 1.57">
-<solid dim="1 15 .02" zp="/gif/stone78.gif" zprs="1" zprt="5" />
+<solid dim="1 15 .02" zp="/gif/stones.gif" zprs="1" zprt="5" />
 </step>
 <step pos="20 -13 .01 0">
 <solid dim="16 16 .02" zp="/gif/yellowbands.gif" zpr="6" />
@@ -107,9 +107,9 @@
 <!-- le mur du fond -->
 <wall pos="27 36.0 3 1.57">
   <solid dim=".4 12 6"
-  yp="/gif/sup02.gif" ypr="3" 
-  xn="/gif/sup02.gif" xnr="1" 
-  yn="/gif/sup02.gif" ynr="1" 
+  yp="/gif/wall.gif" ypr="3" 
+  xn="/gif/wall.gif" xnr="1" 
+  yn="/gif/wall.gif" ynr="1" 
   xp="/gif/stuc.gif" xpr="3"
   />
 </wall>
@@ -117,9 +117,9 @@
 <!-- le mur de gauche -->
 <wall pos="21.2 29.8 3 0">
   <solid dim=".4 12 6"
-  xp="/gif/sup02.gif" xprs="2" xprt="2"
-  xn="/gif/sup02.gif" xnr="1" 
-  yn="/gif/sup02.gif" ynr="1" 
+  xp="/gif/wall.gif" xprs="2" xprt="2"
+  xn="/gif/wall.gif" xnr="1" 
+  yn="/gif/wall.gif" ynr="1" 
   yp="/gif/stuc.gif" ypr="3"
   />
 </wall>
@@ -127,9 +127,9 @@
 <!-- Le mur au dessus de la porte-->
 <wall pos="27 23.8 5 1.57">
   <solid dim=".4 12 2"
-  xp="/gif/sup02.gif" xprs="3" xprt=".5"
-  xn="/gif/sup02.gif" xnr="2"
-  yn="/gif/sup02.gif" ynr="2"
+  xp="/gif/wall.gif" xprs="3" xprt=".5"
+  xn="/gif/wall.gif" xnr="2"
+  yn="/gif/wall.gif" ynr="2"
   yp="/gif/stuc.gif" ypr="3"
   />
 </wall>
@@ -137,9 +137,9 @@
 <!-- Le mur a gauche de la porte-->
 <wall pos="23.5 23.8 2 1.57">
   <solid dim="0 5 4"
-  xp="/gif/sup02.gif" xpr="1" 
-  xn="/gif/sup02.gif" xnr="1" 
-  yn="/gif/sup02.gif" ynr="1" 
+  xp="/gif/wall.gif" xpr="1" 
+  xn="/gif/wall.gif" xnr="1" 
+  yn="/gif/wall.gif" ynr="1" 
   yp="/gif/stuc.gif" ypr="3"
   />
 </wall>
@@ -147,9 +147,9 @@
 <!-- Le mur a droite de la porte-->
 <wall pos="30.5 23.8 2 1.57">
   <solid dim=".4 5 4"
-  xp="/gif/sup02.gif" xpr="1" 
-  xn="/gif/sup02.gif" xnr="1" 
-  yn="/gif/sup02.gif" ynr="1" 
+  xp="/gif/wall.gif" xpr="1" 
+  xn="/gif/wall.gif" xnr="1" 
+  yn="/gif/wall.gif" ynr="1" 
   yp="/gif/stuc.gif" ypr="3"
   />
 </wall>
@@ -285,59 +285,59 @@
 <!-- Les murs de la maison -->
 <!-- le mur de droite-->
 <wall pos="12.8 29.8 3 0"> <solid dim=".4 12 6"
-  yp="/gif/sup02.gif" ypr="3" 
-  xp="/gif/sup02.gif" xpr="3"
+  yp="/gif/wall.gif" ypr="3" 
+  xp="/gif/wall.gif" xpr="3"
   />
 </wall>
 
 <!-- le mur du fond -->
 <wall pos="7 36.0 3 1.57">
   <solid dim=".4 12 6"
-  yp="/gif/sup02.gif" ypr="3" 
-  xn="/gif/sup02.gif" xnr="1" 
-  yn="/gif/sup02.gif" ynr="1" 
-  xp="/gif/sup02.gif" xpr="3"
+  yp="/gif/wall.gif" ypr="3" 
+  xn="/gif/wall.gif" xnr="1" 
+  yn="/gif/wall.gif" ynr="1" 
+  xp="/gif/wall.gif" xpr="3"
   />
 </wall>
 
 <!-- le mur de gauche -->
 <wall pos="1.2 29.8 3 0">
   <solid dim=".4 12 6"
-  xp="/gif/sup02.gif" xprs="2" xprt="2"
-  xn="/gif/sup02.gif" xnr="1" 
-  yn="/gif/sup02.gif" ynr="1" 
-  yp="/gif/sup02.gif" ypr="3"
+  xp="/gif/wall.gif" xprs="2" xprt="2"
+  xn="/gif/wall.gif" xnr="1" 
+  yn="/gif/wall.gif" ynr="1" 
+  yp="/gif/wall.gif" ypr="3"
   />
 </wall>
 
 <!-- Le mur au dessus de la porte-->
 <wall pos="7 23.8 5 1.57">
   <solid dim=".4 12 2"
-  zn="/gif/sup02.gif" znr="2"
-  xp="/gif/sup02.gif" xprs="3"  xprt=".5"
-  xn="/gif/sup02.gif" xnr="2"
-  yn="/gif/sup02.gif" ynr="2"
-  yp="/gif/sup02.gif" ypr="3"
+  zn="/gif/wall.gif" znr="2"
+  xp="/gif/wall.gif" xprs="3"  xprt=".5"
+  xn="/gif/wall.gif" xnr="2"
+  yn="/gif/wall.gif" ynr="2"
+  yp="/gif/wall.gif" ypr="3"
   />
 </wall>
 
 <!-- Le mur a gauche de la porte-->
 <wall pos="3.5 23.8 2 1.57">
   <solid dim=".4 5 4"
-  xp="/gif/sup02.gif" xpr="1" 
-  xn="/gif/sup02.gif" xnr="1" 
-  yn="/gif/sup02.gif" ynr="1" 
-  yp="/gif/sup02.gif" ypr="3"
+  xp="/gif/wall.gif" xpr="1" 
+  xn="/gif/wall.gif" xnr="1" 
+  yn="/gif/wall.gif" ynr="1" 
+  yp="/gif/wall.gif" ypr="3"
   />
 </wall>
 
 <!-- Le mur a droite de la porte-->
 <wall pos="10.5 23.8 2 1.57">
   <solid dim=".4 5 4"
-  xp="/gif/sup02.gif" xpr="1" 
-  xn="/gif/sup02.gif" xnr="1" 
-  yn="/gif/sup02.gif" ynr="1" 
-  yp="/gif/sup02.gif" ypr="3"
+  xp="/gif/wall.gif" xpr="1" 
+  xn="/gif/wall.gif" xnr="1" 
+  yn="/gif/wall.gif" ynr="1" 
+  yp="/gif/wall.gif" ypr="3"
   />
 </wall>
 
