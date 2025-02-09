@@ -3426,3 +3426,4 @@
 3426 Dim  9 fév 2025 11:21:38 CET	update vre/pyramid.vre
 3427 Dim  9 fév 2025 16:02:05 CET	cleanup setName head.*pp
 3428 Dim  9 fév 2025 16:12:40 CET	cleanup setName cloth.*pp
+3429 Dim  9 fév 2025 18:25:43 CET	revert forceNames

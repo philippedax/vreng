@@ -603,9 +603,6 @@ class Object {
   static void initNames();
   /**< inits hash_table of names. */
 
-  void forceNames(const char *typname);
-  /**< Forces name.type & name.implicit. */
-
   void updateNames();
   /**< Updates names. */
 

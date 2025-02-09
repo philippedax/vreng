@@ -678,18 +678,6 @@ Object * Object::getObject(const char *name)
   return NULL;              // not found
 }
 
-/** Forces Object name.type and name.implicit */
-void Object::forceNames(const char *typname)
-{
-  strcpy(name.type, typname);
-  name.implicit = new char[OBJNAME_LEN];
-  sprintf(name.implicit, "%s%d", typname, num);
-  if (isupper(*(name.implicit))) {
-    *name.implicit = tolower(*(name.implicit)); // name.implicit in lowercase
-  }
-  name.current = name.implicit;
-}
-
 /** Updates object name */
 void Object::updateNames()
 {

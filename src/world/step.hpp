@@ -122,6 +122,9 @@ class Step: public Object {
 
   virtual void build();
   /**< Builds stair or escalator structure. */
+
+  void setName(const char *typname);
+  /**< Forces name.type & name.implicit. */
 };
 
 #endif

@@ -175,6 +175,18 @@ Step::Step(char *l)
   }
 }
 
+/** Forces Object name.type and name.implicit */
+void Step::setName(const char *typname)
+{
+  strcpy(name.type, typname);
+  name.implicit = new char[OBJNAME_LEN];
+  sprintf(name.implicit, "%s%d", typname, num);
+  if (isupper(*(name.implicit))) {
+    *name.implicit = tolower(*(name.implicit)); // name.implicit in lowercase
+  }
+  name.current = name.implicit;
+}
+
 /** Creation from super structure : escalator, travalator, stair, spiral */
 Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _mobile, float _size, float _speed, int _dir)
 {
@@ -201,7 +213,7 @@ Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _m
   }
 
   inits();
-  forceNames(typname);
+  setName(typname);
 
   if (mobile) {    // escalator or travolator
     permanentMovement(speed);
