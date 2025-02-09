@@ -111,17 +111,12 @@ void Head::behaviors()
 }
 
 /* Sets an unique name */
-void Head::setName(const char *modelname)
+void Head::setName(const char *_name)
 {
   if (! name.given)
     name.given = new char[OBJNAME_LEN];
-  sprintf(name.given, "%s&%s", modelname, ::g.user);
+  sprintf(name.given, "%s&%s", _name, ::g.user);
   updateNames();
-}
-
-void Head::setName()
-{
-  setName(typeName());
 }
 
 /* special initializations */

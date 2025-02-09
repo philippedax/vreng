@@ -97,10 +97,7 @@ class Head: public Object {
   void behaviors();
   /**< Sets behaviors */
 
-  void setName(const char *modelname);
-  /**< Sets qualified name */
-
-  void setName();
+  void setName(const char *name);
   /**< Sets qualified name */
 
   void inits();

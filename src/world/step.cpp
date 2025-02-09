@@ -39,7 +39,7 @@ const float Step::LSPEED = 0.5;	// 1/2 ms
 static uint16_t oid = 0;
 
 
-/** creation from a file */
+/** Creation from a file */
 Object * Step::creator(char *l)
 {
   return new Step(l);
@@ -59,6 +59,7 @@ void Step::defaults()
   speed = LSPEED;
 }
 
+/** Parses file line */
 void Step::parser(char *l)
 {
   defaults();
@@ -92,6 +93,7 @@ void Step::parser(char *l)
   }
 }
 
+/** Builds super structure */
 void Step::build()
 {
   uint8_t nsteps = 0;
@@ -161,18 +163,20 @@ void Step::inits()
   createNetObj(PROPS, ++oid);
 }
 
+/** Creation from vre file */
 Step::Step(char *l)
 {
   parser(l);
   if (stair || escalator || travolator || spiral) {
-    build();	// build the structure
+    build();	// build the super structure
   }
   else {
     inits();	// one step
   }
 }
 
-Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _mobile, float _size, float _speed, int _dir)
+/** Creation from super structure : escalator, travalator, stair, spiral */
+Step::Step(Pos& npos, Pos& _ipos, const char *name, const char *geom, bool _mobile, float _size, float _speed, int _dir)
 {
   pos = npos;
   pos.x = npos.x;
@@ -197,7 +201,7 @@ Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _m
   }
 
   inits();
-  forceNames(typname);
+  forceNames(name);
 
   if (mobile) {    // escalator or travolator
     permanentMovement(speed);
@@ -205,7 +209,7 @@ Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _m
   }
 }
 
-/** creation from Gui addobj */
+/** Creation from Gui addobj */
 Step::Step(Object *user, char *geom)
 {
   parseSolid(geom);
@@ -309,7 +313,7 @@ bool Step::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-/** object intersects: up */
+/** Object intersects: up */
 bool Step::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
@@ -326,8 +330,10 @@ bool Step::intersect(Object *pcur, Object *pold)
           pold->copyPositionAndBB(pcur);
         }
         else {
-          if (pos.bbs.v[2] < JUMP/8) pcur->pos.z += pos.bbs.v[2];
-          else pcur->pos.z += JUMP;  // up
+          if (pos.bbs.v[2] < JUMP/8)
+            pcur->pos.z += pos.bbs.v[2];
+          else
+            pcur->pos.z += JUMP;  // up
           pcur->updatePositionAndGrid(pold);
         }
       }
@@ -342,6 +348,7 @@ bool Step::intersect(Object *pcur, Object *pold)
   return true;
 }
 
+/** Object leaves intersection */
 bool Step::intersectOut(Object *pcur, Object *pold)
 {
   if (pcur->type == USER_TYPE) {
