@@ -315,14 +315,18 @@ void Object::imposedMovement(float ttl)
   move.nocol = false;	// with collision
 }
 
-/** Stops an imposed movement */
+/** Stops a movement */
 void Object::stopMovement()
 {
+  if (move.perm_sec || move.perm_usec) {	// permanent
+    move.perm_sec  = 0;
+    move.perm_usec = 0;
+    return;
+  }
+  // imposed
   move.ttl = 0;
   move.sec = 0;
   move.usec = 0;
-  if (move.perm_sec)  move.perm_sec  = 0;
-  if (move.perm_usec) move.perm_usec = 0;
   move.next = NULL;
   move.nocol = false;
   for (Move *pm = move.next; pm ; pm = pm->next) {

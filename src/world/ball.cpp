@@ -50,7 +50,7 @@ const float Ball::TTL = 3.0;		// 3 s
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Ball::creator(char *l)
 {
   return new Ball(l);
@@ -215,11 +215,11 @@ void Ball::imposed(float dt)
     pos.ax += dt * move.aspeed.v[2] * ratio();
 
     // reduce speed
-    move.lspeed.v[0] /= 1.02;
-    move.lspeed.v[1] /= 1.02;
-    move.lspeed.v[2] /= 1.02;
+    move.lspeed.v[0] /= 1.03;
+    move.lspeed.v[1] /= 1.03;
+    move.lspeed.v[2] /= 1.03;
     move.aspeed.v[0] /= 1.02;
-    move.aspeed.v[2] /= 1.02;
+    //move.aspeed.v[2] /= 1.02;
   }
   else { // ball is taken by user
     float off = 0.4; //(pos.x > localuser->pos.x) ? 0.4 : -0.4;
