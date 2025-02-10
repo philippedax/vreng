@@ -106,7 +106,7 @@ void Model::setName()
 {
   if (! name.given)
     name.given = new char[OBJNAME_LEN];
-  sprintf(name.given, "%s-%s.%d", MODEL_NAME, ::g.user, getNum());
+  sprintf(name.given, "%s-%s%d", MODEL_NAME, ::g.user, getNum());
 }
 
 /** Parse a model */

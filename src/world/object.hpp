@@ -601,7 +601,10 @@ class Object {
 
  public:
   static void initNames();
-  /**< inits hash_table of names. */
+  /**< Inits hash_table of names. */
+
+  void setName();
+  /**< Sets an unique name. */
 
   void updateNames();
   /**< Updates names. */

@@ -596,9 +596,9 @@ void Object::getObjectNames(char **classname, char **currentname, char **actionn
   int a;
   static char actionname[ACTIONSNUMBER][ACTIONNAME_LEN];
 
-  *classname   = const_cast<char *>(typeName());
-  *currentname = const_cast<char *>(objectName());
-  *actionnames = reinterpret_cast<char *>(actionname);
+  *classname   = const_cast<char *> (typeName());
+  *currentname = const_cast<char *> (objectName());
+  *actionnames = reinterpret_cast<char *> (actionname);
 
   // clean actionname
   for (a=0; a < ACTIONSNUMBER; a++) {
@@ -710,6 +710,21 @@ void Object::updateNames()
     setOwner("public");  // public by default
   }
 }
+
+/** Sets an unique name */
+void Object::setName()
+{
+  if (! name.given) {
+    name.given = new char[OBJNAME_LEN];
+  }
+  sprintf(name.given, "%s-%s%d", name.type, ::g.user, getNum());
+  if (isupper(*(name.given))) {
+    *name.given = tolower(*(name.given));	// name.given in lowercase
+  }
+  name.current = name.given;
+  updateNames();
+}
+
 
 /** Updates the Bounding Box */
 void Object::updateBB()

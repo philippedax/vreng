@@ -72,7 +72,7 @@ void Ball::setName()
   oid++;
   if (! name.given)
     name.given = new char[OBJNAME_LEN];
-  sprintf(name.given, "%s-%s.%d", BALL_NAME, ::g.user, oid);
+  sprintf(name.given, "%s-%s%d", BALL_NAME, ::g.user, oid);
 }
 
 /** Solid geometry */

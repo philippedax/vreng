@@ -29,6 +29,7 @@
 #define DRESS_TYPE	73
 #define DRESS_NAME	"Dress"
 
+
 /**
  * Dress class
  */
@@ -45,7 +46,6 @@ class Dress: public Cloth {
     ROSES,
     UNKDRESS
   };
-
   enum {
     WEAR,
     TAKEOFF,

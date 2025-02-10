@@ -123,7 +123,7 @@ void Mirage::setName()
 {
   if (! name.given)
     name.given = new char[OBJNAME_LEN];
-  sprintf(name.given, "%s-%s.%d", MIRAGE_NAME, ::g.user, getNum());
+  sprintf(name.given, "%s%s.%d", MIRAGE_NAME, ::g.user, getNum());
   updateNames();
 }
 

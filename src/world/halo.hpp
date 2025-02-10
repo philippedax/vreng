@@ -29,6 +29,7 @@
 #define HALO_TYPE	71
 #define HALO_NAME	"Halo"
 
+
 /**
  * Halo class
  */
