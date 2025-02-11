@@ -406,7 +406,7 @@ void Movie::stop()
       break;
   }
 
-  stopMovement();
+  stopPermanent();
 
   if (videobuf) delete[] videobuf;
   videobuf = NULL;

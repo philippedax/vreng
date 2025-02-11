@@ -208,7 +208,7 @@ void Drone::fly()
 void Drone::pause()
 {
   flying = false;
-  stopMovement();
+  stopPermanent();
   wings->stop();
 }
 
@@ -260,7 +260,7 @@ void Drone::view()
 void Drone::reset()
 {
   flying = false;
-  stopMovement();
+  stopPermanent();
   wings->stop();
   pos = posorig;
   if (following) {

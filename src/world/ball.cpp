@@ -332,7 +332,7 @@ void Ball::take()
 {
   ttl = MAXFLOAT;
   imposedMovement(ttl);
-  stopMovement();
+  stopPermanent();
   taken = true;
 }
 

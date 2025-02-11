@@ -548,21 +548,27 @@ class Object {
   //
 
  public:
+  void linearSpeed(float lspeed);
+  /**< set permanent linear speed of an object. */
+
   void permanentMovement();
   void permanentMovement(float lspeed);
   /**< Enables permanent movement on an object. */
 
-  void linearSpeed(float lspeed);
-  /**< set permanent linear speed of an object. */
-
   void imposedMovement(float dt);
-  /**< Initializes movement on an object. */
+  /**< Enables an imposed movement on an object. */
 
   float diffTime(time_t sec, time_t usec);
   /**< Updates times on an object. */
 
   void stopMovement();
   /**< Stops a movement on an object. */
+
+  void stopPermanent();
+  /**< Stops a permanent movement on an object. */
+
+  void stopImposed();
+  /**< Stops an imposed movement on an object. */
 
   bool testMoving();
   /**< Tests if object is moving. */

@@ -155,7 +155,7 @@ bool Object::lasting(time_t sec, time_t usec, float *dt)
   }
 
   *dt = 0;
-  stopMovement();
+  stopImposed();
   return false;
 }
 
@@ -318,12 +318,22 @@ void Object::imposedMovement(float ttl)
 /** Stops a movement */
 void Object::stopMovement()
 {
-  if (move.perm_sec || move.perm_usec) {	// permanent
+  stopImposed();
+  stopPermanent();
+}
+
+/** Stops a permanent movement */
+void Object::stopPermanent()
+{
+  if (move.perm_sec || move.perm_usec) {
     move.perm_sec  = 0;
     move.perm_usec = 0;
-    return;
   }
-  // imposed
+}
+
+/** Stops an imposed movement */
+void Object::stopImposed()
+{
   move.ttl = 0;
   move.sec = 0;
   move.usec = 0;

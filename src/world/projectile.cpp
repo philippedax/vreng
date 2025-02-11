@@ -40,6 +40,7 @@ void Projectile::timing(time_t s, time_t us, float *dt)
   }
 }
 
+/** Movement */
 void Projectile::imposed(float dt)
 {
   pos.x += dt * move.lspeed.v[0];
@@ -47,7 +48,7 @@ void Projectile::imposed(float dt)
   pos.z += dt * move.lspeed.v[2];
 }
 
-/* Updates to the network */
+/** Updates to the network */
 bool Projectile::publish(const Pos &oldpos)
 {
   bool change = false;
@@ -59,6 +60,7 @@ bool Projectile::publish(const Pos &oldpos)
   return change;
 }
 
+/** When an intersetion occurs */
 bool Projectile::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {

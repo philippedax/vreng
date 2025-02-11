@@ -105,7 +105,7 @@ void Web::imposed(float dt)
     case RECTO: pos.az = angori; break;
     case VERSO: pos.az = angori + M_PI; break;
     }
-    stopMovement();	// stop roting
+    stopImposed();	// stop roting
     if (*caption) {
       //showCaption();
     }

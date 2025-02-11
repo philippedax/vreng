@@ -70,7 +70,7 @@ bool Icon::isMoving()
   return testMoving();
 }
 
-/** sollicited movements */
+/** Sollicited movements */
 void Icon::imposed(float dt)
 {
   if (! taken) {
@@ -90,13 +90,13 @@ void Icon::imposed(float dt)
   }
 }
 
-/** permanent movements */
+/** Permanent movements */
 void Icon::permanent(float dt)
 {
   pos.z -= dt * GRAVITY / 2;
 }
 
-/** creation: this method is invisible: called by GUI::putIcon */
+/** Creation: this method is invisible: called by GUI::putIcon */
 void Icon::create(User *pu, void *d, time_t s, time_t u)
 {
   new Icon(pu, d);
@@ -111,7 +111,7 @@ void Icon::defaults()
   remove = false;
 }
 
-/** document's geometry */
+/** Document's geometry */
 void Icon::geometry()
 {
   char s[256];
@@ -160,7 +160,7 @@ Icon::Icon(User *user, void *d)
   char icon[URL_LEN];
   *icon = 0;
 
-  /* parameters transmission */
+  // parameters transmission
   for (char *pt = strtok(infos, "&"); pt ; pt = strtok(NULL, "&")) {
     if (! stringcmp(pt, "<url=")) {
       pt = getParam(pt);
@@ -215,14 +215,14 @@ Icon::Icon(User *user, void *d)
     taken = false;
   }
   else {	// new document named interactively by hand
-    /* icon position */
+    // icon position
     float off = 0.4;		// 40cm in front of avatar
     pos.x = user->pos.x + off * cos(user->pos.az);
     pos.y = user->pos.y + off * sin(user->pos.az);
     pos.z = user->pos.z + 0.6;	// visible by avatar's eyes
     pos.az = user->pos.az + M_PI_2;
 
-    /* texture */
+    // texture
     if (*icon) {
       tex = new char[strlen(icon) + 1];
       strcpy(tex, icon);
@@ -269,7 +269,6 @@ Icon::Icon(User *user, void *d)
             delete filein;
             delete fileout;
             chmod(ofile, 0644);
-
             sprintf(name.url, "http://%s/%s/vreng/%s", ::g.server, ::g.urlpfx, ifile);
           }
           else {
@@ -297,7 +296,7 @@ Icon::Icon(User *user, void *d)
   mobileObject(1);
   ttl = (taken) ? MAXFLOAT : 0;
   imposedMovement(ttl);
-  stopMovement();
+  stopPermanent();
 
   // network creation
   createNetObj(PROPS);
@@ -389,7 +388,7 @@ void Icon::pin(Icon *icon, void *d, time_t s, time_t u)
   icon->move.lspeed.v[1] = icon->lspeed * 4 * sin(localuser->pos.az);
   icon->ttl = Icon::TTL * 10;
   icon->imposedMovement(icon->ttl);
-  icon->stopMovement();
+  icon->stopPermanent();
   icon->enableBehavior(COLLIDE_ONCE);
   icon->taken = false;
 }
@@ -402,7 +401,7 @@ void Icon::push(Icon *icon, void *d, time_t s, time_t u)
   icon->move.lspeed.v[1] = icon->lspeed * sin(localuser->pos.az);
   icon->ttl = Icon::TTL * 4;
   icon->imposedMovement(icon->ttl);
-  icon->stopMovement();
+  icon->stopPermanent();
   icon->enableBehavior(COLLIDE_ONCE);
   icon->taken = false;
 }
@@ -417,7 +416,7 @@ void Icon::pull(Icon *icon, void *d, time_t s, time_t u)
     icon->move.lspeed.v[1] = -icon->lspeed * sin(localuser->pos.az);
     icon->ttl = Icon::TTL;
     icon->imposedMovement(icon->ttl);
-    icon->stopMovement();
+    icon->stopPermanent();
     icon->enableBehavior(COLLIDE_ONCE);
     icon->taken = false;
   }
@@ -429,7 +428,7 @@ void Icon::carry(Icon *icon, void *d, time_t s, time_t u)
     icon->resetFlashy();
     icon->ttl = MAXFLOAT;
     icon->imposedMovement(icon->ttl);
-    icon->stopMovement();
+    icon->stopPermanent();
     icon->disableBehavior(COLLIDE_NEVER);
     icon->taken = true;
   }
@@ -497,7 +496,7 @@ void Icon::turn(Icon *icon, void *d, time_t s, time_t u)
   icon->move.aspeed.v[0] = icon->aspeed * 2;
   icon->ttl = Icon::TTL;
   icon->imposedMovement(icon->ttl);
-  icon->stopMovement();
+  icon->stopPermanent();
 }
 
 void Icon::destroy(Icon *icon, void *d, time_t s, time_t u)

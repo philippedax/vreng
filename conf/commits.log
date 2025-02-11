@@ -3429,3 +3429,4 @@
 3429 Dim  9 fév 2025 18:25:43 CET	revert forceNames
 3430 Dim  9 fév 2025 18:43:48 CET	cleanup setName step.*pp
 3431 Lun 10 fév 2025 12:56:26 CET	cleanup setName() object.*pp
+3432 Lun 10 fév 2025 17:13:54 CET	cleanup stopMovement move.cpp
