@@ -29,6 +29,7 @@ struct TexFont;
 #define BUBBLE_TYPE	66
 #define BUBBLE_NAME	"Bubble"
 
+
 /**
  * Bubble class
  */
@@ -49,9 +50,8 @@ class Bubble: public Object {
     PROPAZ,
     PROPAX,
     PROPAY,
-    PROPS       ///< last item = properties number.
+    PROPS		///< last item = properties number.
   };
-
   enum {
     BUBBLERECTO,	// recto
     BUBBLEVERSO		// verso
@@ -59,15 +59,15 @@ class Bubble: public Object {
   static const float BUBBLETTL;		///< bubble time to live
   static const float BUBBLESCALE;	///< bubble scale
 
-  static const OClass oclass;	///< class variable.
+  static const OClass oclass;		///< class variable.
 
   const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
-  Bubble(class User *user, char *string, const float *color, bool face);	///< Constructor.
+  Bubble(class User *user, char *str, const float *color, bool face);	///< Constructor.
 
-  void timing(time_t s, time_t us, float *lasting);
+  void timing(time_t s, time_t us, float *dt);
   /**< Updates lasting time. */
 
   void imposed(float lasting);

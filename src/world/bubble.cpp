@@ -40,20 +40,20 @@ static uint16_t oid = 0;
 
 void Bubble::defaults()
 {
-  face = BUBBLERECTO;        // recto
+  face = BUBBLERECTO;			// recto
   scale = BUBBLESCALE;
   bubtext = NULL;
   text = NULL;
   state = INACTIVE;
-  strcpy(name.url, DEF_URL_TXF);      // font
+  strcpy(name.url, DEF_URL_TXF);	// txf font
 }
 
-/* position above the avatar's head */
+/** Position above the avatar's head */
 void Bubble::setPosition()
 {
-  pos.z  = localuser->height + 0.10;
+  pos.z  = localuser->height + 0.10;	// 10cm above the head
   pos.x  = localuser->pos.x;
-  pos.ax = M_PI_2;	// vertical
+  pos.ax = M_PI_2;			// vertical
   if (face == BUBBLEVERSO)
     pos.y  = localuser->pos.y;
   else
@@ -70,7 +70,7 @@ void Bubble::geometry()
   char s[256];
 
   float r = MAX((strlen(text)+1) * Text::GLYPHSIZ / 2.5, 2*Text::GLYPHSIZ); // A REVOIR !!!
-  float a = 0.3;	// transparency
+  float a = 0.3;			// transparency
 
   // bubble glob (obloid)
   sprintf(s, "solid shape=\"sphere\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
@@ -83,14 +83,14 @@ void Bubble::geometry()
 
 void Bubble::behaviors()
 {
-  enableBehavior(DYNAMIC);      // dynamicaly introduced
+  enableBehavior(DYNAMIC);		// dynamicaly introduced
   enableBehavior(NO_BBABLE);
 }
 
 void Bubble::inits()
 {
   ephemeralObject(BUBBLETTL);
-  imposedMovement(BUBBLETTL);	// alive delay
+  imposedMovement(BUBBLETTL);		// alive delay
   createNetObj(PROPS);
 }
 
@@ -110,7 +110,7 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   // adjusting text position
   postext = pos;
   postext.y += (strlen(text)+2) * Text::GLYPHSIZ / 2;
-  postext.z += -0.02;	// -2 cm
+  postext.z += -0.02;		// -2 cm
 
   bubtext = new Text(text, postext, scale, _color, _face);
   if (bubtext) {
@@ -118,7 +118,7 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   }
 }
 
-void Bubble::imposed(float lasting)
+void Bubble::imposed(float dt)
 {
   if (state == ACTIVE) {
     setPosition();
@@ -126,7 +126,7 @@ void Bubble::imposed(float lasting)
   if (bubtext) {
     postext = pos;
     postext.y += (strlen(text)+2) * Text::GLYPHSIZ / 2;
-    postext.z += -0.02;	// -2 cm
+    postext.z += -0.02;		// -2 cm
     bubtext->setPos(postext.x, postext.y, postext.z, postext.az, postext.ax);
   }
 }
@@ -134,11 +134,11 @@ void Bubble::imposed(float lasting)
 void Bubble::timing(time_t sec, time_t usec, float *last)
 {
   if (! lasting(sec, usec, last)) {
-    /* the text has elapsed its live time, it must be destroyed */
+    // the text has elapsed its live time, it must be destroyed
     if (bubtext) {
       bubtext->expire();	// delete text inside Bubble
     }
-    toDelete(); 	// delete Bubble
+    toDelete(); 		// delete Bubble
     localuser->bubble = NULL;
     bubtext = NULL;
     state = INACTIVE;

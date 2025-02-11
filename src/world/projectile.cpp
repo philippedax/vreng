@@ -65,7 +65,7 @@ bool Projectile::intersect(Object *pcur, Object *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:
-    /* projectile intersects an user: hit */
+    // projectile intersects an user: hit
     echo("%s hited by %s", pcur->objectName(), objectName());
     pold->copyPositionAndBB(pcur);
     break;
