@@ -3430,3 +3430,4 @@
 3430 Dim  9 fév 2025 18:43:48 CET	cleanup setName step.*pp
 3431 Lun 10 fév 2025 12:56:26 CET	cleanup setName() object.*pp
 3432 Lun 10 fév 2025 17:13:54 CET	cleanup stopMovement move.cpp
+3433 Mar 11 fév 2025 09:46:24 CET	add stopImposed() and stopPermanent() move.cpp

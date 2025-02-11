@@ -325,6 +325,7 @@ void Ball::up()
   move.aspeed.v[0] = aspeed;
   ttl = 1;	// 1 sec
   imposedMovement(ttl);
+  taken = false;
 }
 
 /** Action take */
@@ -332,7 +333,7 @@ void Ball::take()
 {
   ttl = MAXFLOAT;
   imposedMovement(ttl);
-  stopPermanent();
+  //stopPermanent();
   taken = true;
 }
 
