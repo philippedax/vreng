@@ -38,13 +38,13 @@ class Car {
   /**< Draws a car */
 
  private:
-  void car(GLfloat adir, const int textures[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
-  void rouederdte(GLfloat r, int p);
-  void rouedergche(GLfloat r, int p);
-  void roueavtdte(GLfloat r, GLfloat adir, int p);
-  void roueavtgche(GLfloat r, GLfloat adir, int p);
-  void roue(GLfloat r, int normale, int p);
-  void roue(GLfloat r, int p);
+  void car(GLfloat a, const int textures[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
+  void wheelbackright(GLfloat r, int p);
+  void wheelbackleft(GLfloat r, int p);
+  void wheelfronttright(GLfloat r, GLfloat a, int p);
+  void wheelfronttleft(GLfloat r, GLfloat a, int p);
+  void wheel(GLfloat r, int normale, int p);
+  void wheel(GLfloat r, int p);
   void cylindre(GLfloat height, GLfloat radius, int precision);
 };
 

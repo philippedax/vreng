@@ -37,7 +37,6 @@
 #include <list>
 #include <vector>
 
-class Http;
 
 /**
  * Face class
@@ -95,7 +94,7 @@ class Face {
   void animNose(float a, const char *side);
 
  private:
-  static void facesreader(void *_o, Http *http);
+  static void facesreader(void *_o, class Http *http);
 
   // GUI callbacks
   static void Yes(class Humanoid *o, void *d, time_t s, time_t u);

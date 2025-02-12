@@ -31,8 +31,6 @@
 #include "texture.hpp"	// open
 #include "cache.hpp"	// open, close
 
-using namespace std;
-
 
 void X3d::defaults()
 {
@@ -264,27 +262,27 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
           shape->meshInfos.colorPerVertex = true;
       }
       else if (isEqual(attr, "coordIndex")) {
-        string temp(xmlnode->getAttributeValue(i));
+        std::string temp(xmlnode->getAttributeValue(i));
         uint32_t offset = temp.find("-1");
-        while (offset != (uint32_t) string::npos) {
+        while (offset != (uint32_t) std::string::npos) {
           temp.replace(offset, 2, ", ");
           offset = temp.find("-1");
         }
         X3dVectors::parseVectors(temp, &shape->meshInfos.coordIdx);
       }
       else if (isEqual(attr, "texCoordIndex")) {
-        string temp(xmlnode->getAttributeValue(i));
+        std::string temp(xmlnode->getAttributeValue(i));
         uint32_t offset = temp.find("-1");
-        while (offset != (uint32_t) string::npos) {
+        while (offset != (uint32_t) std::string::npos) {
           temp.replace(offset, 2, ", ");
           offset = temp.find("-1");
         }
         X3dVectors::parseVectors(temp, &shape->meshInfos.texCoordIdx);
       }
       else if (isEqual(attr, "colorIndex")) {
-        string temp(xmlnode->getAttributeValue(i));
+        std::string temp(xmlnode->getAttributeValue(i));
         uint32_t offset = temp.find("-1");
-        while (offset != (uint32_t) string::npos) {
+        while (offset != (uint32_t) std::string::npos) {
           temp.replace(offset, 2, ", ");
           offset = temp.find("-1");
         }
@@ -307,7 +305,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
 
 void X3d::setupInterpolators()
 {
-  for (vector<X3dRoute>::iterator route = routes.begin(); route != routes.end(); route++) {
+  for (std::vector<X3dRoute>::iterator route = routes.begin(); route != routes.end(); route++) {
     X3DOUTField fromfield = route->fromField;
     X3DINField tofield = route->toField;
 
@@ -339,7 +337,7 @@ void X3d::setupInterpolators()
   routes.clear();
 }
 
-X3dShape* X3d::findShape(X3dShape* root, string name)
+X3dShape* X3d::findShape(X3dShape* root, std::string name)
 {
   if (root->getName() == name) return root;
 
@@ -351,9 +349,9 @@ X3dShape* X3d::findShape(X3dShape* root, string name)
   return NULL;
 }
 
-template <class T> T* X3d::findItem(vector<T>* tab, string name)
+template <class T> T* X3d::findItem(std::vector<T>* tab, std::string name)
 {
-  for (typename vector<T>::iterator j = tab->begin(); j != tab->end(); j++) {
+  for (typename std::vector<T>::iterator j = tab->begin(); j != tab->end(); j++) {
     if (j->getName() == name) return &(*j);
   }
   return NULL;
@@ -593,7 +591,7 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
   if (myShape->scaleOn)
     glScalef(myShape->scale[0], myShape->scale[1], myShape->scale[2]);
 
-  for (vector<GLuint>::iterator i = myShape->meshes.begin(); i != myShape->meshes.end(); i++) {
+  for (std::vector<GLuint>::iterator i = myShape->meshes.begin(); i != myShape->meshes.end(); i++) {
     glCallList(*i);
     if (flashy) {  //flashy mesh
       glPushMatrix();
@@ -640,12 +638,12 @@ void X3d::render()
   glMaterialfv(GL_FRONT, GL_EMISSION, white);
 
   // we update the timers for animation
-  for (vector<X3dTimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++) {
+  for (std::vector<X3dTimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++) {
     t->updateFraction(anim);
   }
 
   // list to make an iterative treatment of the tree
-  vector<X3dShape*> nextShapes;
+  std::vector<X3dShape*> nextShapes;
   nextShapes.push_back(&rootShape);
 
   X3dShape* shape;
@@ -683,7 +681,7 @@ void X3d::render()
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_COLOR_MATERIAL);
 
-    for (vector<X3dShape*>::iterator it = shape->childShapes.begin(); it != shape->childShapes.end(); it++) {
+    for (std::vector<X3dShape*>::iterator it = shape->childShapes.begin(); it != shape->childShapes.end(); it++) {
       nextShapes.push_back(*it);
     }
   }
@@ -741,7 +739,7 @@ void X3d::resetFlashy()
 
 void X3d::resetAnimations()
 {
-  for (vector<X3dTimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++) {
+  for (std::vector<X3dTimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++) {
     t->resetFraction();
   }
 }
@@ -751,12 +749,12 @@ void X3d::resetAnimations()
  * X3dVectors methods
  */
 
-bool X3dVectors::parseFloats(const string str, float* outputs, uint32_t number)
+bool X3dVectors::parseFloats(const std::string str, float* outputs, uint32_t number)
 {
-  vector<vector<float> > temp;
+  std::vector<std::vector<float> > temp;
 
   if (parseCertifiedVectors(str, &temp, number, 1)) {
-    vector<float> myVector = temp.front();
+    std::vector<float> myVector = temp.front();
     for (int i=0; i<number; i++) {
       //outputs[i]=myVector.at(i);
       outputs[i] = myVector[i];
@@ -767,21 +765,21 @@ bool X3dVectors::parseFloats(const string str, float* outputs, uint32_t number)
 }
 
 /** Returns true if succeeded, false else */
-bool X3dVectors::parseFloats(const string str, vector<float>* output)
+bool X3dVectors::parseFloats(const std::string str, std::vector<float>* output)
 {
-  vector<vector<float> > temp;
+  std::vector<std::vector<float> > temp;
 
   if (parseCertifiedVectors(str, &temp, 0, 1)) {
-    vector<float> myVector = temp.front();
-    vector<float>::iterator i = myVector.begin();
-    vector<float>::iterator j = myVector.end();
+    std::vector<float> myVector = temp.front();
+    std::vector<float>::iterator i = myVector.begin();
+    std::vector<float>::iterator j = myVector.end();
     output->assign(i, j);
     return true;
   }
   return false;
 }
 
-bool X3dVectors::parseCertifiedVectors(const string str, vector<vector<float> >* outputs, uint32_t vectorLength, uint32_t numVector)
+bool X3dVectors::parseCertifiedVectors(const std::string str, std::vector<std::vector<float> >* outputs, uint32_t vectorLength, uint32_t numVector)
 {
   bool res = parseVectors(str, outputs);
 
@@ -790,7 +788,7 @@ bool X3dVectors::parseCertifiedVectors(const string str, vector<vector<float> >*
     return false;
   }
   if (vectorLength > 0) {
-    for (vector<vector<float> >::iterator i=outputs->begin(); i!=outputs->end();i++) {
+    for (std::vector<std::vector<float> >::iterator i=outputs->begin(); i!=outputs->end();i++) {
       if (i->size() != vectorLength) {
         error("vectors too long");
         return false;
@@ -800,7 +798,7 @@ bool X3dVectors::parseCertifiedVectors(const string str, vector<vector<float> >*
   return res;
 }
 
-bool X3dVectors::parseVectors(const string str, vector<vector<float> > *outputs)
+bool X3dVectors::parseVectors(const std::string str, std::vector<std::vector<float> > *outputs)
 {
   int limit = str.size();
   int in = 0;
@@ -809,7 +807,7 @@ bool X3dVectors::parseVectors(const string str, vector<vector<float> > *outputs)
 
   char* temp = new char[limit+1]; //to store chars before conversion to float
 
-  vector<float> tempout;
+  std::vector<float> tempout;
 
   while (in < limit) {
     while (in < limit &&
@@ -858,19 +856,19 @@ bool X3dVectors::parseVectors(const string str, vector<vector<float> > *outputs)
   return true;
 }
 
-void X3dVectors::echoVector(vector<vector<float> >* outputs)
+void X3dVectors::echoVector(std::vector<std::vector<float> >* outputs)
 {
-  for (vector<vector<float> >::iterator i = outputs->begin(); i != outputs->end(); i++) {
-    for (vector<float>::iterator j = i->begin(); j != i->end(); j++) {
+  for (std::vector<std::vector<float> >::iterator i = outputs->begin(); i != outputs->end(); i++) {
+    for (std::vector<float>::iterator j = i->begin(); j != i->end(); j++) {
       printf("%.1f ", *j);
     }
   }
   printf("\n");
 }
 
-void X3dVectors::echoVector(vector<float>* outputs)
+void X3dVectors::echoVector(std::vector<float>* outputs)
 {
-  for (vector<float>::iterator i = outputs->begin(); i != outputs->end(); i++) {
+  for (std::vector<float>::iterator i = outputs->begin(); i != outputs->end(); i++) {
     printf("%.1f ", *i);
   }
   printf("\n");
@@ -1199,7 +1197,7 @@ void X3dTimeSensor::resetFraction()
 {
   fraction = 0;
 
-  for (vector<X3dInterpolator*>::iterator it = targets.begin(); it != targets.end(); it++) {
+  for (std::vector<X3dInterpolator*>::iterator it = targets.begin(); it != targets.end(); it++) {
     (*it)->updateValue(fraction);
   }
 }
@@ -1231,7 +1229,7 @@ void X3dTimeSensor::updateFraction(bool _anim)
     }
     //echo("%s says: new increment is %.1f", name.c_str(), fraction);
 
-    for (vector<X3dInterpolator*>::iterator it = targets.begin(); it != targets.end(); it++) {
+    for (std::vector<X3dInterpolator*>::iterator it = targets.begin(); it != targets.end(); it++) {
       (*it)->updateValue(fraction);
     }
   }
@@ -1264,7 +1262,7 @@ bool X3dRoute::initRoute(XMLNode* xmlnode)
       toNode = xmlnode->getAttributeValue(i);
     }
     else if (X3d::isEqual(attr, "fromField")) {
-      string field = xmlnode->getAttributeValue(i);
+      std::string field = xmlnode->getAttributeValue(i);
 
       if (X3d::isEqual(field.c_str(), "FRACTION_CHANGED"))
         fromField = FRACTION_CHANGED;
@@ -1272,7 +1270,7 @@ bool X3dRoute::initRoute(XMLNode* xmlnode)
         fromField = VALUE_CHANGED;
     }
     else if (X3d::isEqual(attr, "toField")) {
-      string field = xmlnode->getAttributeValue(i);
+      std::string field = xmlnode->getAttributeValue(i);
 
       if      (X3d::isEqual(field.c_str(), "SET_FRACTION")) toField = SET_FRACTION;
       else if (X3d::isEqual(field.c_str(), "TRANSLATION")) toField = TRANSLATION;

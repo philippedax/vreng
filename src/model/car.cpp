@@ -27,9 +27,9 @@
 #include "draw.hpp"	// box
 
 
-void Car::draw(GLfloat width, GLfloat depth, GLfloat height, const int textures[], GLfloat rtx[6][2], uint8_t slices, uint8_t style)
+void Car::draw(GLfloat width, GLfloat depth, GLfloat height, const int tex[], GLfloat rtx[6][2], uint8_t slices, uint8_t style)
 {
-  GLfloat adir = 0;	//should be a parameter
+  GLfloat a = 0;	//should be a parameter
 
   glEnable(GL_NORMALIZE);
   glPushMatrix();
@@ -38,19 +38,21 @@ void Car::draw(GLfloat width, GLfloat depth, GLfloat height, const int textures[
   glRotatef(90, 1, 0, 0);
   glRotatef(180, 0, 1, 0);
   glTranslatef(0, 0.7, 0);	// +z
-  glScalef(width/10, depth/10, height/10); // /5
+  glScalef(width/11, depth/11, height/11); // /5
 
-  car(adir, textures, rtx, slices, style);
+  car(a, tex, rtx, slices, style);
 
   glPopMatrix();
   glDisable(GL_NORMALIZE);
 }
 
-void Car::car(GLfloat adir, const int textures[], GLfloat rtx[6][2], uint8_t slices, uint8_t style)
+void Car::car(GLfloat a, const int tex[], GLfloat rtx[6][2], uint8_t slices, uint8_t style)
 {
+  GLfloat cyan[] = { 0, 1, 1, .5 };
+
   glPushMatrix();
   glScalef(10, 6, 6);
-  Draw::box(1, 1, 1, textures, rtx, style);
+  Draw::box(1, 1, 1, tex, rtx, style);
   glPopMatrix();
 
   if (style == Draw::STYLE_FILL) glBegin(GL_QUADS);
@@ -68,75 +70,78 @@ void Car::car(GLfloat adir, const int textures[], GLfloat rtx[6][2], uint8_t sli
   glNormal3f(1, 0, 0);
   glVertex3f(12, -3, 3); glVertex3f(12, -1, 3); glVertex3f(12, -1, -3); glVertex3f(12, -3, -3);
   //front up
+  glColor4fv(cyan);
   glNormal3f(4, 7, 0);
   glVertex3f(12, -1, 3); glVertex3f(5, 3, 3); glVertex3f(5, 3, -3); glVertex3f(12, -1, -3);
   glEnd();
 
-  rouederdte(2, slices);
-  rouedergche(2, slices);
-  roueavtdte(1.5, adir, slices);
-  roueavtgche(1.5, adir, slices);
+  wheelbackright(1, slices);
+  wheelbackleft(1, slices);
+  wheelfronttright(.9, a, slices);
+  wheelfronttleft(.9, a, slices);
 }
 
-void Car::rouederdte(GLfloat r, int p)
+void Car::wheelbackright(GLfloat r, int p)
 {
   glPushMatrix();
    glTranslatef(-2, -3, 3);
    cylindre(r, r, p);	//pneu
-   cylindre(-6, 1, p);	//essieu
-   roue(r, p);
+   cylindre(-6, .2, p);	//essieu
+   wheel(r, p);
    glTranslatef(0, 0, r);
-   roue(r, p);
+   wheel(r, p);
   glPopMatrix();
 }
 
-void Car::rouedergche(GLfloat r, int p)
+void Car::wheelbackleft(GLfloat r, int p)
 {
   glPushMatrix();
    glTranslatef(-2, -3, -3);
    cylindre(r, r, p);	//pneu
-   roue(r, p);
+   wheel(r, p);
    glTranslatef(0, 0, r);
-   roue(r, p);
+   wheel(r, p);
   glPopMatrix();
 }
 
-void Car::roueavtdte(GLfloat r, GLfloat adir, int p)
+void Car::wheelfronttright(GLfloat r, GLfloat a, int p)
 {
   glPushMatrix();
    glTranslatef(8, -3.5, 3);
    glPushMatrix();
-    glRotatef(adir, 0, 1, 0);
+    glRotatef(a, 0, 1, 0);
     cylindre(r, r, p);	//pneu
-    roue(r, p);
+    wheel(r, p);
     glTranslatef(0, 0, r);
-    roue(r, p);
+    wheel(r, p);
    glPopMatrix();
-   cylindre(-6, 0.7, p); //essieu
+   cylindre(-6, .1, p); //essieu
   glPopMatrix();
 }
 
-void Car::roueavtgche(GLfloat r, GLfloat adir, int p)
+void Car::wheelfronttleft(GLfloat r, GLfloat a, int p)
 {
   glPushMatrix();
    glTranslatef(8, -3.5, -3);
-   glRotatef(adir, 0, 1, 0);
+   glRotatef(a, 0, 1, 0);
    cylindre(-r, r, p);	//pneu
-   roue(r, p);
+   wheel(r, p);
    glTranslatef(0, 0, -r);
-   roue(r, p);
+   wheel(r, p);
   glPopMatrix();
 }
 
-void Car::roue(GLfloat r, int p)
+void Car::wheel(GLfloat r, int p)
 {
+  GLfloat a1, a2;
+  GLfloat grey[] = {.3, .3, .3, 0};
+
   for (int i=0; i < p; i++) {
-    GLfloat a1 = M_2PI*i / p;
-    GLfloat a2 = M_2PI*(i+1) / p;
-    GLfloat grey[] = {.2, .2, .2, 0};
+    a1 = M_2PI*i / p;
+    a2 = M_2PI*(i+1) / p;
 
     //glEnable(GL_COLOR_MATERIAL);
-    //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
+    //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, grey);
     glBegin(GL_TRIANGLES);
     glColor4fv(grey);
     glNormal3f(0, 0, -1); glVertex3f(r*cos(a1), r*sin(a1), 0);
@@ -147,35 +152,33 @@ void Car::roue(GLfloat r, int p)
   }
 }
 
-void Car::cylindre(GLfloat height, GLfloat radius, int precision)
+void Car::cylindre(GLfloat height, GLfloat r, int p)
 {
+  GLfloat a1, a2;
+  GLfloat grey[] = {.2, .2, .2, 0};
+
   //glEnable(GL_COLOR_MATERIAL);
   glBegin(GL_QUADS);
-  for (int i=0 ; i < precision ; i++) {
-    GLfloat a = M_2PI * i / precision;
-    GLfloat ap = M_2PI * (i+1) / precision;
-    GLfloat cosa = cos(a);
-    GLfloat sina = sin(a);
-    GLfloat cosap = cos(ap);
-    GLfloat sinap = sin(ap);
-    GLfloat grey[] = {.2, .2, .2, 0};
+  for (int i=0 ; i < p ; i++) {
+    a1 = M_2PI * i / p;
+    a2 = M_2PI*(i+1) / p;
 
-    //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, grey);
     glColor4fv(grey);
-    glNormal3f(cosa, sina, 0);
-    glVertex3f(radius*cosa, radius*sina, 0);
-    glNormal3f(cosap, sinap, 0);
-    glVertex3f(radius*cosap, radius*sinap, 0);
-    glVertex3f(radius*cosap, radius*sinap, height);
-    glNormal3f(cosa, sina, 0);
-    glVertex3f(radius*cosa, radius*sina, height);
+    glNormal3f(cos(a1), sin(a1), 0);
+    glVertex3f(r*cos(a1), r*sin(a1), 0);
+    glNormal3f(cos(a2), sin(a2), 0);
+    glVertex3f(r*cos(a2), r*sin(a2), 0);
+    glVertex3f(r*cos(a2), r*sin(a2), height);
+    glNormal3f(cos(a1), sin(a1), 0);
+    glVertex3f(r*cos(a1), r*sin(a1), height);
   }
   glEnd();
   //glDisable(GL_COLOR_MATERIAL);
 }
 
 #if 0 //ev
-void cylindreclose(GLfloat height, GLfloat radius, int precision)
+void cylindreclose(GLfloat height, GLfloat r, int p)
 {
   int sign;
   GLfloat a, ap, a1, a2;
@@ -186,31 +189,31 @@ void cylindreclose(GLfloat height, GLfloat radius, int precision)
   else sign = 1;
 
   glBegin(GL_QUADS);
-  for (int i=0 ; i < precision ; i++) {
-    a = M_2PI * i / precision;
-    ap = M_2PI * (i+1) / precision;
+  for (int i=0 ; i < p ; i++) {
+    a = M_2PI * i / p;
+    ap = M_2PI * (i+1) / p;
     cosa = cos(a);
     sina = sin(a);
     cosap = cos(ap);
     sinap = sin(ap);
     glNormal3f(cosa, sina, 0);
-    glVertex3f(radius*cosa, radius*sina, 0);
+    glVertex3f(r*cosa, r*sina, 0);
     glNormal3f(cosap, sinap, 0);
-    glVertex3f(radius*cosap, radius*sinap, 0);
-    glVertex3f(radius*cosap, radius*sinap, height);
+    glVertex3f(r*cosap, r*sinap, 0);
+    glVertex3f(r*cosap, r*sinap, height);
     glNormal3f(cosa, sina, 0);
-    glVertex3f(radius*cosa, radius*sina, height);
+    glVertex3f(r*cosa, r*sina, height);
   }
   glEnd();
 
-  for (int i=0; i < precision; i++) {
-    a1 = M_2PI * i / precision;
-    a2 = M_2PI * (i+1) / precision;
+  for (int i=0; i < p; i++) {
+    a1 = M_2PI * i / p;
+    a2 = M_2PI * (i+1) / p;
     glBegin(GL_TRIANGLES);
     glNormal3f(0,0,-sign);
-    glVertex3f(radius*cos(a1), radius*sin(a1), 0);
+    glVertex3f(r*cos(a1), r*sin(a1), 0);
     glNormal3f(0,0,-sign);
-    glVertex3f(radius*cos(a2), radius*sin(a2), 0);
+    glVertex3f(r*cos(a2), r*sin(a2), 0);
     glNormal3f(0,0,-sign);
     glVertex3f(0,0,0);
     glEnd();
@@ -218,14 +221,14 @@ void cylindreclose(GLfloat height, GLfloat radius, int precision)
 
   glTranslatef(0, 0, height);
 
-  for (int i=0; i < precision; i++) {
-    a1 = M_2PI*i / precision;
-    a2 = M_2PI*(i+1) / precision;
+  for (int i=0; i < p; i++) {
+    a1 = M_2PI*i / p;
+    a2 = M_2PI*(i+1) / p;
     glBegin(GL_TRIANGLES);
     glNormal3f(0,0,sign);
-    glVertex3f(radius*cos(a1), radius*sin(a1), 0);
+    glVertex3f(r*cos(a1), r*sin(a1), 0);
     glNormal3f(0,0,sign);
-    glVertex3f(radius*cos(a2), radius*sin(a2), 0);
+    glVertex3f(r*cos(a2), r*sin(a2), 0);
     glNormal3f(0,0,sign);
     glVertex3f(0,0,0);
     glEnd();

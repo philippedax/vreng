@@ -29,7 +29,6 @@
 
 #include "../ext/xmlParser/xmlParser.hpp"
 
-using namespace std;
 
 //The classes we have below
 class X3d;
@@ -70,7 +69,7 @@ struct ShapeToId {
 struct MeshInfos
 {
   bool colorPerVertex;
-  vector<vector<float> > coordIdx, texCoordIdx, colorIdx, Coord, TextureCoord, Color;
+  std::vector<std::vector<float> > coordIdx, texCoordIdx, colorIdx, Coord, TextureCoord, Color;
 };
 
 
@@ -79,20 +78,20 @@ struct MeshInfos
  */
 class X3dVectors {
  public:
-  static bool parseFloats(const string str, float* outputs, uint32_t number);
+  static bool parseFloats(const std::string str, float* outputs, uint32_t number);
   /**< returns true if succeeded, false else */
 
-  static bool parseFloats(const string str, vector<float>* output);
+  static bool parseFloats(const std::string str, std::vector<float>* output);
 
-  static bool parseCertifiedVectors(const string str, vector<vector<float> >* outputs, uint32_t vectorLength=0, uint32_t numVector=0);
+  static bool parseCertifiedVectors(const std::string str, std::vector<std::vector<float> >* outputs, uint32_t vectorLength=0, uint32_t numVector=0);
 
-  static bool parseVectors(const string str, vector<vector<float> >* outputs);
+  static bool parseVectors(const std::string str, std::vector<std::vector<float> >* outputs);
   /**< extracts vectors of floats,
    *  spearated by commas. Detects only errors due to non-digit characters
    */
 
-  static void echoVector(vector<vector<float> >* outputs);
-  static void echoVector(vector<float>* outputs);
+  static void echoVector(std::vector<std::vector<float> >* outputs);
+  static void echoVector(std::vector<float>* outputs);
 };
 
 
@@ -102,13 +101,13 @@ class X3dVectors {
  */
 class X3dShape {
  public:
-  vector<X3dShape*> childShapes; ///< the sons of that node
+  std::vector<X3dShape*> childShapes; ///< the sons of that node
 
   int level;	///< niveau croissant dans l'arbre x3d, root->0
 
-  string name; ///< for the ROUTES
+  std::string name; ///< for the ROUTES
 
-  string getName() { return name; } //just in case
+  std::string getName() { return name; } //just in case
 
   float ambientIntensity; bool ambientIntensityOn;
   float shininess; bool shininessOn;
@@ -126,7 +125,7 @@ class X3dShape {
   bool scaleOn; float scale[4]; //last float unused
 
   MeshInfos meshInfos; //to store the data, in order to build indexFaceSets whenever possible
-  vector<GLuint> meshes; //index of the glCallLists of that mesh (for primitives and IndexedFaceSets)
+  std::vector<GLuint> meshes; //index of the glCallLists of that mesh (for primitives and IndexedFaceSets)
 
   X3dShape(int _level) {
     level = _level;
@@ -161,9 +160,9 @@ class X3dTimeSensor {
 
   float cycleInterval;	///< length of the loop (i.e speed of the animation)
   bool loop; 		///< if true : animation loops
-  string name;
+  std::string name;
 
-  vector<X3dInterpolator*> targets;	///< targets of the time event
+  std::vector<X3dInterpolator*> targets;	///< targets of the time event
 
  public:
   X3dTimeSensor() {
@@ -187,7 +186,7 @@ class X3dTimeSensor {
   void resetFraction();
   /**< resets animations to the initial state */
 
-  string getName() { return name; }
+  std::string getName() { return name; }
 };
 
 
@@ -233,15 +232,15 @@ enum X3DINField {
  */
 class X3dInterpolator {
  private:
-  string name;
+  std::string name;
 
   InterpolatorType type; ///< what kind of field does this animate ??
 
-  vector<float> keys; ///< key frames used, value in percentage of the loop
+  std::vector<float> keys; ///< key frames used, value in percentage of the loop
 
-  vector<vector<float> > keyValues; ///< values coresponding to these key frames
+  std::vector<std::vector<float> > keyValues; ///< values coresponding to these key frames
 
-  vector<float*> targets; ///< float targets (rotation, scale, shininess...)
+  std::vector<float*> targets; ///< float targets (rotation, scale, shininess...)
 
  public:
   X3dInterpolator() { type = INTERPOLATORTYPENONE; }
@@ -254,7 +253,7 @@ class X3dInterpolator {
 
   virtual ~X3dInterpolator() {}
 
-  string getName() { return name; }
+  std::string getName() { return name; }
 
   void updateValue(float newFraction);
   /**< called by the timeSensor to update the interpolated values */
@@ -268,7 +267,7 @@ class X3dInterpolator {
  */
 class X3dRoute {
  public:
-  string fromNode, toNode;
+  std::string fromNode, toNode;
   X3DOUTField fromField;
   X3DINField toField;
 
@@ -310,9 +309,9 @@ class X3d {
 
   X3dShape rootShape;	///< root of the X3D tree
 
-  vector<X3dInterpolator> interpolators;
-  vector<X3dTimeSensor> timeSensors;
-  vector<X3dRoute> routes; ///< temporary structures to create links
+  std::vector<X3dInterpolator> interpolators;
+  std::vector<X3dTimeSensor> timeSensors;
+  std::vector<X3dRoute> routes; ///< temporary structures to create links
 
   bool flashy;	///< flashy or not
 
@@ -334,10 +333,10 @@ class X3d {
   GLuint drawMesh(MeshInfos* meshInfos);
   /**< draws the complex shape and returns the calllist number */
 
-  X3dShape* findShape(X3dShape* root, string name);
+  X3dShape* findShape(X3dShape* root, std::string name);
   /**< browses the X3d tree to find the name shape */
 
-  template <class T> T* findItem(vector<T>* tab, string name);
+  template <class T> T* findItem(std::vector<T>* tab, std::string name);
   /**< to find a named item in a vector */
 
   Primitives isKnownPrimitive(XMLCSTR vredata);
