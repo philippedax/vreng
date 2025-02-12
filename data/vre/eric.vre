@@ -80,7 +80,7 @@
 <thing name="car4" pos="8 -7 0">  <solid shape="car" dim="1.6 1.4 1.2" dif="blue" /></thing>
 <thing name="car5" pos="8 -10 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="red" /></thing>
 <thing name="car6" pos="8 -13 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="purple" /></thing>
-<thing name="car6" pos="18 -16 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="green" /> </thing>
+<thing name="car6" pos="8 -16 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="green" /> </thing>
 
 <!-- l'ecole -->
 <!-- sol de l'ecole -->
