@@ -12,7 +12,7 @@
 
 <scene>
 
-<entry pos="7 23.8 2.5 1.57"></entry>
+<entry pos="7 23.8 2.5 -1.57"></entry>
 <bgcolor color="0 .17 .6"></bgcolor>
 
 <!-- base -->
@@ -21,6 +21,7 @@
 </ground>
 
 <!-- les axes -->
+<!--
 <mirage name="axes" pos="40 0 10 0">
   <solid dim="40 .2 .2" dif="1 .4 .4" />
   <solid dim=".2 40 .2" rel="-20 20 0 0 0" dif=".4 1 .4" />
@@ -29,8 +30,10 @@
   <solid dim=".2 40 .2" rel="-20 -20 0 0 0" dif="0 .4 0" />
   <solid dim=".2 .2 40" rel="-20 0 -20 0 0" dif="0 0 .4" />
 </mirage>
+-->
 
 <!-- le chemin -->
+<!--
 <step pos="0 -2 .02">
 <solid dim="50 2.1 .02" zp="/gif/grass.gif" zprt="1" zprs="25" />
 </step>
@@ -40,35 +43,18 @@
 <step pos="0 2 .02 3.14">
 <solid dim="50 2.1 .02" zp="/gif/grass.gif" zprt="1" zprs="25" />
 </step>
+-->
 
 <!-- le chemin de l'ecole -->
 <step pos="27 12 .02 0">
 <solid dim="2.1 24 .02" zp="/gif/pave1.gif" zprt="7" zprs="1" />
 </step>
 
-<!-- le parking -->
-<step pos="12 -13 .01">
-<solid dim="1 16 .02" zp="/gif/stones.gif" zprs="1" zprt="5" />
-</step>
-<step pos="28 -13 .01">
-<solid dim="1 16 .02" zp="/gif/stones.gif" zprs="1" zprt="5" />
-</step>
-<step pos="20 -20.5 .05 1.57">
-<solid dim="1 15 .02" zp="/gif/stones.gif" zprs="1" zprt="5" />
-</step>
-<step pos="20 -13 .01 0">
-<solid dim="16 16 .02" zp="/gif/yellowbands.gif" zpr="6" />
-</step>
-
 <!-- le circuit -->
-<mirage pos="40 0 .01">
-  <solid shape="cone" rb="12.2" rt="5.3" h=".01" tx="/gif/road04.gif" />
-</mirage>
-<mirage pos="40 0 0">
-  <solid shape="cone" rb="6" rt=".1" h="4" tx="/gif/grass.gif" />
-</mirage>
+<mirage pos="40 0 .01"> <solid shape="cone" rb="12.2" rt="5.3" h=".01" tx="/gif/road04.gif" /></mirage>
 <!--
-<mirage pos="40 0 -2.99 0"> <solid dim="23 23 .01" zp="/gif/road03.gif" zpr="1" /></mirage>
+<mirage pos="40 0 -2.99"> <solid dim="23 23 .01" zp="/gif/road03.gif" zpr="1" /></mirage>
+<mirage pos="40 0 0"> <solid shape="cone" rb="6" rt=".1" h="4" tx="/gif/grass.gif" /> </mirage>
 -->
 
 <!-- les voitures qui roulent -->
@@ -79,14 +65,22 @@
   <solid shape="car" dim="1.6 1.4 1.2" tx="gif/damier.gif" />
 </mirage>
 
+<!-- le parking -->
+<!--
+<step pos="12 -13 .01"> <solid dim="1 16 .02" zp="/gif/stones.gif" zprs="1" zprt="5" /></step>
+<step pos="28 -13 .01"> <solid dim="1 16 .02" zp="/gif/stones.gif" zprs="1" zprt="5" /></step>
+<step pos="10 -20.5 .05 1.57"> <solid dim="1 15 .02" zp="/gif/stones.gif" zprs="1" zprt="5" /></step>
+-->
+<step pos="5 -13 .01"> <solid dim="16 16 .02" zp="/gif/yellowbands.gif" zpr="1" /></step>
+
 <!-- les voitures dans le parking -->
-<thing name="car1" pos="25 -7 0 1.57">  <solid shape="car" dim="1.6 1.4 1.2" dif="magenta" /> </thing>
-<thing name="car2" pos="25 -13 0 3.14"> <solid shape="car" dim="1.6 1.4 1.2" dif="orange" /> </thing>
-<thing name="car3" pos="25 -16 0 3.14"> <solid shape="car" dim="1.6 1.4 1.2" dif="black" /> </thing>
-<thing name="car4" pos="18 -7 0 3.14">  <solid shape="car" dim="1.6 1.4 1.2" dif="blue" /> </thing>
-<thing name="car5" pos="18 -10 0 3.14"> <solid shape="car" dim="1.6 1.4 1.2" dif="red" /> </thing>
-<thing name="car6" pos="18 -13 0 3.14"> <solid shape="car" dim="1.6 1.4 1.2" dif="purple" /> </thing>
-<thing name="car6" pos="18 -16 0 3.14"> <solid shape="car" dim="1.6 1.4 1.2" dif="green" /> </thing>
+<thing name="car1" pos="5 -7 0 1.57"> <solid shape="car" dim="1.6 1.4 1.2" dif="magenta" /></thing>
+<thing name="car2" pos="5 -13 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="orange" /></thing>
+<thing name="car3" pos="5 -16 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="black" /></thing>
+<thing name="car4" pos="8 -7 0">  <solid shape="car" dim="1.6 1.4 1.2" dif="blue" /></thing>
+<thing name="car5" pos="8 -10 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="red" /></thing>
+<thing name="car6" pos="8 -13 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="purple" /></thing>
+<thing name="car6" pos="18 -16 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="green" /> </thing>
 
 <!-- l'ecole -->
 <!-- sol de l'ecole -->
@@ -96,62 +90,32 @@
 
 <!-- le mur de droite-->
 <wall pos="32.8 29.8 3 0">
-  <solid dim=".4 12 6"
-  yp="/gif/brick.gif" ypr="3" 
-  yn="/gif/brick.gif" ynr="3" 
-  xp="/gif/stuc.gif" xpr="3"
-  xn="/gif/brick.gif" xnr="3"
-  />
+  <solid dim=".4 12 6" yp="/gif/brick.gif" ypr="3" yn="/gif/brick.gif" ynr="3" xp="/gif/stuc.gif" xpr="3" xn="/gif/brick.gif" xnr="3" />
 </wall>
 
 <!-- le mur du fond -->
 <wall pos="27 36.0 3 1.57">
-  <solid dim=".4 12 6"
-  yp="/gif/wall.gif" ypr="3" 
-  xn="/gif/wall.gif" xnr="1" 
-  yn="/gif/wall.gif" ynr="1" 
-  xp="/gif/stuc.gif" xpr="3"
-  />
+  <solid dim=".4 12 6" yp="/gif/wall.gif" ypr="3" xn="/gif/wall.gif" xnr="1" yn="/gif/wall.gif" ynr="1" xp="/gif/stuc.gif" xpr="3" />
 </wall>
 
 <!-- le mur de gauche -->
 <wall pos="21.2 29.8 3 0">
-  <solid dim=".4 12 6"
-  xp="/gif/wall.gif" xprs="2" xprt="2"
-  xn="/gif/wall.gif" xnr="1" 
-  yn="/gif/wall.gif" ynr="1" 
-  yp="/gif/stuc.gif" ypr="3"
-  />
+  <solid dim=".4 12 6" xp="/gif/wall.gif" xprs="2" xprt="2" xn="/gif/wall.gif" xnr="1" yn="/gif/wall.gif" ynr="1" yp="/gif/stuc.gif" ypr="3" />
 </wall>
 
 <!-- Le mur au dessus de la porte-->
 <wall pos="27 23.8 5 1.57">
-  <solid dim=".4 12 2"
-  xp="/gif/wall.gif" xprs="3" xprt=".5"
-  xn="/gif/wall.gif" xnr="2"
-  yn="/gif/wall.gif" ynr="2"
-  yp="/gif/stuc.gif" ypr="3"
-  />
+  <solid dim=".4 12 2" xp="/gif/wall.gif" xprs="3" xprt=".5" xn="/gif/wall.gif" xnr="2" yn="/gif/wall.gif" ynr="2" yp="/gif/stuc.gif" ypr="3" />
 </wall>
 
 <!-- Le mur a gauche de la porte-->
 <wall pos="23.5 23.8 2 1.57">
-  <solid dim="0 5 4"
-  xp="/gif/wall.gif" xpr="1" 
-  xn="/gif/wall.gif" xnr="1" 
-  yn="/gif/wall.gif" ynr="1" 
-  yp="/gif/stuc.gif" ypr="3"
-  />
+  <solid dim="0 5 4" xp="/gif/wall.gif" xpr="1" xn="/gif/wall.gif" xnr="1" yn="/gif/wall.gif" ynr="1" yp="/gif/stuc.gif" ypr="3" />
 </wall>
 
 <!-- Le mur a droite de la porte-->
 <wall pos="30.5 23.8 2 1.57">
-  <solid dim=".4 5 4"
-  xp="/gif/wall.gif" xpr="1" 
-  xn="/gif/wall.gif" xnr="1" 
-  yn="/gif/wall.gif" ynr="1" 
-  yp="/gif/stuc.gif" ypr="3"
-  />
+  <solid dim=".4 5 4" xp="/gif/wall.gif" xpr="1" xn="/gif/wall.gif" xnr="1" yn="/gif/wall.gif" ynr="1" yp="/gif/stuc.gif" ypr="3" />
 </wall>
 
 <!-- le toit de l'ecole -->

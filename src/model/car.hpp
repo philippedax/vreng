@@ -28,24 +28,20 @@
  * Car class
  */
 class Car {
- public:
-  Car() {};
-  /**< constructor */
-  virtual ~Car() {};
-  /**< destructor */
-
-  void draw(GLfloat width, GLfloat depth, GLfloat height, const int textures[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
-  /**< Draws a car */
-
  private:
-  void car(GLfloat a, const int textures[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
   void wheelbackright(GLfloat r, int p);
   void wheelbackleft(GLfloat r, int p);
-  void wheelfronttright(GLfloat r, GLfloat a, int p);
-  void wheelfronttleft(GLfloat r, GLfloat a, int p);
-  void wheel(GLfloat r, int normale, int p);
-  void wheel(GLfloat r, int p);
+  void wheelfronttright(GLfloat r, int p);
+  void wheelfronttleft(GLfloat r, int p);
+  void wheel(GLfloat radius, int p);
   void cylindre(GLfloat height, GLfloat radius, int precision);
+
+ public:
+  Car() {};		/**< constructor */
+  virtual ~Car() {};	/**< destructor */
+
+  void draw(GLfloat width, GLfloat depth, GLfloat height, const int tex[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
+  /**< Draws a car */
 };
 
 

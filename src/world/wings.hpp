@@ -53,7 +53,7 @@ class Wings: public Object {
   GLfloat scale;	///< scale
   float color[3];	///< color
   bool active;		///< is in movement ?
-  uint8_t article;                      ///< types of article
+  uint8_t article;	///< types of article
 
   uint8_t model;
   char modelname[16];
@@ -99,12 +99,11 @@ class Wings: public Object {
   static Object * (creator)(char *l);
   /**< Creation from a file. */
 
-  Wings(char *l);		///< Constructor file.
-  Wings(class User *user, void *d, time_t s, time_t u);
-  /**< Constructor from User */
-  Wings();			///< Constructor from bird.
-  Wings(uint8_t model, float scale, float aspeed);			///< Constructor from bird.
-  Wings(uint8_t model, float scale, float aspeed, float *color);	///< Constructor from drone.
+  Wings(char *l);						///< Constructor file.
+  Wings(class User *user, void *d, time_t s, time_t u);		///< Constructor from User.
+  Wings();							///< Constructor from bird.
+  Wings(uint8_t model, float scale, float aspeed);		///< Constructor from bird.
+  Wings(uint8_t model, float scale, float aspeed, float *color);///< Constructor from drone.
 
   void permanent(float lasting);
   /**< Changes. */
@@ -146,7 +145,7 @@ class Wings: public Object {
   /**< Gets model id. */
 
   void reset();
-  /**< Restores original position */
+  /**< Restores original position. */
 
   void wear();
   void takeoff();
@@ -154,9 +153,7 @@ class Wings: public Object {
   // callbacks
   static void wear_cb(Wings *wings, void *d, time_t s, time_t u);
   static void takeoff_cb(Wings *wings, void *d, time_t s, time_t u);
-
   static void recreate_cb(class User *user, void *d, time_t s, time_t u);
-
 };
 
 #endif
