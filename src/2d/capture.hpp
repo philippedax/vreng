@@ -45,14 +45,14 @@ class Capture {
   void stopVideo();
   /**< Stop capture video */
   
-  void writeVideoFrame();
-  /**< Make capture video */
+  void writeVideo();
+  /**< Write capture video */
 
-  bool isCapturingVideo() const {return is_capturing;}
+  bool isCapturingVideo() const;
 
  private:
   bool is_capturing;		      ///< is capturing video.
-  unsigned int capture_no;
+  uint32_t capture_no;
   
   void captureXwd(const char *ext);
   /**< Capture and save one image by xwd */

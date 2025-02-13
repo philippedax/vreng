@@ -194,6 +194,12 @@ void Capture::startVideo()
   ::g.timer.capture.start();
 }
 
+/** Check capture video */
+bool Capture::isCapturingVideo() const
+{
+  return is_capturing;
+}
+
 /** Stop capture video */
 void Capture::stopVideo()
 {
@@ -213,8 +219,8 @@ void Capture::stopVideo()
   capture_no = 0;
 }
 
-/** Captures video */
-void Capture::writeVideoFrame()
+/** Write video */
+void Capture::writeVideo()
 {
   char worldname[64];
 

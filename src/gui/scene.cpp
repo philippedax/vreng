@@ -166,7 +166,7 @@ void Scene::paintCB(UPaintEvent& e)
 
   // check if video capture is running
   if (gw.capture.isCapturingVideo()) {
-    gw.capture.writeVideoFrame();
+    gw.capture.writeVideo();
   }
 
   cycles++;		// increments cycles (fps)
