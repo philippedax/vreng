@@ -46,12 +46,8 @@
 
 #include "png.h"	// src/ext/mypng
 
-#ifdef _WIN32 /* Stupid Windows needs to include windows.h before gl.h */
-#undef FAR
-#include <windows.h>
-#endif
 
-/* Used to decide if GL/gl.h supports the paletted extension */
+/** Used to decide if GL/gl.h supports the paletted extension */
 #ifdef GL_COLOR_INDEX1_EXT
 #define SUPPORTS_PALETTE_EXT
 #endif
@@ -63,14 +59,6 @@ static unsigned char DefaultAlphaCallback(unsigned char red, unsigned char green
 static unsigned char StencilRed = 0, StencilGreen = 0, StencilBlue = 0;
 static unsigned char (*AlphaCallback)(unsigned char red, unsigned char green, unsigned char blue) = DefaultAlphaCallback;
 static int StandardOrientation = 0;
-
-#ifdef SUPPORTS_PALETTE_EXT
-#ifdef _WIN32
-static PFNGLCOLORTABLEEXTPROC glColorTableEXT = NULL;
-#endif
-#endif
-
-static int PalettedTextures = -1;
 static GLint MaxTextureSize = 0;
 
 /* screenGamma = displayGamma/viewingGamma
@@ -94,20 +82,18 @@ static void checkForGammaEnv()
   double viewingGamma;
   char *gammaEnv = getenv("VIEWING_GAMMA");
 
-  if(gammaEnv && !gammaExplicit) {
+  if (gammaEnv && !gammaExplicit) {
     sscanf(gammaEnv, "%lf", &viewingGamma);
     screenGamma = 2.2/viewingGamma;
   }
 }
 
-/* Returns a safe texture size to use (ie a power of 2), based on the current texture size "i" */
+/** Returns a safe texture size to use (ie a power of 2), based on the current texture size "i" */
 static int SafeSize(int i)
 {
-  int p;
-
   if (i > MaxTextureSize) return MaxTextureSize;
 
-  for (p = 0; p < 24; p++) {
+  for (int p = 0; p < 24; p++) {
     if (i <= (1<<p))
       return 1<<p;
   }
@@ -115,7 +101,7 @@ static int SafeSize(int i)
   return MaxTextureSize;
 }
 
-/* Resize the texture since gluScaleImage doesn't work on everything */
+/** Resize the texture since gluScaleImage doesn't work on everything */
 static void Resize(int components, const png_bytep d1, int w1, int h1, png_bytep d2, int w2, int h2)
 {
   const float sx = static_cast<float>(w1/w2), sy = static_cast<float>(h1/h2);
@@ -134,39 +120,17 @@ static void Resize(int components, const png_bytep d1, int w1, int h1, png_bytep
   }
 }
 
-#ifdef SUPPORTS_PALETTE_EXT
-#ifdef _WIN32
-static int ExtSupported(const char *x)
-{
-  static const GLubyte *ext = NULL;
-  const char *c;
-  int xlen = strlen(x);
-
-  if (! ext) ext = glGetString(GL_EXTENSIONS);
-
-  c = (const char*)ext;
-
-  while (*c != '\0') {
-    if (strcmp(c, x) == 0 && (c[xlen] == '\0' || c[xlen] == ' ')) return 1;
-    c++;
-  }
-  return 0;
-}
-#endif //_WIN32
-#endif //SUPPORTS_PALETTE_EXT
-
 #define GET(o) ((int)*(data + (o)))
 
 static int HalfSize(GLint components, GLint width, GLint height, const unsigned char *data, unsigned char *d, int filter)
 {
-  int x, y, c;
   int line = width*components;
 
   if (width > 1 && height > 1) {
     if (filter) {
-      for (y = 0; y < height; y += 2) {
-        for (x = 0; x < width; x += 2) {
-          for (c = 0; c < components; c++) {
+      for (int y = 0; y < height; y += 2) {
+        for (int x = 0; x < width; x += 2) {
+          for (int c = 0; c < components; c++) {
             *d++ = (GET(0)+GET(components)+GET(line)+GET(line+components)) / 4;
             data++;
           }
@@ -176,9 +140,9 @@ static int HalfSize(GLint components, GLint width, GLint height, const unsigned 
       }
     }
     else {
-      for (y = 0; y < height; y += 2) {
-        for (x = 0; x < width; x += 2) {
-          for (c = 0; c < components; c++) {
+      for (int y = 0; y < height; y += 2) {
+        for (int x = 0; x < width; x += 2) {
+          for (int c = 0; c < components; c++) {
             *d++ = GET(0);
             data++;
           }
@@ -190,9 +154,9 @@ static int HalfSize(GLint components, GLint width, GLint height, const unsigned 
   }
   else if (width > 1 && height == 1) {
     if (filter) {
-      for (y = 0; y < height; y += 1) {
-        for (x = 0; x < width; x += 2) {
-          for (c = 0; c < components; c++) {
+      for (int y = 0; y < height; y += 1) {
+        for (int x = 0; x < width; x += 2) {
+          for (int c = 0; c < components; c++) {
             *d++ = (GET(0)+GET(components)) / 2;
             data++;
           }
@@ -201,9 +165,9 @@ static int HalfSize(GLint components, GLint width, GLint height, const unsigned 
       }
     }
     else {
-      for (y = 0; y < height; y += 1) {
-        for (x = 0; x < width; x += 2) {
-          for (c = 0; c < components; c++) {
+      for (int y = 0; y < height; y += 1) {
+        for (int x = 0; x < width; x += 2) {
+          for (int c = 0; c < components; c++) {
             *d++ = GET(0);
             data++;
           }
@@ -214,9 +178,9 @@ static int HalfSize(GLint components, GLint width, GLint height, const unsigned 
   }
   else if (width == 1 && height > 1) {
     if (filter) {
-      for (y = 0; y < height; y += 2) {
-        for (x = 0; x < width; x += 1) {
-          for (c = 0; c < components; c++) {
+      for (int y = 0; y < height; y += 2) {
+        for (int x = 0; x < width; x += 1) {
+          for (int c = 0; c < components; c++) {
             *d++ = (GET(0)+GET(line)) / 2;
             data++;
           }
@@ -225,9 +189,9 @@ static int HalfSize(GLint components, GLint width, GLint height, const unsigned 
       }
     }
     else {
-      for (y = 0; y < height; y += 2) {
-        for (x = 0; x < width; x += 1) {
-          for (c = 0; c < components; c++) {
+      for (int y = 0; y < height; y += 2) {
+        for (int x = 0; x < width; x += 1) {
+          for (int c = 0; c < components; c++) {
             *d++ = GET(0);
             data++;
           }
@@ -244,7 +208,7 @@ static int HalfSize(GLint components, GLint width, GLint height, const unsigned 
 }
 #undef GET
 
-/* Replacement for gluBuild2DMipmaps so GLU isn't needed */
+/** Replacement for gluBuild2DMipmaps so GLU isn't needed */
 static void Build2DMipmaps(GLint components, GLint width, GLint height, GLenum format, const unsigned char *data, int filter)
 {
   int level = 0;
@@ -264,130 +228,6 @@ static void Build2DMipmaps(GLint components, GLint width, GLint height, GLenum f
   }
   free(d);
 }
-
-#if 0 //not used
-int APIENTRY pngLoadRaw(const char *filename, pngRawInfo *pinfo)
-{
-  int result;
-  FILE *fp = fopen(filename, "rb");
-  if (! fp) return 0;
-
-  result = pngLoadRawF(fp, pinfo);
-
-  if (fclose(fp) != 0) {
-    if (result) {
-      free(pinfo->Data);      
-      free(pinfo->Palette);
-    }
-    return 0;       
-  }
-  return result;
-}
-
-int APIENTRY pngLoadRawF(FILE *fp, pngRawInfo *pinfo)
-{
-  unsigned char header[8];
-  png_structp png;
-  png_infop   info;
-  png_infop   endinfo;
-  png_bytep   data;
-  png_bytep   *row_p;
-  double      fileGamma;
-
-  png_uint_32 width, height;
-  int depth, color;
-
-  png_uint_32 i;
-
-  if (! pinfo) return 0;
-
-  fread(header, 1, 8, fp);
-  if (!png_check_sig(header, 8)) return 0;
-
-  png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-  info = png_create_info_struct(png);
-  endinfo = png_create_info_struct(png);
-
-  // DH: added following lines
-  if (setjmp(png->jmpbuf)) {
-    png_destroy_read_struct(&png, &info, &endinfo);
-    return 0;
-  }
-
-  png_init_io(png, fp);
-  png_set_sig_bytes(png, 8);
-  png_read_info(png, info);
-  png_get_IHDR(png, info, &width, &height, &depth, &color, NULL, NULL, NULL);
-
-  pinfo->Width  = width;
-  pinfo->Height = height;
-  pinfo->Depth  = depth;
-
-  /*--GAMMA--*/
-  checkForGammaEnv();
-  if (png_get_gAMA(png, info, &fileGamma))
-    png_set_gamma(png, screenGamma, fileGamma);
-  else
-    png_set_gamma(png, screenGamma, 1.0/2.2);
-
-  png_read_update_info(png, info);
-
-  data = static_cast<png_bytep>(malloc(png_get_rowbytes(png, info)*height));
-  row_p = static_cast<png_bytep *>(malloc(sizeof(png_bytep)*height));
-
-  for (i = 0; i < height; i++) {
-    if (StandardOrientation)
-      row_p[height - 1 - i] = &data[png_get_rowbytes(png, info)*i];
-    else
-      row_p[i] = &data[png_get_rowbytes(png, info)*i];
-  }
-
-  png_read_image(png, row_p);
-  free(row_p);
-
-  if (color == PNG_COLOR_TYPE_PALETTE) {
-    int cols;
-    png_get_PLTE(png, info, (png_colorp *) &pinfo->Palette, &cols);
-  }
-  else {
-    pinfo->Palette = NULL;
-  }
-
-  if (color&PNG_COLOR_MASK_ALPHA) {
-    if (color&PNG_COLOR_MASK_PALETTE || color == PNG_COLOR_TYPE_GRAY_ALPHA)
-      pinfo->Components = 2;
-    else
-      pinfo->Components = 4;
-    pinfo->Alpha = 8;
-  }
-  else {
-    if (color&PNG_COLOR_MASK_PALETTE || color == PNG_COLOR_TYPE_GRAY)
-      pinfo->Components = 1;
-    else
-      pinfo->Components = 3;
-    pinfo->Alpha = 0;
-  }
-
-  pinfo->Data = data;
-
-  png_read_end(png, endinfo);
-  png_destroy_read_struct(&png, &info, &endinfo);
-  return 1;
-}
-
-int APIENTRY pngLoad(const char *filename, int mipmap, int trans, pngInfo *pinfo)
-{
-  int result;
-  FILE *fp = fopen(filename, "rb");
-  if (! fp) return 0;
-
-  result = pngLoadF(fp, mipmap, trans, pinfo);
-
-  if (fclose(fp) != 0) return 0;
-
-  return result;
-}
-#endif //not used
 
 int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
 {
@@ -411,14 +251,6 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
   info = png_create_info_struct(png);
   endinfo = png_create_info_struct(png);
 
-#if 0 //segfault
-  // DH: added following lines
-  if (setjmp(png->jmpbuf)) {
-    png_destroy_read_struct(&png, &info, &endinfo);
-    return 0;
-  }
-#endif //segfault
-
   png_init_io(png, fp);
   png_set_sig_bytes(png, 8);
   png_read_info(png, info);
@@ -432,11 +264,6 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
   if (MaxTextureSize == 0)
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &MaxTextureSize);
 
-#ifdef SUPPORTS_PALETTE_EXT
-  if (PalettedTextures == -1)
-    PalettedTextures = 0;
-#endif //SUPPORTS_PALETTE_EXT
-
   if (color == PNG_COLOR_TYPE_GRAY || color == PNG_COLOR_TYPE_GRAY_ALPHA)
     png_set_gray_to_rgb(png);
   if (color&PNG_COLOR_MASK_ALPHA && trans != PNG_ALPHA) {
@@ -444,11 +271,6 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
     color &= ~PNG_COLOR_MASK_ALPHA;
   }
 
-#if 0 //dax
-  if (!(PalettedTextures && mipmap >= 0 && trans == PNG_SOLID))
-    if (color == PNG_COLOR_TYPE_PALET
-      png_set_expand(png);
-#endif //dax
   /*--GAMMA--*/
   checkForGammaEnv();
   if (png_get_gAMA(png, info, &fileGamma))
@@ -478,10 +300,6 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
 
     data2 = static_cast<png_bytep>(malloc(rw*rh*bpps));
 
-   /* Doesn't work on certain sizes */
-/* if (gluScaleImage(glformat, width, height, GL_UNSIGNED_BYTE, data, rw, rh, GL_UNSIGNED_BYTE, data2) != 0)
-     return 0;
-*/
     Resize(bpps, data, width, height, data2, rw, rh);
 
     width = rw, height = rh;
@@ -494,34 +312,6 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
     glGetIntegerv(GL_UNPACK_ALIGNMENT, &unpack);
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-#ifdef SUPPORTS_PALETTE_EXT
-    if (PalettedTextures && mipmap >= 0 && trans == PNG_SOLID && color == PNG_COLOR_TYPE_PALETTE) {
-      png_colorp pal;
-      int cols;
-      GLint intf;
-
-      if (pinfo) pinfo->Alpha = 0;
-      png_get_PLTE(png, info, &pal, &cols);
-
-      switch (cols) {
-        case 1<<1:  intf = GL_COLOR_INDEX1_EXT;  break;
-        case 1<<2:  intf = GL_COLOR_INDEX2_EXT;  break;
-        case 1<<4:  intf = GL_COLOR_INDEX4_EXT;  break;
-        case 1<<8:  intf = GL_COLOR_INDEX8_EXT;  break;
-        case 1<<12: intf = GL_COLOR_INDEX12_EXT; break;
-        case 1<<16: intf = GL_COLOR_INDEX16_EXT; break;
-        default:
-          /*printf("Warning: Colour depth %i not recognised\n", cols);*/
-          return 0;
-      }
-#ifdef _WIN32
-      glColorTableEXT(GL_TEXTURE_2D, GL_RGB8, cols, GL_RGB, GL_UNSIGNED_BYTE, pal);
-#endif //_WIN32
-      glTexImage2D(GL_TEXTURE_2D, mipmap, intf, width, height, 0, GL_COLOR_INDEX, GL_UNSIGNED_BYTE, data);
-    }
-    else
-#endif //SUPPORTS_PALETTE_EXT
 
     if (trans == PNG_SOLID || trans == PNG_ALPHA || color == PNG_COLOR_TYPE_RGB_ALPHA || color == PNG_COLOR_TYPE_GRAY_ALPHA) {
       GLenum glformat;
@@ -542,7 +332,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
           if (pinfo) pinfo->Alpha = 8;
           break;
         default:
-          /*puts("glformat not set");*/
+          //error("glformat not set");
           return 0;
       }
       if (mipmap == PNG_BUILDMIPMAPS)
