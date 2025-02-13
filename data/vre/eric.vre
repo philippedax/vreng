@@ -46,22 +46,22 @@
 -->
 
 <!-- le chemin de l'ecole -->
-<step pos="27 12 .02 0">
-<solid dim="2.1 24 .02" zp="/gif/pave1.gif" zprt="7" zprs="1" />
+<step pos="27 21 .02">
+<solid dim="2 6 .02" zp="/gif/pave1.gif" zprt="7" zprs="1" />
 </step>
 
 <!-- le circuit -->
-<mirage pos="40 0 .01"> <solid shape="cone" rb="12.2" rt="5.3" h=".01" tx="/gif/road04.gif" /></mirage>
+<mirage pos="40 0 .01"> <solid shape="cone" rb="22" rt="15" h=".01" tx="/gif/road04.gif" /></mirage>
 <!--
 <mirage pos="40 0 -2.99"> <solid dim="23 23 .01" zp="/gif/road03.gif" zpr="1" /></mirage>
 <mirage pos="40 0 0"> <solid shape="cone" rb="6" rt=".1" h="4" tx="/gif/grass.gif" /> </mirage>
 -->
 
 <!-- les voitures qui roulent -->
-<mirage name="carfast" pos="40 0 0 1.57" aspeed="1" radius="10" mode="circular">
+<mirage name="carfast" pos="40 0 0 1.57" aspeed="1" radius="20" mode="circular">
   <solid shape="car" dim="1.6 1.4 1.2" tx="/gif/stries.gif" />
 </mirage>
-<mirage name="carslow" pos="40 0 0 -1.57" aspeed="-.5" radius="7.3" mode="circular">
+<mirage name="carslow" pos="40 0 0 -1.57" aspeed="-.5" radius="17" mode="circular">
   <solid shape="car" dim="1.6 1.4 1.2" tx="gif/damier.gif" />
 </mirage>
 
@@ -80,7 +80,7 @@
 <thing name="car4" pos="8 -7 0">  <solid shape="car" dim="1.6 1.4 1.2" dif="blue" /></thing>
 <thing name="car5" pos="8 -10 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="red" /></thing>
 <thing name="car6" pos="8 -13 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="purple" /></thing>
-<thing name="car6" pos="8 -16 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="green" /> </thing>
+<thing name="car6" pos="18 -16 0"> <solid shape="car" dim="1.6 1.4 1.2" dif="green" /> </thing>
 
 <!-- l'ecole -->
 <!-- sol de l'ecole -->
