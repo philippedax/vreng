@@ -32,6 +32,7 @@ typedef struct t_flare {
 
 struct Pos;
 
+
 /**
  * Flare class
  */
@@ -98,6 +99,5 @@ class Flare {
   void vscale(float *dst, float *src, float scale);
   void vcross(float *cross, const float *v1, const float *v2);
 };
-
 
 #endif

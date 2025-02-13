@@ -3440,3 +3440,4 @@
 3440 Jeu 13 fév 2025 11:46:31 CET	cleanup glMaterial car.cpp
 3441 Jeu 13 fév 2025 11:47:41 CET	update vre/eric.vre
 3442 Jeu 13 fév 2025 15:06:17 CET	cleanup notused avi.*pp
+3443 Jeu 13 fév 2025 15:31:45 CET	cleanup isCapturingVideo() capture.*pp
