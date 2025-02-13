@@ -34,11 +34,9 @@
 
 #include <list>
 
-using namespace std;
-
 
 // local variables
-static list<Texture*> textureList;
+static std::list<Texture*> textureList;
 static Img *default_img = NULL;
 static GLuint last_texid = 0;
 static Vpthread_mutex_t texture_mutex, *tex_pmutex = &texture_mutex;
@@ -63,7 +61,7 @@ void Texture::update()
   lockMutex(tex_pmutex);
   //-------------- lock
 
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+  for (std::list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->img) {
       if (! (*it)->img->pixmap) {
         //error("updateTextures pixmap=null: id=%d url=%s", (*it)->tex_id, (*it)->url);
@@ -253,7 +251,7 @@ GLuint Texture::current()
 /** Gets texture by its ID */
 Texture * Texture::getTexById(GLuint texid)
 {
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+  for (std::list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->tex_id == texid) {
       return *it;	// texture is in the cache
     }
@@ -265,7 +263,7 @@ Texture * Texture::getTexById(GLuint texid)
 GLuint Texture::getIdByUrl(const char *url)
 {
   open(url);
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+  for (std::list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if (! strcmp((*it)->url, url)) {
       return (*it)->tex_id;
     }
@@ -276,7 +274,7 @@ GLuint Texture::getIdByUrl(const char *url)
 /** Gets texture-id by its object */
 GLuint Texture::getIdByObject(Object *wo)
 {
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+  for (std::list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->object == wo) {
       return (*it)->tex_id;
     }
@@ -287,7 +285,7 @@ GLuint Texture::getIdByObject(Object *wo)
 /** Lists textures - debug */
 void Texture::listTextures()
 {
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+  for (std::list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     echo("%d %s", (*it)->tex_id, (*it)->url);
   }
   return;
