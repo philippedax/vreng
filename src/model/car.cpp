@@ -42,6 +42,7 @@ void Car::draw(GLfloat width, GLfloat depth, GLfloat height, const int tex[], GL
   glScalef(width/11, depth/11, height/11); // /5
 
   glPushMatrix();
+  //glMaterialfv(GL_FRONT, GL_AMBIENT, cyan);
   glScalef(10, 6, 6);
   Draw::box(1, 1, 1, tex, rtx, style);
   glPopMatrix();
@@ -57,12 +58,12 @@ void Car::draw(GLfloat width, GLfloat depth, GLfloat height, const int tex[], GL
   //front down
   glNormal3f(0, -1, 0);
   glVertex3f(5, -3, 3); glVertex3f(12, -3, 3); glVertex3f(12, -3, -3); glVertex3f(5, -3, -3);
-  //front
+  //front (motor)
   glNormal3f(1, 0, 0);
   glVertex3f(12, -3, 3); glVertex3f(12, -1, 3); glVertex3f(12, -1, -3); glVertex3f(12, -3, -3);
-  //front up
+  //front up (pare brise)
   //glNormal3f(4, 7, 0);
-  glColor4fv(cyan);
+  //glColor4fv(cyan);
   glVertex3f(12, -1, 3); glVertex3f(5, 3, 3); glVertex3f(5, 3, -3); glVertex3f(12, -1, -3);
   glEnd();
 
@@ -128,14 +129,14 @@ void Car::wheelfronttleft(GLfloat r, int p)
 void Car::wheel(GLfloat r, int p)
 {
   GLfloat a1, a2;
-  GLfloat grey[] = {.3, .3, .3, 0};
+  GLfloat grey30[] = {.3, .3, .3, 0};
 
   for (int i=0; i < p; i++) {
     a1 = M_2PI*i / p;
     a2 = M_2PI*(i+1) / p;
 
     glBegin(GL_TRIANGLES);
-    glColor4fv(grey);
+    glColor4fv(grey30);
     glNormal3f(0, 0, -1); glVertex3f(r*cos(a1), r*sin(a1), 0);
     glNormal3f(0, 0, -1); glVertex3f(r*cos(a2), r*sin(a2), 0);
     glNormal3f(0, 0, -1); glVertex3f(0, 0, 0);
@@ -146,15 +147,15 @@ void Car::wheel(GLfloat r, int p)
 void Car::cylindre(GLfloat height, GLfloat r, int p)
 {
   GLfloat a1, a2;
-  GLfloat grey[] = {.2, .2, .2, 0};
+  GLfloat grey20[] = {.2, .2, .2, 0};
 
   glBegin(GL_QUADS);
   for (int i=0 ; i < p ; i++) {
     a1 = M_2PI * i / p;
     a2 = M_2PI*(i+1) / p;
 
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, grey);
-    glColor4fv(grey);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, grey20);
+    //glColor4fv(grey20);
     glNormal3f(cos(a1), sin(a1), 0);
     glVertex3f(r*cos(a1), r*sin(a1), 0);
     glNormal3f(cos(a2), sin(a2), 0);
