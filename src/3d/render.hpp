@@ -24,10 +24,8 @@
 #define RENDER_HPP
 
 #include "matvec.hpp"   // V3 M4
+#include "solid.hpp"	// Solid
 #include <list>
-
-class Object;
-class Solid;
 
 
 /**
@@ -41,17 +39,15 @@ class Render {
 
  private:
   static const int SEL_BUFSIZ;	///< selection buffer size
-
   V3 bbox_min;			///< minimal bbox.
   V3 bbox_max;			///< maximal bbox.
   M4 camera_pos;		///< camera position.
-  bool first_bb;		///< first bbox.
   bool quality;			///< flag quality yes/no.
   bool flash;			///< flag flash.
   uint8_t view;			///< local user View type.
   bool viewMap;                 ///< local user Map.
   bool viewSat;                 ///< local Satellite.
-  bool viewObj;                 ///< local Object.
+  bool viewObj;                 ///< local object.
   GLfloat third_yRot;		///< local user y rotation for Third Person view.
   GLfloat third_xRot;		///< local user x rotation for Third Person view.
   GLfloat third_Near;		///< local user distance for Third Person view.
@@ -72,9 +68,7 @@ class Render {
   void renderModel(); 	 		///< model solids.
   void renderUser(); 	 		///< user solids.
   void renderFlary(); 	 		///< flary solids.
-
-  void scissors();
-  /**< Renders scissors. */
+  void scissors();			///< Renders scissors.
 
   // compare functions
   static bool compDist(const void *t1, const void *t2);	///< compare distances to eyes.
@@ -82,6 +76,7 @@ class Render {
   static bool compFrame(const void *t1, const void *t2);///< compare nbframes.
 
  public:
+  bool first_bb;		///< first bbox.
 
   /* points of views */
   enum view_mode {
@@ -103,15 +98,15 @@ class Render {
   //
   // Lists of solids
   //
-  std::list<Solid*> solidList;		///< solids list.
-  std::list<Solid*> relsolidList;	///< relative solids list.
-  std::list<Solid*> opaqueList;		///< opaque solids list.
-  std::list<Solid*> transparentList;	///< transparent solids list.
-  std::list<Solid*> groundList;		///< ground solids list.
-  std::list<Solid*> modelList;		///< model solids list.
-  std::list<Solid*> userList;		///< user solids list.
-  std::list<Solid*> flaryList;		///< flary solids list.
-  std::list<Solid*> getSolidList()	{ return solidList; } ///< Returns the rendering solid list.
+  std::list<class Solid*> solidList;		///< solids list.
+  std::list<class Solid*> relsolidList;		///< relative solids list.
+  std::list<class Solid*> opaqueList;		///< opaque solids list.
+  std::list<class Solid*> transparentList;	///< transparent solids list.
+  std::list<class Solid*> groundList;		///< ground solids list.
+  std::list<class Solid*> modelList;		///< model solids list.
+  std::list<class Solid*> userList;		///< user solids list.
+  std::list<class Solid*> flaryList;		///< flary solids list.
+  std::list<class Solid*> getSolidList()	{ return solidList; } ///< Returns the rendering solid list.
 
   class Wheel *wheel;           ///< experimental
 
@@ -137,17 +132,17 @@ class Render {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Displaying 3D displaylists
   //
-  void displaySolid(Solid *solid, int layer);
+  void displaySolid(class Solid *solid, int layer);
   /**< Issue the OpenGL commands to draw the solid in the given mode.
        It is called with "layer" to allow drawing at different layers. */
 
-  int displayList(Solid *solid, int layer);
+  int displayList(class Solid *solid, int layer);
   /**< Renders a solid in display-list. */
 
-  void displayFlary(Solid *solid);
+  void displayFlary(class Solid *solid);
   /**< Renders attached flare to a solid. */
 
-  void displayRay(Solid *solid);
+  void displayRay(class Solid *solid);
   /**< Displays ray. */
 
   /////////////
@@ -208,8 +203,8 @@ class Render {
    * not fully implemented.
    */
 
-  void cameraPosition();		///< Set camera position.
-  void cameraPosition(Object *object);	///< Set camera position.
+  void cameraPosition();			///< Set camera position.
+  void cameraPosition(class Object *object);	///< Set camera position.
 
   void cameraProjection(GLfloat fovy, GLfloat near, GLfloat far);
   /**<
@@ -237,17 +232,17 @@ class Render {
   uint16_t bufferSelection(GLint x, GLint y, GLint depth);
   /**< Returns the object's num displayed in (x,y) on the screen. */
 
-  V3 getVisiblePosition(Object *po);
+  V3 getVisiblePosition(class Object *po);
   /**< get the 3D position of the object on the user screen. */
 
-  Object** getVisibleObjects(char **listetype, int nbr, int* nbrElemts);
+  class Object** getVisibleObjects(char **listetype, int nbr, int* nbrElemts);
   /**< Get the object list where each object have a type present in the given list. */
 
-  Object** getDrawedObjects(int* nbr);
-  /**< get all drawed Objects on the screen. */
+  class Object** getDrawedObjects(int* nbr);
+  /**< get all drawed objects on the screen. */
 
  private:
-  void recordObject(Object *po);
+  void recordObject(class Object *po);
   /**< Sets object name in Z-buffer for selection. */
 
   static int compareHit(const void *t1, const void *t2);
@@ -279,19 +274,9 @@ class Render {
   void highlight(char * object_type, int typeflash);
   /**< Enables flashy for all same type object. */
 
-  /////////////
-  // Click
-  /////////////
-
- public:
   void clickDirection(GLint x, GLint y, V3 *dir);
   /**< Converts (x,y) screen coord into a direction from eyes to the click. */
 
-  /////////////
-  // Config
-  /////////////
-
- public:
   void init(bool _quality);
   /**< Initialization. */
 
@@ -302,11 +287,6 @@ class Render {
   /**< Checks OpenGL buffers. */
 
   static void stat();
-
-  /////////////
-  // Quit
-  /////////////
- public:
   void quit();			///< Closes the 3d renderer.
 };
 
