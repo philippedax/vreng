@@ -3445,3 +3445,4 @@
 3445 Jeu 13 fév 2025 16:12:25 CET	cleanup notused glpng.*pp
 3446 Jeu 13 fév 2025 16:39:55 CET	cleanup std:: textures.*pp
 3447 Lun 17 fév 2025 08:23:47 CET	move renderSolid() from solid.*pp to render.*pp
+3448 Lun 17 fév 2025 12:16:38 CET	cleanup class render.hpp

@@ -218,7 +218,7 @@ static const uint8_t FRAME_MAX;		// 255
     FLASH,		///< flash effect
     USER		///< localuser
   };
-  /* display modes */
+  // display modes
   enum display_mode {
     NORMAL,
     FLASHY,

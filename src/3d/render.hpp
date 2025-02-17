@@ -78,7 +78,7 @@ class Render {
  public:
   bool first_bb;		///< first bbox.
 
-  /* points of views */
+  // points of views
   enum view_mode {
     VIEW_FIRST_PERSON,
     VIEW_THIRD_PERSON,
@@ -93,6 +93,19 @@ class Render {
     VIEW_WIRED,
     VIEW_SCISSOR,
     VIEW_NUMBER
+  };
+  enum render_type {
+    OPAQUE,             ///< opaque
+    TRANSPARENT,        ///< transparent
+    FLASH,              ///< flash effect
+    USER                ///< localuser
+  };
+  // display modes 
+  enum display_mode {
+    NORMAL,
+    FLASHY,
+    REFLEXIVE,
+    PROGRESS
   };
   
   //
