@@ -3443,3 +3443,4 @@
 3443 Jeu 13 fév 2025 15:31:45 CET	cleanup isCapturingVideo() capture.*pp
 3444 Jeu 13 fév 2025 15:36:14 CET	cleanup flare.hpp
 3445 Jeu 13 fév 2025 16:12:25 CET	cleanup notused glpng.*pp
+3446 Jeu 13 fév 2025 16:39:55 CET	cleanup std:: textures.*pp

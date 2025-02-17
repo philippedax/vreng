@@ -306,12 +306,6 @@ static const uint8_t FRAME_MAX;		// 255
   GLint getTexid() const;
   /**< Gets current texid. */
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Displaying 3D displaylists
-  void displaySolid(render_type layer);
-  /**< Issue the OpenGL commands to draw the solid in the given mode.
-       It is called with "layer" to allow drawing at different layers. */
-
  private:
   uint8_t	iframe;		///< frame index.
   bool		framed;		///< flag framed.
@@ -345,15 +339,6 @@ static const uint8_t FRAME_MAX;		// 255
 
   char* getTok(char* l, uint16_t* stok);
   /** Gets current solid token. */
-
-  int displayList(int layer);
-  /**< Renders a solid in display-list. */
-
-  void displayFlary();
-  /**< Renders attached flare to a solid. */
-
-  void displayRay();
-  /**< Displays ray. */
 
   bool toggleBlinking();
   /**< Checks if rendering of a blinking solid must be done. */

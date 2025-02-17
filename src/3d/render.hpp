@@ -134,6 +134,22 @@ class Render {
  private:
   void refreshBackground();	///< refresh buffer.
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Displaying 3D displaylists
+  //
+  void displaySolid(Solid *solid, int layer);
+  /**< Issue the OpenGL commands to draw the solid in the given mode.
+       It is called with "layer" to allow drawing at different layers. */
+
+  int displayList(Solid *solid, int layer);
+  /**< Renders a solid in display-list. */
+
+  void displayFlary(Solid *solid);
+  /**< Renders attached flare to a solid. */
+
+  void displayRay(Solid *solid);
+  /**< Displays ray. */
+
   /////////////
   // Views
   /////////////

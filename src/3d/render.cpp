@@ -37,6 +37,7 @@
 #include "grid.hpp"	// Grid
 #include "axis.hpp"	// Axis
 #include "light.hpp"	// lights
+#include "flare.hpp"	// render
 
 #include <vector>	// vector
 #include <list>		// list
@@ -44,9 +45,9 @@
 
 
 // local
-#define SEL_MAXNAMES    1024				// max names in buffer selection
-const int Render::SEL_BUFSIZ = (4*SEL_MAXNAMES);	// 1024 names
-static GLuint selbuf[4*SEL_MAXNAMES];			// 1024 objects
+#define SEL_MAXNAMES    1024			// max names in buffer selection
+const int Render::SEL_BUFSIZ=4*SEL_MAXNAMES;	// 1024 names
+static GLuint selbuf[4*SEL_MAXNAMES];		// 1024 objects
 
 extern struct Render::sCamera camera;		// camera.cpp
 
@@ -154,11 +155,11 @@ void Render::init(bool _quality)
 
 void Render::materials()
 {
-  const GLfloat ambient[] = {0.2, 0.2, 0.2, 1};	// dark grey
-  const GLfloat color[] =   {0.8, 0.8, 0.8, 1};	// light grey
+  const GLfloat greyZ[] = {.2, .2, .2, 1};	// dark grey
+  const GLfloat grey8[] = {.8, .8, .8, 1};	// light grey
 
-  glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
+  glMaterialfv(GL_FRONT, GL_AMBIENT, greyZ);
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, grey8);
 }
 
 /** Records object number into the selection buffer */
@@ -171,30 +172,30 @@ void Render::recordObject(Object *o)
 }
 
 /** Compares distances  : called by sort() */
-bool Render::compDist(const void *t1, const void *t2)
+bool Render::compDist(const void *_s1, const void *_s2)
 {
-  Solid *s1 = (Solid *) t1;
-  Solid *s2 = (Solid *) t2;
+  Solid *s1 = (Solid *) _s1;
+  Solid *s2 = (Solid *) _s2;
 
   // sort by decreasing order : furthest -> nearest
   return (s1->userdist > s2->userdist);
 }
 
 /** Compares surfaces  : called by sort() */
-bool Render::compSize(const void *t1, const void *t2)
+bool Render::compSize(const void *_s1, const void *_s2)
 {
-  Solid *s1 = (Solid *) t1;
-  Solid *s2 = (Solid *) t2;
+  Solid *s1 = (Solid *) _s1;
+  Solid *s2 = (Solid *) _s2;
 
   // sort by decreasing order : largest -> smallest
   return (s1->surfsize > s2->surfsize);
 }
 
 /** Compares nbframes  : called by sort() */
-bool Render::compFrame(const void *t1, const void *t2)
+bool Render::compFrame(const void *_s1, const void *_s2)
 {
-  Solid *s1 = (Solid *) t1;
-  Solid *s2 = (Solid *) t2;
+  Solid *s1 = (Solid *) _s1;
+  Solid *s2 = (Solid *) _s2;
 
   // sort by increasing order : less -> more
   return (s1->nbframes < s2->nbframes);
@@ -219,20 +220,20 @@ void Render::renderOpaque(bool mini)
       trace2(DBG_3D, " %s:%.1f", (*it)->object->objectName(), (*it)->userdist);
       (*it)->object->render();
       if ((*it)->object->isBehavior(MIX_RENDER)) {	// mix render
-        (*it)->displaySolid(Solid::OPAQUE);
+        displaySolid((*it), Solid::OPAQUE);
       }
     }
     else {	// general render, no specific render
       if ((*it)->nbsolids == 1) {		// mono solid
-        (*it)->displaySolid(Solid::OPAQUE);
+        displaySolid((*it), Solid::OPAQUE);
       }
       else {					// multi solids
         glPushMatrix();
-        (*it)->displaySolid(Solid::OPAQUE);	// main solid first
+        displaySolid((*it), Solid::OPAQUE);	// main solid first
         trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*it)->object->objectName(), (*it)->userdist, (*it)->surfsize, (*it)->nbsolids);
 
         for (std::list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
-          (*jt)->displaySolid(Solid::OPAQUE);
+          displaySolid((*it), Solid::OPAQUE);
           (*jt)->rendered = true;
           trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*jt)->object->objectName(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
         }
@@ -270,22 +271,22 @@ void Render::renderTransparent(bool mini)
     if ((*it)->object->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object->render();
       if ((*it)->object->isBehavior(MIX_RENDER)) {	// mix render
-        (*it)->displaySolid(Solid::TRANSPARENT);
+        displaySolid((*it), Solid::TRANSPARENT);
       }
       trace2(DBG_3D, " %s:%.1f", (*it)->object->objectName(), (*it)->userdist);
     }
     else {
       if ((*it)->nbsolids == 1) {	// mono solid
-        (*it)->displaySolid(Solid::TRANSPARENT);
+        displaySolid((*it), Solid::TRANSPARENT);
         trace2(DBG_3D, " %s:%.1f", (*it)->object->objectName(), (*it)->userdist);
       }
       else {				// multi solids
         glPushMatrix();
-        (*it)->displaySolid(Solid::TRANSPARENT);
+        displaySolid((*it), Solid::TRANSPARENT);
         trace2(DBG_3D, " %s:%.1f#%d", (*it)->object->objectName(), (*it)->userdist, (*it)->nbsolids);
 
         for (std::list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
-          (*jt)->displaySolid(Solid::TRANSPARENT);
+          displaySolid((*it), Solid::TRANSPARENT);
           (*jt)->rendered = true;
           trace2(DBG_3D, " %s:%.1f#%d", (*jt)->object->objectName(), (*jt)->userdist, (*jt)->nbsolids);
         }
@@ -308,7 +309,7 @@ void Render::renderGround()
       (*it)->object->render();
     }
     else {
-      (*it)->displaySolid(Solid::OPAQUE);
+      displaySolid((*it), Solid::OPAQUE);
     }
     (*it)->rendered = true;
     trace2(DBG_3D, " %s:%.1f", (*it)->object->objectName(), (*it)->userdist);
@@ -328,7 +329,7 @@ void Render::renderModel()
       (*it)->object->render();
     }
     else {
-      (*it)->displaySolid(Solid::OPAQUE);
+      displaySolid((*it), Solid::OPAQUE);
     }
     (*it)->rendered = true;
     trace2(DBG_3D, " %s:%.1f", (*it)->object->objectName(), (*it)->userdist);
@@ -346,7 +347,7 @@ void Render::renderUser()
       (*it)->object->render();
     }
     else {
-      (*it)->displaySolid(Solid::USER);
+      displaySolid((*it), Solid::USER);
     }
     (*it)->rendered = true;
     trace2(DBG_3D, " %s", (*it)->object->objectName());
@@ -363,7 +364,7 @@ void Render::renderFlary()
       (*it)->object->render();
     }
     else {
-      (*it)->displaySolid(Solid::FLASH);
+      displaySolid((*it), Solid::FLASH);
     }
     (*it)->rendered = true;
     trace2(DBG_3D, " %s", (*it)->object->objectName());
@@ -859,4 +860,217 @@ void Render::showSolidList()
 void Render::quit()
 {
   //dax Texture::quit();
+}
+
+//---------------------------------------------------------------------------
+//
+// Rendering solids
+//
+
+/** Renders a solid */
+void Render::displaySolid(Solid *solid, int rdr_type)
+{
+  if (solid->blinking && (! solid->toggleBlinking()))
+    return;		// pass one turn
+
+  switch (rdr_type) {
+
+    case Solid::OPAQUE:		// Display opaque solids
+      if (solid->reflexive)
+        displayList(solid, Solid::REFLEXIVE);
+      else
+        displayList(solid, Solid::NORMAL);
+      break;
+
+    case Solid::TRANSPARENT:	// Display transparent solids 
+      if (solid->reflexive)
+        displayList(solid, Solid::REFLEXIVE);
+      else
+        displayList(solid, Solid::NORMAL);
+      break;
+
+    case Solid::FLASH:		// Display flashy edges
+      if (solid->flashy)
+        displayList(solid, Solid::FLASHY);
+      if (solid->flary)
+        displayFlary(solid);		// Display attached flares
+      if (solid->ray_dlist)
+        displayRay(solid);
+      break;
+
+    case Solid::USER:		// Display local user last
+      displayList(solid, Solid::NORMAL);
+      break;
+  }
+}
+
+void Render::displayRay(Solid *solid)
+{
+  glPushAttrib(GL_LINE_BIT);
+  glPushMatrix();
+   glDisable(GL_LIGHTING);
+   glEnable(GL_LINE_STIPPLE);
+
+   glCallList(solid->ray_dlist);
+
+   glDisable(GL_LINE_STIPPLE);
+   glEnable(GL_LIGHTING);
+  glPopMatrix();
+  glPopAttrib();
+}
+
+void Render::displayFlary(Solid *solid)
+{
+  if (solid->object->flare) {
+    displayList(solid, Solid::NORMAL);		// object alone
+
+    glPushMatrix();
+     glRotatef(RAD2DEG(localuser->pos.az), 0, 0, -1);	// one degree
+     glTranslatef(solid->object->pos.x, solid->object->pos.y, solid->object->pos.z);
+
+     solid->object->flare->render(solid->object->pos);	// render the flare
+
+    glPopMatrix();
+  }
+}
+
+
+/** Renders a solid calling its dlists. */
+int Render::displayList(Solid *solid, int display_mode = Solid::NORMAL)
+{
+  GLint bufs = GL_NONE;
+
+  if (! solid->dlists)  return 0;
+  if (solid->dlists[solid->frame] <= 0 )  return 0;
+
+  glPushMatrix();
+  {
+   // Transposes vreng to opengl coordinates system
+   GLfloat gl_mat[16];
+
+   M4toV16(&solid->matpos, gl_mat);
+   glMultMatrixf(gl_mat);
+
+   switch (display_mode) {
+
+   case Solid::NORMAL:
+     glPushMatrix();
+     if (solid->object->type == USER_TYPE) {	// if localuser
+       User *user = (User *) solid->object;
+       glPushMatrix();
+       glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
+
+       glCallList(solid->dlists[solid->frame]);	// display the localuser here !!!
+       glPopMatrix();
+     }
+     else {			// normal solid
+       glEnable(GL_DEPTH_TEST);
+       glDepthFunc(GL_LESS);
+       glDepthMask(GL_TRUE);
+
+       glPushMatrix();
+        glTranslatef(solid->pos[0], solid->pos[1], solid->pos[2]);     // x y z
+        glRotatef(RAD2DEG(solid->pos[3]), 0, 0, 1);      // az
+        glRotatef(RAD2DEG(solid->pos[4]), 1, 0, 0);      // ax
+        if (solid->scalex != 1 || solid->scaley != 1 || solid->scalez != 1) {
+          glScalef(solid->scalex, solid->scaley, solid->scalez);
+        }
+       glPopMatrix();
+
+       if (solid->texid >= 0) {
+         glEnable(GL_TEXTURE_2D);
+         glBindTexture(GL_TEXTURE_2D, solid->texid);
+       }
+       if (solid->alpha < 1) {		// transparent
+         glDepthMask(GL_FALSE);
+         glEnable(GL_BLEND);
+         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
+       }
+       if (solid->fog[0] > 0) {
+         //echo("fog=%f %s", fog[0], solid->object->objectName());
+         glEnable(GL_FOG);
+         glFogi(GL_FOG_MODE, GL_EXP);
+         glFogf(GL_FOG_DENSITY, solid->fog[0]);
+         glFogfv(GL_FOG_COLOR, &solid->fog[1]);
+       }
+
+       glCallList(solid->dlists[solid->frame]);	// display the object here !!!
+     }
+     glPopMatrix();
+     break;
+
+   case Solid::FLASHY:
+     glPushMatrix();
+      glPolygonOffset(2., 1.);		// factor=2 unit=1
+      glDisable(GL_POLYGON_OFFSET_FILL);// wired mode
+      glColor3fv(solid->flashcol);
+      glLineWidth(1);
+      glScalef(1.03, 1.03, 1.03);	// 3%100 more
+      glPolygonMode(GL_FRONT, GL_LINE);
+
+      glCallList(solid->dlists[solid->frame]);
+
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+     glPopMatrix();
+     break;
+
+   case Solid::REFLEXIVE:
+    glGetIntegerv(GL_DRAW_BUFFER, &bufs); 	// get the current color buffer being drawn to
+    glPushMatrix();
+     glClearStencil(0);				// set the clear value
+     glClear(GL_STENCIL_BUFFER_BIT);		// clear the stencil buffer
+     glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
+     glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE); // operation to modify the stencil buffer
+     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+     glDrawBuffer(GL_NONE);			// disable drawing to the color buffer
+     glEnable(GL_STENCIL_TEST);			// enable stencil
+
+     glCallList(solid->dlists[solid->frame]);	// display the mirror inside the stencil
+
+     glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
+     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+     glDrawBuffer((GLenum) bufs);		// reenable drawing to color buffer
+     glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); 	// make stencil buffer read only
+
+     glPushMatrix();
+      GLdouble eqn[4] = {-0,-0,-1,0};		// clipping plane
+      glClipPlane(GL_CLIP_PLANE0, eqn);
+      glEnable(GL_CLIP_PLANE0);			// enable clipping
+      glStencilFunc(GL_EQUAL, 1, 1);		// draw only where the stencil == 1
+
+      solid->object->render();			// display the mirrored scene by mirror itself
+
+      glDisable(GL_CLIP_PLANE0);
+     glPopMatrix();
+     glDisable(GL_STENCIL_TEST);		// disable the stencil
+
+     glDepthMask(GL_FALSE);
+     glEnable(GL_BLEND);			// mirror shine effect
+     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+     glDepthFunc(GL_LEQUAL);
+
+     glCallList(solid->dlists[solid->frame]);	// display the physical mirror
+
+     glDepthFunc(GL_LESS);
+     glDisable(GL_BLEND);
+     glDepthMask(GL_TRUE);
+    glPopMatrix();
+    break;	// reflexive
+   }
+
+   if (*solid->fog > 0) {
+     glDisable(GL_FOG);
+   }
+   if (solid->texid >= 0) {
+     glDisable(GL_TEXTURE_2D);
+     //glDisable(GL_LIGHTING);
+   }
+   if (solid->alpha < 1) {	// transparent
+     glDisable(GL_BLEND);
+     glDepthMask(GL_TRUE);
+   }
+  }
+  glPopMatrix();
+
+  return solid->dlists[solid->frame];		// displaylist number
 }
