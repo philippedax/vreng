@@ -24,6 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "smoke.hpp"
+#include "matvec.hpp"	// M4toV16
 
 
 const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
@@ -144,11 +145,16 @@ void Smoke::permanent(float dt)
 void Smoke::render()
 {
   //echo("r");
-  //GLfloat m[16];
-  //m[0]=0;  m[4]=-1; m[8] =0; m[12]=0;           // Xogl = -Yvre
-  //m[1]=0;  m[5]=0;  m[9] =1; m[13]=-1.85;       // Yogl = Zvre
-  //m[2]=-1; m[6]=0;  m[10]=0; m[14]=0;           // Zogl = -Xvre
-  //m[3]=0;  m[7]=0;  m[11]=0; m[15]=1;
+  GLfloat m[16];
+  m[0]=0;  m[4]=-1; m[8] =0; m[12]=0;           // Xogl = -Yvre
+  m[1]=0;  m[5]=0;  m[9] =1; m[13]=-1.85;       // Yogl = Zvre
+  m[2]=-1; m[6]=0;  m[10]=0; m[14]=0;           // Zogl = -Xvre
+  m[3]=0;  m[7]=0;  m[11]=0; m[15]=1;
+
+  // Transposes vreng to openGl coordinates system
+  GLfloat gl_mat[16];
+  //bad M4toV16(m, gl_mat);
+  glMultMatrixf(gl_mat);       // openGl coordinates
 
   for (std::vector<PSmoke *>::iterator i = smokeList.begin(); i < smokeList.end(); ++i) {
     if ((*i)->life > 0) {	// is alive
