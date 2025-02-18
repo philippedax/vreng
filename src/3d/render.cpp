@@ -953,36 +953,30 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
    switch (display_mode) {
 
    case NORMAL:
-     glPushMatrix();
      if (s->object->type == USER_TYPE) {	// if localuser
-       User *user = (User *) s->object;
+       User *user = static_cast<User *> (s->object);
        glPushMatrix();
-       glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
-
-       glCallList(s->displist[s->frame]);		// display the localuser here !!!
+        glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
+        glCallList(s->displist[s->frame]);	// display the localuser here !!!
        glPopMatrix();
      }
-     else {			// normal solid
+     else {			// normal object
        glEnable(GL_DEPTH_TEST);
        glDepthFunc(GL_LESS);
        glDepthMask(GL_TRUE);
-
        glPushMatrix();
-        if ( s->rel[0] || s->rel[1] || s->rel[2] ) {
-          //echo("rel: %.2f %.2f %.2f %s", s->rel[0], s->rel[1], s->rel[2], s->object->objectName());
-          glTranslatef(s->rel[0], s->rel[1], s->rel[2]);	// rel x y z
+        if ( s->rel[0] || s->rel[1] || s->rel[2] ) {	// relative positions
+          glTranslatef(s->rel[0], s->rel[1], s->rel[2]);
         }
-        if ( s->rel[3] || s->rel[4] ) {
-          //echo("rel: %.2f %.2f %s", s->rel[3], s->rel[4], s->object->objectName());
-          glRotatef(RAD2DEG(s->rel[3]), 0, 0, 1);		// rel az
-          glRotatef(RAD2DEG(s->rel[4]), 1, 0, 0);		// rel ax
+        if ( s->rel[3] || s->rel[4] ) {			// relative orientations
+          glRotatef(RAD2DEG(s->rel[3]), 0, 0, 1);	// rel az
+          glRotatef(RAD2DEG(s->rel[4]), 1, 0, 0);	// rel ax
         }
-        if (s->scalex != 1 || s->scaley != 1 || s->scalez != 1) {
+        if ( s->scalex != 1 || s->scaley != 1 || s->scalez != 1 ) {	// scaling
           glScalef(s->scalex, s->scaley, s->scalez);
         }
        glPopMatrix();
-
-       if (s->texid >= 0) {
+       if (s->texid >= 0) {			// textured
          glEnable(GL_TEXTURE_2D);
          glBindTexture(GL_TEXTURE_2D, s->texid);
        }
@@ -991,17 +985,15 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
          glEnable(GL_BLEND);
          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
        }
-       if (s->fog[0] > 0) {
-         //echo("fog=%f %s", fog[0], s->object->objectName());
+       if (s->fog[0] > 0) {			// fog effect
          glEnable(GL_FOG);
          glFogi(GL_FOG_MODE, GL_EXP);
          glFogf(GL_FOG_DENSITY, s->fog[0]);
          glFogfv(GL_FOG_COLOR, &s->fog[1]);
        }
-
+       //echo("%s", s->object->objectName());
        glCallList(s->displist[s->frame]);	// display the solid here !!!
      }
-     glPopMatrix();
      break;
 
    case FLASHY:
