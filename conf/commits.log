@@ -3450,3 +3450,4 @@
 3450 Mar 18 fév 2025 08:12:04 CET	cleanup pos -> rel solid.*pp render.cpp
 3451 Mar 18 fév 2025 09:46:25 CET	cleanup rel[i] != 0 render.cpp
 3452 Mar 18 fév 2025 17:20:49 CET	cleanup static_cast render.cpp
+3453 Mar 18 fév 2025 17:23:23 CET	update circuit vre/eric.vre
