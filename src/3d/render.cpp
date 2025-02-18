@@ -937,18 +937,17 @@ void Render::displayFlary(Solid *s)
 /** Renders a solid calling its displist. */
 int Render::displayList(Solid *s, int display_mode = NORMAL)
 {
-  if (! s->displist)  return 0;
-  if (s->displist[s->frame] <= 0 )  return 0;
+  if (! s->displist)  return 0;			// no displaylist
+  if (s->displist[s->frame] <= 0 )  return 0;	// no frame
 
   GLint bufs = GL_NONE;
 
   glPushMatrix();
   {
-   // Transposes vreng to opengl coordinates system
+   // Transposes vreng to openGl coordinates system
    GLfloat gl_mat[16];
-
    M4toV16(&s->matpos, gl_mat);
-   glMultMatrixf(gl_mat);
+   glMultMatrixf(gl_mat);	// openGl coordinates
 
    switch (display_mode) {
 
@@ -998,22 +997,20 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
 
    case FLASHY:
      glPushMatrix();
-      glPolygonOffset(2., 1.);		// factor=2 unit=1
-      glDisable(GL_POLYGON_OFFSET_FILL);// wired mode
+      glPolygonOffset(2., 1.);			// factor=2 unit=1
+      glDisable(GL_POLYGON_OFFSET_FILL);	// wired mode
       glColor3fv(s->flashcol);
       glLineWidth(1);
-      glScalef(1.03, 1.03, 1.03);	// 3%100 more
+      glScalef(1.03, 1.03, 1.03);		// 3%100 more
       glPolygonMode(GL_FRONT, GL_LINE);
-
       glCallList(s->displist[s->frame]);
-
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
      glPopMatrix();
      break;
 
    case REFLEXIVE:
-    glGetIntegerv(GL_DRAW_BUFFER, &bufs); 	// get the current color buffer being drawn to
     glPushMatrix();
+     glGetIntegerv(GL_DRAW_BUFFER, &bufs); 	// get the current color buffer being drawn to
      glClearStencil(0);				// set the clear value
      glClear(GL_STENCIL_BUFFER_BIT);		// clear the stencil buffer
      glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
@@ -1021,53 +1018,43 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
      glDrawBuffer(GL_NONE);			// disable drawing to the color buffer
      glEnable(GL_STENCIL_TEST);			// enable stencil
-
      glCallList(s->displist[s->frame]);		// display the mirror inside the stencil
-
      glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
      glDrawBuffer((GLenum) bufs);		// reenable drawing to color buffer
      glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); 	// make stencil buffer read only
-
      glPushMatrix();
       GLdouble eqn[4] = {-0,-0,-1,0};		// clipping plane
       glClipPlane(GL_CLIP_PLANE0, eqn);
       glEnable(GL_CLIP_PLANE0);			// enable clipping
       glStencilFunc(GL_EQUAL, 1, 1);		// draw only where the stencil == 1
-
       s->object->render();			// display the mirrored scene by mirror itself
-
       glDisable(GL_CLIP_PLANE0);
      glPopMatrix();
      glDisable(GL_STENCIL_TEST);		// disable the stencil
-
      glDepthMask(GL_FALSE);
      glEnable(GL_BLEND);			// mirror shine effect
      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
      glDepthFunc(GL_LEQUAL);
-
      glCallList(s->displist[s->frame]);		// display the physical mirror
-
      glDepthFunc(GL_LESS);
      glDisable(GL_BLEND);
      glDepthMask(GL_TRUE);
     glPopMatrix();
-    break;	// reflexive
+    break;
    }
-
-   if (*s->fog > 0) {
+   if (*s->fog > 0) {			// fog effect
      glDisable(GL_FOG);
    }
-   if (s->texid >= 0) {
+   if (s->texid >= 0) {			// textured
      glDisable(GL_TEXTURE_2D);
      //glDisable(GL_LIGHTING);
    }
-   if (s->alpha < 1) {	// transparent
+   if (s->alpha < 1) {			// transparency
      glDisable(GL_BLEND);
      glDepthMask(GL_TRUE);
    }
   }
   glPopMatrix();
-
   return s->displist[s->frame];		// displaylist number
 }
