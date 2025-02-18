@@ -13,19 +13,23 @@
 <entry pos="-20 15 5"></entry>
 
 <!-- level 0 m -->
-<wall name="level-0" pos="-17 15 -.15"> <solid dim="28 90 .1" tx="/jpg/desert.jpg"  /></wall>
+<wall name="level-0" pos="-17 15 -.15"> <solid dim="29 90 .1" tx="/jpg/desert.jpg"  /></wall>
 <wall name="level-0-2" pos="32.5 -10 -.15"> <solid dim="65 49 .1" tx="/jpg/desert.jpg" /></wall>
 <wall name="level-0-3" pos="32.5 40 -.15"> <solid dim="65 49 .1" tx="/jpg/desert.jpg"  /></wall>
-<wall name="level-0-4" pos="32.5 15 -.15"> <solid dim="63 2 .1" tx="/jpg/desert.jpg" /></wall>
+<wall name="level-0-4" pos="32.5 15 -.15"> <solid dim="63 2 .1" tx="/gif/wall.gif" /></wall>
 <wall name="level-0-5" pos="-10 22.5 -.15"> <solid dim="20 14" .1" tx="/jpg/desert.jpg" /></wall>
 <wall name="level-0-6" pos="-10 7.5 -.15"> <solid dim="20 14 .1" tx="/jpg/desert.jpg" /></wall>
 
+<!-- smooth pyramid -->
+<mirage name="pyramid" pos="15 15 0"> <solid shape="pyramid" s="15" h="15" dif="grey30" /></mirage>
+
 <!-- degrees of pyramid -->
-<mirage name="p1" pos="15 15 0">   <solid dim="30 30 .9" dif="grey30" /></mirage>
-<mirage name="p2" pos="15 15 .5">  <solid dim="29 29 .9" dif="grey30" /></mirage>
-<mirage name="p3" pos="15 15 1">   <solid dim="28 28 .9" dif="grey30" /></mirage>
-<mirage name="p4" pos="15 15 1.5"> <solid dim="27 27 .9" dif="grey30" /></mirage>
-<mirage name="p5" pos="15 15 2">   <solid dim="26 26 .9" dif="grey30" /></mirage>
+<!--
+<thing name="p1" pos="15 15 0">   <solid dim="30 30 .9" dif="grey30" /></thing>
+<thing name="p2" pos="15 15 .5">  <solid dim="29 29 .9" dif="grey30" /></thing>
+<thing name="p3" pos="15 15 1">   <solid dim="28 28 .9" dif="grey30" /></thing>
+<thing name="p4" pos="15 15 1.5"> <solid dim="27 27 .9" dif="grey30" /></thing>
+<thing name="p5" pos="15 15 2">   <solid dim="26 26 .9" dif="grey30" /></thing>
 <wall name="p6" pos="15 15 2.5">   <solid dim="25 25 .9" dif="grey30" /></wall>
 <wall name="p7" pos="15 15 3">     <solid dim="24 24 .9" dif="grey30" /></wall>
 <wall name="p8" pos="15 15 3.5">   <solid dim="23 23 .9" dif="grey30" /></wall>
@@ -51,10 +55,11 @@
 <wall name="p28" pos="15 15 13.5"> <solid dim="3 3 .5"   dif="grey30" /></wall>
 <wall name="p29" pos="15 15 14">   <solid dim="2 2 .5"   dif="grey30" /></wall>
 <wall name="p30" pos="15 15 14.5"> <solid dim="1 1 .5"   dif="grey30" /></wall>
+-->
 
 <!-- entrance -->
-<mirage pos="0 14 0"> <solid dim="4 .3 4"   tx="/gif/stuc.gif" /></mirage>
-<mirage pos="0 16 0"> <solid dim="4 .3 4"   tx="/gif/stuc.gif" /></mirage>
+<thing pos="0 14 0"> <solid dim="4 .3 4"   tx="/gif/stuc.gif" /></thing>
+<thing pos="0 16 0"> <solid dim="4 .3 4"   tx="/gif/stuc.gif" /></thing>
 <wall pos="0 15 2.15"> <solid dim="4 2.3 .3" tx="/gif/stuc.gif" /></wall>
 
 <!-- stairs1 (0m -2.5m) entry -->
@@ -74,76 +79,76 @@
 <wall name="w1" pos="10 20 -2.5"> <solid dim="28 .2 2.5"  dif="grey" /></wall>
 <wall name="w2" pos="10 0 -2.5"> <solid dim="28 .2 2.5"  dif="grey" /></wall>
 <wall name="w3" pos="24 10 -2.5"> <solid dim=".2 23 2.5"  dif="grey" /></wall>
-<mirage pos=".6 .7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos=".7 .6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></mirage>
-<mirage pos="15 .6 -2.5"> <solid dim="28 .2 2.5"  dif="grey" /></mirage>
-<mirage pos="11.6 .5 -2.5"> <solid dim=".2 1 2.5" dif="grey" /></mirage>
-<mirage pos="17.6 .5 -2.5"> <solid dim=".2 1 2.5" dif="grey" /></mirage>
-<mirage pos=".6 7.5 -2.5"> <solid dim=".2 13 2.5" dif="grey" /></mirage>
-<mirage pos="11.6 5.5 -2.5"> <solid dim=".2 9 2.5" dif="grey" /></mirage>
-<mirage pos="17.6 2.5 -2.5"> <solid dim=".2 3 2.5" dif="grey" /></mirage>
-<mirage pos="2.5 2.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" //></mirage>
-<mirage pos="3.6 2.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="3.5 2.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" //></mirage>
-<mirage pos="5.5 2.6 -2.5"> <solid dim="3 .2 2.5" dif="grey" //></mirage>
-<mirage pos="7.6 2.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="7.2 2.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></mirage>
-<mirage pos="9.6 6 -2.5"> <solid dim=".2 8 2.5" dif="grey" /></mirage>
-<mirage pos="13.6 4 -2.5"> <solid dim=".2 4 2.5" dif="grey" /></mirage>
-<mirage pos="19.6 7 -2.5"> <solid dim=".2 10 2.5" dif="grey" //></mirage>
-<mirage pos="3.6 6 -2.5"> <solid dim=".2 6 2.5" dif="grey" /></mirage>
-<mirage pos="5.6 11 -2.5"> <solid dim=".2 14 2.5" dif="grey" /></mirage>
-<mirage pos="16 4.6 -2.5"> <solid dim="2 .2 2.5" dif="grey" /></mirage>
-<mirage pos="17.6 4.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="17.33 4.6 -2.5"> <solid dim=".37 .2 2.5" dif="grey" /></mirage>
-<mirage pos=".5 6.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></mirage>
-<mirage pos="1.5 6.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></mirage>
-<mirage pos="13.6 6.5 -2.5"> <solid dim=".2 1 2.5" dif="grey" /></mirage>
-<mirage pos="13.7 6.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></mirage>
-<mirage pos="15.5 6.6 -2.5"> <solid dim="3 .2 2.5" dif="grey" /></mirage>
-<mirage pos="17.6 6.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="17.5 6.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></mirage>
-<mirage pos="19.5 6.6 -2.5"> <solid dim="3 .2 2.5" dif="grey" /></mirage>
-<mirage pos="13.6 1.5 -2.5"> <solid dim=".2 7 2.5" dif="grey" /></mirage>
-<mirage pos="17.6 9 -2.5"> <solid dim=".2 4 2.5" dif="grey" /></mirage>
-<mirage pos="2.5 9.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></mirage>
-<mirage pos="3.6 9.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="3.3 9.6 -2.5"> <solid dim=".37 .2 2.5" dif="grey" /></mirage>
-<mirage pos="3 11.6 -2.5"> <solid dim="2 .2 2.5" dif="grey" /></mirage>
-<mirage pos="9.6 11.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="9.7 11.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></mirage>
-<mirage pos="11.6 11.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="11.2 11.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></mirage>
-<mirage pos="16 11.6 -2.5"> <solid dim="2 .2 2.5" dif="grey" /></mirage>
-<mirage pos="17.6 11.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="17.3 11.6 -2.5"> <solid dim=".37 .2 2.5" dif="grey" /></mirage>
-<mirage pos="9.6 14.5 -2.5"> <solid dim=".2 5 2.5" dif="grey" /></mirage>
-<mirage pos="11.6 15 -2.5"> <solid dim=".2 6 2.5" dif="grey" /></mirage>
-<mirage pos="13.6 14.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="13.7 14.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></mirage>
-<mirage pos="19.5 14.6 -2.5"> <solid dim="11 .2 2.5" dif="grey" //></mirage>
-<mirage pos=".5 16.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></mirage>
-<mirage pos=".6 16.5 -2.5"> <solid dim=".2 1 2.5" dif="grey" /></mirage>
-<mirage pos="2 16.6 -2.5"> <solid dim="2 .2 2.5" dif="grey" /></mirage>
-<mirage pos="3.6 16.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="3.33 16.6 -2.5"> <solid dim=".37 .2 2.5" dif="grey" /></mirage>
-<mirage pos="13.6 16.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="13.7 16.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></mirage>
-<mirage pos="17 16.6 -2.5"> <solid dim="6 .2 2.5" dif="grey" /></mirage>
-<mirage pos="2.6 18.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="2.7 18.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></mirage>
-<mirage pos="3.5 18.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></mirage>
-<mirage pos="4.6 18.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="4.5 18.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></mirage>
-<mirage pos="5.6 18.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="5.5 18.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></mirage>
-<mirage pos="6.5 18.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></mirage>
-<mirage pos="7.6 18.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></mirage>
-<mirage pos="7.5 18.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></mirage>
-<mirage pos="9.5 18.6 -2.5"> <solid dim="3 .2 2.5" dif="grey" /></mirage>
-<mirage pos="11.6 18.5 -2.5"> <solid dim=".2 1 2.5" dif="grey" /></mirage>
-<mirage pos="11.2 18.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></mirage>
-<mirage pos="17.5 18.6 -2.5"> <solid dim="5 .2 2.5" dif="grey" /></mirage>
+<thing pos=".6 .7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos=".7 .6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></thing>
+<thing pos="15 .6 -2.5"> <solid dim="28 .2 2.5"  dif="grey" /></thing>
+<thing pos="11.6 .5 -2.5"> <solid dim=".2 1 2.5" dif="grey" /></thing>
+<thing pos="17.6 .5 -2.5"> <solid dim=".2 1 2.5" dif="grey" /></thing>
+<thing pos=".6 7.5 -2.5"> <solid dim=".2 13 2.5" dif="grey" /></thing>
+<thing pos="11.6 5.5 -2.5"> <solid dim=".2 9 2.5" dif="grey" /></thing>
+<thing pos="17.6 2.5 -2.5"> <solid dim=".2 3 2.5" dif="grey" /></thing>
+<thing pos="2.5 2.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" //></thing>
+<thing pos="3.6 2.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="3.5 2.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" //></thing>
+<thing pos="5.5 2.6 -2.5"> <solid dim="3 .2 2.5" dif="grey" //></thing>
+<thing pos="7.6 2.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="7.2 2.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></thing>
+<thing pos="9.6 6 -2.5"> <solid dim=".2 8 2.5" dif="grey" /></thing>
+<thing pos="13.6 4 -2.5"> <solid dim=".2 4 2.5" dif="grey" /></thing>
+<thing pos="19.6 7 -2.5"> <solid dim=".2 10 2.5" dif="grey" //></thing>
+<thing pos="3.6 6 -2.5"> <solid dim=".2 6 2.5" dif="grey" /></thing>
+<thing pos="5.6 11 -2.5"> <solid dim=".2 14 2.5" dif="grey" /></thing>
+<thing pos="16 4.6 -2.5"> <solid dim="2 .2 2.5" dif="grey" /></thing>
+<thing pos="17.6 4.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="17.33 4.6 -2.5"> <solid dim=".37 .2 2.5" dif="grey" /></thing>
+<thing pos=".5 6.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></thing>
+<thing pos="1.5 6.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></thing>
+<thing pos="13.6 6.5 -2.5"> <solid dim=".2 1 2.5" dif="grey" /></thing>
+<thing pos="13.7 6.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></thing>
+<thing pos="15.5 6.6 -2.5"> <solid dim="3 .2 2.5" dif="grey" /></thing>
+<thing pos="17.6 6.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="17.5 6.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></thing>
+<thing pos="19.5 6.6 -2.5"> <solid dim="3 .2 2.5" dif="grey" /></thing>
+<thing pos="13.6 1.5 -2.5"> <solid dim=".2 7 2.5" dif="grey" /></thing>
+<thing pos="17.6 9 -2.5"> <solid dim=".2 4 2.5" dif="grey" /></thing>
+<thing pos="2.5 9.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></thing>
+<thing pos="3.6 9.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="3.3 9.6 -2.5"> <solid dim=".37 .2 2.5" dif="grey" /></thing>
+<thing pos="3 11.6 -2.5"> <solid dim="2 .2 2.5" dif="grey" /></thing>
+<thing pos="9.6 11.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="9.7 11.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></thing>
+<thing pos="11.6 11.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="11.2 11.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></thing>
+<thing pos="16 11.6 -2.5"> <solid dim="2 .2 2.5" dif="grey" /></thing>
+<thing pos="17.6 11.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="17.3 11.6 -2.5"> <solid dim=".37 .2 2.5" dif="grey" /></thing>
+<thing pos="9.6 14.5 -2.5"> <solid dim=".2 5 2.5" dif="grey" /></thing>
+<thing pos="11.6 15 -2.5"> <solid dim=".2 6 2.5" dif="grey" /></thing>
+<thing pos="13.6 14.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="13.7 14.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></thing>
+<thing pos="19.5 14.6 -2.5"> <solid dim="11 .2 2.5" dif="grey" //></thing>
+<thing pos=".5 16.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></thing>
+<thing pos=".6 16.5 -2.5"> <solid dim=".2 1 2.5" dif="grey" /></thing>
+<thing pos="2 16.6 -2.5"> <solid dim="2 .2 2.5" dif="grey" /></thing>
+<thing pos="3.6 16.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="3.33 16.6 -2.5"> <solid dim=".37 .2 2.5" dif="grey" /></thing>
+<thing pos="13.6 16.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="13.7 16.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></thing>
+<thing pos="17 16.6 -2.5"> <solid dim="6 .2 2.5" dif="grey" /></thing>
+<thing pos="2.6 18.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="2.7 18.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></thing>
+<thing pos="3.5 18.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></thing>
+<thing pos="4.6 18.7 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="4.5 18.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></thing>
+<thing pos="5.6 18.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="5.5 18.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></thing>
+<thing pos="6.5 18.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></thing>
+<thing pos="7.6 18.2 -2.5"> <solid dim=".2 .5 2.5" dif="grey" /></thing>
+<thing pos="7.5 18.6 -2.5"> <solid dim="1 .2 2.5" dif="grey" /></thing>
+<thing pos="9.5 18.6 -2.5"> <solid dim="3 .2 2.5" dif="grey" /></thing>
+<thing pos="11.6 18.5 -2.5"> <solid dim=".2 1 2.5" dif="grey" /></thing>
+<thing pos="11.2 18.6 -2.5"> <solid dim=".5 .2 2.5" dif="grey" /></thing>
+<thing pos="17.5 18.6 -2.5"> <solid dim="5 .2 2.5" dif="grey" /></thing>
 
 <!-- stairs2 (-5m -2.5m) -->
 <!--
@@ -349,16 +354,16 @@
 <wall pos="12 19.6 -7.5"> <solid dim="2 .2 2.5" dif="wheat" /></wall>
 
 <!-- trees -->
-<mirage pos="-3 7 1.5"> <solid shape="cone" rb=".5" rt="0" h="4" dif="green" /></mirage>
-<mirage pos="-3 7 0"> <solid shape="cone" rb=".17" rt=".17" h="2" tx="/gif/wood.gif" /></mirage>
-<mirage pos="-5 5 1"> <solid shape="cone" rb=".2" rt="0" h="3" dif="green" /></mirage>
-<mirage pos="-5 5 0"> <solid shape="cone" rb=".07" rt=".07" h="1.5" tx="/gif/wood.gif" /></mirage>
-<mirage pos="-4.3 6 .7"> <solid shape="cone" rb=".4" rt="0" h="2.3" dif="green" /></mirage>
-<mirage pos="-4.3 6 0"> <solid shape="cone" rb=".14" rt=".13" h="1.2" tx="/gif/wood.gif" /></mirage>
-<mirage pos="-5.3 6 1.3"> <solid shape="cone" rb=".2" rt="0" h="3.7" dif="green" /></mirage>
-<mirage pos="-5.3 6 0"> <solid shape="cone" rb=".07" rt=".07" h="1.8" tx="/gif/wood.gif" /></mirage>
-<mirage pos="-5.8 5.8 .8"> <solid shape="cone" rb=".6" rt="0" h="2.5" dif="green" /></mirage>
-<mirage pos="-5.8 5.8 0"> <solid shape="cone" rb=".2" rt=".2" h="1.3" tx="/gif/wood.gif" /></mirage>
+<thing pos="-3 7 1.5"> <solid shape="cone" rb=".5" rt="0" h="4" dif="green" /></thing>
+<thing pos="-3 7 0"> <solid shape="cone" rb=".17" rt=".17" h="2" tx="/gif/wood.gif" /></thing>
+<thing pos="-5 5 1"> <solid shape="cone" rb=".2" rt="0" h="3" dif="green" /></thing>
+<thing pos="-5 5 0"> <solid shape="cone" rb=".07" rt=".07" h="1.5" tx="/gif/wood.gif" /></thing>
+<thing pos="-4.3 6 .7"> <solid shape="cone" rb=".4" rt="0" h="2.3" dif="green" /></thing>
+<thing pos="-4.3 6 0"> <solid shape="cone" rb=".14" rt=".13" h="1.2" tx="/gif/wood.gif" /></thing>
+<thing pos="-5.3 6 1.3"> <solid shape="cone" rb=".2" rt="0" h="3.7" dif="green" /></thing>
+<thing pos="-5.3 6 0"> <solid shape="cone" rb=".07" rt=".07" h="1.8" tx="/gif/wood.gif" /></thing>
+<thing pos="-5.8 5.8 .8"> <solid shape="cone" rb=".6" rt="0" h="2.5" dif="green" /></thing>
+<thing pos="-5.8 5.8 0"> <solid shape="cone" rb=".2" rt=".2" h="1.3" tx="/gif/wood.gif" /></thing>
 
 </scene>
 </vre>
