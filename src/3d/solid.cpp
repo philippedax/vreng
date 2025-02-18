@@ -213,7 +213,7 @@ Solid::Solid()
   ::g.render.relsolidList.push_back(this);	// add solid to relsolidList
   nbsolids = ::g.render.relsolidList.size();	// number of solids
 
-  for (int i=0; i<5; i++) pos[i] = 0;
+  for (int i=0; i<5; i++) rel[i] = 0;
   for (int i=0; i<3; i++) flashcol[i] = 1;  // white
 }
 
@@ -620,7 +620,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         }
         break;
       case STOK_REL:
-        l = object->parse()->parseVector5f(l, pos);
+        l = object->parse()->parseVector5f(l, rel);
         nbsolids = ::g.render.relsolidList.size();
         break;
       case STOK_TEXTURE:
@@ -1082,9 +1082,9 @@ void Solid::doTransform(int flag)
   switch (flag) {
   case true:  // pre
     glPushMatrix();
-    glRotatef(RAD2DEG(pos[3]), 0, 0, 1);	// az
-    glRotatef(RAD2DEG(pos[4]), 1, 0, 0);	// ax
-    glTranslatef(pos[0], pos[1], pos[2]);	// x y z
+    glRotatef(RAD2DEG(rel[3]), 0, 0, 1);	// az
+    glRotatef(RAD2DEG(rel[4]), 1, 0, 0);	// ax
+    glTranslatef(rel[0], rel[1], rel[2]);	// x y z
     glScalef(scalex, scaley, scalez);
     break;
   case false: // post

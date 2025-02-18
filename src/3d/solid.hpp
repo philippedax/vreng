@@ -172,7 +172,7 @@ class Solid {
   M4		matpos;		///< position matrix.
   V3		bbcent;		///< relative center of BB.
   V3		bbsize;		///< relative half sizes of BB.
-  float 	pos[5];		///< relative position/orientation.
+  float 	rel[5];		///< relative position/orientation.
   bool		blink;		///< flag blink.
   bool		rendered;	///< flag if is already rendered
   float		userdist;	///< distance to localuser.

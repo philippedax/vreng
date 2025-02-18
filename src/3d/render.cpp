@@ -968,9 +968,9 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
        glDepthMask(GL_TRUE);
 
        glPushMatrix();
-        glTranslatef(s->pos[0], s->pos[1], s->pos[2]);	// x y z
-        glRotatef(RAD2DEG(s->pos[3]), 0, 0, 1);		// az
-        glRotatef(RAD2DEG(s->pos[4]), 1, 0, 0);		// ax
+        glTranslatef(s->rel[0], s->rel[1], s->rel[2]);	// rel x y z
+        glRotatef(RAD2DEG(s->rel[3]), 0, 0, 1);		// rel az
+        glRotatef(RAD2DEG(s->rel[4]), 1, 0, 0);		// rel ax
         if (s->scalex != 1 || s->scaley != 1 || s->scalez != 1) {
           glScalef(s->scalex, s->scaley, s->scalez);
         }
