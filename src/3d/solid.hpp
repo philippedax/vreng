@@ -228,7 +228,7 @@ static const uint8_t FRAME_MAX;		// 255
 
   class Object	*object;	///< Object parent.
   class Texture *texture;	///< texture if exists.
-  GLint*	dlists;		///< cached display list.
+  GLint*	displist;	///< cached display list.
   GLint		ray_dlist;	///< ray display list.
 
   Solid();			///< constructor.

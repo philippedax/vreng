@@ -3447,3 +3447,4 @@
 3447 Lun 17 fév 2025 08:23:47 CET	move renderSolid() from solid.*pp to render.*pp
 3448 Lun 17 fév 2025 12:16:38 CET	cleanup class render.hpp
 3449 Lun 17 fév 2025 16:35:45 CET	cleanup solid-> to s-> render.cpp
+3450 Mar 18 fév 2025 08:12:04 CET	cleanup pos -> rel solid.*pp render.cpp

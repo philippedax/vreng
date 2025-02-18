@@ -934,13 +934,13 @@ void Render::displayFlary(Solid *s)
 }
 
 
-/** Renders a solid calling its dlists. */
+/** Renders a solid calling its displist. */
 int Render::displayList(Solid *s, int display_mode = NORMAL)
 {
-  GLint bufs = GL_NONE;
+  if (! s->displist)  return 0;
+  if (s->displist[s->frame] <= 0 )  return 0;
 
-  if (! s->dlists)  return 0;
-  if (s->dlists[s->frame] <= 0 )  return 0;
+  GLint bufs = GL_NONE;
 
   glPushMatrix();
   {
@@ -959,7 +959,7 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
        glPushMatrix();
        glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
 
-       glCallList(s->dlists[s->frame]);		// display the localuser here !!!
+       glCallList(s->displist[s->frame]);		// display the localuser here !!!
        glPopMatrix();
      }
      else {			// normal solid
@@ -968,9 +968,15 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
        glDepthMask(GL_TRUE);
 
        glPushMatrix();
-        glTranslatef(s->rel[0], s->rel[1], s->rel[2]);	// rel x y z
-        glRotatef(RAD2DEG(s->rel[3]), 0, 0, 1);		// rel az
-        glRotatef(RAD2DEG(s->rel[4]), 1, 0, 0);		// rel ax
+        if ( s->rel[0] || s->rel[1] || s->rel[2] ) {
+          //echo("rel: %.2f %.2f %.2f %s", s->rel[0], s->rel[1], s->rel[2], s->object->objectName());
+          glTranslatef(s->rel[0], s->rel[1], s->rel[2]);	// rel x y z
+        }
+        if ( s->rel[3] || s->rel[4] ) {
+          //echo("rel: %.2f %.2f %s", s->rel[3], s->rel[4], s->object->objectName());
+          glRotatef(RAD2DEG(s->rel[3]), 0, 0, 1);		// rel az
+          glRotatef(RAD2DEG(s->rel[4]), 1, 0, 0);		// rel ax
+        }
         if (s->scalex != 1 || s->scaley != 1 || s->scalez != 1) {
           glScalef(s->scalex, s->scaley, s->scalez);
         }
@@ -980,7 +986,7 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
          glEnable(GL_TEXTURE_2D);
          glBindTexture(GL_TEXTURE_2D, s->texid);
        }
-       if (s->alpha < 1) {		// transparent
+       if (s->alpha < 1) {			// transparency
          glDepthMask(GL_FALSE);
          glEnable(GL_BLEND);
          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
@@ -993,7 +999,7 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
          glFogfv(GL_FOG_COLOR, &s->fog[1]);
        }
 
-       glCallList(s->dlists[s->frame]);	// display the object here !!!
+       glCallList(s->displist[s->frame]);	// display the solid here !!!
      }
      glPopMatrix();
      break;
@@ -1007,7 +1013,7 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
       glScalef(1.03, 1.03, 1.03);	// 3%100 more
       glPolygonMode(GL_FRONT, GL_LINE);
 
-      glCallList(s->dlists[s->frame]);
+      glCallList(s->displist[s->frame]);
 
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
      glPopMatrix();
@@ -1024,7 +1030,7 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
      glDrawBuffer(GL_NONE);			// disable drawing to the color buffer
      glEnable(GL_STENCIL_TEST);			// enable stencil
 
-     glCallList(s->dlists[s->frame]);		// display the mirror inside the stencil
+     glCallList(s->displist[s->frame]);		// display the mirror inside the stencil
 
      glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
@@ -1048,7 +1054,7 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
      glDepthFunc(GL_LEQUAL);
 
-     glCallList(s->dlists[s->frame]);		// display the physical mirror
+     glCallList(s->displist[s->frame]);		// display the physical mirror
 
      glDepthFunc(GL_LESS);
      glDisable(GL_BLEND);
@@ -1071,5 +1077,5 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
   }
   glPopMatrix();
 
-  return s->dlists[s->frame];		// displaylist number
+  return s->displist[s->frame];		// displaylist number
 }

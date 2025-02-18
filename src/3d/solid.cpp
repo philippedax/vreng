@@ -188,7 +188,7 @@ Solid::Solid()
   new_solid++;
   shape = STOK_BOX;	// shape by default: box
   object = NULL;	// object associated with this solid set by addSolid in object.cpp
-  dlists = NULL;	// solid display lists
+  displist = NULL;	// solid displaylists
 
   visible = true;	// visible by default
   opaque = true;	// opaque by default
@@ -206,25 +206,25 @@ Solid::Solid()
   iframe = 0;		// frame index in displaylist
   userdist = 0;		// distance to localuser
   surfsize = 0;		// surface of solid
-  ray_dlist = 0;	// ray display-list
-  bbcent = setV3(0, 0, 0);
-  bbsize = setV3(0, 0, 0);
+  ray_dlist = 0;	// ray displaylist
+  clearV3(bbcent);	// clear bb center
+  clearV3(bbsize);	// clear bb size
+
+  for (int i=0; i<5; i++) rel[i] = 0;		// clear rel pos
+  for (int i=0; i<3; i++) flashcol[i] = 1;	// clear to white
 
   ::g.render.relsolidList.push_back(this);	// add solid to relsolidList
   nbsolids = ::g.render.relsolidList.size();	// number of solids
-
-  for (int i=0; i<5; i++) rel[i] = 0;
-  for (int i=0; i<3; i++) flashcol[i] = 1;  // white
 }
 
-/** Destructor: deletes solid from display-list. */
+/** Destructor: deletes solid from displaylist. */
 Solid::~Solid()
 {
   ::g.render.solidList.remove(this);
   ::g.render.relsolidList.clear();
   nbsolids = 0;
 
-  if (dlists) delete[] dlists;
+  if (displist) delete[] displist;
   del_solid++;
 }
 
@@ -314,7 +314,7 @@ char * Solid::parser(char *l)
   if (! stringcmp(l, "frames=")) {
     l = object->parse()->parseUInt8(l, &nbframes, "frames");
   }
-  dlists = new GLint[nbframes];
+  displist = new GLint[nbframes];
 
   ::g.render.solidList.push_back(this);	// add to solidList
 
@@ -367,8 +367,8 @@ char * Solid::parser(char *l)
       case STOK_MODEL:
         r = statueParser(l, bbmax, bbmin); break;
       default:
-        delete[] dlists;
-        dlists = NULL;
+        delete[] displist;
+        displist = NULL;
         return NULL;
     }
 
@@ -698,8 +698,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   /*
    * draws solid in displaylist
    */
-  int dlist = glGenLists(1);	// display list generation
-  glNewList(dlist, GL_COMPILE);
+  int dl = glGenLists(1);	// display list generation
+  glNewList(dl, GL_COMPILE);
 
   glCullFace(GL_BACK);		// don't draw back face
   glShadeModel(GL_SMOOTH);
@@ -920,8 +920,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   }
   glEndList();
 
-  // sets dlists number for this frame
-  dlists[iframe] = dlist;
+  // sets displist number for this frame
+  displist[iframe] = dl;
 
   /*
    * gets bounding boxes bbmax and bbmin
@@ -1047,7 +1047,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
 
         for (nf=0; tabframes[nf] && nf < FRAME_MAX; nf++) {
           md2->setScale(scale);
-          if ((dlists[nf] = md2->displaylist(tabframes[nf], texid)) < 0) {
+          if ((displist[nf] = md2->displaylist(tabframes[nf], texid)) < 0) {
             nf = -1;
             break;
           }
@@ -1065,7 +1065,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         obj->setColor(GL_DIFFUSE, mat_diffuse);
         obj->setColor(GL_AMBIENT, mat_diffuse);
         obj->setColor(GL_SPECULAR, mat_specular);
-        dlists[0] = obj->displaylist();
+        displist[0] = obj->displaylist();
         nf = 1;
         if (obj) delete obj;
         obj = NULL;
@@ -1331,7 +1331,7 @@ void Solid::setFrame(uint8_t _frame)
 
 GLint Solid::getDlist() const
 {
-  return dlists[0];
+  return displist[0];
 }
 
 GLint Solid::getTexid() const
