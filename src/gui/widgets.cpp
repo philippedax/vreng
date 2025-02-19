@@ -195,6 +195,7 @@ void Widgets::setInfobar(UBox* content)
 
 /**
  * Creates Menubar on top of the window
+ *
  * [File] [View] [Goto] [History] [Tool] [Mark] [About]
  */
 UBox& Widgets::createMenubar()
@@ -542,6 +543,18 @@ void Widgets::prevCB()
 void Widgets::nextCB()
 {
   World::goNext();
+}
+
+/** Cleans current world from cache */
+void Widgets::cleanCB()
+{
+  char cachename[PATH_LEN];
+
+  World *world = World::current();
+  if (! world) return;
+  sprintf(cachename, "%s/%s.vre", ::g.env.cache(), world->name);
+  //echo("unlink %s", cachename);
+  unlink(cachename);
 }
 
 /** Saves current world */
@@ -1720,9 +1733,10 @@ UMenu& Widgets::fileMenu()
 
   // Create File menu
   return umenu(  ubutton(g.theme.World + " Open Vreng Url..." + openvre_dialog)
-               + ubutton(g.theme.Save  + " Save Vreng File" + ucall(this, &Widgets::saveCB))
+               + ubutton(g.theme.Save  + " Save Vreng File"   + ucall(this, &Widgets::saveCB))
+               + ubutton(                " Clean from Cache"  + ucall(this, &Widgets::cleanCB))
                + usepar()
-               + ubutton(g.theme.Doc   + " Put & Publish Url..." + puturl_dialog)
+               + ubutton(g.theme.Doc   + " Put & Publish Url..."  + puturl_dialog)
                + ubutton(g.theme.Book  + " Put & Publish File..." + putfile_dialog)
                + usepar()
                + ubutton(g.theme.Exit  + " Quit" + ucall(0/*status*/, Vreng::quit))

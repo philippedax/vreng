@@ -36,7 +36,6 @@ using namespace ubit;
 
 
 class Gui;
-class Widgets;
 
 /** struct for updating the ObjectBar and the ObjectMenu in the GUI */
 struct ObjInfo {
@@ -65,7 +64,8 @@ struct GuiItem : public UButton {
  * Widgets class
  */
 class Widgets : public ubit::UFrame {
-friend class Message;
+ friend class Message;
+
  public:
   static const int MESSAGES_BOX_WIDTH = 320;
   static const int MESSAGES_BOX_HEIGHT = 150;
@@ -85,6 +85,7 @@ friend class Message;
 
   ////////
   // Users
+  ////////
 
   GuiItem * addAvatar(class User *username);
   ///< Adds an avatar name.
@@ -97,6 +98,7 @@ friend class Message;
 
   /////////
   // Worlds
+  /////////
 
   GuiItem * addWorld(class World *worldname, bool isCurrentWorld);
   ///< Adds a world name.
@@ -109,6 +111,7 @@ friend class Message;
 
   /////////////////////
   // Callback functions
+  /////////////////////
 
   class Object* pointedObject(int x, int y, ObjInfo* obji, int depthsel);
   /**< Returns info about the pointed object but do NOT select it */
@@ -129,6 +132,7 @@ friend class Message;
   friend class Navig;
   friend class Panels;
   
+  // Private members
   // ! BEWARE: order matters !
   Gui &gui;            		///< reference to the GUI object
   UBox infos_box;		///< infos box horizontal under menubar
@@ -137,6 +141,7 @@ friend class Message;
   UElem avatars;		///< optional avatars palette
   class Scene &scene;		///< OpenGL Drawing Zone
   class Navig &navig;		///< navigation
+
   UOptionDialog &source_dialog;
   UOptionDialog &objects_dialog;
   UOptionDialog &worlds_dialog;
@@ -147,6 +152,7 @@ friend class Message;
   UDialog &grid_dialog;
   UDialog &tool_dialog;
   UDialog &addobj_dialog;
+
   class Message &message;
   class Message2 &putinfo;
   class Panels &panels;
@@ -188,6 +194,7 @@ friend class Message;
   void prevCB();
   void nextCB();
   void homeCB();
+  void cleanCB();
   void saveCB();
   void siteCB();
   void prefCB(int tool);
@@ -217,7 +224,7 @@ class VncDialog : public UOptionDialog {
   
   VncDialog(class Widgets*, class Vnc*);
 
-  virtual void vncConvert();
+  void vncConvert();
 };
 
 #endif
