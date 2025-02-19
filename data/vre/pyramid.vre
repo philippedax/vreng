@@ -21,7 +21,7 @@
 <wall name="level-0-6" pos="-10 7.5 -.15"> <solid dim="20 14 .1" tx="/jpg/desert.jpg" /></wall>
 
 <!-- smooth pyramid -->
-<mirage name="pyramid" pos="15 15 0"> <solid shape="pyramid" s="15" h="15" dif="grey30" /></mirage>
+<mirage name="pyramid" pos="15 15 0"> <solid shape="pentagon" s="30" h="15" dif="grey30" /></mirage>
 
 <!-- degrees of pyramid -->
 <!--
