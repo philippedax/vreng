@@ -52,6 +52,9 @@ class Cache : public File {
   void close();
   ///< Closes file into cache.
 
+  void clean(const char *name);
+  ///< Cleans from cache.
+
   static bool inCache(const char *url);
   ///< Checks whether url is cached.
 

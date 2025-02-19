@@ -253,3 +253,12 @@ int Cache::check(const char *url)
 {
   return download(url, NULL, "check");
 }
+
+/** Cleans from cache */
+void Cache::clean(const char *name)
+{
+  static char cachepath[PATH_LEN];
+
+  sprintf(cachepath, "%s/%s", ::g.env.cache(), name);
+  unlink(cachepath);
+}
