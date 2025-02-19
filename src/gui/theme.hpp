@@ -42,11 +42,7 @@ class Theme {
  
   UColor joystickColor, joystickArmColor, chatColor, noticeColor, requestColor, warningColor, messColor;
 
-  UIma Forward, Backward, BigLeft, BigRight, Left, Right, Up, LeftTrans, RightTrans, UpDown, JoystickUpDown, JoystickLeftRight;
-  
-  UIma Transx, Transy, Transz, Rotxleft, Rotxright, Rotzleft, Rotzright, Rotyup, Rotydown;
-  
-  UIma Save, Folder, Edit, Exit, List, Prefs, Tools, Doc, World, Book, Movie, Axis, Grid2D, Grid3D, Cart, AddObj, Camera, BigEye, Eyes, Person, Counter, Jumelles, Sandbox;
+  UIma Forward, Backward, BigLeft, BigRight, Left, Right, Up, LeftTrans, RightTrans, UpDown, JoystickUpDown, JoystickLeftRight, Transx, Transy, Transz, Rotxleft, Rotxright, Rotzleft, Rotzright, Rotyup, Rotydown, Save, Folder, Edit, Exit, List, Prefs, Tools, Doc, World, Book, Movie, Axis, Grid2D, Grid3D, Cart, AddObj, Camera, BigEye, Eyes, Person, Counter, Jumelles, Sandbox;
 
 };
 

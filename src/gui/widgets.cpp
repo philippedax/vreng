@@ -1732,14 +1732,14 @@ UMenu& Widgets::fileMenu()
                              + ucall(&putinfo, &Message2::putIconCB)));
 
   // Create File menu
-  return umenu(  ubutton(g.theme.World + " Open Vreng Url..." + openvre_dialog)
-               + ubutton(g.theme.Save  + " Save Vreng File"   + ucall(this, &Widgets::saveCB))
-               + ubutton(                " Clean from Cache"  + ucall(this, &Widgets::cleanCB))
+  return umenu(  ubutton(g.theme.World  + " Open Vreng Url..." + openvre_dialog)
+               + ubutton(g.theme.Save   + " Save Vreng File"   + ucall(this, &Widgets::saveCB))
+               + ubutton(g.theme.UpDown + " Clean from Cache"  + ucall(this, &Widgets::cleanCB))
                + usepar()
-               + ubutton(g.theme.Doc   + " Put & Publish Url..."  + puturl_dialog)
-               + ubutton(g.theme.Book  + " Put & Publish File..." + putfile_dialog)
+               + ubutton(g.theme.Doc    + " Put & Publish Url..."  + puturl_dialog)
+               + ubutton(g.theme.Book   + " Put & Publish File..." + putfile_dialog)
                + usepar()
-               + ubutton(g.theme.Exit  + " Quit" + ucall(0/*status*/, Vreng::quit))
+               + ubutton(g.theme.Exit   + " Quit" + ucall(0/*status*/, Vreng::quit))
               );
 }
 
