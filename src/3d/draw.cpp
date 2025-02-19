@@ -289,17 +289,18 @@ void Draw::pentagon(GLfloat width, GLfloat height, uint8_t style)
   if (style == STYLE_FILL) glBegin(GL_TRIANGLE_FAN);
   else                     glBegin(GL_LINE_LOOP);
    glVertex3f(0, 0, height);
-   glVertex3f(-width, -width, 0);
-   glVertex3f(+width, -width, 0);
-   glVertex3f(+width, +width, 0);
-   glVertex3f(-width, +width, 0);
-   glVertex3f(-width, -width, 0);
+   glVertex3f(-width/2, -width/2, 0);
+   glVertex3f(+width/2, -width/2, 0);
+   glVertex3f(+width/2, +width/2, 0);
+   glVertex3f(-width/2, +width/2, 0);
+   glVertex3f(-width/2, -width/2, 0);
   glEnd();
 }
 
 void Draw::pyramid(GLfloat width, uint8_t style)
 {
-  pentagon(width, width, style);	// regular pentagon
+  GLfloat height = width;
+  pentagon(width, height, style);	// regular pentagon
 }
 
 /**

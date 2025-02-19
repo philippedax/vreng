@@ -3456,3 +3456,4 @@
 3456 Mar 18 fév 2025 18:09:02 CET	update smooth vre/pyramid.vre
 3457 Mar 18 fév 2025 18:26:26 CET	cleanup render.cpp
 3458 Mar 18 fév 2025 19:14:08 CET	cleanup vr2gl.cpp
+3459 Mar 18 fév 2025 19:24:53 CET	revert smoke.cpp
