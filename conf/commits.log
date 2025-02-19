@@ -3466,3 +3466,4 @@
 3466 Mer 19 fév 2025 12:35:05 CET	finalize cache.sh
 3467 Mer 19 fév 2025 15:51:40 CET	add clean cache.*pp
 3468 Mer 19 fév 2025 16:34:56 CET	add cleanCB widgets.*pp
+3469 Mer 19 fév 2025 16:53:21 CET	cleanup theme.hpp
