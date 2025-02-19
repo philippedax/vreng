@@ -13,6 +13,7 @@
 #
 PATH=conf:$PATH export PATH
 
+topdir=$(pwd)
 p=$(basename $0)
 
 if [ ! -d log ]; then
@@ -34,11 +35,14 @@ cd conf
 # configures and launches local httpd server
 ./httpd.sh
 
+# sets cache if it exists
+./cache.sh
+
 # configures vreng
 ./autogen.sh "$@"
 
 # comes bak to topdir
-cd ..
+cd $topdir
 
 # compiles vreng sources
 make
