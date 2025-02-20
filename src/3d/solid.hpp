@@ -208,24 +208,6 @@ static const uint8_t DEF_DISK_LOOPS;	//  8
 static const uint8_t FRAME_MAX;		// 255
 
  public:
-  enum render_mode {
-    DISPLAY,		///< render surfaces with plain colors.
-    SELECT		///< selection in the Z-buffer.
-  };
-  enum render_type {
-    OPAQUE,		///< opaque
-    TRANSPARENT,	///< transparent
-    FLASH,		///< flash effect
-    USER		///< localuser
-  };
-  // display modes
-  enum display_mode {
-    NORMAL,
-    FLASHY,
-    REFLEXIVE,
-    PROGRESS
-  };
-
   class Object	*object;	///< Object parent.
   class Texture *texture;	///< texture if exists.
   GLint*	displist;	///< cached display list.
