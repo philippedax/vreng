@@ -27,7 +27,7 @@
 #include "user.hpp"	// USER_TYPE
 #include "ball.hpp"	// BALL_TYPE
 #include "cauldron.hpp"	// CAULDRON_TYPE
-#include "solid.hpp"	// setTransparent
+#include "solid.hpp"	// transparency
 #include "texture.hpp"	// current()
 #include "sound.hpp"	// playSound
 
@@ -50,7 +50,7 @@ const float Water::INCR_TRANSP = 0.05;
 static float color[] = {.4, .7, 1, Water::DEF_TRANSP}; // triangles light blue color
 
 
-/* creation from a vre file */
+/** creation from a vre file */
 Object * Water::creator(char *l)
 {
   return new Water(l);
@@ -97,9 +97,8 @@ void Water::inits()
 {
   fluidObject(0);
 
-  getSolid()->setTransparent(color[3]);
+  getSolid()->transparency(color[3]);
   texid = Texture::current();
-
   //echo("Water: bbs=%.2f %.2f %.2f bbc=%.2f %.2f %.2f", pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2], pos.bbc.v[0], pos.bbc.v[1], pos.bbc.v[2]);
 }
 
@@ -264,7 +263,7 @@ void Water::moreTransp(Water *water, void *d, time_t s, time_t u)
   water->transparency -= Water::INCR_TRANSP;
   water->transparency = MAX(water->transparency, 0);
   color[3] = water->transparency;
-  water->getSolid()->setTransparent(color[3]);
+  water->getSolid()->transparency(color[3]);
 }
 
 void Water::lessTransp(Water *water, void *d, time_t s, time_t u)
@@ -272,7 +271,7 @@ void Water::lessTransp(Water *water, void *d, time_t s, time_t u)
   water->transparency += Water::INCR_TRANSP;
   water->transparency = MIN(water->transparency, 1);
   color[3] = water->transparency;
-  water->getSolid()->setTransparent(color[3]);
+  water->getSolid()->transparency(color[3]);
 }
 
 void Water::reset(Water *water, void *d, time_t s, time_t u)
@@ -282,7 +281,7 @@ void Water::reset(Water *water, void *d, time_t s, time_t u)
   water->phase = Water::DEF_PHASE;
   water->transparency = Water::DEF_TRANSP;
   color[3] = water->transparency;
-  water->getSolid()->setTransparent(color[3]);
+  water->getSolid()->transparency(color[3]);
 }
 
 void Water::funcs()

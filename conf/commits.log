@@ -3468,3 +3468,4 @@
 3468 Mer 19 fév 2025 16:34:56 CET	add cleanCB widgets.*pp
 3469 Mer 19 fév 2025 16:53:21 CET	cleanup theme.hpp
 3470 Mer 19 fév 2025 16:55:28 CET	repair commits.log
+3471 Jeu 20 fév 2025 10:13:23 CET	remove enums solid.hpp

@@ -247,8 +247,8 @@ static const uint8_t FRAME_MAX;		// 255
   void setVisible(bool v);
   /**< Sets the solid visible (true) or invisible (false). */
 
-  void setTransparent(float _alpha);
-  /**< Sets transparent. */
+  void transparency(float _alpha);
+  /**< Sets transparency. */
 
   void setFlashy(bool flag);
   /**< Sets the solid edges flashy. */

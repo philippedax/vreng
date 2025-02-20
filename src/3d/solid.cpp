@@ -1154,14 +1154,14 @@ void Solid::setBB(GLfloat w, GLfloat d, GLfloat h)
   ::g.render.setBB(w, d, h);
 }
 
-/** returns relative center and size of BB. */
+/** Returns relative center and size of BB. */
 void Solid::getRelBB(V3 &center, V3 &size) const
 {
   center = bbcent;
   size = bbsize;
 }
 
-/** returns size of BB. */
+/** Returns size of BB. */
 void Solid::getDimBB(V3 &dim) const
 {
   dim = bbsize;
@@ -1204,7 +1204,7 @@ void Solid::updateBB(GLfloat az)
   ::g.render.updBB(az);
 }
 
-/** returns materials. */
+/** Returns materials. */
 void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alp)
 {
   for (int i=0; i<4; i++) {
@@ -1217,11 +1217,13 @@ void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi,
   *alp = alpha;
 }
 
+/** Sets position into matrix matpos */
 void Solid::setPosition(const M4 &mpos)
 {
   matpos = mpos;
 }
 
+/** Gets position from matrix matpos */
 void Solid::getPosition(M4& mpos)
 {
   mpos = matpos;
@@ -1232,13 +1234,9 @@ void Solid::setVisible(bool _isvis)
   visible = _isvis;
 }
 
-void Solid::setTransparent(float _alpha)
+void Solid::transparency(float _alpha)
 {
-  alpha = _alpha;
-  if (alpha < 1)
-    opaque = false;
-  else
-    opaque = true;
+  opaque = (_alpha < 1) ? false : true;
 }
 
 void Solid::setFlary(bool flag)
