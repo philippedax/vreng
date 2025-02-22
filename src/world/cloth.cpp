@@ -43,6 +43,7 @@ Object * Cloth::creator(char *l)
   return new Cloth(l);
 }
 
+/** Default values */
 void Cloth::defaults()
 {
   ttl = MAXFLOAT;
@@ -61,6 +62,7 @@ void Cloth::defaults()
   for (int i=0; i<3 ; i++) color[i] = 0;
 }
 
+/** Parses a file line */
 void Cloth::parser(char *l)
 {
   defaults();
@@ -77,11 +79,16 @@ void Cloth::parser(char *l)
       else if (! stringcmp(str, "wings")) { wings = true; article = WINGS; }
     }
     else if (! stringcmp(l, "color=")) l = parseString(l, color, "color");
+    else {
+      error("token %s unrecognized", l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }
 
-/** solid geometry */
+/** Sets solid geometry */
 void Cloth::geometry()
 {
   char s[128];
@@ -105,6 +112,7 @@ void Cloth::geometry()
   parseSolid(s);
 }
 
+/** Sets behaviors */
 void Cloth::behaviors()
 {
   enableBehavior(COLLIDE_NEVER);
@@ -115,7 +123,7 @@ void Cloth::behaviors()
   }
 }
 
-/** sets position near the avatar */
+/** Sets position near the avatar */
 void Cloth::inits()
 {
   clothObject(ttl);
@@ -172,6 +180,7 @@ Cloth::Cloth(char *l)
   inits();
 }
 
+/** System of equations when moving */
 void Cloth::permanent(float lasting)
 {
   if (taken) {
