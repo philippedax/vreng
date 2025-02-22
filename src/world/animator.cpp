@@ -59,6 +59,11 @@ void Animator::parser(char *l)
     else if (!stringcmp(l, "anim"))  l = parseUInt16(l, (uint16_t*) &state, "anim");
     else if (!stringcmp(l, "begin")) l = parseUInt8(l, &frame, "begin");
     else if (!stringcmp(l, "ttl"))   l = parseFloat(l, &ttl, "ttl");
+    else {
+      error("token %s unrecognized", l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }
