@@ -134,6 +134,11 @@ void Model::parser(char *l)
       l = parseString(l, texurl, "tex");
       texid = Texture::open(texurl);
     }
+    else {
+      error("token %s unrecognized", l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }
