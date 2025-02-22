@@ -3470,3 +3470,4 @@
 3470 Mer 19 fév 2025 16:55:28 CET	repair commits.log
 3471 Jeu 20 fév 2025 10:13:23 CET	remove enums solid.hpp
 3472 Jeu 20 fév 2025 17:06:15 CET	cleanup transparency solid.*pp
+3473 Sam 22 fév 2025 10:13:25 CET	cleanup mirage.cpp

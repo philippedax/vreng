@@ -51,10 +51,10 @@
 
 <!-- cubes -->
 <mirage name="cube1" pos="2 1.5 1.7 .88 .88" mode="turn" mode="roll" mode="tilt" aspeed="2">
-<solid dim=".3 .3 .3" tx="/png/s3.png" />
+  <solid dim=".3 .3 .3" dif="darkred" tx="/png/s3.png" />
 </mirage>
 <mirage name="cube2" pos="2 -1.5 1.7 .88 .88" mode="turn" mode="roll" mode="tilt" aspeed="2">
-<solid dim=".3 .3 .3" tx="/gif/s.gif" />
+    <solid dim=".3 .3 .3" tx="/gif/s.gif" />
 </mirage>
 
 <animator name="ballon" pos="4 2 .07" anim="1">
