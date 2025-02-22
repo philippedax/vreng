@@ -491,7 +491,8 @@ char * Parse::parseAttributes(char *l, Object *object)
       l = nextToken();
     }
     else {
-      return l;
+      error("bad attribute: %s", l);
+      return nextToken();
     }
   }
   return l;
