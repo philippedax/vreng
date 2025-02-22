@@ -48,6 +48,7 @@ void Button::defaults()
   use_names = new char[OBJNAME_LEN * USENAME_MAX];
 }
 
+/** Parser */
 void Button::parser(char *l)
 {
   char str_action0[ACTION_LEN];
@@ -60,12 +61,17 @@ void Button::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (!stringcmp(l, "use")) {
+    if (! stringcmp(l, "use")) {
       l = parseQuotedString(l, use_names, "use");	// refers object to use
     }
-    else if (!stringcmp(l, "state"))   l = parseUInt8(l, &pos.st, "state");
-    else if (!stringcmp(l, "method0")) l = parseString(l, str_action0, "method0");
-    else if (!stringcmp(l, "method1")) l = parseString(l, str_action1, "method1");
+    else if (! stringcmp(l, "state"))   l = parseUInt8(l, &pos.st, "state");
+    else if (! stringcmp(l, "method0")) l = parseString(l, str_action0, "method0");
+    else if (! stringcmp(l, "method1")) l = parseString(l, str_action1, "method1");
+    else {
+      error("token %s unrecognized", l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 
@@ -103,7 +109,7 @@ Button::Button(char *l)
   inits();
 }
 
-/* Updates towards the network */
+/** Updates towards the network */
 bool Button::publish(const Pos &oldpos)
 {
   bool change = false;
