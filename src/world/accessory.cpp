@@ -64,7 +64,7 @@ void Accessory::parser(char *l)
     else if (!stringcmp(l, "shifty")) l = parseFloat(l, &shifty, "shifty");
     else if (!stringcmp(l, "shiftz")) l = parseFloat(l, &shiftz, "shiftz");
     else {
-      error("token %s unrecognized", l);
+      parse()->errorNumline(l);
       l = parse()->nextToken();
       break;
     }

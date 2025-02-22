@@ -111,7 +111,8 @@ class Parse {
   /**< Gets the parse instance */
 
   void errorNumline();
-  /**< print parse error at */
+  void errorNumline(const char *attr);
+  /**< print parse error at line */
 
   int parseVreFile(char *buf, int bufsiz);
   /**< parse vre data, called by vreHttpReader */

@@ -135,7 +135,7 @@ void Model::parser(char *l)
       texid = Texture::open(texurl);
     }
     else {
-      error("token %s unrecognized", l);
+      parse()->errorNumline(l);
       l = parse()->nextToken();
       break;
     }

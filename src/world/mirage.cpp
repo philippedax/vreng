@@ -118,7 +118,7 @@ void Mirage::parser(char *l)
       }
     }
     else {
-      error("token %s unrecognized", l);
+      parse()->errorNumline(l);
       l = parse()->nextToken();
       break;
     }

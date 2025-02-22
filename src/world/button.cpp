@@ -68,7 +68,7 @@ void Button::parser(char *l)
     else if (! stringcmp(l, "method0")) l = parseString(l, str_action0, "method0");
     else if (! stringcmp(l, "method1")) l = parseString(l, str_action1, "method1");
     else {
-      error("token %s unrecognized", l);
+      parse()->errorNumline(l);
       l = parse()->nextToken();
       break;
     }

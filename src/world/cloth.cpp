@@ -80,7 +80,7 @@ void Cloth::parser(char *l)
     }
     else if (! stringcmp(l, "color=")) l = parseString(l, color, "color");
     else {
-      error("token %s unrecognized", l);
+      parse()->errorNumline(l);
       l = parse()->nextToken();
       break;
     }

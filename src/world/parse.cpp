@@ -445,6 +445,11 @@ void Parse::errorNumline()
   error("parse error at line %d", numline);
 }
 
+void Parse::errorNumline(const char *attr)
+{
+  error("parse error '%s' at line %d", attr, numline);
+}
+
 /** skips attributes */
 char * Parse::skipAttribute(char *l)
 {
