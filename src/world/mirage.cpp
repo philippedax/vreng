@@ -40,11 +40,13 @@ const float Mirage::ASPEED = -0.2;
 static float x0x0y0y0, maxx, maxy, minx, miny;
 
 
+/** Creation from file */
 Object * Mirage::creator(char *l)
 {
   return new Mirage(l);
 }
 
+/** Applies default values */
 void Mirage::defaults()
 {
   turn     = false;
@@ -67,6 +69,7 @@ void Mirage::defaults()
   for (int i=0; i<3 ; i++) color[i] = 1;
 }
 
+/** Parses vre line */
 void Mirage::parser(char *l)
 {
   defaults();
@@ -101,7 +104,7 @@ void Mirage::parser(char *l)
       else if (! stringcmp(pmode, "orbit")) {
         orbit = true;
         x0x0y0y0 = pos.x*pos.x + pos.y*pos.y;
-        maxx = maxy = static_cast<float>(sqrt(x0x0y0y0));
+        maxx = maxy = static_cast<float> (sqrt(x0x0y0y0));
         minx = miny = -maxx;
         persist = false;
       }
@@ -113,6 +116,11 @@ void Mirage::parser(char *l)
         anglerot = pos.az;
         persist = false;
       }
+    }
+    else {
+      error("token %s unrecognized", l);
+      l = parse()->nextToken();
+      break;
     }
   }
   end_while_parse(l);
