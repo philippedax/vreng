@@ -3482,3 +3482,4 @@
 3482 Sam 22 fév 2025 15:12:01 CET	fix bad token animator.cpp
 3483 Sam 22 fév 2025 15:20:45 CET	fix bad token button.cpp
 3484 Sam 22 fév 2025 15:35:24 CET	fix bad attribute parse.cpp
+3485 Sam 22 fév 2025 15:40:13 CET	revert parse.cpp

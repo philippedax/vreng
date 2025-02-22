@@ -110,7 +110,7 @@ class Parse {
   static Parse * getParse();
   /**< Gets the parse instance */
 
-  void printNumline();
+  void errorNumline();
   /**< print parse error at */
 
   int parseVreFile(char *buf, int bufsiz);

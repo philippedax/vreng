@@ -439,7 +439,8 @@ int Parse::parseVreFile(char *buf, int buflen)
   return 1;
 }
 
-void Parse::printNumline()
+/** Prints line number of file where an error occurs */
+void Parse::errorNumline()
 {
   error("parse error at line %d", numline);
 }
