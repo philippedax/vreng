@@ -48,6 +48,7 @@ void Accessory::defaults()
   shiftx = shifty = shiftz = 0;
 }
 
+/** Parses file line */
 void Accessory::parser(char *l)
 {
   defaults();
@@ -62,6 +63,11 @@ void Accessory::parser(char *l)
     else if (!stringcmp(l, "shiftx")) l = parseFloat(l, &shiftx, "shiftx");
     else if (!stringcmp(l, "shifty")) l = parseFloat(l, &shifty, "shifty");
     else if (!stringcmp(l, "shiftz")) l = parseFloat(l, &shiftz, "shiftz");
+    else {
+      error("token %s unrecognized", l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }
@@ -92,6 +98,7 @@ Accessory::Accessory(char *l)
   inits();
 }
 
+/** System of equations when moving */
 void Accessory::permanent(float lasting)
 {
   if (! following)  return;
