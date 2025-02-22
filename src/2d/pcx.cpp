@@ -52,12 +52,13 @@ typedef struct {
 } PcxInfo;
 
 
+/** PCX loader */
 Img * Img::loadPCX(void *_tex, ImageReader read_func)
 {
   PcxInfo pcxInfo;
   struct { uint8_t r, g, b; } palette[256];
 
-  Texture *tex = static_cast<Texture *>(_tex);
+  Texture *tex = static_cast<Texture *> (_tex);
 
   Cache *cache = new Cache();
   FILE *f = cache->open(tex->url, tex->http);
@@ -67,10 +68,10 @@ Img * Img::loadPCX(void *_tex, ImageReader read_func)
     return NULL;
   }
 
-  /* loads the Header */
+  // loads the Header
   fread(reinterpret_cast<char *>(&pcxInfo), 1, sizeof(pcxInfo), f);
 
-  /* test if this is really a PCX file */
+  // test if this is really a PCX file
   if (pcxInfo.Manufacturer != 0x0A) {
     error("loadPCX: not a PCX format: %x", pcxInfo.Manufacturer);
     cache->close();
@@ -78,27 +79,30 @@ Img * Img::loadPCX(void *_tex, ImageReader read_func)
     return NULL;
   }
 
-  /* only decode one type of PCX */
-  if ((pcxInfo.Version != 0x05) || (pcxInfo.BitsPerPixel != 8) || (pcxInfo.NPlanes != 0x01))
+  // only decode one type of PCX
+  if ((pcxInfo.Version != 0x05) || (pcxInfo.BitsPerPixel != 8) || (pcxInfo.NPlanes != 0x01)) {
+    error("loadPCX: bad type v=%d %d %d", pcxInfo.Version, pcxInfo.BitsPerPixel, pcxInfo.NPlanes);
     cache->close();
     delete cache;
     return NULL;
+  }
 
-  /* gets the image dimensions */
+  // gets the image dimensions
   uint16_t width = ((pcxInfo.Xmax_l | (pcxInfo.Xmax_h << 8)) - (pcxInfo.Xmin_l | (pcxInfo.Xmin_h << 8))) + 1;
   uint16_t height = ((pcxInfo.Ymax_l | (pcxInfo.Ymax_h << 8)) - (pcxInfo.Ymin_l | (pcxInfo.Ymin_h << 8))) + 1;
   uint16_t bpl = (pcxInfo.BytesPerLine_l | (pcxInfo.BytesPerLine_h << 8));
+  //echo("loadPCX: witdh=%d height=%d bpl=%d", width, height, bpl);
 
-  /* temporary indexed buffer */
+  // temporary indexed buffer
   uint8_t *pix = new uint8_t[width * height];
 
-  /* start decoding the file */
+  // start decoding the file
   uint8_t *tmp = pix;
   for (int y=0; y < height; y++) {
     int count = 0;
     uint8_t data = 0x00;
 
-    /* decodes one line */
+    // decodes one line
     int x = 0;
     while (x < bpl) {
       if (count > 0) {
@@ -106,19 +110,21 @@ Img * Img::loadPCX(void *_tex, ImageReader read_func)
 	  *(tmp++) = data;
 	x++;
 	count--;
-      } else {
+      }
+      else {
 	data = getc(f);
 	if ((data & 0xC0) == 0xC0) {
 	  count = data & 0x3F;
 	  data = getc(f);
-	} else {
+	}
+        else {
 	  count = 1;
 	}
       }
     }
   }
 
-  /* decodes the palette */
+  // decodes the palette
   if (getc(f) != 0x0C) {
     delete[] pix;
     cache->close();
@@ -131,10 +137,10 @@ Img * Img::loadPCX(void *_tex, ImageReader read_func)
     palette[i].b = getc(f);
   }
 
-  /* allocates image */
+  // allocates image
   Img *img = new Img(width, height, Img::RGB);
 
-  /* converts the indexed buffer to RGB */
+  // converts the indexed buffer to RGB
   tmp = pix;
   uint8_t *pixmap = img->pixmap;
   for (int x=0; x < width * height; x++) {
