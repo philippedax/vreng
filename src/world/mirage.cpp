@@ -166,7 +166,7 @@ Mirage::Mirage(Object *user, char *geom)
   behaviors();
   enableBehavior(DYNAMIC);	// addobj
 
-  /* position */
+  // position
   pos.x = user->pos.x + 0.7;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
@@ -182,7 +182,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   strcpy(name.given, str);
   strcpy(name.type, typeName());     // need name.type for VSql
 
-  /* local creation */
+  // local creation
   defaults();
 
   // we don't know anything about the geometry except from VSql
@@ -202,7 +202,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   behaviors();
 }
 
-/* system of equations handling permanent motion */
+/** System of equations handling permanent motion */
 void Mirage::permanent(float lasting)
 {
   if (turn) {
