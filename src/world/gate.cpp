@@ -84,6 +84,11 @@ void Gate::parser(char *l)
       flagentry = true;
       //echo("gate: entry=%.1f %.1f %.1f", entry.v[0], entry.v[1], entry.v[2]);
     }
+    else {
+      error("token %s unrecognized", l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }
