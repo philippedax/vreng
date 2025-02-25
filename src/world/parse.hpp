@@ -33,14 +33,16 @@
 //
 // internal macros
 //
+// parsing stops when l == 0
+//
 #define begin_while_parse(l) \
 next_attr: \
-  uint8_t cnt_attr; \
-  for (cnt_attr = 0; l && cnt_attr <= TOK_MAX ; cnt_attr++)
+  int cnt_attr; \
+  for ( cnt_attr = 0; l && cnt_attr <= TOK_MAX ; cnt_attr++ )
 
 #define end_while_parse(l) \
   if (cnt_attr >= TOK_MAX) { \
-    error("%s: bad attribute", l); \
+    error("bad attr %s", l); \
     l = strtok(NULL, TOK_SEP); \
     goto next_attr; \
   }
@@ -52,7 +54,6 @@ struct Pos;
  * Parse class
  */
 class Parse {
-
  private:
   /**
    * Tags enum
@@ -110,8 +111,8 @@ class Parse {
   static Parse * getParse();
   /**< Gets the parse instance */
 
-  void errorNumline();
-  void errorNumline(const char *attr);
+  void errorAtLine();
+  void errorAtLine(const char *attr);
   /**< print parse error at line */
 
   int parseVreFile(char *buf, int bufsiz);

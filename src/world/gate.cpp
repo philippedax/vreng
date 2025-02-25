@@ -85,7 +85,7 @@ void Gate::parser(char *l)
       //echo("gate: entry=%.1f %.1f %.1f", entry.v[0], entry.v[1], entry.v[2]);
     }
     else {
-      parse()->errorNumline(l);
+      parse()->errorAtLine(l);
       l = parse()->nextToken();
       break;
     }

@@ -28,7 +28,7 @@
 #include "solid.hpp"
 #include "draw.hpp"	// STYLE
 #include "object.hpp"	// Object
-#include "parse.hpp"	// errorNumline
+#include "parse.hpp"	// errorAtLine
 #include "format.hpp"	// getModelByUrl
 #include "stat.hpp"	// new_solid
 #include "pref.hpp"	// ::g.pref
@@ -250,11 +250,11 @@ char * Solid::getTok(char *l, uint16_t *stok)
       }
     }
     error("getTok: unknown token \"%s\"", t);
-    object->parse()->errorNumline();
+    object->parse()->errorAtLine();
     return l;
   }
   else {
-    object->parse()->errorNumline();
+    object->parse()->errorAtLine();
     return t;
   }
 }
@@ -290,7 +290,7 @@ char * Solid::parseShape(char *l, uint8_t *shape)
       }
     }
     error("unknown shape \"%s\"", s);
-    object->parse()->errorNumline();
+    object->parse()->errorAtLine();
     *shape = STOK_ERR;
   }
   return l;
@@ -305,7 +305,7 @@ char * Solid::parser(char *l)
 {
   if (!l) {
     error("no solid content");
-    object->parse()->errorNumline();
+    object->parse()->errorAtLine();
     return NULL;
   }
   char *ll = strdup(l);	// copy origin line for debug
@@ -406,7 +406,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 {
   if (!l) {
     error("no solid description");
-    object->parse()->errorNumline();
+    object->parse()->errorAtLine();
     return -1;
   }
 
@@ -690,7 +690,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         l = object->parse()->parseFloat(l, &box_texrep[stok-STOK_TEX_XP_RT][1]);
         break;
       default:
-        object->parse()->errorNumline();
+        object->parse()->errorAtLine();
         return -1;
     }
   }

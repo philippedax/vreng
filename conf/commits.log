@@ -3485,3 +3485,4 @@
 3485 Sam 22 fév 2025 15:40:13 CET	revert parse.cpp
 3486 Sam 22 fév 2025 15:53:21 CET	cleanup errorNumline parse.cpp
 3487 Sam 22 fév 2025 16:21:34 CET	cleanup errorNumline(char *attr) parse.*pp
+3488 Sam 22 fév 2025 17:09:39 CET	fix loaderPCX bad if pcx.cpp

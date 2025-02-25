@@ -60,7 +60,7 @@ void Animator::parser(char *l)
     else if (!stringcmp(l, "begin")) l = parseUInt8(l, &frame, "begin");
     else if (!stringcmp(l, "ttl"))   l = parseFloat(l, &ttl, "ttl");
     else {
-      parse()->errorNumline(l);
+      parse()->errorAtLine(l);
       l = parse()->nextToken();
       break;
     }

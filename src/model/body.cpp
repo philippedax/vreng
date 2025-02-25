@@ -31,6 +31,7 @@
 #include "user.hpp"	// localuser
 #include "cache.hpp"	// open, close
 #include "pref.hpp"	// trace
+#include "parse.hpp"	// errorAtLine
 
 // macro
 #define TRACE(s,v) if(::g.pref.trace) echo("%s: %.0f", s,v);
@@ -727,7 +728,8 @@ void Body::loadBodyParts(FILE *f)
           l = object->parse()->parseVector3f(l, bd_parts[i].color, "color");
         else if (! stringcmp(l, "tex="))
           l = object->parse()->parseString(l, bd_parts[i].texurl, "tex");
-      } end_while_parse(l);
+      }
+      end_while_parse(l);
     }
   }
 

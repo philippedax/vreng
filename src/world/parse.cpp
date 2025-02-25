@@ -440,23 +440,22 @@ int Parse::parseVreFile(char *buf, int buflen)
 }
 
 /** Prints line number of file where an error occurs */
-void Parse::errorNumline()
+void Parse::errorAtLine()
 {
   error("parse error at line %d", numline);
 }
 
-void Parse::errorNumline(const char *attr)
+void Parse::errorAtLine(const char *attr)
 {
   error("parse error '%s' at line %d", attr, numline);
 }
 
-/** skips attributes */
+/** Skips attributes */
 char * Parse::skipAttribute(char *l)
 {
   l = skipQuotes(l);	// first quote
   while (l) {
-    char *p;
-    p = strchr(l, '"');	// search second quote
+    char *p = strchr(l, '"');	// search second quote
     if (! p) {		// not there
       l = nextToken(); 	// call next token
     }

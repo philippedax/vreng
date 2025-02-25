@@ -118,7 +118,7 @@ void Mirage::parser(char *l)
       }
     }
     else {
-      parse()->errorNumline(l);
+      parse()->errorAtLine(l);
       l = parse()->nextToken();
       break;
     }

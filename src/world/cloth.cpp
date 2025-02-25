@@ -80,7 +80,7 @@ void Cloth::parser(char *l)
     }
     else if (! stringcmp(l, "color=")) l = parseString(l, color, "color");
     else {
-      parse()->errorNumline(l);
+      parse()->errorAtLine(l);
       l = parse()->nextToken();
       break;
     }

@@ -135,7 +135,7 @@ void Model::parser(char *l)
       texid = Texture::open(texurl);
     }
     else {
-      parse()->errorNumline(l);
+      parse()->errorAtLine(l);
       l = parse()->nextToken();
       break;
     }

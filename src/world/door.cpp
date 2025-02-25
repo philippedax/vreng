@@ -79,7 +79,7 @@ void Door::parser(char *l)
       l = parseFloat(l, &speed, "speed");
     }
     else {
-      parse()->errorNumline(l);
+      parse()->errorAtLine(l);
       l = parse()->nextToken();
       break;
     }
