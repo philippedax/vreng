@@ -728,6 +728,11 @@ void Body::loadBodyParts(FILE *f)
           l = object->parse()->parseVector3f(l, bd_parts[i].color, "color");
         else if (! stringcmp(l, "tex="))
           l = object->parse()->parseString(l, bd_parts[i].texurl, "tex");
+        else {
+          object->parse()->errorAtLine(l);
+          l = object->parse()->nextToken();
+          break;
+        }
       }
       end_while_parse(l);
     }

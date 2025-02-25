@@ -39,7 +39,7 @@ const float Text::GLYPHSIZ = 0.03;	// 3 cm
 static const GLfloat DEF_COLOR[4] = {0, 1, 0, 1};	// green
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Text::creator(char *l)
 {
   return new Text(l);
@@ -86,7 +86,7 @@ void Text::geometry()
   parseSolid(s);
 }
 
-/* Loads the font */
+/** Loads the font */
 bool Text::loadFont()
 {
   // gets the font
@@ -119,7 +119,7 @@ void Text::inits()
   }
 }
 
-/* Constructors. */
+/** Constructors. */
 Text::Text(char *l)
 {
   parser(l);
@@ -155,7 +155,7 @@ Text::Text(const char *t, Pos &pos, float _scale, const float *_color, bool _fac
   inits();
 }
 
-/* Sets text positions */
+/** Sets text positions */
 void Text::setPos(float x, float y, float z, float az, float ax)
 {
   shiftx = x;
@@ -165,7 +165,7 @@ void Text::setPos(float x, float y, float z, float az, float ax)
   shiftax = ax;
 }
 
-/* Returns lenght of text */
+/** Returns lenght of text */
 float Text::lenText(const char *_text)
 {
   return (strlen(_text)+1) * GLYPHSIZ;
@@ -187,6 +187,7 @@ void Text::expire()
   toDelete();
 }
 
+/** Renders the text */
 void Text::render()
 {
   if (! havefont || (state == INACTIVE)) return;

@@ -68,6 +68,11 @@ void Fountain::parser(char *l)
       l = parseUInt8(l, &pt_size, "size");
       if (pt_size <= 0) pt_size = 1;
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

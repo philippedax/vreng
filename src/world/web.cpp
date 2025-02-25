@@ -69,6 +69,11 @@ void Web::parser(char *l)
       l = parseCaption(l, caption, "caption");
     else if (! stringcmp(l, "text"))
       l = parseCaption(l, caption, "text");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

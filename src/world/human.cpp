@@ -82,13 +82,13 @@ static _tBody manpart[] = {
 };
 
 
-/* Creation from a file */
+/** Creation from a file */
 Object * Human::creator(char *l)
 { 
   return new Human(l);
 } 
 
-/* Constructor */
+/** Constructor */
 Human::Human()
 {
   Pref* pref = &::g.pref;
@@ -102,7 +102,7 @@ Human::Human()
   dlist = -1;
 }
 
-/* constructor from xml file */
+/** constructor from xml file */
 Human::Human(char *l)
 { 
   parser(l);
@@ -165,7 +165,7 @@ void Human::myMaterial(GLenum mode, float *rgb, float alpha)
   glMaterialfv(GL_FRONT_AND_BACK, mode, color);
 }
 
-/* Sets the material properties of the 3D Object */
+/** Sets the material properties of the 3D Object */
 void Human::setMaterial(int i)
 {
   float alpha = materials[i].alpha;
@@ -177,7 +177,7 @@ void Human::setMaterial(int i)
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, materials[i].shininess);
 }
 
-// Draws in the display list
+/** Draws in the display list */
 GLint Human::displaylist()
 {
   dlist = glGenLists(1);
@@ -187,7 +187,7 @@ GLint Human::displaylist()
   return dlist;
 }
 
-/* Draws man */
+/** Draws man */
 void Human::draw()
 {
   int vc = 0;

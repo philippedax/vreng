@@ -55,6 +55,11 @@ void Thunder::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "number")) l = parseUInt8(l, &number, "number");
     else if (! stringcmp(l, "period")) l = parseUInt8(l, &period, "period");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

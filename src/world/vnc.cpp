@@ -96,6 +96,11 @@ void Vnc::parser(char *l)
       l = parseString(l, passwd, "passwd");
       passwd[8] = '\0';
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 

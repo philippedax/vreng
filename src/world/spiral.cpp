@@ -54,6 +54,11 @@ void Spiral::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if (! stringcmp(l, "height")) l = parseFloat(l, &height, "height");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

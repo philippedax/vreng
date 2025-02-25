@@ -106,6 +106,11 @@ void Dress::parser(char *l)
       else if (! stringcmp(modelname, "bands"))  model = BANDS;
       else if (! stringcmp(modelname, "roses"))  model = ROSES;
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

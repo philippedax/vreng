@@ -56,6 +56,11 @@ void Stair::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "height")) l = parseFloat(l, &height, "height");
     else if (! stringcmp(l, "length")) l = parseFloat(l, &length, "length");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

@@ -80,6 +80,11 @@ void Humanoid::parser(char *l)
     else if (! stringcmp(l, "face="))   l = parseString(l, face_url, "face");	//head
     else if (! stringcmp(l, "color="))  l = parseVector3f(l, cloth, "color");	//color
     else if (! stringcmp(l, "server=")) l = parseString(l, vaps, "server");	//server
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

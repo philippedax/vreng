@@ -31,7 +31,7 @@
 const OClass Widget::oclass(WIDGET_TYPE, "Widget", Widget::creator);
 
 
-/* Creation from a file */
+/** Creation from a file */
 Object * Widget::creator(char *l)
 {
   return new Widget(l);
@@ -49,7 +49,7 @@ void Widget::defaults()
   u = v = 1.;
 }
 
-/* Parser */
+/** Parser */
 void Widget::parser(char *l)
 {
   defaults();
@@ -61,7 +61,7 @@ void Widget::parser(char *l)
   end_while_parse(l);
 }
 
-/* Behavior */
+/** Behavior */
 void Widget::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
@@ -69,7 +69,7 @@ void Widget::behaviors()
   enableBehavior(SPECIFIC_RENDER);
 }
 
-/* Specific inits */
+/** Specific inits */
 void Widget::inits()
 {
   glGenTextures(1, &texture);	// texture number given by OpenGL
@@ -78,7 +78,7 @@ void Widget::inits()
   buildScreen();
 }
 
-/* Constructor */
+/** Constructor */
 Widget::Widget(char *l)
 {
   parser(l);
@@ -119,7 +119,7 @@ void Widget::buildScreen()
   vertices[ 9] = front;  vertices[10] = -width; vertices[11] = bot;	// bot left
 }
 
-/* Fills the pixmap incrustated in the screen */
+/** Fills the pixmap incrustated in the screen */
 void Widget::defaultPixmap()
 {
   def_pixmap = new GLubyte[3 * tex_width * tex_height];
@@ -134,7 +134,7 @@ void Widget::defaultPixmap()
   }
 }
 
-/* Set texture parameters */
+/** Set texture parameters */
 void Widget::setTexture(bool mipmap)
 {
   glEnable(GL_TEXTURE_2D);	// we need to use a texture
@@ -159,7 +159,7 @@ void Widget::setTexture(bool mipmap)
   glDisable(GL_TEXTURE_2D);
 }
 
-/* draw the screen */
+/** draw the screen */
 void Widget::drawScreen()
 {
   glBegin(GL_QUADS);
@@ -170,7 +170,7 @@ void Widget::drawScreen()
   glEnd();
 }
 
-/* Renders at each loop */
+/** Renders at each loop */
 void Widget::render()
 {
   updatePosition();
@@ -207,7 +207,7 @@ void Widget::render()
   glPopMatrix();
 }
 
-/* Redirects events */
+/** Redirects events */
 bool Widget::mouseEvent(int16_t x, int16_t y, uint8_t button)
 {
   return true;
@@ -223,7 +223,7 @@ void Widget::quit()
   if (def_pixmap) delete[] def_pixmap;
 }
 
-/* Gives the focus to this object: all events will be redirected */
+/** Gives the focus to this object: all events will be redirected */
 void Widget::takeFocus(Widget *widget, void *d, time_t s, time_t u)
 {
   if (! widget->focus) {
@@ -233,7 +233,7 @@ void Widget::takeFocus(Widget *widget, void *d, time_t s, time_t u)
   }
 }
 
-/* Leave the focus from the object */
+/** Leave the focus from the object */
 void Widget::leaveFocus(Widget *widget, void *d, time_t s, time_t u)
 {
   if (widget->focus) {

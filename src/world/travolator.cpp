@@ -59,6 +59,11 @@ void Travolator::parser(char *l)
     if      (! stringcmp(l, "length")) l = parseFloat(l, &length, "length");
     else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
     else if (! stringcmp(l, "on"))     l = parseBool(l, &on, "on");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

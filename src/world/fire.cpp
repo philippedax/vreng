@@ -89,6 +89,11 @@ void Fire::parser(char *l)
     if      (! stringcmp(l, "number")) l = parseUInt16(l, &np, "number");
     else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
     else if (! stringcmp(l, "sound"))  l = parseUInt8(l, &sound, "sound");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

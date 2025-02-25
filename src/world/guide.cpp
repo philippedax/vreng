@@ -99,6 +99,11 @@ void Guide::parser(char *l)
       if      (! stringcmp(mode, "one-way")) oneway = true;
       else if (! stringcmp(mode, "testing")) testing = true;
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 

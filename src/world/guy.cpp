@@ -81,6 +81,11 @@ void Guy::parser(char *l)
     else if (! stringcmp(l, "bust=")) l = parseVector3f(l, bust_color, "bust");
     else if (! stringcmp(l, "legs=")) l = parseVector3f(l, legs_color, "legs");
     else if (! stringcmp(l, "feet=")) l = parseVector3f(l, feet_color, "feet");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

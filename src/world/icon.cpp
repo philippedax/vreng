@@ -123,13 +123,18 @@ void Icon::geometry()
 
 void Icon::parser(char *l)
 {
-    l = tokenize(vref);
-    begin_while_parse(l) {
-      l = parseAttributes(l);
-      if (!l) break;
-      if (!stringcmp(l, "owner=")) l = parseString(l, name.owner, "owner");
+  l = tokenize(vref);
+  begin_while_parse(l) {
+    l = parseAttributes(l);
+    if (!l) break;
+    if (!stringcmp(l, "owner=")) l = parseString(l, name.owner, "owner");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
     }
-    end_while_parse(l);
+  }
+  end_while_parse(l);
 }
 
 char * Icon::getParam(char *ptok)

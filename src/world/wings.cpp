@@ -89,6 +89,11 @@ void Wings::parser(char *l)
       else if (! stringcmp(modelname, "helicopter")) model = HELICOPTER;
       else model = BIRD;
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

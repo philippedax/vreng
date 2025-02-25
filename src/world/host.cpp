@@ -33,7 +33,7 @@ const OClass Host::oclass(HOST_TYPE, "Host", Host::creator);
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Host::creator(char *l)
 {
   return new Host(l);
@@ -46,6 +46,11 @@ void Host::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if (! stringcmp(l, "host=")) l = parseString(l, name.url, "host");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }
@@ -63,14 +68,14 @@ bool Host::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-/* object intersects: stop */
+/** object intersects: stop */
 bool Host::intersect(Object *pcur, Object *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;
 }
 
-/* xterm */
+/** xterm */
 void Host::connect(Host *host, void *d, time_t s, time_t u)
 {
   char *h = strrchr(host->name.url, '/');

@@ -54,6 +54,11 @@ void Wind::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "speed"))  l = parseUInt16(l, &speed, "speed");
     else if (! stringcmp(l, "orient")) l = parseFloat(l, &orient, "orient");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

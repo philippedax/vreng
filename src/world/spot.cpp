@@ -62,6 +62,11 @@ void Spot::parser(char *l)
         shape = SPOT_CONE;
       }
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

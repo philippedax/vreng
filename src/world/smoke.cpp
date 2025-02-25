@@ -80,6 +80,11 @@ void Smoke::parser(char *l)
     else if (! stringcmp(l, "speed"))  { l = parseFloat(l, &speed, "speed");	// mm
                                          speed /= 10000; 			// m
                                        }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

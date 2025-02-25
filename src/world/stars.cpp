@@ -192,6 +192,11 @@ void Stars::parser(char *l)
     else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
     else if (! stringcmp(l, "warp"))   l = parseFloat(l, &warp, "warp");
     else if (! stringcmp(l, "maxpos")) l = parseUInt16(l, &maxpos, "maxpos");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

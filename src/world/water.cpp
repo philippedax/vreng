@@ -82,6 +82,11 @@ void Water::parser(char *l)
       l = parseFloat(l, &phase, "phase");
       phase *= DEF_PHASE;	// coef
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

@@ -71,6 +71,11 @@ void Movie::parser(char *l)
     else if (! stringcmp(l, "proj")) l = parseFloat(l, &proj, "proj");
     else if (! stringcmp(l, "rate")) l = parseFloat(l, &rate, "rate");
     else if (! stringcmp(l, "anim")) l = parseBool(l, &anim, "anim");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

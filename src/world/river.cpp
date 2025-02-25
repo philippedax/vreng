@@ -61,6 +61,11 @@ void River::parser(char *l)
     else if (! stringcmp(l, "depth")) l = parseFloat(l, &depth, "depth");
     else if (! stringcmp(l, "scale")) l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "color")) l = parseVector3f(l, color, "color");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

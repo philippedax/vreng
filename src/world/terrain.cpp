@@ -65,6 +65,11 @@ void Terrain::parser(char *l)
     else if (! stringcmp(l, "level"))  l = parseUInt8(l, &level, "level");
     else if (! stringcmp(l, "div"))    l = parseFloat(l, &div, "div");
     else if (! stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

@@ -35,7 +35,7 @@ const OClass Bumper::oclass(BUMPER_TYPE, "Bumper", Bumper::creator);
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Bumper::creator(char *l)
 {
   return new Bumper(l);
@@ -57,6 +57,11 @@ void Bumper::parser(char *l)
     if      (!stringcmp(l, "forcex")) l = parseFloat(l, &forcex, "forcex");
     else if (!stringcmp(l, "forcey")) l = parseFloat(l, &forcey, "forcey");
     else if (!stringcmp(l, "forcez")) l = parseFloat(l, &forcez, "forcez");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

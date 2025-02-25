@@ -187,6 +187,11 @@ void Hat::parser(char *l)
       else if (! stringcmp(modelname, "country"))  model = COUNTRY;
       else if (! stringcmp(modelname, "clown"))    model = CLOWN;
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

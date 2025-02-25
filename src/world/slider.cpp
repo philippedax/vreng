@@ -33,7 +33,7 @@ const OClass Slider::oclass(SLIDER_TYPE, "Slider", Slider::creator);
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Slider::creator(char *l)
 {
   return new Slider(l);
@@ -57,6 +57,11 @@ void Slider::parser(char *l)
     if      (!stringcmp(l, "incrx")) l = parseFloat(l, &incrx, "incrx");
     else if (!stringcmp(l, "incry")) l = parseFloat(l, &incry, "incry");
     else if (!stringcmp(l, "incrz")) l = parseFloat(l, &incrz, "incrz");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

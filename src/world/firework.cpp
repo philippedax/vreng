@@ -67,6 +67,11 @@ void Firework::parser(char *l)
       onecolor = true;
     }
     else if (! stringcmp(l, "size"))   l = parseUInt8(l, &pt_size, "size");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

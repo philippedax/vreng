@@ -65,6 +65,11 @@ void Waterfall::parser(char *l)
       l = parseVector3f(l, color, "color");
       onecolor = true;
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

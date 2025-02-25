@@ -66,6 +66,11 @@ void Drone::parser(char *l)
     else if (! stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "color"))  l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "flying")) l = parseBool(l, &flying, "flying");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

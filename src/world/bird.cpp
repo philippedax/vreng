@@ -64,6 +64,11 @@ void Bird::parser(char *l)
     else if (! stringcmp(l, "zone"))   l = parseFloat(l, &zone, "zone");
     else if (! stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "flying")) l = parseBool(l, &flying, "flying");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

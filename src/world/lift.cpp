@@ -66,6 +66,11 @@ void Lift::parser(char *l)
     else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
     else if (! stringcmp(l, "top"))    l = parseInt(l, &top, "top");
     else if (! stringcmp(l, "bot"))    l = parseInt(l, &bot, "bot");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }
