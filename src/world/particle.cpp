@@ -43,7 +43,7 @@ const float Particle::DEF_GRAVITY = -9.8;
 static struct timeval begintime;
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Particle::creator(char *l)
 {
   return new Particle(l);
@@ -88,11 +88,16 @@ void Particle::parser(char *l)
       l = parseVector3f(l, color, "color");
       onecolor = true;
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }
 
-/* constructor for sub-classes */
+/** constructor for sub-classes */
 Particle::Particle()
 {
   living = 0;
@@ -153,8 +158,10 @@ void Particle::inits()
   gettimeofday(&begintime, NULL);
 }
 
-/* timedelta: returns the number of seconds that have elapsed since
-   the previous call to the function. */
+/**
+ * timedelta: returns the number of seconds that have elapsed since
+ * the previous call to the function.
+ */
 float Particle::timedelta()
 {
   struct timeval endtime;

@@ -70,6 +70,11 @@ void Vrelet::parser(char *l)
       l = parseString(l, url, "base");
       goturl = true;
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 

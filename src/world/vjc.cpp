@@ -67,6 +67,11 @@ void Vjc::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if (!stringcmp(l, "server=")) l = parseString(l, host, "server");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 
@@ -92,25 +97,25 @@ Vjc::Vjc(char *l)
   start();
 }
 
-/* Returns the singleton instance */
+/** Returns the singleton instance */
 Vjc * Vjc::getServer()
 {
   return server;
 }
 
-/* Sets the singleton instance */
+/** Sets the singleton instance */
 void Vjc::setServer(Vjc *_server)
 {
   server = _server;
 }
 
-/* Used to send pings to the server */
+/** Used to send pings to the server */
 void Vjc::permanent(float lasting)
 {
   getServer()->ping();
 }
 
-/* Sends a simple (no data) control command to the app */
+/** Sends a simple (no data) control command to the app */
 int Vjc::sendCommand(Object *po, int id)
 {
   VjcMessage *msg = new VjcMessage(po, VJC_MSGT_CTRL, id);
@@ -121,7 +126,7 @@ int Vjc::sendCommand(Object *po, int id)
   return ret;
 }
 
-/* Sends a ping to the server every PING_WAIT times */
+/** Sends a ping to the server every PING_WAIT times */
 void Vjc::ping()
 {
   lastping++;
@@ -137,7 +142,7 @@ void Vjc::quit()
   stop();
 }
 
-/* Sends an initiate to the server */
+/** Sends an initiate to the server */
 void Vjc::start()
 {
   sock = new VjcSocket(localPort, host, serverPort);
@@ -158,7 +163,7 @@ void Vjc::start()
   return;
 }
 
-/* Sends a terminate notification to the server */
+/** Sends a terminate notification to the server */
 void Vjc::stop()
 {
   Vjc *vjs = getServer();
@@ -173,7 +178,7 @@ void Vjc::stop()
   setServer(NULL);
 }
 
-/* Unregisters a Vrelet object with the server */
+/** Unregisters a Vrelet object with the server */
 void Vjc::stopApp(Vrelet *po)
 {
   Vjc *vjs = getServer();
@@ -185,7 +190,7 @@ void Vjc::stopApp(Vrelet *po)
   vjs->lastMessage = NULL;
 }
 
-/* Registers a Vrelet object with the server */
+/** Registers a Vrelet object with the server */
 void Vjc::startApp(Vrelet *po)
 {
   Vjc *vjs = getServer();
@@ -213,7 +218,7 @@ void Vjc::startApp(Vrelet *po)
 //* Network management
 //*
 
-/* Initializes a pair of sockets for communicating with the child app */
+/** Initializes a pair of sockets for communicating with the child app */
 VjcSocket::VjcSocket(uint16_t _listenPort, const char *_destHost, uint16_t _destPort)
 {
   listenPort = _listenPort;
@@ -240,7 +245,7 @@ VjcSocket::VjcSocket(uint16_t _listenPort, const char *_destHost, uint16_t _dest
   statecon = SOCK_CLOSED;
 }
 
-/* Opens the receiver socket for this socket pair */
+/** Opens the receiver socket for this socket pair */
 int VjcSocket::openRecv()
 {
   if ((sdr = Socket::openDatagram()) < 0) return 0;
@@ -257,7 +262,7 @@ int VjcSocket::openRecv()
   return 0;
 }
 
-/* Opens the sender socket. IO is set to non-blocking on this one */
+/** Opens the sender socket. IO is set to non-blocking on this one */
 int VjcSocket::openSend()
 {
   if ((sdw = Socket::openDatagram()) < 0) return 0;
@@ -267,7 +272,7 @@ int VjcSocket::openSend()
   return 1;
 }
 
-/* Tries a connect to the client app */
+/** Tries a connect to the client app */
 int VjcSocket::connectSend()
 {
   struct timeval timeout;      
@@ -290,7 +295,7 @@ int VjcSocket::connectSend()
   return 1;
 }
 
-/* Check if the non-blocking connect call on the send socket finished or not */
+/** Check if the non-blocking connect call on the send socket finished or not */
 bool VjcSocket::isConnected()
 {
   fd_set set;
@@ -308,7 +313,7 @@ bool VjcSocket::isConnected()
   return false;
 }
 
-/* Opens a VjcSocket. This call is 'non-blocking' */
+/** Opens a VjcSocket. This call is 'non-blocking' */
 int VjcSocket::openSocket()
 {
   // check if it's not already open
@@ -327,7 +332,7 @@ int VjcSocket::openSocket()
   return 0;
 }
 
-/* Closes and frees a VjcSocket */
+/** Closes and frees a VjcSocket */
 VjcSocket::~VjcSocket()
 {
   if (statecon >= SOCK_RCVOPEN) {
@@ -347,19 +352,19 @@ VjcSocket::~VjcSocket()
  * Data structure used to send messages to the controler
  */
 
-/* Constructor for outgoing messages */
+/** Constructor for outgoing messages */
 VjcMessage::VjcMessage(Object *po, uint32_t ssrc, uint8_t type, uint8_t id)
 {
   setup(po, ssrc, type, id);
 }
 
-/* Constructor for outgoing messages */
+/** Constructor for outgoing messages */
 VjcMessage::VjcMessage(Object *po, uint8_t type, uint8_t id)
 {
   setup(po, (! Vjc::getServer() ? NetObj::getSsrc() : Vjc::getServer()->ssrc), type, id);
 }
 
-/* Creates a new tVjcHeader */
+/** Creates a new tVjcHeader */
 static
 tVjcHeader vjcNewHeader(uint32_t ssrc, uint8_t type, uint8_t id, uint16_t len)
 {
@@ -374,7 +379,7 @@ tVjcHeader vjcNewHeader(uint32_t ssrc, uint8_t type, uint8_t id, uint16_t len)
   return hdr;
 }
 
-/* Setups the header */
+/** Setups the header */
 void VjcMessage::setup(Object *po, uint32_t ssrc, uint8_t type, uint8_t id)
 {
   cursor = 0;			// set the cursor to the start of the buffer
@@ -384,7 +389,7 @@ void VjcMessage::setup(Object *po, uint32_t ssrc, uint8_t type, uint8_t id)
   putHeader(); 			// Write out the header
 }
 
-/* Constructor for incoming messages */
+/** Constructor for incoming messages */
 VjcMessage::VjcMessage(uint8_t *_data, int _datalen)
 {
   cursor = 0;			// set the cursor to the start of the buffer
@@ -395,13 +400,13 @@ VjcMessage::VjcMessage(uint8_t *_data, int _datalen)
   header = readHeader();	// read the header in
 }
 
-/* Destructor */
+/** Destructor */
 VjcMessage::~VjcMessage()
 {
   if (data) delete[] data;
 }
 
-/* Checks whether the packet was for this Object */
+/** Checks whether the packet was for this Object */
 bool VjcMessage::isForObject(Object *po)
 {
   return (header.src_id == po->getSrc())
@@ -409,13 +414,13 @@ bool VjcMessage::isForObject(Object *po)
       && (header.obj_id == po->getObj());
 }
 
-/* Returns this message's header */
+/** Returns this message's header */
 tVjcHeader VjcMessage::getHeader()
 {
   return header;
 }
 
-/* Reads a header struct for the raw packet data */
+/** Reads a header struct for the raw packet data */
 void VjcMessage::dumpHeader(tVjcHeader hdr)
 {
   //echo("%x %d %d %d %d %d", hdr.proto, hdr.version, hdr.app_ssrc, hdr.msg_type, hdr.msg_id, hdr.data_len);
@@ -427,14 +432,14 @@ void VjcMessage::dumpHeader(tVjcHeader hdr)
     return; \
   }
 
-/* Adds a 8bit int to the message */
+/** Adds a 8bit int to the message */
 void VjcMessage::put8(int val)
 {
   data[cursor] = static_cast<uint8_t>((0x000000FF) & val);
   cursor += sizeof(uint8_t);
 }
 
-/* Adds a 16bit int to the message */
+/** Adds a 16bit int to the message */
 void VjcMessage::put16(int val)
 {
   data[cursor]   = (val & 0xFF00) >> 8;
@@ -442,7 +447,7 @@ void VjcMessage::put16(int val)
   cursor += sizeof(int16_t);
 }
 
-/* Adds a 32bit int to the message */
+/** Adds a 32bit int to the message */
 void VjcMessage::put32(int val)
 {
   data[cursor]   = (val & 0xFF000000) >> 24;
@@ -452,7 +457,7 @@ void VjcMessage::put32(int val)
   cursor += sizeof(int32_t);
 }
 
-/* Adds a string to the message */
+/** Adds a string to the message */
 void VjcMessage::putStr(const char *str)
 {
   int i, len = strlen(str);
@@ -465,7 +470,7 @@ void VjcMessage::putStr(const char *str)
   cursor += len;
 }
 
-/* Puts an object's net id */
+/** Puts an object's net id */
 void VjcMessage::putOID(Object *po)
 {
   if (po) {
@@ -482,7 +487,7 @@ void VjcMessage::putOID(Object *po)
   }
 }
 
-/* Puts an object position */
+/** Puts an object position */
 void VjcMessage::putPos(Object *po)
 {
   put32((int32_t) (po->pos.x * 1000));
@@ -493,7 +498,7 @@ void VjcMessage::putPos(Object *po)
   put32((int32_t) 0);
 }
 
-/* Writes the message header */
+/** Writes the message header */
 void VjcMessage::putHeader()
 {
   // Write the header (proto part)
@@ -508,7 +513,7 @@ void VjcMessage::putHeader()
   putOID(sender);
 }
 
-/* Packs this message into an uint8_t array */
+/** Packs this message into an uint8_t array */
 uint8_t *VjcMessage::toBytes(int *pktlen)
 {
   int datalen = cursor - VJC_HDR_LEN;	// total length - header
@@ -524,7 +529,7 @@ uint8_t *VjcMessage::toBytes(int *pktlen)
   return data;			// return a pointer to the data.
 }
 
-/* Sends data over to the server */
+/** Sends data over to the server */
 int VjcMessage::sendData()
 {
   int pktlen = 0;
@@ -566,7 +571,7 @@ int VjcMessage::sendData()
     return NULL; \
   }
 
-/* Reads in data from the app process, if any is available */
+/** Reads in data from the app process, if any is available */
 VjcMessage * Vjc::getData(Object *po)
 {
   /* check that the socket is really open */
@@ -629,7 +634,7 @@ havedate:
   return NULL;
 }
 
-/* Reads an 8 bit signed int */
+/** Reads an 8 bit signed int */
 int8_t VjcMessage::read8()
 {
   uint8_t val = data[cursor];
@@ -637,7 +642,7 @@ int8_t VjcMessage::read8()
   return val;
 }
 
-/* Reads a 16 bit signed int */
+/** Reads a 16 bit signed int */
 int16_t VjcMessage::read16()
 {
   int16_t val = (data[cursor] << 8) + (0x00ff & data[cursor+1]);
@@ -645,7 +650,7 @@ int16_t VjcMessage::read16()
   return val;
 }
 
-/* Reads a 32 bit signed int */
+/** Reads a 32 bit signed int */
 int32_t VjcMessage::read32()
 {
   int32_t val =
@@ -657,7 +662,7 @@ int32_t VjcMessage::read32()
   return val;
 }
 
-/* Reads a header struct for the raw packet data */
+/** Reads a header struct for the raw packet data */
 tVjcHeader VjcMessage::readHeader()
 {
   tVjcHeader hdr;
@@ -675,7 +680,7 @@ tVjcHeader VjcMessage::readHeader()
   return hdr;
 }
 
-/* Reads two 32bit ints, and return them as the x and y coords. of a V3 */
+/** Reads two 32bit ints, and return them as the x and y coords. of a V3 */
 V3 VjcMessage::readPoint2D()
 {
   V3 point;
@@ -694,7 +699,7 @@ V3 VjcMessage::readPoint3D()
   return point;
 }
 
-/* Reads three 32bit ints, converted to floats by division by 1000 */
+/** Reads three 32bit ints, converted to floats by division by 1000 */
 V3 VjcMessage::readDelta()
 {
   V3 point = readPoint3D();
@@ -705,7 +710,7 @@ V3 VjcMessage::readDelta()
   return point;
 }
 
-/* Returns true if there is at least size bytes left to be read */
+/** Returns true if there is at least size bytes left to be read */
 bool VjcMessage::hasData(int size)
 {
   return ((cursor+size) <= maxlen);

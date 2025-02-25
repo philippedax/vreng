@@ -508,7 +508,6 @@ void Mech::permanent(float lasting)
     }
   }
   if (step == 1 || step == 3) {
-    /* for(x=21; x>=0; x=x-3){ */
     if (mframe <= 21 && mframe >= 0) {
       angle = (180/M_PI) * (acos(((cos((M_PI/180) * mframe) * 2.043) + 1.1625) / 3.2029));
       if (mframe > 0)
@@ -550,7 +549,7 @@ void Mech::permanent(float lasting)
     step = 0;
 }
 
-/* creation from a file */
+/** creation from a file */
 Object * Mech::creator(char *l)
 {
   return new Mech(l);
@@ -570,6 +569,11 @@ void Mech::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "anim")) l = parseBool(l, &anim, "anim");
     else if (! stringcmp(l, "walk")) l = parseBool(l, &walking, "walk");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

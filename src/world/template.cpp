@@ -31,7 +31,7 @@
 const OClass Template::oclass(TEMPLATE_TYPE, "Template", Template::creator);
 
 
-/* Creation from a file */
+/** Creation from a file */
 Object * Template::creator(char *l)
 {
   return new Template(l);
@@ -41,7 +41,7 @@ void Template::defaults()
 {
 }
 
-/* Parser */
+/** Parser */
 void Template::parser(char *l)
 {
   defaults();
@@ -53,7 +53,7 @@ void Template::parser(char *l)
   end_while_parse(l);
 }
 
-/* Behavior */
+/** Behavior */
 void Template::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
@@ -64,12 +64,12 @@ void Template::behaviors()
   updatePosition();
 }
 
-/* Specific inits */
+/** Specific inits */
 void Template::inits()
 {
 }
 
-/* Constructor */
+/** Constructor */
 Template::Template(char *l)
 {
   parser(l);
@@ -83,12 +83,12 @@ void Template::buildScreen()
   getDim(dim);
 }
 
-/* Computes something at each loop */
+/** Computes something at each loop */
 void Template::permanent(float lasting)
 {
 }
 
-/* Renders at each loop */
+/** Renders at each loop */
 void Template::render()
 {
   updatePosition();

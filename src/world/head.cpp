@@ -75,6 +75,11 @@ void Head::parser(char *l)
       if      (! stringcmp(str, "male"))   { model_e = MALE; }
       else if (! stringcmp(str, "female")) { model_e = FEMALE; }
     }
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

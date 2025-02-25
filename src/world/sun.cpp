@@ -58,6 +58,11 @@ void Sun::parser(char *l)
     if (!l) break;
     if (! stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
     if (! stringcmp(l, "radius")) l = parseFloat(l, &radius, "radius");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

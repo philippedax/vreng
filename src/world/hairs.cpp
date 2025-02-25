@@ -57,6 +57,11 @@ void Hairs::parser(char *l)
     if (!l) break;
     if      (!stringcmp(l, "url=")) l = parseUrl(l, name.url);
     else if (!stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }

@@ -50,6 +50,11 @@ void Fog::parser(char *l)
     if (!l) break;
     if (!stringcmp(l, "density"))   l = parseFloat(l, &density, "density");
     else if (!stringcmp(l, "color"))  l = parseVector3f(l, color, "color");
+    else {
+      parse()->errorAtLine(l);
+      l = parse()->nextToken();
+      break;
+    }
   }
   end_while_parse(l);
 }
