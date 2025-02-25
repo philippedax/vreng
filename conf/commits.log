@@ -3487,3 +3487,4 @@
 3487 Sam 22 fév 2025 16:21:34 CET	cleanup errorNumline(char *attr) parse.*pp
 3488 Sam 22 fév 2025 17:09:39 CET	fix loaderPCX bad if pcx.cpp
 3489 Mar 25 fév 2025 12:38:20 CET	rename errorNumline to errorAtline parse.*pp
+3490 Mar 25 fév 2025 13:36:43 CET	review parser() world/*.cpp

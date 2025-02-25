@@ -30,44 +30,39 @@
 
 #include <list>
 
-using namespace std;
 
 // local
-//mayused list<Txf*> Txf::txfList;
+//mayused std::list<Txf*> Txf::txfList;
 
 static const char *lastTxfErr;
-//mayused static uint16_t txf_number = 0;
 
 
 Txf::Txf(const char *_url)
 {
-  //mayused num = ++txf_number;
   strcpy(url, _url);
 }
 
 Txf::~Txf()
 {
-  //mayused txfList.remove(this);
 }
 
-/* Loads texture font. */
+/** Loads texture font. */
 Txf * Txf::load(const char *url)
 {
-  trace1(DBG_2D, "load: loading %s", url);
+  trace1(DBG_2D, "txf: loading %s", url);
 
   Txf * txf = new Txf(url);	// new entry
 
-  //mayused txfList.push_back(txf);	// add to cache list
-
-  /* load font */
+  // load font
   Http::httpOpen(url, reader, txf, 0);
 
   return txf;
 }
 
+/** Http reader. */
 void Txf::reader(void *_txf, Http *http)
 {
-  Txf *txf = static_cast<Txf *>(_txf);
+  Txf *txf = static_cast<Txf *> (_txf);
   if (! txf) return;
 
   Cache *cache = new Cache();
@@ -89,27 +84,27 @@ void Txf::reader(void *_txf, Http *http)
   char tmp;
 
   char fileid[4];
-  int got = fread(reinterpret_cast<char *>(fileid), 1, 4, f);
+  int got = fread(reinterpret_cast<char *> (fileid), 1, 4, f);
   if (got != 4 || strncmp(fileid, "\377txf", 4)) {
     lastTxfErr = "not a texture font file.";
-    goto error;
+    goto err;
   }
 
-  got = fread(reinterpret_cast<char *>(&endianness), sizeof(int), 1, f);
+  got = fread(reinterpret_cast<char *> (&endianness), sizeof(int), 1, f);
   if (got == 1 && endianness == 0x12345678)      { toswap = 0; }	// bigendian
   else if (got == 1 && endianness == 0x78563412) { toswap = 1; }	// littleendian
   else {
     lastTxfErr = "not a texture font file.";
-    goto error;
+    goto err;
   }
 
-#define EXPECT(v) if (got != (int)v) { lastTxfErr="premature end of file"; goto error; }
-  got = fread(reinterpret_cast<char *>(&format), sizeof(int), 1, f); EXPECT(1);
-  got = fread(reinterpret_cast<char *>(&txf->texfont->tex_width), sizeof(int), 1, f); EXPECT(1);
-  got = fread(reinterpret_cast<char *>(&txf->texfont->tex_height), sizeof(int), 1, f); EXPECT(1);
-  got = fread(reinterpret_cast<char *>(&txf->texfont->max_ascent), sizeof(int), 1, f); EXPECT(1);
-  got = fread(reinterpret_cast<char *>(&txf->texfont->max_descent), sizeof(int), 1, f); EXPECT(1);
-  got = fread(reinterpret_cast<char *>(&txf->texfont->num_glyphs), sizeof(int), 1, f); EXPECT(1);
+#define EXPECT(v) if (got != (int)v) { lastTxfErr="premature end of file"; goto err; }
+  got = fread(reinterpret_cast<char *> (&format), sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *> (&txf->texfont->tex_width), sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *> (&txf->texfont->tex_height), sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *> (&txf->texfont->max_ascent), sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *> (&txf->texfont->max_descent), sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *> (&txf->texfont->num_glyphs), sizeof(int), 1, f); EXPECT(1);
 
   if (toswap) {
     SWAPL(&format, tmp);
@@ -124,9 +119,9 @@ void Txf::reader(void *_txf, Http *http)
   txf->texfont->tgi = new TexGlyphInfo[txf->texfont->num_glyphs];
   if (! txf->texfont->tgi) {
     lastTxfErr = "out of memory.";
-    goto error;
+    goto err;
   }
-  got = fread(reinterpret_cast<char *>(txf->texfont->tgi), sizeof(TexGlyphInfo), txf->texfont->num_glyphs, f);
+  got = fread(reinterpret_cast<char *> (txf->texfont->tgi), sizeof(TexGlyphInfo), txf->texfont->num_glyphs, f);
   EXPECT(txf->texfont->num_glyphs);
 
   if (toswap) {
@@ -137,7 +132,7 @@ void Txf::reader(void *_txf, Http *http)
     }
   }
   txf->texfont->tgvi = new TexGlyphVertexInfo[txf->texfont->num_glyphs];
-  if (! txf->texfont->tgvi) { lastTxfErr = "out of memory."; goto error; }
+  if (! txf->texfont->tgvi) { lastTxfErr = "out of memory."; goto err; }
 
   w = txf->texfont->tex_width;
   h = txf->texfont->tex_height;
@@ -176,7 +171,7 @@ void Txf::reader(void *_txf, Http *http)
   txf->texfont->lut = new TexGlyphVertexInfo*[txf->texfont->range];
   if (! txf->texfont->lut) {
     lastTxfErr = "out of memory.";
-    goto error;
+    goto err;
   }
   for (int i=0; i < txf->texfont->num_glyphs; i++) {
     txf->texfont->lut[txf->texfont->tgi[i].c - txf->texfont->min_glyph] = &txf->texfont->tgvi[i];
@@ -189,9 +184,9 @@ void Txf::reader(void *_txf, Http *http)
     txf->texfont->teximage = new uint8_t[txf->texfont->tex_width * txf->texfont->tex_height];
     if (! txf->texfont->teximage) {
       lastTxfErr = "out of memory.";
-      goto error;
+      goto err;
     }
-    got = fread(reinterpret_cast<char *>(txf->texfont->teximage), 1, txf->texfont->tex_width*txf->texfont->tex_height, f);
+    got = fread(reinterpret_cast<char *> (txf->texfont->teximage), 1, txf->texfont->tex_width*txf->texfont->tex_height, f);
     EXPECT(txf->texfont->tex_width * txf->texfont->tex_height);
     break;
   case TXF_FORMAT_BITMAP:
@@ -200,13 +195,13 @@ void Txf::reader(void *_txf, Http *http)
     stride = (width + 7) >> 3;
     if (! (texbitmap = new uint8_t[stride * height])) {
       lastTxfErr = "out of memory.";
-      goto error;
+      goto err;
     }
-    got = fread(reinterpret_cast<char *>(texbitmap), 1, stride * height, f);
+    got = fread(reinterpret_cast<char *> (texbitmap), 1, stride * height, f);
     EXPECT(stride * height);
     if (! (txf->texfont->teximage = new uint8_t[width * height])) {
       lastTxfErr = "out of memory.";
-      goto error;
+      goto err;
     }
     for (int i=0; i < height; i++) {
       for (int j=0; j < width; j++) {
@@ -223,7 +218,7 @@ void Txf::reader(void *_txf, Http *http)
   delete cache;
   return;
 
-error:
+err:
   error("txf err: %s", lastTxfErr);
   if (txf->texfont) {
     delete[] txf->texfont->tgi;
@@ -241,8 +236,8 @@ TexGlyphVertexInfo * Txf::getGlyph(int c)
 {
   TexGlyphVertexInfo *tgvi;
 
-  /* Automatically substitute uppercase letters with lowercase if not
-     uppercase available (and vice versa). */
+  // Automatically substitute uppercase letters with lowercase if not
+  // uppercase available (and vice versa).
 lastchance:
   if ((c >= texfont->min_glyph) && (c < texfont->min_glyph + texfont->range)) {
     if ((tgvi = texfont->lut[c - texfont->min_glyph]) != 0)
@@ -277,8 +272,8 @@ GLuint Txf::buildTexture(GLuint texobj, GLboolean setupMipmaps)
 
   glBindTexture(GL_TEXTURE_2D, texfont->texobj);
 
-  /* Use GL_INTENSITY4 as internal texture format since we want to use as
-     little texture memory as possible. */
+  // Use GL_INTENSITY4 as internal texture format since we want to use as
+  // little texture memory as possible.
   if (setupMipmaps) {
     gluBuild2DMipmaps(GL_TEXTURE_2D, GL_INTENSITY4,
                       texfont->tex_width, texfont->tex_height,
@@ -297,7 +292,7 @@ void Txf::bindTexture()
   glBindTexture(GL_TEXTURE_2D, texfont->texobj);
 }
 
-// Renders a glyph.
+/** Renders a glyph. */
 void Txf::render(int c)
 {
   TexGlyphVertexInfo *tgvi;
@@ -328,7 +323,7 @@ void Txf::render(const char *s, int l)
 #if 0 //mayused
 Txf * Txf::getByUrl(const char *url)
 {
-  for (list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it) {
+  for (std::list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it) {
     if (! strcmp((*it)->url, url)) {
       return (*it);	// txf is in the cache
     }
@@ -338,7 +333,7 @@ Txf * Txf::getByUrl(const char *url)
 
 Txf * Txf::getByNumber(uint16_t num)
 {
-  for (list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it) {
+  for (std::list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it) {
     if ((*it)->num == num) {
       return (*it);	// txf is in the cache
     }
@@ -349,10 +344,5 @@ Txf * Txf::getByNumber(uint16_t num)
 uint16_t Txf::getCurrentNumber() const
 {
   return txf_number;
-}
-
-const char * Txf::errorString()
-{
-  return lastTxfErr;
 }
 #endif //mayused
