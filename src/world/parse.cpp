@@ -442,12 +442,12 @@ int Parse::parseVreFile(char *buf, int buflen)
 /** Prints line number of file where an error occurs */
 void Parse::errorAtLine()
 {
-  error("parse error at line %d", numline);
+  error("parse error at line %d of file %s.vre", numline, World::current()->name);
 }
 
 void Parse::errorAtLine(const char *attr)
 {
-  error("parse error '%s' at line %d", attr, numline);
+  error("parse error '%s' at line %d of file %s.vre", attr, numline, World::current()->name);
 }
 
 /** Skips attributes */
