@@ -3491,3 +3491,4 @@
 3491 Mar 25 fév 2025 16:13:25 CET	cleanup std:: txf.cpp
 3492 Mar 25 fév 2025 16:43:02 CET	review parser() world/*.cpp
 3493 Mar 25 fév 2025 17:44:20 CET	add file name to errorAtLine() parse.cpp
+3494 Jeu 27 fév 2025 11:53:13 CET	copy more recents file to cache cache.sh

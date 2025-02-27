@@ -147,7 +147,6 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
   UAppli::onMessage("home",   ucall(this, &Widgets::homeCB));
 }
 
-
 /** Creates Infobar = navig_box + infos_box */
 UBox& Widgets::createInfobar()
 {
@@ -175,12 +174,10 @@ UBox& Widgets::createInfobar()
   // its changed dynamically when objects are selected
   infos_box.addAttr(UOrient::horizontal + uleft());
   infos_box.add(  uleft()
-                //+ UPix::ray //+ " "
                 + UColor::white
                 + UFont::bold
                 + UFont::large
                 + "Welcome to VREng"
-                //+ " " //+ UPix::ray
                );
 
   return uhbox(uvspacing(2) + navig_box + infos_box);
@@ -191,7 +188,6 @@ void Widgets::setInfobar(UBox* content)
   infos_box.removeAll();
   if (content) infos_box.add(content);
 }
-
 
 /**
  * Creates Menubar on top of the window
@@ -274,7 +270,6 @@ void Widgets::dynamicMenus(UMenubar& menubar, const char* filename)
   File *file = new File();
   if ((menufp = file->open(filename, "r"))) {
     fscanf(menufp, "%s %s", attr, val);
-    //cerr << "dynmenu: " << attr << " " <<val << endl;
     while (! feof(menufp)) {
       if (! strcmp(attr, "Menu")) {
         dyna_menu = new UMenu();
@@ -325,7 +320,6 @@ UMenu& Widgets::markMenu()
   }
   return mark_menu;
 }
-
 
 /** Item constructor */
 GuiItem::GuiItem(UArgs a) : UButton(a)
@@ -464,8 +458,8 @@ Object* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   Object* object = Object::byNum(objnum);
 
   if (! object) {
-    objinfo[0].name = const_cast<char*>("World");	// avoid segfault
-    objinfo[1].name = const_cast<char*>(World::current()->name);
+    objinfo[0].name = const_cast<char*> ("World");	// avoid segfault
+    objinfo[1].name = const_cast<char*> (World::current()->name);
     objinfo[2].name = NULL;	// NULL terminaison
     return NULL;
   }
@@ -481,7 +475,7 @@ Object* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   }
 
   objinfo[0].name = classname;
-  if (! currentname) currentname = const_cast<char *>("");
+  if (! currentname) currentname = const_cast<char *> ("");
   objinfo[1].name = currentname;
   if (::g.pref.trace) echo("pointed: %s.%s", classname, currentname);
 
@@ -676,9 +670,9 @@ void Widgets::markCB()
 
 
 //---------------------------------------------------------------------------
-/*
- *  Keys management and correspondance with VREng keys
- */
+//
+//  Keys management and correspondance with VREng keys
+//
 
 void Widgets::setKey(int key, int ispressed)
 {
@@ -691,7 +685,7 @@ void Widgets::setKey(int key, int ispressed)
 /**
  * Converts the X keysym into a Vreng key (vrkey) and returns
  * a keymask which is an hexa value for marking released keys in the KRmask
-*/
+ */
 static long convertKey(const int keysym, int keychar, int& vrkey)
 {
   vrkey = 0;
@@ -884,7 +878,6 @@ static void gotoHttpReader(void *box, Http *http)
   Cache *cache = new Cache();
   FILE *fp = cache->open(http->url, http);
   while (cache->nextLine(fp, line)) {
-    //echo("line: %s", line);
     UStr& worldurl = ustr();
 
     char tmpline[URL_LEN + CHAN_LEN +2];
@@ -1020,7 +1013,7 @@ void Widgets::messDialog()
 #if 0 //dax TODO
   char line[128];
 
-  for (vector<UStr>::iterator it = Message::mess_history.begin(); it != Message::mess_history.end(); ++it) {
+  for (std::vector<UStr>::iterator it = Message::mess_history.begin(); it != Message::mess_history.end(); ++it) {
     strcpy(line, (*it).c_str());
     echo("mess: %s", line);
     mess_box.add(uitem(UColor::black + line));
@@ -1199,14 +1192,13 @@ UDialog& Widgets::settingsDialog()
 /** Dialog box for tools */
 UDialog& Widgets::toolDialog()
 {
-  return udialog
-  (  ubutton("Audio"      + ucall(this, true, &Widgets::audioCB))
-   + ubutton("Video"      + ucall(this, true, &Widgets::videoCB))
-   + ubutton("Whiteboard" + ucall(this, true, &Widgets::whiteboardCB))
-   + ubutton("Modeler"    + ucall(this, true, &Widgets::modelerCB))
-   + uhbox(UBorder::shadowIn)
-   + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
-  );
+  return udialog(  ubutton("Audio"      + ucall(this, true, &Widgets::audioCB))
+                 + ubutton("Video"      + ucall(this, true, &Widgets::videoCB))
+                 + ubutton("Whiteboard" + ucall(this, true, &Widgets::whiteboardCB))
+                 + ubutton("Modeler"    + ucall(this, true, &Widgets::modelerCB))
+                 + uhbox(UBorder::shadowIn)
+                 + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
+                );
 }
 
 /** Dialog box for grid marks */
@@ -1258,13 +1250,13 @@ void VncDialog::vncConvert()
 
 
 //---------------------------------------------------------------------------
-/*
- * Addobj
- *
- * Dynamicaly objects creation
- */
+//
+// Addobj
+//
+// Dynamicaly objects creation
+//
 
-/* items */
+/** items */
 enum {
   NONE,
   WALL, THING, MIRAGE, BALL, STEP, GROUND, GATE,	// objects
@@ -1313,7 +1305,7 @@ static const char table_glass[] = "\
 <solid shape=\"cone\" rb=\".1\" rt=\".1\" h=\".30\" dif=\"0 1 0\" spe=\"0 1 1\" a=\".5\" rel=\"0 0 -.30 0 0\" />\n\
 ";
 
-/* default values */
+/** default values */
 static void defaultAddobj()
 {
   objtype = THING;	// thing (default for multiple solids)
@@ -1324,7 +1316,7 @@ static void defaultAddobj()
   color = setV3(1,1,1);	// white
 }
 
-/* set values */
+/** set values */
 static void setVal(int item) {
   switch (item) {
     // objtypes :
@@ -1396,7 +1388,7 @@ static void setVal(int item) {
   }
 }
 
-/* callback witch builds <solid ... \> */
+/** callback witch builds <solid ... \> */
 void Widgets::newObjectCB()
 {
   char solid[BUFSIZ], url[128];
@@ -1504,7 +1496,7 @@ UDialog& Widgets::addobjDialog()
     &sel_model    = uradioSelect(),
     &sel_compound = uradioSelect() ;
 
-  UBox* addobjBox = new UBox
+  UBox* addobj_box = new UBox
     (UFont::bold
      + UFont::x_large
      + ulabel("Addobj")
@@ -1656,10 +1648,10 @@ UDialog& Widgets::addobjDialog()
             + ubutton(UFont::bold + uhcenter()
                       + " Cancel " + ucloseWin())
            )
-    );	// end addobjBox
+    );	// end addobj_box
 
   defaultAddobj();
-  return udialog(addobjBox);
+  return udialog(addobj_box);
 }
 
 
@@ -1806,4 +1798,3 @@ void Widgets::getMessage(UMessageEvent &e)
   // a completer
   //cerr << "get: " << *selected_object_url << endl;
 }
-
