@@ -4,7 +4,7 @@
 /vre/infres.vre       224.255.0.4/52696
 /vre/checker.vre      224.255.0.5/52706
 /vre/tarots.vre       224.255.0.6/52716
-/vre/telecomparis.vre 224.255.0.7/52726
+#/vre/telecomparis.vre 224.255.0.7/52726
 /vre/stadium.vre      224.255.0.8/52736
 /vre/pyramid.vre      224.255.0.9/52746
 /vre/maze.vre         224.255.0.10/52756
@@ -33,5 +33,5 @@
 /vre/land.vre         224.255.0.33/52986
 /vre/factory.vre      224.255.0.34/52996
 /vre/forest2.vre      224.255.0.35/53006
-/vre/enstnet.vre      224.255.0.36/53016
+#/vre/enstnet.vre      224.255.0.36/53016
 /vre/sandbox.vre      224.255.0.38/53026

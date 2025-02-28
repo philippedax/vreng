@@ -3493,3 +3493,4 @@
 3493 Mar 25 fév 2025 17:44:20 CET	add file name to errorAtLine() parse.cpp
 3494 Jeu 27 fév 2025 11:53:13 CET	copy more recents file to cache cache.sh
 3495 Jeu 27 fév 2025 14:56:24 CET	cleanup widgets.cpp
+3496 Ven 28 fév 2025 18:35:33 CET	merge goto+history in worlds menubar widgets.cpp
