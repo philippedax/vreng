@@ -192,7 +192,7 @@ void Widgets::setInfobar(UBox* content)
 /**
  * Creates Menubar on top of the window
  *
- * [File] [View] [Goto] [History] [Tool] [Mark] [About]
+ * [File] [View] [Worlds] [Tool] [Mark] [About]
  */
 UBox& Widgets::createMenubar()
 {
@@ -209,8 +209,9 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
        );
 
-  UMenu& hist_menu =
+  UMenu& worlds_menu =
   umenu(  g.theme.menuStyle
+        + ubutton("Goto World"       + ucall(this, &Widgets::gotoDialog))
         + ubutton("Previous World"   + ucall(this, &Widgets::prevCB))
         + ubutton("Next World"       + ucall(this, &Widgets::nextCB))
         + ubutton("Home"             + ucall(this, &Widgets::homeCB))
@@ -245,8 +246,8 @@ UBox& Widgets::createMenubar()
   umenubar(  UFont::bold + UFont::large
            + ubutton("File"    + file_menu)
            + ubutton("View"    + view_menu)
-           + ubutton("Goto"    + ucall(this, &Widgets::gotoDialog))
-           + ubutton("History" + hist_menu)
+           //+ ubutton("Goto"    + ucall(this, &Widgets::gotoDialog))
+           + ubutton("Worlds"  + worlds_menu)
            + ubutton("Tool"    + tool_menu)
            + ubutton("Mark"    + mark_menu)
            + ubutton("About"   + about_menu)
@@ -300,7 +301,7 @@ UMenu& Widgets::markMenu()
                       )
               );
   UMenu& mark_menu = umenu(  g.theme.menuStyle
-                           + uscrollpane(usize().setHeight(80)
+                           + uscrollpane(  usize().setHeight(80)
                                          + UBackground::none
                                          + mark_box
                                         )
@@ -824,16 +825,19 @@ UDialog& Widgets::prefsDialog()
 
   UDialog* prefs_dial =
   new UOptionDialog("Preferences",
-                    uvbox(ulabel("Preferences: "
-                          + UColor::red
-                          + ::g.env.prefs())
-                          + uvflex()
-                          + uscrollpane(usize(400,300) + settings_box)),
-                    UArgs::none, UArgs::none
+                     uvbox(  ulabel("Preferences: "
+                           + UColor::red
+                           + ::g.env.prefs())
+                           + uvflex()
+                           + uscrollpane(usize(400,300) + settings_box)
+                         ),
+                    UArgs::none,
+                    UArgs::none
                   );
 
   FILE *fp;
   char line[128];
+
   File *file = new File();
   if ((fp = file->open(::g.env.prefs(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
@@ -851,7 +855,7 @@ static void sourceHttpReader(void *box, Http *http)
 {
   if (! http) return;
 
-  UBox *source_box = (UBox *) box;
+  UBox *source_box = static_cast<UBox *> (box);
   char line[256];
 
   source_box->setAutoUpdate(false);
@@ -872,15 +876,17 @@ static void gotoHttpReader(void *box, Http *http)
 {
   if (! http) return;
 
-  UBox *worlds_box = (UBox *) box;
+  UBox *worlds_box = static_cast<UBox *> (box);
   char line[URL_LEN + CHAN_LEN +2];
 
   Cache *cache = new Cache();
   FILE *fp = cache->open(http->url, http);
   while (cache->nextLine(fp, line)) {
-    UStr& worldurl = ustr();
+    if (*line == '#') continue;		// commented line
 
+    UStr& url = ustr();
     char tmpline[URL_LEN + CHAN_LEN +2];
+
     strcpy(tmpline, line);
     char *p = strchr(tmpline, ' ');
     if (p) *p = '\0';
@@ -895,14 +901,14 @@ static void gotoHttpReader(void *box, Http *http)
       *worldname++ = '\0';
       p = strchr(worldname, '.');
       if (p) *p = '\0';
-      worldurl = tmpline;
+      url = tmpline;
 
-      worlds_box->add(  UBackground::white
+      worlds_box->add(  UBackground::black
                       + uitem(  UColor::green
                               + UFont::bold
                               + UFont::large
                               + worldname
-                              + ucall(&g.gui, (const UStr&) worldurl, &Gui::gotoWorld)
+                              + ucall(&g.gui, static_cast<const UStr&> (url), &Gui::gotoWorld)
                              )
                      );
     }
@@ -916,16 +922,18 @@ static void worldsHttpReader(void *box, Http *http)
 {
   if (! http) return;
 
-  UBox *worlds_box = (UBox *) box;
+  UBox *worlds_box = static_cast<UBox *> (box);
   char line[URL_LEN + CHAN_LEN +2];
 
   Cache *cache = new Cache();
   FILE *fp = cache->open(http->url, http);
   while (cache->nextLine(fp, line)) {
+    if (*line == '#') continue;		// commented line
+
     UStr& url = ustr();
     UStr& chan = ustr();
-
     char tmpline[URL_LEN + CHAN_LEN +2];
+
     strcpy(tmpline, line);
     char *p = strchr(tmpline, ' ');
     if (p) *p = '\0';
@@ -939,11 +947,12 @@ static void worldsHttpReader(void *box, Http *http)
     worlds_box->add(uitem(  UColor::navy
                           + UFont::bold
                           + url
-                          + " " + UFont::plain
+                          + " "
+                          + UFont::plain
                           + chan
-                          + ucall(&g.gui, (const UStr&) url, &Gui::gotoWorld)
+                          + ucall(&g.gui, static_cast<const UStr&> (url), &Gui::gotoWorld)
                          )
-                   );
+                  );
   }
   cache->close();
   delete cache;
@@ -1057,7 +1066,7 @@ void Widgets::worldsDialog()
     return;
   }
 
-  worlds_dialog.setMessage(uscrollpane(usize(450,350) + worlds_box));
+  worlds_dialog.setMessage(uscrollpane(usize(250,350) + worlds_box));
   worlds_dialog.show();
 }
 
@@ -1078,7 +1087,7 @@ UDialog& Widgets::settingsDialog()
 
   return udialog
   (
-   uhbox("Audio live        : " + UFont::plain
+   uhbox(" Audio live        : " + UFont::plain
          + ucheckbox("Rat" + sel_audio_live
                      + UOn::select / ucall(this, RAT_TOOL, &Widgets::prefCB))
                      .setSelected()
@@ -1088,7 +1097,7 @@ UDialog& Widgets::settingsDialog()
                      + UOn::select / ucall(this, FPHONE_TOOL, &Widgets::prefCB))
         )
    + uhbox(UBorder::shadowOut)
-   + uhbox("Video live      : " + UFont::plain
+   + uhbox(" Video live      : " + UFont::plain
            + ucheckbox("Vic" + sel_video_live
                        + UOn::select / ucall( this, VIC_TOOL, &Widgets::prefCB))
                        .setSelected()
@@ -1096,7 +1105,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, VLCMC_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox("Whiteboard      : " + UFont::plain
+   + uhbox(" Whiteboard      : " + UFont::plain
            + ucheckbox("Wb" + sel_wb
                        + UOn::select / ucall(this, WB_TOOL, &Widgets::prefCB))
                        .setSelected()
@@ -1106,7 +1115,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, NTE_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox("Web browser     : " + UFont::plain
+   + uhbox(" Web browser     : " + UFont::plain
            + ucheckbox("Firefox" + sel_browser
                        + UOn::select / ucall(this, FIREFOX_TOOL, &Widgets::prefCB))
                        .setSelected()
@@ -1120,7 +1129,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, EDGE_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox("Audio streaming : " + UFont::plain
+   + uhbox(" Audio streaming : " + UFont::plain
            + ucheckbox("Vlc" + sel_video_streaming
                        + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB)
                       ).setSelected()
@@ -1132,7 +1141,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, QUICKTIME_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox("Video streaming : " + UFont::plain
+   + uhbox(" Video streaming : " + UFont::plain
            + ucheckbox("Vlc" + sel_video_streaming
                        + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB)
                       ).setSelected()
@@ -1142,7 +1151,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, QUICKTIME_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox("Modeler         : " + UFont::plain
+   + uhbox(" Modeler         : " + UFont::plain
            + ucheckbox("Vred" + sel_modeler
                        + UOn::select / ucall(this, VRED_TOOL, &Widgets::prefCB)
                       ).setSelected()
@@ -1150,7 +1159,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, VREM_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox("PsPdf           : " + UFont::plain
+   + uhbox(" PsPdf           : " + UFont::plain
            + ucheckbox("Evince" + sel_pspdf
                        + UOn::select / ucall(this, EVINCE_TOOL, &Widgets::prefCB)
                       ).setSelected()
@@ -1164,7 +1173,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, XPDF_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox("Office          : " + UFont::plain
+   + uhbox(" Office          : " + UFont::plain
            + ucheckbox("LibreOffice" + sel_office
                        + UOn::select / ucall(this, LIBROFFICE_TOOL, &Widgets::prefCB)
                       ).setSelected()
@@ -1176,7 +1185,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, STAROFFICE_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox("Session         : " + UFont::plain
+   + uhbox(" Session         : " + UFont::plain
            + ucheckbox("Ssh" + sel_session
                        + UOn::select / ucall(this, SSH_TOOL, &Widgets::prefCB)
                       ).setSelected()
