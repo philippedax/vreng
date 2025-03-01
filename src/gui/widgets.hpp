@@ -29,13 +29,10 @@
 #define WIDGETS_HPP
 
 #include "gui.hpp"
-
 #include "ubit/ubit.hpp"	// UBox, UMenu, UElem, UDialog
 
 using namespace ubit;
 
-
-class Gui;
 
 /** struct for updating the ObjectBar and the ObjectMenu in the GUI */
 struct ObjInfo {
@@ -72,7 +69,7 @@ class Widgets : public ubit::UFrame {
   static const int GW_DEFAULT_SCROLL = 50;
   static const int GW_ZOOM_SCROLL = 35;
 
-  Widgets(Gui*);	///< constructor.
+  Widgets(class Gui*);	///< constructor.
 
   class Navig* getNavig() { return &navig; }
 
@@ -134,8 +131,8 @@ class Widgets : public ubit::UFrame {
   
   // Private members
   // ! BEWARE: order matters !
-  Gui &gui;            		///< reference to the GUI object
-  UBox infos_box;		///< infos box horizontal under menubar
+  class Gui &gui;      		///< reference to the GUI class
+  UBox info_box;		///< info box horizontal under menubar
   UElem worlds;			///< optional worlds palette
   UElem basket;			///< optional basket palette
   UElem avatars;		///< optional avatars palette

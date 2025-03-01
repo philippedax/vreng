@@ -137,17 +137,17 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
   avatars.addAttr(UOrient::vertical + utop());
 
   // process ubit messages coming from other applications
-  UAppli::onMessage("file",   ucall(this, &Widgets::openMessage));
-  UAppli::onMessage("open",   ucall(this, &Widgets::openMessage));
-  UAppli::onMessage("put",    ucall(this, &Widgets::putMessage));
-  UAppli::onMessage("get",    ucall(this, &Widgets::getMessage));
-  UAppli::onMessage("move",   ucall(this, &Widgets::moveMessage));
-  UAppli::onMessage("back",   ucall(this, &Widgets::prevCB));
-  UAppli::onMessage("forward",ucall(this, &Widgets::nextCB));
-  UAppli::onMessage("home",   ucall(this, &Widgets::homeCB));
+  UAppli::onMessage("file",    ucall(this, &Widgets::openMessage));
+  UAppli::onMessage("open",    ucall(this, &Widgets::openMessage));
+  UAppli::onMessage("put",     ucall(this, &Widgets::putMessage));
+  UAppli::onMessage("get",     ucall(this, &Widgets::getMessage));
+  UAppli::onMessage("move",    ucall(this, &Widgets::moveMessage));
+  UAppli::onMessage("back",    ucall(this, &Widgets::prevCB));
+  UAppli::onMessage("forward", ucall(this, &Widgets::nextCB));
+  UAppli::onMessage("home",    ucall(this, &Widgets::homeCB));
 }
 
-/** Creates Infobar = navig_box + infos_box */
+/** Creates Infobar = navig_box + info_box */
 UBox& Widgets::createInfobar()
 {
   UBox& navig_box = uhbox(  upadding(8,0)
@@ -170,23 +170,23 @@ UBox& Widgets::createInfobar()
                                  )
                          );
 
-  // infos_box initially contains the welcome message,
+  // info_box initially contains the welcome message,
   // its changed dynamically when objects are selected
-  infos_box.addAttr(UOrient::horizontal + uleft());
-  infos_box.add(  uleft()
+  info_box.addAttr(UOrient::horizontal + uleft());
+  info_box.add(  uleft()
                 + UColor::white
                 + UFont::bold
                 + UFont::large
                 + "Welcome to VREng"
                );
 
-  return uhbox(uvspacing(2) + navig_box + infos_box);
+  return uhbox(uvspacing(2) + navig_box + info_box);
 }
 
 void Widgets::setInfobar(UBox* content)
 {
-  infos_box.removeAll();
-  if (content) infos_box.add(content);
+  info_box.removeAll();
+  if (content) info_box.add(content);
 }
 
 /**
@@ -829,7 +829,7 @@ UDialog& Widgets::prefsDialog()
                            + UColor::red
                            + ::g.env.prefs())
                            + uvflex()
-                           + uscrollpane(usize(400,300) + settings_box)
+                           + uscrollpane(usize(400, 300) + settings_box)
                          ),
                     UArgs::none,
                     UArgs::none
@@ -903,8 +903,8 @@ static void gotoHttpReader(void *box, Http *http)
       if (p) *p = '\0';
       url = tmpline;
 
-      worlds_box->add(  UBackground::black
-                      + uitem(  UColor::green
+      worlds_box->add(  UBackground::white
+                      + uitem(  UColor::navy
                               + UFont::bold
                               + UFont::large
                               + worldname
@@ -987,7 +987,7 @@ void Widgets::objectsDialog()
     sprintf(line, "%s:%s", (*it)->typeName(), (*it)->objectName());
     objects_box.add(uitem(UColor::black + line));
   }
-  objects_dialog.setMessage(uscrollpane(  usize(150,350)
+  objects_dialog.setMessage(uscrollpane(  usize(150, 350)
                                         + UBackground::none
                                         + objects_box
                                        )
@@ -1007,7 +1007,7 @@ void Widgets::statsDialog()
   while (getStats(fin, line)) {
     stats_box.add(uitem(UColor::black + line));
   }
-  stats_dialog.setMessage(uscrollpane(  usize(250,350)
+  stats_dialog.setMessage(uscrollpane(  usize(250, 350)
                                       + UBackground::none
                                       + stats_box
                                      )
@@ -1028,7 +1028,7 @@ void Widgets::messDialog()
     mess_box.add(uitem(UColor::black + line));
   }
 #endif
-  mess_dialog.setMessage(uscrollpane(  usize(300,200)
+  mess_dialog.setMessage(uscrollpane(  usize(300, 200)
                                      + UBackground::none
                                      + mess_box
                                     )
@@ -1049,7 +1049,7 @@ void Widgets::gotoDialog()
     return;
   }
 
-  worlds_dialog.setMessage(uscrollpane(usize(120,400) + goto_box));
+  worlds_dialog.setMessage(uscrollpane(usize(120, 400) + goto_box));
   worlds_dialog.show();
 }
 
@@ -1066,7 +1066,7 @@ void Widgets::worldsDialog()
     return;
   }
 
-  worlds_dialog.setMessage(uscrollpane(usize(250,350) + worlds_box));
+  worlds_dialog.setMessage(uscrollpane(usize(250, 350) + worlds_box));
   worlds_dialog.show();
 }
 

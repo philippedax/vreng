@@ -263,22 +263,22 @@ void Navig::pressB2(int x, int y)
 /** Clears InfoBar */
 void Navig::clearInfoBar()
 {
-  gw.infos_box.removeAll();	// clears infos in infobar
+  gw.info_box.removeAll();	// clears info in infobar
 }
 
-/** Updates object infos (infosbox in the infobar and in the contextual menu) */
+/** Updates object info (infobox in the infobar and in the contextual menu) */
 void Navig::selectObject(ObjInfo* objinfo)
 {
   if (! objinfo)  return;
 
-  gw.infos_box.removeAll();	// clears infos in infobar
+  gw.info_box.removeAll();	// clears info in infobar
   object_menu.removeAll();	// clears contextual menu
   
-  // adds object class and name to the infosbox
+  // adds object class and name to the infobox
   object_class = objinfo[0].name;
   object_name  = objinfo[1].name;
-  gw.infos_box.add(object_infos);
-  gw.infos_box.addAttr(UColor::navy + UFont::bold);
+  gw.info_box.add(object_infos);
+  gw.info_box.addAttr(UColor::navy + UFont::bold);
 
   // adds object class and name to the contextual menu
   object_menu.add(object_infos);
@@ -289,12 +289,12 @@ void Navig::selectObject(ObjInfo* objinfo)
     UBox& b = ubutton(oi->name);
     if (oi->fun && strlen(oi->name)) {
       b.addAttr(UBackground::white);
-      b.add(ucall(oi->farg, oi->fun));	// add action button to infosbox
+      b.add(ucall(oi->farg, oi->fun));	// add action button to infobox
     }
-    gw.infos_box.add(b);
+    gw.info_box.add(b);
     object_menu.add(b);			// add action button to contextual menu
   }
-  gw.infos_box.addAttr(UBackground::none);
+  gw.info_box.addAttr(UBackground::none);
 }
 
 /////////
