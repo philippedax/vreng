@@ -154,17 +154,17 @@ UBox& Widgets::createInfobar()
                           + uhspacing(8)
                           + uleft()
                           + UFont::bold
-                          + uitem(  g.theme.Left //USymbol::left
+                          + uitem(  g.theme.Left	//USymbol::left
                                   + utip("Prev world")
                                   + ucall(this, &Widgets::prevCB)
                                  )
                           + "   "
-                          + uitem(  g.theme.Up //USymbol::up
+                          + uitem(  g.theme.Up		//USymbol::up
                                   + utip("Home world")
                                   + ucall(this, &Widgets::homeCB)
                                  )
                           + "   "
-                          + uitem(  g.theme.Right //USymbol::right
+                          + uitem(  g.theme.Right	//USymbol::right
                                   + utip("Next world")
                                   + ucall(this, &Widgets::nextCB)
                                  )
@@ -242,17 +242,16 @@ UBox& Widgets::createMenubar()
        );
 
   // ===== Menubar ======
-  UMenubar& menu_bar =
-  umenubar(  UFont::bold + UFont::large
-           + ubutton("File"    + file_menu)
-           + ubutton("View"    + view_menu)
-           //+ ubutton("Goto"    + ucall(this, &Widgets::gotoDialog))
-           + ubutton("Worlds"  + worlds_menu)
-           + ubutton("Tool"    + tool_menu)
-           + ubutton("Mark"    + mark_menu)
-           + ubutton("About"   + about_menu)
-          );
-
+  UMenubar& menu_bar = umenubar(  UFont::bold
+                                + UFont::large
+                                + ubutton("File"    + file_menu)
+                                + ubutton("View"    + view_menu)
+                                //+ ubutton("Goto"  + ucall(this, &Widgets::gotoDialog))
+                                + ubutton("Worlds"  + worlds_menu)
+                                + ubutton("Tool"    + tool_menu)
+                                + ubutton("Mark"    + mark_menu)
+                                + ubutton("About"   + about_menu)
+                               );
   return menu_bar;
 }
 
@@ -306,7 +305,6 @@ UMenu& Widgets::markMenu()
                                          + mark_box
                                         )
                           );
-
   File *file = new File();
   FILE *fp = null;
   char line[URL_LEN + CHAN_LEN + 2];
@@ -380,7 +378,8 @@ static void setWorld(GuiItem* gw, World *world, bool isCurrent)
   UFont *font = isCurrent ? &UFont::bold : &UFont::plain;
   gw->add(font
           + ustr(world->name)
-          + umenu(  UFont::bold + UColor::navy
+          + umenu(  UFont::bold
+                  + UColor::navy
                   + uhbox(" Url: "     + UFont::plain + world->url)
                   + uhbox(" Channel: " + UFont::plain + world->chan)
                  )
@@ -521,9 +520,9 @@ void Widgets::homeCB()
   trace1(DBG_IPMC, "home: goto %s at %s", ::g.url, chan_str);
 
   World::current()->quit();
-  delete Channel::current();  // delete Channel
+  delete Channel::current();		// delete Channel
   World::enter(::g.url, chan_str, true);
-  World::current()->joinChan(chan_str);  // join new channel
+  World::current()->joinChan(chan_str); // join new channel
 
   if (audioactive) Audio::start(chan_str);
 }
@@ -969,7 +968,7 @@ void Widgets::sourceDialog()
     delete &source_box;
     return;
   }
-  source_dialog.setMessage(uscrollpane(  usize(450,350)
+  source_dialog.setMessage(uscrollpane(  usize(450, 350)
                                        + UBackground::white
                                        + source_box
                                       )
@@ -1065,7 +1064,6 @@ void Widgets::worldsDialog()
     delete worlds_box;
     return;
   }
-
   worlds_dialog.setMessage(uscrollpane(usize(250, 350) + worlds_box));
   worlds_dialog.show();
 }

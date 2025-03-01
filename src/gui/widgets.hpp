@@ -34,6 +34,13 @@
 using namespace ubit;
 
 
+/**
+ * GuiItem class
+ */
+struct GuiItem : public UButton {
+  GuiItem(UArgs args = UArgs::none);
+};
+
 /** struct for updating the ObjectBar and the ObjectMenu in the GUI */
 struct ObjInfo {
   char *name;			///< class, instance or action name
@@ -46,14 +53,6 @@ struct KRKey {
   static const int KRBUF_MAX=10;///< max number of postponed Key Release(s)
   int vrkey;			///< code of the corresponding VREng change key
   struct timeval time;		///< time when this key was released
-};
-
-
-/**
- * GuiItem class
- */
-struct GuiItem : public UButton {
-  GuiItem(UArgs args = UArgs::none);
 };
 
 
@@ -204,13 +203,11 @@ class Widgets : public ubit::UFrame {
   void setRayDirection(int x, int y);
 };
 
+
 /**
  * VncDialog class
  */
 class VncDialog : public UOptionDialog {
- public:
-  static void vncDialog(Widgets*, class Vnc*);
- 
  private:
   static VncDialog* vnc_dialog;
   class Vnc* vnc;	///< vnc pointer.
@@ -222,6 +219,9 @@ class VncDialog : public UOptionDialog {
   VncDialog(class Widgets*, class Vnc*);
 
   void vncConvert();
+
+ public:
+  static void vncDialog(Widgets*, class Vnc*);
 };
 
 #endif
