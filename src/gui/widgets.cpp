@@ -660,20 +660,19 @@ void Widgets::markCB()
   File *file = new File();
   if ((fp = file->open(::g.env.worldmarks(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
-      if (! strcmp(line, mark)) {
+      if (! strcmp(line, mark)) {	// already exists
         file->close();
         delete file;
         return;
       }
     }
     file->close();
-    delete file;
   }
   if ((fp = file->open(::g.env.worldmarks(), "a"))) {
-    fputs(mark, fp);
+    fputs(mark, fp);			// appends new mark
     file->close();
     delete file;
-    markMenu();
+    markMenu();				// returns to menu
   }
 }
 
