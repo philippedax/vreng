@@ -32,10 +32,10 @@
 #include "panels.hpp"	// Panels
 #include "message.hpp"	// Message
 #include "theme.hpp"	// Theme
-#include "user.hpp"	// User localuser
+#include "user.hpp"	// User, localuser
 #include "move.hpp"	// changeKey
 #include "vnc.hpp"	// Vnc
-#include "pref.hpp"	// width3Dm height3D
+#include "pref.hpp"	// width3D, height3D
 #include "env.hpp"	// menu
 #include "http.hpp"	// httpOpen
 #include "file.hpp"	// open, close
@@ -114,20 +114,20 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
   //
   addAttr(g.theme.mainStyle);
   add(  utop()
-      + menubar
-      + infobar
+      + menubar				// menu
+      + infobar				// info
       + uvflex()
       + uhbox(  uvflex()
               + uhflex()
               + uhspacing(0)
               + uvbox(  uhflex()
                       + uvflex()
-                      + scene
+                      + scene		// 3D zone
                       + ubottom()
-                      + panels.main_panel
+                      + panels.panel	// panel cmds
                      )
               + uright()
-              + panels.right_panel
+              + panels.right_panel	// palette
              )
      );
 
@@ -263,14 +263,14 @@ static void functionMenu(Widgets*)
 /** Adds dynamic menus */
 void Widgets::dynamicMenus(UMenubar& menubar, const char* filename)
 {
-  FILE* menufp = null;
+  FILE* fp = null;
   UMenu* dyna_menu = null;
   char attr[100], val[100];
 
   File *file = new File();
-  if ((menufp = file->open(filename, "r"))) {
-    fscanf(menufp, "%s %s", attr, val);
-    while (! feof(menufp)) {
+  if ((fp = file->open(filename, "r"))) {
+    fscanf(fp, "%s %s", attr, val);
+    while (! feof(fp)) {
       if (! strcmp(attr, "Menu")) {
         dyna_menu = new UMenu();
         dyna_menu->addAttr(g.theme.menuStyle);
@@ -283,7 +283,7 @@ void Widgets::dynamicMenus(UMenubar& menubar, const char* filename)
           btn.add(ucall(this, functionMenu));
         }
       }
-      fscanf(menufp, "%s %s", attr, val);
+      fscanf(fp, "%s %s", attr, val);
     }
     file->close();
     delete file;
@@ -464,8 +464,8 @@ Object* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
     return NULL;
   }
 
+  // an object has been selected
   Object* object = Object::byNum(objnum);
-
   if (! object) {
     objinfo[0].name = const_cast<char*> ("World");	// avoid segfault
     objinfo[1].name = const_cast<char*> (World::current()->name);
@@ -476,13 +476,11 @@ Object* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
     return NULL;	// invisible
   }
 
-  // an object has been selected
   // get the object's names
   object->getObjectNames(&classname, &currentname, &actionnames);
   if (! classname) {
     return NULL;
   }
-
   objinfo[0].name = classname;
   if (! currentname) currentname = const_cast<char *> ("");
   objinfo[1].name = currentname;

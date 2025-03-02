@@ -313,7 +313,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                   + expand_collapse
                  );
 
-  main_panel.addAttr(UOrient::vertical).add(control_bar + control_panel);
+  panel.addAttr(UOrient::vertical).add(control_bar + control_panel);
 }
 
 void Panels::showBasket(bool state)
