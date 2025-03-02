@@ -300,7 +300,7 @@ UMenu& Widgets::markMenu()
                       )
               );
   UMenu& mark_menu = umenu(  g.theme.menuStyle
-                           + uscrollpane(  usize().setHeight(80)
+                           + uscrollpane(  usize().setHeight(100)
                                          + UBackground::none
                                          + mark_box
                                         )
@@ -310,9 +310,15 @@ UMenu& Widgets::markMenu()
   char line[URL_LEN + CHAN_LEN + 2];
   if ((fp = file->open(::g.env.worldmarks(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
+      UStr& url = ustr();
       char *p = strchr(line, ' ');
       if (p) *p ='\0';
-      mark_box.add(uitem(line) + ucall(&gui, (const UStr&)line, &Gui::gotoWorld));
+      url = line;
+      //echo("mark: %s", url.c_str());
+      mark_box.add(uitem(  url
+                         + ucall(&gui, static_cast<const UStr&> (url), &Gui::openWorld)
+                        )
+                  );
     }
     file->close();
     delete file;
@@ -323,7 +329,10 @@ UMenu& Widgets::markMenu()
 /** Item constructor */
 GuiItem::GuiItem(UArgs a) : UButton(a)
 {
-  addAttr(UBorder::none + UOn::enter / UBackground::blue + UOn::arm / UBackground::blue);
+  addAttr(  UBorder::none
+          + UOn::enter / UBackground::blue
+          + UOn::arm / UBackground::blue
+         );
 }
 
 /** Sets user's infos */
@@ -517,7 +526,7 @@ void Widgets::homeCB()
   char chan_str[CHAN_LEN];
 
   sprintf(chan_str, "%s/%u/%d", Universe::current()->grpstr, Universe::current()->port, Channel::currentTtl());
-  trace1(DBG_IPMC, "home: goto %s at %s", ::g.url, chan_str);
+  trace1(DBG_IPMC, "home: %s at %s", ::g.url, chan_str);
 
   World::current()->quit();
   delete Channel::current();		// delete Channel
@@ -901,13 +910,14 @@ static void gotoHttpReader(void *box, Http *http)
       p = strchr(worldname, '.');
       if (p) *p = '\0';
       url = tmpline;
+      //echo("goto: %s", url.c_str());
 
       worlds_box->add(  UBackground::white
                       + uitem(  UColor::navy
                               + UFont::bold
                               + UFont::large
                               + worldname
-                              + ucall(&g.gui, static_cast<const UStr&> (url), &Gui::gotoWorld)
+                              + ucall(&g.gui, static_cast<const UStr&> (url), &Gui::openWorld)
                              )
                      );
     }
@@ -949,7 +959,7 @@ static void worldsHttpReader(void *box, Http *http)
                           + " "
                           + UFont::plain
                           + chan
-                          + ucall(&g.gui, static_cast<const UStr&> (url), &Gui::gotoWorld)
+                          + ucall(&g.gui, static_cast<const UStr&> (url), &Gui::openWorld)
                          )
                   );
   }
@@ -1667,16 +1677,16 @@ UDialog& Widgets::addobjDialog()
 UMenu& Widgets::fileMenu()
 {
   // Open a vreng Url
-  UStr& url_or_name = ustr();
+  UStr& url = ustr();
 
   UDialog* openvre_dialog =  // args are: title, content, icon, buttons
   new UOptionDialog("Open Vreng Url",
                      ulabel(UFont::bold + "Url or Name: ")
                      + uhflex()
-                     + utextfield(80, url_or_name),
+                     + utextfield(80, url),
                      UArgs::none,
                      uhbox(  ubutton("  Open  "
-                           + ucall(&gui, (const UStr&)url_or_name, &Gui::gotoWorld))
+                           + ucall(&gui, static_cast<const UStr&> (url), &Gui::openWorld))
                            + ubutton("  Cancel  " + ucloseWin())
                           )
                    );
@@ -1767,7 +1777,7 @@ void Widgets::openMessage(UMessageEvent &e)
 
   if (! msg || msg->empty())  return;
 
-  gui.gotoWorld(*msg);
+  gui.openWorld(*msg);
 }
 
 void Widgets::moveMessage(UMessageEvent &e)

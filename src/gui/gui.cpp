@@ -230,7 +230,9 @@ void Gui::pauseAvatar()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling World
 //
-void Gui::gotoWorld(const UStr& url_or_name)
+
+/** Opens a new world */
+void Gui::openWorld(const UStr& url_or_name)
 {
   if (url_or_name.empty())  return;
 
@@ -239,14 +241,18 @@ void Gui::gotoWorld(const UStr& url_or_name)
   Vac *vac = Vac::current();
 
   strcpy(chanstr, DEF_VRENG_CHANNEL);
-  if (strchr(urlorname, '/')) {	// url or path
+  if (strchr(urlorname, '/')) {		// url or path
     strcpy(urlvre, urlorname);
     if (! vac->resolveWorldUrl(urlvre, chanstr)) {
-      if (strcmp(chanstr, DEF_VRENG_CHANNEL))  return;	// url not found
+      if (strcmp(chanstr, DEF_VRENG_CHANNEL)) {
+	return;				// url not found
+      }
     }
   }
-  else {	// worldname
-    if (! vac->getUrlAndChannel(urlorname, urlvre, chanstr))  return;  // world not found
+  else {				// worldname
+    if (! vac->getUrlAndChannel(urlorname, urlvre, chanstr)) {
+      return;				// world not found
+    }
   }
   //echo("goto %s at %s", urlvre, chanstr);
 

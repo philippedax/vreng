@@ -49,7 +49,7 @@ class Gui {
   int getCycles();
   ///< returns the current number of frames.
 
-  void gotoWorld(const ubit::UStr& url_or_name); 
+  void openWorld(const ubit::UStr& url_or_name); 
   ///< go to this world.
  
   void showNavigator();
