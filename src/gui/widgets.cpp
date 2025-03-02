@@ -192,7 +192,7 @@ void Widgets::setInfobar(UBox* content)
 /**
  * Creates Menubar on top of the window
  *
- * [File] [View] [Worlds] [Tool] [Mark] [About]
+ * [File] [View] [Teleport] [Tool] [Mark] [About]
  */
 UBox& Widgets::createMenubar()
 {
@@ -209,12 +209,12 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
        );
 
-  UMenu& worlds_menu =
+  UMenu& teleport_menu =
   umenu(  g.theme.menuStyle
-        + ubutton("Goto World"       + ucall(this, &Widgets::gotoDialog))
+        + ubutton("Home"             + ucall(this, &Widgets::homeCB))
         + ubutton("Previous World"   + ucall(this, &Widgets::prevCB))
         + ubutton("Next World"       + ucall(this, &Widgets::nextCB))
-        + ubutton("Home"             + ucall(this, &Widgets::homeCB))
+        + ubutton("Goto Worlds"      + ucall(this, &Widgets::gotoDialog))
         + ubutton("Visited Worlds >" + umenu(g.theme.menuStyle + worlds))
        );
 
@@ -231,12 +231,12 @@ UBox& Widgets::createMenubar()
 
   UMenu& about_menu =
   umenu(  g.theme.menuStyle
-        + ubutton("README"    + ucall("README",    README,    &showInfoDialog))
-        + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &showInfoDialog))
-        + ubutton("LICENSE"   + ucall("LICENSE",   LICENSE,   &showInfoDialog))
-        + ubutton("DTD"       + ucall("DTD",       DTD,       &showInfoDialog))
-        + ubutton("CHANGELOG" + ucall("CHANGELOG", CHANGELOG, &showInfoDialog))
-        + ubutton("TODO"      + ucall("TODO",      TODO,      &showInfoDialog))
+        + ubutton("README"      + ucall("README",    README,    &showInfoDialog))
+        + ubutton("COPYRIGHT"   + ucall("COPYRIGHT", COPYRIGHT, &showInfoDialog))
+        + ubutton("LICENSE"     + ucall("LICENSE",   LICENSE,   &showInfoDialog))
+        + ubutton("DTD"         + ucall("DTD",       DTD,       &showInfoDialog))
+        + ubutton("CHANGELOG"   + ucall("CHANGELOG", CHANGELOG, &showInfoDialog))
+        + ubutton("TODO"        + ucall("TODO",      TODO,      &showInfoDialog))
         //+ ubutton("config.h"  + ucall("config.h",  CONFIG_H,  &showInfoDialog))
         //+ ubutton("Home Page" + ucall(this, &siteCB))
        );
@@ -244,13 +244,13 @@ UBox& Widgets::createMenubar()
   // ===== Menubar ======
   UMenubar& menu_bar = umenubar(  UFont::bold
                                 + UFont::large
-                                + ubutton("File"    + file_menu)
-                                + ubutton("View"    + view_menu)
-                                //+ ubutton("Goto"  + ucall(this, &Widgets::gotoDialog))
-                                + ubutton("Worlds"  + worlds_menu)
-                                + ubutton("Tool"    + tool_menu)
-                                + ubutton("Mark"    + mark_menu)
-                                + ubutton("About"   + about_menu)
+                                + ubutton("File"     + file_menu)
+                                + ubutton("View"     + view_menu)
+                                //+ ubutton("Goto"   + ucall(this, &Widgets::gotoDialog))
+                                + ubutton("Teleport" + teleport_menu)
+                                + ubutton("Tool"     + tool_menu)
+                                + ubutton("Mark"     + mark_menu)
+                                + ubutton("About"    + about_menu)
                                );
   return menu_bar;
 }
