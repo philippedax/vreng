@@ -132,7 +132,6 @@ void Carrier::mouseEvent(int8_t vkey, float last)
   if (*name.type) {	//FIXME: segfault
     vicilist->removeObject();
   }
-  delete poldobj;
   object->updGrid(poldobj);
   if (object->isBehavior(COLLIDE_NEVER)) {
     delete poldobj;
