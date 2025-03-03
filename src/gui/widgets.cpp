@@ -1059,7 +1059,7 @@ void Widgets::gotoDialog()
   worlds_dialog.show();
 }
 
-/** Dialog box for worlds list and their urls */
+/** Dialog box for worlds list and their urls and channels */
 void Widgets::worldsDialog()
 {
   char worlds_url[URL_LEN];
@@ -1092,7 +1092,8 @@ UDialog& Widgets::settingsDialog()
 
   return udialog
   (
-   uhbox(" Audio live        : " + UFont::plain
+   uhbox(" Audio live        : "
+         + UFont::plain
          + ucheckbox("Rat" + sel_audio_live
                      + UOn::select / ucall(this, RAT_TOOL, &Widgets::prefCB))
                      .setSelected()
@@ -1102,7 +1103,8 @@ UDialog& Widgets::settingsDialog()
                      + UOn::select / ucall(this, FPHONE_TOOL, &Widgets::prefCB))
         )
    + uhbox(UBorder::shadowOut)
-   + uhbox(" Video live      : " + UFont::plain
+   + uhbox(" Video live      : "
+           + UFont::plain
            + ucheckbox("Vic" + sel_video_live
                        + UOn::select / ucall( this, VIC_TOOL, &Widgets::prefCB))
                        .setSelected()
@@ -1110,7 +1112,8 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, VLCMC_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox(" Whiteboard      : " + UFont::plain
+   + uhbox(" Whiteboard      : "
+           + UFont::plain
            + ucheckbox("Wb" + sel_wb
                        + UOn::select / ucall(this, WB_TOOL, &Widgets::prefCB))
                        .setSelected()
@@ -1120,7 +1123,8 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, NTE_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox(" Web browser     : " + UFont::plain
+   + uhbox(" Web browser     : "
+           + UFont::plain
            + ucheckbox("Firefox" + sel_browser
                        + UOn::select / ucall(this, FIREFOX_TOOL, &Widgets::prefCB))
                        .setSelected()
@@ -1134,10 +1138,11 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, EDGE_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox(" Audio streaming : " + UFont::plain
+   + uhbox(" Audio streaming : "
+           + UFont::plain
            + ucheckbox("Vlc" + sel_video_streaming
-                       + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB)
-                      ).setSelected()
+                       + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB))
+                      .setSelected()
            + ucheckbox("Mpg123" + sel_audio_streaming
                        + UOn::select / ucall(this, MPG123_TOOL, &Widgets::prefCB))
            + ucheckbox("Freeamp" + sel_audio_streaming
@@ -1146,10 +1151,11 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, QUICKTIME_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox(" Video streaming : " + UFont::plain
+   + uhbox(" Video streaming : "
+           + UFont::plain
            + ucheckbox("Vlc" + sel_video_streaming
-                       + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB)
-                      ).setSelected()
+                       + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB))
+                      .setSelected()
            + ucheckbox("Mpegplay" + sel_video_streaming
                        + UOn::select / ucall(this, MPEGPLAY_TOOL, &Widgets::prefCB))
            + ucheckbox("Quicktime" + sel_video_streaming
@@ -1158,16 +1164,16 @@ UDialog& Widgets::settingsDialog()
    + uhbox(UBorder::shadowOut)
    + uhbox(" Modeler         : " + UFont::plain
            + ucheckbox("Vred" + sel_modeler
-                       + UOn::select / ucall(this, VRED_TOOL, &Widgets::prefCB)
-                      ).setSelected()
+                       + UOn::select / ucall(this, VRED_TOOL, &Widgets::prefCB))
+                      .setSelected()
            + ucheckbox("Vrem" + sel_modeler
                        + UOn::select / ucall(this, VREM_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
    + uhbox(" PsPdf           : " + UFont::plain
            + ucheckbox("Evince" + sel_pspdf
-                       + UOn::select / ucall(this, EVINCE_TOOL, &Widgets::prefCB)
-                      ).setSelected()
+                       + UOn::select / ucall(this, EVINCE_TOOL, &Widgets::prefCB))
+                      .setSelected()
            + ucheckbox("Gv" + sel_pspdf
                        + UOn::select / ucall(this, GV_TOOL, &Widgets::prefCB))
            + ucheckbox("Ghostscript" + sel_pspdf
@@ -1180,8 +1186,8 @@ UDialog& Widgets::settingsDialog()
    + uhbox(UBorder::shadowOut)
    + uhbox(" Office          : " + UFont::plain
            + ucheckbox("LibreOffice" + sel_office
-                       + UOn::select / ucall(this, LIBROFFICE_TOOL, &Widgets::prefCB)
-                      ).setSelected()
+                       + UOn::select / ucall(this, LIBROFFICE_TOOL, &Widgets::prefCB))
+                      .setSelected()
            + ucheckbox("MsOffice" + sel_office
                        + UOn::select / ucall(this, MSOFFICE_TOOL, &Widgets::prefCB))
            + ucheckbox("OpenOffice" + sel_office
@@ -1192,8 +1198,8 @@ UDialog& Widgets::settingsDialog()
    + uhbox(UBorder::shadowOut)
    + uhbox(" Session         : " + UFont::plain
            + ucheckbox("Ssh" + sel_session
-                       + UOn::select / ucall(this, SSH_TOOL, &Widgets::prefCB)
-                      ).setSelected()
+                       + UOn::select / ucall(this, SSH_TOOL, &Widgets::prefCB))
+                      .setSelected()
            + ucheckbox("Telnet" + sel_session
                        + UOn::select / ucall(this, TELNET_TOOL, &Widgets::prefCB)
                       )
@@ -1243,13 +1249,16 @@ VncDialog::VncDialog(Widgets* _gw, Vnc* _vnc) : vnc(_vnc)
   vnc_server = DEF_VNC_SERVER;
   vnc_port = "5900";
   setTitle("VNC Server");
-  setMessage(uvbox(uhflex() + uvflex()
+  setMessage(uvbox(  uhflex() + uvflex()
                    + uhbox(ulabel(14, UFont::bold + "Server name:") + utextfield(25, vnc_server))
                    + uhbox(ulabel(14, UFont::bold + "Port number:") + utextfield(vnc_port))
                    + uhbox(ulabel(14, UFont::bold + "Password:")    + utextfield(vnc_passwd))
                   )
             );
-  setButtons(ubutton("Connect" + ucloseWin() + ucall(vnc_dialog, &VncDialog::vncConvert))
+  setButtons(ubutton(  "Connect"
+                     + ucloseWin()
+                     + ucall(vnc_dialog, &VncDialog::vncConvert)
+                    )
              + " "
              + ubutton("Cancel" + ucloseWin())
             );
@@ -1516,13 +1525,15 @@ UDialog& Widgets::addobjDialog()
      + ulabel("Addobj")
      + UFont::medium
      + UFont::plain
-     + UColor::navy + UFont::bold
+     + UColor::navy
+     + UFont::bold
      + uhbox(UBorder::shadowOut)
      + UFont::bold
      + ulabel("Simple solids")
      + UFont::plain
      + uhbox(UBorder::shadowOut)
-     + uhbox("Object : " + UFont::plain
+     + uhbox("  Object : "
+              + UFont::plain
               + ucheckbox("Thing" + sel_objtype
                           + UOn::select / ucall((int)THING, setVal)).setSelected()
               + ucheckbox("Wall" + sel_objtype
@@ -1539,7 +1550,8 @@ UDialog& Widgets::addobjDialog()
               //            + UOn::select / ucall((int)GATE, setVal))
             )
      + uhbox(UBorder::shadowOut)
-     + uhbox("Shape :  " + UFont::plain
+     + uhbox("  Shape :  "
+             + UFont::plain
              + ucheckbox("Cube" + sel_shape
                          + UOn::select / ucall((int)BOX, setVal)).setSelected()
              + ucheckbox("Sphere" + sel_shape
@@ -1554,11 +1566,12 @@ UDialog& Widgets::addobjDialog()
                          + UOn::select / ucall((int)TORUS, setVal))
             )
      + uhbox(UBorder::shadowOut)
-     + uhbox("Color :  " + UFont::plain
-             + ucheckbox("White" + sel_color
-                         + UOn::select / ucall((int)WHITE, setVal)).setSelected()
-             + ucheckbox("Black" + sel_color
-                         + UOn::select / ucall((int)BLACK, setVal))
+     + uhbox("  Color :  "
+              + UFont::plain
+              + ucheckbox("White" + sel_color
+                          + UOn::select / ucall((int)WHITE, setVal)).setSelected()
+              + ucheckbox("Black" + sel_color
+                          + UOn::select / ucall((int)BLACK, setVal))
              + ucheckbox("Red" + sel_color
                          + UOn::select / ucall((int)RED, setVal))
              + ucheckbox("Green" + sel_color
@@ -1573,7 +1586,8 @@ UDialog& Widgets::addobjDialog()
                          + UOn::select / ucall((int)CYAN, setVal))
             )
     + uhbox(UBorder::shadowOut)
-    + uhbox("Texture : " + UFont::plain
+    + uhbox("  Texture : "
+             + UFont::plain
              + ucheckbox("None" + sel_tex
                          + UOn::select / ucall((int)WOOD, setVal))
              + ucheckbox("Wood" + sel_tex
@@ -1594,7 +1608,8 @@ UDialog& Widgets::addobjDialog()
                          + UOn::select / ucall((int)CLOUD, setVal))
             )
     + uhbox(UBorder::shadowOut)
-    + uhbox("Alpha :  " + UFont::plain
+    + uhbox("  Alpha :  "
+             + UFont::plain
              + ucheckbox("Opaque" + sel_alpha 
                          + UOn::select / ucall((int)OPAQUE, setVal)).setSelected()
              + ucheckbox(".8" + sel_alpha
@@ -1609,7 +1624,8 @@ UDialog& Widgets::addobjDialog()
                          + UOn::select / ucall((int)OPAQUE0, setVal))
             )
     + uhbox(UBorder::shadowOut)
-    + uhbox("Size :   " + UFont::plain
+    + uhbox("  Size :   "
+             + UFont::plain
              + ucheckbox("Tiny" + sel_size
                          + UOn::select / ucall((int)TINY, setVal))
              + ucheckbox("Small" + sel_size 
@@ -1626,16 +1642,17 @@ UDialog& Widgets::addobjDialog()
      + ulabel("Models")
      + UFont::plain
      + uhbox(UBorder::shadowOut)
-     + uhbox("Model :  " + UFont::plain
-             + ucheckbox("Car" + sel_model
+     + uhbox("  Model :  "
+              + UFont::plain
+              + ucheckbox("Car" + sel_model
                          + UOn::select / ucall((int)CAR, setVal))
-             + ucheckbox("Man" + sel_model
+              + ucheckbox("Man" + sel_model
                          + UOn::select / ucall((int)MAN, setVal))
-             + ucheckbox("Shrub" + sel_model
+              + ucheckbox("Shrub" + sel_model
                          + UOn::select / ucall((int)SHRUB, setVal))
-             + ucheckbox("Tree" + sel_model
+              + ucheckbox("Tree" + sel_model
                          + UOn::select / ucall((int)TREE, setVal))
-             + ucheckbox("Penguin" + sel_model
+              + ucheckbox("Penguin" + sel_model
                          + UOn::select / ucall((int)PENGUIN, setVal))
             )
      + uhbox(UBorder::shadowOut)
@@ -1643,24 +1660,29 @@ UDialog& Widgets::addobjDialog()
      + ulabel("Compound solids")
      + UFont::plain
      + uhbox(UBorder::shadowOut)
-     + uhbox("Solids :  " + UFont::plain
-             + ucheckbox("Chair wood" + sel_compound
+     + uhbox("  Solids :  "
+              + UFont::plain
+              + ucheckbox("Chair wood" + sel_compound
                          + UOn::select / ucall((int)CHAIR_WOOD, setVal))
-             + ucheckbox("Table wood" + sel_compound
+              + ucheckbox("Table wood" + sel_compound
                          + UOn::select / ucall((int)TABLE_WOOD, setVal))
-             + ucheckbox("Table metal" + sel_compound
+              + ucheckbox("Table metal" + sel_compound
                          + UOn::select / ucall((int)TABLE_METAL, setVal))
-             + ucheckbox("Table glass" + sel_compound
+              + ucheckbox("Table glass" + sel_compound
                          + UOn::select / ucall((int)TABLE_GLASS, setVal))
             )
     + uhbox(UBorder::shadowOut)
     + uhcenter()
     + uhbox(uhflex()
-            + ubutton(UFont::bold + uhcenter()
+            + ubutton(  UFont::bold + uhcenter()
                       + " Add " 
-                      + ucall(this, &Widgets::newObjectCB) + ucloseWin())
-            + ubutton(UFont::bold + uhcenter()
-                      + " Cancel " + ucloseWin())
+                      + ucall(this, &Widgets::newObjectCB)
+                      + ucloseWin()
+                     )
+            + ubutton(  UFont::bold + uhcenter()
+                      + " Cancel "
+                      + ucloseWin()
+                     )
            )
     );	// end addobj_box
 
