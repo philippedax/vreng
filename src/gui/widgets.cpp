@@ -1302,30 +1302,30 @@ static float alpha = 1;		// opaque
 static float siz = .5;		// medium
 
 static const char chair_wood[] = "\
-<solid dim=\".25 .25 .01\" dif=\".5 .3 .1\" tx=\"/gif/wood.gif\" />\n\
-<solid dim=\".02 .25 .25\" rel=\".12 0 .12 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".01 .01 .25\" rel=\"-.12 .12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".01 .01 .25\" rel=\".12 .12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".01 .01 .25\" rel=\"-.12 -.12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".01 .01 .25\" rel=\".12 -.12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
+<solid dim=\".25 .25 .01\" dif=\"marroun\" tx=\"/gif/wood.gif\" />\n\
+<solid dim=\".02 .25 .25\" rel=\".12 0 .12 0 0\" dif=\"marroun\" />\n\
+<solid dim=\".01 .01 .25\" rel=\"-.12 .12 -.12 0 0\" dif=\"marroun\" />\n\
+<solid dim=\".01 .01 .25\" rel=\".12 .12 -.12 0 0\" dif=\"marroun\" />\n\
+<solid dim=\".01 .01 .25\" rel=\"-.12 -.12 -.12 0 0\" dif=\"marroun\" />\n\
+<solid dim=\".01 .01 .25\" rel=\".12 -.12 -.12 0 0\" dif=\"marroun\" />\n\
 ";
 static const char table_wood[] = "\
-<solid dim=\".40 .80 .02\" dif=\".5 .3 .1\" tx=\"/gif/blondwood.gif\" />\n\
-<solid dim=\".02 .02 .40\" rel=\"-.18 .38 -.20 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".02 .02 .40\" rel=\".18 .38 -.20 0 0\"  dif=\".5 .3 .1\" />\n\
-<solid dim=\".02 .02 .40\" rel=\"-.18 -.38 -.20 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".02 .02 .40\" rel=\".18 -.38 -.20 0 0\" dif=\".5 .3 .1\" />\n\
+<solid dim=\".40 .80 .02\" dif=\"wheat\" tx=\"/gif/blondwood.gif\" />\n\
+<solid dim=\".02 .02 .40\" rel=\"-.18 .38 -.20 0 0\" dif=\"wheat\" />\n\
+<solid dim=\".02 .02 .40\" rel=\".18 .38 -.20 0 0\"  dif=\"wheat\" />\n\
+<solid dim=\".02 .02 .40\" rel=\"-.18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
+<solid dim=\".02 .02 .40\" rel=\".18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
 ";
 static const char table_metal[] = "\
-<solid dim=\".70 .3 .02\" dif=\".5 .5 .5\" />\n\
-<solid dim=\".02,.02 .35\" dif=\".5 .5 .5\" rel=\"-.34 -.14 -.17 0 0\" />\n\
-<solid dim=\".02 .02 .35\" dif=\".5 .5 .5\" rel=\"-.34 .14 -.17 0 0\" />\n\
-<solid dim=\".02 .02 .35\" dif=\".5 .5 .5\" rel=\".34 -.14 -.17 0 0\" />\n\
-<solid dim=\".02 .02 .35\" dif=\".5 .5 .5\" rel=\".34 .14 -.17 0 0\" />\n\
+<solid dim=\".70 .3 .02\" dif=\"grey40\" />\n\
+<solid dim=\".02,.02 .35\" dif=\"grey40\" rel=\"-.34 -.14 -.17 0 0\" />\n\
+<solid dim=\".02 .02 .35\" dif=\"grey40\" rel=\"-.34 .14 -.17 0 0\" />\n\
+<solid dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 -.14 -.17 0 0\" />\n\
+<solid dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 .14 -.17 0 0\" />\n\
 ";
 static const char table_glass[] = "\
-<solid dim=\".5,.3 .02\" dif=\"0 1 0\" spe=\"0 1 1\" a=\".3\" />\n\
-<solid shape=\"cone\" rb=\".1\" rt=\".1\" h=\".30\" dif=\"0 1 0\" spe=\"0 1 1\" a=\".5\" rel=\"0 0 -.30 0 0\" />\n\
+<solid dim=\".5,.3 .02\" dif=\"green\" spe=\"cyan\" a=\".3\" />\n\
+<solid shape=\"cone\" rb=\".1\" rt=\".1\" h=\".30\" dif=\"green\" spe=\"cyan\" a=\".5\" rel=\"0 0 -.30 0 0\" />\n\
 ";
 
 /** default values */
@@ -1520,17 +1520,15 @@ UDialog& Widgets::addobjDialog()
     &sel_compound = uradioSelect() ;
 
   UBox* addobj_box = new UBox
-    (UFont::bold
+    (  UFont::bold
      + UFont::x_large
      + ulabel("Addobj")
      + UFont::medium
      + UFont::plain
      + UColor::navy
-     + UFont::bold
      + uhbox(UBorder::shadowOut)
      + UFont::bold
      + ulabel("Simple solids")
-     + UFont::plain
      + uhbox(UBorder::shadowOut)
      + uhbox("  Object : "
               + UFont::plain
@@ -1546,8 +1544,6 @@ UDialog& Widgets::addobjDialog()
                           + UOn::select / ucall((int)STEP, setVal))
               + ucheckbox("Ground" + sel_objtype
                           + UOn::select / ucall((int)GROUND, setVal))
-              //+ ucheckbox("Gate" + sel_objtype
-              //            + UOn::select / ucall((int)GATE, setVal))
             )
      + uhbox(UBorder::shadowOut)
      + uhbox("  Shape :  "
@@ -1567,11 +1563,11 @@ UDialog& Widgets::addobjDialog()
             )
      + uhbox(UBorder::shadowOut)
      + uhbox("  Color :  "
-              + UFont::plain
-              + ucheckbox("White" + sel_color
-                          + UOn::select / ucall((int)WHITE, setVal)).setSelected()
-              + ucheckbox("Black" + sel_color
-                          + UOn::select / ucall((int)BLACK, setVal))
+             + UFont::plain
+             + ucheckbox("White" + sel_color
+                         + UOn::select / ucall((int)WHITE, setVal)).setSelected()
+             + ucheckbox("Black" + sel_color
+                         + UOn::select / ucall((int)BLACK, setVal))
              + ucheckbox("Red" + sel_color
                          + UOn::select / ucall((int)RED, setVal))
              + ucheckbox("Green" + sel_color
@@ -1589,7 +1585,7 @@ UDialog& Widgets::addobjDialog()
     + uhbox("  Texture : "
              + UFont::plain
              + ucheckbox("None" + sel_tex
-                         + UOn::select / ucall((int)WOOD, setVal))
+                         + UOn::select / ucall((int)WOOD, setVal)).setSelected()
              + ucheckbox("Wood" + sel_tex
                          + UOn::select / ucall((int)WOOD, setVal))
              + ucheckbox("Marble" + sel_tex
@@ -1630,7 +1626,7 @@ UDialog& Widgets::addobjDialog()
                          + UOn::select / ucall((int)TINY, setVal))
              + ucheckbox("Small" + sel_size 
                          + UOn::select / ucall((int)SMALL, setVal)).setSelected()
-             + ucheckbox("Normal" + sel_size
+             + ucheckbox("Medium" + sel_size
                          + UOn::select / ucall((int)MEDIUM, setVal))
              + ucheckbox("Big" + sel_size
                          + UOn::select / ucall((int)BIG, setVal))
@@ -1713,16 +1709,16 @@ UMenu& Widgets::fileMenu()
   // Put & Publish Url
   UBox& puturl_box =
   uvbox(uvspacing(5)
-        + uhbox(ulabel(20, UFont::bold + "Url" + UFont::plain + " (required)")
+        + uhbox(  ulabel(20, UFont::bold + "Url" + UFont::plain + " (required)")
                 + uhflex()
                 + utextfield(65, putinfo.url)
                )
-        + uhbox(ulabel(20, UFont::bold + "Alias" + UFont::plain + " (short name)")
+        + uhbox(  ulabel(20, UFont::bold + "Alias" + UFont::plain + " (short name)")
                 + uhflex()
                 + utextfield(65,
                 putinfo.name)
                )
-        + uhbox(ulabel(20, UFont::bold + "Icon" + UFont::plain + " (optional)")
+        + uhbox(  ulabel(20, UFont::bold + "Icon" + UFont::plain + " (optional)")
                 + uhflex()
                 + utextfield(65, putinfo.icon)
                )
@@ -1738,15 +1734,15 @@ UMenu& Widgets::fileMenu()
   // Put & Publish File
   UBox& putfile_box =
   uvbox(uvspacing(5)
-        + uhbox(ulabel(25, UFont::bold + "Input File" + UFont::plain + " (required)")
+        + uhbox(  ulabel(25, UFont::bold + "Input File" + UFont::plain + " (required)")
                 + uhflex()
                 + utextfield(65, putinfo.file)
                )
-        + uhbox(ulabel(25, UFont::bold +"Output File" + UFont::plain + " (public location)")
+        + uhbox(  ulabel(25, UFont::bold +"Output File" + UFont::plain + " (public location)")
                 + uhflex()
                 + utextfield(65, putinfo.ofile)
                )
-        + uhbox(ulabel(25, UFont::bold + "Alias" + UFont::plain + " (short name)")
+        + uhbox(  ulabel(25, UFont::bold + "Alias" + UFont::plain + " (short name)")
                 + uhflex()
                 + utextfield(65, putinfo.name)
                )
@@ -1767,7 +1763,7 @@ UMenu& Widgets::fileMenu()
                + ubutton(g.theme.Doc    + " Put & Publish Url..."  + puturl_dialog)
                + ubutton(g.theme.Book   + " Put & Publish File..." + putfile_dialog)
                + usepar()
-               + ubutton(g.theme.Exit   + " Quit" + ucall(0/*status*/, Vreng::quit))
+               + ubutton(g.theme.Exit   + " Quit" + ucall(0, Vreng::quit))
               );
 }
 
