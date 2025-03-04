@@ -254,27 +254,31 @@ UBox * Grid::gridBox()
   genValues();	// if commented : ubit crashes UArgs::operator+()
   
   UBox& grid_left =
-  uvbox(usize(120, 400)
-        + uvbox(UBorder::etchedIn
+  uvbox(  UBackground::white
+        + usize(120, 400)
+        + uvbox(  UBorder::etchedIn
                 + uhbox(UColor::navy + UFont::bold + "View")
                 + ucheckbox("2D Grid" + ucall(this, &Grid::toggleGrid2d))
                 + ucheckbox("3D Grid" + ucall(this, &Grid::toggleGrid3d))
                 + ucheckbox("Overlap" + ucall(this, &Grid::toggleOverlap))
                )
-        + uvbox(UBorder::etchedIn
-                + uhbox(UColor::navy + UFont::bold + "Behavior")
-                + ucheckbox(behavior
+        + uvbox(  UBorder::etchedIn
+                + uhbox(  UColor::navy
+                        + UFont::bold
+                        + "Behavior"
+                       )
+                + ucheckbox(  behavior
                             + "Stick to the world"
                             + UOn::select / ucall(this, (int) STICK, &Grid::toggleBehavior)
                            ).setSelected()
-                + ucheckbox(behavior
+                + ucheckbox(  behavior
                             + "Follow"
                             + UOn::select / ucall(this, (int) FOLLOW, &Grid::toggleBehavior))
-                + ucheckbox(behavior
+                + ucheckbox(  behavior
                             + "Strict follow"
                             + UOn::select / ucall(this, (int) SFOLLOW, &Grid::toggleBehavior))
                )
-        + uvbox(UBorder::etchedIn
+        + uvbox(  UBorder::etchedIn
                 + ubutton(UColor::navy + UFont::bold
                 + "Reset"
                 + ucall(this, &Grid::defaults))
@@ -282,25 +286,25 @@ UBox * Grid::gridBox()
        );
   UBox& grid_right = 
   uvbox(usize(180, 400)
-        + uvbox(UBorder::etchedIn
+        + uvbox(  UBorder::etchedIn
                 + uhbox(UColor::navy + UFont::bold + "Slice ")
                 + uhbox("Width:  " + uhflex() + s_width)
                 + uhbox("Height: " + uhflex() + s_height)
                 + uhbox("Depth:  " + uhflex() + s_depth)
                )
-        + uvbox(UBorder::etchedIn
+        + uvbox(  UBorder::etchedIn
                 + uhbox(UColor::navy + UFont::bold + "Orientation")
                 + uhbox("Rot X: " + uhflex() + s_rotx)
                 + uhbox("Rot Y: " + uhflex() + s_roty)
                 + uhbox("Rot Z: " + uhflex() + s_rotz)
                )
-        + uvbox(UBorder::etchedIn
+        + uvbox(  UBorder::etchedIn
                 + uhbox(UColor::navy + UFont::bold + "Position")
                 + uhbox("Pos X: " + uhflex() + s_x)
                 + uhbox("Pos Y: " + uhflex() + s_y)
                 + uhbox("Pos Z: " + uhflex() + s_z)
                )
-        + uvbox(UBorder::etchedIn
+        + uvbox(  UBorder::etchedIn
                 + uhbox(UColor::navy + UFont::bold + "Color ")
                 + uhbox("R: " + uhflex() + *s_red)
                 + uhbox("G: " + uhflex() + *s_green)
@@ -309,7 +313,7 @@ UBox * Grid::gridBox()
                )
        );
   
-  return &ubox(ulabel(UColor::navy + UFont::bold + uhcenter() + "Grid settings")
+  return &ubox(  ulabel(UColor::navy + UFont::bold + uhcenter() + "Grid settings")
                + UBackground::white
                + uhbox(upadding(8,8) + grid_left + " " + uhflex() + grid_right)
                + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
