@@ -285,7 +285,8 @@ UBox * Grid::gridBox()
                )
        );
   UBox& grid_right = 
-  uvbox(usize(180, 400)
+  uvbox(  UBackground::white
+        + usize(180, 400)
         + uvbox(  UBorder::etchedIn
                 + uhbox(UColor::navy + UFont::bold + "Slice ")
                 + uhbox("Width:  " + uhflex() + s_width)
@@ -313,10 +314,26 @@ UBox * Grid::gridBox()
                )
        );
   
-  return &ubox(  ulabel(UColor::navy + UFont::bold + uhcenter() + "Grid settings")
+  return &ubox(  ulabel(  UBackground::white
+                        + UColor::navy
+                        + UFont::bold
+                        + UFont::medium
+                        + uhcenter()
+                        + "Grid settings"
+                       )
                + UBackground::white
-               + uhbox(upadding(8,8) + grid_left + " " + uhflex() + grid_right)
-               + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
+               + uhbox(  upadding(8,8)
+                       + grid_left
+                       + " "
+                       + uhflex()
+                       + grid_right
+                      )
+               + ubutton(  UBackground::white
+                         + UFont::bold
+                         + uhcenter()
+                         + " Close "
+                         + ucloseWin()
+                        )
               );
 }
 
