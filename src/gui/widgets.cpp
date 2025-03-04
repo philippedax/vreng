@@ -1520,16 +1520,20 @@ UDialog& Widgets::addobjDialog()
     &sel_compound = uradioSelect() ;
 
   UBox* addobj_box = new UBox
-    (  UFont::bold
+    (  UBackground::white
+     + UFont::bold
      + UFont::x_large
+     //+ uhcenter()
      + ulabel("Addobj")
      + UFont::medium
      + UFont::plain
      + UColor::navy
      + uhbox(UBorder::shadowOut)
+     + uhbox(UBorder::shadowOut)
+     + uleft()
      + UFont::bold
      + ulabel("Simple solids")
-     + uhbox(UBorder::shadowOut)
+     //+ uhbox(UBorder::shadowOut)
      + uhbox("  Object : "
               + UFont::plain
               + ucheckbox("Thing" + sel_objtype
@@ -1545,7 +1549,7 @@ UDialog& Widgets::addobjDialog()
               + ucheckbox("Ground" + sel_objtype
                           + UOn::select / ucall((int)GROUND, setVal))
             )
-     + uhbox(UBorder::shadowOut)
+     //+ uhbox(UBorder::shadowOut)
      + uhbox("  Shape :  "
              + UFont::plain
              + ucheckbox("Cube" + sel_shape
@@ -1561,7 +1565,7 @@ UDialog& Widgets::addobjDialog()
              + ucheckbox("Torus" + sel_shape
                          + UOn::select / ucall((int)TORUS, setVal))
             )
-     + uhbox(UBorder::shadowOut)
+     //+ uhbox(UBorder::shadowOut)
      + uhbox("  Color :  "
              + UFont::plain
              + ucheckbox("White" + sel_color
@@ -1581,7 +1585,7 @@ UDialog& Widgets::addobjDialog()
              + ucheckbox("Cyan" + sel_color
                          + UOn::select / ucall((int)CYAN, setVal))
             )
-    + uhbox(UBorder::shadowOut)
+    //+ uhbox(UBorder::shadowOut)
     + uhbox("  Texture : "
              + UFont::plain
              + ucheckbox("None" + sel_tex
@@ -1603,7 +1607,7 @@ UDialog& Widgets::addobjDialog()
              + ucheckbox("Cloud" + sel_tex
                          + UOn::select / ucall((int)CLOUD, setVal))
             )
-    + uhbox(UBorder::shadowOut)
+    //+ uhbox(UBorder::shadowOut)
     + uhbox("  Alpha :  "
              + UFont::plain
              + ucheckbox("Opaque" + sel_alpha 
@@ -1619,7 +1623,7 @@ UDialog& Widgets::addobjDialog()
              + ucheckbox("Invisible" + sel_alpha
                          + UOn::select / ucall((int)OPAQUE0, setVal))
             )
-    + uhbox(UBorder::shadowOut)
+    //+ uhbox(UBorder::shadowOut)
     + uhbox("  Size :   "
              + UFont::plain
              + ucheckbox("Tiny" + sel_size
@@ -1637,7 +1641,8 @@ UDialog& Widgets::addobjDialog()
      + UFont::bold
      + ulabel("Models")
      + UFont::plain
-     + uhbox(UBorder::shadowOut)
+     //+ uhbox(UBorder::shadowOut)
+     + UFont::bold
      + uhbox("  Model :  "
               + UFont::plain
               + ucheckbox("Car" + sel_model
@@ -1655,7 +1660,8 @@ UDialog& Widgets::addobjDialog()
      + UFont::bold
      + ulabel("Compound solids")
      + UFont::plain
-     + uhbox(UBorder::shadowOut)
+     //+ uhbox(UBorder::shadowOut)
+     + UFont::bold
      + uhbox("  Solids :  "
               + UFont::plain
               + ucheckbox("Chair wood" + sel_compound
@@ -1667,6 +1673,7 @@ UDialog& Widgets::addobjDialog()
               + ucheckbox("Table glass" + sel_compound
                          + UOn::select / ucall((int)TABLE_GLASS, setVal))
             )
+    + uhbox(UBorder::shadowOut)
     + uhbox(UBorder::shadowOut)
     + uhcenter()
     + uhbox(uhflex()
