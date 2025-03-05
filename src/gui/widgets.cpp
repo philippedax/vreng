@@ -192,7 +192,7 @@ void Widgets::setInfobar(UBox* content)
 /**
  * Creates Menubar on top of the window
  *
- * [File] [View] [Teleport] [Setting] [Mark] [About]
+ * [File] [View] [Teleport] [Setting] [Landmark] [About]
  */
 UBox& Widgets::createMenubar()
 {
@@ -249,7 +249,7 @@ UBox& Widgets::createMenubar()
                                 //+ ubutton("Goto"   + ucall(this, &Widgets::gotoDialog))
                                 + ubutton("Teleport" + teleport_menu)
                                 + ubutton("Setting"  + setting_menu)
-                                + ubutton("Mark"     + mark_menu)
+                                + ubutton("Landmark" + mark_menu)
                                 + ubutton("About"    + about_menu)
                                );
   return menu_bar;
@@ -295,7 +295,8 @@ UMenu& Widgets::markMenu()
 {
   UBox& mark_box = uvbox();
   mark_box.add(ubutton(  UBackground::none
-                       + "Add Worldmark"
+                       + UFont::bold
+                       + "Add Landmark"
                        + ucall(this, &Widgets::markCB)
                       )
               );
@@ -990,6 +991,7 @@ void Widgets::objectsDialog()
 
   UBox& objects_box = uvbox(UBackground::white);
   for (std::vector<Object*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+    if (! (*it)->isValid()) continue;
     sprintf(line, "%s:%s", (*it)->typeName(), (*it)->objectName());
     objects_box.add(uitem(UColor::navy + line));
   }
@@ -1523,17 +1525,16 @@ UDialog& Widgets::addobjDialog()
     (  UBackground::white
      + UFont::bold
      + UFont::x_large
-     //+ uhcenter()
-     + ulabel("Addobj")
+     + uhcenter()
+     + ulabel("Add object")
+     + uleft()
      + UFont::medium
      + UFont::plain
      + UColor::navy
      + uhbox(UBorder::shadowOut)
      + uhbox(UBorder::shadowOut)
-     + uleft()
      + UFont::bold
      + ulabel("Simple solids")
-     //+ uhbox(UBorder::shadowOut)
      + uhbox("  Object : "
               + UFont::plain
               + ucheckbox("Thing" + sel_objtype
@@ -1549,7 +1550,6 @@ UDialog& Widgets::addobjDialog()
               + ucheckbox("Ground" + sel_objtype
                           + UOn::select / ucall((int)GROUND, setVal))
             )
-     //+ uhbox(UBorder::shadowOut)
      + uhbox("  Shape :  "
              + UFont::plain
              + ucheckbox("Cube" + sel_shape
@@ -1565,7 +1565,6 @@ UDialog& Widgets::addobjDialog()
              + ucheckbox("Torus" + sel_shape
                          + UOn::select / ucall((int)TORUS, setVal))
             )
-     //+ uhbox(UBorder::shadowOut)
      + uhbox("  Color :  "
              + UFont::plain
              + ucheckbox("White" + sel_color
@@ -1585,7 +1584,6 @@ UDialog& Widgets::addobjDialog()
              + ucheckbox("Cyan" + sel_color
                          + UOn::select / ucall((int)CYAN, setVal))
             )
-    //+ uhbox(UBorder::shadowOut)
     + uhbox("  Texture : "
              + UFont::plain
              + ucheckbox("None" + sel_tex
@@ -1607,7 +1605,6 @@ UDialog& Widgets::addobjDialog()
              + ucheckbox("Cloud" + sel_tex
                          + UOn::select / ucall((int)CLOUD, setVal))
             )
-    //+ uhbox(UBorder::shadowOut)
     + uhbox("  Alpha :  "
              + UFont::plain
              + ucheckbox("Opaque" + sel_alpha 
@@ -1623,7 +1620,6 @@ UDialog& Widgets::addobjDialog()
              + ucheckbox("Invisible" + sel_alpha
                          + UOn::select / ucall((int)OPAQUE0, setVal))
             )
-    //+ uhbox(UBorder::shadowOut)
     + uhbox("  Size :   "
              + UFont::plain
              + ucheckbox("Tiny" + sel_size
@@ -1637,11 +1633,10 @@ UDialog& Widgets::addobjDialog()
              + ucheckbox("Huge" + sel_size
                          + UOn::select / ucall((int)BIGEST, setVal))
             )
-     + uhbox(UBorder::shadowOut)
+     + uhbox(UBorder::shadowIn)
      + UFont::bold
      + ulabel("Models")
      + UFont::plain
-     //+ uhbox(UBorder::shadowOut)
      + UFont::bold
      + uhbox("  Model :  "
               + UFont::plain
@@ -1656,11 +1651,10 @@ UDialog& Widgets::addobjDialog()
               + ucheckbox("Penguin" + sel_model
                          + UOn::select / ucall((int)PENGUIN, setVal))
             )
-     + uhbox(UBorder::shadowOut)
+     + uhbox(UBorder::shadowIn)
      + UFont::bold
      + ulabel("Compound solids")
      + UFont::plain
-     //+ uhbox(UBorder::shadowOut)
      + UFont::bold
      + uhbox("  Solids :  "
               + UFont::plain
@@ -1673,8 +1667,8 @@ UDialog& Widgets::addobjDialog()
               + ucheckbox("Table glass" + sel_compound
                          + UOn::select / ucall((int)TABLE_GLASS, setVal))
             )
-    + uhbox(UBorder::shadowOut)
-    + uhbox(UBorder::shadowOut)
+    + uhbox(UBorder::shadowIn)
+    + uhbox(UBorder::shadowIn)
     + uhcenter()
     + uhbox(uhflex()
             + ubutton(  UFont::bold + uhcenter()
