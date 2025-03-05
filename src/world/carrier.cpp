@@ -107,7 +107,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
   Object *poldobj = new Object();
   object->copyPositionAndBB(poldobj);	// copy oldpos, oldangle
 
-  echo("carrier: k=%d", vkey);
+  //echo("carrier: k=%d", vkey);
   switch (vkey) {
     case KEY_FW: object->pos.x += last*lspeed; break; // ^
     case KEY_BW: object->pos.x -= last*lspeed; break; // v
@@ -122,7 +122,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     case KEY_MU: object->pos.ay += last*aspeed; break; // ^,
     case KEY_MD: object->pos.ay -= last*aspeed; break; // ,^
   }
-  echo("move pos: %.1f %.1f %.1f", object->pos.x, object->pos.y, object->pos.z);
+  //echo("move pos: %.1f %.1f %.1f", object->pos.x, object->pos.y, object->pos.z);
 
   object->updatePositionAndGrid(object->pos);
   object->updatePosition();
