@@ -192,7 +192,7 @@ void Widgets::setInfobar(UBox* content)
 /**
  * Creates Menubar on top of the window
  *
- * [File] [View] [Teleport] [Tool] [Mark] [About]
+ * [File] [View] [Teleport] [Setting] [Mark] [About]
  */
 UBox& Widgets::createMenubar()
 {
@@ -218,7 +218,7 @@ UBox& Widgets::createMenubar()
         + ubutton("Visited Worlds >" + umenu(g.theme.menuStyle + worlds))
        );
 
-  UMenu& tool_menu =
+  UMenu& setting_menu =
   umenu(  g.theme.menuStyle
         + ubutton(g.theme.Prefs  + " Settings "    + settings_dialog)
         + ubutton(g.theme.Grid2D + " Grid "        + grid_dialog)
@@ -248,7 +248,7 @@ UBox& Widgets::createMenubar()
                                 + ubutton("View"     + view_menu)
                                 //+ ubutton("Goto"   + ucall(this, &Widgets::gotoDialog))
                                 + ubutton("Teleport" + teleport_menu)
-                                + ubutton("Tool"     + tool_menu)
+                                + ubutton("Setting"  + setting_menu)
                                 + ubutton("Mark"     + mark_menu)
                                 + ubutton("About"    + about_menu)
                                );
