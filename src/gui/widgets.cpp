@@ -988,13 +988,13 @@ void Widgets::objectsDialog()
 {
   char line[64];
 
-  UBox& objects_box = uvbox(UBackground::none);
+  UBox& objects_box = uvbox(UBackground::white);
   for (std::vector<Object*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     sprintf(line, "%s:%s", (*it)->typeName(), (*it)->objectName());
-    objects_box.add(uitem(UColor::black + line));
+    objects_box.add(uitem(UColor::navy + line));
   }
   objects_dialog.setMessage(uscrollpane(  usize(150, 350)
-                                        + UBackground::none
+                                        + UBackground::white
                                         + objects_box
                                        )
                            );
@@ -1008,13 +1008,13 @@ void Widgets::statsDialog()
   char line[64];
 
   writeStats(::g.env.stats());
-  UBox& stats_box = uvbox(UBackground::none);
+  UBox& stats_box = uvbox(UBackground::white);
   fin = openStats(::g.env.stats());
   while (getStats(fin, line)) {
     stats_box.add(uitem(UColor::black + line));
   }
   stats_dialog.setMessage(uscrollpane(  usize(250, 350)
-                                      + UBackground::none
+                                      + UBackground::white
                                       + stats_box
                                      )
                          );
