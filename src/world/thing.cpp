@@ -26,11 +26,12 @@
 #include "thing.hpp"
 #include "world.hpp"	// current
 #include "user.hpp"	// localuser
-#include "move.hpp"	// GRAVITY
+#include "move.hpp"	// GRAVITY, moveObject
 #include "sql.hpp"	// deleteRow
 #include "cart.hpp"	// Cart
 #include "ball.hpp"	// BALL_TYPE
 #include "pref.hpp"	// g.pref.user
+#include "carrier.hpp"	// leave
 
 
 const OClass Thing::oclass(THING_TYPE, "Thing", Thing::creator);
@@ -50,6 +51,7 @@ void Thing::defaults()
 {
   lspeed = LSPEED;
   state = NONE;
+  carrier = NULL;
 }
 
 void Thing::parser(char *l)
@@ -207,6 +209,25 @@ void Thing::recreate(World *w, void *d, time_t s, time_t u)
   new Thing(w, d, s, u);
 }
 
+void Thing::moveobject(Thing *thing, void *d, time_t s, time_t u)
+{
+  if (carrier == NULL) {
+    carrier = new Carrier();
+    carrier->take(thing);
+    moveObject(thing, d, s, u);
+  }
+  else {
+    carrier->leave();
+    delete carrier;
+    carrier = NULL;
+  }
+}
+
+void Thing::move_cb(Thing *thing, void *d, time_t s, time_t u)
+{
+  thing->moveobject(thing, d, s, u);
+}
+
 void Thing::destroy(Thing *thing, void *d, time_t s, time_t u)
 {
   if (thing->isBehavior(DYNAMIC))
@@ -236,7 +257,7 @@ void Thing::funcs()
   putPropFunc(THING_TYPE, PROPAY, _Payload put_ay);
   putPropFunc(THING_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(THING_TYPE, MOVE, _Action moveObject, "Move");
+  setActionFunc(THING_TYPE, MOVE, _Action move_cb, "Move");
   setActionFunc(THING_TYPE, BASKET, _Action dropIntoBasket, "Basket");
   setActionFunc(THING_TYPE, APPROACH, _Action gotoFront, "Approach");
   setActionFunc(THING_TYPE, DESTROY, _Action destroy, "Destroy");

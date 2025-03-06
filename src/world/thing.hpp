@@ -35,8 +35,9 @@
 class Thing: public Object {
  private:
   static const float LSPEED;
-  float lspeed;		///< linear speed
-  float aspeed;		///< angular speed
+  float lspeed;			///< linear speed
+  float aspeed;			///< angular speed
+  class Carrier *carrier;	///< carrier instance
 
  public:
   /* properties */
@@ -105,8 +106,11 @@ class Thing: public Object {
   void behaviors();
   /**< Sets behaviors flags */
 
+  void moveobject(Thing *o, void *d, time_t s, time_t u);
+
   // Funcs callbacks
   static void dropIntoBasket(Thing *o, void *d, time_t s, time_t u);
+  static void move_cb(Thing *o, void *d, time_t s, time_t u);
   static void destroy(Thing *o, void *d, time_t s, time_t u);
   static void recreate(class World *w, void *d, time_t s, time_t u);
 };

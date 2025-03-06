@@ -63,23 +63,23 @@ void Carrier::take(Object *o)
     return;
   }
 
-  //dax ::g.gui.showManipulator();
-  //dax ::g.gui.expandNavig();	// shows Manipulator palette
+  //::g.gui.showManipulator();
+  //::g.gui.expandNavig();	// shows Manipulator palette
   echo("take control of %s", o->objectName());
 
-  object = o;
-  object->move.manip = true;
-  object->move.lspeed.v[0] = lspeed;
-  object->move.aspeed.v[1] = aspeed;
-  object->imposedMovement(1);
+  object = o;			// memorize object
+  o->move.manip = true;
+  o->move.lspeed.v[0] = lspeed;
+  o->move.aspeed.v[1] = aspeed;
+  o->imposedMovement(1);
   control = true;
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
 void Carrier::leave()
 {
-  //dax ::g.gui.collapseNavig();	// hints Manipulator palette
-  //dax ::g.gui.showNavigator();
+  //::g.gui.collapseNavig();	// hints Manipulator palette
+  //::g.gui.showNavigator();
   echo("leave control, enter in navigation mode");
 
   if (! object)  return;
@@ -87,6 +87,8 @@ void Carrier::leave()
   object->pos.alter = true;	// mark it has changed
   object->move.manip = false;
   defaults();			// reset the carrier
+  control = false;
+  ::g.gui.setToCarrier(NULL);
 }
 
 /** Mouse event
@@ -94,7 +96,7 @@ void Carrier::leave()
  */
 void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 {
-  if (button == 1) {
+  if (button) {
     leave();			// left clic => leave mouse control
   }
 }
@@ -104,8 +106,8 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
  */
 void Carrier::mouseEvent(int8_t vkey, float last)
 {
-  Object *poldobj = new Object();
-  object->copyPositionAndBB(poldobj);	// copy oldpos, oldangle
+  Object *oldobj = new Object();
+  object->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
 
   echo("carrier: c=%d", control);
   switch (vkey) {
@@ -122,31 +124,30 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     case KEY_MU: object->pos.ay += last*aspeed; break; // ^,
     case KEY_MD: object->pos.ay -= last*aspeed; break; // ,^
   }
-  //echo("move pos: %.1f %.1f %.1f", object->pos.x, object->pos.y, object->pos.z);
 
   object->updatePositionAndGrid(object->pos);
   object->updatePosition();
 
-  OList *vicilist = object->getVicinity(poldobj);
-  object->generalIntersect(poldobj, vicilist);
+  OList *vicilist = object->getVicinity(oldobj);
+  object->generalIntersect(oldobj, vicilist);
   if (*name.type) {	//FIXME: segfault
     vicilist->removeObject();
   }
-  object->updGrid(poldobj);
+  object->updGrid(oldobj);
   if (object->isBehavior(COLLIDE_NEVER)) {
-    delete poldobj;
+    delete oldobj;
     return;
   }
 }
 
 void Carrier::setLspeed(Carrier *pc, void *d, time_t s, time_t u)
 {
-  pc->lspeed = *(static_cast<float *>(d));
+  pc->lspeed = *(static_cast<float *> (d));
 }
 
 void Carrier::setAspeed(Carrier *pc, void *d, time_t s, time_t u)
 {
-  pc->aspeed = *(static_cast<float *>(d));
+  pc->aspeed = *(static_cast<float *> (d));
 }
 
 void Carrier::funcs()

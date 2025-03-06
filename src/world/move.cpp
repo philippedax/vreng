@@ -162,10 +162,9 @@ bool Object::lasting(time_t sec, time_t usec, float *dt)
 /** Modifies user position in one direction */
 void User::moveDirection(uint8_t move_key, float last)
 {
-  if (carrier && carrier->underControl()) {  // Manipulator
-    echo("onedir: k=%d", move_key);
+  if (carrier && carrier->underControl()) {  // carrier active
+    //echo("onedir: k=%d", move_key);
     carrier->mouseEvent(move_key, last);
-    //dax carrier->keyEvent(move_key, last); //arrow keys
     return;
   }
 
@@ -565,8 +564,9 @@ void Object::permanentMovements(time_t sec, time_t usec)
 void Object::moveObject(Object *o, void *d, time_t s, time_t u)
 {
   if (! o->carrier) {
-    o->carrier = new Carrier();
-    o->carrier->take(o);
+    //o->carrier = new Carrier();
+    //echo("moveObj");
+    //o->carrier->take(o);
     o->move.manip = true;
   }
   o->enableBehavior(NO_ELEMENTARY_MOVE); 	// carrier
