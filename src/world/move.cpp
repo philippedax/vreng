@@ -562,16 +562,16 @@ void Object::permanentMovements(time_t sec, time_t usec)
 }
 
 /** Moves an object */
-void Object::moveObject(Object *po, void *d, time_t s, time_t u)
+void Object::moveObject(Object *o, void *d, time_t s, time_t u)
 {
-  if (! po->carrier) {
-    po->carrier = new Carrier();
-    po->carrier->take(po);
-    po->move.manip = true;
+  if (! o->carrier) {
+    o->carrier = new Carrier();
+    o->carrier->take(o);
+    o->move.manip = true;
   }
-  po->enableBehavior(NO_ELEMENTARY_MOVE); 	// carrier
-  po->imposedMovement(5); 			// carrier
-  localuser->carrier->take(po);
+  o->enableBehavior(NO_ELEMENTARY_MOVE); 	// carrier
+  o->imposedMovement(5); 			// carrier
+  localuser->carrier->take(o);
 }
 
 /** Moves the user towards the object */

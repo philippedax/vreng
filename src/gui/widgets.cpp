@@ -719,6 +719,7 @@ static long convertKey(const int keysym, int keychar, int& vrkey)
       case 'l': vrkey = KEY_TL;				return 1<<9;	// tilt left
       case 'r': vrkey = KEY_TR;				return 1<<10;	// tilt right
       case 'u': vrkey = KEY_UP;				return 1<<11;	// up translation
+      case 'd': vrkey = KEY_DO;				return 1<<12;	// down translation
       case ' ': vrkey = KEY_SP;				return 1<<13;	// accelerator
       case '=': Widgets::action(User::U_FOVYDEF);	return 0;	// original fovy
       case '-': Widgets::action(User::U_FOVYLESS);	return 0;	// decrease fovy
@@ -727,8 +728,8 @@ static long convertKey(const int keysym, int keychar, int& vrkey)
       case 's': Widgets::action(User::U_LSPEEDLESS);	return 0;	// decrease lspeed
       case 'f': Widgets::action(User::U_LSPEEDMORE);	return 0;	// increase lspeed
       case ',': Widgets::action(User::U_ASPEEDDEF);	return 0;	// original aspeed
-      case 'b': Widgets::action(User::U_BULLET);	return 0;	// launche bullet
-      case 'd': Widgets::action(User::U_DART);		return 0;	// launche dart
+      case 'B': Widgets::action(User::U_BULLET);	return 0;	// launche bullet
+      case 'D': Widgets::action(User::U_DART);		return 0;	// launche dart
       case 'v': Widgets::action(User::U_SWITCHVIEW);	return 0;	// switch view
       case 'x': Widgets::action(User::U_TPVIEWROTL);	return 0;	// rot left
       case 'c': Widgets::action(User::U_TPVIEWROTR);	return 0;	// rot right
@@ -736,8 +737,8 @@ static long convertKey(const int keysym, int keychar, int& vrkey)
       case 'w': Widgets::action(User::U_TPVIEWROTD);	return 0;	// rot down
       case 'p': Widgets::action(User::U_TPVIEWROTN);	return 0;	// rot near
       case 'm': Widgets::action(User::U_TPVIEWROTF);	return 0;	// rot far
-      case 'D': Widgets::action(User::U_PITCHMORE);	return 0;	// increase pitch
-      case 'U': Widgets::action(User::U_PITCHLESS);	return 0;	// decrease pitch
+      case 'P': Widgets::action(User::U_PITCHMORE);	return 0;	// increase pitch
+      case 'Q': Widgets::action(User::U_PITCHLESS);	return 0;	// decrease pitch
       case 'R': Widgets::action(User::U_ROLLMORE);	return 0;	// increase roll
       case 'L': Widgets::action(User::U_ROLLLESS);	return 0;	// decrease roll
       case '^': Widgets::action(User::U_FLYAWAY);	return 0;	// flyaway

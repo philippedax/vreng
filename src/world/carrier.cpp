@@ -63,8 +63,8 @@ void Carrier::take(Object *o)
     return;
   }
 
-  ::g.gui.showManipulator();
-  ::g.gui.expandNavig();	// shows Manipulator palette
+  //dax ::g.gui.showManipulator();
+  //dax ::g.gui.expandNavig();	// shows Manipulator palette
   echo("take control of %s", o->objectName());
 
   object = o;
@@ -78,8 +78,8 @@ void Carrier::take(Object *o)
 /** Leaves control of the mouse to enter in navigation mode */
 void Carrier::leave()
 {
-  ::g.gui.collapseNavig();	// hints Manipulator palette
-  ::g.gui.showNavigator();
+  //dax ::g.gui.collapseNavig();	// hints Manipulator palette
+  //dax ::g.gui.showNavigator();
   echo("leave control, enter in navigation mode");
 
   if (! object)  return;
@@ -107,7 +107,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
   Object *poldobj = new Object();
   object->copyPositionAndBB(poldobj);	// copy oldpos, oldangle
 
-  //echo("carrier: k=%d", vkey);
+  echo("carrier: c=%d", control);
   switch (vkey) {
     case KEY_FW: object->pos.x += last*lspeed; break; // ^
     case KEY_BW: object->pos.x -= last*lspeed; break; // v
