@@ -80,7 +80,7 @@ void Motion::move(int mspeed)
       new_speed = accel * mspeed;
     }
     else {
-      if (carrier && carrier->underControl()) {
+      if (carrier) {
         new_speed = Carrier::LSPEED;
       }
       else {

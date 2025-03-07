@@ -79,7 +79,7 @@ class Carrier: public Object {
    * The position/orientation of the object will be changed by imposed
    * and the object will be updated in the 3D */
 
-  void leave();
+  void leave(Object *o);
   /**< called when we release an object
    * Releases the carried object, put it into the mobile-list
    * and desactivates the carrier */

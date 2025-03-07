@@ -217,7 +217,7 @@ void Thing::moveobject(Thing *thing, void *d, time_t s, time_t u)
     moveObject(thing, d, s, u);
   }
   else {
-    carrier->leave();
+    carrier->leave(thing);
     delete carrier;
     carrier = NULL;
   }

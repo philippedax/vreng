@@ -72,22 +72,27 @@ void Carrier::take(Object *o)
   o->move.lspeed.v[0] = lspeed;
   o->move.aspeed.v[1] = aspeed;
   o->imposedMovement(1);
-  control = true;
+  if (o->carrier)
+    o->carrier->control = true;
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
-void Carrier::leave()
+void Carrier::leave(Object *o)
 {
   //::g.gui.collapseNavig();	// hints Manipulator palette
   //::g.gui.showNavigator();
-  echo("leave control, enter in navigation mode");
+  echo("leave control %s, enter in navigation mode", o->objectName());
 
-  if (! object)  return;
+  if (! o)  return;
+  object = NULL;
 
-  object->pos.alter = true;	// mark it has changed
-  object->move.manip = false;
+  o->pos.alter = true;	// mark it has changed
+  o->move.manip = false;
   defaults();			// reset the carrier
-  control = false;
+  if (o->carrier) {
+    o->carrier->control = false;
+    echo("carrier: clrl=%d", o->carrier->control);
+  }
   ::g.gui.setToCarrier(NULL);
 }
 
@@ -97,7 +102,8 @@ void Carrier::leave()
 void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 {
   if (button) {
-    leave();			// left clic => leave mouse control
+    if (object)
+      leave(object);		// left clic => leave mouse control
   }
 }
 

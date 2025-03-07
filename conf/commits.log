@@ -3513,3 +3513,4 @@
 3513 Mer  5 mar 2025 16:55:20 CET	cleanup Landmark widgets.cpp
 3514 Mer  5 mar 2025 19:30:46 CET	cleanup debug carrier.cpp
 3515 Jeu  6 mar 2025 09:56:03 CET	cleanup vrkey 'd' widgets.cpp
+3516 Jeu  6 mar 2025 16:20:36 CET	add callback moveobject thing.*pp

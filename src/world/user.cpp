@@ -462,11 +462,9 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
     }
   }
   //echo("replica: new avatar: rctpname=%s", rtcpname);
-
   mobileObject(0);
   addGui();			// informs Gui
   ::g.gui.expandAvatar();	// shows new avatar coming in
-
   //echo("replica: name=%s ssrc=%x rtcpname=%s email=%s", objectName(), ssrc, rtcpname, email);
 }
 
@@ -505,7 +503,6 @@ User::~User()
     delete netop;		// delete NetObj
     netop = NULL;
   }
-
   if (vsql)    delete vsql;
   if (front)   delete front;
   if (back)    delete back;
@@ -558,13 +555,11 @@ void User::userWriting(const char *usermsg)
   }
   localuser->lastmess++;
   localuser->netop->declareDelta(PROPMSG); // msg property
-
   if (localuser->bubble) {
     localuser->bubble->toDelete();	// delete previous bubble
   }
   localuser->bubble = new Bubble(localuser, localuser->message, Color::black, Bubble::BUBBLEVERSO);
   //dax localuser->bubble->setPos(pos.x, pos.y+lenText(localuser->message /2, pos.z+0.2, pos.az, pos.ax);
-
   Sound::playSound(KEYBOARDSND);
 }
 
@@ -589,7 +584,6 @@ void User::imposed(float dt)
   pos.z += dt * move.lspeed.v[2];
   pos.az += dt * move.aspeed.v[0];
   updatePosition();
-
   if (localuser->human) {
     localuser->human->pos = pos;
     localuser->human->updatePosition();
@@ -686,7 +680,6 @@ void User::setRayDirection(GLint wx, GLint wy)
   GLfloat tz = vp[3]/2 - static_cast<GLfloat>(wy);
   if (ty < 0) ty = MAX(ty, -FAR); else ty = MIN(ty, FAR);
   if (tz < 0) tz = MAX(tz, -FAR); else tz = MIN(tz, FAR);
-  //echo("eye: %.1f %.1f %.1f, target: %.1f %.1f %.1f", ex,ey,ez,tx,ty,tz);
  
   Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, white, 0x3333);
 
@@ -704,9 +697,8 @@ void User::specialAction(int action_id, void *d, time_t s, time_t u)
 {
   Object *o = NULL;
 
-  if (carrier && carrier->underControl()) o = carrier; // carrier
-  else                                    o = this;    // user
-
+  if (carrier) o = carrier; // carrier
+  else         o = this;    // user
   if (isAction(o->type, action_id)) {
     doAction(o->type, action_id, o, d, s, u);
   }
@@ -726,21 +718,21 @@ void User::createDart(User *user, void *d, time_t s, time_t u)
   }
 }
 
-void User::defaultZoom(User *user, void *d, time_t s, time_t u)
+void User::defZoom(User *user, void *d, time_t s, time_t u)
 {
   fovy = User::FOVY;
   near = User::NEAR;
   ::g.render.cameraProjection(fovy, near, User::FAR);
 }
 
-void User::increaseZoom(User *user, void *d, time_t s, time_t u)
+void User::incrZoom(User *user, void *d, time_t s, time_t u)
 {
   fovy -= 1;
   if (fovy <= 1.0) fovy = 1;
   ::g.render.cameraProjection(fovy, near, User::FAR);
 }
 
-void User::decreaseZoom(User *user, void *d, time_t s, time_t u)
+void User::decrZoom(User *user, void *d, time_t s, time_t u)
 {
   fovy += 1;
   if (fovy >= 75.0) fovy = 75;
@@ -762,7 +754,7 @@ void User::setRoll(User *user, void *d, time_t s, time_t u)
   user->pos.ax = DEG2RAD(*angle);
 }
 
-void User::increaseRoll(User *user, void *d, time_t s, time_t u)
+void User::incrRoll(User *user, void *d, time_t s, time_t u)
 {
   user->pos.ax += M_PI/180;
   user->pos.z += 0.05;
@@ -770,7 +762,7 @@ void User::increaseRoll(User *user, void *d, time_t s, time_t u)
   user->updatePosition();
 }
 
-void User::decreaseRoll(User *user, void *d, time_t s, time_t u)
+void User::decrRoll(User *user, void *d, time_t s, time_t u)
 {
   user->pos.ax -= M_PI/180;
   user->pos.z += 0.05;
@@ -802,7 +794,7 @@ void User::setPitch(User *user, void *d, time_t s, time_t u)
   ::g.render.setPitch(-DEG2RAD(*angle));
 }
 
-void User::increasePitch(User *user, void *d, time_t s, time_t u)
+void User::incrPitch(User *user, void *d, time_t s, time_t u)
 {
   user->pos.ay -= M_PI/180;
   user->pos.z += 0.05;
@@ -810,7 +802,7 @@ void User::increasePitch(User *user, void *d, time_t s, time_t u)
   user->updatePosition();
 }
 
-void User::decreasePitch(User *user, void *d, time_t s, time_t u)
+void User::decrPitch(User *user, void *d, time_t s, time_t u)
 {
   user->pos.ay += M_PI/180;
   user->pos.z += 0.05;
@@ -818,17 +810,17 @@ void User::decreasePitch(User *user, void *d, time_t s, time_t u)
   user->updatePosition();
 }
 
-void User::defaultLinearSpeed(User *user, void *d, time_t s, time_t u)
+void User::defLinSpeed(User *user, void *d, time_t s, time_t u)
 {
   user->lspeed = User::LSPEED;
 }
 
-void User::decreaseLinearSpeed(User *user, void *d, time_t s, time_t u)
+void User::decrLinSpeed(User *user, void *d, time_t s, time_t u)
 {
   if (user->lspeed > 1.0) user->lspeed -= 1;
 }
 
-void User::increaseLinearSpeed(User *user, void *d, time_t s, time_t u)
+void User::incrLinSpeed(User *user, void *d, time_t s, time_t u)
 {
   user->lspeed += 1;
 }
@@ -839,17 +831,17 @@ void User::setLspeed(User *user, void *d, time_t s, time_t u)
   user->lspeed = *ls;
 }
 
-void User::defaultAngularSpeed(User *user, void *d, time_t s, time_t u)
+void User::defAngSpeed(User *user, void *d, time_t s, time_t u)
 {
   user->aspeed = User::ASPEED;
 }
 
-void User::decreaseAngularSpeed(User *user, void *d, time_t s, time_t u)
+void User::decrAngSpeed(User *user, void *d, time_t s, time_t u)
 {
   if (user->aspeed > 0.3) user->aspeed -= 0.2;
 }
 
-void User::increaseAngularSpeed(User *user, void *d, time_t s, time_t u)
+void User::incrAngSpeed(User *user, void *d, time_t s, time_t u)
 {
   user->aspeed += 0.2;
 }
@@ -870,31 +862,31 @@ void User::switchView(User *user, void *d, time_t s, time_t u)
   user->setView((::g.render.getViewMode() + 1) % Render::VIEW_NUMBER);
 }
 
-void User::firstPersonView(User *user, void *d, time_t s, time_t u)
+void User::firstView(User *user, void *d, time_t s, time_t u)
 {
   user->setView(Render::VIEW_FIRST_PERSON);
 }
 
-void User::thirdPersonView(User *user, void *d, time_t s, time_t u)
+void User::thirdView(User *user, void *d, time_t s, time_t u)
 {
   user->setView(Render::VIEW_THIRD_PERSON_FAR);
 }
 
-void User::thirdPersonView_RotL(User *user, void *d, time_t s, time_t u)
+void User::thirdView_RotL(User *user, void *d, time_t s, time_t u)
 {
   if (::g.render.getViewMode() == Render::VIEW_THIRD_PERSON) {
     ::g.render.third_xRot += M_PI/18;
   }
 }
 
-void User::thirdPersonView_RotR(User *user, void *d, time_t s, time_t u)
+void User::thirdView_RotR(User *user, void *d, time_t s, time_t u)
 {
   if (::g.render.getViewMode() == Render::VIEW_THIRD_PERSON) {
     ::g.render.third_xRot -= M_PI/18;
   }
 }
 
-void User::thirdPersonView_RotU(User *user, void *d, time_t s, time_t u)
+void User::thirdView_RotU(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
   if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
@@ -904,7 +896,7 @@ void User::thirdPersonView_RotU(User *user, void *d, time_t s, time_t u)
   }
 }
 
-void User::thirdPersonView_RotD(User *user, void *d, time_t s, time_t u)
+void User::thirdView_RotD(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
   if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
@@ -914,7 +906,7 @@ void User::thirdPersonView_RotD(User *user, void *d, time_t s, time_t u)
   }
 }
 
-void User::thirdPersonView_Near(User *user, void *d, time_t s, time_t u)
+void User::thirdView_Near(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
   if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
@@ -924,7 +916,7 @@ void User::thirdPersonView_Near(User *user, void *d, time_t s, time_t u)
   }
 }
 
-void User::thirdPersonView_Far(User *user, void *d, time_t s, time_t u)
+void User::thirdView_Far(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
   if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
@@ -1226,16 +1218,16 @@ void User::funcs()
 
   setActionFunc(USER_TYPE, U_BULLET, _Action createBullet, "");
   setActionFunc(USER_TYPE, U_DART, _Action createDart, "");
-  setActionFunc(USER_TYPE, U_FOVYDEF, _Action defaultZoom, "");
-  setActionFunc(USER_TYPE, U_FOVYLESS, _Action increaseZoom, "");
-  setActionFunc(USER_TYPE, U_FOVYMORE, _Action decreaseZoom, "");
+  setActionFunc(USER_TYPE, U_FOVYDEF, _Action defZoom, "");
+  setActionFunc(USER_TYPE, U_FOVYLESS, _Action incrZoom, "");
+  setActionFunc(USER_TYPE, U_FOVYMORE, _Action decrZoom, "");
   setActionFunc(USER_TYPE, U_FOVYSET, _Action setZoom, "");
-  setActionFunc(USER_TYPE, U_LSPEEDDEF, _Action defaultLinearSpeed, "");
-  setActionFunc(USER_TYPE, U_LSPEEDLESS, _Action decreaseLinearSpeed, "");
-  setActionFunc(USER_TYPE, U_LSPEEDMORE, _Action increaseLinearSpeed, "");
-  setActionFunc(USER_TYPE, U_ASPEEDDEF, _Action defaultAngularSpeed, "");
-  setActionFunc(USER_TYPE, U_ASPEEDLESS, _Action decreaseAngularSpeed, "");
-  setActionFunc(USER_TYPE, U_ASPEEDMORE, _Action increaseAngularSpeed, "");
+  setActionFunc(USER_TYPE, U_LSPEEDDEF, _Action defLinSpeed, "");
+  setActionFunc(USER_TYPE, U_LSPEEDLESS, _Action decrLinSpeed, "");
+  setActionFunc(USER_TYPE, U_LSPEEDMORE, _Action incrLinSpeed, "");
+  setActionFunc(USER_TYPE, U_ASPEEDDEF, _Action defAngSpeed, "");
+  setActionFunc(USER_TYPE, U_ASPEEDLESS, _Action decrAngSpeed, "");
+  setActionFunc(USER_TYPE, U_ASPEEDMORE, _Action incrAngSpeed, "");
   setActionFunc(USER_TYPE, U_PAUSE, _Action pause, "");
   setActionFunc(USER_TYPE, U_PAUSEON, _Action pauseOn, "");
   setActionFunc(USER_TYPE, U_PAUSEOFF, _Action pauseOff, "");
@@ -1243,20 +1235,20 @@ void User::funcs()
   setActionFunc(USER_TYPE, U_SETASPEED, _Action setAspeed, "");
   setActionFunc(USER_TYPE, U_SWITCHVIEW, _Action switchView, "");
   setActionFunc(USER_TYPE, U_MAPVIEW, _Action mapView, "");
-  setActionFunc(USER_TYPE, U_FIRSTVIEW, _Action firstPersonView, "");
-  setActionFunc(USER_TYPE, U_THIRDVIEWFAR, _Action thirdPersonView, "");
-  setActionFunc(USER_TYPE, U_TPVIEWROTL, _Action thirdPersonView_RotL, "");
-  setActionFunc(USER_TYPE, U_TPVIEWROTR, _Action thirdPersonView_RotR, "");
-  setActionFunc(USER_TYPE, U_TPVIEWROTU, _Action thirdPersonView_RotU, "");
-  setActionFunc(USER_TYPE, U_TPVIEWROTD, _Action thirdPersonView_RotD, "");
-  setActionFunc(USER_TYPE, U_TPVIEWROTN, _Action thirdPersonView_Near, "");
-  setActionFunc(USER_TYPE, U_TPVIEWROTF, _Action thirdPersonView_Far, "");
+  setActionFunc(USER_TYPE, U_FIRSTVIEW, _Action firstView, "");
+  setActionFunc(USER_TYPE, U_THIRDVIEWFAR, _Action thirdView, "");
+  setActionFunc(USER_TYPE, U_TPVIEWROTL, _Action thirdView_RotL, "");
+  setActionFunc(USER_TYPE, U_TPVIEWROTR, _Action thirdView_RotR, "");
+  setActionFunc(USER_TYPE, U_TPVIEWROTU, _Action thirdView_RotU, "");
+  setActionFunc(USER_TYPE, U_TPVIEWROTD, _Action thirdView_RotD, "");
+  setActionFunc(USER_TYPE, U_TPVIEWROTN, _Action thirdView_Near, "");
+  setActionFunc(USER_TYPE, U_TPVIEWROTF, _Action thirdView_Far, "");
   setActionFunc(USER_TYPE, U_SETROLL, _Action setRoll, "");
   setActionFunc(USER_TYPE, U_SETPITCH, _Action setPitch, "");
-  setActionFunc(USER_TYPE, U_PITCHMORE, _Action increasePitch, "");
-  setActionFunc(USER_TYPE, U_PITCHLESS, _Action decreasePitch, "");
-  setActionFunc(USER_TYPE, U_ROLLMORE, _Action increaseRoll, "");
-  setActionFunc(USER_TYPE, U_ROLLLESS, _Action decreaseRoll, "");
+  setActionFunc(USER_TYPE, U_PITCHMORE, _Action incrPitch, "");
+  setActionFunc(USER_TYPE, U_PITCHLESS, _Action decrPitch, "");
+  setActionFunc(USER_TYPE, U_ROLLMORE, _Action incrRoll, "");
+  setActionFunc(USER_TYPE, U_ROLLLESS, _Action decrRoll, "");
   setActionFunc(USER_TYPE, U_FLYAWAY, _Action flyaway, "");
   setActionFunc(USER_TYPE, U_TOLAND, _Action toland, "");
 }

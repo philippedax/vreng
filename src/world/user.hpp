@@ -270,28 +270,28 @@ class User: public Object {
   // GUI callbacks
   static void createBullet(User *pu, void *d, time_t s, time_t u);
   static void createDart(User *pu, void *d, time_t s, time_t u);
-  static void defaultZoom(User *pu, void *d, time_t s, time_t u);
-  static void increaseZoom(User *pu, void *d, time_t s, time_t u);
-  static void decreaseZoom(User *pu, void *d, time_t s, time_t u);
+  static void defZoom(User *pu, void *d, time_t s, time_t u);
+  static void incrZoom(User *pu, void *d, time_t s, time_t u);
+  static void decrZoom(User *pu, void *d, time_t s, time_t u);
   static void setZoom(User *pu, void *d, time_t s, time_t u);
-  static void defaultLinearSpeed(User *pu, void *d, time_t s, time_t u);
-  static void decreaseLinearSpeed(User *pu, void *d, time_t s, time_t u);
-  static void increaseLinearSpeed(User *pu, void *d, time_t s, time_t u);
+  static void defLinSpeed(User *pu, void *d, time_t s, time_t u);
+  static void decrLinSpeed(User *pu, void *d, time_t s, time_t u);
+  static void incrLinSpeed(User *pu, void *d, time_t s, time_t u);
   static void setLspeed(User *pu, void *d, time_t s, time_t u);
-  static void defaultAngularSpeed(User *pu, void *d, time_t s, time_t u);
-  static void decreaseAngularSpeed(User *pu, void *d, time_t s, time_t u);
-  static void increaseAngularSpeed(User *pu, void *d, time_t s, time_t u);
+  static void defAngSpeed(User *pu, void *d, time_t s, time_t u);
+  static void decrAngSpeed(User *pu, void *d, time_t s, time_t u);
+  static void incrAngSpeed(User *pu, void *d, time_t s, time_t u);
   static void setAspeed(User *pu, void *d, time_t s, time_t u);
   static void switchView(User *pu, void *d, time_t s, time_t u);
   static void papView(User *pu, void *d, time_t s, time_t u);
-  static void firstPersonView(User *pu, void *d, time_t s, time_t u);
-  static void thirdPersonView(User *pu, void *d, time_t s, time_t u);
-  static void thirdPersonView_RotL(User *pu, void *d, time_t s, time_t u);
-  static void thirdPersonView_RotR(User *pu, void *d, time_t s, time_t u);
-  static void thirdPersonView_RotU(User *pu, void *d, time_t s, time_t u);
-  static void thirdPersonView_RotD(User *pu, void *d, time_t s, time_t u);
-  static void thirdPersonView_Near(User *pu, void *d, time_t s, time_t u);
-  static void thirdPersonView_Far(User *pu, void *d, time_t s, time_t u);
+  static void firstView(User *pu, void *d, time_t s, time_t u);
+  static void thirdView(User *pu, void *d, time_t s, time_t u);
+  static void thirdView_RotL(User *pu, void *d, time_t s, time_t u);
+  static void thirdView_RotR(User *pu, void *d, time_t s, time_t u);
+  static void thirdView_RotU(User *pu, void *d, time_t s, time_t u);
+  static void thirdView_RotD(User *pu, void *d, time_t s, time_t u);
+  static void thirdView_Near(User *pu, void *d, time_t s, time_t u);
+  static void thirdView_Far(User *pu, void *d, time_t s, time_t u);
   static void pause(User *pu, void *d, time_t s, time_t u);
   static void pauseOn(User *pu, void *d, time_t s, time_t u);
   static void pauseOff(User *pu, void *d, time_t s, time_t u);
@@ -300,10 +300,10 @@ class User: public Object {
  public:
   static void setPitch(User *pu, void *d, time_t s, time_t u);
  private:
-  static void increasePitch(User *pu, void *d, time_t s, time_t u);
-  static void decreasePitch(User *pu, void *d, time_t s, time_t u);
-  static void increaseRoll(User *pu, void *d, time_t s, time_t u);
-  static void decreaseRoll(User *pu, void *d, time_t s, time_t u);
+  static void incrPitch(User *pu, void *d, time_t s, time_t u);
+  static void decrPitch(User *pu, void *d, time_t s, time_t u);
+  static void incrRoll(User *pu, void *d, time_t s, time_t u);
+  static void decrRoll(User *pu, void *d, time_t s, time_t u);
   static void flyaway(User *pu, void *d, time_t s, time_t u);
   static void toland(User *pu, void *d, time_t s, time_t u);
 
