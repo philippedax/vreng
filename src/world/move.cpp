@@ -90,7 +90,7 @@ void User::updateKeys(time_t sec, time_t usec)
 void User::timing(float lastings[])
 {
   for (int k=0; k < MAXKEYS; k++) {
-    lastings[k] = static_cast<float> (kpdur_s[k]) + static_cast<float> (kpdur_u[k]) / 1e6;
+    lastings[k] = static_cast<float> (kpdur_s[k]) + static_cast<float> (kpdur_u[k]/1e6);
     kpdur_s[k] = kpdur_u[k] = 0;
   }
 }
@@ -296,7 +296,7 @@ float Object::getLasting() const
 /** Returns delta time */
 float Object::diffTime(time_t sec, time_t usec)
 {
-  return static_cast<float> (sec-move.sec) + (static_cast<float> (usec-move.usec)/1e6);
+  return static_cast<float> (sec-move.sec) + static_cast<float> (usec-move.usec)/1e6;
 }
 
 /** Initializes an imposed movement */
@@ -400,7 +400,6 @@ void User::userMovement(time_t sec, time_t usec)
       last = keylastings[k];
     }
   }
-
   if (last > MIN_LASTING) {	// user is moving
     float maxlast = getLasting();
     maxlast = maxlast ? maxlast : 1;
@@ -450,13 +449,11 @@ void Object::imposedMovements(time_t sec, time_t usec)
   }
   if (! isMoving() && ! move.manip) return;	// no moving
 
-  copyPositionAndBB(pos);		// keep pos for netork
+  copyPositionAndBB(pos);		// keep pos for network
 
   float last = -1;
   timing(sec, usec, &last);	// handled by each object only for imposed movements
-
   move.next = NULL;
-
   if (last > MIN_LASTING) {
     float maxlast = getLasting();
     maxlast = maxlast ? maxlast : 1;
@@ -479,7 +476,6 @@ void Object::imposedMovements(time_t sec, time_t usec)
       }
     }
   }
-
   if (netop && netop->isResponsible()) {
     publish(pos);	// handled by each object
   }
@@ -518,7 +514,7 @@ void Object::permanentMovements(time_t sec, time_t usec)
   if (move.perm_sec > 0) {	// is permanent movement activated ?
     copyPositionAndBB(pos);
 
-    float last = static_cast<float>(sec-move.perm_sec) + static_cast<float>(usec-move.perm_usec/1e6);
+    float last = static_cast<float>(sec-move.perm_sec) + static_cast<float>(usec-move.perm_usec)/1e6;
     move.perm_sec = sec;
     move.perm_usec = usec;
     move.next = NULL;
@@ -548,7 +544,6 @@ void Object::permanentMovements(time_t sec, time_t usec)
       }
     }
     timing(sec, usec, &last);	// never called FIXME!
-
     if (netop && netop->isResponsible()) {
       publish(pos);			// handled by each object
     }
@@ -559,11 +554,12 @@ void Object::permanentMovements(time_t sec, time_t usec)
   }
 }
 
-/** Moves an object */
+/** Moves an object controlled by carrier */
 void Object::moveObject(Object *o, void *d, time_t s, time_t u)
 {
-  o->enableBehavior(NO_ELEMENTARY_MOVE); 	// carrier
-  o->imposedMovement(5); 			// carrier
+  o->move.manip = true;
+  o->enableBehavior(NO_ELEMENTARY_MOVE);
+  o->imposedMovement(5);
   localuser->carrier->take(o);
 }
 

@@ -61,6 +61,7 @@ void Carrier::take(Object *o)
     echo("%s is not mobile", o->objectName());
     return;
   }
+  //if (o->carrier->control) return;	// already under control - segfault
   //::g.gui.showManipulator();	// open Manipulator palette
   //::g.gui.expandNavig();	// shows Manipulator palette
   object = o;			// memorize object
@@ -82,6 +83,7 @@ void Carrier::leave(Object *o)
   //::g.gui.collapseNavig();	// close Manipulator palette
   //::g.gui.showNavigator();	// open Navigator palette
   if (! o)  return;
+  //if (! o->carrier->control) return;	// already leave control - segfault
   object = NULL;
   echo("leave control %s, enter in navigation mode", o->objectName());
 
@@ -90,7 +92,7 @@ void Carrier::leave(Object *o)
   if (o->carrier) {
     o->carrier->control = false;
     control = false;
-    echo("carrier: clrl=%d", o->carrier->control);
+    echo("carrier: ctrl=%d", o->carrier->control);
   }
   ::g.gui.setToCarrier(NULL);
   defaults();			// reset the carrier
