@@ -90,7 +90,7 @@ void User::updateKeys(time_t sec, time_t usec)
 void User::timing(float lastings[])
 {
   for (int k=0; k < MAXKEYS; k++) {
-    lastings[k] = static_cast<float>(kpdur_s[k]) + static_cast<float>(kpdur_u[k]) / 1e6;
+    lastings[k] = static_cast<float> (kpdur_s[k]) + static_cast<float> (kpdur_u[k]) / 1e6;
     kpdur_s[k] = kpdur_u[k] = 0;
   }
 }
@@ -188,11 +188,11 @@ void User::moveDirection(uint8_t move_key, float last)
       break;
     case KEY_RI:  // turn right
       pos.az -= last * aspeed;
-      pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
+      pos.az -= M_2PI * static_cast<float> (floor(pos.az / M_2PI));
       break;
     case KEY_LE:  // turn left
       pos.az += last * aspeed;
-      pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
+      pos.az -= M_2PI * static_cast<float> (floor(pos.az / M_2PI));
       break;
     case KEY_MD:  // roll down
        pos.ay = MIN(pos.ay + last * aspeed, M_2PI_5);
@@ -296,7 +296,7 @@ float Object::getLasting() const
 /** Returns delta time */
 float Object::diffTime(time_t sec, time_t usec)
 {
-  return static_cast<float> ((sec - move.sec)) + (static_cast<float>((usec - move.usec) / 1e6));
+  return static_cast<float> (sec-move.sec) + (static_cast<float> (usec-move.usec)/1e6);
 }
 
 /** Initializes an imposed movement */
@@ -518,7 +518,7 @@ void Object::permanentMovements(time_t sec, time_t usec)
   if (move.perm_sec > 0) {	// is permanent movement activated ?
     copyPositionAndBB(pos);
 
-    float last = static_cast<float>((sec - move.perm_sec)) + static_cast<float>((usec - move.perm_usec) / 1e6);
+    float last = static_cast<float>(sec-move.perm_sec) + static_cast<float>(usec-move.perm_usec/1e6);
     move.perm_sec = sec;
     move.perm_usec = usec;
     move.next = NULL;
@@ -552,7 +552,6 @@ void Object::permanentMovements(time_t sec, time_t usec)
     if (netop && netop->isResponsible()) {
       publish(pos);			// handled by each object
     }
-
     updatePositionAndGrid(pos);
     if (this == localuser) {
       updateCamera(pos);
@@ -563,12 +562,6 @@ void Object::permanentMovements(time_t sec, time_t usec)
 /** Moves an object */
 void Object::moveObject(Object *o, void *d, time_t s, time_t u)
 {
-  if (! o->carrier) {
-    //o->carrier = new Carrier();
-    //echo("moveObj");
-    //o->carrier->take(o);
-    o->move.manip = true;
-  }
   o->enableBehavior(NO_ELEMENTARY_MOVE); 	// carrier
   o->imposedMovement(5); 			// carrier
   localuser->carrier->take(o);
@@ -588,7 +581,6 @@ void Object::moveUserToObject(float sgn, float lttl, float attl)
   da = MIN(da, M_PI);
   da = MAX(da, -M_PI);
   //echo("a=%.2f o=%.2f u=%.2f", da, pos.az, localuser->pos.az);
-  //echo("d=%.1f %.1f,%.1f,%.1f %.2f", d,dx,dy,dz,da);
 
   // first movement: user turns in direction of the object
   localuser->move.ttl = attl;
