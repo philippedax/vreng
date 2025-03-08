@@ -45,7 +45,6 @@ void Carrier::defaults()
 Carrier::Carrier()
 {
   defaults();
-  type = CARRIER_TYPE;
   ::g.gui.setToCarrier(this);
 }
 
@@ -62,38 +61,39 @@ void Carrier::take(Object *o)
     echo("%s is not mobile", o->objectName());
     return;
   }
-
-  //::g.gui.showManipulator();
+  //::g.gui.showManipulator();	// open Manipulator palette
   //::g.gui.expandNavig();	// shows Manipulator palette
+  object = o;			// memorize object
   echo("take control of %s", o->objectName());
 
-  object = o;			// memorize object
   o->move.manip = true;
   o->move.lspeed.v[0] = lspeed;
   o->move.aspeed.v[1] = aspeed;
   o->imposedMovement(1);
-  if (o->carrier)
+  if (o->carrier) {
     o->carrier->control = true;
+    control = true;
+  }
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
 void Carrier::leave(Object *o)
 {
-  //::g.gui.collapseNavig();	// hints Manipulator palette
-  //::g.gui.showNavigator();
-  echo("leave control %s, enter in navigation mode", o->objectName());
-
+  //::g.gui.collapseNavig();	// close Manipulator palette
+  //::g.gui.showNavigator();	// open Navigator palette
   if (! o)  return;
   object = NULL;
+  echo("leave control %s, enter in navigation mode", o->objectName());
 
-  o->pos.alter = true;	// mark it has changed
+  o->pos.alter = true;		// mark it has changed
   o->move.manip = false;
-  defaults();			// reset the carrier
   if (o->carrier) {
     o->carrier->control = false;
+    control = false;
     echo("carrier: clrl=%d", o->carrier->control);
   }
   ::g.gui.setToCarrier(NULL);
+  defaults();			// reset the carrier
 }
 
 /** Mouse event
@@ -101,7 +101,7 @@ void Carrier::leave(Object *o)
  */
 void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 {
-  if (button) {
+  if (button) {			// any button pressed
     if (object)
       leave(object);		// left clic => leave mouse control
   }
@@ -113,6 +113,7 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 void Carrier::mouseEvent(int8_t vkey, float last)
 {
   Object *oldobj = new Object();
+  if (! object) return;
   object->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
 
   echo("carrier: c=%d", control);
@@ -130,10 +131,8 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     case KEY_MU: object->pos.ay += last*aspeed; break; // ^,
     case KEY_MD: object->pos.ay -= last*aspeed; break; // ,^
   }
-
   object->updatePositionAndGrid(object->pos);
   object->updatePosition();
-
   OList *vicilist = object->getVicinity(oldobj);
   object->generalIntersect(oldobj, vicilist);
   if (*name.type) {	//FIXME: segfault

@@ -3514,3 +3514,4 @@
 3514 Mer  5 mar 2025 19:30:46 CET	cleanup debug carrier.cpp
 3515 Jeu  6 mar 2025 09:56:03 CET	cleanup vrkey 'd' widgets.cpp
 3516 Jeu  6 mar 2025 16:20:36 CET	add callback moveobject thing.*pp
+3517 Ven  7 mar 2025 17:31:38 CET	fix carrier instance carrier.cpp
