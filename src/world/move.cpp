@@ -188,11 +188,11 @@ void Object::moveDirection(uint8_t move_key, float dt)
       break;
     case KEY_RI:  // turn right
       pos.az -= dt * aspeed;
-      pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
+      pos.az -= M_2PI * static_cast<float> (floor(pos.az / M_2PI));
       break;
     case KEY_LE:  // turn left
       pos.az += dt * aspeed;
-      pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
+      pos.az -= M_2PI * static_cast<float> (floor(pos.az / M_2PI));
       break;
     case KEY_MD:  // roll down
        pos.ay = MIN(pos.ay + dt * aspeed, M_2PI_5);
@@ -296,7 +296,7 @@ float Object::getLasting() const
 /** Returns delta time */
 float Object::diffTime(time_t sec, time_t usec)
 {
-  return static_cast<float>((sec - move.sec)) + (static_cast<float>((usec - move.usec) / 1e6));
+  return static_cast<float> (sec-move.sec) + static_cast<float> (usec-move.usec)/1e6;
 }
 
 /** Initializes an imposed movement */
@@ -556,7 +556,7 @@ void Object::permanentMovements(time_t sec, time_t usec)
   }
 }
 
-/** Moves an object */
+/** Moves an object controlled by carrier */
 void Object::moveObject(Object *o)
 {
   o->move.manip = true;

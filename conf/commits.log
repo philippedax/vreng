@@ -3518,3 +3518,4 @@
 3518 Sam  8 mar 2025 11:48:15 CET	cleanup underControl() carrier.cpp
 3519 Sam  8 mar 2025 12:12:14 CET	cleanup moveObject() move.cpp
 3520 Sam  8 mar 2025 15:47:46 CET	fix bad static_cast move.cpp
+3521 Mar 11 mar 2025 13:40:12 CET	fix localuser movement user.cpp
