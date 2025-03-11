@@ -37,10 +37,11 @@ class Thing: public Object {
   static const float LSPEED;
   float lspeed;			///< linear speed
   float aspeed;			///< angular speed
-  class Carrier *carrier;	///< carrier instance
 
  public:
-  /* properties */
+  class Carrier *carrier;	///< carrier instance
+
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -50,8 +51,7 @@ class Thing: public Object {
     PROPAY,
     PROPS	///< last item = properties number
   };
-
-  /* actions */
+  // actions
   enum {
     MOVE,
     BASKET,
