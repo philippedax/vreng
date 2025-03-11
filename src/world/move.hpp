@@ -56,8 +56,11 @@ void gotoFront(class Object *po, void *d, time_t s, time_t u);
 void gotoBehind(class Object *po, void *d, time_t s, time_t u);
 /** Moves the user behind the object */
 
-void gotoXYZ(float gox,float goy,float goz,float az);
+void gotoXYZ(float gox, float goy, float goz, float az);
 /** Move the user to the point */
+
+//static void moveObject(class Object *thing);
+///**< User moves the object. */
 
 
 #endif

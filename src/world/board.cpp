@@ -186,5 +186,4 @@ void Board::funcs()
   setActionFunc(BOARD_TYPE, 2, _Action wb_cb, "Call WB");
   setActionFunc(BOARD_TYPE, 3, _Action cancel_cb, "Exit WB");
   setActionFunc(BOARD_TYPE, 4, _Action import_cb, "Import");
-  setActionFunc(BOARD_TYPE, 5, _Action moveObject, "Move");
 }

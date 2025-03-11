@@ -635,7 +635,6 @@ void Icon::funcs()
   setActionFunc(ICON_TYPE, PULL,   _Action pull, "Pull");
   setActionFunc(ICON_TYPE, DROP,   _Action drop, "Drop");
   setActionFunc(ICON_TYPE, TURN,   _Action turn, "Turn");
-  setActionFunc(ICON_TYPE, MOVE,   _Action moveObject, "Move");
   setActionFunc(ICON_TYPE, CREATE, _Action create, "");
   setActionFunc(ICON_TYPE, STICK,  _Action stick, "");
 }

@@ -209,12 +209,12 @@ void Thing::recreate(World *w, void *d, time_t s, time_t u)
   new Thing(w, d, s, u);
 }
 
-void Thing::moveobject(Thing *thing, void *d, time_t s, time_t u)
+void Thing::moveobject(Thing *thing)
 {
   if (carrier == NULL) {
     carrier = new Carrier();
     carrier->take(thing);
-    moveObject(thing, d, s, u);
+    moveObject(thing);
   }
   else {
     carrier->leave(thing);
@@ -225,7 +225,7 @@ void Thing::moveobject(Thing *thing, void *d, time_t s, time_t u)
 
 void Thing::move_cb(Thing *thing, void *d, time_t s, time_t u)
 {
-  thing->moveobject(thing, d, s, u);
+  thing->moveobject(thing);
 }
 
 void Thing::destroy(Thing *thing, void *d, time_t s, time_t u)

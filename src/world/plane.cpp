@@ -144,5 +144,4 @@ void Plane::quit()
 
 void Plane::funcs()
 {
-  setActionFunc(PLANE_TYPE, 0, _Action moveObject, "Move");
 }

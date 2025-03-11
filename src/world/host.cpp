@@ -117,5 +117,4 @@ void Host::funcs()
 
   setActionFunc(HOST_TYPE, 0, _Action connect, "Connect");
   setActionFunc(HOST_TYPE, 1, _Action disconnect, "Disconnect");
-  setActionFunc(HOST_TYPE, 2, _Action moveObject, "Move");
 }

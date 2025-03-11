@@ -697,7 +697,7 @@ void User::specialAction(int action_id, void *d, time_t s, time_t u)
 {
   Object *o = NULL;
 
-  if (carrier) o = carrier; // carrier
+  if (carrier && carrier->underControl()) o = carrier; // carrier
   else         o = this;    // user
   if (isAction(o->type, action_id)) {
     doAction(o->type, action_id, o, d, s, u);

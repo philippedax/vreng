@@ -195,5 +195,4 @@ void Music::funcs()
   setActionFunc(MUSIC_TYPE, PAUSE, _Action pause, "Pause");
   setActionFunc(MUSIC_TYPE, CONT, _Action cont, "Continue");
   setActionFunc(MUSIC_TYPE, LOOP, _Action loop, "Loop");
-  setActionFunc(MUSIC_TYPE, MOVE, _Action moveObject, "Move");
 }

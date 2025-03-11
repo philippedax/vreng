@@ -106,7 +106,7 @@ class Thing: public Object {
   void behaviors();
   /**< Sets behaviors flags */
 
-  void moveobject(Thing *o, void *d, time_t s, time_t u);
+  void moveobject(Thing *o);
 
   // Funcs callbacks
   static void dropIntoBasket(Thing *o, void *d, time_t s, time_t u);

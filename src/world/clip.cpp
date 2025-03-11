@@ -263,5 +263,4 @@ void Clip::funcs()
   setActionFunc(CLIP_TYPE, 1, _Action stop, "Stop");
   setActionFunc(CLIP_TYPE, 2, _Action pause, "Pause");
   setActionFunc(CLIP_TYPE, 3, _Action cont, "Continue");
-  setActionFunc(CLIP_TYPE, 4, _Action moveObject, "Move");
 }

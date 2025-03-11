@@ -64,7 +64,7 @@ void changeKey(int k_id, bool pressed, time_t sec, time_t usec)
 }
 
 /** Clears keys times array */
-void User::clearKeys()
+void Object::clearKeys()
 {
   for (int k=0; k < MAXKEYS; k++) {
     kpressed[k] = false;
@@ -74,7 +74,7 @@ void User::clearKeys()
 }
 
 /** Updates the keydifftime arrays */
-void User::updateKeys(time_t sec, time_t usec)
+void Object::updateKeys(time_t sec, time_t usec)
 {
   for (int k=0; k < MAXKEYS; k++) {
     if (kpressed[k]) {
@@ -90,7 +90,7 @@ void User::updateKeys(time_t sec, time_t usec)
 void User::timing(float lastings[])
 {
   for (int k=0; k < MAXKEYS; k++) {
-    lastings[k] = static_cast<float> (kpdur_s[k]) + static_cast<float> (kpdur_u[k]/1e6);
+    lastings[k] = static_cast<float>(kpdur_s[k]) + static_cast<float>(kpdur_u[k])/1e6;
     kpdur_s[k] = kpdur_u[k] = 0;
   }
 }
@@ -153,67 +153,67 @@ bool Object::lasting(time_t sec, time_t usec, float *dt)
     move.usec = usec;
     return true;
   }
-
   *dt = 0;
-  stopImposed();
+  stopMovement();
   return false;
 }
 
 /** Modifies user position in one direction */
-void User::moveDirection(uint8_t move_key, float last)
+void Object::moveDirection(uint8_t move_key, float dt)
 {
-  if (carrier) {  // carrier active
+  if (carrier && carrier->underControl()) {  // capted by carrier
     //echo("onedir: k=%d", move_key);
-    carrier->mouseEvent(move_key, last);
+    carrier->mouseEvent(move_key, dt);
     return;
   }
 
   // Navigator
+  //echo("k: %d", move_key);
   switch (move_key) {
     case KEY_FW:  // move forward
-      pos.x += last * lspeed * cos(pos.az);
-      pos.y += last * lspeed * sin(pos.az);
+      pos.x += dt * lspeed * cos(pos.az);
+      pos.y += dt * lspeed * sin(pos.az);
       break;
     case KEY_BW:  // move backward
-      pos.x -= last * lspeed * cos(pos.az);
-      pos.y -= last * lspeed * sin(pos.az);
+      pos.x -= dt * lspeed * cos(pos.az);
+      pos.y -= dt * lspeed * sin(pos.az);
       break;
     case KEY_MR:  // move right
-      pos.x += last * lspeed * sin(pos.az);
-      pos.y -= last * lspeed * cos(pos.az);
+      pos.x += dt * lspeed * sin(pos.az);
+      pos.y -= dt * lspeed * cos(pos.az);
       break;
     case KEY_ML:  // move left
-      pos.x -= last * lspeed * sin(pos.az);
-      pos.y += last * lspeed * cos(pos.az);
+      pos.x -= dt * lspeed * sin(pos.az);
+      pos.y += dt * lspeed * cos(pos.az);
       break;
     case KEY_RI:  // turn right
-      pos.az -= last * aspeed;
-      pos.az -= M_2PI * static_cast<float> (floor(pos.az / M_2PI));
+      pos.az -= dt * aspeed;
+      pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
       break;
     case KEY_LE:  // turn left
-      pos.az += last * aspeed;
-      pos.az -= M_2PI * static_cast<float> (floor(pos.az / M_2PI));
+      pos.az += dt * aspeed;
+      pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
       break;
     case KEY_MD:  // roll down
-       pos.ay = MIN(pos.ay + last * aspeed, M_2PI_5);
+       pos.ay = MIN(pos.ay + dt * aspeed, M_2PI_5);
        break;
     case KEY_MU:  // roll up
-      pos.ay = MAX(pos.ay - last * aspeed, -M_2PI_5);
+      pos.ay = MAX(pos.ay - dt * aspeed, -M_2PI_5);
       break;
     case KEY_HO:  // stand up
       pos.ay = pos.ax = 0;
       break;
     case KEY_UP:  // move up
-      pos.z += last * lspeed;
+      pos.z += dt * lspeed;
       break;
     case KEY_DO:  // move down
-      pos.z -= last * lspeed;
+      pos.z -= dt * lspeed;
       break;
     case KEY_TL:  // tilt left
-      pos.ax = pos.ax + last * aspeed;
+      pos.ax = pos.ax + dt * aspeed;
       break;
     case KEY_TR:  // tilt right
-      pos.ax = pos.ax - last * aspeed;
+      pos.ax = pos.ax - dt * aspeed;
       break;
     }
 }
@@ -239,7 +239,7 @@ void User::imposed(const float lastings[])
         human->pos.ay = -a;
       }
       if (guy) {
-        guy->pos.ax = -a;	//
+        guy->pos.ax = -a;
         guy->setAniming(true);
         guy->setFlying(true);
       }
@@ -296,7 +296,7 @@ float Object::getLasting() const
 /** Returns delta time */
 float Object::diffTime(time_t sec, time_t usec)
 {
-  return static_cast<float> (sec-move.sec) + static_cast<float> (usec-move.usec)/1e6;
+  return static_cast<float>((sec - move.sec)) + (static_cast<float>((usec - move.usec) / 1e6));
 }
 
 /** Initializes an imposed movement */
@@ -362,7 +362,6 @@ void Object::permanentMovement()
   move.next = NULL;
 }
 
-/** Permanent movement */
 void Object::permanentMovement(float speed)
 {
   linearSpeed(speed);
@@ -394,19 +393,20 @@ void User::userMovement(time_t sec, time_t usec)
   updateKeys(sec, usec);
   timing(keylastings);
 
-  float last = -1.;
+  float dt = -1.;
   for (int k=0; k < MAXKEYS; k++) {
-    if (keylastings[k] > last) {
-      last = keylastings[k];
+    if (keylastings[k] > dt) {
+      dt = keylastings[k];
     }
   }
-  if (last > MIN_LASTING) {	// user is moving
+
+  if (dt > MIN_LASTING) {	// user is moving
     float maxlast = getLasting();
     maxlast = maxlast ? maxlast : 1;
-    int nbmoves = int( (last / maxlast) );
+    int moves = int( (dt / maxlast) );
     float tabdt[MAXKEYS];
 
-    for (int m=0; m <= nbmoves; m++) {
+    for (int m=0; m <= moves; m++) {
       for (int k=0; k < MAXKEYS; k++) {
         if (keylastings[k] > maxlast) {
           tabdt[k] = maxlast;
@@ -428,7 +428,7 @@ void User::userMovement(time_t sec, time_t usec)
 /** Elementary imposed movement for an object */
 void Object::elemImposedMovement(float dt)
 {
-  imposed(dt);		// handled by each object
+  imposed(dt);			// handled by each object
 
   updatePosition();
 
@@ -440,7 +440,7 @@ void Object::elemImposedMovement(float dt)
   }
 }
 
-/** Object imposed movement for an object */
+/** Imposed movement for an object */
 void Object::imposedMovements(time_t sec, time_t usec)
 {
   if (! isValid()) {
@@ -451,24 +451,26 @@ void Object::imposedMovements(time_t sec, time_t usec)
 
   copyPositionAndBB(pos);		// keep pos for network
 
-  float last = -1;
-  timing(sec, usec, &last);	// handled by each object only for imposed movements
+  float dt = -1;
+  timing(sec, usec, &dt);		// handled by each object only for imposed movements
+
   move.next = NULL;
-  if (last > MIN_LASTING) {
+
+  if (dt > MIN_LASTING) {
     float maxlast = getLasting();
     maxlast = maxlast ? maxlast : 1;
     // spliting movement in m elementary movements
     float tabdt = 0.;
-    int nbmoves = int( (last / maxlast) );
+    int moves = int( (dt / maxlast) );
 
-    for (int m=0; m <= nbmoves; m++) {
-      if (last > maxlast) {
+    for (int m=0; m <= moves; m++) {
+      if (dt > maxlast) {
         tabdt = maxlast;
-        last -= maxlast;
+        dt -= maxlast;
       }
       else {
-        tabdt = last;
-        last = 0;
+        tabdt = dt;
+        dt = 0;
       }
       elemImposedMovement(tabdt);
       if (isBehavior(NO_ELEMENTARY_MOVE)) {
@@ -503,37 +505,36 @@ void Object::elemPermanentMovement(float dt)
   delete o;
 }
 
-/** Object permanent movement - called by world */
+/** Permanent movement - called by world */
 void Object::permanentMovements(time_t sec, time_t usec)
 {
   if (! isValid()) {
     error("permanentMovements: type=%d invalid", type);
     return;
   }
-
   if (move.perm_sec > 0) {	// is permanent movement activated ?
     copyPositionAndBB(pos);
 
-    float last = static_cast<float>(sec-move.perm_sec) + static_cast<float>(usec-move.perm_usec)/1e6;
+    float dt = static_cast<float>(sec-move.perm_sec) + static_cast<float>(usec-move.perm_usec)/1e6;
     move.perm_sec = sec;
     move.perm_usec = usec;
     move.next = NULL;
 
-    if (last > 0 /* MIN_LASTING */) {
+    if (dt > 0 /* MIN_LASTING */) {
       float maxlast = getLasting();
       maxlast = maxlast ? maxlast : 1;
-      float tabdt = 0.;
-      int nbmoves = int( (last / maxlast) );
-      nbmoves = MIN(nbmoves, MIN_MOVES);
+      float tabdt = 0;
+      int moves = int( (dt / maxlast) );
+      moves = MIN(moves, MIN_MOVES);
 
-      for (int m=0; m <= nbmoves; m++) {
-        if (last > maxlast) {
+      for (int m=0; m <= moves; m++) {
+        if (dt > maxlast) {
           tabdt = maxlast;
-          last -= maxlast;
+          dt -= maxlast;
         }
         else {
-          tabdt = last;
-          last = 0;
+          tabdt = dt;
+          dt = 0;
         }
 
         elemPermanentMovement(tabdt);
@@ -543,7 +544,8 @@ void Object::permanentMovements(time_t sec, time_t usec)
         }
       }
     }
-    timing(sec, usec, &last);	// never called FIXME!
+    timing(sec, usec, &dt);		// never called FIXME!
+
     if (netop && netop->isResponsible()) {
       publish(pos);			// handled by each object
     }
@@ -554,8 +556,8 @@ void Object::permanentMovements(time_t sec, time_t usec)
   }
 }
 
-/** Moves an object controlled by carrier */
-void Object::moveObject(Object *o, void *d, time_t s, time_t u)
+/** Moves an object */
+void Object::moveObject(Object *o)
 {
   o->move.manip = true;
   o->enableBehavior(NO_ELEMENTARY_MOVE);

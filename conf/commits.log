@@ -3517,3 +3517,4 @@
 3517 Ven  7 mar 2025 17:31:38 CET	fix carrier instance carrier.cpp
 3518 Sam  8 mar 2025 11:48:15 CET	cleanup underControl() carrier.cpp
 3519 Sam  8 mar 2025 12:12:14 CET	cleanup moveObject() move.cpp
+3520 Sam  8 mar 2025 15:47:46 CET	fix bad static_cast move.cpp

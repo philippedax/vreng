@@ -314,6 +314,18 @@ class Object {
   /**< Runs action everwhere if available. */
 
   //
+  // keys (see move.cpp)
+  //
+  void clearKeys();
+  /**< Clears keys times array. */
+
+  void updateKeys(time_t sec, time_t usec);
+  /**< Updates the keydifftime arrays. */
+
+  void moveDirection(const uint8_t move_type, const float last);
+  /**< Modifies user */
+
+  //
   // Set, Get, Is
   //
 
@@ -591,7 +603,7 @@ class Object {
   void moveUserToObject(float val, float _lttl, float _attl);
   /**< Moves the user to the object. */
 
-  static void moveObject(Object *po, void *d, time_t s, time_t u);
+  static void moveObject(Object *o);
   /**< User moves the object. */
 
  private:

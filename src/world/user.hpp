@@ -94,6 +94,7 @@ class User: public Object {
   int   lastmess;		///< last message number.
   int   lastrequest;
 
+#if 0
   //
   // keys (see move.cpp)
   //
@@ -105,6 +106,7 @@ class User: public Object {
 
   void moveDirection(const uint8_t move_type, const float last);
   /**< Modifies user */
+#endif
 
  public:
   float width;		///< body width.

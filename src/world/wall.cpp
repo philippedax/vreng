@@ -109,6 +109,5 @@ void Wall::destroy(Wall *po, void *d, time_t s, time_t u)
 
 void Wall::funcs()
 {
-  setActionFunc(WALL_TYPE, 0, _Action moveObject, "Move");
-  setActionFunc(WALL_TYPE, 1, _Action destroy, "Destroy");
+  setActionFunc(WALL_TYPE, 0, _Action destroy, "Destroy");
 }
