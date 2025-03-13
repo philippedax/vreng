@@ -472,7 +472,6 @@ int VSql::selectString(const char *table, const char *col, const char *name, con
   if (retstring)
     strcpy(retstring, row[0]);
 #endif
-
   return irow;
 }
 
@@ -538,7 +537,6 @@ int VSql::selectSubstring(const char *table, const char *like, uint16_t irow, ch
   if (retstring)
     strcpy(retstring, row[0]);
 #endif
-
   return irow;
 }
 
