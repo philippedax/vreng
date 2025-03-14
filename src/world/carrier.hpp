@@ -46,7 +46,7 @@
  */
 class Carrier: public Object {
  private:
-  class Thing *thing;	///< thing ptr
+  class Object *object;	///< thing ptr
   float lspeed;		///< linear speed
   float aspeed;		///< angular speed
   bool control;		///< flag true/false
@@ -73,13 +73,13 @@ class Carrier: public Object {
   bool underControl() const;
   /**< Accessor: is something taking ? */
 
-  void take(class Thing *o);
+  void take(class Object *o);
   /**< handle position changes
    * Takes control of the object to manipulate it.
    * The position/orientation of the object will be changed by imposed
    * and the object will be updated in the 3D */
 
-  void leave(class Thing *o);
+  void leave(class Object *o);
   /**< called when we release an object
    * Releases the carried object, put it into the mobile-list
    * and desactivates the carrier */

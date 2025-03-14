@@ -562,7 +562,7 @@ void Object::moveObject(Object *o)
   o->move.manip = true;
   o->enableBehavior(NO_ELEMENTARY_MOVE);
   o->imposedMovement(5);
-  //bad localuser->carrier->take(o);
+  localuser->carrier->take(o);
 }
 
 /** Moves the user towards the object */

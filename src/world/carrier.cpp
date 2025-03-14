@@ -26,7 +26,6 @@
 #include "carrier.hpp"
 #include "user.hpp"	// localuser
 #include "gui.hpp"	// setToCarrier
-#include "thing.hpp"	// Thing
 
 const OClass Carrier::oclass(CARRIER_TYPE, "Carrier", NULL);
 
@@ -37,7 +36,7 @@ const float Carrier::ASPEED = 0.5;
 void Carrier::defaults()
 {
   control = false;
-  thing = NULL;
+  object = NULL;
   lspeed = LSPEED;
   aspeed = ASPEED;
 }
@@ -57,7 +56,7 @@ bool Carrier::underControl() const
 }
 
 /** Takes control of the mouse to enter in manipulation mode */
-void Carrier::take(Thing *o)
+void Carrier::take(Object *o)
 {
   if (o->mode != MOBILE) {
     echo("%s is not mobile", o->objectName());
@@ -66,7 +65,7 @@ void Carrier::take(Thing *o)
   //if (o->carrier->control) return;	// already under control - segfault
   //::g.gui.showManipulator();	// open Manipulator palette
   //::g.gui.expandNavig();	// shows Manipulator palette
-  thing = o;			// memorize thing
+  object = o;			// memorize object
   echo("take control of %s", o->objectName());
 
   o->move.manip = true;
@@ -85,13 +84,13 @@ void Carrier::take(Thing *o)
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
-void Carrier::leave(Thing *o)
+void Carrier::leave(Object *o)
 {
   //::g.gui.collapseNavig();	// close Manipulator palette
   //::g.gui.showNavigator();	// open Navigator palette
   if (! o)  return;
   //if (! o->carrier->control) return;	// already leave control - segfault
-  thing = NULL;
+  object = NULL;
   echo("leave control of %s, enter in navigation mode", o->objectName());
 
   o->pos.alter = true;		// mark it has changed
@@ -115,8 +114,8 @@ void Carrier::leave(Thing *o)
 void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 {
   if (button) {			// any button pressed
-    if (thing)
-      leave(thing);		// left clic => leave mouse control
+    if (object)
+      leave(object);		// left clic => leave mouse control
   }
 }
 
@@ -126,33 +125,33 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 void Carrier::mouseEvent(int8_t vkey, float last)
 {
   Object *oldobj = new Object();
-  if (! thing) return;
-  thing->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
+  if (! object) return;
+  object->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
 
   //echo("carrier: c=%d", control);
   switch (vkey) {
-    case KEY_FW: thing->pos.x += last*lspeed; break; // ^
-    case KEY_BW: thing->pos.x -= last*lspeed; break; // v
-    case KEY_ML: thing->pos.y += last*lspeed; break; // <
-    case KEY_MR: thing->pos.y -= last*lspeed; break; // >
-    case KEY_UP: thing->pos.z += last*lspeed; break; // ^
-    case KEY_DO: thing->pos.z -= last*lspeed; break; // V
-    case KEY_LE: thing->pos.az += last*aspeed; break; // <-
-    case KEY_RI: thing->pos.az -= last*aspeed; break; // ->
-    case KEY_TL: thing->pos.ax += last*aspeed; break; // <,
-    case KEY_TR: thing->pos.ax -= last*aspeed; break; // ,>
-    case KEY_MU: thing->pos.ay += last*aspeed; break; // ^,
-    case KEY_MD: thing->pos.ay -= last*aspeed; break; // ,^
+    case KEY_FW: object->pos.x += last*lspeed; break; // ^
+    case KEY_BW: object->pos.x -= last*lspeed; break; // v
+    case KEY_ML: object->pos.y += last*lspeed; break; // <
+    case KEY_MR: object->pos.y -= last*lspeed; break; // >
+    case KEY_UP: object->pos.z += last*lspeed; break; // ^
+    case KEY_DO: object->pos.z -= last*lspeed; break; // V
+    case KEY_LE: object->pos.az += last*aspeed; break; // <-
+    case KEY_RI: object->pos.az -= last*aspeed; break; // ->
+    case KEY_TL: object->pos.ax += last*aspeed; break; // <,
+    case KEY_TR: object->pos.ax -= last*aspeed; break; // ,>
+    case KEY_MU: object->pos.ay += last*aspeed; break; // ^,
+    case KEY_MD: object->pos.ay -= last*aspeed; break; // ,^
   }
-  thing->updatePositionAndGrid(thing->pos);
-  thing->updatePosition();
-  OList *vicilist = thing->getVicinity(oldobj);
-  thing->generalIntersect(oldobj, vicilist);
+  object->updatePositionAndGrid(object->pos);
+  object->updatePosition();
+  OList *vicilist = object->getVicinity(oldobj);
+  object->generalIntersect(oldobj, vicilist);
   if (*name.type) {	//FIXME: segfault
     vicilist->removeObject();
   }
-  thing->updGrid(oldobj);
-  if (thing->isBehavior(COLLIDE_NEVER)) {
+  object->updGrid(oldobj);
+  if (object->isBehavior(COLLIDE_NEVER)) {
     delete oldobj;
     return;
   }

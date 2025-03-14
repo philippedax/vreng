@@ -603,7 +603,7 @@ class Object {
   void moveUserToObject(float val, float _lttl, float _attl);
   /**< Moves the user to the object. */
 
-  static void moveObject(Object *o);
+  void moveObject(Object *o);
   /**< User moves the object. */
 
  private:

@@ -59,7 +59,7 @@ void gotoBehind(class Object *po, void *d, time_t s, time_t u);
 void gotoXYZ(float gox, float goy, float goz, float az);
 /** Move the user to the point */
 
-//static void moveObject(class Object *thing);
+//static void moveObject(class Object *object);
 ///**< User moves the object. */
 
 
