@@ -90,8 +90,8 @@ class Carrier: public Object {
    * left button leaves the object
    * rigth button changes the motion mode */
 
-  void mouseEvent(int8_t vkey, float last);
-  /**< called by userChangePositionOneType from move.cc to redirect
+  void mouseEvent(Object *object, int8_t vkey, float last);
+  /**< called by moveDirection from move.cpp to redirect
    * arrow keys to move the object
    * and handle intersects of this object */
 

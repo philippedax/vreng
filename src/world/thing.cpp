@@ -209,15 +209,18 @@ void Thing::recreate(World *w, void *d, time_t s, time_t u)
   new Thing(w, d, s, u);
 }
 
-void Thing::moveobject(Thing *thing)
+/** Manip object */
+void Thing::manipobject(Thing *thing)
 {
   if (carrier == NULL) {
     carrier = new Carrier();
-    carrier->take(thing);
+    echo("carrier: %p", carrier);
+    carrier->take(this);
     moveObject(thing);
   }
   else {
-    carrier->leave(thing);
+    echo("carrier: %p", carrier);
+    carrier->leave(this);
     delete carrier;
     carrier = NULL;
   }
@@ -225,7 +228,7 @@ void Thing::moveobject(Thing *thing)
 
 void Thing::move_cb(Thing *thing, void *d, time_t s, time_t u)
 {
-  thing->moveobject(thing);
+  thing->manipobject(thing);
 }
 
 void Thing::destroy(Thing *thing, void *d, time_t s, time_t u)

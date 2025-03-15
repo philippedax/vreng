@@ -163,7 +163,7 @@ void Object::moveDirection(uint8_t move_key, float dt)
 {
   if (carrier && carrier->underControl()) {  // capted by carrier
     //echo("onedir: k=%d", move_key);
-    carrier->mouseEvent(move_key, dt);
+    carrier->mouseEvent(this, move_key, dt);
     return;
   }
 

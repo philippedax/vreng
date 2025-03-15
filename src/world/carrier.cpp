@@ -66,21 +66,21 @@ void Carrier::take(Object *o)
   //::g.gui.showManipulator();	// open Manipulator palette
   //::g.gui.expandNavig();	// shows Manipulator palette
   object = o;			// memorize object
-  echo("take control of %s", o->objectName());
+  echo("take control of %s (%p), enter in manipulation mode", o->objectName(), o->carrier);
 
   o->move.manip = true;
   o->move.lspeed.v[0] = lspeed;
   o->move.aspeed.v[1] = aspeed;
   o->imposedMovement(1);
+  if (! o->carrier) {
+    o->carrier = new Carrier();
+  }
   if (o->carrier) {
     o->carrier->control = true;
     localuser->carrier->control = true;
+    control = true;
     echo("take: set control on %s", o->objectName());
   }
-  else {
-    echo("take: no carrier on %s", o->objectName());
-  }
-  control = true;
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
@@ -91,20 +91,16 @@ void Carrier::leave(Object *o)
   if (! o)  return;
   //if (! o->carrier->control) return;	// already leave control - segfault
   object = NULL;
-  echo("leave control of %s, enter in navigation mode", o->objectName());
+  echo("leave control of %s (%p), enter in navigation mode", o->objectName(), o->carrier);
 
   o->pos.alter = true;		// mark it has changed
   o->move.manip = false;
   if (o->carrier) {
     o->carrier->control = false;
+    localuser->carrier->control = false;
+    control = false;
     echo("leave: ctrl=%d", o->carrier->control);
   }
-  else {
-    echo("leave: no carrier on %s", o->objectName());
-  }
-  control = false;
-  localuser->carrier->control = false;
-  //::g.gui.setToCarrier(NULL);
   defaults();			// reset the carrier
 }
 
@@ -120,15 +116,15 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 }
 
 /** Mouse event
- * called by Motion::move (navig.cpp)
+ * called by moveDirection (move.cpp)
  */
-void Carrier::mouseEvent(int8_t vkey, float last)
+void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
 {
   Object *oldobj = new Object();
   if (! object) return;
   object->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
 
-  //echo("carrier: c=%d", control);
+  echo("carrier: c=%d k=%d", control, vkey);
   switch (vkey) {
     case KEY_FW: object->pos.x += last*lspeed; break; // ^
     case KEY_BW: object->pos.x -= last*lspeed; break; // v
