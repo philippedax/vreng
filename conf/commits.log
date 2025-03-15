@@ -3524,3 +3524,4 @@
 3524 Jeu 13 mar 2025 11:46:58 CET	comment take moveObject move.cpp
 3525 Ven 14 mar 2025 19:23:56 CET	repairs moveObject() method of Object carrier.*pp
 3526 Sam 15 mar 2025 10:06:41 CET	mouseEvent(this,...) carrier.*pp
+3527 Sam 15 mar 2025 12:10:17 CET	cleanup manipobject thing.*pp

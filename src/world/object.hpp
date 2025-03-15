@@ -225,52 +225,53 @@ class Object {
   virtual ~Object();
   /**< Destructor. */
 
-  virtual const OClass* getOClass()	{ return NULL; }
+  virtual const OClass* getOClass()		{ return NULL; }
   /**< Abstract class. */
 
-  uint8_t typeId()			{ return getOClass()->type_id; }
-  const char* typeName()		{ return getOClass()->type_name; }
-  WCreator* getCreator()		{ return getOClass()->creator; }
-  WReplicator* getReplicator() 		{ return getOClass()->replicator; }
+  uint8_t typeId()				{ return getOClass()->type_id; }
+  const char* typeName()			{ return getOClass()->type_name; }
+
+  WCreator* getCreator()			{ return getOClass()->creator; }
+  WReplicator* getReplicator() 			{ return getOClass()->replicator; }
 
   ////////////////////////////////////////////////////////////////
   //
   // Virtual Methods of Instances of general object handlers
   //
-  virtual bool isMoving()				{ return testMoving(); }
+  virtual bool isMoving()			{ return testMoving(); }
   /**< Checks whether object is moving. */
 
-  virtual void imposed(float dt)			{}
+  virtual void imposed(float dt)		{}
   /**< Changes the position after a triggered movement. */
 
-  virtual void permanent(float dt)			{}
+  virtual void permanent(float dt)		{}
   /**< Changes the position during a permanent movement. */
 
-  virtual void timing(time_t s, time_t us, float *dt)	{}
+  virtual void timing(time_t s, time_t u, float *dt)	{}
   /**< Updates remaining times of the movement. */
 
-  virtual bool publish(const Pos &pos)			{ return false; }
+  virtual bool publish(const Pos &pos)		{ return false; }
   /**< Publishes changes to the network. */
 
-  virtual bool intersect(Object *pcur, Object *pold)	{ return false; }
+  virtual bool intersect(Object *c, Object *o)	{ return false; }
   /**< Handles an ingoing collision with another object. */
 
-  virtual bool intersectOut(Object *pcur, Object *pold)	{ return false; }
+  virtual bool intersectOut(Object *c, Object *o){ return false; }
   /**< Handles an outgoing collision with another object. */
 
-  virtual void wallsIntersect(Object *wo, V3 *norm)	{}
+  virtual void wallsIntersect(Object *o, V3 *n)	{}
   /**< Handles collisions with walls. */
 
-  virtual void render()					{}
+  virtual void render()				{}
   /**< Makes special rendering. */
 
-  virtual void lighting()				{}
+  virtual void lighting()			{}
   /**< Makes special lighting. */
 
-  virtual void click(V3 norm)				{}
+  virtual void click(V3 norm)			{}
   /**< Intercepts a click. */
 
-  virtual void quit()					{}
+  virtual void quit()				{}
   /**< Makes all thing when leaving the object. */
 
 
@@ -283,7 +284,7 @@ class Object {
   void addSolid(class Solid* solid);
   /**< Adds to solidList. */
 
-  virtual void delSolids();
+  void delSolids();
   /**< Deletes solids from solidList. */
 
   //
