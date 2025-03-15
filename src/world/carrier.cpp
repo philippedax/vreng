@@ -66,7 +66,7 @@ void Carrier::take(Object *o)
   //::g.gui.showManipulator();	// open Manipulator palette
   //::g.gui.expandNavig();	// shows Manipulator palette
   object = o;			// memorize object
-  echo("take control of %s (%p), enter in manipulation mode", o->objectName(), o->carrier);
+  echo("take control of %s (%p) (%p), enter in manipulation mode", o->objectName(), o->carrier, localuser->carrier);
 
   o->move.manip = true;
   o->move.lspeed.v[0] = lspeed;
@@ -91,7 +91,7 @@ void Carrier::leave(Object *o)
   if (! o)  return;
   //if (! o->carrier->control) return;	// already leave control - segfault
   object = NULL;
-  echo("leave control of %s (%p), enter in navigation mode", o->objectName(), o->carrier);
+  echo("leave control of %s (%p) (%p), enter in navigation mode", o->objectName(), o->carrier, localuser->carrier);
 
   o->pos.alter = true;		// mark it has changed
   o->move.manip = false;

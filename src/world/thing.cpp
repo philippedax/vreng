@@ -31,7 +31,7 @@
 #include "cart.hpp"	// Cart
 #include "ball.hpp"	// BALL_TYPE
 #include "pref.hpp"	// g.pref.user
-#include "carrier.hpp"	// leave
+#include "carrier.hpp"	// take, leave
 
 
 const OClass Thing::oclass(THING_TYPE, "Thing", Thing::creator);
@@ -41,7 +41,7 @@ const float Thing::LSPEED = 0.25;	// 0.25 m/s
 static uint16_t oid = 0;
 
 
-/** creation from a file */
+/** Creation from a file */
 Object * Thing::creator(char *l)
 {
   return new Thing(l);
@@ -77,7 +77,7 @@ void Thing::setName()
   updateNames();
 }
 
-/** Creation from XML file */
+/** Creation from vre file */
 Thing::Thing(char *l)
 {
   parser(l);
@@ -159,10 +159,8 @@ void Thing::permanent(float dt)
 {
   if (state == DROPPED) {
     trace1(DBG_WO, "thingChangePermanent: x=%.2f y=%.2f z=%.2f ttl=%.2f dt=%.2f", pos.x, pos.y, pos.z, move.ttl, dt);
-    /* drop this thing by gravity */
+    // drop this thing by gravity
     pos.z -= dt * GRAVITY;
-
-    /* test if finished */
     if (move.ttl == 0) {
       state = NONE;
     }
@@ -214,12 +212,12 @@ void Thing::manipobject(Thing *thing)
 {
   if (carrier == NULL) {
     carrier = new Carrier();
-    echo("carrier: %p", carrier);
+    //echo("carrier: %p", carrier);
     carrier->take(this);
     moveObject(thing);
   }
   else {
-    echo("carrier: %p", carrier);
+    //echo("carrier: %p", carrier);
     carrier->leave(this);
     delete carrier;
     carrier = NULL;
