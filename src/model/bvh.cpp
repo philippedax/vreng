@@ -139,32 +139,32 @@ void Bvh::process(string line)
         if (line == "LeftKnee") {
           try { current->objPart = new rigid("/obj/shin_l.obj"); }
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightKnee") {
           try { current->objPart = new rigid("/obj/shin_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "LeftHip") {
           try { current->objPart = new rigid("/obj/thigh_l.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightHip") {
           try { current->objPart = new rigid("/obj/thigh_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "LeftAnkle") {
           try { current->objPart = new rigid("/obj/foot_l.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightAnkle") {
           try { current->objPart = new rigid("/obj/foot_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "Chest") {
           //current->objPart = new objloader("obj/torso.obj",0,subdir);
@@ -172,47 +172,47 @@ void Bvh::process(string line)
         else if (line == "Chest2") {
           try { current->objPart = new rigid("/obj/chest.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "LeftShoulder") {
           try { current->objPart = new rigid("/obj/shoulder_l.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightShoulder") {
           try { current->objPart = new rigid("/obj/shoulder_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "LeftElbow") {
           try { current->objPart = new rigid("/obj/forearm_l.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightElbow") {
           try { current->objPart = new rigid("/obj/forearm_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "LeftWrist") {
           try { current->objPart = new rigid("/obj/hand_l.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightWrist") {
           try { current->objPart = new rigid("/obj/hand_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "Neck") {
           try { current->objPart = new rigid("/obj/neck.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         else if (line == "Head") {
           try { current->objPart = new rigid("/obj/head.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
-          current->objPart->location.matrix[10]=1.0f;
+          current->objPart->location.matrix[10]=1;
         }
         theMode = NONE;
         break;
@@ -476,7 +476,7 @@ void rigid::draw()
 
     // draw Center of Mass
     glBegin(GL_LINES);
-    glColor3f(0.2f,0.3f,1.0f);
+    glColor3f(0.2f,0.3f,1);
     vector3f up(0,0.5,0);
     glVertex3fv((centerOfMass+up).vertex);
     glVertex3fv((centerOfMass-up).vertex);
@@ -626,7 +626,7 @@ void movable::init()
 {
   echo("movable::init");
   location.identity();
-  location.matrix[10] = -1.0f;  
+  location.matrix[10] = -1;  
 
   drawBB    = true;
   BBcollided  = false;
@@ -647,7 +647,7 @@ void movable::setName(string name)
 {
   echo("movable::setName");
   location.identity();
-  location.matrix[10] = -1.0f; 
+  location.matrix[10] = -1; 
   this->name = name;
   for (int i=0; name[i] !=0; i++) {
     this->name[i] = name[i];
@@ -775,34 +775,6 @@ void movable::drawBoundingBox()
   glEnable(GL_LIGHTING);
 }
 
-
-#if 0 //notcalled
-void Normal(vector3f* v1, vector3f* v2, vector3f* v3)
-{
-  //echo("Normal");
-  vector3f a(0, 0, 0);
-  vector3f b(0, 0, 0);
-  vector3f res(0, 0, 0);
-  float len;
-
-  a.vertex[0] = v1->vertex[0] - v2->vertex[0];
-  a.vertex[1] = v1->vertex[1] - v2->vertex[1];
-  a.vertex[2] = v1->vertex[2] - v2->vertex[2];
-  b.vertex[0] = v1->vertex[0] - v3->vertex[0];
-  b.vertex[1] = v1->vertex[1] - v3->vertex[1];
-  b.vertex[2] = v1->vertex[2] - v3->vertex[2];
-
-  res.vertex[0] = (a.vertex[1]*b.vertex[2]) - (b.vertex[1]*a.vertex[2]);
-  res.vertex[1] = (b.vertex[0]*a.vertex[2]) - (a.vertex[0]*b.vertex[2]);
-  res.vertex[2] = (a.vertex[0]*b.vertex[1]) - (b.vertex[0]*a.vertex[1]);
-
-  // calculate the length of the normal
-  len = (float)sqrt(SQR(res.vertex[0]) + SQR(res.vertex[1]) + SQR(res.vertex[2]));
-  // normalize and specify the normal
-  glNormal3f(res.vertex[0]/len, res.vertex[1]/len, res.vertex[2]/len);
-}
-#endif //notcalled
-
 // calculate the length of the normal
 float vector3f::length()
 {
@@ -896,7 +868,7 @@ bool operator> (const vector3f &v1, const vector3f &v2)
 
 vector3f operator+ (const vector3f &v1, const vector3f &v2)
 {
-  vector3f res(0.0f, 0.0f, 0.0f);
+  vector3f res(0, 0, 0);
 
   res.vertex[0] = v1.vertex[0] + v2.vertex[0];
   res.vertex[1] = v1.vertex[1] + v2.vertex[1];
@@ -906,7 +878,7 @@ vector3f operator+ (const vector3f &v1, const vector3f &v2)
 
 vector3f operator+ (const vector3f &v1, const float scalar)
 {
-  vector3f res(0.0f, 0.0f, 0.0f);
+  vector3f res(0, 0, 0);
 
   res.vertex[0] = v1.vertex[0] + scalar;
   res.vertex[1] = v1.vertex[1] + scalar;
@@ -916,7 +888,7 @@ vector3f operator+ (const vector3f &v1, const float scalar)
 
 vector3f operator- (const vector3f &v1, const vector3f &v2)
 {
-  vector3f res(0.0f, 0.0f, 0.0f);
+  vector3f res(0, 0, 0);
 
   res.vertex[0] = v1.vertex[0] - v2.vertex[0];
   res.vertex[1] = v1.vertex[1] - v2.vertex[1];
@@ -926,7 +898,7 @@ vector3f operator- (const vector3f &v1, const vector3f &v2)
 
 vector3f operator- (const vector3f &v1, const float scalar)
 {
-  vector3f res(0.0f, 0.0f, 0.0f);
+  vector3f res(0, 0, 0);
 
   res.vertex[0]= v1.vertex[0] - scalar;
   res.vertex[1]= v1.vertex[1] - scalar;
@@ -936,7 +908,7 @@ vector3f operator- (const vector3f &v1, const float scalar)
 
 vector3f operator* (const vector3f &v1, const float scalar)
 {
-  vector3f res(0.0f, 0.0f, 0.0f);
+  vector3f res(0, 0, 0);
 
   res.vertex[0]= v1.vertex[0] * scalar;
   res.vertex[1]= v1.vertex[1] * scalar;
@@ -946,7 +918,7 @@ vector3f operator* (const vector3f &v1, const float scalar)
 
 vector3f operator* (const vector3f &v1, const vector3f &v2)
 {
-  vector3f res(0.0f, 0.0f, 0.0f);
+  vector3f res(0, 0, 0);
 
   res.vertex[0]= v1.vertex[0] * v2.vertex[0];
   res.vertex[1]= v1.vertex[1] * v2.vertex[1];
@@ -956,7 +928,7 @@ vector3f operator* (const vector3f &v1, const vector3f &v2)
 
 vector3f operator/ (const vector3f &v1, const vector3f &v2)
 {
-  vector3f res(0.0f, 0.0f, 0.0f);
+  vector3f res(0, 0, 0);
 
   res.vertex[0]= v1.vertex[0] / v2.vertex[0];
   res.vertex[1]= v1.vertex[1] / v2.vertex[1];
@@ -966,7 +938,7 @@ vector3f operator/ (const vector3f &v1, const vector3f &v2)
 
 vector3f operator/ (const vector3f &v1, const float scalar)
 {
-  vector3f res(0.0f, 0.0f, 0.0f);
+  vector3f res(0, 0, 0);
 
   res.vertex[0]= v1.vertex[0] / scalar;
   res.vertex[1]= v1.vertex[1] / scalar;
@@ -996,10 +968,10 @@ void matrix16f::reset()
 
 void matrix16f::identity()
 {
-  matrix[0] =1.0f; matrix[4] =0.0f; matrix[8] =0.0f; matrix[12] =0.0f;
-  matrix[1] =0.0f; matrix[5] =1.0f; matrix[9] =0.0f; matrix[13] =0.0f;
-  matrix[2] =0.0f; matrix[6] =0.0f; matrix[10]=1.0f; matrix[14] =0.0f;
-  matrix[3] =0.0f; matrix[7] =0.0f; matrix[11]=0.0f; matrix[15] =1.0f;
+  matrix[0] =1; matrix[4] =0; matrix[8] =0; matrix[12] =0;
+  matrix[1] =0; matrix[5] =1; matrix[9] =0; matrix[13] =0;
+  matrix[2] =0; matrix[6] =0; matrix[10]=1; matrix[14] =0;
+  matrix[3] =0; matrix[7] =0; matrix[11]=0; matrix[15] =1;
 }
 
 void matrix16f::translate(float x, float y, float z)
@@ -1418,9 +1390,9 @@ matrix9f matrix9f::inverse()
 
 void matrix9f::identity()
 {
-  matrix[0] = 1.0f; matrix[3] = 0.0f; matrix[6] = 0.0f; 
-  matrix[1] = 0.0f; matrix[4] = 1.0f; matrix[7] = 0.0f; 
-  matrix[2] = 0.0f; matrix[5] = 0.0f; matrix[8] = 1.0f; 
+  matrix[0] = 1; matrix[3] = 0; matrix[6] = 0; 
+  matrix[1] = 0; matrix[4] = 1; matrix[7] = 0; 
+  matrix[2] = 0; matrix[5] = 0; matrix[8] = 1; 
 }
 
 matrix9f matrix9f::transpose()
@@ -1634,27 +1606,6 @@ bool operator== (const matrix9f &m1, const matrix9f &m2)
 }
 
 #if 0 //notcalled
-//////////////////////////////////////////////////////////////////
-// This makes a normal based on the surface normals of all triangles adjacent
-// to the point, regardless ('irregardless' as Homer would say) of the size of the
-// angle that triangle makes with the point
-vector3f findNorm(vector3f &matchVertex, int numSurfTriangles, triangleV **surfTriangles)
-{
-  vector3f norm;
-
-  for (int i = 0; i < numSurfTriangles; i++) {
-    for (int j = 0; j < 3; j++) {
-      if (surfTriangles[i]->vertice[j] == &matchVertex) {  
-        norm = norm + surfTriangles[i]->norm;
-      }
-    }
-  }
-  norm = norm/norm.length();
-  return norm;
-}
-#endif //notcalled
-
-#if 0 //notcalled
 light::light(camera *viewer, int GL_LIGHTX, float maxFade, float minFade, float scale)
 {
   echo("light::light %d sc=%.2f", GL_LIGHTX, scale);
@@ -1670,11 +1621,11 @@ light::light(camera *viewer, int GL_LIGHTX, float maxFade, float minFade, float 
   this->minFade = minFade * minFade;
   this->scale = scale;
 
-  GLfloat pos[] = {location.matrix[12],location.matrix[13],location.matrix[14],1.0f};
+  GLfloat pos[] = {location.matrix[12],location.matrix[13],location.matrix[14],1};
 
-  Ka[0]=0.3f; Ka[1]=0.3f; Ka[2]=0.3f; Ka[3]=1.0f; 
-  Kd[0]=0.5f; Kd[1]=0.5f; Kd[2]=0.5f; Kd[3]=1.0f; 
-  Ks[0]=0.3f; Ks[1]=0.3f; Ks[2]=0.3f; Ks[3]=1.0f; 
+  Ka[0]=0.3f; Ka[1]=0.3f; Ka[2]=0.3f; Ka[3]=1; 
+  Kd[0]=0.5f; Kd[1]=0.5f; Kd[2]=0.5f; Kd[3]=1; 
+  Ks[0]=0.3f; Ks[1]=0.3f; Ks[2]=0.3f; Ks[3]=1; 
   
   if ((GL_LIGHTX >= GL_LIGHT0) && (GL_LIGHTX <= GL_LIGHT7)) {
     glEnable(GL_LIGHTX);
@@ -1696,7 +1647,7 @@ void light::draw()
   echo("light::draw");
   glPushMatrix();
   glEnable(GL_LIGHTING);  
-  GLfloat pos[] = {location.matrix[12],location.matrix[13],location.matrix[14],1.0f};
+  GLfloat pos[] = {location.matrix[12],location.matrix[13],location.matrix[14],1};
   
   if ((GL_LIGHTX >= GL_LIGHT0) && (GL_LIGHTX <= GL_LIGHT7)) {
     glEnable(GL_LIGHTX);
@@ -1715,7 +1666,7 @@ void light::drawDim(vector3f distant)
   glPushMatrix();  
 
   vector3f lightPos(location.matrix[12],location.matrix[13],location.matrix[14]);
-  GLfloat pos[] = {location.matrix[12],location.matrix[13],location.matrix[14],1.0f};
+  GLfloat pos[] = {location.matrix[12],location.matrix[13],location.matrix[14],1};
   
   float distanceSquared = (lightPos-distant).length2();
   float attenuate; // = 1.0;
@@ -1728,9 +1679,9 @@ void light::drawDim(vector3f distant)
     else attenuate = 0;
   } else attenuate = 1;  
       
-  GLfloat Kaf[] = {Ka[0] * attenuate, Ka[1] * attenuate, Ka[2] * attenuate, Ka[3],1.0f};
-  GLfloat Kdf[] = {Kd[0] * attenuate, Kd[1] * attenuate, Kd[2] * attenuate, Kd[3],1.0f};
-  GLfloat Ksf[] = {Ks[0] * attenuate, Ks[1] * attenuate, Ks[2] * attenuate, Ks[3],1.0f};
+  GLfloat Kaf[] = {Ka[0] * attenuate, Ka[1] * attenuate, Ka[2] * attenuate, Ka[3],1};
+  GLfloat Kdf[] = {Kd[0] * attenuate, Kd[1] * attenuate, Kd[2] * attenuate, Kd[3],1};
+  GLfloat Ksf[] = {Ks[0] * attenuate, Ks[1] * attenuate, Ks[2] * attenuate, Ks[3],1};
   
   if ((GL_LIGHTX >= GL_LIGHT0) && (GL_LIGHTX <= GL_LIGHT7)) {
     glEnable(GL_LIGHTX);
@@ -1777,21 +1728,21 @@ void camera::init()
   radius = 10.;
 
   //location.identity();
-  //location.matrix[10] = -1.0f;  // this is critical!! remember in OpenGL x cross y = z
+  //location.matrix[10] = -1;  // this is critical!! remember in OpenGL x cross y = z
   
   other.identity();
-  other.matrix[10] = -1.0f;  
+  other.matrix[10] = -1;  
   
   // position camera behind and above object
   other.RotateY(180);
 
   for (int i=0; i<20;i++) {
     delay[i].identity();
-    delay[i].matrix[10] = -1.0f;
+    delay[i].matrix[10] = -1;
   }
-  angles.vertex[0] = 0.0f;//M_PI/2;
-  angles.vertex[1] = 0.0f;//3*M_PI/4;
-  angles.vertex[2] = 0.0f;
+  angles.vertex[0] = 0;//M_PI/2;
+  angles.vertex[1] = 0;//3*M_PI/4;
+  angles.vertex[2] = 0;
 }
 
 void camera::move(int pitch, int turn, int roll, float x, float y, float z)
@@ -1824,7 +1775,7 @@ void camera::move(int pitch, int turn, int roll, float x, float y, float z)
 
     temp.set(location.matrix[12],location.matrix[13],location.matrix[14]);
     location.identity();
-    location.matrix[10] = -1.0f; 
+    location.matrix[10] = -1; 
     location.matrix[12] = temp.vertex[0];
     location.matrix[13] = temp.vertex[1];
     location.matrix[14] = temp.vertex[2];
@@ -1869,32 +1820,6 @@ void camera::look()
 #endif
 
 ///////////////////////////////
-#if 0 //notcalled
-material& material::operator= (const material &mat)
-{
-  name = mat.name;
-  faces = mat.faces;
-  Se = mat.Se;
-  
-  for (int i=0; i <4; i++) {  
-    Ka[i] = mat.Ka[i];
-    Ks[i] = mat.Ks[i];
-    Kd[i] = mat.Kd[i];
-    Ke[i] = mat.Ke[i];  
-  }
-  opacity = mat.opacity;
-  return *this;
-}
-
-triangleInd& triangleInd::operator= (const triangleInd &tri)
-{
-  for (int i=0; i<3; i++) { vertIndices[i] = tri.vertIndices[i]; }   
-  
-  normal = tri.normal;
-  collision = tri.collision;  
-  return *this;  
-}
-#endif
 
 #if 0 //notcalled replaced by Obj
 objloader::objloader(string objFile)
@@ -2069,7 +1994,7 @@ void objloader::processMtl(string line, material *mtl)
         mtl->Kd[kIndex] = atof(line.c_str());
         kIndex++;
         if (kIndex >= 3) {
-          mtl->Kd[3] = 1.0f;
+          mtl->Kd[3] = 1;
           //cout << mtl->name << " " << mtl->Kd[0] << " " << 
           //     mtl->Kd[1] << " " << mtl->Kd[2] << " " <<
           //     mtl->Kd[3] << "\n";
@@ -2080,7 +2005,7 @@ void objloader::processMtl(string line, material *mtl)
         mtl->Ka[kIndex] = atof(line.c_str());
         kIndex++;
         if (kIndex >= 3) {
-          mtl->Ka[3] = 1.0f;
+          mtl->Ka[3] = 1;
           theMtlMode = NONEM;
         }
         break;
@@ -2088,7 +2013,7 @@ void objloader::processMtl(string line, material *mtl)
         mtl->Ks[kIndex] = atof(line.c_str());
         kIndex++;
         if (kIndex >= 3) {
-          mtl->Ks[3] = 1.0f;
+          mtl->Ks[3] = 1;
           theMtlMode = NONEM;
         }
         break;
@@ -2122,7 +2047,7 @@ void objloader::loadMtl(string mtlFile)
   newMtl->Ke[0] = 0;
   newMtl->Ke[1] = 0;
   newMtl->Ke[2] = 0;
-  newMtl->Ke[3] = 1.0f;
+  newMtl->Ke[3] = 1;
   
   for (int i=0; i < lines.size(); i++) {
     processMtl(lines[i], newMtl);
