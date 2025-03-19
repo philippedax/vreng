@@ -3526,3 +3526,4 @@
 3526 Sam 15 mar 2025 10:06:41 CET	mouseEvent(this,...) carrier.*pp
 3527 Sam 15 mar 2025 12:10:17 CET	cleanup manipobject thing.*pp
 3528 Sam 15 mar 2025 15:31:38 CET	cleanup virtual object.hpp
+3529 Dim 16 mar 2025 08:12:37 CET	cleanup unused bvh.cpp

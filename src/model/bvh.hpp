@@ -34,7 +34,7 @@ using namespace std;
 #define ROTATE_SLOWNESS 8
 
 class fileNotFound {};
-class ChannelError;
+
 
 /// Three floats in a array, lots of overloaded operators
 class vector3f {
@@ -85,26 +85,19 @@ class matrix16f {
 
   void reset();
   void identity();
-
   void print(); 
-
   void translate(float x, float y, float z);
   void scale(float x, float y, float z);
-
   void RotateX(int deg);
   void RotateY(int deg);
   void RotateZ(int deg);
-
   void RotateX(float rad);
   void RotateY(float rad);
   void RotateZ(float rad);
-
   void RotateXYZ(float x, float y, float z);
   void Rotate(matrix16f m1);
-  
   void set(vector3f right, vector3f up, vector3f out);
   
-  //void eq(float m[16]);
   matrix16f& operator= (const matrix16f &m1);
 
   vector3f transform(vector3f point);
@@ -135,7 +128,6 @@ class matrix9f {
 
   void reset();
   void identity();
-  
   void RotateX(int deg);
   void RotateY(int deg);
   void RotateZ(int deg);
@@ -160,7 +152,6 @@ class matrix9f {
 
 float det(float f0, float f1, float f2, float f3);
 
-//float dotProduct(vector3f &v1, vector3f &v2);
 vector3f crossProduct(const vector3f &v1, const vector3f &v2);
 
 typedef struct _triangleV {
@@ -168,8 +159,6 @@ typedef struct _triangleV {
   vector3f *vertice[3];  
   vector3f norm;      // triangle norm
 } triangleV;
-
-//notcalled vector3f findNorm(int index, int numSurfTriangles, vector3f **surfTriangles);
 
 
 /// Mostly virtual class for any entity in the scene
@@ -344,7 +333,7 @@ class material {
   //int numUVs;
   //uv     **uvs;
 
-  vector<triangleInd> faces;
+  std::vector<triangleInd> faces;
 
   // reflectances
   GLfloat Se;    ///< shininess exponent 0-128
@@ -357,9 +346,6 @@ class material {
 
 
 /// Parse in .obj's 
-
-//dax typedef struct uv { float uorv[2]; };
-
 /**
   I could do more parsers for other formats but .objs fit all my
   needs for now (I'll need my own format most likely).
@@ -368,7 +354,6 @@ class material {
   Probably this shouldn't be a movable subclass anymore.
  */
 class objloader: public movable {
-
   enum objMode {NONE,MTLLIB,VERTEX,NORMAL,FACE};
   enum mtlMode {NONEM,NEWMTL,NS,D,ILLUM,KD,KA,KS};
 
@@ -446,7 +431,7 @@ class rigid: public movable {
   /// Virtual generic draw member, calls makeList
   void draw();
   /// Adjust light intensity per-vertex
-  void drawDim(vector<light*> lights);
+  void drawDim(std::vector<light*> lights);
   /// Does nothing currently, put scripted movements here
   //dax void update();
   /// Currently not using display lists, this just draws each triangle
@@ -495,14 +480,14 @@ class bvhPart {
 
   vector3f offset;
   
-  vector<matrix16f> motion;
+  std::vector<matrix16f> motion;
   
   //objloader* objPart;
   rigid* objPart;
   
   bvhPart* parent;
-  vector<channelTypes> channels;
-  vector<bvhPart*> child;
+  std::vector<channelTypes> channels;
+  std::vector<bvhPart*> child;
 };
 
 /**
@@ -521,7 +506,7 @@ class Bvh {
   // Have another class with just essential data structures
   // that uses a processing class and then deletes it- more mem efficient
   bvhPart *current;
-  vector <bvhPart*> bvhPartsLinear;
+  std::vector <bvhPart*> bvhPartsLinear;
   
   mode theMode;
   int vertIndex;
