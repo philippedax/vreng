@@ -43,7 +43,7 @@ using namespace std;
 Bvh::Bvh(const char *url)
 {
   verbose = false;
-  string bvhfile;
+  std::string bvhfile;
   download(url);
   Cache::getCacheName(url, bvhfile);
   init(bvhfile);
@@ -74,7 +74,7 @@ void Bvh::reader(void *_bvh, Http *http)
   delete cache;
 }
 
-void Bvh::process(string line)
+void Bvh::process(std::string line)
 {  
   if (line == "OFFSET") {
     vertIndex = 0;  
@@ -349,7 +349,7 @@ void Bvh::recurs(bvhPart* some)
   }
 }
  
-void Bvh::init(string bvhFile)
+void Bvh::init(std::string bvhFile)
 {
   //echo("Bvh::init");
   data = 0;
@@ -362,23 +362,20 @@ void Bvh::init(string bvhFile)
   tempMotionZ.identity();
   
   ifstream bvhStream(bvhFile.c_str());
-  if (!bvhStream) {
+  if (! bvhStream) {
     error("File %s not found", bvhFile.c_str());
-    throw fileNotFound(); 
+    //throw fileNotFound(); 
     return;
   }
   //echo("File %s found", bvhFile.c_str());
-  istream_iterator<string> bvhIt(bvhStream);
-  istream_iterator<string> sentinel;
+  std::istream_iterator<std::string> bvhIt(bvhStream);
+  std::istream_iterator<std::string> sentinel;
 
-  vector<string> lines(bvhIt, sentinel);
+  std::vector<std::string> lines(bvhIt, sentinel);
   
-  // for_each(lines.begin(),lines.end(),&bvh::process);
   for (int i=0; i < lines.size(); i++) {
-    try { process(lines[i]); }
-    catch (fileNotFound) { throw fileNotFound(); return; }
+    process(lines[i]);
   }
-  
   bvhStream.close();
   
   framesNum = bvhPartsLinear[0]->motion.size();
@@ -392,7 +389,7 @@ rigid::rigid(const char *url)
 {
   echo("rigid::rigid url=%s", url);
 #if 0 //dax
-  string objfile;
+  std::string objfile;
   download(url);
   Cache::getCacheName(url, objfile);
 
@@ -426,118 +423,6 @@ void rigid::reader(void *_rigid, Http *http)
     delete cache;
   }
 }
-
-#if 0 //notcalled
-void rigid::draw()
-{
-  echo("rigid::draw");
-  glPushMatrix();
-  if (drawBB) drawAABB();
-  glMultMatrixf(location.matrix);
-
-  glEnable(GL_LIGHTING);
-  
-  if (drawSurface) makeList();
-   glCallList(listNum);
-  
-  glDisable(GL_LIGHTING);
-
-#ifdef SHOW_TRI_NORMS
-  glColor3f(0, 0.6, 0.9);
-  glBegin(GL_LINES);
-  for (int m=0; m < mtls.size(); m++) {
-    for (int i=0; i <mtls[m]->faces.size(); i++) {
-      glVertex3fv(vertices[mtls[m]->faces[i].vertIndices[0]-1].vertex);
-      glVertex3fv(((vertices[mtls[m]->faces[i].vertIndices[0]-1] + mtls[m]->faces[i].normal)).vertex);
-    }
-  }
-  glEnd();  
-#endif
-
-#ifdef SHOW_INT_POINTS
-    glBegin (GL_POINTS);
-    glColor3f(0.3, 0.6, 0.9);
-    for (int i=0; i < theObj->iStack.size(); i++) {    
-      glVertex3fv(theObj->iStack[i].vertex);
-    }
-    glColor3f(0.9, 0.6, 0.3);
-    for (int i=0; i < theObj->upperI.size(); i++) {    
-      glVertex3fv(theObj->upperI[i].vertex);  
-    }
-    glColor3f(0.3, 0.9, 0.3);
-    for (int i=0; i < theObj->lowerI.size(); i++) {    
-      glVertex3fv(theObj->lowerI[i].vertex);  
-    }
-    glEnd ();
-#endif
-  //makeList();
-  if (drawBB) {
-    drawBoundingBox();
-
-    // draw Center of Mass
-    glBegin(GL_LINES);
-    glColor3f(0.2f,0.3f,1);
-    vector3f up(0,0.5,0);
-    glVertex3fv((centerOfMass+up).vertex);
-    glVertex3fv((centerOfMass-up).vertex);
-    vector3f right(.5,0,0);
-    glVertex3fv((centerOfMass+right).vertex);
-    glVertex3fv((centerOfMass-right).vertex);
-    vector3f out(0,0,.5);
-    glVertex3fv((centerOfMass+out).vertex);
-    glVertex3fv((centerOfMass-out).vertex);
-    glEnd();
-  }
-  glPopMatrix();
-  return;
-}
-#endif //notcalled
-
-#if 0 //notcalled
-void rigid::drawDim(vector<light*> lights)
-{
-  echo("rigid::drawDim");
-  glPushMatrix();
-  glMultMatrixf(location.matrix);
-  glEnable(GL_LIGHTING);
-
-  for (uint32_t m=0; m < mtls.size(); m++) {
-      glMaterialfv(GL_FRONT,GL_AMBIENT, mtls[m]->Ka);
-      glMaterialfv(GL_FRONT,GL_DIFFUSE, mtls[m]->Kd);
-      glMaterialfv(GL_FRONT,GL_SPECULAR,mtls[m]->Ks);
-      glMaterialfv(GL_FRONT,GL_EMISSION,mtls[m]->Ke);
-
-      if (translucent) glColor4f(1,1,1, mtls[m]->opacity);
-
-      for (uint32_t i=0; i < mtls[m]->faces.size(); i++) {
-        uint32_t j;
-        
-        //location.scale(6.5,7.5,6.5);
-        matrix16f temp = location;
-        temp.scale(6.5,7.5,6.5);
-        for (j=0; j < lights.size(); j++) {
-          lights[j]->drawDim(temp.transform(vertices[mtls[m]->faces[i].vertIndices[0]-1]));
-        }
-        glPushMatrix();
-        glMultMatrixf(location.matrix);
-        
-        glScalef(6.5,7.5,6.5);
-        glBegin(GL_TRIANGLES);
-        glNormal3fv(normals[mtls[m]->faces[i].vertIndices[0]-1].vertex);
-        glVertex3fv(vertices[mtls[m]->faces[i].vertIndices[0]-1].vertex);
-        glNormal3fv(normals[mtls[m]->faces[i].vertIndices[1]-1].vertex);
-        glVertex3fv(vertices[mtls[m]->faces[i].vertIndices[1]-1].vertex);
-        glNormal3fv(normals[mtls[m]->faces[i].vertIndices[2]-1].vertex);
-        glVertex3fv(vertices[mtls[m]->faces[i].vertIndices[2]-1].vertex);
-
-        glEnd();
-        glPopMatrix();
-      }
-    }
-  glDisable(GL_LIGHTING);
-  glPopMatrix();
-}
-#endif //notcalled
 
 void rigid::makeList()
 {
@@ -615,7 +500,7 @@ movable::movable()
   init();
 }
 
-movable::movable(string name)
+movable::movable(std::string name)
 {
   echo("movable::movable");
   setName(name);
@@ -643,7 +528,7 @@ movable& movable::operator= (const movable& other)
   return *this;
 }
 
-void movable::setName(string name)
+void movable::setName(std::string name)
 {
   echo("movable::setName");
   location.identity();
@@ -1604,533 +1489,3 @@ bool operator== (const matrix9f &m1, const matrix9f &m2)
   }
   return res;
 }
-
-#if 0 //notcalled
-light::light(camera *viewer, int GL_LIGHTX, float maxFade, float minFade, float scale)
-{
-  echo("light::light %d sc=%.2f", GL_LIGHTX, scale);
-  //verbose = true;
-  
-  if (verbose) cout << "light " << GL_LIGHTX << " init..." << endl;
-
-  this->viewer = viewer;
-  this->GL_LIGHTX = GL_LIGHTX;
-  
-  /// Distances are compared squared, so just square these now to save time
-  this->maxFade = maxFade * maxFade;
-  this->minFade = minFade * minFade;
-  this->scale = scale;
-
-  GLfloat pos[] = {location.matrix[12],location.matrix[13],location.matrix[14],1};
-
-  Ka[0]=0.3f; Ka[1]=0.3f; Ka[2]=0.3f; Ka[3]=1; 
-  Kd[0]=0.5f; Kd[1]=0.5f; Kd[2]=0.5f; Kd[3]=1; 
-  Ks[0]=0.3f; Ks[1]=0.3f; Ks[2]=0.3f; Ks[3]=1; 
-  
-  if ((GL_LIGHTX >= GL_LIGHT0) && (GL_LIGHTX <= GL_LIGHT7)) {
-    glEnable(GL_LIGHTX);
-    glLightfv(GL_LIGHTX, GL_POSITION,pos);
-    glLightfv(GL_LIGHTX, GL_AMBIENT, Ka);  
-    glLightfv(GL_LIGHTX, GL_DIFFUSE, Kd);
-    glLightfv(GL_LIGHTX, GL_SPECULAR,Ks);
-  }
-  if (verbose) cout << "finished\n\t";
-}
-
-light::~light()
-{
-  glDisable(GL_LIGHTX);
-}
-
-void light::draw()
-{
-  echo("light::draw");
-  glPushMatrix();
-  glEnable(GL_LIGHTING);  
-  GLfloat pos[] = {location.matrix[12],location.matrix[13],location.matrix[14],1};
-  
-  if ((GL_LIGHTX >= GL_LIGHT0) && (GL_LIGHTX <= GL_LIGHT7)) {
-    glEnable(GL_LIGHTX);
-    glLightfv(GL_LIGHTX, GL_POSITION,pos);
-    glLightfv(GL_LIGHTX, GL_AMBIENT, Ka);  
-    glLightfv(GL_LIGHTX, GL_DIFFUSE, Kd);
-    glLightfv(GL_LIGHTX, GL_SPECULAR,Ks);
-  }
-  glDisable(GL_LIGHTING); 
-  glPopMatrix();
-}
-
-void light::drawDim(vector3f distant)
-{
-  echo("light::drawDim");
-  glPushMatrix();  
-
-  vector3f lightPos(location.matrix[12],location.matrix[13],location.matrix[14]);
-  GLfloat pos[] = {location.matrix[12],location.matrix[13],location.matrix[14],1};
-  
-  float distanceSquared = (lightPos-distant).length2();
-  float attenuate; // = 1.0;
-
-  if (maxFade != 0) {
-    if (distanceSquared < minFade) 
-      attenuate = scale;
-    else if ((distanceSquared < maxFade) && (distanceSquared > minFade))
-      attenuate = scale * (maxFade - distanceSquared) / (maxFade - minFade);
-    else attenuate = 0;
-  } else attenuate = 1;  
-      
-  GLfloat Kaf[] = {Ka[0] * attenuate, Ka[1] * attenuate, Ka[2] * attenuate, Ka[3],1};
-  GLfloat Kdf[] = {Kd[0] * attenuate, Kd[1] * attenuate, Kd[2] * attenuate, Kd[3],1};
-  GLfloat Ksf[] = {Ks[0] * attenuate, Ks[1] * attenuate, Ks[2] * attenuate, Ks[3],1};
-  
-  if ((GL_LIGHTX >= GL_LIGHT0) && (GL_LIGHTX <= GL_LIGHT7)) {
-    glEnable(GL_LIGHTX);
-    glLightfv(GL_LIGHTX, GL_POSITION, pos);
-    glLightfv(GL_LIGHTX, GL_AMBIENT, Kaf);  
-    glLightfv(GL_LIGHTX, GL_DIFFUSE, Kdf);
-    glLightfv(GL_LIGHTX, GL_SPECULAR,Ksf);
-  }
-  glPopMatrix();
-}
-
-void light::getBoundingBox()
-{
-  echo("light::getBB");
-#if 0
-  centerBB = lightobj->centerBB;
-  edgesBB = lightobj->edgesBB;
-  for (int i=0; i<8;i++) {
-    boundingBox[i] = lightobj->boundingBox[i]; 
-  }
-#endif
-}
-#endif //notcalled
-
-
-#if 0 //notcalled
-camera::camera()
-{
-  init();
-}
-
-camera::camera(string name, mode lookMode)
-{
-  echo("camera::camera");
-  this->name = name;
-  this->lookMode = lookMode;
-  //cout << lookMode << "\n";
-  init();
-}
-
-void camera::init()
-{
-  echo("camera::init");
-  radius = 10.;
-
-  //location.identity();
-  //location.matrix[10] = -1;  // this is critical!! remember in OpenGL x cross y = z
-  
-  other.identity();
-  other.matrix[10] = -1;  
-  
-  // position camera behind and above object
-  other.RotateY(180);
-
-  for (int i=0; i<20;i++) {
-    delay[i].identity();
-    delay[i].matrix[10] = -1;
-  }
-  angles.vertex[0] = 0;//M_PI/2;
-  angles.vertex[1] = 0;//3*M_PI/4;
-  angles.vertex[2] = 0;
-}
-
-void camera::move(int pitch, int turn, int roll, float x, float y, float z)
-{
-  echo("camera::move");
-  vector3f temp;
-  
-  switch (lookMode) {
-  case FREE:
-    if (pitch != 0) location.RotateX(-pitch/ROTATE_SLOWNESS);
-    if (turn != 0) location.RotateY(-turn/ROTATE_SLOWNESS);
-    if (roll != 0) location.RotateZ(roll/ROTATE_SLOWNESS);
-    location.translate(x,y,z);
-  break;
-  
-  case FREEORIENTED:
-    angles = angles + vector3f(DEG2RAD(-pitch/ROTATE_SLOWNESS),
-                   DEG2RAD(-turn/ROTATE_SLOWNESS), 
-                   DEG2RAD( roll/ROTATE_SLOWNESS));
-    
-    /// vertex[0] is theta, or pitch
-    if (angles.vertex[0] >  M_PI/2) angles.vertex[0] =  M_PI/2;
-    if (angles.vertex[0] < -M_PI/2) angles.vertex[0] = -M_PI/2;
-    /// vertex[1] is phi, or turn   wrap the angles here
-    while (angles.vertex[1] > 2*M_PI) angles.vertex[1] -= 2*M_PI;
-    while (angles.vertex[1] < 0.0)    angles.vertex[1] += 2*M_PI;
-    
-    if (angles.vertex[2] >  M_PI/2) angles.vertex[2] =  M_PI/2;
-    if (angles.vertex[2] < -M_PI/2) angles.vertex[2] = -M_PI/2;
-
-    temp.set(location.matrix[12],location.matrix[13],location.matrix[14]);
-    location.identity();
-    location.matrix[10] = -1; 
-    location.matrix[12] = temp.vertex[0];
-    location.matrix[13] = temp.vertex[1];
-    location.matrix[14] = temp.vertex[2];
-  
-    /// Ordering of rotations is important
-    location.RotateY(angles.vertex[1]);
-    /// We want to move in the proper direction here
-    location.translate(x,y,z);
-    /// but not take these rotations into account
-    location.RotateX(angles.vertex[0]);
-    location.RotateZ(angles.vertex[2]);
-  break;
-    
-  case CENTERED:
-    if (pitch != 0) location.RotateX(-2*pitch/ROTATE_SLOWNESS);
-    if (turn != 0) location.RotateY(-2*turn/ROTATE_SLOWNESS);
-    if (roll != 0) location.RotateZ(2*roll/ROTATE_SLOWNESS);
-    location.matrix[12] = centerPoint.vertex[0];
-    location.matrix[13] = centerPoint.vertex[1];
-    location.matrix[14] = centerPoint.vertex[2];
-    radius -= z;
-    location.translate(0,0,-radius);
-  break;
-  }
-  newLocation = location;
-}
-
-void camera::look()
-{
-  echo("camera::look");
-  gluLookAt( 
-        //eye
-        location.matrix[12], location.matrix[13], location.matrix[14], 
-        // center
-        location.matrix[12]+location.matrix[8],
-        location.matrix[13]+location.matrix[9],
-        location.matrix[14]+location.matrix[10], 
-        // up
-        location.matrix[4], location.matrix[5], location.matrix[6]);
-  return;  
-}
-#endif
-
-///////////////////////////////
-
-#if 0 //notcalled replaced by Obj
-objloader::objloader(string objFile)
-{  
-  counter = 0;
-  //verbose = true;
-  translucent = false;
-  drawBB = true;
-  
-  /// Strip directory info out of objFile
-  string::size_type pos = objFile.find_last_of("/");
-  this->subdir = objFile.substr(0,pos+1);
-  objFile = objFile.substr(pos+1,objFile.size());
-
-  if (verbose) cout << subdir + objFile << " init...";
-  try { load(objFile); }
-  catch (fileNotFound) { throw fileNotFound(); return;}
-  if (verbose) cout << "finished\n";
-  
-  mass = 1;
-  getBoundingBox();
-}
-
-objloader::~objloader()
-{}
-
-objloader& objloader::operator= (const objloader &obj1)
-{
-  return *this;
-}
-
-bool objloader::load(string objFile)
-{
-  /*
-  // find the last forward slash in the string
-  string::size_type lastSlashPosition;
-  while (lastSlashPosition = objFile.find("/")) {}
-  subdir = objFile.substr(0,lastSlashPosition);
-  cout << "subdir = " << subdir << "\n";
-  */
-  objFile = subdir + objFile;
-
-  ifstream objStream(objFile.c_str());
-  if (!objStream) { 
-    cout << "file \"" << objFile << "\" not found\n";
-    throw fileNotFound(); 
-    return false; 
-  }
-  istream_iterator<string> objIt(objStream);
-  istream_iterator<string> sentinel;
-
-  vector<string> lines(objIt, sentinel);
-  theMode = NONE;
- 
-  //  for_each(lines.begin(),lines.end(),&bvh::process);
-  uint32_t i;
-  for (i=0; i < lines.size(); i++) {
-    try { process(lines[i]); }
-    catch (fileNotFound) { throw fileNotFound(); return false; }
-  }
-  
-  if (verbose) cout << vertices.size() << " vertices\n";
-  if (verbose) cout << normals.size() << " normals (should == vertices)\n";
-  if (verbose) cout << mtls.size() << " materials\n";
-  
-  /// find face normals for collision detection and other uses
-  vector3f normal;
-  for (i=0; i < mtls.size(); i++) {        
-    for (uint32_t j = 0; j < mtls[i]->faces.size(); j++) {
-      int ind0 = mtls[i]->faces[j].vertIndices[0]-1;
-      int ind1 = mtls[i]->faces[j].vertIndices[1]-1;
-      int ind2 = mtls[i]->faces[j].vertIndices[2]-1;
-
-      normal = crossProduct(vertices[ind1] - vertices[ind0], vertices[ind2] - vertices[ind0]);
-      normal = normal/(normal.length());
-      mtls[i]->faces[j].normal = normal;
-    }
-  }
-  return true;
-}
-  
-void objloader::process(string line)
-{  
-  cout << "process " << line << "\n";
-  int index; 
-  string::size_type slashes;
-  
-  //cout << "Mode = " << theMode << "\n";
-  if ((line.size()) && (line.substr(0,1) != "#")) {
-    if (line == "mtllib") {
-      theMode = MTLLIB;
-    }
-    else if (line == "v") {
-      theMode = VERTEX;
-      tempVectorIndex = 0;
-    }
-    else if (line == "vn") {
-      theMode = NORMAL; 
-      tempVectorIndex = 0;
-    }
-    else if (line == "f") {
-      theMode = FACE;
-      tempVectorIndex = 0;
-    }
-    else switch (theMode) {
-      case (MTLLIB):
-#if 1 //dax
-        mtlIndex = 0;
-#else
-        cout << "\n\tparsing .mtl file: " << subdir + line << "...";
-        mtlFile = line;
-        
-        if (!matchMtl(mtlIndex, mtlFile)) {
-          try { loadMtl(mtlFile); }
-          catch (fileNotFound) { throw fileNotFound(); return; }
-            
-          matchMtl(mtlIndex, mtlFile);
-        }
-        cout << ".mtl " << mtlIndex << " done\n";
-        theMode = NONE;
-#endif
-        break;
-      case (VERTEX):
-        tempVector.vertex[tempVectorIndex] = atof(line.c_str());
-        cout << tempVector.vertex[tempVectorIndex] << "\n";
-        tempVectorIndex++;
-        if (tempVectorIndex >=3) {
-          theMode = NONE;
-          vertices.push_back(tempVector);  
-        }
-        break;
-      case (NORMAL):
-        tempVector.vertex[tempVectorIndex] = atof(line.c_str());
-        tempVectorIndex++;
-        if (tempVectorIndex >=3) {
-          theMode = NONE;
-          normals.push_back(tempVector);
-        }
-        break;
-      case (FACE):
-        /// face indices are denoted index//index (redundantly) in the .obj format
-        slashes = line.find("//");
-        index = atoi(line.substr(0,slashes).c_str());
-        cout << slashes << " " << index << "\n";
-        tempTriangle.vertIndices[tempVectorIndex] = index;
-        tempVectorIndex++;
-        if (tempVectorIndex >= 3) {
-          theMode = NONE;
-          mtls[mtlIndex]->faces.push_back(tempTriangle);  
-        }
-        break;
-      case (NONE):
-        break;
-    }
-  }
-}
-
-void objloader::processMtl(string line, material *mtl)
-{  
-  echo("objloader::processMtl");
-#if 1 //dax
-  if ((line.size()) && (line.substr(0,1) != "#")) {
-    if (line == "newmtl") theMtlMode = NEWMTL;
-    else if (line == "Ns") theMtlMode = NS;
-    else  if (line == "d") theMtlMode = D;
-    else  if (line == "illum") theMtlMode = ILLUM;
-    else  if (line == "Kd") { theMtlMode = KD; kIndex = 0; }
-    else  if (line == "Ka") { theMtlMode = KA; kIndex = 0; }
-    else  if (line == "Ks") { theMtlMode = KS; kIndex = 0; }
-    else switch (theMtlMode) {
-      case KD:
-        mtl->Kd[kIndex] = atof(line.c_str());
-        kIndex++;
-        if (kIndex >= 3) {
-          mtl->Kd[3] = 1;
-          //cout << mtl->name << " " << mtl->Kd[0] << " " << 
-          //     mtl->Kd[1] << " " << mtl->Kd[2] << " " <<
-          //     mtl->Kd[3] << "\n";
-          theMtlMode = NONEM;
-        }
-        break;
-      case KA:
-        mtl->Ka[kIndex] = atof(line.c_str());
-        kIndex++;
-        if (kIndex >= 3) {
-          mtl->Ka[3] = 1;
-          theMtlMode = NONEM;
-        }
-        break;
-      case KS:
-        mtl->Ks[kIndex] = atof(line.c_str());
-        kIndex++;
-        if (kIndex >= 3) {
-          mtl->Ks[3] = 1;
-          theMtlMode = NONEM;
-        }
-        break;
-      case (NONEM):
-      case (NEWMTL):
-      case (NS):
-      case (D):
-      case (ILLUM):
-        break;
-    }
-  }
-#endif
-}
-
-void objloader::loadMtl(string mtlFile)
-{  
-  echo("objloader::loadMtl");
-#if 1 //dax
-  ifstream objStream((subdir + mtlFile).c_str());
-  if (!objStream) { 
-    cout << "file \"" << subdir + mtlFile << "\" not found\n";
-    throw fileNotFound(); 
-    return;
-  }
-  istream_iterator<string> objIt(objStream);
-  istream_iterator<string> sentinel;
-  vector<string> lines(objIt, sentinel);
-  theMtlMode = NONEM;
-  material* newMtl = new material;
-  newMtl->name = mtlFile;
-  newMtl->Ke[0] = 0;
-  newMtl->Ke[1] = 0;
-  newMtl->Ke[2] = 0;
-  newMtl->Ke[3] = 1;
-  
-  for (int i=0; i < lines.size(); i++) {
-    processMtl(lines[i], newMtl);
-  }
-  mtls.push_back(newMtl);
-#endif
-}
-
-bool objloader::matchMtl(uint32_t &index, string name)
-{
-  echo("objloader::matchMtl");
-#if 1 //dax
-  for (int m=0; m < (mtls.size()); m++) {
-    if (name == mtls[m]->name) {
-      index = m;
-      return true;
-    }
-  }
-  cout << (int)mtls.size() <<" mtlssize \n";
-#endif
-  return false;
-}
-
-void objloader::setMass(float newMass)
-{
-  //echo("objloader::setMass");
-  if (step != 0) {
-    Ibody = (Ibody*newMass) / mass;
-    IbodyInv = Ibody.inverse();
-  }
-  mass = newMass;
-}
-
-void objloader::update(float seconds)
-{
-  //echo("objloader::update");
-  getAABB();
-}
-
-void objloader::draw()
-{
-}
-
-void objloader::getBoundingBox()
-{
-  echo("objloader::getBB");
-  /*  for (int j = 0; j<3;j++) {
-    boundingBox[0].vertex[j] = test[0]->location.vertex[j]; // lower right bound
-    boundingBox[6].vertex[j] = test[0]->location.vertex[j]; // upper right bound
-  } */
-  boundingBox[0] = vertices[1];
-  boundingBox[6] = vertices[1];
-
-  // find extremities
-  for (int i=1; i < vertices.size(); i++) {
-    for (int j=0; j<3; j++) {
-      if (boundingBox[0].vertex[j] > vertices[i].vertex[j])
-        boundingBox[0].vertex[j] = vertices[i].vertex[j]; // lower left   minimum bound 
-      if (boundingBox[6].vertex[j] < vertices[i].vertex[j])
-        boundingBox[6].vertex[j] = vertices[i].vertex[j]; // upper right  maximum bound 
-    }
-  }
-  centerBB = (boundingBox[0] + boundingBox[6])/2;
-  edgesBB = boundingBox[6] - centerBB;
-
-  // having found maximums, populate rest of corners
-  boundingBox[1].vertex[0] = boundingBox[0].vertex[0];
-  boundingBox[1].vertex[1] = boundingBox[0].vertex[1];
-  boundingBox[1].vertex[2] = boundingBox[6].vertex[2];
-  boundingBox[2].vertex[0] = boundingBox[0].vertex[0];
-  boundingBox[2].vertex[1] = boundingBox[6].vertex[1];
-  boundingBox[2].vertex[2] = boundingBox[6].vertex[2];
-  boundingBox[3].vertex[0] = boundingBox[0].vertex[0];
-  boundingBox[3].vertex[1] = boundingBox[6].vertex[1];
-  boundingBox[3].vertex[2] = boundingBox[0].vertex[2];
-  boundingBox[4].vertex[0] = boundingBox[6].vertex[0];
-  boundingBox[4].vertex[1] = boundingBox[0].vertex[1];
-  boundingBox[4].vertex[2] = boundingBox[0].vertex[2];
-  boundingBox[5].vertex[0] = boundingBox[6].vertex[0];
-  boundingBox[5].vertex[1] = boundingBox[0].vertex[1];
-  boundingBox[5].vertex[2] = boundingBox[6].vertex[2];
-  boundingBox[7].vertex[0] = boundingBox[6].vertex[0];
-  boundingBox[7].vertex[1] = boundingBox[6].vertex[1];
-  boundingBox[7].vertex[2] = boundingBox[0].vertex[2];
-}
-#endif
