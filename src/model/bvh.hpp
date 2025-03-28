@@ -482,13 +482,13 @@ class bvhPart {
   
   std::vector<matrix16f> motion;
   
-  //objloader* objPart;
-  rigid* objPart;
+  rigid* objPart;	//objloader* objPart;
   
   bvhPart* parent;
   std::vector<channelTypes> channels;
   std::vector<bvhPart*> child;
 };
+
 
 /**
  * Bvh class
@@ -496,10 +496,6 @@ class bvhPart {
 class Bvh {
   bool verbose;
   enum mode {NONE,OFFSET,CHANNELS,JOINT,ROOT,End,Site,MOTION,Frames,Frame,Time,MOTIONDATA};
-
- public:
-  bvhPart *root;
-  float frameTime;
 
  private:
   // mostly used just for init/processing- what to do?
@@ -524,6 +520,9 @@ class Bvh {
   matrix16f tempMotionZ;
 
  public:
+  bvhPart *root;
+  float frameTime;
+
   Bvh(const char *url);
   virtual ~Bvh() {}
 

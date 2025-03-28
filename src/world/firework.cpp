@@ -34,7 +34,7 @@ const OClass Firework::oclass(FIREWORK_TYPE, "Firework", Firework::creator);
 const float Firework::DEF_TTL = 20; // 20 sec
 
 
-/* creation from a file */
+/** Creation from a file */
 Object * Firework::creator(char *l)
 {
   return new Firework(l);
@@ -48,10 +48,12 @@ void Firework::defaults()
   flow = 0;
   points = true;
   pt_size = DEF_PTSIZE;
+  onecolor = false;
   ttl = DEF_TTL;
   for (int i=0; i<3; i++) color[i] = 1;	// white
 }
 
+/** Parses a line */
 void Firework::parser(char *l)
 {
   defaults();
@@ -78,9 +80,9 @@ void Firework::parser(char *l)
 
 void Firework::geometry()
 {
-  char s[256];
+  char s[128];
 
-  sprintf(s,"solid shape=\"bsphere\" radius=\"%f\" />",1.);
+  sprintf(s,"solid shape=\"bsphere\" radius=\"%f\" />", 1.);
   parseSolid(s);
 
   V3 dim;

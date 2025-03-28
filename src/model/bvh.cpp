@@ -137,81 +137,66 @@ void Bvh::process(std::string line)
         current->name = line;
         
         if (line == "LeftKnee") {
-          try { current->objPart = new rigid("/obj/shin_l.obj"); }
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/shin_l.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightKnee") {
-          try { current->objPart = new rigid("/obj/shin_r.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/shin_r.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "LeftHip") {
-          try { current->objPart = new rigid("/obj/thigh_l.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/thigh_l.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightHip") {
-          try { current->objPart = new rigid("/obj/thigh_r.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/thigh_r.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "LeftAnkle") {
-          try { current->objPart = new rigid("/obj/foot_l.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/foot_l.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightAnkle") {
-          try { current->objPart = new rigid("/obj/foot_r.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/foot_r.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "Chest") {
           //current->objPart = new objloader("obj/torso.obj",0,subdir);
         }
         else if (line == "Chest2") {
-          try { current->objPart = new rigid("/obj/chest.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/chest.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "LeftShoulder") {
-          try { current->objPart = new rigid("/obj/shoulder_l.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/shoulder_l.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightShoulder") {
-          try { current->objPart = new rigid("/obj/shoulder_r.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/shoulder_r.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "LeftElbow") {
-          try { current->objPart = new rigid("/obj/forearm_l.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/forearm_l.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightElbow") {
-          try { current->objPart = new rigid("/obj/forearm_r.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/forearm_r.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "LeftWrist") {
-          try { current->objPart = new rigid("/obj/hand_l.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/hand_l.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "RightWrist") {
-          try { current->objPart = new rigid("/obj/hand_r.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/hand_r.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "Neck") {
-          try { current->objPart = new rigid("/obj/neck.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/neck.obj");
           current->objPart->location.matrix[10]=1;
         }
         else if (line == "Head") {
-          try { current->objPart = new rigid("/obj/head.obj");}
-          catch (fileNotFound) { throw fileNotFound(); return; }
+          current->objPart = new rigid("/obj/head.obj");
           current->objPart->location.matrix[10]=1;
         }
         theMode = NONE;
@@ -287,13 +272,10 @@ void Bvh::process(std::string line)
             channelIndex++;
             break;
           case (bvhPart::Yrot):
-            //if (partIndex == 3) cout << atof(line.c_str()) << "\n";
             tempMotionY.RotateY((float)-DEG2RAD(atof(line.c_str())));
-            //tempMotion.print();
             channelIndex++;
             break;
           case (bvhPart::Xrot):
-            //if (partIndex == 3) cout << atof(line.c_str()) << "\n";
             tempMotionX.RotateX((float)-DEG2RAD(atof(line.c_str())));  
             channelIndex++;
             break;
@@ -336,15 +318,7 @@ void Bvh::recurs(bvhPart* some)
   motion0.translate(some->offset.vertex[0], some->offset.vertex[1], some->offset.vertex[2]);
   some->motion.push_back(motion0);
   if (some->child.size() != 0) bvhPartsLinear.push_back(some);
-    //cout << some->name << ": "
-    //     << some->offset.vertex[0]
-    //     << " "
-    //     << some->offset.vertex[1]
-    //     << " "
-    //     << some->offset.vertex[2]
-    //     << endl;
   for (uint32_t i=0; i < some->child.size(); i++) {
-    //cout << "recurs-child " << some->child[i]->name << " (" << i << ")" << endl;
     recurs(some->child[i]);
   }
 }
@@ -364,7 +338,6 @@ void Bvh::init(std::string bvhFile)
   ifstream bvhStream(bvhFile.c_str());
   if (! bvhStream) {
     error("File %s not found", bvhFile.c_str());
-    //throw fileNotFound(); 
     return;
   }
   //echo("File %s found", bvhFile.c_str());
@@ -515,10 +488,6 @@ void movable::init()
 
   drawBB    = true;
   BBcollided  = false;
-#if 0 //
-  physical = false;
-  normalize = true;
-#endif
   getBoundingBox();
 }
 
@@ -537,7 +506,6 @@ void movable::setName(std::string name)
   for (int i=0; name[i] !=0; i++) {
     this->name[i] = name[i];
   }
-  //movableFrame->setText(name);	//
 }
 
 void movable::move(int pitch, int turn, int roll, float x, float y, float z)
@@ -554,10 +522,6 @@ void movable::move(int pitch, int turn, int roll, float x, float y, float z)
 void movable::getAABB()
 {
   //echo("movable::getAABB");
-#if 0 //
-  oldCenterAABB = centerAABB;
-#endif
-
   vector3f max = newLocation.transform(boundingBox[0]);
   vector3f min = newLocation.transform(boundingBox[0]);
 
