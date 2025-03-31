@@ -15,27 +15,32 @@
 #
 # Philippe Dax - 2024
 #
-do_sudo="no"	# change to "yes" if you trust this scipt to do sudo
+do_sudo="no"		# change to "yes" if you trust this scipt to do sudo
 
 #if [ -f ../configure ];     then exit 0 ; fi	# assume that vreng is configured
 
-dist=
-pack=
-dyl=so
-dev=
-ret=0
-pfx=/usr
-sudo=
-log=../log/by_hand.log
+dist=""			# os distribution
+cmd=""			# command to install
+sudo=""			# sudo or not
+dev=""			# suffix for libs packages
+pfx=/usr		# prefix for libs
+dyl=so			# suffix for libs
+ret=0			# return code
+log=../log/by_hand.log	# log to install by hand
 
+
+# name of this script
+p=$(basename $0)
+
+#
+# determines sudo
+#
 if [ "do_sudo" == "yes" ]; then
   sudo=sudo
 else
-  sudo=
+  sudo=""
   cp /dev/null $log
 fi
-
-p=$(basename $0)
 
 #
 # determines os
@@ -47,24 +52,25 @@ Darwin)	# macos
   echo "$p: have $dist !"
 
   # brew
-  if [ ! $(which brew) ]; then
-    echo "$p: get brew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  else
+  if [ $(which brew) ]; then
     echo "$p: have brew !"
-    pack="brew install"
+    cmd="brew install"
     dyl=dylib
     dev=
     pfx=/opt/X11
+  else
+    echo "$p: get brew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    echo "install brew" >>$log
   fi
 
   # X11
-  if [ ! $(which xquartz) ]; then
+  if [ $(which xquartz) ]; then
+    echo "$p: have xquartz !"
+  else
     echo "$p: get xquartz..."
     echo "brew install --cask xquartz" >>$log
     brew install --cask xquartz
-  else
-    echo "$p: have xquartz !"
   fi
   java=java
   ret=0
@@ -82,21 +88,21 @@ Linux)	# debian, ubuntu, mint, fedora, centos, arch
 
   if [ $(which apt-get) ]; then
     echo "$p: have apt-get !"
-    pack="$sudo apt-get install -y"
+    cmd="$sudo apt-get install -y"
     dev="-dev"
     dyl=so
     pfx=/usr
     java="default-jdk"
   elif [ $(which dnf) ]; then
     echo "$p: have dnf !"
-    pack="$sudo dnf install"
+    cmd="$sudo dnf install"
     dev="-devel"
     dyl=so
     pfx=/usr
     java="java-1.8.0-openjdk.x86_64"
   elif [ $(which yum) ]; then
     echo "$p: have yum !"
-    pack="$sudo yum install"
+    cmd="$sudo yum install"
     dev="-devel"
     dyl=so
     pfx=/usr
@@ -104,7 +110,7 @@ Linux)	# debian, ubuntu, mint, fedora, centos, arch
   elif [ $(which pacman) ]; then
     dist=arch
     echo "$p: have pacman !"
-    pack="$sudo pacman -S"
+    cmd="$sudo pacman -S"
     dyl=so
     pfx=/usr
     java=java	# not sure
@@ -117,7 +123,7 @@ Linux)	# debian, ubuntu, mint, fedora, centos, arch
   ;;
 
 *bsd|*BSD)	# freeBSD, netBSD, openBSD
-  pack="$sudo pkg"
+  cmd="$sudo pkg"
   echo "$p: bsd distrib"
   dyl=so
   pfx=/usr
@@ -125,7 +131,7 @@ Linux)	# debian, ubuntu, mint, fedora, centos, arch
   ret=0
   ;;
 
-*)
+*)		# others to be completed
   echo "$p: unknown system"
   ret=1
   exit $ret
@@ -137,39 +143,39 @@ esac
 #
 
 # autoconf
-if [ ! $(which autoconf) ]; then
-  echo "$p: get autoconf..."
-  echo "$pack autoconf" >>$log
-  $pack autoconf
-else
+if [ $(which autoconf) ]; then
   echo "$p: have autoconf !"
+else
+  echo "$p: get autoconf..."
+  echo "$cmd autoconf" >>$log
+  $cmd autoconf
 fi
 
 # automake
-if [ ! $(which automake) ]; then
-  echo "$p: get automake..."
-  echo "$pack automake" >>$log
-  $pack automake
-else
+if [ $(which automake) ]; then
   echo "$p: have automake !"
+else
+  echo "$p: get automake..."
+  echo "$cmd automake" >>$log
+  $cmd automake
 fi
 
 # aclocal
-if [ ! $(which aclocal) ]; then
-  echo "$p: get aclocal..."
-  echo "$pack aclocal" >>$log
-  $pack aclocal
-else
+if [ $(which aclocal) ]; then
   echo "$p: have aclocal !"
+else
+  echo "$p: get aclocal..."
+  echo "$cmd aclocal" >>$log
+  $cmd aclocal
 fi
 
 # autoreconf
-if [ ! $(which autoreconf) ]; then
-  echo "$p: get autoreconf..."
-  echo "$pack autoreconf" >>$log
-  $pack autoreconf
-else
+if [ $(which autoreconf) ]; then
   echo "$p: have autoreconf !"
+else
+  echo "$p: get autoreconf..."
+  echo "$cmd autoreconf" >>$log
+  $cmd autoreconf
 fi
 
 #
@@ -177,21 +183,21 @@ fi
 #
 
 # g++
-if [ ! $(which g++) ]; then
-  echo "$p: get g++..."
-  echo "$pack g++" >>$log
-  $pack g++
-else
+if [ $(which g++) ]; then
   echo "$p: have g++ !"
+else
+  echo "$p: get g++..."
+  echo "$cmd g++" >>$log
+  $cmd g++
 fi
 
 # gcc
-if [ ! $(which gcc) ]; then
-  echo "$p: get gcc..."
-  echo "$pack gcc" >>$log
-  $pack gcc
-else
+if [ $(which gcc) ]; then
   echo "$p: have gcc !"
+else
+  echo "$p: get gcc..."
+  echo "$cmd gcc" >>$log
+  $cmd gcc
 fi
 
 #
@@ -200,101 +206,101 @@ fi
 
 # libGL
 pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
-if [ ! -f $pfx/lib/libGL.$dyl ]; then
-  echo "$p: get libGL..."
-  echo "$pack libgl$dev" >>$log
-  $pack libgl$dev
-  $pack libGL$dev
-else
+if [ -f $pfx/lib/libGL.$dyl ]; then
   echo "$p: have libGL !"
+else
+  echo "$p: get libGL..."
+  echo "$cmd libgl$dev" >>$log
+  $cmd libgl$dev
+  $cmd libGL$dev
 fi
 
 # libGLU
-if [ ! -f $pfx/lib/libGLU.$dyl ]; then
-  echo "$p: get libGLU..."
-  echo "$pack libglu$dev" >>$log
-  $pack libglu$dev
-  $pack libGLU$dev
-else
+if [ -f $pfx/lib/libGLU.$dyl ]; then
   echo "$p: have libGLU !"
+else
+  echo "$p: get libGLU..."
+  echo "$cmd libglu$dev" >>$log
+  $cmd libglu$dev
+  $cmd libGLU$dev
 fi
 
 # libX11
-if [ ! -f $pfx/lib/libX11.$dyl ]; then
-  echo "$p: get libX11..."
-  echo "$pack libX11$dev" >>$log
-  $pack libX11$dev
-else
+if [ -f $pfx/lib/libX11.$dyl ]; then
   echo "$p: have libX11 !"
+else
+  echo "$p: get libX11..."
+  echo "$cmd libX11$dev" >>$log
+  $cmd libX11$dev
 fi
 
 # libXmu
-if [ ! -f $pfx/lib/libXmu.$dyl ]; then
-  echo "$p: get libXmu..."
-  echo "$pack libXmu$dev" >>$log
-  $pack libXmu$dev
-else
+if [ -f $pfx/lib/libXmu.$dyl ]; then
   echo "$p: have libXmu !"
+else
+  echo "$p: get libXmu..."
+  echo "$cmd libXmu$dev" >>$log
+  $cmd libXmu$dev
 fi
 
 # libXpm
-if [ ! -f $pfx/lib/libXpm.$dyl ]; then
-  echo "$p: get libXpm..."
-  echo "$pack libXpm$dev" >>$log
-  $pack libXpm$dev
-else
+if [ -f $pfx/lib/libXpm.$dyl ]; then
   echo "$p: have libXpm !"
+else
+  echo "$p: get libXpm..."
+  echo "$cmd libXpm$dev" >>$log
+  $cmd libXpm$dev
 fi
 
 # libgif
 pfx=/usr/local
-if [ ! -f $pfx/lib/libgif.$dyl ]; then
-  echo "$p: get libgif..."
-  echo "$pack libgif$dev" >>$log
-  $pack libgif$dev
-else
+if [ -f $pfx/lib/libgif.$dyl ]; then
   echo "$p: have libgif !"
+else
+  echo "$p: get libgif..."
+  echo "$cmd libgif$dev" >>$log
+  $cmd libgif$dev
 fi
 
 # libpng
 pfx=/usr/local
-if [ ! -f $pfx/lib/libpng.$dyl ]; then
-  echo "$p: get libpng..."
-  echo "$pack libpng$dev" >>$log
-  $pack libpng$dev
-else
+if [ -f $pfx/lib/libpng.$dyl ]; then
   echo "$p: have libpng !"
+else
+  echo "$p: get libpng..."
+  echo "$cmd libpng$dev" >>$log
+  $cmd libpng$dev
 fi
 
 # libjpeg
 pfx=/usr/local
-if [ ! -f $pfx/lib/libjpeg.$dyl ]; then
-  echo "$p: get libjpeg..."
-  echo "$pack libjpeg$dev" >>$log
-  $pack libjpeg$dev
-else
+if [ -f $pfx/lib/libjpeg.$dyl ]; then
   echo "$p: have libjpeg !"
+else
+  echo "$p: get libjpeg..."
+  echo "$cmd libjpeg$dev" >>$log
+  $cmd libjpeg$dev
 fi
 
 # libtiff
 pfx=/usr/local
-if [ ! -f $pfx/lib/libtiff.$dyl ]; then
-  echo "$p: get libtiff..."
-  echo "$pack libtiff$dev" >>$log
-  $pack libtiff$dev
-else
+if [ -f $pfx/lib/libtiff.$dyl ]; then
   echo "$p: have libtiff !"
+else
+  echo "$p: get libtiff..."
+  echo "$cmd libtiff$dev" >>$log
+  $cmd libtiff$dev
 fi
 
 # libfreetype
 pfx=$(freetype-config --prefix)
 pfx=/usr/local
-if [ ! -f $pfx/lib/libfreetype.$dyl ]; then
-  echo "$p: get freetype..."
-  echo "$pack freetype$dev" >>$log
-  $pack freetype$dev
-else
+if [ -f $pfx/lib/libfreetype.$dyl ]; then
   echo "$p: have freetype !"
+else
+  echo "$p: get freetype..."
+  echo "$cmd freetype$dev" >>$log
+  $cmd freetype$dev
 fi
 
 #
@@ -302,44 +308,44 @@ fi
 #
 
 # ocaml
-if [ ! $(which ocaml) ]; then
-  echo "$p: get ocaml..."
-  echo "$pack ocaml" >>$log
-  $pack ocaml
-else
+if [ $(which ocaml) ]; then
   echo "$p: have ocaml !"
+else
+  echo "$p: get ocaml..."
+  echo "$cmd ocaml" >>$log
+  $cmd ocaml
 fi
 
 # sqlite3
-if [ ! $(which sqlite3) ]; then
-  echo "$p: get sqlite3..."
-  echo "$pack sqlite3" >>$log
-  $pack sqlite3
-else
+if [ $(which sqlite3) ]; then
   echo "$p: have sqlite3 !"
+else
+  echo "$p: get sqlite3..."
+  echo "$cmd sqlite3" >>$log
+  $cmd sqlite3
 fi
 
 # java
-if [ ! $(which java) ]; then
-  echo "$p: get java..."
-  echo "$pack java" >>$log
-  $pack $java
-else
+if [ $(which java) ]; then
   echo "$p: have java !"
+else
+  echo "$p: get java..."
+  echo "$cmd java" >>$log
+  $cmd $java
 fi
 
 # openal
-#if [ ! f /usr/local/lib/libopenal.$dyl ]; then
-#  echo "$p: get openal..."
-#  echo "$pack openal" >>$log
-#else
+#if [ f /usr/local/lib/libopenal.$dyl ]; then
 #  echo "$p: have openal !"
-#  $pack openal
+#else
+#  echo "$p: get openal..."
+#  echo "$cmd openal" >>$log
+#  $cmd openal
 #fi
 ret=0
 
 if [ $do_sudo != "yes" ]; then
-  echo "$p: operations to do manually"
+  echo "$p: theses operations must to do manually"
   cat $log
 fi
 

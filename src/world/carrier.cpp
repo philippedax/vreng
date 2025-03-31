@@ -52,7 +52,10 @@ Carrier::Carrier()
 bool Carrier::underControl() const
 {
   echo("ctrl: %d", control);
-  return control || localuser->carrier->control;
+  if (object && object->carrier)
+    return object->carrier->control;
+  else
+    return control || localuser->carrier->control;
 }
 
 /** Takes control of the mouse to enter in manipulation mode */
@@ -65,9 +68,8 @@ void Carrier::take(Object *o)
   //if (o->carrier->control) return;	// already under control - segfault
   //::g.gui.showManipulator();	// open Manipulator palette
   //::g.gui.expandNavig();	// shows Manipulator palette
-  object = o;			// memorize object
-  echo("take control of %s (%p), enter in manipulation mode", o->objectName(), o->carrier);
 
+  object = o;			// memorize object
   o->move.manip = true;
   o->move.lspeed.v[0] = lspeed;
   o->move.aspeed.v[1] = aspeed;
@@ -81,6 +83,7 @@ void Carrier::take(Object *o)
     control = true;
     echo("take: set control on %s", o->objectName());
   }
+  echo("take control of %s (%p), enter in manipulation mode", o->objectName(), o->carrier);
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
@@ -90,9 +93,8 @@ void Carrier::leave(Object *o)
   //::g.gui.showNavigator();	// open Navigator palette
   if (! o)  return;
   //if (! o->carrier->control) return;	// already leave control - segfault
-  object = NULL;
-  echo("leave control of %s (%p), enter in navigation mode", o->objectName(), o->carrier);
 
+  object = NULL;
   o->pos.alter = true;		// mark it has changed
   o->move.manip = false;
   if (o->carrier) {
@@ -101,6 +103,7 @@ void Carrier::leave(Object *o)
     control = false;
     echo("leave: ctrl=%d", o->carrier->control);
   }
+  echo("leave control of %s (%p), enter in navigation mode", o->objectName(), o->carrier);
   defaults();			// reset the carrier
 }
 
