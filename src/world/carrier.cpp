@@ -48,10 +48,10 @@ Carrier::Carrier()
   ::g.gui.setToCarrier(this);
 }
 
-/** Accessor */
+/** Checks control */
 bool Carrier::underControl() const
 {
-  echo("ctrl: %d %d", control, localuser->carrier->control);
+  echo("ctrl: %d", control);
   return control || localuser->carrier->control;
 }
 
@@ -66,7 +66,7 @@ void Carrier::take(Object *o)
   //::g.gui.showManipulator();	// open Manipulator palette
   //::g.gui.expandNavig();	// shows Manipulator palette
   object = o;			// memorize object
-  echo("take control of %s (%p) (%p), enter in manipulation mode", o->objectName(), o->carrier, localuser->carrier);
+  echo("take control of %s (%p), enter in manipulation mode", o->objectName(), o->carrier);
 
   o->move.manip = true;
   o->move.lspeed.v[0] = lspeed;
@@ -91,7 +91,7 @@ void Carrier::leave(Object *o)
   if (! o)  return;
   //if (! o->carrier->control) return;	// already leave control - segfault
   object = NULL;
-  echo("leave control of %s (%p) (%p), enter in navigation mode", o->objectName(), o->carrier, localuser->carrier);
+  echo("leave control of %s (%p), enter in navigation mode", o->objectName(), o->carrier);
 
   o->pos.alter = true;		// mark it has changed
   o->move.manip = false;
@@ -120,9 +120,7 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
  */
 void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
 {
-  Object *oldobj = new Object();
   if (! object) return;
-  object->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
 
   echo("carrier: c=%d k=%d", control, vkey);
   switch (vkey) {
@@ -141,7 +139,11 @@ void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
   }
   object->updatePositionAndGrid(object->pos);
   object->updatePosition();
+
+  Object *oldobj = new Object();
   OList *vicilist = object->getVicinity(oldobj);
+
+  object->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
   object->generalIntersect(oldobj, vicilist);
   if (*name.type) {	//FIXME: segfault
     vicilist->removeObject();
