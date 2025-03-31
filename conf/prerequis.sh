@@ -335,13 +335,14 @@ else
 fi
 
 # openal
-if [ f /usr/local/lib/libopenal.$dyl ]; then
-  echo "$p: have openal !"
-else
-  echo "$p: get openal..."
-  echo "$cmd openal" >>$log
-  $cmd openal
-fi
+#if [ -f /usr/local/lib/libopenal.$dyl ]; then
+#  echo "$p: have openal !"
+#else
+#  echo "$p: get openal..."
+#  echo "$cmd openal" >>$log
+#  $cmd openal
+#fi
+
 ret=0
 
 if [ $do_sudo != "yes" ]; then
