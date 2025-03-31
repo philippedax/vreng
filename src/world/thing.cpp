@@ -208,25 +208,23 @@ void Thing::recreate(World *w, void *d, time_t s, time_t u)
 }
 
 /** Manip object */
-void Thing::manipobject(Thing *thing)
+void Thing::manip(Thing *thing)
 {
   if (carrier == NULL) {
     carrier = new Carrier();
-    //echo("carrier: %p", carrier);
     carrier->take(this);
     moveObject(thing);
   }
   else {
-    //echo("carrier: %p", carrier);
     carrier->leave(this);
     delete carrier;
     carrier = NULL;
   }
 }
 
-void Thing::move_cb(Thing *thing, void *d, time_t s, time_t u)
+void Thing::manip_cb(Thing *thing, void *d, time_t s, time_t u)
 {
-  thing->manipobject(thing);
+  thing->manip(thing);
 }
 
 void Thing::destroy(Thing *thing, void *d, time_t s, time_t u)
@@ -258,7 +256,7 @@ void Thing::funcs()
   putPropFunc(THING_TYPE, PROPAY, _Payload put_ay);
   putPropFunc(THING_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(THING_TYPE, MOVE, _Action move_cb, "Move");
+  setActionFunc(THING_TYPE, MOVE, _Action manip_cb, "Take/Leave");
   setActionFunc(THING_TYPE, BASKET, _Action dropIntoBasket, "Basket");
   setActionFunc(THING_TYPE, APPROACH, _Action gotoFront, "Approach");
   setActionFunc(THING_TYPE, DESTROY, _Action destroy, "Destroy");

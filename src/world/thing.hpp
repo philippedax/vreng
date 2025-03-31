@@ -106,11 +106,11 @@ class Thing: public Object {
   void behaviors();
   /**< Sets behaviors flags */
 
-  void manipobject(Thing *o);
+  void manip(Thing *o);
 
   // Funcs callbacks
   static void dropIntoBasket(Thing *o, void *d, time_t s, time_t u);
-  static void move_cb(Thing *o, void *d, time_t s, time_t u);
+  static void manip_cb(Thing *o, void *d, time_t s, time_t u);
   static void destroy(Thing *o, void *d, time_t s, time_t u);
   static void recreate(class World *w, void *d, time_t s, time_t u);
 };
