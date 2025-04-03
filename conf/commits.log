@@ -3535,3 +3535,4 @@
 3535 Lun 31 mar 2025 18:03:57 CEST	cleanup prerequis.sh
 3536 Lun 31 mar 2025 18:17:41 CEST	add openal prerequis.sh
 3537 Lun 31 mar 2025 18:37:57 CEST	revert openal prerequis.sh
+3538 Jeu  3 avr 2025 11:09:42 CEST	cleanup underContol() carrier.cpp

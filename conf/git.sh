@@ -84,7 +84,7 @@ merge()
 main()
 {
   case $# in
-  0|1)
+  0)
     usage
     ;;
   *)
