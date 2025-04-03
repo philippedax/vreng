@@ -51,7 +51,11 @@ Carrier::Carrier()
 /** Checks control */
 bool Carrier::underControl() const
 {
-  echo("ctrl: %d", control);
+  if (! object)  return false;
+  if (! localuser)  return false;
+
+  echo("ctrl: %d %d %d", control, object->carrier ? object->carrier->control : -1, localuser->carrier ? localuser->carrier->control : -1);
+
   if (object && object->carrier)
     return object->carrier->control;
   else
@@ -77,12 +81,9 @@ void Carrier::take(Object *o)
   if (! o->carrier) {
     o->carrier = new Carrier();
   }
-  if (o->carrier) {
-    o->carrier->control = true;
-    localuser->carrier->control = true;
-    control = true;
-    echo("take: set control on %s", o->objectName());
-  }
+  control = true;
+  o->carrier->control = true;
+  localuser->carrier->control = true;
   echo("take control of %s (%p), enter in manipulation mode", o->objectName(), o->carrier);
 }
 
@@ -92,7 +93,6 @@ void Carrier::leave(Object *o)
   //::g.gui.collapseNavig();	// close Manipulator palette
   //::g.gui.showNavigator();	// open Navigator palette
   if (! o)  return;
-  //if (! o->carrier->control) return;	// already leave control - segfault
 
   object = NULL;
   o->pos.alter = true;		// mark it has changed
@@ -101,7 +101,6 @@ void Carrier::leave(Object *o)
     o->carrier->control = false;
     localuser->carrier->control = false;
     control = false;
-    echo("leave: ctrl=%d", o->carrier->control);
   }
   echo("leave control of %s (%p), enter in navigation mode", o->objectName(), o->carrier);
   defaults();			// reset the carrier
@@ -113,8 +112,10 @@ void Carrier::leave(Object *o)
 void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 {
   if (button) {			// any button pressed
-    if (object)
+    if (object) {
+      echo("leave %s", object->objectName());
       leave(object);		// left clic => leave mouse control
+    }
   }
 }
 
