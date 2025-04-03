@@ -3536,3 +3536,4 @@
 3536 Lun 31 mar 2025 18:17:41 CEST	add openal prerequis.sh
 3537 Lun 31 mar 2025 18:37:57 CEST	revert openal prerequis.sh
 3538 Jeu  3 avr 2025 11:09:42 CEST	cleanup underContol() carrier.cpp
+3539 Jeu  3 avr 2025 11:16:50 CEST	fix push conf/git.sh

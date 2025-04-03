@@ -10,6 +10,7 @@
 #
 # Philippe Dax - nov 2024
 #
+
 p=$(basename $0)
 
 #
@@ -18,15 +19,15 @@ p=$(basename $0)
 usage()
 {
   echo "usage:"
-  echo "    $p commit \"message\""
-  echo "    $p add files"
-  echo "    $p push"
-  echo "    $p merge \"branch\""
+  echo "    git.sh commit \"message\""
+  echo "    git.sh add files"
+  echo "    git.sh push"
+  echo "    git.sh merge \"branch\""
   exit 0
 }
 
 #
-# append message to history log
+# append message to commits log
 #
 log()
 {
@@ -87,6 +88,16 @@ main()
   0)
     usage
     ;;
+  1)
+    case $1 in
+    push)		# push
+      push
+      ;;
+    *)
+      usage
+      ;;
+    esac
+    ;;
   *)
     oper=$1
     case $oper in
@@ -105,9 +116,6 @@ main()
         usage
       fi
       add $files
-      ;;
-    push)		# push
-      push
       ;;
     merge)		# merge
       branch=$2
