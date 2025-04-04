@@ -65,7 +65,7 @@ add()
 #
 push()
 {
-  host github.com
+  host github.com 1>/dev/null 2>&1
   if [ $? = 0 ]; then
     git push origin master
   else

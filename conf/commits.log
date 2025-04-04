@@ -3540,3 +3540,4 @@
 3540 Jeu  3 avr 2025 15:19:00 CEST	fix push conf/git.sh
 3541 Ven  4 avr 2025 08:27:31 CEST	add targets prerequis daemons cache Makefile.am
 3542 Ven  4 avr 2025 17:20:03 CEST	cleanup changePosition() move.cpp
+3543 Ven  4 avr 2025 17:36:51 CEST	fix push conf/git.sh
