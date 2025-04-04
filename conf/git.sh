@@ -65,7 +65,12 @@ add()
 #
 push()
 {
-  git push origin master
+  host github.com
+  if [ $? = 0 ]; then
+    git push origin master
+  else
+    echo "$p: do later \"$p push\""
+  fi
 }
 
 #
