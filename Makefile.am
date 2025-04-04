@@ -38,6 +38,11 @@ dist dist-all:
 	-make dist-xz
 	@-rm compile missing install-sh config.sub config.guess depcomp
 
+archive: dist
+	-install -m 444 $(TARBALL_GZ) archive
+	-install -m 444 $(TARBALL_XZ) archive
+	@-(cd archive; rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ))
+
 clean-tar:
 	-tar xpf $(TARBALL_GZ)
 	@-cp $(TARBALL_GZ) vreng.tar.gz
@@ -49,18 +54,22 @@ data-tar:
 html-tar:
 	-tar zcf vreng-html.tar.gz data/html
 
-archive: dist
-	-install -m 444 $(TARBALL_GZ) archive
-	-install -m 444 $(TARBALL_XZ) archive
-	@-(cd archive; rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ))
-
 doxygen:
 	@(umask 022; doxygen conf/doxygen.conf)
 
 snapshot:
 	$(MAKE) dist distdir=$(PACKAGE_NAME)`date +"%y%m%d"`
 
+prerequis:
+	@(cd conf; ./prerequis.sh)
+
+daemons:
+	@(cd conf; ./daemons.sh)
+
+cache:
+	@(cd conf; ./cache.sh)
+
 history:
 	@(cd archive; ls -ltr)
 
-.PHONY: dist clean-tar data-tar html-tar doxygen snapshot history
+.PHONY: dist clean-tar data-tar html-tar doxygen snapshot prerequis daemons cache history
