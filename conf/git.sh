@@ -7,6 +7,7 @@
 #  - add:         git.sh add files
 #  - push:        git.sh push
 #  - merge:       git.sh merge "branch"
+#  - clone:       git.sh clone
 #
 # Philippe Dax - nov 2024
 #
@@ -23,7 +24,9 @@ usage()
   echo "    git.sh add files"
   echo "    git.sh push"
   echo "    git.sh merge \"branch\""
-  exit 0
+  echo "    git.sh clone"
+
+  exit 1
 }
 
 #
@@ -85,6 +88,14 @@ merge()
 }
 
 #
+# clone
+#
+clone()
+{
+  git clone https://github.com/philippedax/vreng.git
+}
+
+#
 # main
 #
 main()
@@ -97,6 +108,9 @@ main()
     case $1 in
     push)		# push
       push
+      ;;
+    clone)		# clone
+      clone
       ;;
     *)
       usage
