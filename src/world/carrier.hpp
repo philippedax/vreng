@@ -36,7 +36,7 @@
  * The object, deleted from mobile-list, is managed by the Carrier.
  * The motion is done :
  *  - either by the mouse in the manipulator menu
- *  - either by arrow keys -> Obsoleted
+ *  - either by arrow keys
  *    . button 1 leaves the object
  *    . button 3 changes the mode of motion :
  *      mode 1: translation along X/Y axis (coordoninates relative to avatar)
@@ -46,7 +46,7 @@
  */
 class Carrier: public Object {
  private:
-  class Object *object;	///< thing ptr
+  Object *object;	///< thing ptr
   float lspeed;		///< linear speed
   float aspeed;		///< angular speed
   bool control;		///< flag true/false

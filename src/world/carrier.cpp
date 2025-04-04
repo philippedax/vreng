@@ -51,15 +51,19 @@ Carrier::Carrier()
 /** Checks control */
 bool Carrier::underControl() const
 {
+#if 0 //debug
   if (! object)  return false;
-  if (! localuser)  return false;
+  //if (! localuser)  return false;
 
-  echo("ctrl: %d %d %d", control, object->carrier ? object->carrier->control : -1, localuser->carrier ? localuser->carrier->control : -1);
+  //echo("ctrl: %d %d %d", control, object && object->carrier ? object->carrier->control : -1, localuser && localuser->carrier ? localuser->carrier->control : -1);
 
-  if (object && object->carrier)
-    return object->carrier->control;
+  if ( (object && object->carrier) || (localuser && localuser->carrier) )
+    return object->carrier->control || localuser->carrier->control;
   else
-    return control || localuser->carrier->control;
+#else
+  echo("ctrl: %d", control);
+#endif
+    return control;
 }
 
 /** Takes control of the mouse to enter in manipulation mode */
@@ -94,7 +98,6 @@ void Carrier::leave(Object *o)
   //::g.gui.showNavigator();	// open Navigator palette
   if (! o)  return;
 
-  object = NULL;
   o->pos.alter = true;		// mark it has changed
   o->move.manip = false;
   if (o->carrier) {
@@ -120,7 +123,7 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 }
 
 /** Mouse event
- * called by moveDirection (move.cpp)
+ * called by changePosition (move.cpp)
  */
 void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
 {

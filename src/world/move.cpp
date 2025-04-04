@@ -159,10 +159,11 @@ bool Object::lasting(time_t sec, time_t usec, float *dt)
 }
 
 /** Modifies user position in one direction */
-void Object::moveDirection(uint8_t move_key, float dt)
+void Object::changePosition(uint8_t move_key, float dt)
 {
-  if (carrier && carrier->underControl()) {  // capted by carrier
-    //echo("onedir: k=%d", move_key);
+  //if (carrier && carrier->underControl()) {  // capted by carrier
+  if (move.manip) {  // capted by carrier
+    echo("dir: k=%d", move_key);
     carrier->mouseEvent(this, move_key, dt);
     return;
   }
@@ -221,9 +222,9 @@ void Object::moveDirection(uint8_t move_key, float dt)
 /** Does the movement for each direction */
 void User::imposed(const float lastings[])
 {
-  for (int k=0; (k < MAXKEYS); k++) {
+  for (int k=0; k < MAXKEYS; k++) {
     if (lastings[k] > MIN_KEYLASTING) {
-      moveDirection(k, lastings[k] * (kpressed[KEY_SP]+1));
+      changePosition(k, lastings[k] * (kpressed[KEY_SP]+1));
     }
   }
 
@@ -472,7 +473,9 @@ void Object::imposedMovements(time_t sec, time_t usec)
         tabdt = dt;
         dt = 0;
       }
+
       elemImposedMovement(tabdt);
+
       if (isBehavior(NO_ELEMENTARY_MOVE)) {
         return;		// do movement only once
       }
