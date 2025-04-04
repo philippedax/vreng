@@ -3542,3 +3542,4 @@
 3542 Ven  4 avr 2025 17:20:03 CEST	cleanup changePosition() move.cpp
 3543 Ven  4 avr 2025 17:36:51 CEST	fix push conf/git.sh
 3544 Ven  4 avr 2025 17:38:48 CEST	fix host conf/git.sh
+3545 Ven  4 avr 2025 17:55:34 CEST	add clone conf/git.sh

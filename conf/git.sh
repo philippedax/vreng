@@ -7,7 +7,7 @@
 #  - add:         git.sh add files
 #  - push:        git.sh push
 #  - merge:       git.sh merge "branch"
-#  - clone:       git.sh clone
+#  - clone:       git.sh clone to
 #
 # Philippe Dax - nov 2024
 #
@@ -24,7 +24,7 @@ usage()
   echo "    git.sh add files"
   echo "    git.sh push"
   echo "    git.sh merge \"branch\""
-  echo "    git.sh clone"
+  echo "    git.sh clone to"
 
   exit 1
 }
@@ -92,7 +92,7 @@ merge()
 #
 clone()
 {
-  git clone https://github.com/philippedax/vreng.git
+  git clone https://github.com/philippedax/vreng.git $1
 }
 
 #
@@ -110,7 +110,7 @@ main()
       push
       ;;
     clone)		# clone
-      clone
+      clone ""
       ;;
     *)
       usage
@@ -141,6 +141,14 @@ main()
       merge $branch
       push
       log "merge $branch"
+      ;;
+    clone)		# clone
+      if [ ! -d $2 ]; then
+        clone $2
+      else
+        echo "$2/ already exists"
+        exit 1
+      fi
       ;;
     *)			# bad
       echo "bad oper $oper"
