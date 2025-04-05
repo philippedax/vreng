@@ -92,6 +92,11 @@ merge()
 #
 clone()
 {
+  if [ -d $1 ] ; then
+    mkdir old 1>/dev/null 2>&1
+    rm -rf old/$1
+    mv $1 old
+  fi
   git clone https://github.com/philippedax/vreng.git $1
 }
 
@@ -110,7 +115,7 @@ main()
       push
       ;;
     clone)		# clone
-      clone ""
+      clone "github"
       ;;
     *)
       usage
@@ -143,12 +148,7 @@ main()
       log "merge $branch"
       ;;
     clone)		# clone
-      if [ ! -d $2 ]; then
-        clone $2
-      else
-        echo "$2/ already exists"
-        exit 1
-      fi
+      clone $2
       ;;
     *)			# bad
       echo "bad oper $oper"
