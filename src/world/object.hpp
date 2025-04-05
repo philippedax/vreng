@@ -314,6 +314,7 @@ class Object {
   bool runAction(const char *action);
   /**< Runs action everwhere if available. */
 
+#if 0
   //
   // keys (see move.cpp)
   //
@@ -325,6 +326,7 @@ class Object {
 
   void changePosition(const uint8_t move_type, const float last);
   /**< Modifies user */
+#endif
 
   //
   // Set, Get, Is

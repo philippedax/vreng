@@ -94,7 +94,7 @@ class User: public Object {
   int   lastmess;		///< last message number.
   int   lastrequest;
 
-#if 0
+#if 1
   //
   // keys (see move.cpp)
   //
@@ -104,7 +104,7 @@ class User: public Object {
   void updateKeys(time_t sec, time_t usec);
   /**< Updates the keydifftime arrays. */
 
-  void moveDirection(const uint8_t move_type, const float last);
+  void changePosition(const uint8_t move_type, const float last);
   /**< Modifies user */
 #endif
 

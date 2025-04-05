@@ -64,7 +64,7 @@ void changeKey(int k_id, bool pressed, time_t sec, time_t usec)
 }
 
 /** Clears keys times array */
-void Object::clearKeys()
+void User::clearKeys()
 {
   for (int k=0; k < MAXKEYS; k++) {
     kpressed[k] = false;
@@ -74,7 +74,7 @@ void Object::clearKeys()
 }
 
 /** Updates the keydifftime arrays */
-void Object::updateKeys(time_t sec, time_t usec)
+void User::updateKeys(time_t sec, time_t usec)
 {
   for (int k=0; k < MAXKEYS; k++) {
     if (kpressed[k]) {
@@ -159,7 +159,7 @@ bool Object::lasting(time_t sec, time_t usec, float *dt)
 }
 
 /** Modifies user position in one direction */
-void Object::changePosition(uint8_t move_key, float dt)
+void User::changePosition(uint8_t move_key, float dt)
 {
   //if (carrier && carrier->underControl()) {  // capted by carrier
   if (move.manip) {  // capted by carrier
