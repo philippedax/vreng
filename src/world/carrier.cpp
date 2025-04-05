@@ -129,7 +129,7 @@ void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
 {
   if (! object) return;
 
-  echo("carrier: c=%d k=%d", control, vkey);
+  //echo("carrier: c=%d k=%d", control, vkey);
   switch (vkey) {
     case KEY_FW: object->pos.x += last*lspeed; break; // ^
     case KEY_BW: object->pos.x -= last*lspeed; break; // v

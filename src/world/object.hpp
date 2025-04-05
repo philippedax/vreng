@@ -573,7 +573,7 @@ class Object {
   void imposedMovement(float dt);
   /**< Enables an imposed movement on an object. */
 
-  float diffTime(time_t sec, time_t usec);
+  float deltaTime(time_t sec, time_t usec);
   /**< Updates times on an object. */
 
   void stopMovement();

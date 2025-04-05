@@ -84,7 +84,7 @@ bool Bumper::isMoving()
 
 void Bumper::timing(time_t sec, time_t usec, float *lasting)
 {
-  *lasting = diffTime(sec, usec);
+  *lasting = deltaTime(sec, usec);
   if (*lasting > move.ttl) {
     move.sec = sec;
     move.usec = usec;

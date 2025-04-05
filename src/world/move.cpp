@@ -121,7 +121,7 @@ void * endMovement(void *arg)
 /** Updates time lasting */
 bool Object::lasting(time_t sec, time_t usec, float *dt)
 {
-  *dt = diffTime(sec, usec);
+  *dt = deltaTime(sec, usec);
   if (move.ttl < 0.0005) return false;
   if (move.next) {
     //echo("next1: ttl=%.1f nocol=%d", move.ttl, move.nocol);
@@ -228,55 +228,53 @@ void User::imposed(const float lastings[])
     }
   }
 
-  if (this == localuser) {
-    float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
+  float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
 
-    if (pos.z > 2) {		// hight >2 m
-      // flying
-      if (humanoid) {
-        localuser->pos.ay = -a;
-      }
-      if (human) {
-        human->pos.ay = -a;
-      }
-      if (guy) {
-        guy->pos.ax = -a;
-        guy->setAniming(true);
-        guy->setFlying(true);
-      }
+  if (pos.z > 2) {		// hight >2 m
+    // flying
+    if (humanoid) {
+      localuser->pos.ay = -a;
     }
-    else if (pos.z > 1) {	// >1 m
-      if (humanoid) {
-        localuser->pos.ay = -a/2;
-      }
-      if (human) {
-        human->pos.ay = -a/2;
-      }
-      if (guy) {
-        guy->pos.ax = -a/2;
-        guy->setAniming(true);
-        guy->setFlying(true);
-      }
+    if (human) {
+      human->pos.ay = -a;
     }
-    else if (pos.z < 1) {	// near the ground
-      if (humanoid) {
-        localuser->pos.ay = 0;
+    if (guy) {
+      guy->pos.ax = -a;
+      guy->setAniming(true);
+      guy->setFlying(true);
+    }
+  }
+  else if (pos.z > 1) {		// >1 m
+    if (humanoid) {
+      localuser->pos.ay = -a/2;
+    }
+    if (human) {
+      human->pos.ay = -a/2;
+    }
+    if (guy) {
+      guy->pos.ax = -a/2;
+      guy->setAniming(true);
+      guy->setFlying(true);
+    }
+  }
+  else if (pos.z < 1) {		// near the ground
+    if (humanoid) {
+      localuser->pos.ay = 0;
+    }
+    if (human) {
+      human->pos.ay = 0;
+    }
+    if (guy) {
+      if (guy->isFlying()) {
+        guy->pos.ax = 0;
+        guy->setFlying(false);
+        guy->setAniming(false);
       }
-      if (human) {
-        human->pos.ay = 0;
+      else if (guy->isAnim()) {
+        guy->setAniming(false);	// stop anim
       }
-      if (guy) {
-        if (guy->isFlying()) {
-          guy->pos.ax = 0;
-          guy->setFlying(false);
-          guy->setAniming(false);
-        }
-        else if (guy->isAnim()) {
-          guy->setAniming(false);	// stop anim
-        }
-        else {
-          guy->setAniming(true);	// anim a little bit
-        }
+      else {
+        guy->setAniming(true);	// anim a little bit
       }
     }
   }
@@ -295,7 +293,7 @@ float Object::getLasting() const
 }
 
 /** Returns delta time */
-float Object::diffTime(time_t sec, time_t usec)
+float Object::deltaTime(time_t sec, time_t usec)
 {
   return static_cast<float> (sec-move.sec) + static_cast<float> (usec-move.usec)/1e6;
 }
@@ -444,15 +442,26 @@ void Object::elemImposedMovement(float dt)
 /** Imposed movement for an object */
 void Object::imposedMovements(time_t sec, time_t usec)
 {
+  float dt;
+
   if (! isValid()) {
     error("imposedMovements: %s type=%d invalid", name.given, type);
     return;
   }
   if (! isMoving() && ! move.manip) return;	// no moving
 
+  if (move.manip) {			// capted by carrier
+    dt = deltaTime(sec, usec);
+    for (int k=0; k < MAXKEYS; k++) {
+      echo("dir: k=%d", k);
+      carrier->mouseEvent(this, k, dt);
+    }
+    return;
+  }
+
   copyPositionAndBB(pos);		// keep pos for network
 
-  float dt = -1;
+  dt = -1;
   timing(sec, usec, &dt);		// handled by each object only for imposed movements
 
   move.next = NULL;
