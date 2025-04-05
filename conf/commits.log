@@ -3545,3 +3545,4 @@
 3545 Ven  4 avr 2025 17:55:34 CEST	add clone conf/git.sh
 3546 Ven  4 avr 2025 18:05:17 CEST	fix clone conf/git.sh
 3547 Sam  5 avr 2025 11:05:07 CEST	cleanup changePosition in class User move.cpp
+3548 Sam  5 avr 2025 11:32:50 CEST	cleanup clone github conf/git.sh

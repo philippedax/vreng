@@ -69,7 +69,10 @@ daemons:
 cache:
 	@(cd conf; ./cache.sh)
 
+clone:
+	@(conf/git.sh clone)
+
 history:
 	@(cd archive; ls -ltr)
 
-.PHONY: dist clean-tar data-tar html-tar doxygen snapshot prerequis daemons cache history
+.PHONY: dist clean-tar data-tar html-tar doxygen snapshot prerequis daemons cache clone history
