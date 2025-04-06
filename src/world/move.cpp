@@ -158,12 +158,14 @@ bool Object::lasting(time_t sec, time_t usec, float *dt)
   return false;
 }
 
-/** Modifies user position in one direction */
+/** Changes user position in one direction */
 void User::changePosition(uint8_t move_key, float dt)
 {
   if (carrier && carrier->control) {  // capted by carrier
-    echo("dir: k=%d", move_key);
-    carrier->mouseEvent(this, move_key, dt);
+    //echo("k=%d", move_key);
+    Object *o = carrier->getObject();
+    if (! o) return;
+    carrier->mouseEvent(o, move_key, dt);
     return;
   }
 
@@ -449,14 +451,18 @@ void Object::imposedMovements(time_t sec, time_t usec)
   }
   if (! isMoving() && ! move.manip) return;	// no moving
 
+#if 0
   if (move.manip) {			// capted by carrier
     dt = deltaTime(sec, usec);
+    Object *o = carrier->getObject();
+    if (! o) return;
     for (int k=0; k < MAXKEYS; k++) {
       echo("k=%d", k);
-      carrier->mouseEvent(this, k, dt);
+      carrier->mouseEvent(o, k, dt);
     }
     return;
   }
+#endif
 
   copyPositionAndBB(pos);		// keep pos for network
 

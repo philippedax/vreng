@@ -61,7 +61,7 @@ bool Carrier::underControl() const
     return object->carrier->control || localuser->carrier->control;
   else
 #else
-  echo("ctrl: %d", control);
+  //echo("ctrl: %d", control);
 #endif
     return control;
 }
@@ -94,7 +94,7 @@ void Carrier::take(Object *o)
   control = true;
   o->carrier->control = true;
   localuser->carrier->control = true;
-  echo("take control of %s (%p), enter in manipulation mode", o->objectName(), o->carrier);
+  echo("take control of %s, enter in manipulation mode", o->objectName());
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
@@ -111,7 +111,7 @@ void Carrier::leave(Object *o)
     localuser->carrier->control = false;
     control = false;
   }
-  echo("leave control of %s (%p), enter in navigation mode", o->objectName(), o->carrier);
+  echo("leave control of %s, enter in navigation mode", o->objectName());
   defaults();			// reset the carrier
 }
 
@@ -135,7 +135,6 @@ void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
 {
   if (! object) return;
 
-  //echo("carrier: c=%d k=%d", control, vkey);
   switch (vkey) {
     case KEY_FW: object->pos.x += last*lspeed; break; // ^
     case KEY_BW: object->pos.x -= last*lspeed; break; // v
