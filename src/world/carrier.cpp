@@ -66,6 +66,12 @@ bool Carrier::underControl() const
     return control;
 }
 
+/** Gets object under control */
+Object * Carrier::getObject()
+{
+  return object;
+}
+
 /** Takes control of the mouse to enter in manipulation mode */
 void Carrier::take(Object *o)
 {

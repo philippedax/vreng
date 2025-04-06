@@ -3547,3 +3547,4 @@
 3547 Sam  5 avr 2025 11:05:07 CEST	cleanup changePosition in class User move.cpp
 3548 Sam  5 avr 2025 11:32:50 CEST	cleanup clone github conf/git.sh
 3549 Sam  5 avr 2025 15:56:01 CEST	add target clone Makefile.am
+3550 Sam  5 avr 2025 17:01:39 CEST	cleanup carrier->moveEvent() move.cpp

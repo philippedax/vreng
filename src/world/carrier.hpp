@@ -49,11 +49,11 @@ class Carrier: public Object {
   Object *object;	///< thing ptr
   float lspeed;		///< linear speed
   float aspeed;		///< angular speed
-  bool control;		///< flag true/false
 
  public:
   static const float LSPEED;	///< linear speed
   static const float ASPEED;	///< angular speed
+  bool control;		///< flag true/false
 
   // actions
   enum {
@@ -72,6 +72,9 @@ class Carrier: public Object {
 
   bool underControl() const;
   /**< Accessor: is something taking ? */
+
+  Object * getObject();
+  /**< Gets object under control */
 
   void take(class Object *o);
   /**< handle position changes

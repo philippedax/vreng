@@ -161,8 +161,7 @@ bool Object::lasting(time_t sec, time_t usec, float *dt)
 /** Modifies user position in one direction */
 void User::changePosition(uint8_t move_key, float dt)
 {
-  //if (carrier && carrier->underControl()) {  // capted by carrier
-  if (move.manip) {  // capted by carrier
+  if (carrier && carrier->control) {  // capted by carrier
     echo("dir: k=%d", move_key);
     carrier->mouseEvent(this, move_key, dt);
     return;
@@ -453,7 +452,7 @@ void Object::imposedMovements(time_t sec, time_t usec)
   if (move.manip) {			// capted by carrier
     dt = deltaTime(sec, usec);
     for (int k=0; k < MAXKEYS; k++) {
-      echo("dir: k=%d", k);
+      echo("k=%d", k);
       carrier->mouseEvent(this, k, dt);
     }
     return;
