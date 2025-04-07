@@ -308,7 +308,8 @@ static const uint8_t FRAME_MAX;		// 255
   /**< Gets Max & Min BB. */
 
   void setBB(GLfloat w, GLfloat d, GLfloat h);
-  /**< Sets BB sizes. */
+  void setBB(V3 *v);
+  /**< Sets min/max BB sizes. */
 
   void doTransform(int flag);
   /**< Makes transforms rotations and translations. */

@@ -1148,10 +1148,16 @@ void Solid::getMaxMinBB(V3 &max, V3 &min, bool is_framed)
   ::g.render.getBB(max, min, is_framed);
 }
 
-/** Sets BB sizes. */
+/** Sets min/max BB sizes. */
 void Solid::setBB(GLfloat w, GLfloat d, GLfloat h)
 {
   ::g.render.setBB(w, d, h);
+}
+
+/** Sets min/max BB sizes. */
+void Solid::setBB(V3 *v)
+{
+  ::g.render.setBB(v);
 }
 
 /** Returns relative center and size of BB. */

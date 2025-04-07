@@ -271,6 +271,7 @@ class Render {
 
   void setBB(GLfloat w, GLfloat d, GLfloat h);
   void setBB(const GLfloat *v);
+  void setBB(const V3 *v);
   /**< Sets min/max BB. */
 
   void updBB(GLfloat az);

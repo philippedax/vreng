@@ -3550,3 +3550,4 @@
 3550 Sam  5 avr 2025 17:01:39 CEST	cleanup carrier->moveEvent() move.cpp
 3551 Dim  6 avr 2025 11:18:34 CEST	add getObject() under control carrier.*pp
 3552 Dim  6 avr 2025 15:30:51 CEST	fix manip of object move.cpp
+3553 Lun  7 avr 2025 08:59:26 CEST	cleanup static_cast render.cpp

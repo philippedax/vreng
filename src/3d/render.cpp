@@ -661,7 +661,7 @@ void Render::getBB(V3& bbmax, V3& bbmin, bool framed)
   }
 }
 
-/** Computes bounding box. */
+/** Computes min/max bounding box. */
 void Render::setBB(const GLfloat *v)
 {
   if (first_bb) {
@@ -679,7 +679,25 @@ void Render::setBB(const GLfloat *v)
   }
 }
 
-/** Sets bounding box. */
+/** Computes min/max bounding box. */
+void Render::setBB(const V3 *v)
+{
+  if (first_bb) {
+    for (int i=0; i<3; i++) {
+      bbox_min.v[i] = v->v[i];
+      bbox_max.v[i] = v->v[i];
+    }
+    first_bb = false;
+  }
+  else {
+    for (int i=0; i<3; i++) {
+      bbox_min.v[i] = MIN(v->v[i], bbox_min.v[i]);
+      bbox_max.v[i] = MAX(v->v[i], bbox_max.v[i]);
+    }
+  }
+}
+
+/** Sets min/max bounding box. */
 void Render::setBB(GLfloat w, GLfloat d, GLfloat h)
 {
   bbox_max.v[0] = w;
@@ -690,7 +708,7 @@ void Render::setBB(GLfloat w, GLfloat d, GLfloat h)
   bbox_min.v[2] = -h;
 }
 
-/** Updates bounding box according to its orientation. */
+/** Updates min/max bounding box according to its orientation. */
 void Render::updBB(GLfloat az)
 {
   bbox_max.v[0] *= cos(az);
