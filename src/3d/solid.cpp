@@ -234,6 +234,7 @@ char * Solid::skipEqual(char *p)
   return p;
 }
 
+/** Returns tokend-id if match token strings */
 char * Solid::getTok(char *l, uint16_t *stok)
 {
   char *t = l;
@@ -257,6 +258,19 @@ char * Solid::getTok(char *l, uint16_t *stok)
     object->parse()->errorAtLine();
     return t;
   }
+}
+
+/** Returns token string if match token-id */
+const char * Solid::getShape(uint16_t tokid)
+{
+  const struct sStokens *ptab;
+
+  for (ptab = stokens; ptab->tokstr ; ptab++) {
+    if ( tokid == ptab->tokid) {
+      return ptab->tokstr;
+    }
+  }
+  return NULL;
 }
 
 /** Parses <frame , return next token after frame. */

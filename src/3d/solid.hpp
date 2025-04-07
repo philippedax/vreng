@@ -165,23 +165,23 @@ class Solid {
   bool		flary;		///< flag flary.
   bool		reflexive;	///< flag reflexive.
   bool		blinking;	///< flag blinking.
-  uint8_t	shape;		///< basic shape.
   uint8_t	nbframes;	///< number of frames of this solid.
   uint8_t	frame;		///< current frame to render.
-  float		alpha;		///< transparency.
-  int		texid;		///< texture id.
 
  private:
+  uint8_t	shape;		///< basic shape.
   M4		matpos;		///< position matrix.
   V3		bbcent;		///< relative center of BB.
   V3		bbsize;		///< relative half sizes of BB.
   float 	rel[5];		///< relative position/orientation.
+  bool		fictif;		///< set if the solid is fictif.
   bool		blink;		///< flag blink.
   bool		rendered;	///< flag if is already rendered
+  float		alpha;		///< transparency.
   float		userdist;	///< distance to localuser.
   float		surfsize;	///< max surface size of solid.
   float		scale, scalex, scaley, scalez;
-  bool		fictif;		///< set if the solid is fictif.
+  int		texid;		///< texture id.
   uint8_t	nbsolids;	///< number of solids.
   GLfloat	mat_diffuse[4];
   GLfloat	mat_ambient[4];
@@ -215,6 +215,9 @@ static const uint8_t FRAME_MAX;		// 255
 
   Solid();			///< constructor.
   virtual ~Solid();		///< destructor.
+
+  const char * getShape(uint16_t tokid);
+  /**< Returns token string if token-id matches */
 
   // Accessors
   void getDimBB(V3& bbsize) const;
