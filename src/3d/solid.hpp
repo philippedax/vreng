@@ -165,8 +165,11 @@ class Solid {
   bool		flary;		///< flag flary.
   bool		reflexive;	///< flag reflexive.
   bool		blinking;	///< flag blinking.
+  uint8_t	shape;		///< basic shape.
   uint8_t	nbframes;	///< number of frames of this solid.
   uint8_t	frame;		///< current frame to render.
+  float		alpha;		///< transparency.
+  int		texid;		///< texture id.
 
  private:
   M4		matpos;		///< position matrix.
@@ -177,12 +180,9 @@ class Solid {
   bool		rendered;	///< flag if is already rendered
   float		userdist;	///< distance to localuser.
   float		surfsize;	///< max surface size of solid.
-  float		alpha;		///< transparency.
   float		scale, scalex, scaley, scalez;
   bool		fictif;		///< set if the solid is fictif.
-  uint8_t	shape;		///< basic shape.
   uint8_t	nbsolids;	///< number of solids.
-  int		texid;		///< texture id.
   GLfloat	mat_diffuse[4];
   GLfloat	mat_ambient[4];
   GLfloat	mat_specular[4];
