@@ -43,6 +43,8 @@ enum {
   KEY_TL,	///< tilt left
   KEY_TR,	///< tilt right
   KEY_SP,	///< speeder
+  KEY_M,	///< minus
+  KEY_P,	///< plus
   MAXKEYS	///< max of keys
 };
 

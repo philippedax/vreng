@@ -135,6 +135,7 @@ void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
 {
   if (! object) return;
 
+  echo("vkey: %d", vkey);
   switch (vkey) {
     case KEY_FW: object->pos.x += last*lspeed; break; // ^
     case KEY_BW: object->pos.x -= last*lspeed; break; // v
@@ -148,6 +149,8 @@ void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
     case KEY_TR: object->pos.ax -= last*aspeed; break; // ,>
     case KEY_MU: object->pos.ay += last*aspeed; break; // ^,
     case KEY_MD: object->pos.ay -= last*aspeed; break; // ,^
+    case KEY_M: for (int i=0; i<3; i++) {object->pos.bbs.v[i] -= object->pos.bbs.v[i]/10; }break; // -
+    case KEY_P: for (int i=0; i<3; i++) {object->pos.bbs.v[i] += object->pos.bbs.v[i]/10; }break; // +
   }
   object->updatePositionAndGrid(object->pos);
   object->updatePosition();

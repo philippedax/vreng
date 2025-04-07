@@ -572,7 +572,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   GLint h = vp[3];
   GLfloat top = camera.near * tan(camera.fovy * M_PI_180);
   GLfloat bot = -top;
-  GLfloat ratio = (GLfloat) w / (GLfloat) h;
+  GLfloat ratio = static_cast<GLfloat> (w) / static_cast<GLfloat> (h);
   GLfloat right = top * ratio;
   GLfloat left = -right;
 
@@ -714,15 +714,15 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
   GLfloat ex = localuser->pos.x + User::NEAR;
   GLfloat ey = localuser->pos.y;
   GLfloat ez = localuser->pos.z + localuser->height/2 - 0.10;
-  GLfloat tx = (GLfloat) User::FAR;
-  GLfloat ty = vp[2]/2 - (GLfloat) wx;
-  GLfloat tz = vp[3]/2 - (GLfloat) wy;
+  GLfloat tx = static_cast<GLfloat> (User::FAR);
+  GLfloat ty = vp[2]/2 - static_cast<GLfloat> (wx);
+  GLfloat tz = vp[3]/2 - static_cast<GLfloat> (wy);
 
   if (ty < 0) ty = MAX(ty, -User::FAR); else ty = MIN(ty, User::FAR);
   if (tz < 0) tz = MAX(tz, -User::FAR); else tz = MIN(tz, User::FAR);
-  dir->v[0] = (GLfloat) (tx - ex);
-  dir->v[1] = (GLfloat) (ty - ey);
-  dir->v[2] = (GLfloat) (tz - ez);
+  dir->v[0] = static_cast<GLfloat> (tx - ex);
+  dir->v[1] = static_cast<GLfloat> (ty - ey);
+  dir->v[2] = static_cast<GLfloat> (tz - ez);
   //echo("wx=%d wy=%d dir=%.1f %.1f %.1f", wx, wy,dir->v[0], dir->v[1] ,dir->v[2]);
 }
 
@@ -773,7 +773,7 @@ Object** Render::getDrawedObjects(int *nbhit)
   GLint h = vp[3];
   GLfloat top = camera.near * tan(camera.fovy * M_PI_180);
   GLfloat bot = -top;
-  GLfloat ratio = (GLfloat) w / (GLfloat) h;
+  GLfloat ratio = static_cast<GLfloat> (w) / static_cast<GLfloat> (h);
   GLfloat right = top * ratio;
   GLfloat left = -right;
 
