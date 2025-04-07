@@ -288,6 +288,9 @@ static const uint8_t FRAME_MAX;		// 255
   GLint getTexid() const;
   /**< Gets current texid. */
 
+  void setBB(V3 *v);
+  /**< Sets min/max BB sizes. */
+
  private:
   uint8_t	iframe;		///< frame index.
   bool		framed;		///< flag framed.
@@ -308,7 +311,6 @@ static const uint8_t FRAME_MAX;		// 255
   /**< Gets Max & Min BB. */
 
   void setBB(GLfloat w, GLfloat d, GLfloat h);
-  void setBB(V3 *v);
   /**< Sets min/max BB sizes. */
 
   void doTransform(int flag);

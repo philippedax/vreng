@@ -1297,7 +1297,7 @@ enum {
 };
 
 // Local
-static uint8_t objtype = THING;	// thing (for multiple solids)
+static int objtype = THING;	// thing (for multiple solids)
 static char shape[16] = "box";	// box
 static char texture[128] = {0};	// empty
 static V3 color;		// white
@@ -1414,10 +1414,10 @@ static void setVal(int item) {
   }
 }
 
-/** callback witch builds <solid ... \> */
+/** Callback which builds <solid ... \> */
 void Widgets::newObjectCB()
 {
-  char solid[BUFSIZ], url[128];
+  char solid[256], url[128];
   float r = .2 * siz;
   float scale = 1;
   V3 c = color;
@@ -1425,28 +1425,28 @@ void Widgets::newObjectCB()
   solid[0] = url[0] = '\0';
 
   // Shapes
-  if (! strcmp(shape, "box")) {
-    sprintf(solid, "solid shape=\"box\" dim=\"%f %f %f\" dif=\"%f %f %f\" tx_front=\"%s\" a=\"%f\" />", r,r,r, c.v[0],c.v[1],c.v[2], texture, alpha);
+  if (! strncmp(shape, "box", 3)) {
+    sprintf(solid, "solid shape=\"box\" dim=\"%f %f %f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r,r, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
-  else if (! strcmp(shape, "sphere")) {
+  else if (! strncmp(shape, "sphere", 5)) {
     sprintf(solid, "solid shape=\"sphere\" r=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
-  else if (! strcmp(shape, "cone")) {
+  else if (! strncmp(shape, "cone", 4)) {
     sprintf(solid, "solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r/2,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
-  else if (! strcmp(shape, "cylinder")) {
+  else if (! strncmp(shape, "cyl", 3)) {
     sprintf(solid, "solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
-  else if (! strcmp(shape, "disk")) {
+  else if (! strncmp(shape, "disk", 4)) {
     sprintf(solid, "solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
-  else if (! strcmp(shape, "torus")) {
+  else if (! strncmp(shape, "torus", 5)) {
     sprintf(solid, "solid shape=\"torus\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r/5, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
-  if (! strcmp(shape, "man")) {
+  if (! strncmp(shape, "man", 3)) {
     sprintf(solid, "solid shape=\"man\" dim=\".2 .1 .85\" />");
   }
-  if (! strcmp(shape, "car")) {
+  if (! strncmp(shape, "car", 3)) {
     sprintf(solid, "solid shape=\"car\" dim=\".7 .7 .7\" dif=\"%f %f %f\" a=\"%f\" />", c.v[0],c.v[1],c.v[2], alpha);
   }
 
@@ -1495,11 +1495,11 @@ void Widgets::newObjectCB()
   if (! localuser) return;
 
   switch (objtype) {
-  case THING:	new Thing(localuser, solid);	break;
-  case WALL:	new Wall(localuser, solid);	break;
-  case MIRAGE:	new Mirage(localuser, solid);	break;
-  case BALL:	new Ball(localuser, solid);	break;
-  case STEP:	new Step(localuser, solid);	break;
+  case THING:	new Thing(localuser, solid);	  break;
+  case WALL:	new Wall(localuser, solid);	  break;
+  case MIRAGE:	new Mirage(localuser, solid);	  break;
+  case BALL:	new Ball(localuser, solid);	  break;
+  case STEP:	new Step(localuser, solid);	  break;
   case MODEL:	new Model(localuser, url, scale); break;
   case GROUND:
     sprintf(solid, "solid dim=\"%f %f %f\" dif=\"%f %f %f\" zp=\"%s\"/>", 10.,10.,.1, c.v[0],c.v[1],c.v[2], texture);
