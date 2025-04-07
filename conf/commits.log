@@ -3553,3 +3553,4 @@
 3553 Lun  7 avr 2025 08:59:26 CEST	cleanup static_cast render.cpp
 3554 Lun  7 avr 2025 10:35:40 CEST	cleanup setBB(V3 *v) render.*pp
 3555 Lun  7 avr 2025 16:10:59 CEST	cleanup tx_front widgets.cpp
+3556 Lun  7 avr 2025 16:20:42 CEST	cleanup shape public solid.hpp
