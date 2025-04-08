@@ -159,14 +159,26 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
                   o->pos.bbs.v[i] = MAX(o->pos.bbs.v[i], 0);
                 }
                 echo("s2: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
-		echo("shape: %s", o->solid->getShape(o->solid->shape));
-                sprintf(o->geom, "shape=\"%s\" dim=\"%f %f %f\" />",
-                        o->solid->getShape(o->solid->shape),
-                        o->pos.bbs.v[0], o->pos.bbs.v[1], o->pos.bbs.v[2]);
+		//echo("shape: %s", o->solid->getShape(o->solid->shape));
+		o->geom = new char[128];
+                sprintf(o->geom, "geom shape=\"%s\" dim=\"%.3f %.3f %.3f\" />", o->solid->getShape(o->solid->shape), o->pos.bbs.v[0], o->pos.bbs.v[1], o->pos.bbs.v[2]);
                 echo("geom: %s", o->geom);
-                //Thing *thm = new Thing(localuser, o->geom);
-                //o->toDelete();
-                //echo("thm: %p", thm);
+		switch (o->type) {
+                case THING_TYPE: {
+                  Thing *o2 = new Thing(localuser, o->geom);
+                  echo("o2: %p", o2);
+                  o2->carrier = o->carrier;
+                  //o2->move.manip = true;
+                  }
+                  break;
+                default: {
+                  Thing *o2 = new Thing(localuser, o->geom);
+                  o2->carrier = o->carrier;
+                  //o2->move.manip = true;
+                  }
+                  break;
+                }
+                o->toDelete();
                 break; // -
                }
     case KEY_P:
@@ -176,8 +188,25 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
                   o->pos.bbs.v[i] += o->pos.bbs.v[i]/10;
                 }
                 echo("s2: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
-                sprintf(o->geom, "shape=\"box\" dim=\"%f %f %f\" />", o->pos.bbs.v[0], o->pos.bbs.v[1], o->pos.bbs.v[2]);
-                //new Thing(localuser, o->geom);
+		o->geom = new char[128];
+                sprintf(o->geom, "shape=\"%s\" dim=\"%f %f %f\" />", o->solid->getShape(o->solid->shape), o->pos.bbs.v[0], o->pos.bbs.v[1], o->pos.bbs.v[2]);
+                echo("geom: %s", o->geom);
+		switch (o->type) {
+                case THING_TYPE: {
+                  Thing *o2 = new Thing(localuser, o->geom);
+                  echo("o2: %p", o2);
+                  o2->carrier = o->carrier;
+                  o2->move.manip = true;
+                  }
+                  break;
+                default: {
+                  Thing *o2 = new Thing(localuser, o->geom);
+                  o2->carrier = o->carrier;
+                  o2->move.manip = true;
+                  }
+                  break;
+                }
+                o->toDelete();
                 break; // +
                }
   }
