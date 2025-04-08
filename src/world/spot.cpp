@@ -90,10 +90,10 @@ void Spot::geometry()
   base = dim.v[0];
   switch (shape) {
   case SPOT_PENTAGON:
-    sprintf(s, "solid shape=\"pentagon\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
+    sprintf(s, "geom shape=\"pentagon\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
     break;
   case SPOT_CONE:
-    sprintf(s, "solid shape=\"cone\" rb=\"%f\" rt=\"0.05\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
+    sprintf(s, "geom shape=\"cone\" rb=\"%f\" rt=\"0.05\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
     break;
   }
   parseSolid(s);

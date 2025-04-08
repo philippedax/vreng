@@ -80,7 +80,8 @@ void Fountain::parser(char *l)
 void Fountain::geometry()
 {
   char s[128];
-  sprintf(s, "solid shape=\"none\" />");
+
+  sprintf(s, "geom shape=\"none\" />");
   parseSolid(s);
 }
 

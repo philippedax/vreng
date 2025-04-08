@@ -80,7 +80,7 @@ void Ball::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"sphere\" r=\"%f\" tx=\"%s\" />", RADIUS, DEF_URL_BALL);
+  sprintf(s, "geom shape=\"sphere\" r=\"%f\" tx=\"%s\" />", RADIUS, DEF_URL_BALL);
   if (! geom) {
     geom = new char[strlen(s)];
     strcpy(geom, s);
@@ -155,13 +155,13 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
 }
 
 /** Creation by the user - via addobj (GUI) */
-Ball::Ball(Object *user, char *solid)
+Ball::Ball(Object *user, char *_geom)
 {
   defaults();
   behaviors();
   setName();
   inits();
-  parseSolid(solid);
+  parseSolid(_geom);
 
   // position in front of user
   pos.x = user->pos.x + 0.4;

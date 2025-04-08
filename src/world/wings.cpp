@@ -74,7 +74,7 @@ void Wings::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parseAttributes(l);	// <solid ... />
+    l = parseAttributes(l);	// <geom ... />
     if (!l) break;
     if      (! stringcmp(l, "scale="))  { l = parseFloat(l, &scale, "scale"); }
     else if (! stringcmp(l, "aspeed=")) { l = parseFloat(l, &aspeed, "aspeed"); }
@@ -140,7 +140,7 @@ void Wings::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", .6, .1, .6);
+  sprintf(s, "geom shape=\"bbox\" dim=\"%f %f %f\" />", .6, .1, .6);
   parseSolid(s);
 }
 

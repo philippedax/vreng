@@ -74,42 +74,42 @@ void Hat::geometry()
   switch (model) {
 
   case Hat::TOPHAT:
-    sprintf(s,"solid shape=\"cone\" ri=\"%f\" re=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.08,.15,"black");
+    sprintf(s,"geom shape=\"cone\" ri=\"%f\" re=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.08,.15,"black");
     parseSolid(s);
-    sprintf(s,"<solid shape=\"disk\" rel=\"0 0 .15 0 0\" ri=\"0\" re=\"%f\" dif=\"%s\" />",.08,"black");
+    sprintf(s,"<geom shape=\"disk\" rel=\"0 0 .15 0 0\" ri=\"0\" re=\"%f\" dif=\"%s\" />",.08,"black");
     parseSolid(s);
-    sprintf(s,"<solid shape=\"disk\" rel=\"0 0 0 0 0\" ri=\"%f\" re=\"%f\" dif=\"%s\" />",.08,.15,"black");
+    sprintf(s,"<geom shape=\"disk\" rel=\"0 0 0 0 0\" ri=\"%f\" re=\"%f\" dif=\"%s\" />",.08,.15,"black");
     parseSolid(s);
     break;
 
   case Hat::BOWLER:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.05,.12,"green");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.05,.12,"green");
     parseSolid(s);
-    sprintf(s,"solid shape=\"torus\" rel=\"0 0 0 0 0\" r=\"%f\" rt=\"%f\" dif=\"%s\" />",.08,.02,"darkgreen");
+    sprintf(s,"geom shape=\"torus\" rel=\"0 0 0 0 0\" r=\"%f\" rt=\"%f\" dif=\"%s\" />",.08,.02,"darkgreen");
     parseSolid(s);
     break;
 
   case Hat::CHINESE:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.2,.0,.15,"yellow");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.2,.0,.15,"yellow");
     parseSolid(s);
     break;
 
   case Hat::REDHAT:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.05,.10,"red");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.05,.10,"red");
     parseSolid(s);
-    sprintf(s,"solid shape=\"disk\" rel=\"0 0 0 0 0\" ri=\"%f\" re=\"%f\" dif=\"%s\" />",.08,.12,"red");
+    sprintf(s,"geom shape=\"disk\" rel=\"0 0 0 0 0\" ri=\"%f\" re=\"%f\" dif=\"%s\" />",.08,.12,"red");
     parseSolid(s);
     break;
 
   case Hat::COUNTRY:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" style=\"1\" />",.08,.04,.12,"wheat");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" style=\"1\" />",.08,.04,.12,"wheat");
     parseSolid(s);
-    sprintf(s,"solid shape=\"torus\" r=\"%f\" rt=\"%f\" dif=\"%s\" style=\"1\" />",.08,.02,"wheat");
+    sprintf(s,"geom shape=\"torus\" r=\"%f\" rt=\"%f\" dif=\"%s\" style=\"1\" />",.08,.02,"wheat");
     parseSolid(s);
     break;
 
   case Hat::CLOWN:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.0,.30,"white");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.0,.30,"white");
     parseSolid(s);
     break;
 
@@ -175,7 +175,7 @@ void Hat::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parseAttributes(l);	// <solid ... />
+    l = parseAttributes(l);	// <geom ... />
     if (!l) break;
     if (! stringcmp(l, "model=")) {
       l = parseString(l, modelname, "model");

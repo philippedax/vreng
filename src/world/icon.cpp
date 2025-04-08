@@ -116,7 +116,7 @@ void Icon::geometry()
 {
   char s[256];
 
-  sprintf(s, "solid dim=\"%f %f %f\" dif=\"%s\" xn=\"%s\" />",
+  sprintf(s, "geom dim=\"%f %f %f\" dif=\"%s\" xn=\"%s\" />",
           WIDTH, DEPTH, HEIGHT, COLOR, tex);
   parseSolid(s);
 }
@@ -582,7 +582,7 @@ void Icon::quit()
       if ((fp = fileout->open(ficon, "w"))) {
         char buf[128];
         memset(buf, 0, sizeof(buf));
-        sprintf(buf, "name=\"%s\" pos=\"%.2f %.2f %.2f %.2f %.2f\" owner=\"%s\" solid dim=\"%.2f %.2f %.2f\" dif=\"%s\" xn=\"%s\" ",
+        sprintf(buf, "name=\"%s\" pos=\"%.2f %.2f %.2f %.2f %.2f\" owner=\"%s\" geom dim=\"%.2f %.2f %.2f\" dif=\"%s\" xn=\"%s\" ",
                 objectName(),
                 pos.x, pos.y, pos.z, pos.az, pos.ax,
                 name.owner[0] ? name.owner : "",

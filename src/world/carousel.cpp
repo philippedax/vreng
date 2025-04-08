@@ -63,7 +63,7 @@ void Carousel::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", dim.v[0], dim.v[1], dim.v[2]);
+  sprintf(s, "geom shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", dim.v[0], dim.v[1], dim.v[2]);
   parseSolid(s);
 }
 

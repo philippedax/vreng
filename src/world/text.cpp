@@ -82,7 +82,7 @@ void Text::geometry()
 {
   char s[256];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%f .01 .1\" />", (strlen(textstr)*GLYPHSIZ / 2));
+  sprintf(s, "geom shape=\"bbox\" dim=\"%f .01 .1\" />", (strlen(textstr)*GLYPHSIZ / 2));
   parseSolid(s);
 }
 

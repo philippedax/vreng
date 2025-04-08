@@ -95,17 +95,17 @@ void Cloth::geometry()
 
   switch (article) {
   case HALO:
-    sprintf(s,"solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%s\" />", .09, .12, color);
+    sprintf(s,"geom shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%s\" />", .09, .12, color);
     break;
   case HAT:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />", .08, .08, .10, color);
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />", .08, .08, .10, color);
     parseSolid(s);
-    sprintf(s,"solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%s\" />", .08, .15, color);
+    sprintf(s,"geom shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%s\" />", .08, .15, color);
   case DRESS:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />", .10, .30, -.50, color);
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />", .10, .30, -.50, color);
     break;
   case WINGS:
-    sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />", 1.2, .02, 1.2);
+    sprintf(s,"geom shape=\"bbox\" dim=\"%f %f %f\" />", 1.2, .02, 1.2);
   default:
     return;
   }

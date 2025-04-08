@@ -63,7 +63,7 @@ void Halo::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%s\" />", RI, RE, strcolor);
+  sprintf(s, "geom shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%s\" />", RI, RE, strcolor);
   parseSolid(s);
 }
 
@@ -111,7 +111,7 @@ void Halo::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parseAttributes(l);	// <solid ... />
+    l = parseAttributes(l);	// <geom ... />
     if (!l) break;
   }
   end_while_parse(l);

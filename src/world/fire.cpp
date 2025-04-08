@@ -102,7 +102,7 @@ void Fire::geometry()
 {
   char s[128];
 
-  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.25,.25,.50);
+  sprintf(s,"geom shape=\"bbox\" dim=\"%f %f %f\" />",.25,.25,.50);
   parseSolid(s);
 }
 

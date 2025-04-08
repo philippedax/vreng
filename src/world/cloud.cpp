@@ -98,7 +98,7 @@ void Cloud::rebuild()
 
 void Cloud::geometry()
 {
-  char s[256];
+  char s[128];
   float minx, miny, minz, maxx, maxy, maxz;
   minx = miny = minz = maxx = maxy = maxz = 0;
 
@@ -110,7 +110,7 @@ void Cloud::geometry()
     maxy = MAX(maxy, obloids[n].y);
     maxz = MAX(maxz, obloids[n].z);
   }
-  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", (maxx-minx)/2, (maxy-miny)/2, (maxz-minz) *.5/2);
+  sprintf(s, "geom shape=\"bbox\" dim=\"%f %f %f\" />", (maxx-minx)/2, (maxy-miny)/2, (maxz-minz) *.5/2);
   parseSolid(s);
 }
 

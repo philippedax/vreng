@@ -104,7 +104,7 @@ void Smoke::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" a=\".7\" />", .05, .05, .05);
+  sprintf(s, "geom shape=\"bbox\" dim=\"%f %f %f\" a=\".7\" />", .05, .05, .05);
   parseSolid(s);
 }
 

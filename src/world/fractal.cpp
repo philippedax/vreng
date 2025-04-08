@@ -68,7 +68,7 @@ void Fractal::geometry()
 {
   char s[256];
 
-  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",1.,.25,1.);
+  sprintf(s,"geom shape=\"bbox\" dim=\"%f %f %f\" />",1.,.25,1.);
   parseSolid(s);
 }
 

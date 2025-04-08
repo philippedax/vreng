@@ -138,7 +138,7 @@ void Human::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", width, depth, height);
+  sprintf(s, "geom shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", width, depth, height);
   parseSolid(s);
 }
 

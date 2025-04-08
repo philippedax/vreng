@@ -89,7 +89,7 @@ void Head::geometry()
 {
   char s[128];
 
-  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.15,.15,.2);
+  sprintf(s,"geom shape=\"bbox\" dim=\"%f %f %f\" />",.15,.15,.2);
   parseSolid(s);
 }
 

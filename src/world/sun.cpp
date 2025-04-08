@@ -79,7 +79,7 @@ void Sun::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"sphere\" r=\"%f\" emi=\"yellow\" />", radius);
+  sprintf(s, "geom shape=\"sphere\" r=\"%f\" emi=\"yellow\" />", radius);
   parseSolid(s);
 }
 

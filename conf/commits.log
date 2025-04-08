@@ -3556,3 +3556,4 @@
 3556 Lun  7 avr 2025 16:20:42 CEST	cleanup shape public solid.hpp
 3557 Lun  7 avr 2025 17:50:38 CEST	add manip size carrier.cpp
 3558 Lun  7 avr 2025 19:08:18 CEST	add getShape() solid.*pp
+3559 Mar  8 avr 2025 08:43:45 CEST	rename geomsolid to geom

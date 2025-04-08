@@ -49,7 +49,7 @@ void Bullet::geometry()
 {
   char s[128];
 
-  sprintf(s,"solid shape=\"sphere\" r=\"%f\" emi=\"%s\" />", RADIUS, COLOR);
+  sprintf(s,"geom shape=\"sphere\" r=\"%f\" emi=\"%s\" />", RADIUS, COLOR);
   parseSolid(s);
 }
 

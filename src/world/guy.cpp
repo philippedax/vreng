@@ -95,7 +95,7 @@ void Guy::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />",
+  sprintf(s, "geom shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />",
           BUST_W, HIP_R*2, HEAD_R*2+NECK_H+BUST_H+ULEG_H+LLEG_H+FOOT_H);
   parseSolid(s);
 }

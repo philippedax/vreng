@@ -50,7 +50,7 @@ void Snow::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"none\" />");
+  sprintf(s, "geom shape=\"none\" />");
   parseSolid(s);
 }
 

@@ -70,21 +70,21 @@ void Dress::geometry()
 
   switch (model) {
   case Dress::SPIRES:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.3,-.45,"/gif/pyjama-spires.gif");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.3,-.45,"/gif/pyjama-spires.gif");
     parseSolid(s);
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.15,.25,"/gif/pyjama-spires.gif");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.15,.25,"/gif/pyjama-spires.gif");
     parseSolid(s);
     break;
   case Dress::BANDS:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.25,-.45,"/gif/redbands.gif");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.25,-.45,"/gif/redbands.gif");
     parseSolid(s);
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.15,.25,"/gif/redbands.gif");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.15,.25,"/gif/redbands.gif");
     parseSolid(s);
     break;
   case Dress::ROSES:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.2,-.45,"/gif/roses.gif");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.2,-.45,"/gif/roses.gif");
     parseSolid(s);
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.15,.25,"/gif/roses.gif");
+    sprintf(s,"geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.15,.25,"/gif/roses.gif");
     parseSolid(s);
     break;
   default:
@@ -98,7 +98,7 @@ void Dress::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parseAttributes(l);	// <solid ... />
+    l = parseAttributes(l);	// <geom ... />
     if (!l) break;
     if (! stringcmp(l, "model=")) {
       l = parseString(l, modelname, "model");

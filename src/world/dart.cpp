@@ -49,7 +49,7 @@ void Dart::geometry()
 {
   char s[128];
 
-  sprintf(s,"solid shape=\"box\" dim=\"%s\" dif=\"%s\" />", DIM, COLOR);
+  sprintf(s,"geom shape=\"box\" dim=\"%s\" dif=\"%s\" />", DIM, COLOR);
   parseSolid(s);
 }
 

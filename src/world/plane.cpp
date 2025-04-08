@@ -77,7 +77,7 @@ void Plane::geometry()
   float zsec = dim.v[2] / sections;
 
   // le premier solide est au centre
-  sprintf(s, "solid dim=\"%.2f %.2f %.2f\" %s />", 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
+  sprintf(s, "geom dim=\"%.2f %.2f %.2f\" %s />", 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
   parseSolid(s);
   for (int i=1; i < sections; i++) {
     for (int j=0; j<2; j++) {
@@ -87,10 +87,10 @@ void Plane::geometry()
       rel.v[1] = k * (2*i - 1) * (ysec/2) * sin(pos.az);
       rel.v[2] = k * (2*i - 1) * zsec / 2;
       if (fabsf(dim.v[0]) < fabsf(dim.v[1])) {
-        sprintf(s, "solid rel=\"%.2f %.2f %.2f 0 0\" dim=\"%.2f %.2f %.2f\" %s />", rel.v[0], rel.v[1], rel.v[2], 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
+        sprintf(s, "geom rel=\"%.2f %.2f %.2f 0 0\" dim=\"%.2f %.2f %.2f\" %s />", rel.v[0], rel.v[1], rel.v[2], 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
       }
       else {
-        sprintf(s, "solid rel=\"%.2f %.2f %.2f 0 0\" dim=\"%.2f %.2f %.2f\" %s />", rel.v[0], rel.v[1], rel.v[2], 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
+        sprintf(s, "geom rel=\"%.2f %.2f %.2f 0 0\" dim=\"%.2f %.2f %.2f\" %s />", rel.v[0], rel.v[1], rel.v[2], 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
       }
       parseSolid(s);
     }

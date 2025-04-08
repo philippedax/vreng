@@ -97,7 +97,7 @@ void Model::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", .3, .16, 1.7);
+  sprintf(s, "geom shape=\"bbox\" dim=\"%f %f %f\" />", .3, .16, 1.7);
   parseSolid(s);
 }
 

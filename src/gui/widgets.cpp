@@ -1299,36 +1299,36 @@ enum {
 // Local
 static int objtype = THING;	// thing (for multiple solids)
 static char shape[16] = "box";	// box
-static char texture[128] = {0};	// empty
+static char tex[128] = {0};	// empty
 static V3 color;		// white
 static float alpha = 1;		// opaque
 static float siz = .5;		// medium
 
 static const char chair_wood[] = "\
-<solid dim=\".25 .25 .01\" dif=\"marroun\" tx=\"/gif/wood.gif\" />\n\
-<solid dim=\".02 .25 .25\" rel=\".12 0 .12 0 0\" dif=\"marroun\" />\n\
-<solid dim=\".01 .01 .25\" rel=\"-.12 .12 -.12 0 0\" dif=\"marroun\" />\n\
-<solid dim=\".01 .01 .25\" rel=\".12 .12 -.12 0 0\" dif=\"marroun\" />\n\
-<solid dim=\".01 .01 .25\" rel=\"-.12 -.12 -.12 0 0\" dif=\"marroun\" />\n\
-<solid dim=\".01 .01 .25\" rel=\".12 -.12 -.12 0 0\" dif=\"marroun\" />\n\
+<geom dim=\".25 .25 .01\" dif=\"marroun\" tx=\"/gif/wood.gif\" />\n\
+<geom dim=\".02 .25 .25\" rel=\".12 0 .12 0 0\" dif=\"marroun\" />\n\
+<geom dim=\".01 .01 .25\" rel=\"-.12 .12 -.12 0 0\" dif=\"marroun\" />\n\
+<geom dim=\".01 .01 .25\" rel=\".12 .12 -.12 0 0\" dif=\"marroun\" />\n\
+<geom dim=\".01 .01 .25\" rel=\"-.12 -.12 -.12 0 0\" dif=\"marroun\" />\n\
+<geom dim=\".01 .01 .25\" rel=\".12 -.12 -.12 0 0\" dif=\"marroun\" />\n\
 ";
 static const char table_wood[] = "\
-<solid dim=\".40 .80 .02\" dif=\"wheat\" tx=\"/gif/blondwood.gif\" />\n\
-<solid dim=\".02 .02 .40\" rel=\"-.18 .38 -.20 0 0\" dif=\"wheat\" />\n\
-<solid dim=\".02 .02 .40\" rel=\".18 .38 -.20 0 0\"  dif=\"wheat\" />\n\
-<solid dim=\".02 .02 .40\" rel=\"-.18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
-<solid dim=\".02 .02 .40\" rel=\".18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
+<geom dim=\".40 .80 .02\" dif=\"wheat\" tx=\"/gif/blondwood.gif\" />\n\
+<geom dim=\".02 .02 .40\" rel=\"-.18 .38 -.20 0 0\" dif=\"wheat\" />\n\
+<geom dim=\".02 .02 .40\" rel=\".18 .38 -.20 0 0\"  dif=\"wheat\" />\n\
+<geom dim=\".02 .02 .40\" rel=\"-.18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
+<geom dim=\".02 .02 .40\" rel=\".18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
 ";
 static const char table_metal[] = "\
-<solid dim=\".70 .3 .02\" dif=\"grey40\" />\n\
-<solid dim=\".02,.02 .35\" dif=\"grey40\" rel=\"-.34 -.14 -.17 0 0\" />\n\
-<solid dim=\".02 .02 .35\" dif=\"grey40\" rel=\"-.34 .14 -.17 0 0\" />\n\
-<solid dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 -.14 -.17 0 0\" />\n\
-<solid dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 .14 -.17 0 0\" />\n\
+<geom dim=\".70 .3 .02\" dif=\"grey40\" />\n\
+<geom dim=\".02,.02 .35\" dif=\"grey40\" rel=\"-.34 -.14 -.17 0 0\" />\n\
+<geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\"-.34 .14 -.17 0 0\" />\n\
+<geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 -.14 -.17 0 0\" />\n\
+<geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 .14 -.17 0 0\" />\n\
 ";
 static const char table_glass[] = "\
-<solid dim=\".5,.3 .02\" dif=\"green\" spe=\"cyan\" a=\".3\" />\n\
-<solid shape=\"cone\" rb=\".1\" rt=\".1\" h=\".30\" dif=\"green\" spe=\"cyan\" a=\".5\" rel=\"0 0 -.30 0 0\" />\n\
+<geom dim=\".5,.3 .02\" dif=\"green\" spe=\"cyan\" a=\".3\" />\n\
+<geom shape=\"cone\" rb=\".1\" rt=\".1\" h=\".30\" dif=\"green\" spe=\"cyan\" a=\".5\" rel=\"0 0 -.30 0 0\" />\n\
 ";
 
 /** default values */
@@ -1336,7 +1336,7 @@ static void defaultAddobj()
 {
   objtype = THING;	// thing (default for multiple solids)
   strcpy(shape, "box");	// box
-  *texture = '\0';	// no textures
+  *tex = '\0';		// no textures
   alpha = 1;		// opaque
   siz = .5;		// 50 cm
   color = setV3(1,1,1);	// white
@@ -1374,15 +1374,15 @@ static void setVal(int item) {
     case WHITE :  color = setV3(1,1,1); break;
 
     // textures
-    case NONE :   sprintf(texture, ""); break;
-    case WOOD :   sprintf(texture, "/gif/wood.gif"); break;
-    case MARBLE : sprintf(texture, "/gif/marble.gif"); break;
-    case STUC :   sprintf(texture, "/gif/stuc.gif"); break;
-    case BRICK :  sprintf(texture, "/gif/brick.gif"); break;
-    case GRASS :  sprintf(texture, "/gif/grass.gif"); break;
-    case PAPER :  sprintf(texture, "/gif/paper.gif"); break;
-    case WATER :  sprintf(texture, "/gif/water.gif"); break;
-    case CLOUD :  sprintf(texture, "/gif/clouds.gif"); break;
+    case NONE :   sprintf(tex, ""); break;
+    case WOOD :   sprintf(tex, "/gif/wood.gif"); break;
+    case MARBLE : sprintf(tex, "/gif/marble.gif"); break;
+    case STUC :   sprintf(tex, "/gif/stuc.gif"); break;
+    case BRICK :  sprintf(tex, "/gif/brick.gif"); break;
+    case GRASS :  sprintf(tex, "/gif/grass.gif"); break;
+    case PAPER :  sprintf(tex, "/gif/paper.gif"); break;
+    case WATER :  sprintf(tex, "/gif/water.gif"); break;
+    case CLOUD :  sprintf(tex, "/gif/clouds.gif"); break;
 
     // alpha
     case OPAQUE  : alpha = 1.; break;
@@ -1414,40 +1414,40 @@ static void setVal(int item) {
   }
 }
 
-/** Callback which builds <solid ... \> */
+/** Callback which builds <geom ... \> */
 void Widgets::newObjectCB()
 {
-  char solid[256], url[128];
+  char geom[256], url[128];
   float r = .2 * siz;
   float scale = 1;
   V3 c = color;
 
-  solid[0] = url[0] = '\0';
+  geom[0] = url[0] = '\0';
 
   // Shapes
   if (! strncmp(shape, "box", 3)) {
-    sprintf(solid, "solid shape=\"box\" dim=\"%f %f %f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r,r, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(geom, "geom shape=\"box\" dim=\"%f %f %f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r,r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "sphere", 5)) {
-    sprintf(solid, "solid shape=\"sphere\" r=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(geom, "geom shape=\"sphere\" r=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "cone", 4)) {
-    sprintf(solid, "solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r/2,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(geom, "geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r/2,2*r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "cyl", 3)) {
-    sprintf(solid, "solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(geom, "geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r,2*r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "disk", 4)) {
-    sprintf(solid, "solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(geom, "geom shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,2*r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "torus", 5)) {
-    sprintf(solid, "solid shape=\"torus\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r/5, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(geom, "geom shape=\"torus\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r/5, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   if (! strncmp(shape, "man", 3)) {
-    sprintf(solid, "solid shape=\"man\" dim=\".2 .1 .85\" />");
+    sprintf(geom, "geom shape=\"man\" dim=\".2 .1 .85\" />");
   }
   if (! strncmp(shape, "car", 3)) {
-    sprintf(solid, "solid shape=\"car\" dim=\".7 .7 .7\" dif=\"%f %f %f\" a=\"%f\" />", c.v[0],c.v[1],c.v[2], alpha);
+    sprintf(geom, "geom shape=\"car\" dim=\".7 .7 .7\" dif=\"%f %f %f\" a=\"%f\" />", c.v[0],c.v[1],c.v[2], alpha);
   }
 
   // Models
@@ -1470,23 +1470,23 @@ void Widgets::newObjectCB()
   // Compound solids
   else if (! strcmp(shape, "chair_wood")) {
     objtype = THING;
-    sprintf(solid, "%s", chair_wood);
+    sprintf(geom, "%s", chair_wood);
   }
   else if (! strcmp(shape, "table_wood")) {
     objtype = THING;
-    sprintf(solid, "%s", table_wood);
+    sprintf(geom, "%s", table_wood);
   }
   else if (! strcmp(shape, "table_metal")) {
     objtype = THING;
-    sprintf(solid, "%s", table_metal);
+    sprintf(geom, "%s", table_metal);
   }
   else if (! strcmp(shape, "table_glass")) {
     objtype = THING;
-    sprintf(solid, "%s", table_glass);
+    sprintf(geom, "%s", table_glass);
   }
 
-  if (*solid == '\0') {
-    printf("solid is empty\n");
+  if (*geom == '\0') {
+    printf("geom is empty\n");
     defaultAddobj();	// reset to default values
     return;
   }
@@ -1495,15 +1495,15 @@ void Widgets::newObjectCB()
   if (! localuser) return;
 
   switch (objtype) {
-  case THING:	new Thing(localuser, solid);	  break;
-  case WALL:	new Wall(localuser, solid);	  break;
-  case MIRAGE:	new Mirage(localuser, solid);	  break;
-  case BALL:	new Ball(localuser, solid);	  break;
-  case STEP:	new Step(localuser, solid);	  break;
+  case THING:	new Thing(localuser, geom);	  break;
+  case WALL:	new Wall(localuser, geom);	  break;
+  case MIRAGE:	new Mirage(localuser, geom);	  break;
+  case BALL:	new Ball(localuser, geom);	  break;
+  case STEP:	new Step(localuser, geom);	  break;
   case MODEL:	new Model(localuser, url, scale); break;
   case GROUND:
-    sprintf(solid, "solid dim=\"%f %f %f\" dif=\"%f %f %f\" zp=\"%s\"/>", 10.,10.,.1, c.v[0],c.v[1],c.v[2], texture);
-    new Ground(localuser, solid); break;
+    sprintf(geom, "geom dim=\"%f %f %f\" dif=\"%f %f %f\" zp=\"%s\"/>", 10.,10.,.1, c.v[0],c.v[1],c.v[2], tex);
+    new Ground(localuser, geom); break;
   }
 
   defaultAddobj();	// reset to default values

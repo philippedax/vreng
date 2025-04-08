@@ -82,7 +82,7 @@ void Firework::geometry()
 {
   char s[128];
 
-  sprintf(s,"solid shape=\"bsphere\" radius=\"%f\" />", 1.);
+  sprintf(s,"geom shape=\"bsphere\" radius=\"%f\" />", 1.);
   parseSolid(s);
 
   V3 dim;

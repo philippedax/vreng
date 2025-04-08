@@ -94,7 +94,7 @@ void Humanoid::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", .24, .14, B_HEIGHT);
+  sprintf(s, "geom shape=\"bbox\" dim=\"%f %f %f\" />", .24, .14, B_HEIGHT);
   parseSolid(s);
 }
 

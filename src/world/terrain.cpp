@@ -83,7 +83,7 @@ void Terrain::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"box\" dim=\"%f %f %f\" amb=\"green\" a=\".9\"/>", width, width, height);
+  sprintf(s, "geom shape=\"box\" dim=\"%f %f %f\" amb=\"green\" a=\".9\"/>", width, width, height);
   parseSolid(s);
 }
 
