@@ -165,11 +165,11 @@ class Solid {
   bool		flary;		///< flag flary.
   bool		reflexive;	///< flag reflexive.
   bool		blinking;	///< flag blinking.
+  uint8_t	shape;		///< basic shape.
   uint8_t	nbframes;	///< number of frames of this solid.
   uint8_t	frame;		///< current frame to render.
 
  private:
-  uint8_t	shape;		///< basic shape.
   M4		matpos;		///< position matrix.
   V3		bbcent;		///< relative center of BB.
   V3		bbsize;		///< relative half sizes of BB.

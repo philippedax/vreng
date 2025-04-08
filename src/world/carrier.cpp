@@ -133,63 +133,67 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 /** Mouse event
  * called by changePosition (move.cpp)
  */
-void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
+void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
 {
-  if (! object) return;
+  if (! o) return;
 
   //echo("vkey: %d", vkey);
   switch (vkey) {
-    case KEY_FW: object->pos.x += last*lspeed; break; // ^
-    case KEY_BW: object->pos.x -= last*lspeed; break; // v
-    case KEY_ML: object->pos.y += last*lspeed; break; // <
-    case KEY_MR: object->pos.y -= last*lspeed; break; // >
-    case KEY_UP: object->pos.z += last*lspeed; break; // ^
-    case KEY_DO: object->pos.z -= last*lspeed; break; // V
-    case KEY_LE: object->pos.az += last*aspeed; break; // <-
-    case KEY_RI: object->pos.az -= last*aspeed; break; // ->
-    case KEY_TL: object->pos.ax += last*aspeed; break; // <,
-    case KEY_TR: object->pos.ax -= last*aspeed; break; // ,>
-    case KEY_MU: object->pos.ay += last*aspeed; break; // ^,
-    case KEY_MD: object->pos.ay -= last*aspeed; break; // ,^
+    case KEY_FW: o->pos.x += last*lspeed; break; // ^
+    case KEY_BW: o->pos.x -= last*lspeed; break; // v
+    case KEY_ML: o->pos.y += last*lspeed; break; // <
+    case KEY_MR: o->pos.y -= last*lspeed; break; // >
+    case KEY_UP: o->pos.z += last*lspeed; break; // ^
+    case KEY_DO: o->pos.z -= last*lspeed; break; // V
+    case KEY_LE: o->pos.az += last*aspeed; break; // <-
+    case KEY_RI: o->pos.az -= last*aspeed; break; // ->
+    case KEY_TL: o->pos.ax += last*aspeed; break; // <,
+    case KEY_TR: o->pos.ax -= last*aspeed; break; // ,>
+    case KEY_MU: o->pos.ay += last*aspeed; break; // ^,
+    case KEY_MD: o->pos.ay -= last*aspeed; break; // ,^
     case KEY_M:
                {
-                echo("%.3f %.3f %.3f",object->pos.bbs.v[0],object->pos.bbs.v[1],object->pos.bbs.v[2]);
+                echo("s1: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
                 for (int i=0; i<3; i++) {
-                  object->pos.bbs.v[i] -= object->pos.bbs.v[i]/10;
-                  object->pos.bbs.v[i] = MAX(object->pos.bbs.v[i], 0);
+                  o->pos.bbs.v[i] -= o->pos.bbs.v[i]/10;
+                  o->pos.bbs.v[i] = MAX(o->pos.bbs.v[i], 0);
                 }
-                echo("%.3f %.3f %.3f",object->pos.bbs.v[0],object->pos.bbs.v[1],object->pos.bbs.v[2]);
-                sprintf(object->geom, "shape=\"box\" dim=\"%f %f %f\" />", object->pos.bbs.v[0], object->pos.bbs.v[1], object->pos.bbs.v[2]);
-                Thing *thm = new Thing(localuser, object->geom);
-                object->toDelete();
-                echo("thm: %p", thm);
+                echo("s2: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
+		echo("shape: %s", o->solid->getShape(o->solid->shape));
+                sprintf(o->geom, "shape=\"%s\" dim=\"%f %f %f\" />",
+                        o->solid->getShape(o->solid->shape),
+                        o->pos.bbs.v[0], o->pos.bbs.v[1], o->pos.bbs.v[2]);
+                echo("geom: %s", o->geom);
+                //Thing *thm = new Thing(localuser, o->geom);
+                //o->toDelete();
+                //echo("thm: %p", thm);
                 break; // -
                }
     case KEY_P:
                {
-                echo("%.3f %.3f %.3f",object->pos.bbs.v[0],object->pos.bbs.v[1],object->pos.bbs.v[2]);
+                echo("s1: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
                 for (int i=0; i<3; i++) {
-                  object->pos.bbs.v[i] += object->pos.bbs.v[i]/10;
+                  o->pos.bbs.v[i] += o->pos.bbs.v[i]/10;
                 }
-                echo("%.3f %.3f %.3f",object->pos.bbs.v[0],object->pos.bbs.v[1],object->pos.bbs.v[2]);
-                sprintf(object->geom, "shape=\"box\" dim=\"%f %f %f\" />", object->pos.bbs.v[0], object->pos.bbs.v[1], object->pos.bbs.v[2]);
-                new Thing(localuser, object->geom);
+                echo("s2: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
+                sprintf(o->geom, "shape=\"box\" dim=\"%f %f %f\" />", o->pos.bbs.v[0], o->pos.bbs.v[1], o->pos.bbs.v[2]);
+                //new Thing(localuser, o->geom);
                 break; // +
                }
   }
-  object->updatePositionAndGrid(object->pos);
-  object->updatePosition();
+  o->updatePositionAndGrid(o->pos);
+  o->updatePosition();
 
   Object *oldobj = new Object();
-  OList *vicilist = object->getVicinity(oldobj);
+  OList *vicilist = o->getVicinity(oldobj);
 
-  object->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
-  object->generalIntersect(oldobj, vicilist);
+  o->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
+  o->generalIntersect(oldobj, vicilist);
   if (*name.type) {	//FIXME: segfault
     vicilist->removeObject();
   }
-  object->updGrid(oldobj);
-  if (object->isBehavior(COLLIDE_NEVER)) {
+  o->updGrid(oldobj);
+  if (o->isBehavior(COLLIDE_NEVER)) {
     delete oldobj;
     return;
   }
