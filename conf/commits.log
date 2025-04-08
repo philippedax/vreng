@@ -3558,3 +3558,4 @@
 3558 Lun  7 avr 2025 19:08:18 CEST	add getShape() solid.*pp
 3559 Mar  8 avr 2025 08:43:45 CEST	rename geomsolid to geom
 3560 Mar  8 avr 2025 09:37:50 CEST	rename string solid to string geom
+3561 Mar  8 avr 2025 16:34:13 CEST	cleanup shape public solid.hpp
