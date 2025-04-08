@@ -159,7 +159,7 @@ Mirage::Mirage(char *l)
 }
 
 /** Created by user via Gui addobj */
-Mirage::Mirage(Object *user, char *geom)
+Mirage::Mirage(Object *user, char *_geom)
 {
   defaults();
   setName();
@@ -169,7 +169,7 @@ Mirage::Mirage(Object *user, char *geom)
   if (isBehavior(PERSISTENT) && vsql && objectName()) {
     vsql->insertRow(this);
   }
-  parseSolid(geom);
+  parseSolid(_geom);
 
   behaviors();
   enableBehavior(DYNAMIC);	// addobj
@@ -184,7 +184,7 @@ Mirage::Mirage(Object *user, char *geom)
 /** Recreated by world via VSql */
 Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
 {
-  char *str = static_cast<char *>(d);       // string
+  char *str = static_cast<char *> (d);	// string
   if (!str) return;
 
   strcpy(name.given, str);
@@ -194,15 +194,15 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   defaults();
 
   // we don't know anything about the geometry except from VSql
-  geomsolid = new char[256];
+  geom = new char[256];
   vsql = new VSql();
   if (isBehavior(PERSISTENT) && vsql && objectName()) {
     vsql->getGeom(this);
     vsql->getOwner(this);
     vsql->getPos(this);
   }
-  if (geomsolid && isprint(*geomsolid)) {	//FIXME: when object comes from Cart
-    parseSolid(geomsolid);
+  if (geom && isprint(*geom)) {	//FIXME: when object comes from Cart
+    parseSolid(geom);
   }
   else error("mirage: %s no geometry available", name.given);
 

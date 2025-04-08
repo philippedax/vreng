@@ -137,7 +137,7 @@ void Step::build()
       npos.y = pos.y + (sy * (sin(delta * n) - 1));
       npos.z = pos.z + (sz * n);
       npos.az = pos.az + (delta * n);
-      Step *step = new Step(npos, ipos, "spiral", geomsolid, mobile, size, speed, dir);
+      Step *step = new Step(npos, ipos, "spiral", geom, mobile, size, speed, dir);
       stairList.push_back(step);
     }
     else {
@@ -145,14 +145,14 @@ void Step::build()
         npos.x = pos.x - (sx * n);
         npos.y = pos.y - (sy * n);
         npos.z = pos.z;
-        Step *step = new Step(npos, ipos, "travolator", geomsolid, mobile, size, speed, dir);
+        Step *step = new Step(npos, ipos, "travolator", geom, mobile, size, speed, dir);
         travList.push_back(step);
       }
       else {			// escalator
         npos.x = pos.x + (sx * n);
         npos.y = pos.y + (sy * n);
         npos.z = pos.z + dir*(sz * n);
-        Step *step = new Step(npos, ipos, "escalator", geomsolid, mobile, size, speed, dir);
+        Step *step = new Step(npos, ipos, "escalator", geom, mobile, size, speed, dir);
         escaList.push_back(step);
       }
     }
@@ -193,15 +193,15 @@ void Step::setName(const char *typname)
 }
 
 /** Creation from super structure : escalator, travalator, stair, spiral */
-Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _mobile, float _size, float _speed, int _dir)
+Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *_geom, bool _mobile, float _size, float _speed, int _dir)
 {
   pos = npos;
   pos.x = npos.x;
   pos.y = npos.y;
   pos.z = npos.z;
 
-  char *s = new char[strlen(geom)];
-  strcpy(s, geom);
+  char *s = new char[strlen(_geom)];
+  strcpy(s, _geom);
   parseSolid(s);
   delete[] s;
 
@@ -227,9 +227,9 @@ Step::Step(Pos& npos, Pos& _ipos, const char *typname, const char *geom, bool _m
 }
 
 /** Creation from Gui addobj */
-Step::Step(Object *user, char *geom)
+Step::Step(Object *user, char *_geom)
 {
-  parseSolid(geom);
+  parseSolid(_geom);
 
   inits();
   enableBehavior(DYNAMIC);

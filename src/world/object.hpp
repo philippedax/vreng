@@ -171,7 +171,7 @@ class Object {
   bool pointed;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
   bool deleted;			///< flag deleted or not.
-  char *geomsolid;		///< geometry string of the solid.
+  char *geom;			///< geometry string of the solid.
 
   class Solid *solid;		///< solid pointer
   class ObjectId noid;		///< Object Id.

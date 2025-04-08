@@ -757,7 +757,7 @@ void VSql::insertRow(Object *o)
           o->objectName(), World::current()->name,		// name
           o->state,						// state
           o->pos.x, o->pos.y, ABSF(o->pos.z), o->pos.az,	// pos
-          o->ownerName(), o->geomsolid);			// owner + geom
+          o->ownerName(), o->geom);				// owner + geom
   //echo("insertrow: %s", sql);
   createTable(o->typeName());
   query(sql);
@@ -898,14 +898,14 @@ void VSql::updatePos(Object *o)
   updatePosAZ(o);
 }
 
-void VSql::updateGeom(Object *o, char *geom)
+void VSql::updateGeom(Object *o, char *_geom)
 {
-  if (geom) updateString(o, C_GEOM, geom);
+  if (_geom) updateString(o, C_GEOM, _geom);
 }
 
-void VSql::updateGeom(Object *o, const char *table, char *geom)
+void VSql::updateGeom(Object *o, const char *table, char *_geom)
 {
-  if (geom) updateString(o, table, C_GEOM, geom);
+  if (_geom) updateString(o, table, C_GEOM, _geom);
 }
 
 void VSql::updateOwner(Object *o)
@@ -1091,17 +1091,17 @@ void VSql::getGeom(Object *o)
 
 void VSql::getGeom(Object *o, uint16_t irow)
 {
-  getGeom(o, o->geomsolid, irow);
+  getGeom(o, o->geom, irow);
 }
 
-void VSql::getGeom(Object *o, char *geom)
+void VSql::getGeom(Object *o, char *_geom)
 {
-  if (geom) getGeom(o, geom, (uint16_t)0);
+  if (_geom) getGeom(o, _geom, (uint16_t)0);
 }
 
-void VSql::getGeom(Object *o, char *geom, uint16_t irow)
+void VSql::getGeom(Object *o, char *_geom, uint16_t irow)
 {
-  if (geom) getString(o, C_GEOM, geom, irow);
+  if (_geom) getString(o, C_GEOM, _geom, irow);
 }
 
 void VSql::getOwner(Object *o)

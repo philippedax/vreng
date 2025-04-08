@@ -159,8 +159,8 @@ void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
                   object->pos.bbs.v[i] = MAX(object->pos.bbs.v[i], 0);
                 }
                 echo("%.3f %.3f %.3f",object->pos.bbs.v[0],object->pos.bbs.v[1],object->pos.bbs.v[2]);
-                sprintf(object->geomsolid, "shape=\"box\" dim=\"%f %f %f\" />", object->pos.bbs.v[0], object->pos.bbs.v[1], object->pos.bbs.v[2]);
-                Thing *thm = new Thing(localuser, object->geomsolid);
+                sprintf(object->geom, "shape=\"box\" dim=\"%f %f %f\" />", object->pos.bbs.v[0], object->pos.bbs.v[1], object->pos.bbs.v[2]);
+                Thing *thm = new Thing(localuser, object->geom);
                 object->toDelete();
                 echo("thm: %p", thm);
                 break; // -
@@ -172,8 +172,8 @@ void Carrier::mouseEvent(Object *object, int8_t vkey, float last)
                   object->pos.bbs.v[i] += object->pos.bbs.v[i]/10;
                 }
                 echo("%.3f %.3f %.3f",object->pos.bbs.v[0],object->pos.bbs.v[1],object->pos.bbs.v[2]);
-                sprintf(object->geomsolid, "shape=\"box\" dim=\"%f %f %f\" />", object->pos.bbs.v[0], object->pos.bbs.v[1], object->pos.bbs.v[2]);
-                new Thing(localuser, object->geomsolid);
+                sprintf(object->geom, "shape=\"box\" dim=\"%f %f %f\" />", object->pos.bbs.v[0], object->pos.bbs.v[1], object->pos.bbs.v[2]);
+                new Thing(localuser, object->geom);
                 break; // +
                }
   }

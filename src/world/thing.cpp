@@ -131,15 +131,15 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   defaults();
 
   // we don't know anything about the geometry except from VSql
-  char *geom = new char[256];
+  char *_geom = new char[256];
   if (! vsql) vsql = new VSql();
   if (vsql) {
     vsql->getGeom(this);
     vsql->getOwner(this);
     vsql->getPos(this);
   }
-  if (geom && isprint(*geom)) {
-    parseSolid(geom);
+  if (_geom && isprint(*_geom)) {
+    parseSolid(_geom);
   }
   else error("thing: %s has no geometry", name.given);
 

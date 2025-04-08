@@ -85,7 +85,7 @@ Object::Object()
   name.world = NULL;
   name.category = NULL;
   name.infos = NULL;
-  geomsolid = NULL;
+  geom = NULL;
 
   pos.x = 0;
   pos.y = 0;
@@ -126,7 +126,7 @@ Object::~Object()
   if (name.implicit) delete[] name.implicit;
   if (name.category) delete[] name.category;
   if (name.infos) delete[] name.infos;
-  if (geomsolid) delete[] geomsolid;
+  if (geom) delete[] geom;
 
   if (! isBehavior(COLLIDE_NEVER)) {
     delGrid();
@@ -1028,10 +1028,10 @@ char * Object::tokenize(char *l)
   char *p = strstr(l, "<solid");
   if (p) {
     char *q, *s;
-    geomsolid = new char[strlen(l)];
-    strcpy(geomsolid, ++p);
-    for (s = geomsolid; (q = strstr(s, "/>")) ; ) {
-      s = q;			// end of geomsolid found
+    geom = new char[strlen(l)];
+    strcpy(geom, ++p);
+    for (s = geom; (q = strstr(s, "/>")) ; ) {
+      s = q;			// end of geom found
       p = strstr(s, "<solid");  // search next solid
       if (p) {
         s = p;
@@ -1043,7 +1043,7 @@ char * Object::tokenize(char *l)
       }
     }
     *s = '\0';
-    for (s = geomsolid; (p = strchr(s, '<')) ; ) {
+    for (s = geom; (p = strchr(s, '<')) ; ) {
       *p = ' ';
       s = ++p;
     }

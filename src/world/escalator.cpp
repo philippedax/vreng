@@ -103,7 +103,7 @@ void Escalator::build()
     npos.z = pos.z + dir*(sz * n);
 
     //echo("npos=%.1f %.1f %.1f d=%d", npos.x,npos.y,npos.z,dir);
-    Step *step = new Step(npos, pos, "escalator", geomsolid, true, height, speed, dir);
+    Step *step = new Step(npos, pos, "escalator", geom, true, height, speed, dir);
     escaList.push_back(step);
   }
   permanentMovement(speed);
