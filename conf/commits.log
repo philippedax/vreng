@@ -3560,3 +3560,4 @@
 3560 Mar  8 avr 2025 09:37:50 CEST	rename string solid to string geom
 3561 Mar  8 avr 2025 16:34:13 CEST	cleanup shape public solid.hpp
 3562 Mar  8 avr 2025 16:40:33 CEST	fix meta sandbox.hpp
+3563 Mar  8 avr 2025 17:59:54 CEST	debugging resizing object carrier.cpp

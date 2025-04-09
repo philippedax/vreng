@@ -576,9 +576,6 @@ void Object::permanentMovements(time_t sec, time_t usec)
 /** Moves an object controlled by carrier */
 void Object::moveObject(Object *o)
 {
-  o->move.manip = true;
-  o->enableBehavior(NO_ELEMENTARY_MOVE);
-  o->imposedMovement(5);
   localuser->carrier->take(o);
 }
 

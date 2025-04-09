@@ -90,6 +90,7 @@ void Carrier::take(Object *o)
   o->move.lspeed.v[0] = lspeed;
   o->move.aspeed.v[1] = aspeed;
   o->imposedMovement(1);
+  o->enableBehavior(NO_ELEMENTARY_MOVE);
   if (! o->carrier) {
     o->carrier = new Carrier();
   }
@@ -153,28 +154,20 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
     case KEY_MD: o->pos.ay -= last*aspeed; break; // ,^
     case KEY_M:
                {
-                echo("s1: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
+                //echo("s1: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
                 for (int i=0; i<3; i++) {
                   o->pos.bbs.v[i] -= o->pos.bbs.v[i]/10;
                   o->pos.bbs.v[i] = MAX(o->pos.bbs.v[i], 0);
                 }
-                echo("s2: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
+                //echo("s2: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
 		//echo("shape: %s", o->solid->getShape(o->solid->shape));
 		o->geom = new char[128];
-                sprintf(o->geom, "geom shape=\"%s\" dim=\"%.3f %.3f %.3f\" />", o->solid->getShape(o->solid->shape), o->pos.bbs.v[0], o->pos.bbs.v[1], o->pos.bbs.v[2]);
+                sprintf(o->geom, "shape=\"%s\" dim=\"%f %f %f\" />", o->solid->getShape(o->solid->shape), o->pos.bbs.v[0]*2, o->pos.bbs.v[1]*2, o->pos.bbs.v[2]*2);
                 echo("geom: %s", o->geom);
 		switch (o->type) {
                 case THING_TYPE: {
                   Thing *o2 = new Thing(localuser, o->geom);
-                  echo("o2: %p", o2);
-                  o2->carrier = o->carrier;
-                  //o2->move.manip = true;
-                  }
-                  break;
-                default: {
-                  Thing *o2 = new Thing(localuser, o->geom);
-                  o2->carrier = o->carrier;
-                  //o2->move.manip = true;
+                  take(o2);
                   }
                   break;
                 }
@@ -183,26 +176,18 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
                }
     case KEY_P:
                {
-                echo("s1: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
+                //echo("s1: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
                 for (int i=0; i<3; i++) {
                   o->pos.bbs.v[i] += o->pos.bbs.v[i]/10;
                 }
-                echo("s2: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
+                //echo("s2: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
 		o->geom = new char[128];
-                sprintf(o->geom, "shape=\"%s\" dim=\"%f %f %f\" />", o->solid->getShape(o->solid->shape), o->pos.bbs.v[0], o->pos.bbs.v[1], o->pos.bbs.v[2]);
+                sprintf(o->geom, "shape=\"%s\" dim=\"%f %f %f\" />", o->solid->getShape(o->solid->shape), o->pos.bbs.v[0]*2, o->pos.bbs.v[1]*2, o->pos.bbs.v[2]*2);
                 echo("geom: %s", o->geom);
 		switch (o->type) {
                 case THING_TYPE: {
                   Thing *o2 = new Thing(localuser, o->geom);
-                  echo("o2: %p", o2);
-                  o2->carrier = o->carrier;
-                  o2->move.manip = true;
-                  }
-                  break;
-                default: {
-                  Thing *o2 = new Thing(localuser, o->geom);
-                  o2->carrier = o->carrier;
-                  o2->move.manip = true;
+                  take(o2);
                   }
                   break;
                 }
