@@ -28,6 +28,10 @@
 #include "gui.hpp"	// setToCarrier
 #include "solid.hpp"	// setBB
 #include "thing.hpp"	// Thing
+#include "wall.hpp"	// Wall
+#include "ball.hpp"	// Ball
+#include "mirage.hpp"	// Mirage
+#include "model.hpp"	// Model
 
 const OClass Carrier::oclass(CARRIER_TYPE, "Carrier", NULL);
 
@@ -153,47 +157,18 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
     case KEY_MU: o->pos.ay += last*aspeed; break; // ^,
     case KEY_MD: o->pos.ay -= last*aspeed; break; // ,^
     case KEY_M:
-               {
-                //echo("s1: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
                 for (int i=0; i<3; i++) {
                   o->pos.bbs.v[i] -= o->pos.bbs.v[i]/10;
                   o->pos.bbs.v[i] = MAX(o->pos.bbs.v[i], 0);
                 }
-                //echo("s2: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
-		//echo("shape: %s", o->solid->getShape(o->solid->shape));
-		o->geom = new char[128];
-                sprintf(o->geom, "shape=\"%s\" dim=\"%f %f %f\" />", o->solid->getShape(o->solid->shape), o->pos.bbs.v[0]*2, o->pos.bbs.v[1]*2, o->pos.bbs.v[2]*2);
-                echo("geom: %s", o->geom);
-		switch (o->type) {
-                case THING_TYPE: {
-                  Thing *o2 = new Thing(localuser, o->geom);
-                  take(o2);
-                  }
-                  break;
-                }
-                o->toDelete();
+                resize(o);
                 break; // -
-               }
     case KEY_P:
-               {
-                //echo("s1: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
                 for (int i=0; i<3; i++) {
                   o->pos.bbs.v[i] += o->pos.bbs.v[i]/10;
                 }
-                //echo("s2: %.3f %.3f %.3f", o->pos.bbs.v[0],o->pos.bbs.v[1],o->pos.bbs.v[2]);
-		o->geom = new char[128];
-                sprintf(o->geom, "shape=\"%s\" dim=\"%f %f %f\" />", o->solid->getShape(o->solid->shape), o->pos.bbs.v[0]*2, o->pos.bbs.v[1]*2, o->pos.bbs.v[2]*2);
-                echo("geom: %s", o->geom);
-		switch (o->type) {
-                case THING_TYPE: {
-                  Thing *o2 = new Thing(localuser, o->geom);
-                  take(o2);
-                  }
-                  break;
-                }
-                o->toDelete();
+                resize(o);
                 break; // +
-               }
   }
   o->updatePositionAndGrid(o->pos);
   o->updatePosition();
@@ -211,6 +186,21 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
     delete oldobj;
     return;
   }
+}
+
+/** Resizes object by a new object */
+void Carrier::resize(Object *o)
+{
+  o->geom = new char[128];
+  sprintf(o->geom, "shape=\"%s\" dim=\"%f %f %f\" />", o->solid->getShape(o->solid->shape), o->pos.bbs.v[0]*2, o->pos.bbs.v[1]*2, o->pos.bbs.v[2]*2);
+  echo("geom: %s", o->geom);
+  switch (o->type) {
+    case THING_TYPE:  { Thing *tmp = new Thing(localuser, o->geom); take(tmp); }   break;
+    case WALL_TYPE:   { Wall *tmp = new Wall(localuser, o->geom); take(tmp); }     break;
+    case BALL_TYPE:   { Ball *tmp = new Ball(localuser, o->geom); take(tmp); }     break;
+    case MIRAGE_TYPE: { Mirage *tmp = new Mirage(localuser, o->geom); take(tmp); } break;
+    }
+    o->toDelete();
 }
 
 void Carrier::setLspeed(Carrier *pc, void *d, time_t s, time_t u)
