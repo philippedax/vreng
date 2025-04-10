@@ -238,7 +238,7 @@ Step::Step(Object *user, char *_geom)
   pos.x = user->pos.x + 0.7;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
-  updatePosition();
+  updatePos();
 }
 
 void Step::timing(time_t sec, time_t usec, float *dt)
@@ -282,7 +282,7 @@ void Step::permanent(float dt)
         localuser->pos.z += sz;
         stuck = false;
       }
-      localuser->updatePosition();
+      localuser->updatePos();
     }
   }
   else if (dir < 0) {				// escalator downwards
@@ -301,7 +301,7 @@ void Step::permanent(float dt)
         localuser->pos.y -= (cos(pos.az) * sy);
         stuck = false;
       }
-      localuser->updatePosition();
+      localuser->updatePos();
     }
   }
   else {					// travolator horizontal
@@ -318,10 +318,10 @@ void Step::permanent(float dt)
         localuser->pos.y -= (cos(pos.az) * sy);
         stuck = false;
       }
-      localuser->updatePosition();
+      localuser->updatePos();
     }
   }
-  updatePosition();
+  updatePos();
   updatePositionAndGrid(pos);
 }
 

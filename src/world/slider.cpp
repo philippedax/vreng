@@ -108,7 +108,7 @@ void Slider::imposed(float lasting)
   capted->pos.y += incry * sin(pos.az);
   capted->pos.z += incrz;
   capted->pos.az = pos.az;
-  capted->updatePosition();
+  capted->updatePos();
 }
 
 bool Slider::intersect(Object *pcur, Object *pold)

@@ -160,7 +160,7 @@ void Dress::inits()
   pos.ax = dax;
   pos.ay = day;
 
-  updatePosition();
+  updatePos();
 }
 
 /** Created from file */

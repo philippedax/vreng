@@ -71,7 +71,7 @@ Wall::Wall(Object *user, char *geom)
   pos.x = user->pos.x + 0.7;	// in front of localuser
   pos.y = user->pos.y;
   pos.z = user->pos.z;
-  updatePosition();
+  updatePos();
 }
 
 /** Intersection with an object */

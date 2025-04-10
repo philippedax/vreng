@@ -61,7 +61,7 @@ Ground::Ground(Object *user, char *geom)
   pos.x = user->pos.x;
   pos.y = user->pos.y;
   pos.z = user->pos.z - localuser->height/2 - 0.1;
-  updatePosition();
+  updatePos();
 }
 
 /** Intersection with an object */

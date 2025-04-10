@@ -152,7 +152,7 @@ void Hat::inits()
   pos.ax = dax;
   pos.ay = day;
 
-  updatePosition();
+  updatePos();
 }
 
 

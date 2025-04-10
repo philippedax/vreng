@@ -86,7 +86,7 @@ Widget::Widget(char *l)
   inits();
 
   mobileObject(0);
-  updatePosition();
+  updatePos();
 }
 
 void Widget::buildScreen()
@@ -173,7 +173,7 @@ void Widget::drawScreen()
 /** Renders at each loop */
 void Widget::render()
 {
-  updatePosition();
+  updatePos();
 
   glPushMatrix();
   glEnable(GL_LIGHTING);

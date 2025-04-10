@@ -171,7 +171,7 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
                 break; // +
   }
   o->updatePositionAndGrid(o->pos);
-  o->updatePosition();
+  o->updatePos();
 
   //Object *oldobj = new Object();
   //OList *vicilist = o->getVicinity(oldobj);

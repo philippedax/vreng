@@ -143,7 +143,7 @@ void Head::inits()
   pos.ax = localuser->pos.ax + dax;
   pos.ay = localuser->pos.ay + day;
   pos.az = localuser->pos.az + daz;
-  updatePosition();
+  updatePos();
 }
 
 /** Creation from xml file */
@@ -222,7 +222,7 @@ void Head::permanent(float lasting)
   pos.ax = localuser->pos.ax + dax;
   pos.ay = localuser->pos.ay + day;
   //echo("head: %.1f %.1f %.1f %.1f %.1f %.1f", pos.x,pos.y,pos.z,pos.ax,pos.ay,pos.az);
-  updatePosition();
+  updatePos();
 }
 
 void Head::visibility(bool flag)

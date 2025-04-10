@@ -33,7 +33,7 @@ const OClass Escalator::oclass(ESCALATOR_TYPE, "Escalator", Escalator::creator);
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** Creation from a file */
 Object * Escalator::creator(char *l)
 {
   return new Escalator(l);

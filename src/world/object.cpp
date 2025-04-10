@@ -745,7 +745,7 @@ void Object::initPosition()
 }
 
 /** Updates 3D position */
-void Object::updatePosition()
+void Object::updatePos()
 {
   updateAll3D(pos);
   if (! isBehavior(NO_BBABLE)) {
@@ -758,13 +758,13 @@ void Object::updatePosition()
 /** Updates 3D and grid position */
 void Object::updatePositionAndGrid(Pos &oldpos)
 {
-  updatePosition();
+  updatePos();
   if (! isBehavior(NO_BBABLE)) updGrid(oldpos);
 }
 
 void Object::updatePositionAndGrid(Object *old)
 {
-  updatePosition();
+  updatePos();
   if (! isBehavior(NO_BBABLE)) updGrid(old);
 }
 

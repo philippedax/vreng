@@ -112,7 +112,7 @@ void Lift::imposed(float dt)
   if (state == CARRYING) {
     localuser->pos.z += sign * dt * speed;	// user follows the lift
     //dax localuser->updatePositionAndGrid(localuser->pos);
-    localuser->updatePosition();
+    localuser->updatePos();
     localuser->updateCamera(pos);
   }
 }

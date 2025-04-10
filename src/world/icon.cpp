@@ -380,7 +380,7 @@ void Icon::stick(Wall *pwall, void *_picon, time_t s, time_t u)
   pwall->setFlashy(wallcolor);		// flash the wall
 
   picon->updatePositionAndGrid(picon->pos);
-  picon->updatePosition();
+  picon->updatePos();
   picon->enableBehavior(COLLIDE_ONCE);
   picon->taken = false;
 }

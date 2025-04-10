@@ -165,7 +165,7 @@ void Bird::permanent(float lasting)
   }
   pos.z += (signz /* * rand()%3 */ * BIRD_DELTA);
 
-  updatePosition();
+  updatePos();
 }
 
 /** Renders at each loop */

@@ -100,7 +100,7 @@ Thing::Thing(Object *user, char *_geom)
   pos.x = user->pos.x + 1;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
-  updatePosition();
+  updatePos();
 
   enableBehavior(DYNAMIC);	// dynamicaly introduced
   behaviors();

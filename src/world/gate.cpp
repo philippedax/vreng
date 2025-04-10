@@ -127,7 +127,7 @@ Gate::Gate(Object *user, char *geom)
 
   behaviors();
   inits();
-  updatePosition();
+  updatePos();
 }
 
 /** Publishes properties */

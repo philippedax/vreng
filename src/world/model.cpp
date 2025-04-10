@@ -172,7 +172,7 @@ Model::Model(Object *user, char *url, float _scale)
   pos.x = localuser->pos.x + 1;
   pos.y = localuser->pos.y;
   pos.z = localuser->pos.z;
-  updatePosition();
+  updatePos();
 
   mobileObject(1);
 }

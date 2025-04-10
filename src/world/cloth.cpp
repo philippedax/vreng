@@ -152,7 +152,7 @@ void Cloth::inits()
   pos.ax = dax;
   pos.ay = day;
 
-  updatePosition();
+  updatePos();
 }
 
 /** Sets an unique name */
@@ -188,7 +188,7 @@ void Cloth::permanent(float lasting)
     pos.y = localuser->pos.y + dy;
     pos.z = localuser->pos.z + dz;
     pos.az = localuser->pos.az + daz;
-    updatePosition();
+    updatePos();
   }
 }
 
@@ -214,7 +214,7 @@ void Cloth::restorePosition()
   pos.ax = oax;
   pos.ay = oay;
   pos.az = oaz;
-  updatePosition();
+  updatePos();
   behaviors();
 }
 

@@ -178,7 +178,7 @@ Mirage::Mirage(Object *user, char *_geom)
   pos.x = user->pos.x + 0.7;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
-  updatePosition();
+  updatePos();
 }
 
 /** Recreated by world via VSql */
@@ -251,7 +251,7 @@ void Mirage::permanent(float lasting)
     pos.y = centrey + (radius * sin(anglerot));
     pos.az = anglerot + initialaz;
   }
-  updatePosition();
+  updatePos();
 }
 
 void Mirage::quit()

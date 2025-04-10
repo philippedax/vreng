@@ -740,7 +740,7 @@ class Object {
   void bounceTrajectory(Object *wo, V3 *norm);
   /**< Intersects with wall. */
 
-  void updatePosition();
+  void updatePos();
   /**< Updating 3D. */
 
   void updatePositionAndGrid(Pos &oldpos);

@@ -167,7 +167,7 @@ Ball::Ball(Object *user, char *_geom)
   pos.x = user->pos.x + 0.4;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
-  updatePosition();
+  updatePos();
 }
 
 /** Replication from the network */

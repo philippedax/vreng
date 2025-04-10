@@ -221,7 +221,7 @@ void User::geometry()
       pos.az -= M_PI_2;
       humanoid->pos.az -= M_PI_2;
       humanoid->pause();	//dax ??? OK WHY ???
-      updatePosition();
+      updatePos();
     }
     else if (! strcmp(avatar, "human")) {
       human = new Human();
@@ -335,7 +335,7 @@ void User::inits()
 
   geometry();
   setPosition();	// position from entry
-  updatePosition();
+  updatePos();
   setCamera();
   if (current_view)
     setView(current_view);
@@ -583,18 +583,18 @@ void User::imposed(float dt)
   pos.y += dt * move.lspeed.v[1];
   pos.z += dt * move.lspeed.v[2];
   pos.az += dt * move.aspeed.v[0];
-  updatePosition();
+  updatePos();
   if (localuser->human) {
     localuser->human->pos = pos;
-    localuser->human->updatePosition();
+    localuser->human->updatePos();
   }
   if (localuser->humanoid) {
     localuser->humanoid->pos = pos;
-    localuser->humanoid->updatePosition();
+    localuser->humanoid->updatePos();
   }
   if (localuser->bubble) {
     localuser->bubble->setPosition();
-    localuser->bubble->updatePosition();
+    localuser->bubble->updatePos();
   }
 }
 
@@ -763,7 +763,7 @@ void User::incrRoll(User *user, void *d, time_t s, time_t u)
   user->pos.ax += M_PI/180;
   user->pos.z += 0.05;
   if (user->pos.ax >= M_PI_2) user->pos.ax = M_PI_2;
-  user->updatePosition();
+  user->updatePos();
 }
 
 void User::decrRoll(User *user, void *d, time_t s, time_t u)
@@ -771,7 +771,7 @@ void User::decrRoll(User *user, void *d, time_t s, time_t u)
   user->pos.ax -= M_PI/180;
   user->pos.z += 0.05;
   if (user->pos.ax <= -M_PI_2) user->pos.ax = -M_PI_2;
-  user->updatePosition();
+  user->updatePos();
 }
 
 void User::flyaway(User *user, void *d, time_t s, time_t u)
@@ -779,7 +779,7 @@ void User::flyaway(User *user, void *d, time_t s, time_t u)
   pause_gravity = true;
   user->pos.ay -= M_PI/8;
   user->pos.z += 5;
-  user->updatePosition();
+  user->updatePos();
 }
 
 void User::toland(User *user, void *d, time_t s, time_t u)
@@ -789,7 +789,7 @@ void User::toland(User *user, void *d, time_t s, time_t u)
     user->pos.ay = 0;
   else
     user->pos.ay += M_PI/8;
-  user->updatePosition();
+  user->updatePos();
 }
 
 void User::setPitch(User *user, void *d, time_t s, time_t u)
@@ -803,7 +803,7 @@ void User::incrPitch(User *user, void *d, time_t s, time_t u)
   user->pos.ay -= M_PI/180;
   user->pos.z += 0.05;
   if (user->pos.ay <= -M_PI_2) user->pos.ay = -M_PI_2;
-  user->updatePosition();
+  user->updatePos();
 }
 
 void User::decrPitch(User *user, void *d, time_t s, time_t u)
@@ -811,7 +811,7 @@ void User::decrPitch(User *user, void *d, time_t s, time_t u)
   user->pos.ay += M_PI/180;
   user->pos.z += 0.05;
   if (user->pos.ay >= M_PI_2) user->pos.ay = M_PI_2;
-  user->updatePosition();
+  user->updatePos();
 }
 
 void User::defLinSpeed(User *user, void *d, time_t s, time_t u)

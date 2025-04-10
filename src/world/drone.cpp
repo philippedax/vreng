@@ -161,14 +161,14 @@ void Drone::permanent(float lasting)
     }
     pos.z += (signz * rand()%3 * DRONE_DELTA);
 
-    updatePosition();
+    updatePos();
 
     if (following) {
       // user follows the drone
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
       localuser->pos.z = pos.z;
-      localuser->updatePosition();
+      localuser->updatePos();
     }
   }
 }
@@ -272,7 +272,7 @@ void Drone::reset()
     following = false;
     driven = false;
     localuser->enableGravity();
-    localuser->updatePosition();
+    localuser->updatePos();
     float a[1];
     a[0] = 0;
     localuser->setVisible(true);

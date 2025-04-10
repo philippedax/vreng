@@ -150,7 +150,7 @@ void Human::permanent(float lasting)
     pos.y = localuser->pos.y;
     pos.z = localuser->pos.z;
     pos.az = localuser->pos.az - M_PI_2;
-    updatePosition();
+    updatePos();
   }
 }
 

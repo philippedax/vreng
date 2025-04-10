@@ -125,7 +125,7 @@ void Accessory::permanent(float lasting)
   else
     pos.z -= dz;
 
-  updatePosition();
+  updatePos();
 }
 
 void Accessory::quit()

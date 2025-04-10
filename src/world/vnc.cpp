@@ -119,7 +119,7 @@ void Vnc::behaviors()
 void Vnc::inits()
 {
   mobileObject(0);
-  updatePosition();
+  updatePos();
   buildScreen();
   connectServer();
 }
@@ -228,7 +228,7 @@ void Vnc::render()
   GLint renderMode;
   glGetIntegerv(GL_RENDER_MODE, &renderMode);
 
-  updatePosition();
+  updatePos();
 
   glPushMatrix();
   glEnable(GL_CULL_FACE);

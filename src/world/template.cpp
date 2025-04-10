@@ -61,7 +61,7 @@ void Template::behaviors()
   enableBehavior(SPECIFIC_RENDER);
 
   mobileObject(0);
-  updatePosition();
+  updatePos();
 }
 
 /** Specific inits */
@@ -91,7 +91,7 @@ void Template::permanent(float lasting)
 /** Renders at each loop */
 void Template::render()
 {
-  updatePosition();
+  updatePos();
 
   // push
   glPushMatrix();

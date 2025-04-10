@@ -134,7 +134,7 @@ void Aoi::aoiEnter()
   g.gui.updateAvatar(localuser);
 
   /* 3D stuff */
-  localuser->updatePosition();
+  localuser->updatePos();
   localuser->updateCamera(pos);
 }
 

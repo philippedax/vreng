@@ -132,7 +132,7 @@ void Wings::inits()
   pos.ax = dax;
   pos.ay = day;
 
-  updatePosition();
+  updatePos();
 }
 
 /** solid geometry */
@@ -165,7 +165,7 @@ void Wings::reset()
   pos.ax = oax;
   pos.ay = oay;
   pos.az = oaz;
-  updatePosition();
+  updatePos();
   behaviors();
 }
 
@@ -535,7 +535,7 @@ void Wings::permanent(float lasting)
     pos.ay = localuser->pos.ay + DEG2RAD(day);
     pos.az = localuser->pos.az + DEG2RAD(daz);
   }
-  updatePosition();
+  updatePos();
 
   switch (model) {
   case BIRD :

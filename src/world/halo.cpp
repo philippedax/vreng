@@ -101,7 +101,7 @@ void Halo::inits()
   pos.ax = dax;
   pos.ay = day;
 
-  updatePosition();
+  updatePos();
 }
 
 

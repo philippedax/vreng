@@ -130,7 +130,7 @@ void Cart::leave(Object *o)
   o->enableBehavior(PERSISTENT);
 
   // show the object
-  o->updatePosition();
+  o->updatePos();
 
   // update the object's name with the type name as prefix
   char tmpname[64];

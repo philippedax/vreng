@@ -314,7 +314,7 @@ void Humanoid::permanent(float lasting)
     pos.az = localuser->pos.az - M_PI_2;
     pos.ax = localuser->pos.ax;
     pos.ay = localuser->pos.ay;
-    updatePosition();
+    updatePos();
   }
 
   if ((sdtcp > 0) && readFrame()) {		// from vaps server

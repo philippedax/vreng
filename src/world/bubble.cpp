@@ -104,7 +104,7 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   geometry();
   behaviors();
   inits();
-  updatePosition();
+  updatePos();
   state = ACTIVE;
 
   // adjusting text position

@@ -379,7 +379,7 @@ void User::elemUserMovement(const float tabdt[])
   if (checkPosition()) {	// sanity check
     echo("pos: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
   }
-  updatePosition();
+  updatePos();
   checkVicinity(o);
   delete o;
 }
@@ -430,7 +430,7 @@ void Object::elemImposedMovement(float dt)
 {
   imposed(dt);			// handled by each object
 
-  updatePosition();
+  updatePos();
 
   if (! isBehavior(COLLIDE_NEVER)) {
     Object *o = new Object();
@@ -517,7 +517,7 @@ void Object::elemPermanentMovement(float dt)
   if (this == localuser) {
     localuser->checkPosition();	// check out-of-bounds
   }
-  updatePosition();
+  updatePos();
   checkVicinity(o);
   delete o;
 }
