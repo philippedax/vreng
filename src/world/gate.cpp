@@ -210,7 +210,7 @@ bool Gate::intersect(Object *pcur, Object *pold)
         cntcol = 0;
         if (flagentry) {
           flagentry = false;
-          pcur->updatePositionAndGrid(pcur->pos);
+          pcur->updateGrid(pcur->pos);
         }
         enter();
       }

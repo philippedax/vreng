@@ -177,13 +177,13 @@ void Guide::stuckUser()
   userpos[1] = localuser->pos.y;
   userpos[2] = localuser->pos.z;
   userpos[3] = localuser->pos.az;
-  updatePositionAndGrid(pos);
+  updateGrid(pos);
 
   localuser->pos.x = pos.x;
   localuser->pos.y = pos.y;
   localuser->pos.z += (pos.z + pos.bbs.v[2] * 2);  // jump on the skate
   localuser->pos.az = pos.az;
-  localuser->updatePositionAndGrid(localuser->pos);
+  localuser->updateGrid(localuser->pos);
 
   stuck = true;
 }
@@ -211,7 +211,7 @@ void Guide::motion(float *dx, float *dy, float *dz)
     pos.x += (*dx);
     pos.y += (*dy);
     pos.z += (*dz);
-    updatePositionAndGrid(pos);
+    updateGrid(pos);
   }
 }
 
@@ -226,9 +226,9 @@ void Guide::progress(Object *po)
   localuser->pos.y += dy;
   localuser->pos.z += dz + .09;  // + 6cm
   //dax localuser->pos.z += (pos.z + pos.bbs.v[2] * 2);
-  localuser->updatePositionAndGrid(localuser->pos);
-  updatePositionAndGrid(po->pos);
-  localuser->updatePositionAndGrid(localuser->pos);
+  localuser->updateGrid(localuser->pos);
+  updateGrid(po->pos);
+  localuser->updateGrid(localuser->pos);
 
   if ((floor(pos.x) == path[seg+1][0]) &&
       (floor(pos.y) == path[seg+1][1])) {  // is next segment?
@@ -256,8 +256,8 @@ void Guide::progress(Object *po)
     move.aspeed.v[0] = da / path[seg][4];
   }
   else {	// same segment
-    updatePositionAndGrid(pos);	// update position
-    localuser->updatePositionAndGrid(localuser->pos);
+    updateGrid(pos);	// update position
+    localuser->updateGrid(localuser->pos);
   }
 }
 
@@ -333,14 +333,14 @@ void Guide::restore()
   pos.y  = origin[1];
   pos.z  = origin[2];
   pos.az = origin[3];
-  updatePositionAndGrid(pos);
+  updateGrid(pos);
 
   if (! oneway) {
     localuser->pos.x = userpos[0];
     localuser->pos.y = userpos[1];
     localuser->pos.z = userpos[2];
     localuser->pos.az = userpos[3];
-    localuser->updatePositionAndGrid(localuser->pos);
+    localuser->updateGrid(localuser->pos);
     //echo("end of trip");
   }
   stuck = false;

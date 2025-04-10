@@ -140,7 +140,7 @@ void Animator::get_frame(Animator *pcur, Payload *pp)
 
   pp->getPayload("d", &(pcur->frame));
   pcur->setFrame(pcur->frame);
-  pcur->updatePositionAndGrid(oldpos);
+  pcur->updateGrid(oldpos);
 }
 
 void Animator::put_frame(Animator *po, Payload *pp)
@@ -153,7 +153,7 @@ void Animator::get_nb_frames(Animator *pcur, Payload *pp)
   Pos oldpos = pcur->pos;
 
   pp->getPayload("d", &(pcur->nb_frames));
-  pcur->updatePositionAndGrid(oldpos);
+  pcur->updateGrid(oldpos);
 }
 
 void Animator::put_nb_frames(Animator *po, Payload *pp)
@@ -166,7 +166,7 @@ void Animator::get_ttl(Animator *pcur, Payload *pp)
   Pos oldpos = pcur->pos;
 
   pp->getPayload("f", &(pcur->ttl));
-  pcur->updatePositionAndGrid(oldpos);
+  pcur->updateGrid(oldpos);
 }
 
 void Animator::put_ttl(Animator *po, Payload *pp)

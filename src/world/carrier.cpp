@@ -170,7 +170,7 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
                 resize(o);
                 break; // +
   }
-  o->updatePositionAndGrid(o->pos);
+  o->updateGrid(o->pos);
   o->updatePos();
 
   //Object *oldobj = new Object();

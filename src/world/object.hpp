@@ -743,10 +743,10 @@ class Object {
   void updatePos();
   /**< Updating 3D. */
 
-  void updatePositionAndGrid(Pos &oldpos);
+  void updateGrid(Pos &oldpos);
   /**< Updating 3D and grid position. */
 
-  void updatePositionAndGrid(Object *wo);
+  void updateGrid(Object *wo);
   /**< Updating 3D and grid position. */
 
   void updateDist();

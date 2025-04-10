@@ -648,18 +648,18 @@ bool User::intersect(Object *pcur, Object *pold)
   case BALL_TYPE:
     pcur->pos.x += Ball::SHIFT;	// ball shifts
     pcur->pos.y += Ball::SHIFT;
-    pcur->updatePositionAndGrid(pold);
+    pcur->updateGrid(pold);
     break;
   case USER_TYPE:
     // user intersects an other user: slide
     pcur->pos.x += GOTHROUGH; // step to shift
     pcur->pos.y += GOTHROUGH;
-    pcur->updatePositionAndGrid(pold);
+    pcur->updateGrid(pold);
     break;
   case STEP_TYPE:
     return false;	//TODO
   default:
-    pcur->updatePositionAndGrid(pold);
+    pcur->updateGrid(pold);
   }
   return true;
 }

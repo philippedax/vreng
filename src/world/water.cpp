@@ -202,7 +202,7 @@ bool Water::intersect(Object *pcur, Object *pold)
     break;
 
   }
-  pcur->updatePositionAndGrid(pcur->pos);
+  pcur->updateGrid(pcur->pos);
   return true;
 }
 

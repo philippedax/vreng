@@ -256,7 +256,7 @@ bool Ball::intersect(Object *pcur, Object *pold)
       move.lspeed.v[1] = (lspeed / 4) * sin(pcur->pos.az);
       ttl = 1;	// 1 sec
       imposedMovement(ttl);
-      pcur->updatePositionAndGrid(pold);
+      pcur->updateGrid(pold);
     }
     pcur->pos = pold->pos;
     break;
@@ -266,7 +266,7 @@ bool Ball::intersect(Object *pcur, Object *pold)
     pcur->pos = pold->pos;
     break;
   }
-  pcur->updatePositionAndGrid(pold);
+  pcur->updateGrid(pold);
   return true;
 }
 

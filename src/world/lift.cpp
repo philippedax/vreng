@@ -111,7 +111,7 @@ void Lift::imposed(float dt)
   pos.z += sign * dt * speed;
   if (state == CARRYING) {
     localuser->pos.z += sign * dt * speed;	// user follows the lift
-    //dax localuser->updatePositionAndGrid(localuser->pos);
+    //dax localuser->updateGrid(localuser->pos);
     localuser->updatePos();
     localuser->updateCamera(pos);
   }
@@ -163,7 +163,7 @@ bool Lift::intersect(Object *pcur, Object *pold)
       state = CARRYING;
       if (pcur->pos.z >= pold->pos.z) {	// same level
         pcur->pos.z += DEF_STEP;	// moving up
-        pcur->updatePositionAndGrid(pold);
+        pcur->updateGrid(pold);
       }
       else {	// inside from up
         pcur->pos = pold->pos;
@@ -183,7 +183,7 @@ bool Lift::intersect(Object *pcur, Object *pold)
 bool Lift::intersectOut(Object *pcur, Object *pold)
 {
   if (state == CARRYING) {
-    pcur->updatePositionAndGrid(pold);
+    pcur->updateGrid(pold);
     state = NONE;
   }
   return true;

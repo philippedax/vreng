@@ -322,7 +322,7 @@ void Step::permanent(float dt)
     }
   }
   updatePos();
-  updatePositionAndGrid(pos);
+  updateGrid(pos);
 }
 
 bool Step::publish(const Pos &oldpos)
@@ -351,7 +351,7 @@ bool Step::intersect(Object *pcur, Object *pold)
             pcur->pos.z += pos.bbs.v[2];
           else
             pcur->pos.z += JUMP;  // up
-          pcur->updatePositionAndGrid(pold);
+          pcur->updateGrid(pold);
         }
       }
       break;

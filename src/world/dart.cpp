@@ -123,7 +123,7 @@ void Dart::get_hit(Dart *pcur, Payload *pp)
     echo("%s hits me", pcur->objectName());
     Sound::playSound(OUILLESND);
   }
-  pcur->updatePositionAndGrid(oldpos);
+  pcur->updateGrid(oldpos);
 }
 
 void Dart::funcs()

@@ -115,7 +115,7 @@ bool Plane::intersect(Object *pcur, Object *pold)
   case USER_TYPE:
     if (pos.ax > 0.01) {	// inclinated plane
       pcur->pos.z += Step::JUMP; // * sin(pos.ax);   // up
-      pcur->updatePositionAndGrid(pold);
+      pcur->updateGrid(pold);
     }
     projectPosition(pcur, pold);
     break;

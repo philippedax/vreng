@@ -351,7 +351,7 @@ bool Icon::intersect(Object *pcur, Object *pold)
     pos.z += pcur->pos.z - pold->pos.z;
     pos.az += pcur->pos.az - pold->pos.az;
     pos.ax += pcur->pos.ax - pold->pos.ax;
-    updatePositionAndGrid(pold);
+    updateGrid(pold);
     break;
   case USER_TYPE:
     projectPosition(pcur, pold);
@@ -359,7 +359,7 @@ bool Icon::intersect(Object *pcur, Object *pold)
   case ICON_TYPE:
     pcur->pos.x += 0.1;
     pcur->pos.y += 0.1;
-    pcur->updatePositionAndGrid(pold);
+    pcur->updateGrid(pold);
     break;
   default:
     pcur->pos = pold->pos;
@@ -379,7 +379,7 @@ void Icon::stick(Wall *pwall, void *_picon, time_t s, time_t u)
   GLfloat wallcolor[3] = {1, 1, 0};	// yellow
   pwall->setFlashy(wallcolor);		// flash the wall
 
-  picon->updatePositionAndGrid(picon->pos);
+  picon->updateGrid(picon->pos);
   picon->updatePos();
   picon->enableBehavior(COLLIDE_ONCE);
   picon->taken = false;

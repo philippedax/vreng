@@ -756,13 +756,13 @@ void Object::updatePos()
 }
 
 /** Updates 3D and grid position */
-void Object::updatePositionAndGrid(Pos &oldpos)
+void Object::updateGrid(Pos &oldpos)
 {
   updatePos();
   if (! isBehavior(NO_BBABLE)) updGrid(oldpos);
 }
 
-void Object::updatePositionAndGrid(Object *old)
+void Object::updateGrid(Object *old)
 {
   updatePos();
   if (! isBehavior(NO_BBABLE)) updGrid(old);
@@ -1225,35 +1225,35 @@ void Object::get_xy(Object *po, Payload *pp)
 {
   Pos oldpos = po->pos;
   pp->getPayload("ff", &po->pos.x, &po->pos.y);
-  po->updatePositionAndGrid(oldpos);
+  po->updateGrid(oldpos);
 }
 
 void Object::get_z(Object *po, Payload *pp)
 {
   Pos oldpos = po->pos;
   pp->getPayload("f", &po->pos.z);
-  po->updatePositionAndGrid(oldpos);
+  po->updateGrid(oldpos);
 }
 
 void Object::get_az(Object *po, Payload *pp)
 {
   Pos oldpos = po->pos;
   pp->getPayload("f", &po->pos.az);
-  po->updatePositionAndGrid(oldpos);
+  po->updateGrid(oldpos);
 }
 
 void Object::get_ay(Object *po, Payload *pp)
 {
   Pos oldpos = po->pos;
   pp->getPayload("f", &po->pos.ay);
-  po->updatePositionAndGrid(oldpos);
+  po->updateGrid(oldpos);
 }
 
 void Object::get_ax(Object *po, Payload *pp)
 {
   Pos oldpos = po->pos;
   pp->getPayload("f", &po->pos.ax);
-  po->updatePositionAndGrid(oldpos);
+  po->updateGrid(oldpos);
 }
 
 void Object::get_hname(Object *po, Payload *pp)

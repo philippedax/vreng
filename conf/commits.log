@@ -3566,3 +3566,4 @@
 3566 Jeu 10 avr 2025 08:10:22 CEST	cleanup cyan car.cpp
 3567 Jeu 10 avr 2025 10:25:13 CEST	cleanup pre/post solid.cpp
 3568 Jeu 10 avr 2025 17:54:26 CEST	cleanup copyPositionAndBB()
+3569 Jeu 10 avr 2025 18:29:40 CEST	cleanup updatePosition()

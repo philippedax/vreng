@@ -265,7 +265,7 @@ void Vrelet::readApp()
         deltaPos(who);
 
         // update the object in the Vreng 3D thingies
-        who->updatePositionAndGrid(pold);
+        who->updateGrid(pold);
 
         // check if we need to move the camera (user)
         if (who == localuser) who->updateCamera(pos);

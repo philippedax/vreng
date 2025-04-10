@@ -77,7 +77,7 @@ bool Cauldron::intersect(Object *pcur, Object *pold)
     pcur->pos = pold->pos;
     return true;
   }
-  pcur->updatePositionAndGrid(pold);
+  pcur->updateGrid(pold);
   return true;
 }
 

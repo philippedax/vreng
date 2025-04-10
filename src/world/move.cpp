@@ -420,7 +420,7 @@ void User::userMovement(time_t sec, time_t usec)
       elemUserMovement(tabdt);
     }
     publish(pos);
-    updatePositionAndGrid(pos);
+    updateGrid(pos);
     updateCamera(pos);
   }
 }
@@ -498,7 +498,7 @@ void Object::imposedMovements(time_t sec, time_t usec)
   if (netop && netop->isResponsible()) {
     publish(pos);	// handled by each object
   }
-  updatePositionAndGrid(pos);
+  updateGrid(pos);
 }
 
 /** Elementary permanent movement for an object */
@@ -565,7 +565,7 @@ void Object::permanentMovements(time_t sec, time_t usec)
     if (netop && netop->isResponsible()) {
       publish(pos);			// handled by each object
     }
-    updatePositionAndGrid(pos);
+    updateGrid(pos);
     if (this == localuser) {
       updateCamera(pos);
     }

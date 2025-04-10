@@ -149,7 +149,7 @@ void Button::get_bstate(Button *button, Payload *pp)
   Pos oldpos = button->pos;
 
   pp->getPayload("d", &(button->pos.st));
-  button->updatePositionAndGrid(oldpos);
+  button->updateGrid(oldpos);
 }
 
 void Button::put_bstate(Button *button, Payload *pp)
