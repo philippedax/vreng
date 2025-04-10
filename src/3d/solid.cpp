@@ -1091,9 +1091,9 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   return nf;	// number nf frames
 }
 
-void Solid::doTransform(int flag)
+void Solid::doTransform(int prepost)
 {
-  switch (flag) {
+  switch (prepost) {
   case true:  // pre
     glPushMatrix();
     glRotatef(RAD2DEG(rel[3]), 0, 0, 1);	// az
@@ -1107,11 +1107,11 @@ void Solid::doTransform(int flag)
   }
 }
 
-void Solid::doBlend(int flag, GLfloat _alpha)
+void Solid::doBlend(int prepost, GLfloat _alpha)
 {
   if (_alpha < 1) {
     opaque = false;
-    switch (flag) {
+    switch (prepost) {
     case true:  // pre
       glEnable(GL_BLEND);
       glDepthMask(GL_FALSE);	// turn off the depth buffer for writing
@@ -1124,10 +1124,10 @@ void Solid::doBlend(int flag, GLfloat _alpha)
   }
 }
 
-void Solid::doTexture(int flag, int _texid)
+void Solid::doTexture(int prepost, int _texid)
 {
   if (_texid >= 0) {
-    switch (flag) {
+    switch (prepost) {
     case true:  // pre
       glEnable(GL_TEXTURE_2D);
       glBindTexture(GL_TEXTURE_2D, _texid);
@@ -1139,21 +1139,21 @@ void Solid::doTexture(int flag, int _texid)
   }
 }
 
-void Solid::preDraw(int texid, GLfloat alpha, GLfloat *fog, bool cull)
+void Solid::preDraw(int _texid, GLfloat _alpha, GLfloat *_fog, bool _cull)
 {
   // order is important !!!
-  doBlend(true, alpha);
-  doTexture(true, texid);
+  doBlend(true, _alpha);
+  doTexture(true, _texid);
   doTransform(true);
-  if (cull) glDisable(GL_CULL_FACE);
+  if (_cull) glDisable(GL_CULL_FACE);
 }
 
-void Solid::postDraw(int texid, GLfloat alpha, GLfloat *fog)
+void Solid::postDraw(int _texid, GLfloat _alpha, GLfloat *_fog)
 {
   glEnable(GL_CULL_FACE);
   doTransform(false);
-  doTexture(false, texid);
-  doBlend(false, alpha);
+  doTexture(false, _texid);
+  doBlend(false, _alpha);
 }
 
 /** Gets max min BB. */

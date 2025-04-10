@@ -175,7 +175,6 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
 
   Object *oldobj = new Object();
   OList *vicilist = o->getVicinity(oldobj);
-
   o->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
   o->generalIntersect(oldobj, vicilist);
   if (*name.type) {	//FIXME: segfault
@@ -192,13 +191,19 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
 void Carrier::resize(Object *o)
 {
   o->geom = new char[128];
-  sprintf(o->geom, "shape=\"%s\" dim=\"%f %f %f\" />", o->solid->getShape(o->solid->shape), o->pos.bbs.v[0]*2, o->pos.bbs.v[1]*2, o->pos.bbs.v[2]*2);
+  sprintf(o->geom, "shape=\"%s\" dim=\"%.3f %.3f %.3f\" a=\"%.1f\" dif=\"%.1f %.1f %.1f\" />",
+          o->solid->getShape(o->solid->shape),
+          o->pos.bbs.v[0]*2, o->pos.bbs.v[1]*2, o->pos.bbs.v[2]*2,
+          object->solid->alpha,
+          object->solid->mat_diffuse[0], object->solid->mat_diffuse[1], object->solid->mat_diffuse[2]);
   echo("geom: %s", o->geom);
   switch (o->type) {
     case THING_TYPE:  { Thing *tmp = new Thing(localuser, o->geom); take(tmp); }   break;
+#if 0
     case WALL_TYPE:   { Wall *tmp = new Wall(localuser, o->geom); take(tmp); }     break;
     case BALL_TYPE:   { Ball *tmp = new Ball(localuser, o->geom); take(tmp); }     break;
     case MIRAGE_TYPE: { Mirage *tmp = new Mirage(localuser, o->geom); take(tmp); } break;
+#endif
     }
     o->toDelete();
 }
