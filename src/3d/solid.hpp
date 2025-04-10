@@ -166,8 +166,10 @@ class Solid {
   bool		reflexive;	///< flag reflexive.
   bool		blinking;	///< flag blinking.
   uint8_t	shape;		///< basic shape.
+  float		alpha;		///< transparency.
   uint8_t	nbframes;	///< number of frames of this solid.
   uint8_t	frame;		///< current frame to render.
+  GLfloat	mat_diffuse[4];
 
  private:
   M4		matpos;		///< position matrix.
@@ -177,13 +179,11 @@ class Solid {
   bool		fictif;		///< set if the solid is fictif.
   bool		blink;		///< flag blink.
   bool		rendered;	///< flag if is already rendered
-  float		alpha;		///< transparency.
   float		userdist;	///< distance to localuser.
   float		surfsize;	///< max surface size of solid.
   float		scale, scalex, scaley, scalez;
   int		texid;		///< texture id.
   uint8_t	nbsolids;	///< number of solids.
-  GLfloat	mat_diffuse[4];
   GLfloat	mat_ambient[4];
   GLfloat	mat_specular[4];
   GLfloat	mat_emission[4];

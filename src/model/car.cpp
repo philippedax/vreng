@@ -30,7 +30,7 @@
 /** Draws a car */
 void Car::draw(GLfloat width, GLfloat depth, GLfloat height, const int tex[], GLfloat rtx[6][2], uint8_t slices, uint8_t style)
 {
-  GLfloat cyan[] = { 0, 1, 1, .5 };
+  //GLfloat cyan[] = { 0, 1, 1, .5 };
 
   glEnable(GL_NORMALIZE);
   glPushMatrix();
