@@ -3564,3 +3564,4 @@
 3564 Mer  9 avr 2025 12:57:02 CEST	fix resizing object carrier.cpp
 3565 Mer  9 avr 2025 16:03:34 CEST	add method resize object carrier.cpp
 3566 Jeu 10 avr 2025 08:10:22 CEST	cleanup cyan car.cpp
+3567 Jeu 10 avr 2025 10:25:13 CEST	cleanup pre/post solid.cpp

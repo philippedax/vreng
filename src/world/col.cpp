@@ -145,7 +145,7 @@ void Object::ingoingWalls(Object *o)
       // user position has changed => need to update BBs
       updatePositionAndGrid(o);
     }
-    o->copyPositionAndBB(this);
+    //o->copyPositionAndBB(this);
   }
 }
 
@@ -376,14 +376,14 @@ bool Object::projectPosition(Object *pcur, Object *o)
     pcur->updatePositionAndGrid(o);
     return true;
   }
-  o->copyPositionAndBB(pcur->pos);
+  pcur->pos = o->pos;
   return false;
 }
 
 /** Bounce position, we do not change the position, we only change the deltas */
 void Object::bounceTrajectory(Object *o, V3 *normal)
 {
-  o->copyPositionAndBB(this);
+  //o->copyPositionAndBB(this);
 
   float nx = normal->v[0];
   float ny = normal->v[1];

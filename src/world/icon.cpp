@@ -362,7 +362,7 @@ bool Icon::intersect(Object *pcur, Object *pold)
     pcur->updatePositionAndGrid(pold);
     break;
   default:
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
   }
   return true;
 }

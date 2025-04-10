@@ -126,11 +126,11 @@ bool Plane::intersect(Object *pcur, Object *pold)
     bounceTrajectory(pold, &normal);
     pold->setLasting(0);
     pold->stopImposed();
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     }
     break;
   default:
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
   }
   return true;
 }

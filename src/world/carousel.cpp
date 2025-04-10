@@ -104,7 +104,7 @@ bool Carousel::intersect(Object *pcur, Object *pold)
   case USER_TYPE:
     return false;	// no collide
   default:
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     return true;	// collide
   }
 }

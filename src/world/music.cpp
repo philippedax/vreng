@@ -101,7 +101,7 @@ Music::Music(char *l)
 
 bool Music::intersect(Object *pcur, Object *pold)
 {
-  pold->copyPositionAndBB(pcur);
+  pcur->pos = pold->pos;
   return true;
 }
 

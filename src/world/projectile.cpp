@@ -67,10 +67,10 @@ bool Projectile::intersect(Object *pcur, Object *pold)
   case USER_TYPE:
     // projectile intersects an user: hit
     echo("%s hited by %s", pcur->objectName(), objectName());
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     break;
   default:
-    //dax pold->copyPositionAndBB(pcur);
+    //dax pcur->pos = pold->pos;
     echo("tchok");
     break;
   }

@@ -344,7 +344,7 @@ bool Step::intersect(Object *pcur, Object *pold)
       }
       else {		// normal case
         if (pcur->pos.x == pold->pos.x && pcur->pos.y == pold->pos.y) {
-          pold->copyPositionAndBB(pcur);
+          pcur->pos = pold->pos;
         }
         else {
           if (pos.bbs.v[2] < JUMP/8)
@@ -359,7 +359,7 @@ bool Step::intersect(Object *pcur, Object *pold)
       //echo("step collides");
       return false;	// ignore this collision
     default:
-      pold->copyPositionAndBB(pcur);
+      pcur->pos = pold->pos;
       break;
   }
   return true;

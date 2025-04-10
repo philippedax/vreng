@@ -195,7 +195,7 @@ bool Thing::intersect(Object *pcur, Object *pold)
       imposedMovement(1);	// 1 sec
       break;
     default:
-      pold->copyPositionAndBB(pcur);
+      pcur->pos = pold->pos;
       break;
   }
   return true;

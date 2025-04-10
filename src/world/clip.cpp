@@ -97,7 +97,7 @@ Clip::Clip(char *l)
 
 bool Clip::intersect(Object *pcur, Object *pold)
 {
-  pold->copyPositionAndBB(pcur);
+  pcur->pos = pold->pos;
   return true;
 }
 

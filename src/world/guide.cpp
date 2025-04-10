@@ -295,7 +295,7 @@ bool Guide::intersect(Object *pcur, Object *pold)
   }
 
   if (pcur->type != USER_TYPE) {
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     return true;
   }
 

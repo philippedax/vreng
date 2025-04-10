@@ -74,7 +74,7 @@ bool Cauldron::intersect(Object *pcur, Object *pold)
     else pcur->pos.z += DELTAZ;	// jump upon cauldron
     break;
   default:
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     return true;
   }
   pcur->updatePositionAndGrid(pold);

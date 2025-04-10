@@ -258,12 +258,12 @@ bool Ball::intersect(Object *pcur, Object *pold)
       imposedMovement(ttl);
       pcur->updatePositionAndGrid(pold);
     }
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     break;
   case STEP_TYPE:
     return false;
   default:
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     break;
   }
   pcur->updatePositionAndGrid(pold);

@@ -69,7 +69,7 @@ bool Ground::intersect(Object *pcur, Object *pold)
 {
   pold->setLasting(0);
   pold->stopMovement();
-  pold->copyPositionAndBB(pcur);
+  pcur->pos = pold->pos;
   return true;
 }
 

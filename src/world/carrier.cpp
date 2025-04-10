@@ -101,7 +101,7 @@ void Carrier::take(Object *o)
   control = true;
   o->carrier->control = true;
   localuser->carrier->control = true;
-  echo("take control of %s, enter in manipulation mode", o->objectName());
+  //echo("take control of %s, enter in manipulation mode", o->objectName());
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
@@ -118,7 +118,7 @@ void Carrier::leave(Object *o)
     localuser->carrier->control = false;
     control = false;
   }
-  echo("leave control of %s, enter in navigation mode", o->objectName());
+  //echo("leave control of %s, enter in navigation mode", o->objectName());
   defaults();			// reset the carrier
 }
 
@@ -129,7 +129,7 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 {
   if (button) {			// any button pressed
     if (object) {
-      echo("leave %s", object->objectName());
+      //echo("leave %s", object->objectName());
       leave(object);		// left clic => leave mouse control
     }
   }
@@ -173,18 +173,17 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
   o->updatePositionAndGrid(o->pos);
   o->updatePosition();
 
-  Object *oldobj = new Object();
-  OList *vicilist = o->getVicinity(oldobj);
-  o->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
-  o->generalIntersect(oldobj, vicilist);
-  if (*name.type) {	//FIXME: segfault
-    vicilist->removeObject();
-  }
-  o->updGrid(oldobj);
-  if (o->isBehavior(COLLIDE_NEVER)) {
-    delete oldobj;
-    return;
-  }
+  //Object *oldobj = new Object();
+  //OList *vicilist = o->getVicinity(oldobj);
+  //o->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
+  //o->generalIntersect(oldobj, vicilist);
+  //if (*name.type) {	//FIXME: segfault
+  //  vicilist->removeObject();
+  //}
+  //o->updGrid(oldobj);
+  //if (o->isBehavior(COLLIDE_NEVER)) {
+  //  delete oldobj;
+  //}
 }
 
 /** Resizes object by a new object */
@@ -198,11 +197,11 @@ void Carrier::resize(Object *o)
           object->solid->mat_diffuse[0], object->solid->mat_diffuse[1], object->solid->mat_diffuse[2]);
   echo("geom: %s", o->geom);
   switch (o->type) {
-    case THING_TYPE:  { Thing *tmp = new Thing(localuser, o->geom); take(tmp); }   break;
+    case THING_TYPE:  { Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
 #if 0
-    case WALL_TYPE:   { Wall *tmp = new Wall(localuser, o->geom); take(tmp); }     break;
-    case BALL_TYPE:   { Ball *tmp = new Ball(localuser, o->geom); take(tmp); }     break;
-    case MIRAGE_TYPE: { Mirage *tmp = new Mirage(localuser, o->geom); take(tmp); } break;
+    case WALL_TYPE:   { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
+    case BALL_TYPE:   { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
+    case MIRAGE_TYPE: { Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
 #endif
     }
     o->toDelete();

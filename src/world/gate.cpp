@@ -217,12 +217,12 @@ bool Gate::intersect(Object *pcur, Object *pold)
     }
     else {
       if (cntcol < 5) {
-        pold->copyPositionAndBB(pcur);
+        pcur->pos = pold->pos;
         echo("you are near the gate %s in=%d", objectName(), cntcol);
         cntcol++;
       }
       else if (cntcol < 10) {
-        pold->copyPositionAndBB(pcur);
+        pcur->pos = pold->pos;
         echo("if you insist you'll enter into %s in=%d", objectName(), cntcol);
         cntcol++;
       }
@@ -235,7 +235,7 @@ bool Gate::intersect(Object *pcur, Object *pold)
   case BULLET_TYPE:
   case DART_TYPE:
     echo("%s:%s hits %s:%s", pcur->typeName(), pcur->objectName(), typeName(), objectName());
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     pcur->toDelete();
     break;
   case BALL_TYPE:
@@ -244,10 +244,10 @@ bool Gate::intersect(Object *pcur, Object *pold)
   case ICON_TYPE:
     // stick the icon on the wall
     doAction(ICON_TYPE, Icon::STICK, this, pcur, 0, 0);
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     break;
   default:		// other objects
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
   }
   return true;
 }

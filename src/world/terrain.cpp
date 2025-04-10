@@ -210,7 +210,7 @@ bool Terrain::intersect(Object *pcur, Object *pold)
   echo("terrain intersect: %s", pcur->objectName());
   pold->setLasting(0);
   pold->stopImposed();
-  pold->copyPositionAndBB(pcur);
+  pcur->pos = pold->pos;
   return true;
 }
 

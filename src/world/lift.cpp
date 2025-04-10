@@ -166,15 +166,15 @@ bool Lift::intersect(Object *pcur, Object *pold)
         pcur->updatePositionAndGrid(pold);
       }
       else {	// inside from up
-        pold->copyPositionAndBB(pcur);
+        pcur->pos = pold->pos;
       }
     }
     else {	// user already inside
-      pold->copyPositionAndBB(pcur);
+      pcur->pos = pold->pos;
     }
     break;
   default:
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     break;
   }
   return true;

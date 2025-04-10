@@ -372,7 +372,7 @@ void Object::permanentMovement(float speed)
 void User::elemUserMovement(const float tabdt[])
 {
   Object *o = new Object();
-  copyPositionAndBB(o);		// keep pos for intersection
+  o->pos = pos;		// keep pos for intersection
 
   imposed(tabdt);
 
@@ -389,7 +389,7 @@ void User::userMovement(time_t sec, time_t usec)
 {
   float keylastings[MAXKEYS];
 
-  copyPositionAndBB(pos);	// keep pos for network
+  //copyPositionAndBB(pos);	// keep pos for network
   updateKeys(sec, usec);
   timing(keylastings);
 
@@ -434,7 +434,7 @@ void Object::elemImposedMovement(float dt)
 
   if (! isBehavior(COLLIDE_NEVER)) {
     Object *o = new Object();
-    copyPositionAndBB(o);	// keep pos for intersection
+    o->pos = pos;		// keep pos for intersection
     checkVicinity(o);
     delete o;
   }
@@ -464,7 +464,7 @@ void Object::imposedMovements(time_t sec, time_t usec)
   }
 #endif
 
-  copyPositionAndBB(pos);		// keep pos for network
+  //copyPositionAndBB(pos);		// keep pos for network
 
   dt = -1;
   timing(sec, usec, &dt);		// handled by each object only for imposed movements
@@ -510,7 +510,7 @@ void Object::elemPermanentMovement(float dt)
     return;
   }
   Object *o = new Object();
-  copyPositionAndBB(o);		// keep pos for intersection
+  o->pos = pos;			// keep pos for intersection
 
   permanent(dt);		// handled by each object
 
@@ -530,8 +530,7 @@ void Object::permanentMovements(time_t sec, time_t usec)
     return;
   }
   if (move.perm_sec > 0) {	// is permanent movement activated ?
-    copyPositionAndBB(pos);
-
+    //copyPositionAndBB(pos);
     float dt = static_cast<float>(sec-move.perm_sec) + static_cast<float>(usec-move.perm_usec)/1e6;
     move.perm_sec = sec;
     move.perm_usec = usec;

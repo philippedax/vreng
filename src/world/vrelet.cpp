@@ -258,10 +258,10 @@ void Vrelet::readApp()
         wantDelta = header.msg_id;
       }
       else {			// push someone else (vreng object)
-        Object *pold = new Object();	// needed for collision
+        Object *pold = new Object();
 
         // make the changes
-        who->copyPositionAndBB(pold);
+        pold->pos = who->pos;	// who->copyPositionAndBB(pold);
         deltaPos(who);
 
         // update the object in the Vreng 3D thingies

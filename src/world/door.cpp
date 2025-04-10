@@ -195,7 +195,7 @@ bool Door::intersect(Object *pcur, Object *pold)
   case DOOR_TYPE:
     break;
   default:
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     break;
   }
   return true;

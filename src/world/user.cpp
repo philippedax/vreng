@@ -642,7 +642,7 @@ bool User::intersect(Object *pcur, Object *pold)
         Sound::playSound(RUPSSND);
       }
     }
-    pold->copyPositionAndBB(pcur);
+    pcur->pos = pold->pos;
     pcur->toDelete();	// delete projectile
     break;
   case BALL_TYPE:

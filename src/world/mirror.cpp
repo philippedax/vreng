@@ -81,7 +81,7 @@ bool Mirror::intersect(Object *pcur, Object *pold)
     doAction(ICON_TYPE, Icon::STICK, this, pcur, 0, 0);
     break;
   }
-  pold->copyPositionAndBB(pcur);
+  pcur->pos = pold->pos;
   return true;
 }
 

@@ -72,7 +72,7 @@ bool Doc::publish(const Pos &oldpos)
 
 bool Doc::intersect(Object *pcur, Object *pold)
 {
-  pold->copyPositionAndBB(pcur);
+  pcur->pos = pold->pos;
   return true;
 }
 
