@@ -24,7 +24,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "object.hpp"
-#include "col.hpp"
 #include "matvec.hpp"   // V3 M4
 #include "aoi.hpp"	// AOI_TYPE
 #include "walls.hpp"	// intersect
@@ -32,24 +31,6 @@
 #include "world.hpp"	// current
 #include "olist.hpp"	// OList
 
-
-/** Saves last position and Bounding Box of an object */
-void Object::copyPositionAndBB(Pos &newpos)
-{
-  newpos = pos;
-}
-
-/** Saves last position, Bounding Box and type of an object */
-void Object::copyPositionAndBB(Object *o)
-{
-  if (o) {
-    o->type = type;
-    o->mode = mode;
-    o->num = num;
-    o->behavior = behavior;
-    o->pos = pos;
-  }
-}
 
 /**
  * Returns a constant describing intersection status of both Bounding Boxes

@@ -151,7 +151,6 @@ struct Move {
  * common class for all the objects.
  */
 class Object {
-
  public:
   class NetObj *netop;		///< reserved field for network.
   struct GuiItem *guip;		///< reserved field for GUI.
@@ -180,7 +179,7 @@ class Object {
   class Carrier *carrier;	///< move via carrier.
   class VSql *vsql;		///< VSql handle.
 
-  /* object's list modes */
+  // object's list modes
   enum object_mode {
     STILL,
     MOBILE,
@@ -192,7 +191,7 @@ class Object {
     END_MODE
   };
 
-  /* object's states */
+  // object's states
   enum object_state {
     DELETED = -1,
     NONE = 0,
@@ -205,6 +204,14 @@ class Object {
     CARRYING,
     IN_CART,
     END_STATE
+  };
+
+  // intersection cases
+  enum {
+    NO_INTER,     // no intersect
+    IN2,          // obj1 inside obj2
+    IN1,          // obj2 inside obj1
+    INTERSECT     // intersect partiel
   };
 
   /* keys */
@@ -723,19 +730,15 @@ class Object {
   void generalIntersect(Object *wo, OList *vicinityList);
   /**< General intersection of objects. */
 
-  void copyPositionAndBB(Pos &newpos);
-  void copyPositionAndBB(Object *o);
-  /**< Copy object position and Bounding Box. */
-
-  int projectPositionOnObstacle(Pos &pcur, Pos &wo, Pos &obstacle);
-  /**< Projects object position on an obstacle. */
-
   void computeNormal(Pos &mobil, Pos &stil, V3 *normal);
   void computeNormal(Object *mobil, V3 *normal);
   /**< Computes the normal of still object. */
 
   bool projectPosition(Object *pcur, Object *wo);
   /**< Projects object position. */
+
+  int projectPositionOnObstacle(Pos &pcur, Pos &wo, Pos &obstacle);
+  /**< Projects object position on an obstacle. */
 
   void bounceTrajectory(Object *wo, V3 *norm);
   /**< Intersects with wall. */

@@ -172,18 +172,6 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
   }
   o->updateGrid(o->pos);
   o->updatePos();
-
-  //Object *oldobj = new Object();
-  //OList *vicilist = o->getVicinity(oldobj);
-  //o->copyPositionAndBB(oldobj);	// copy oldpos, oldangle
-  //o->generalIntersect(oldobj, vicilist);
-  //if (*name.type) {	//FIXME: segfault
-  //  vicilist->removeObject();
-  //}
-  //o->updGrid(oldobj);
-  //if (o->isBehavior(COLLIDE_NEVER)) {
-  //  delete oldobj;
-  //}
 }
 
 /** Resizes object by a new object */

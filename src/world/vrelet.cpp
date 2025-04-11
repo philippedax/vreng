@@ -261,7 +261,7 @@ void Vrelet::readApp()
         Object *pold = new Object();
 
         // make the changes
-        pold->pos = who->pos;	// who->copyPositionAndBB(pold);
+        pold->pos = who->pos;
         deltaPos(who);
 
         // update the object in the Vreng 3D thingies
