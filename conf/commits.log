@@ -3569,3 +3569,4 @@
 3569 Jeu 10 avr 2025 18:29:40 CEST	cleanup updatePosition()
 3570 Jeu 10 avr 2025 19:47:29 CEST	cleanup updateGrid()
 3571 Ven 11 avr 2025 11:41:22 CEST	remove col.hpp
+3572 Sam 12 avr 2025 09:40:15 CEST	add aux directory configure.ac

@@ -102,7 +102,7 @@ class Carrier: public Object {
   void defaults();
   /**< Sets default values */
 
-  void resize(Object *o);
+  void resize(Object *o, char sign);
   /**< Resizes object */
 
   static void setLspeed(Carrier *pc, void *d, time_t s, time_t u);

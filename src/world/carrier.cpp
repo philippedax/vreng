@@ -101,7 +101,7 @@ void Carrier::take(Object *o)
   control = true;
   o->carrier->control = true;
   localuser->carrier->control = true;
-  //echo("take control of %s, enter in manipulation mode", o->objectName());
+  echo("take control of %s, manipulation mode", o->objectName());
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
@@ -118,7 +118,7 @@ void Carrier::leave(Object *o)
     localuser->carrier->control = false;
     control = false;
   }
-  //echo("leave control of %s, enter in navigation mode", o->objectName());
+  echo("leave control of %s, navigation mode", o->objectName());
   defaults();			// reset the carrier
 }
 
@@ -161,22 +161,26 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
                   o->pos.bbs.v[i] -= o->pos.bbs.v[i]/10;
                   o->pos.bbs.v[i] = MAX(o->pos.bbs.v[i], 0);
                 }
-                resize(o);
+                resize(o, '-');
                 break; // -
     case KEY_P:
                 for (int i=0; i<3; i++) {
                   o->pos.bbs.v[i] += o->pos.bbs.v[i]/10;
+                  o->pos.bbs.v[i] = MIN(o->pos.bbs.v[i], 10);
                 }
-                resize(o);
+                resize(o, '+');
                 break; // +
   }
-  o->updateGrid(o->pos);
+  //o->updateGrid(o->pos);
   o->updatePos();
 }
 
 /** Resizes object by a new object */
-void Carrier::resize(Object *o)
+void Carrier::resize(Object *o, char sign)
 {
+  V3 dim;
+  char dimstr[32];
+
   o->geom = new char[128];
   sprintf(o->geom, "shape=\"%s\" dim=\"%.3f %.3f %.3f\" a=\"%.1f\" dif=\"%.1f %.1f %.1f\" />",
           o->solid->getShape(o->solid->shape),
