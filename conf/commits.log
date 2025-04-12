@@ -3568,3 +3568,4 @@
 3568 Jeu 10 avr 2025 17:54:26 CEST	cleanup copyPositionAndBB()
 3569 Jeu 10 avr 2025 18:29:40 CEST	cleanup updatePosition()
 3570 Jeu 10 avr 2025 19:47:29 CEST	cleanup updateGrid()
+3571 Ven 11 avr 2025 11:41:22 CEST	remove col.hpp

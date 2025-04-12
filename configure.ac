@@ -32,6 +32,7 @@ AC_CONFIG_SRCDIR([src/base/vreng.cpp])
 
 # where to find macros m4
 AC_CONFIG_MACRO_DIR(conf)
+AC_CONFIG_AUX_DIR(conf)
 
 # canonicalizing cpu:vendor:os
 AC_CANONICAL_HOST([])
@@ -1572,12 +1573,13 @@ _EOFUBIT
 
 # clean unused scripts in conf/
 echo "cleaning up $ac_aux_dir directory"
-rm -f $ac_aux_dir/compile
-rm -f $ac_aux_dir/depcomp
-rm -f $ac_aux_dir/config.guess
-rm -f $ac_aux_dir/config.sub
-rm -f $ac_aux_dir/install-sh
-rm -f $ac_aux_dir/missing
+mkdir $ac_aux_dir/aux 1>/dev/null 2>&1
+mv $ac_aux_dir/compile $ac_aux_dir/aux
+mv $ac_aux_dir/depcomp $ac_aux_dir/aux
+mv $ac_aux_dir/config.guess $ac_aux_dir/aux
+mv $ac_aux_dir/config.sub $ac_aux_dir/aux
+mv $ac_aux_dir/install-sh $ac_aux_dir/aux
+mv $ac_aux_dir/missing $ac_aux_dir/aux
 
 # config.status
 AC_OUTPUT
