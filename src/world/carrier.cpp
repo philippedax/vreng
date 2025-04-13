@@ -81,15 +81,16 @@ Object * Carrier::getObject()
 /** Takes control of the mouse to enter in manipulation mode */
 void Carrier::take(Object *o)
 {
+  if (! o) return;
+  //if (control) return;		// already under control - segfault
+  object = o;			// memorize object
   if (o->mode != MOBILE) {
     echo("%s is not mobile", o->objectName());
     return;
   }
-  //if (o->carrier->control) return;	// already under control - segfault
   //::g.gui.showManipulator();	// open Manipulator palette
   //::g.gui.expandNavig();	// shows Manipulator palette
 
-  object = o;			// memorize object
   o->move.manip = true;
   o->move.lspeed.v[0] = lspeed;
   o->move.aspeed.v[1] = aspeed;
@@ -107,17 +108,18 @@ void Carrier::take(Object *o)
 /** Leaves control of the mouse to enter in navigation mode */
 void Carrier::leave(Object *o)
 {
+  if (! o) return;
+  //if (! control) return;		// already has leaved
   //::g.gui.collapseNavig();	// close Manipulator palette
   //::g.gui.showNavigator();	// open Navigator palette
-  if (! o)  return;
 
-  o->pos.alter = true;		// mark it has changed
   o->move.manip = false;
+  o->pos.alter = true;		// mark it has changed
   if (o->carrier) {
     o->carrier->control = false;
     localuser->carrier->control = false;
-    control = false;
   }
+  control = false;
   echo("leave control of %s, navigation mode", o->objectName());
   defaults();			// reset the carrier
 }
@@ -127,12 +129,14 @@ void Carrier::leave(Object *o)
  */
 void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 {
+#if 0
   if (button) {			// any button pressed
     if (object) {
       //echo("leave %s", object->objectName());
       leave(object);		// left clic => leave mouse control
     }
   }
+#endif
 }
 
 /** Mouse event
@@ -208,11 +212,11 @@ void Carrier::resize(Object *o, char sign)
           MAX(object->solid->mat_diffuse[2], 1));
   echo("geom: %s", o->geom);
   switch (o->type) {
-    case THING_TYPE:  { Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
+    case THING_TYPE:{ Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
 #if 0
-    case WALL_TYPE:   { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
-    case BALL_TYPE:   { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
-    case MIRAGE_TYPE: { Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
+    case WALL_TYPE: { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
+    case BALL_TYPE: { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
+    case MIRAGE_TYPE:{ Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
 #endif
   }
     
@@ -225,14 +229,15 @@ void Carrier::resize(Object *o, char sign)
           object->solid->mat_diffuse[0], object->solid->mat_diffuse[1], object->solid->mat_diffuse[2]);
   echo("geom: %s", o->geom);
   switch (o->type) {
-    case THING_TYPE:  { Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
+    case THING_TYPE:{ Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
 #if 0
-    case WALL_TYPE:   { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
-    case BALL_TYPE:   { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
-    case MIRAGE_TYPE: { Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
+    case WALL_TYPE: { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
+    case BALL_TYPE: { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
+    case MIRAGE_TYPE:{ Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
 #endif
     }
 #endif
+
     o->toDelete();
 }
 
