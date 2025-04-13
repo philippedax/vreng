@@ -156,20 +156,8 @@ void Carrier::mouseEvent(Object *o, int8_t vkey, float last)
     case KEY_TR: o->pos.ax -= last*aspeed; break; // ,>
     case KEY_MU: o->pos.ay += last*aspeed; break; // ^,
     case KEY_MD: o->pos.ay -= last*aspeed; break; // ,^
-    case KEY_M:
-                for (int i=0; i<3; i++) {
-                  o->pos.bbs.v[i] -= o->pos.bbs.v[i]/10;
-                  o->pos.bbs.v[i] = MAX(o->pos.bbs.v[i], 0);
-                }
-                resize(o, '-');
-                break; // -
-    case KEY_P:
-                for (int i=0; i<3; i++) {
-                  o->pos.bbs.v[i] += o->pos.bbs.v[i]/10;
-                  o->pos.bbs.v[i] = MIN(o->pos.bbs.v[i], 10);
-                }
-                resize(o, '+');
-                break; // +
+    case KEY_M: resize(o, '-'); break; // -
+    case KEY_P: resize(o, '+'); break; // +
   }
   //o->updateGrid(o->pos);
   o->updatePos();
@@ -181,6 +169,54 @@ void Carrier::resize(Object *o, char sign)
   V3 dim;
   char dimstr[32];
 
+  o->getDim(dim);
+  //echo("dim: %.3f %.3f %.3f", dim.v[0]*2, dim.v[1]*2, dim.v[2]*2);
+
+#if 1
+  switch (sign) {
+    case '-': for (int i=0; i<3; i++) {
+                dim.v[i] -= dim.v[i]/10;
+                dim.v[i] = MAX(dim.v[i], 0.001);
+                o->pos.bbs.v[i] -= o->pos.bbs.v[i]/10;
+                o->pos.bbs.v[i] = MAX(o->pos.bbs.v[i], 0.001);
+              }
+              break;
+    case '+': for (int i=0; i<3; i++) {
+                dim.v[i] += dim.v[i]/10;
+                dim.v[i] = MIN(dim.v[i], 10);
+                o->pos.bbs.v[i] += o->pos.bbs.v[i]/10;
+              }
+              break;
+  }
+
+  switch (o->solid->shape) {
+    case STOK_BOX:    sprintf(dimstr, "dim=\"%.3f %.3f %.3f\"", dim.v[0]*2, dim.v[1]*2, dim.v[2]*2);
+                      break;
+    case STOK_SPHERE: sprintf(dimstr, "r=\"%.3f\"", dim.v[0]);
+                      break;
+    default: return;
+  }
+  //echo("dimstr: %s", dimstr);
+
+  o->geom = new char[128];
+  sprintf(o->geom, "shape=\"%s\" %s a=\"%.1f\" dif=\"%.1f %.1f %.1f\" />",
+          o->solid->getShape(o->solid->shape),
+          dimstr,
+          MAX(object->solid->alpha, 1),
+          MAX(object->solid->mat_diffuse[0], 1),
+          MAX(object->solid->mat_diffuse[1], 1),
+          MAX(object->solid->mat_diffuse[2], 1));
+  echo("geom: %s", o->geom);
+  switch (o->type) {
+    case THING_TYPE:  { Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
+#if 0
+    case WALL_TYPE:   { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
+    case BALL_TYPE:   { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
+    case MIRAGE_TYPE: { Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
+#endif
+  }
+    
+#else
   o->geom = new char[128];
   sprintf(o->geom, "shape=\"%s\" dim=\"%.3f %.3f %.3f\" a=\"%.1f\" dif=\"%.1f %.1f %.1f\" />",
           o->solid->getShape(o->solid->shape),
@@ -196,6 +232,7 @@ void Carrier::resize(Object *o, char sign)
     case MIRAGE_TYPE: { Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
 #endif
     }
+#endif
     o->toDelete();
 }
 
