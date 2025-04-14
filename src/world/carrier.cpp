@@ -68,8 +68,8 @@ bool Carrier::underControl() const
   else
 #else
   //echo("ctrl: %d", control);
-#endif
     return control;
+#endif
 }
 
 /** Gets object under control */

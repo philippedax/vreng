@@ -3572,3 +3572,4 @@
 3572 Sam 12 avr 2025 09:40:15 CEST	add aux directory configure.ac
 3573 Sam 12 avr 2025 18:01:50 CEST	add -Wnodeprecated-declarations configure.ac
 3574 Dim 13 avr 2025 12:11:26 CEST	cleanup getDim carrier.cpp
+3575 Dim 13 avr 2025 19:20:43 CEST	cleanup echo carrier.cpp

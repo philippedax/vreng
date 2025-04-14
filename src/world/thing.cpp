@@ -210,15 +210,19 @@ void Thing::recreate(World *w, void *d, time_t s, time_t u)
 /** Manip object */
 void Thing::manip(Thing *thing)
 {
-  if (carrier == NULL) {
+  echo("thing manip: %p %d", carrier, move.manip);
+  //if (carrier == NULL) {
+  if (move.manip == 0) {
     carrier = new Carrier();
     carrier->take(this);
     moveObject(thing);
   }
   else {
-    carrier->leave(this);
-    delete carrier;
-    carrier = NULL;
+    if (carrier) {
+      carrier->leave(this);
+      delete carrier;
+      carrier = NULL;
+    }
   }
 }
 
