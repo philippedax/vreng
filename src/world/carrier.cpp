@@ -213,8 +213,8 @@ void Carrier::resize(Object *o, char sign)
   echo("geom: %s", o->geom);
   switch (o->type) {
     case THING_TYPE:{ Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
-#if 0
     case WALL_TYPE: { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
+#if 0
     case BALL_TYPE: { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
     case MIRAGE_TYPE:{ Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
 #endif
@@ -230,8 +230,8 @@ void Carrier::resize(Object *o, char sign)
   echo("geom: %s", o->geom);
   switch (o->type) {
     case THING_TYPE:{ Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
-#if 0
     case WALL_TYPE: { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
+#if 0
     case BALL_TYPE: { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
     case MIRAGE_TYPE:{ Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
 #endif

@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+
 // VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
 // Copyright (C) 1997-2009 Philippe Dax
@@ -24,20 +24,21 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "wall.hpp"
-#include "user.hpp"	// USER_TYPE
-#include "ball.hpp"	// BALL_TYPE
-#include "dart.hpp"	// DART_TYPE
-#include "bullet.hpp"	// BULLET_TYPE
-#include "thing.hpp"	// THING_TYPE
-#include "icon.hpp"	// ICON_TYPE
-#include "step.hpp"	// STEP_TYPE
-#include "web.hpp"	// WEB_TYPE
+#include "ball.hpp"
+#include "step.hpp"
+#include "icon.hpp"
+#include "user.hpp"
+#include "dart.hpp"
+#include "bullet.hpp"
+#include "web.hpp"
+#include "thing.hpp"
+#include "carrier.hpp"	// take, leave
 
 
 const OClass Wall::oclass(WALL_TYPE, "Wall", Wall::creator);
 
 
-/** creation from a file */
+/** Creation from a file */
 Object * Wall::creator(char *l)
 {
   return new Wall(l);
@@ -49,7 +50,7 @@ void Wall::parser(char *l)
   l = parseAttributes(l);
 }
 
-/** creation from vre file */
+/** Creation from vre file */
 Wall::Wall(char *l)
 {
   parser(l);
@@ -57,7 +58,7 @@ Wall::Wall(char *l)
   mobileObject(0);
 }
 
-/** creation from gui addobject */
+/** Creation from gui addobject */
 Wall::Wall(Object *user, char *geom)
 {
   if (! user) return;
@@ -107,7 +108,32 @@ void Wall::destroy(Wall *po, void *d, time_t s, time_t u)
     po->removeFromScene();
 }
 
+/** Manip object */
+void Wall::manip(Wall *wall)
+{
+  echo("wall manip: %p %d", carrier, move.manip);
+  //if (carrier == NULL) {
+  if (move.manip == 0) {
+    carrier = new Carrier();
+    carrier->take(this);
+    moveObject(wall);
+  }
+  else {
+    if (carrier) {
+      carrier->leave(this);
+      delete carrier;
+      carrier = NULL;
+    }
+  }
+}
+
+void Wall::manip_cb(Wall *wall, void *d, time_t s, time_t u)
+{
+  wall->manip(wall);
+}
+
 void Wall::funcs()
 {
-  setActionFunc(WALL_TYPE, 0, _Action destroy, "Destroy");
+  setActionFunc(WALL_TYPE, 0, _Action manip_cb, "Take/Leave");
+  setActionFunc(WALL_TYPE, 1, _Action destroy, "Destroy");
 }

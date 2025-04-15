@@ -61,6 +61,9 @@ class Wall: public Object {
   void parser(char *l);
   /**< Parses fileline */
 
+  void manip(Wall *wall);
+  static void manip_cb(Wall *wall, void *d, time_t s, time_t u);
+
   // GUI callbacks
   static void destroy(Wall *po, void *d, time_t s, time_t u);
 };
