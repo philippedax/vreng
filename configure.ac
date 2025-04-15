@@ -86,7 +86,7 @@ AC_SEARCH_LIBS([strerror],[cposix])
 # Where to install by default, handle the --prefix=... option
 #
 if test "${prefix}" = "NONE"; then
-  prefix=/usr/local
+  prefix=/usr/localn
 fi
 if test "${exec_prefix}" = "NONE"; then
   exec_prefix=${prefix}
@@ -103,7 +103,7 @@ CPPFLAGS="${CXXFLAGS}"
 LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
-  CFLAGS="${CFLAGS} -Wall -Wno-deprecated-declarations"
+  CFLAGS="${CFLAGS} -Wall -Wno-deprecated-declarations -Wno-deprecated-non-prototype"
   CXXFLAGS="${CXXFLAGS} -Wall -Wno-deprecated-declarations"
   LDFLAGS="${LDFLAGS} -g"
   #CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2//'`

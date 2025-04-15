@@ -3573,3 +3573,4 @@
 3573 Sam 12 avr 2025 18:01:50 CEST	add -Wnodeprecated-declarations configure.ac
 3574 Dim 13 avr 2025 12:11:26 CEST	cleanup getDim carrier.cpp
 3575 Dim 13 avr 2025 19:20:43 CEST	cleanup echo carrier.cpp
+3576 Lun 14 avr 2025 12:37:31 CEST	cleanup leave thing.cpp
