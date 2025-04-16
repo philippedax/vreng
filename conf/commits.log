@@ -3576,3 +3576,4 @@
 3576 Lun 14 avr 2025 12:37:31 CEST	cleanup leave thing.cpp
 3577 Mar 15 avr 2025 12:42:44 CEST	add Wno-debrecated-non-prototype configure.ac
 3578 Mar 15 avr 2025 20:29:47 CEST	add manip add*.cpp
+3579 Mer 16 avr 2025 11:04:31 CEST	cleanup keep ball.*pp
