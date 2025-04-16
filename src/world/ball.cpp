@@ -328,8 +328,8 @@ void Ball::up()
   taken = false;
 }
 
-/** Action take */
-void Ball::take()
+/** Action keep */
+void Ball::keep()
 {
   ttl = MAXFLOAT;
   imposedMovement(ttl);
@@ -391,9 +391,9 @@ void Ball::up_cb(Ball *ball, void *d, time_t s, time_t u)
   ball->up();
 }
 
-void Ball::take_cb(Ball *ball, void *d, time_t s, time_t u)
+void Ball::keep_cb(Ball *ball, void *d, time_t s, time_t u)
 {
-  ball->take();
+  ball->keep();
 }
 
 void Ball::drop_cb(Ball *ball, void *d, time_t s, time_t u)
@@ -443,7 +443,7 @@ void Ball::funcs()
   setActionFunc(BALL_TYPE, PULL,     _Action pull_cb, "Pull");
   setActionFunc(BALL_TYPE, SHOOT,    _Action shoot_cb, "Shoot");
   setActionFunc(BALL_TYPE, UP,       _Action up_cb, "Up");
-  setActionFunc(BALL_TYPE, TAKE,     _Action take_cb, "Take");
+  setActionFunc(BALL_TYPE, KEEP,     _Action keep_cb, "Take");
   setActionFunc(BALL_TYPE, DROP,     _Action drop_cb, "Drop");
   setActionFunc(BALL_TYPE, TURN,     _Action turn_cb, "Turn");
   setActionFunc(BALL_TYPE, KILL,     _Action destroy_cb, "Destroy");

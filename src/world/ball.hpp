@@ -52,7 +52,7 @@ class Ball: public Object {
   static const float DELTAZ;
   static const float TTL;
 
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -63,13 +63,13 @@ class Ball: public Object {
     PROPS
   };
 
-  /* actions */
+  // actions
   enum {
     PUSH,	///< forward
     PULL,	///< backward
     SHOOT,	///< shoot
     UP,		///< move up
-    TAKE,	///< take
+    KEEP,	///< keep
     DROP,	///< drop
     TURN,	///< turn
     KILL,	///< destroy
@@ -153,7 +153,7 @@ class Ball: public Object {
   void pull();
   void shoot();
   void up();
-  void take();
+  void keep();
   void drop();
   void turn();
   void destroy();
@@ -163,7 +163,7 @@ class Ball: public Object {
   static void pull_cb(Ball *o, void *d, time_t s, time_t u);
   static void shoot_cb(Ball *o, void *d, time_t s, time_t u);
   static void up_cb(Ball *o, void *d, time_t s, time_t u);
-  static void take_cb(Ball *o, void *d, time_t s, time_t u);
+  static void keep_cb(Ball *o, void *d, time_t s, time_t u);
   static void drop_cb(Ball *o, void *d, time_t s, time_t u);
   static void turn_cb(Ball *o, void *d, time_t s, time_t u);
   static void destroy_cb(Ball *o, void *d, time_t s, time_t u);
