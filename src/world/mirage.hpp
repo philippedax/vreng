@@ -100,7 +100,10 @@ class Mirage: public Object {
   void behaviors();
   /**< Sets behaviors flags */
 
+  void manip(Mirage *mirage);
+
   //GUI callbacks
+  static void manip_cb(Mirage *po, void *d, time_t s, time_t u);
   static void destroy(Mirage *po, void *d, time_t s, time_t u);
   static void recreate(class World *w, void *d, time_t s, time_t u);
 };

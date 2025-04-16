@@ -30,6 +30,7 @@
 #include "timer.hpp"	// rate
 #include "flare.hpp"	// Flare
 #include "solid.hpp"	// setFlary
+#include "carrier.hpp"	// Carrier
 
 
 const OClass Mirage::oclass(MIRAGE_TYPE, "Mirage", Mirage::creator);
@@ -270,9 +271,34 @@ void Mirage::destroy(Mirage *mirage, void *d, time_t s, time_t u)
     mirage->removeFromScene();
 }
 
+/** Manip object */
+void Mirage::manip(Mirage *mirage)
+{
+  echo("mirage manip: %p %d", carrier, move.manip);
+  //if (carrier == NULL) {
+  if (move.manip == 0) {
+    carrier = new Carrier();
+    carrier->take(this);
+    moveObject(mirage);
+  }
+  else {
+    if (carrier) {
+      carrier->leave(this);
+      delete carrier;
+      carrier = NULL;
+    }
+  }
+}
+
+void Mirage::manip_cb(Mirage *mirage, void *d, time_t s, time_t u)
+{
+  mirage->manip(mirage);
+}
+
 void Mirage::funcs()
 {
   setActionFunc(MIRAGE_TYPE, APPROACH, _Action gotoFront, "Approach");
-  setActionFunc(MIRAGE_TYPE, DESTROY, _Action destroy, "Destroy");
+  setActionFunc(MIRAGE_TYPE, MOVE,     _Action manip_cb, "Take/Leave");
+  setActionFunc(MIRAGE_TYPE, DESTROY,  _Action destroy, "Destroy");
   setActionFunc(MIRAGE_TYPE, RECREATE, _Action recreate, "");
 }
