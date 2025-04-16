@@ -72,10 +72,10 @@ class Ball: public Object {
     KEEP,	///< keep
     DROP,	///< drop
     TURN,	///< turn
+    TAKE,
     KILL,	///< destroy
     CREATE,	///< create
     RECREATE,	///< create
-    TAKE,
     NONE
   };
 

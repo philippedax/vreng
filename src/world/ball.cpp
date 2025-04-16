@@ -471,8 +471,8 @@ void Ball::funcs()
   setActionFunc(BALL_TYPE, KEEP,     _Action keep_cb, "Keep");
   setActionFunc(BALL_TYPE, DROP,     _Action drop_cb, "Drop");
   setActionFunc(BALL_TYPE, TURN,     _Action turn_cb, "Turn");
+  setActionFunc(BALL_TYPE, TAKE,     _Action manip_cb, "Take/Leave");
   setActionFunc(BALL_TYPE, KILL,     _Action destroy_cb, "Destroy");
   setActionFunc(BALL_TYPE, CREATE,   _Action create_cb, "");
   setActionFunc(BALL_TYPE, RECREATE, _Action recreate_cb, "");
-  setActionFunc(BALL_TYPE, TAKE,     _Action manip_cb, "Take/Leave");
  }
