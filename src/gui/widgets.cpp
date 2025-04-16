@@ -1285,8 +1285,8 @@ void VncDialog::vncConvert()
 /** items */
 enum {
   NONE,
-  WALL, THING, MIRAGE, BALL, STEP, GROUND, GATE,	// objects
-  BOX, SPHERE, CONE, CYLINDER, DISK, TORUS,		// shapes
+  WALL, THING, MIRAGE, BALL,				// objects
+  BOX, SPHERE, CONE, TORUS,				// shapes
   BLACK, RED, GREEN, BLUE, PURPLE, YELLOW, CYAN, WHITE,	// colors
   TINY, SMALL, MEDIUM, BIG, BIGEST,			// sizes
   OPAQUE, OPAQUE8, OPAQUE6, OPAQUE4, OPAQUE2, OPAQUE0,	// transparencies
@@ -1297,7 +1297,7 @@ enum {
 };
 
 // Local
-static int objtype = THING;	// thing (for multiple solids)
+static int objtype = THING;	// thing
 static char shape[16] = "box";	// box
 static char tex[128] = {0};	// empty
 static V3 color;		// white
@@ -1305,36 +1305,36 @@ static float alpha = 1;		// opaque
 static float siz = .5;		// medium
 
 static const char chair_wood[] = "\
-<geom dim=\".25 .25 .01\" dif=\"marroun\" tx=\"/gif/wood.gif\" />\n\
-<geom dim=\".02 .25 .25\" rel=\".12 0 .12 0 0\" dif=\"marroun\" />\n\
-<geom dim=\".01 .01 .25\" rel=\"-.12 .12 -.12 0 0\" dif=\"marroun\" />\n\
-<geom dim=\".01 .01 .25\" rel=\".12 .12 -.12 0 0\" dif=\"marroun\" />\n\
-<geom dim=\".01 .01 .25\" rel=\"-.12 -.12 -.12 0 0\" dif=\"marroun\" />\n\
-<geom dim=\".01 .01 .25\" rel=\".12 -.12 -.12 0 0\" dif=\"marroun\" />\n\
+  <geom dim=\".25 .25 .01\" dif=\"marroun\" tx=\"/gif/wood.gif\" />\n\
+  <geom dim=\".02 .25 .25\" rel=\".12 0 .12 0 0\" dif=\"marroun\" />\n\
+  <geom dim=\".01 .01 .25\" rel=\"-.12 .12 -.12 0 0\" dif=\"marroun\" />\n\
+  <geom dim=\".01 .01 .25\" rel=\".12 .12 -.12 0 0\" dif=\"marroun\" />\n\
+  <geom dim=\".01 .01 .25\" rel=\"-.12 -.12 -.12 0 0\" dif=\"marroun\" />\n\
+  <geom dim=\".01 .01 .25\" rel=\".12 -.12 -.12 0 0\" dif=\"marroun\" />\n\
 ";
 static const char table_wood[] = "\
-<geom dim=\".40 .80 .02\" dif=\"wheat\" tx=\"/gif/blondwood.gif\" />\n\
-<geom dim=\".02 .02 .40\" rel=\"-.18 .38 -.20 0 0\" dif=\"wheat\" />\n\
-<geom dim=\".02 .02 .40\" rel=\".18 .38 -.20 0 0\"  dif=\"wheat\" />\n\
-<geom dim=\".02 .02 .40\" rel=\"-.18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
-<geom dim=\".02 .02 .40\" rel=\".18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
+  <geom dim=\".40 .80 .02\" dif=\"wheat\" tx=\"/gif/blondwood.gif\" />\n\
+  <geom dim=\".02 .02 .40\" rel=\"-.18 .38 -.20 0 0\" dif=\"wheat\" />\n\
+  <geom dim=\".02 .02 .40\" rel=\".18 .38 -.20 0 0\"  dif=\"wheat\" />\n\
+  <geom dim=\".02 .02 .40\" rel=\"-.18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
+  <geom dim=\".02 .02 .40\" rel=\".18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
 ";
 static const char table_metal[] = "\
-<geom dim=\".70 .3 .02\" dif=\"grey40\" />\n\
-<geom dim=\".02,.02 .35\" dif=\"grey40\" rel=\"-.34 -.14 -.17 0 0\" />\n\
-<geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\"-.34 .14 -.17 0 0\" />\n\
-<geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 -.14 -.17 0 0\" />\n\
-<geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 .14 -.17 0 0\" />\n\
+  <geom dim=\".70 .3 .02\" dif=\"grey40\" />\n\
+  <geom dim=\".02,.02 .35\" dif=\"grey40\" rel=\"-.34 -.14 -.17 0 0\" />\n\
+  <geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\"-.34 .14 -.17 0 0\" />\n\
+  <geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 -.14 -.17 0 0\" />\n\
+  <geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 .14 -.17 0 0\" />\n\
 ";
 static const char table_glass[] = "\
-<geom dim=\".5,.3 .02\" dif=\"green\" spe=\"cyan\" a=\".3\" />\n\
-<geom shape=\"cone\" rb=\".1\" rt=\".1\" h=\".30\" dif=\"green\" spe=\"cyan\" a=\".5\" rel=\"0 0 -.30 0 0\" />\n\
+  <geom dim=\".5,.3 .02\" dif=\"green\" spe=\"cyan\" a=\".3\" />\n\
+  <geom shape=\"cone\" rb=\".1\" rt=\".1\" h=\".30\" dif=\"green\" spe=\"cyan\" a=\".5\" rel=\"0 0 -.30 0 0\" />\n\
 ";
 
-/** default values */
+/** Default values */
 static void defaultAddobj()
 {
-  objtype = THING;	// thing (default for multiple solids)
+  objtype = THING;	// thing
   strcpy(shape, "box");	// box
   *tex = '\0';		// no textures
   alpha = 1;		// opaque
@@ -1342,26 +1342,21 @@ static void defaultAddobj()
   color = setV3(1,1,1);	// white
 }
 
-/** set values */
+/** Set values */
 static void setVal(int item) {
   switch (item) {
-    // objtypes :
     case THING :
     case MIRAGE :
     case WALL :
     case BALL :
-    case STEP :
-    case GROUND :
       objtype = item;
       break;
 
     // shapes
-    case BOX :      sprintf(shape, "box"); break;
-    case SPHERE :   sprintf(shape, "sphere"); break;
-    case CONE :     sprintf(shape, "cone"); break;
-    case CYLINDER : sprintf(shape, "cylinder"); break;
-    case DISK :     sprintf(shape, "disk"); break;
-    case TORUS :    sprintf(shape, "torus"); break;
+    case BOX :    sprintf(shape, "box"); break;
+    case SPHERE : sprintf(shape, "sphere"); break;
+    case CONE :   sprintf(shape, "cone"); break;
+    case TORUS :  sprintf(shape, "torus"); break;
 
     // colors
     case BLACK :  color = setV3(0,0,0); break;
@@ -1393,11 +1388,11 @@ static void setVal(int item) {
     case OPAQUE0 : alpha = .0; break;
 
     // sizes
-    case TINY :   siz = .12; break;
-    case SMALL :  siz = .25; break;
-    case MEDIUM : siz = .50; break;
-    case BIG :    siz = 1.0; break;
-    case BIGEST : siz = 2.0; break;
+    case TINY :    siz = .12; break;
+    case SMALL :   siz = .25; break;
+    case MEDIUM  : siz = .50; break;
+    case BIG :     siz = 1.0; break;
+    case BIGEST :  siz = 2.0; break;
 
     // models
     case MAN :     sprintf(shape, "man"); break;
@@ -1417,7 +1412,7 @@ static void setVal(int item) {
 /** Callback which builds <geom ... \> */
 void Widgets::newObjectCB()
 {
-  char geom[256], url[128];
+  char geom[128], url[128];
   float r = .2 * siz;
   float scale = 1;
   V3 c = color;
@@ -1425,32 +1420,26 @@ void Widgets::newObjectCB()
   geom[0] = url[0] = '\0';
 
   // Shapes
-  if (! strncmp(shape, "box", 3)) {
-    sprintf(geom, "geom shape=\"box\" dim=\"%f %f %f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r,r, c.v[0],c.v[1],c.v[2], tex, alpha);
+  if      (! strncmp(shape, "box", 3)) {
+    sprintf(geom, "geom shape=\"box\" dim=\"%3f %3f %3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%3f\" />", r,r,r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "sphere", 5)) {
-    sprintf(geom, "geom shape=\"sphere\" r=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r, c.v[0],c.v[1],c.v[2], tex, alpha);
+    sprintf(geom, "geom shape=\"sphere\" r=\"%3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%3f\" />", r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "cone", 4)) {
-    sprintf(geom, "geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r/2,2*r, c.v[0],c.v[1],c.v[2], tex, alpha);
-  }
-  else if (! strncmp(shape, "cyl", 3)) {
-    sprintf(geom, "geom shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r,2*r, c.v[0],c.v[1],c.v[2], tex, alpha);
-  }
-  else if (! strncmp(shape, "disk", 4)) {
-    sprintf(geom, "geom shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,2*r, c.v[0],c.v[1],c.v[2], tex, alpha);
+    sprintf(geom, "geom shape=\"cone\" rb=\"%3f\" rt=\"%3f\" h=\"%3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%3f\" />", r,r/2,2*r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "torus", 5)) {
-    sprintf(geom, "geom shape=\"torus\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r/5, c.v[0],c.v[1],c.v[2], tex, alpha);
-  }
-  if (! strncmp(shape, "man", 3)) {
-    sprintf(geom, "geom shape=\"man\" dim=\".2 .1 .85\" />");
-  }
-  if (! strncmp(shape, "car", 3)) {
-    sprintf(geom, "geom shape=\"car\" dim=\".7 .7 .7\" dif=\"%f %f %f\" a=\"%f\" />", c.v[0],c.v[1],c.v[2], alpha);
+    sprintf(geom, "geom shape=\"torus\" ri=\"%3f\" re=\"%3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%3f\" />", r,r/5, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
 
   // Models
+  else if (! strncmp(shape, "man", 3)) {
+    sprintf(geom, "geom shape=\"man\" dim=\".2 .1 .85\" />");
+  }
+  else if (! strncmp(shape, "car", 3)) {
+    sprintf(geom, "geom shape=\"car\" dim=\".7 .7 .7\" dif=\"%3f %3f %3f\" a=\"%3f\" />", c.v[0],c.v[1],c.v[2], alpha);
+  }
   else if (! strcmp(shape, "shrub")) {
     objtype = MODEL;
     sprintf(url, "/3ds/tree_1.3ds");
@@ -1499,11 +1488,7 @@ void Widgets::newObjectCB()
   case WALL:	new Wall(localuser, geom);	  break;
   case MIRAGE:	new Mirage(localuser, geom);	  break;
   case BALL:	new Ball(localuser, geom);	  break;
-  case STEP:	new Step(localuser, geom);	  break;
   case MODEL:	new Model(localuser, url, scale); break;
-  case GROUND:
-    sprintf(geom, "geom dim=\"%f %f %f\" dif=\"%f %f %f\" zp=\"%s\"/>", 10.,10.,.1, c.v[0],c.v[1],c.v[2], tex);
-    new Ground(localuser, geom); break;
   }
 
   defaultAddobj();	// reset to default values
@@ -1546,10 +1531,6 @@ UDialog& Widgets::addobjDialog()
                           + UOn::select / ucall((int)MIRAGE, setVal))
               + ucheckbox("Ball" + sel_objtype
                           + UOn::select / ucall((int)BALL, setVal))
-              + ucheckbox("Step" + sel_objtype
-                          + UOn::select / ucall((int)STEP, setVal))
-              + ucheckbox("Ground" + sel_objtype
-                          + UOn::select / ucall((int)GROUND, setVal))
             )
      + uhbox("  Shape :  "
              + UFont::plain
@@ -1559,10 +1540,6 @@ UDialog& Widgets::addobjDialog()
                          + UOn::select / ucall((int)SPHERE, setVal))
              + ucheckbox("Cone" + sel_shape
                          + UOn::select / ucall((int)CONE, setVal))
-             + ucheckbox("Cylinder" + sel_shape
-                         + UOn::select / ucall((int)CYLINDER, setVal))
-             + ucheckbox("Disk" + sel_shape
-                         + UOn::select / ucall((int)DISK, setVal))
              + ucheckbox("Torus" + sel_shape
                          + UOn::select / ucall((int)TORUS, setVal))
             )
