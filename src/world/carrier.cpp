@@ -57,19 +57,8 @@ Carrier::Carrier()
 /** Checks control */
 bool Carrier::underControl() const
 {
-#if 0 //debug
-  if (! object)  return false;
-  //if (! localuser)  return false;
-
-  //echo("ctrl: %d %d %d", control, object && object->carrier ? object->carrier->control : -1, localuser && localuser->carrier ? localuser->carrier->control : -1);
-
-  if ( (object && object->carrier) || (localuser && localuser->carrier) )
-    return object->carrier->control || localuser->carrier->control;
-  else
-#else
   //echo("ctrl: %d", control);
-    return control;
-#endif
+  return control;
 }
 
 /** Gets object under control */
@@ -176,7 +165,6 @@ void Carrier::resize(Object *o, char sign)
   o->getDim(dim);
   //echo("dim: %.3f %.3f %.3f", dim.v[0]*2, dim.v[1]*2, dim.v[2]*2);
 
-#if 1
   switch (sign) {
     case '-': for (int i=0; i<3; i++) {
                 dim.v[i] -= dim.v[i]/10;
@@ -215,30 +203,10 @@ void Carrier::resize(Object *o, char sign)
     case THING_TYPE:{ Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
     case WALL_TYPE: { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
     case BALL_TYPE: { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
-#if 0
     case MIRAGE_TYPE:{ Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
-#endif
   }
     
-#else
-  o->geom = new char[128];
-  sprintf(o->geom, "shape=\"%s\" dim=\"%.3f %.3f %.3f\" a=\"%.1f\" dif=\"%.1f %.1f %.1f\" />",
-          o->solid->getShape(o->solid->shape),
-          o->pos.bbs.v[0]*2, o->pos.bbs.v[1]*2, o->pos.bbs.v[2]*2,
-          object->solid->alpha,
-          object->solid->mat_diffuse[0], object->solid->mat_diffuse[1], object->solid->mat_diffuse[2]);
-  echo("geom: %s", o->geom);
-  switch (o->type) {
-    case THING_TYPE:{ Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
-    case WALL_TYPE: { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
-    case BALL_TYPE: { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
-#if 0
-    case MIRAGE_TYPE:{ Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
-#endif
-    }
-#endif
-
-    o->toDelete();
+  o->toDelete();
 }
 
 void Carrier::setLspeed(Carrier *pc, void *d, time_t s, time_t u)
