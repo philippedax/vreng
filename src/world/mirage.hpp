@@ -58,7 +58,8 @@ class Mirage: public Object {
   /* actions */
   enum {
     APPROACH,
-    MOVE,
+    TAKE,
+    LEAVE,
     DESTROY,
     RECREATE,
     NONE
@@ -100,10 +101,12 @@ class Mirage: public Object {
   void behaviors();
   /**< Sets behaviors flags */
 
-  void manip(Mirage *mirage);
+  void takemanip(Mirage *mirage);
+  void leavemanip(Mirage *mirage);
 
   //GUI callbacks
-  static void manip_cb(Mirage *po, void *d, time_t s, time_t u);
+  static void takemanip_cb(Mirage *po, void *d, time_t s, time_t u);
+  static void leavemanip_cb(Mirage *po, void *d, time_t s, time_t u);
   static void destroy(Mirage *po, void *d, time_t s, time_t u);
   static void recreate(class World *w, void *d, time_t s, time_t u);
 };
