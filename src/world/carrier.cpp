@@ -175,7 +175,7 @@ void Carrier::resize(Object *o, char sign)
               break;
     case '+': for (int i=0; i<3; i++) {
                 dim.v[i] += dim.v[i]/100;
-                dim.v[i] = MIN(dim.v[i], 100);
+                dim.v[i] = MIN(dim.v[i], 10);
                 o->pos.bbs.v[i] += o->pos.bbs.v[i]/100;
               }
               break;
@@ -195,31 +195,35 @@ void Carrier::resize(Object *o, char sign)
           o->solid->getShape(o->solid->shape),
           dimstr,
           MAX(object->solid->alpha, 1),
-          MAX(object->solid->mat_diffuse[0], 1),
-          MAX(object->solid->mat_diffuse[1], 1),
-          MAX(object->solid->mat_diffuse[2], 1));
+          MAX(object->solid->mat_dif[0], 1),
+          MAX(object->solid->mat_dif[1], 1),
+          MAX(object->solid->mat_dif[2], 1));
   echo("geom: %s", o->geom);
   switch (o->type) {
     case THING_TYPE:{
                     Thing *o2 = new Thing(localuser, o->geom);
                     take(o2);
                     o2->pos = o->pos;
-                    } break;
+                    }
+                    break;
     case WALL_TYPE: {
                     Wall *o2 = new Wall(localuser, o->geom);
                     take(o2);
                     o2->pos = o->pos;
-                    }   break;
+                    }
+                    break;
     case BALL_TYPE: {
                     Ball *o2 = new Ball(localuser, o->geom);
                     take(o2);
                     o2->pos = o->pos;
-                    }   break;
+                    }
+                    break;
     case MIRAGE_TYPE:{
                     Mirage *o2 = new Mirage(localuser, o->geom);
                     take(o2);
                     o2->pos = o->pos;
-                    } break;
+                    }
+                    break;
   }
     
   o->toDelete();

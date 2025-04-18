@@ -430,11 +430,11 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
   // default materials
   for (int i=0; i<4; i++) {
-    mat_diffuse[i] = mat_ambient[i] = mat_specular[i] = 1; // white
-    mat_emission[i] = 0;
+    mat_dif[i] = mat_amb[i] = mat_spe[i] = 1; // white
+    mat_emi[i] = 0;
   }
-  mat_emission[3] = 1;
-  mat_shininess[0] = DEF_SHININESS;
+  mat_emi[3] = 1;
+  mat_shi[0] = DEF_SHININESS;
   alpha = DEF_ALPHA;	// opaque by fefault
 
   // default lights params
@@ -518,29 +518,29 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         l = object->parse()->parseVector3fv(l, &dim);
         break;
       case STOK_DIFFUSE:
-        l = object->parse()->parseVector3f(l, &mat_diffuse[0]);
+        l = object->parse()->parseVector3f(l, &mat_dif[0]);
         for (int i=0; i<3; i++) {
-          mat_ambient[i] = mat_diffuse[i];
+          mat_amb[i] = mat_dif[i];
         }
         break;
       case STOK_AMBIENT:
-        l = object->parse()->parseVector3f(l, &mat_ambient[0]);
+        l = object->parse()->parseVector3f(l, &mat_amb[0]);
         break;
       case STOK_SPECULAR:
-        l = object->parse()->parseVector3f(l, &mat_specular[0]);
+        l = object->parse()->parseVector3f(l, &mat_spe[0]);
         break;
       case STOK_EMISSION:
-        l = object->parse()->parseVector3f(l, &mat_emission[0]);
+        l = object->parse()->parseVector3f(l, &mat_emi[0]);
         for (int i=0; i<3; i++) {
-          mat_ambient[i] = mat_emission[i];
+          mat_amb[i] = mat_emi[i];
         }
         break;
       case STOK_SHININESS:
-        l = object->parse()->parseInt(l, &mat_shininess[0]);
+        l = object->parse()->parseInt(l, &mat_shi[0]);
         break;
       case STOK_ALPHA:
         l = object->parse()->parseFloat(l, &alpha);
-        mat_diffuse[3] = mat_ambient[3] = alpha;
+        mat_dif[3] = mat_amb[3] = alpha;
         if (alpha < 1) {
           opaque = false;
         }
@@ -587,7 +587,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_FOG:
         l = object->parse()->parseFloat(l, &fog[0]);
         for (int i=0; i<3; i++) {
-          fog[i+1] = mat_diffuse[i];
+          fog[i+1] = mat_dif[i];
         }
         break;
       case STOK_STYLE:
@@ -718,11 +718,11 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   glCullFace(GL_BACK);		// don't draw back face
   glShadeModel(GL_SMOOTH);
 
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-  glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
-  glMaterialiv(GL_FRONT, GL_SHININESS, mat_shininess);
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_dif);
+  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_amb);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_spe);
+  glMaterialfv(GL_FRONT, GL_EMISSION, mat_emi);
+  glMaterialiv(GL_FRONT, GL_SHININESS, mat_shi);
 
   switch (shape) {
 
@@ -898,7 +898,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
     case STOK_HELIX:
       doTransform(true);
-      Draw::helix(radius, length, height, slices, thick, mat_diffuse);
+      Draw::helix(radius, length, height, slices, thick, mat_dif);
       setBB(radius, radius, length/2);
       doTransform(false);
       break;
@@ -928,7 +928,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_WHEEL:
-      Wheel *wheel = new Wheel(spokes, radius, mat_diffuse);
+      Wheel *wheel = new Wheel(spokes, radius, mat_dif);
       wheel->render();
       break;
   }
@@ -1009,20 +1009,20 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         l = object->parse()->parseUInt8(l, &lastframe);
         break;
       case STOK_DIFFUSE:
-        l = object->parse()->parseVector3f(l, &mat_diffuse[0]);
+        l = object->parse()->parseVector3f(l, &mat_dif[0]);
         for (int i=0; i<3; i++) {
-          mat_ambient[i] = mat_diffuse[i];
+          mat_amb[i] = mat_dif[i];
         }
         break;
       case STOK_AMBIENT:
-        l = object->parse()->parseVector3f(l, &mat_ambient[0]);
+        l = object->parse()->parseVector3f(l, &mat_amb[0]);
         break;
       case STOK_SPECULAR:
-        l = object->parse()->parseVector3f(l, &mat_specular[0]);
+        l = object->parse()->parseVector3f(l, &mat_spe[0]);
         break;
       case STOK_ALPHA:
         l = object->parse()->parseFloat(l, &alpha);
-        mat_diffuse[3] = mat_ambient[3] = alpha;
+        mat_dif[3] = mat_amb[3] = alpha;
         if (alpha < 1) {
           opaque = false;
         }
@@ -1076,9 +1076,9 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         Obj *obj = new Obj(url);
 
         obj->setScale(scale);
-        obj->setColor(GL_DIFFUSE, mat_diffuse);
-        obj->setColor(GL_AMBIENT, mat_diffuse);
-        obj->setColor(GL_SPECULAR, mat_specular);
+        obj->setColor(GL_DIFFUSE, mat_dif);
+        obj->setColor(GL_AMBIENT, mat_dif);
+        obj->setColor(GL_SPECULAR, mat_spe);
         displist[0] = obj->displaylist();
         nf = 1;
         if (obj) delete obj;
@@ -1228,12 +1228,12 @@ void Solid::updateBB(GLfloat az)
 void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alp)
 {
   for (int i=0; i<4; i++) {
-    dif[i] = mat_diffuse[i];
-    amb[i] = mat_ambient[i];
-    spe[i] = mat_specular[i];
-    emi[i] = mat_emission[i];
+    dif[i] = mat_dif[i];
+    amb[i] = mat_amb[i];
+    spe[i] = mat_spe[i];
+    emi[i] = mat_emi[i];
   }
-  shi[0] = mat_shininess[0];
+  shi[0] = mat_shi[0];
   *alp = alpha;
 }
 

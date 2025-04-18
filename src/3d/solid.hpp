@@ -169,7 +169,7 @@ class Solid {
   float		alpha;		///< transparency.
   uint8_t	nbframes;	///< number of frames of this solid.
   uint8_t	frame;		///< current frame to render.
-  GLfloat	mat_diffuse[4];
+  GLfloat	mat_dif[4];
 
  private:
   M4		matpos;		///< position matrix.
@@ -184,10 +184,10 @@ class Solid {
   float		scale, scalex, scaley, scalez;
   int		texid;		///< texture id.
   uint8_t	nbsolids;	///< number of solids.
-  GLfloat	mat_ambient[4];
-  GLfloat	mat_specular[4];
-  GLfloat	mat_emission[4];
-  GLint		mat_shininess[1];
+  GLfloat	mat_amb[4];
+  GLfloat	mat_spe[4];
+  GLfloat	mat_emi[4];
+  GLint		mat_shi[1];
   GLfloat 	flashcol[3];	///< flash color.
   GLfloat	fog[4];		///< fog params
 
