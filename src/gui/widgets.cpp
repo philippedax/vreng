@@ -1302,7 +1302,18 @@ static char shape[16] = "box";	// box
 static char tex[128] = {0};	// empty
 static V3 color;		// white
 static float alpha = 1;		// opaque
-static float siz = .5;		// medium
+static float size = .5;		// medium
+
+/** Default values */
+static void defaultAddobj()
+{
+  objtype = THING;	// thing
+  strcpy(shape, "box");	// box
+  *tex = '\0';		// no textures
+  alpha = 1;		// opaque
+  size = .5;		// 50 cm
+  color = setV3(1,1,1);	// white
+}
 
 static const char chair_wood[] = "\
   <geom dim=\".25 .25 .01\" dif=\"marroun\" tx=\"/gif/wood.gif\" />\n\
@@ -1320,7 +1331,7 @@ static const char table_wood[] = "\
   <geom dim=\".02 .02 .40\" rel=\".18 -.38 -.20 0 0\" dif=\"wheat\" />\n\
 ";
 static const char table_metal[] = "\
-  <geom dim=\".70 .3 .02\" dif=\"grey40\" />\n\
+  <geom dim=\".70 .03 .02\" dif=\"grey40\" />\n\
   <geom dim=\".02,.02 .35\" dif=\"grey40\" rel=\"-.34 -.14 -.17 0 0\" />\n\
   <geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\"-.34 .14 -.17 0 0\" />\n\
   <geom dim=\".02 .02 .35\" dif=\"grey40\" rel=\".34 -.14 -.17 0 0\" />\n\
@@ -1330,17 +1341,6 @@ static const char table_glass[] = "\
   <geom dim=\".5,.3 .02\" dif=\"green\" spe=\"cyan\" a=\".3\" />\n\
   <geom shape=\"cone\" rb=\".1\" rt=\".1\" h=\".30\" dif=\"green\" spe=\"cyan\" a=\".5\" rel=\"0 0 -.30 0 0\" />\n\
 ";
-
-/** Default values */
-static void defaultAddobj()
-{
-  objtype = THING;	// thing
-  strcpy(shape, "box");	// box
-  *tex = '\0';		// no textures
-  alpha = 1;		// opaque
-  siz = .5;		// 50 cm
-  color = setV3(1,1,1);	// white
-}
 
 /** Set values */
 static void setVal(int item) {
@@ -1388,11 +1388,11 @@ static void setVal(int item) {
     case OPAQUE0 : alpha = .0; break;
 
     // sizes
-    case TINY :    siz = .12; break;
-    case SMALL :   siz = .25; break;
-    case MEDIUM  : siz = .50; break;
-    case BIG :     siz = 1.0; break;
-    case BIGEST :  siz = 2.0; break;
+    case TINY :    size = .12; break;
+    case SMALL :   size = .25; break;
+    case MEDIUM  : size = .50; break;
+    case BIG :     size = 1.0; break;
+    case BIGEST :  size = 2.0; break;
 
     // models
     case MAN :     sprintf(shape, "man"); break;
@@ -1413,7 +1413,7 @@ static void setVal(int item) {
 void Widgets::newObjectCB()
 {
   char geom[128], url[128];
-  float r = .2 * siz;
+  float r = .2 * size;
   float scale = 1;
   V3 c = color;
 
@@ -1421,16 +1421,20 @@ void Widgets::newObjectCB()
 
   // Shapes
   if      (! strncmp(shape, "box", 3)) {
-    sprintf(geom, "geom shape=\"box\" dim=\"%3f %3f %3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%3f\" />", r,r,r, c.v[0],c.v[1],c.v[2], tex, alpha);
+    sprintf(geom, "geom shape=\"box\" dim=\"%3f %3f %3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%1f\" />",
+            r, r, r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "sphere", 5)) {
-    sprintf(geom, "geom shape=\"sphere\" r=\"%3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%3f\" />", r, c.v[0],c.v[1],c.v[2], tex, alpha);
+    sprintf(geom, "geom shape=\"sphere\" r=\"%3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%1f\" />",
+            r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "cone", 4)) {
-    sprintf(geom, "geom shape=\"cone\" rb=\"%3f\" rt=\"%3f\" h=\"%3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%3f\" />", r,r/2,2*r, c.v[0],c.v[1],c.v[2], tex, alpha);
+    sprintf(geom, "geom shape=\"cone\" rb=\"%2f\" rt=\"%2f\" h=\"%3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%1f\" />",
+            r, r/2, 2*r, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
   else if (! strncmp(shape, "torus", 5)) {
-    sprintf(geom, "geom shape=\"torus\" ri=\"%3f\" re=\"%3f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%3f\" />", r,r/5, c.v[0],c.v[1],c.v[2], tex, alpha);
+    sprintf(geom, "geom shape=\"torus\" ri=\"%2f\" re=\"%2f\" dif=\"%3f %3f %3f\" tx=\"%s\" a=\"%1f\" />",
+            r, r/5, c.v[0],c.v[1],c.v[2], tex, alpha);
   }
 
   // Models
@@ -1438,7 +1442,8 @@ void Widgets::newObjectCB()
     sprintf(geom, "geom shape=\"man\" dim=\".2 .1 .85\" />");
   }
   else if (! strncmp(shape, "car", 3)) {
-    sprintf(geom, "geom shape=\"car\" dim=\".7 .7 .7\" dif=\"%3f %3f %3f\" a=\"%3f\" />", c.v[0],c.v[1],c.v[2], alpha);
+    sprintf(geom, "geom shape=\"car\" dim=\".5 .5 .5\" dif=\"%3f %3f %3f\" a=\"%1f\" />",
+            c.v[0],c.v[1],c.v[2], alpha);
   }
   else if (! strcmp(shape, "shrub")) {
     objtype = MODEL;
@@ -1476,7 +1481,7 @@ void Widgets::newObjectCB()
 
   if (*geom == '\0') {
     printf("geom is empty\n");
-    defaultAddobj();	// reset to default values
+    defaultAddobj();		// reset to default values
     return;
   }
 
@@ -1732,7 +1737,9 @@ UMenu& Widgets::fileMenu()
                     putfile_box,		// message
                     UArgs::none,		// no icon
                     ubutton("  Put & Publish File  "
-                             + ucall(&putinfo, &Message2::putIconCB)));
+                             + ucall(&putinfo, &Message2::putIconCB)
+                           )
+                   );
 
   // Create File menu
   return umenu(  ubutton(g.theme.World  + " Open Vreng Url..." + openvre_dialog)
