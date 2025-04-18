@@ -91,7 +91,7 @@ void Carrier::take(Object *o)
   control = true;
   o->carrier->control = true;
   localuser->carrier->control = true;
-  echo("take control of %s, manipulation mode", o->objectName());
+  //echo("take control of %s, manipulation mode", o->objectName());
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
@@ -109,7 +109,7 @@ void Carrier::leave(Object *o)
     localuser->carrier->control = false;
   }
   control = false;
-  echo("leave control of %s, navigation mode", o->objectName());
+  //echo("leave control of %s, navigation mode", o->objectName());
   defaults();			// reset the carrier
 }
 
@@ -121,7 +121,7 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 #if 0
   if (button) {			// any button pressed
     if (object) {
-      //echo("leave %s", object->objectName());
+      echo("leave %s", object->objectName());
       leave(object);		// left clic => leave mouse control
     }
   }
@@ -167,16 +167,16 @@ void Carrier::resize(Object *o, char sign)
 
   switch (sign) {
     case '-': for (int i=0; i<3; i++) {
-                dim.v[i] -= dim.v[i]/10;
+                dim.v[i] -= dim.v[i]/100;
                 dim.v[i] = MAX(dim.v[i], 0.001);
-                o->pos.bbs.v[i] -= o->pos.bbs.v[i]/10;
+                o->pos.bbs.v[i] -= o->pos.bbs.v[i]/100;
                 o->pos.bbs.v[i] = MAX(o->pos.bbs.v[i], 0.001);
               }
               break;
     case '+': for (int i=0; i<3; i++) {
-                dim.v[i] += dim.v[i]/10;
-                dim.v[i] = MIN(dim.v[i], 10);
-                o->pos.bbs.v[i] += o->pos.bbs.v[i]/10;
+                dim.v[i] += dim.v[i]/100;
+                dim.v[i] = MIN(dim.v[i], 100);
+                o->pos.bbs.v[i] += o->pos.bbs.v[i]/100;
               }
               break;
   }
@@ -200,10 +200,26 @@ void Carrier::resize(Object *o, char sign)
           MAX(object->solid->mat_diffuse[2], 1));
   echo("geom: %s", o->geom);
   switch (o->type) {
-    case THING_TYPE:{ Thing *o2 = new Thing(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
-    case WALL_TYPE: { Wall *o2 = new Wall(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
-    case BALL_TYPE: { Ball *o2 = new Ball(localuser, o->geom); take(o2); o2->pos = o->pos; }   break;
-    case MIRAGE_TYPE:{ Mirage *o2 = new Mirage(localuser, o->geom); take(o2); o2->pos = o->pos; } break;
+    case THING_TYPE:{
+                    Thing *o2 = new Thing(localuser, o->geom);
+                    take(o2);
+                    o2->pos = o->pos;
+                    } break;
+    case WALL_TYPE: {
+                    Wall *o2 = new Wall(localuser, o->geom);
+                    take(o2);
+                    o2->pos = o->pos;
+                    }   break;
+    case BALL_TYPE: {
+                    Ball *o2 = new Ball(localuser, o->geom);
+                    take(o2);
+                    o2->pos = o->pos;
+                    }   break;
+    case MIRAGE_TYPE:{
+                    Mirage *o2 = new Mirage(localuser, o->geom);
+                    take(o2);
+                    o2->pos = o->pos;
+                    } break;
   }
     
   o->toDelete();

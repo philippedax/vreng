@@ -208,27 +208,32 @@ void Thing::recreate(World *w, void *d, time_t s, time_t u)
 }
 
 /** Manip object */
-void Thing::manip(Thing *thing)
+void Thing::takemanip(Thing *thing)
 {
-  echo("thing manip: %p %d", carrier, move.manip);
-  //if (carrier == NULL) {
   if (move.manip == 0) {
     carrier = new Carrier();
     carrier->take(this);
     moveObject(thing);
   }
-  else {
-    if (carrier) {
-      carrier->leave(this);
-      delete carrier;
-      carrier = NULL;
-    }
+}
+
+void Thing::leavemanip(Thing *thing)
+{
+  if (carrier) {
+    carrier->leave(this);
+    delete carrier;
+    carrier = NULL;
   }
 }
 
-void Thing::manip_cb(Thing *thing, void *d, time_t s, time_t u)
+void Thing::takemanip_cb(Thing *thing, void *d, time_t s, time_t u)
 {
-  thing->manip(thing);
+  thing->takemanip(thing);
+}
+
+void Thing::leavemanip_cb(Thing *thing, void *d, time_t s, time_t u)
+{
+  thing->leavemanip(thing);
 }
 
 void Thing::destroy(Thing *thing, void *d, time_t s, time_t u)
@@ -247,22 +252,23 @@ void Thing::quit()
 void Thing::funcs()
 {
   getPropFunc(THING_TYPE, PROPXY, _Payload get_xy);
-  getPropFunc(THING_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(THING_TYPE, PROPZ,  _Payload get_z);
   getPropFunc(THING_TYPE, PROPAZ, _Payload get_az);
   getPropFunc(THING_TYPE, PROPAX, _Payload get_ax);
   getPropFunc(THING_TYPE, PROPAY, _Payload get_ay);
   getPropFunc(THING_TYPE, PROPHNAME, _Payload get_hname);
 
   putPropFunc(THING_TYPE, PROPXY, _Payload put_xy);
-  putPropFunc(THING_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(THING_TYPE, PROPZ,  _Payload put_z);
   putPropFunc(THING_TYPE, PROPAZ, _Payload put_az);
   putPropFunc(THING_TYPE, PROPAX, _Payload put_ax);
   putPropFunc(THING_TYPE, PROPAY, _Payload put_ay);
   putPropFunc(THING_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(THING_TYPE, MOVE, _Action manip_cb, "Take/Leave");
-  setActionFunc(THING_TYPE, BASKET, _Action dropIntoBasket, "Basket");
+  setActionFunc(THING_TYPE, TAKE,     _Action takemanip_cb, "Take");
+  setActionFunc(THING_TYPE, LEAVE,    _Action leavemanip_cb, "Leave");
+  setActionFunc(THING_TYPE, BASKET,   _Action dropIntoBasket, "Basket");
   setActionFunc(THING_TYPE, APPROACH, _Action gotoFront, "Approach");
-  setActionFunc(THING_TYPE, DESTROY, _Action destroy, "Destroy");
+  setActionFunc(THING_TYPE, DESTROY,  _Action destroy, "Destroy");
   setActionFunc(THING_TYPE, RECREATE, _Action recreate, "");
 }

@@ -170,6 +170,7 @@ void Navig::keyPressCB(UKeyEvent& kev)
     gw.gui.vnc->keyEvent(kstr, true);
   }
   else {		// normal behaviour
+    //echo("k: %d", kev.getKeyChar());
     gw.processKey(kev.getKeyCode(), kev.getKeyChar(), true);
 
     if (! localuser)  return;
