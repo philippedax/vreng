@@ -3583,3 +3583,4 @@
 3583 Mer 16 avr 2025 15:44:56 CEST	cleanup #if #endif carrier.cpp
 3584 Mer 16 avr 2025 16:25:04 CEST	cleanup addobj
 3585 Ven 18 avr 2025 09:37:02 CEST	more fluid geom carrier.cpp
+3586 Ven 18 avr 2025 09:50:02 CEST	take/leave manip wall.*pp

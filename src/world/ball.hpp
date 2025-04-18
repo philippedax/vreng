@@ -73,6 +73,7 @@ class Ball: public Object {
     DROP,	///< drop
     TURN,	///< turn
     TAKE,
+    LEAVE,
     KILL,	///< destroy
     CREATE,	///< create
     RECREATE,	///< create
@@ -158,10 +159,12 @@ class Ball: public Object {
   void drop();
   void turn();
   void destroy();
-  void manip(Ball *ball);
+  void takemanip(Ball *ball);
+  void leavemanip(Ball *ball);
 
   // GUI callbacks
-  static void manip_cb(Ball *o, void *d, time_t s, time_t u);
+  static void takemanip_cb(Ball *o, void *d, time_t s, time_t u);
+  static void leavemanip_cb(Ball *o, void *d, time_t s, time_t u);
   static void push_cb(Ball *o, void *d, time_t s, time_t u);
   static void pull_cb(Ball *o, void *d, time_t s, time_t u);
   static void shoot_cb(Ball *o, void *d, time_t s, time_t u);

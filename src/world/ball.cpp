@@ -425,27 +425,32 @@ void Ball::recreate_cb(World *w, void *d, time_t s, time_t u)
 }
 
 /** Manip object */
-void Ball::manip(Ball *ball)
+void Ball::takemanip(Ball *ball)
 {
-  echo("ball manip: %p %d", carrier, move.manip);
-  //if (carrier == NULL) {
   if (move.manip == 0) {
     carrier = new Carrier();
     carrier->take(this);
     moveObject(ball);
   }
-  else {
-    if (carrier) {
-      carrier->leave(this);
-      delete carrier;
-      carrier = NULL;
-    }
+}
+
+void Ball::leavemanip(Ball *ball)
+{
+  if (carrier) {
+    carrier->leave(this);
+    delete carrier;
+    carrier = NULL;
   }
 }
 
-void Ball::manip_cb(Ball *ball, void *d, time_t s, time_t u)
+void Ball::takemanip_cb(Ball *ball, void *d, time_t s, time_t u)
 {
-  ball->manip(ball);
+  ball->takemanip(ball);
+}
+
+void Ball::leavemanip_cb(Ball *ball, void *d, time_t s, time_t u)
+{
+  ball->leavemanip(ball);
 }
 
 void Ball::funcs()
@@ -471,7 +476,8 @@ void Ball::funcs()
   setActionFunc(BALL_TYPE, KEEP,     _Action keep_cb, "Keep");
   setActionFunc(BALL_TYPE, DROP,     _Action drop_cb, "Drop");
   setActionFunc(BALL_TYPE, TURN,     _Action turn_cb, "Turn");
-  setActionFunc(BALL_TYPE, TAKE,     _Action manip_cb, "Take/Leave");
+  setActionFunc(BALL_TYPE, TAKE,     _Action takemanip_cb, "Take");
+  setActionFunc(BALL_TYPE, LEAVE,    _Action leavemanip_cb, "Leave");
   setActionFunc(BALL_TYPE, KILL,     _Action destroy_cb, "Destroy");
   setActionFunc(BALL_TYPE, CREATE,   _Action create_cb, "");
   setActionFunc(BALL_TYPE, RECREATE, _Action recreate_cb, "");
