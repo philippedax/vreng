@@ -109,31 +109,37 @@ void Wall::destroy(Wall *po, void *d, time_t s, time_t u)
 }
 
 /** Manip object */
-void Wall::manip(Wall *wall)
+void Wall::takemanip(Wall *wall)
 {
-  echo("wall manip: %p %d", carrier, move.manip);
-  //if (carrier == NULL) {
   if (move.manip == 0) {
     carrier = new Carrier();
     carrier->take(this);
     moveObject(wall);
   }
-  else {
-    if (carrier) {
-      carrier->leave(this);
-      delete carrier;
-      carrier = NULL;
-    }
+}
+
+void Wall::leavemanip(Wall *wall)
+{
+  if (carrier) {
+    carrier->leave(this);
+    delete carrier;
+    carrier = NULL;
   }
 }
 
-void Wall::manip_cb(Wall *wall, void *d, time_t s, time_t u)
+void Wall::takemanip_cb(Wall *wall, void *d, time_t s, time_t u)
 {
-  wall->manip(wall);
+  wall->takemanip(wall);
+}
+
+void Wall::leavemanip_cb(Wall *wall, void *d, time_t s, time_t u)
+{
+  wall->leavemanip(wall);
 }
 
 void Wall::funcs()
 {
-  setActionFunc(WALL_TYPE, 0, _Action manip_cb, "Take/Leave");
-  setActionFunc(WALL_TYPE, 1, _Action destroy, "Destroy");
+  setActionFunc(WALL_TYPE, 0, _Action takemanip_cb, "Take");
+  setActionFunc(WALL_TYPE, 1, _Action leavemanip_cb, "Leave");
+  setActionFunc(WALL_TYPE, 2, _Action destroy, "Destroy");
 }
