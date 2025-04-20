@@ -163,8 +163,6 @@ void Carrier::resize(Object *o, char sign)
   char dimstr[32];
 
   o->getDim(dim);
-  //echo("dim: %.3f %.3f %.3f", dim.v[0]*2, dim.v[1]*2, dim.v[2]*2);
-
   switch (sign) {
     case '-': for (int i=0; i<3; i++) {
                 dim.v[i] -= dim.v[i]/100;
@@ -180,12 +178,13 @@ void Carrier::resize(Object *o, char sign)
               }
               break;
   }
-
   switch (o->solid->shape) {
-    case STOK_BOX:    sprintf(dimstr, "dim=\"%.3f %.3f %.3f\"", dim.v[0]*2, dim.v[1]*2, dim.v[2]*2);
-                      break;
-    case STOK_SPHERE: sprintf(dimstr, "r=\"%.3f\"", dim.v[0]);
-                      break;
+    case STOK_BOX:
+      sprintf(dimstr, "dim=\"%.3f %.3f %.3f\"", dim.v[0]*2, dim.v[1]*2, dim.v[2]*2);
+      break;
+    case STOK_SPHERE:
+      sprintf(dimstr, "r=\"%.3f\"", dim.v[0]);
+      break;
     default: return;
   }
   //echo("dimstr: %s", dimstr);
@@ -198,32 +197,43 @@ void Carrier::resize(Object *o, char sign)
           MAX(object->solid->mat_dif[0], 1),
           MAX(object->solid->mat_dif[1], 1),
           MAX(object->solid->mat_dif[2], 1));
-  echo("geom: %s", o->geom);
+  //echo("geom: %s", o->geom);
+
   switch (o->type) {
-    case THING_TYPE:{
-                    Thing *o2 = new Thing(localuser, o->geom);
-                    take(o2);
-                    o2->pos = o->pos;
-                    }
-                    break;
-    case WALL_TYPE: {
-                    Wall *o2 = new Wall(localuser, o->geom);
-                    take(o2);
-                    o2->pos = o->pos;
-                    }
-                    break;
-    case BALL_TYPE: {
-                    Ball *o2 = new Ball(localuser, o->geom);
-                    take(o2);
-                    o2->pos = o->pos;
-                    }
-                    break;
-    case MIRAGE_TYPE:{
-                    Mirage *o2 = new Mirage(localuser, o->geom);
-                    take(o2);
-                    o2->pos = o->pos;
-                    }
-                    break;
+    case THING_TYPE:
+      {
+       Thing *o2 = new Thing(localuser, o->geom);
+       take(o2);
+       o2->pos = o->pos;
+       o2->type = o->type;
+      }
+      break;
+    case WALL_TYPE:
+      {
+       Wall *o2 = new Wall(localuser, o->geom);
+       take(o2);
+       o2->pos = o->pos;
+       o2->type = o->type;
+      }
+      break;
+    case BALL_TYPE:
+      {
+       Ball *o2 = new Ball(localuser, o->geom);
+       take(o2);
+       o2->pos = o->pos;
+       o2->type = o->type;
+      }
+      break;
+    case MIRAGE_TYPE:
+      {
+       Mirage *o2 = new Mirage(localuser, o->geom);
+       take(o2);
+       o2->pos = o->pos;
+       o2->type = o->type;
+      }
+      break;
+    default:
+      break;
   }
     
   o->toDelete();

@@ -219,6 +219,7 @@ void Thing::takemanip(Thing *thing)
 
 void Thing::leavemanip(Thing *thing)
 {
+  echo("carrier: %p", carrier);
   if (carrier) {
     carrier->leave(this);
     delete carrier;

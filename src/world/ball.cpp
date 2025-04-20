@@ -334,7 +334,7 @@ void Ball::keep()
 {
   ttl = MAXFLOAT;
   imposedMovement(ttl);
-  //stopPermanent();
+  stopPermanent();
   taken = true;
 }
 
@@ -438,6 +438,7 @@ void Ball::leavemanip(Ball *ball)
 {
   if (carrier) {
     carrier->leave(this);
+    move.manip = 0;
     delete carrier;
     carrier = NULL;
   }
