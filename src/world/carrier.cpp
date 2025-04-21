@@ -87,6 +87,7 @@ void Carrier::take(Object *o)
   o->enableBehavior(NO_ELEMENTARY_MOVE);
   if (! o->carrier) {
     o->carrier = new Carrier();
+    //echo("carrier: %p", o->carrier);
   }
   control = true;
   o->carrier->control = true;
@@ -105,6 +106,7 @@ void Carrier::leave(Object *o)
   o->move.manip = false;
   o->pos.alter = true;		// mark it has changed
   if (o->carrier) {
+    //echo("carrier: %p", o->carrier);
     o->carrier->control = false;
     localuser->carrier->control = false;
   }
@@ -187,7 +189,6 @@ void Carrier::resize(Object *o, char sign)
       break;
     default: return;
   }
-  //echo("dimstr: %s", dimstr);
 
   o->geom = new char[128];
   sprintf(o->geom, "shape=\"%s\" %s a=\"%.1f\" dif=\"%.1f %.1f %.1f\" />",
@@ -197,7 +198,7 @@ void Carrier::resize(Object *o, char sign)
           MAX(object->solid->mat_dif[0], 1),
           MAX(object->solid->mat_dif[1], 1),
           MAX(object->solid->mat_dif[2], 1));
-  //echo("geom: %s", o->geom);
+  //echo("<geom %s %p", o->geom, o->carrier);
 
   switch (o->type) {
     case THING_TYPE:
@@ -235,8 +236,8 @@ void Carrier::resize(Object *o, char sign)
     default:
       break;
   }
-    
-  o->toDelete();
+
+  //o->toDelete();
 }
 
 void Carrier::setLspeed(Carrier *pc, void *d, time_t s, time_t u)

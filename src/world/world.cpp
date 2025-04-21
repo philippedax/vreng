@@ -675,8 +675,6 @@ void World::quit()
   // still objects
   for (std::vector<Object*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
-    if (! (*it)->isValid()) continue;
-    //dax1 if (! strlen((*it)->objectName())) continue;	// avoid segfault
     (*it)->quit();	// sometimes segfault FIXME!!!
     delete *it;
   }
@@ -685,9 +683,7 @@ void World::quit()
   // mobile objects
   for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
-    //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
     if ((*it)->deleted) continue;
-    if (! (*it)->isValid()) continue;
     if (! strlen((*it)->objectName())) continue;
     (*it)->quit();
     delete *it;

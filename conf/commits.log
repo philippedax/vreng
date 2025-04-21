@@ -3588,3 +3588,4 @@
 3588 Ven 18 avr 2025 10:14:39 CEST	manip mirage mirage.*pp
 3589 Ven 18 avr 2025 18:17:43 CEST	cleanup size addobj
 3590 Ven 18 avr 2025 18:54:49 CEST	cleanup mat_dif,amb,spe,emi,shi
+3591 Dim 20 avr 2025 08:59:46 CEST	cleanup o->type carrier.cpp
