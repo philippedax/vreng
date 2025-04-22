@@ -69,7 +69,7 @@ static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
   // Step 6: while (scan lines remain to be read)
   trace1(DBG_2D, "readJpegData: w=%d h=%d c=%d", cinfo.output_width, cinfo.output_height, cinfo.output_components);
   int k = 0;
-  int y = 0;
+  //int y = 0;
   while (cinfo.output_scanline < cinfo.output_height) {
     jpeg_read_scanlines(&cinfo, buf, 1);
     JSAMPROW prow = buf[0];
@@ -90,7 +90,7 @@ static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
         k++;
       }
     }
-    y++;
+    //y++;
   }
 
   // Step 7: Finish decompression
