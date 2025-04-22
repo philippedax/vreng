@@ -120,7 +120,8 @@ void Wall::takemanip(Wall *wall)
 
 void Wall::leavemanip(Wall *wall)
 {
-  if (carrier) {
+  if (move.manip) {
+    carrier = new Carrier();
     carrier->leave(this);
     delete carrier;
     carrier = NULL;

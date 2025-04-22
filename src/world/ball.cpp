@@ -436,7 +436,8 @@ void Ball::takemanip(Ball *ball)
 
 void Ball::leavemanip(Ball *ball)
 {
-  if (carrier) {
+  if (move.manip) {
+    carrier = new Carrier();
     carrier->leave(this);
     move.manip = 0;
     delete carrier;

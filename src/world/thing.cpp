@@ -219,7 +219,6 @@ void Thing::takemanip(Thing *thing)
 
 void Thing::leavemanip(Thing *thing)
 {
-  echo("move.manip");
   if (move.manip) {
     carrier = new Carrier();
     carrier->leave(this);

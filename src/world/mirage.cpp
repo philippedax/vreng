@@ -283,7 +283,8 @@ void Mirage::takemanip(Mirage *mirage)
 
 void Mirage::leavemanip(Mirage *mirage)
 {
-  if (carrier) {
+  if (move.manip) {
+    carrier = new Carrier();
     carrier->leave(this);
     delete carrier;
     carrier = NULL;
