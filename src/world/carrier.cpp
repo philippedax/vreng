@@ -87,7 +87,6 @@ void Carrier::take(Object *o)
   o->enableBehavior(NO_ELEMENTARY_MOVE);
   if (! o->carrier) {
     o->carrier = new Carrier();
-    //echo("carrier: %p", o->carrier);
   }
   control = true;
   o->carrier->control = true;
@@ -106,7 +105,6 @@ void Carrier::leave(Object *o)
   o->move.manip = false;
   o->pos.alter = true;		// mark it has changed
   if (o->carrier) {
-    //echo("carrier: %p", o->carrier);
     o->carrier->control = false;
     localuser->carrier->control = false;
   }
@@ -206,7 +204,6 @@ void Carrier::resize(Object *o, char sign)
        Thing *o2 = new Thing(localuser, o->geom);
        take(o2);
        o2->pos = o->pos;
-       o2->type = o->type;
       }
       break;
     case WALL_TYPE:
@@ -214,7 +211,6 @@ void Carrier::resize(Object *o, char sign)
        Wall *o2 = new Wall(localuser, o->geom);
        take(o2);
        o2->pos = o->pos;
-       o2->type = o->type;
       }
       break;
     case BALL_TYPE:
@@ -222,7 +218,6 @@ void Carrier::resize(Object *o, char sign)
        Ball *o2 = new Ball(localuser, o->geom);
        take(o2);
        o2->pos = o->pos;
-       o2->type = o->type;
       }
       break;
     case MIRAGE_TYPE:
@@ -230,13 +225,11 @@ void Carrier::resize(Object *o, char sign)
        Mirage *o2 = new Mirage(localuser, o->geom);
        take(o2);
        o2->pos = o->pos;
-       o2->type = o->type;
       }
       break;
     default:
       break;
   }
-
   //o->toDelete();
 }
 

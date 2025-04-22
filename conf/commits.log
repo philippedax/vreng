@@ -3591,3 +3591,4 @@
 3591 Dim 20 avr 2025 08:59:46 CEST	cleanup o->type carrier.cpp
 3592 Lun 21 avr 2025 18:25:21 CEST	fix o->toDelete() carrier.cpp
 3593 Mar 22 avr 2025 08:17:05 CEST	fix move.manip wall,ball,mirage.cpp
+3594 Mar 22 avr 2025 08:22:18 CEST	cleanup angle humanoid.cpp
