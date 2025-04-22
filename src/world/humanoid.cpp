@@ -516,7 +516,7 @@ endbap:
   } // local playing
 
   // testing
-  angle = 10;
+  //angle = 10;
   //body->animArm(-angle, 0, 0);	// arm left flexion : OK
   //body->animArm(+angle, 1, 0);	// arm right flexion : OK
   //body->animForearm(-2*angle, 0, 0);	// forearm left flexion front : OK
