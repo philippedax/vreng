@@ -3593,4 +3593,3 @@
 3593 Mar 22 avr 2025 08:17:05 CEST	fix move.manip wall,ball,mirage.cpp
 3594 Mar 22 avr 2025 08:22:18 CEST	cleanup angle humanoid.cpp
 3595 Mar 22 avr 2025 08:42:14 CEST	cleanup carrier.cpp
-3596 Mar 22 avr 2025 11:17:21 CEST	add conf/pat
