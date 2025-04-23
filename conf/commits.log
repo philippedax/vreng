@@ -3593,4 +3593,8 @@
 3593 Mar 22 avr 2025 08:17:05 CEST	fix move.manip wall,ball,mirage.cpp
 3594 Mar 22 avr 2025 08:22:18 CEST	cleanup angle humanoid.cpp
 3595 Mar 22 avr 2025 08:42:14 CEST	cleanup carrier.cpp
-3596 Mar 22 avr 2025 16:35:12 CEST	cleanup int y=0 jpg.cpp
+3596 Mar 22 avr 2025 11:35:12 CEST	cancel pat
+3597 Mar 22 avr 2025 11:35:12 CEST	cancel pat
+3598 Mar 22 avr 2025 11:35:12 CEST	cancel pat
+3599 Mar 22 avr 2025 16:35:12 CEST	cleanup int y=0 jpg.cpp
+3600 Mer 23 avr 2025 15:17:00 CEST	add -Wno-unknown-warning-option

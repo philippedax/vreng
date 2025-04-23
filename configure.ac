@@ -103,7 +103,7 @@ CPPFLAGS="${CXXFLAGS}"
 LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
-  CFLAGS="${CFLAGS} -Wall -Wno-deprecated-declarations -Wno-deprecated-non-prototype"
+  CFLAGS="${CFLAGS} -Wall -Wno-deprecated-non-prototype -Wno-unknown-warning-option"
   CXXFLAGS="${CXXFLAGS} -Wall -Wno-deprecated-declarations"
   LDFLAGS="${LDFLAGS} -g"
   #CFLAGS=`echo ${CFLAGS}     | sed -e 's/-O2//'`

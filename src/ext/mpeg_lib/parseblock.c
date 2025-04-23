@@ -364,7 +364,8 @@ ParseAwayBlock(n)
      int n;
 {
   //notused unsigned int diff;
-  unsigned int size, run;
+  //notused unsigned int size;
+  unsigned int run;
   int level;
 
   if (bufLength < 100)
@@ -378,7 +379,7 @@ ParseAwayBlock(n)
 
       /* Parse and decode size of first coefficient. */
 
-      DecodeDCTDCSizeLum(size);
+      //notused DecodeDCTDCSizeLum(size);
 
       /* Parse first coefficient. */
 
@@ -393,7 +394,7 @@ ParseAwayBlock(n)
 
       /* Parse and decode size of first coefficient. */
 
-      DecodeDCTDCSizeChrom(size);
+      //notused DecodeDCTDCSizeChrom(size);
 
       /* Parse first coefficient. */
 
