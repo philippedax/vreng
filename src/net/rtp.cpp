@@ -230,18 +230,14 @@ int Rtp::sendPacket(int sd, const uint8_t *pkt, int pkt_len, const struct sockad
     error("sendPacket: sd=%d", sd);
     return -1;
   }
-
-  int r;
-  if ((r = sendto(sd, pkt, pkt_len, 0, (struct sockaddr*) to, sizeof(*to))) < 0) {
-#if IPMC_ENABLED
-    if (errno == EHOSTUNREACH)
-      return -1;
-    error("sendto: %s (%d) len=%d", strerror(errno), errno, pkt_len);
-#endif
+  if (sendto(sd, pkt, pkt_len, 0, (struct sockaddr*) to, sizeof(*to)) < 0) {
+    if (errno == EHOSTUNREACH) {
+      error("sendto: %s (%d) len=%d", strerror(errno), errno, pkt_len);
+    }
     return -1;
   }
   statSendPacket(pkt_len);
-  return r;
+  return 0;
 }
 
 /**

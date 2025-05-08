@@ -29,6 +29,7 @@
 #include "channel.hpp"	// switchChannel
 #include "pref.hpp"	// reflector
 
+
 /**
  * SAP packet
  */
@@ -38,8 +39,6 @@ typedef struct {
   char data[1];
 } sapPkt_t;
 
-
-#if IPMC_ENABLED
 
 void Sap::finish(int status)
 {
@@ -111,12 +110,9 @@ void Sap::here(int sig)
 }
 #endif
 
-#endif
-
 /** Sap init: called by initNetwork */
 void Sap::init()
 {
-#if IPMC_ENABLED
 #if HAVE_LIBPTHREAD
   pthread_t tid;
   pthread_create(&tid, NULL, listener, (void *) NULL);
@@ -124,6 +120,5 @@ void Sap::init()
   signal(SIGUSR1, here);
   if (! fork())
     listener((void *) NULL);
-#endif
 #endif
 }
