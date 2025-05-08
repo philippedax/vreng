@@ -72,7 +72,7 @@ void Socket::closeStream(int sd)
 /** Connects *sa */
 int Socket::connection(int sd, const sockaddr_in *sa)
 {
-  if (::connect(sd, reinterpret_cast<const struct sockaddr *> (sa), sizeof(struct sockaddr_in)) < 0) {
+  if (connect(sd, reinterpret_cast<const struct sockaddr *>(sa), sizeof(struct sockaddr_in)) < 0) {
     error("connect: %s (%d)", strerror(errno), errno);
     close(sd);
     cls_sock++;
@@ -171,14 +171,10 @@ int Socket::setScope(int sd, uint8_t ttl)
  */
 int Socket::handleLoopback(int sd, uint8_t loop)
 {
-#ifdef IP_MULTICAST_LOOP	// Windoze doesn't handle IP_MULTICAST_LOOP
   if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_LOOP, &loop, sizeof(loop)) < 0) {
-#if IPMC_ENABLED
     error("IP_MULTICAST_LOOP: %s (%d)", strerror(errno), errno);
-#endif
     return -1;
   }
-#endif
   return sd;
 }
 
@@ -192,46 +188,31 @@ int Socket::setNoLoopback(int sd)
   return handleLoopback(sd, 0);
 }
 
-/** Adds membership */
+/** Adds IP membership */
 int Socket::addMembership(int sd, const void *pmreq)
 {
   if (setsockopt(sd, IPPROTO_IP, IP_ADD_MEMBERSHIP, pmreq, sizeof(struct ip_mreq)) < 0) {
-#if IPMC_ENABLED
     error("IP_ADD_MEMBERSHIP: %s (%d)", strerror(errno), errno);
-#endif
     return -1;
   }
   return 0;
 }
 
-/** Drops membership */
+/** Drops IP membership */
 int Socket::dropMembership(int sd, const void *pmreq)
 {
   if (setsockopt(sd, IPPROTO_IP, IP_DROP_MEMBERSHIP, pmreq, sizeof(struct ip_mreq)) < 0) {
-#if IPMC_ENABLED
     error("IP_DROP_MEMBERSHIP: %s (%d)", strerror(errno), errno);
-#endif
     return -1;
   }
   return 0;
 }
 
-/** Sets a Multicast socket */
+/** Sets an IP Multicast socket */
 void Socket::setSendSocket(int sd, uint8_t ttl)
 {
-#ifdef PROXY_MULTICAST
-  if (mup.active) {
-    setNoBlocking(sd);
-    return;
-  }
-#endif
-
   setScope(sd, ttl);
-#if NEEDLOOPBACK
-  setLoopback(sd);    // loopback
-#else
-  setNoLoopback(sd);  // no loopback (default)
-#endif
+  setNoLoopback(sd);	// no loopback (default)
   setNoBlocking(sd);
 }
 

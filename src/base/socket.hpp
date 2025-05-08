@@ -24,8 +24,6 @@
 #define SOCKET_HPP
 
 
-#define NEEDLOOPBACK	0	// no loopback for ipmulticast
-
 /**
  * Socket class
  */
@@ -44,7 +42,6 @@ class Socket {
   static uint16_t getSrcPort(int sock);
   static int setNoBlocking(int sock);
   static int setNoLoopback(int sock);
-  static int setScope(int sock, uint8_t ttl);
   static int addMembership(int sock, const void *pmreq);
   static int dropMembership(int sock, const void *pmreq);
   static int bindSocket(int sock, uint32_t uni_addr, uint16_t port);
@@ -54,6 +51,7 @@ class Socket {
   //notused static bool isMulticastAddress(uint32_t address);
 
  private:
+  static int setScope(int sock, uint8_t ttl);
   static void setSendSocket(int sock, uint8_t ttl);
   static int handleLoopback(int sock, uint8_t loop);
   static int handleBlocking(int sock, bool block);
