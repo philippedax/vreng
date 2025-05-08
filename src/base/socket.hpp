@@ -30,7 +30,7 @@
  * Socket class
  */
 class Socket {
-public:
+ public:
   Socket() {};
   virtual ~Socket() {};
 
@@ -48,11 +48,12 @@ public:
   static int addMembership(int sock, const void *pmreq);
   static int dropMembership(int sock, const void *pmreq);
   static int bindSocket(int sock, uint32_t uni_addr, uint16_t port);
-  static int createUcastSocket(uint32_t uni_addr, uint16_t port);
-  static int createSendSocket(uint8_t ttl);
-  static bool isMulticastAddress(uint32_t address);
+  static int ucastSocket(uint32_t uni_addr, uint16_t port);
+  static int sendSocket(uint8_t ttl);
 
-private:
+  //notused static bool isMulticastAddress(uint32_t address);
+
+ private:
   static void setSendSocket(int sock, uint8_t ttl);
   static int handleLoopback(int sock, uint8_t loop);
   static int handleBlocking(int sock, bool block);

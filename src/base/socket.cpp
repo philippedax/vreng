@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng
 //
-// Copyright (C) 1997-2028 Philippe Dax
+// Copyright (C) 1997-2008 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -27,7 +27,7 @@
 #include "stat.hpp"	// opn_sock, cls_sock
 
 
-/** Open a datagram socket */
+/** Opens a datagram socket */
 int Socket::openDatagram()
 {
   int sd = -1;
@@ -39,7 +39,7 @@ int Socket::openDatagram()
   return sd;
 }
 
-/** Open a stream socket */
+/** Opens a stream socket */
 int Socket::openStream()
 {
   int sd = -1;
@@ -51,7 +51,7 @@ int Socket::openStream()
   return sd;
 }
 
-/** Close a socket datagram */
+/** Closes a socket datagram */
 void Socket::closeDatagram(int sd)
 {
   if (sd > 0) {
@@ -60,7 +60,7 @@ void Socket::closeDatagram(int sd)
   }
 }
 
-/** Close a socket stream */
+/** Closes a socket stream */
 void Socket::closeStream(int sd)
 {
   if (sd > 0) {
@@ -69,9 +69,10 @@ void Socket::closeStream(int sd)
   }
 }
 
+/** Connects *sa */
 int Socket::connection(int sd, const sockaddr_in *sa)
 {
-  if (::connect(sd, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0) {
+  if (::connect(sd, reinterpret_cast<const struct sockaddr *> (sa), sizeof(struct sockaddr_in)) < 0) {
     error("connect: %s (%d)", strerror(errno), errno);
     close(sd);
     cls_sock++;
@@ -95,17 +96,19 @@ int Socket::reuseAddr(int sd)
   return sd;
 }
 
+/** Sets TCP_NODELAY */
 int Socket::tcpNoDelay(int sd)
 {
   int one = 1;
 
-  if (setsockopt(sd, SOL_SOCKET, TCP_NODELAY, reinterpret_cast<char *>(&one), sizeof(one)) < 0) {
+  if (setsockopt(sd, SOL_SOCKET, TCP_NODELAY, reinterpret_cast<char *> (&one), sizeof(one)) < 0) {
     error("TCP_NODELAY: %s (%d) sock=%d", strerror(errno), errno, sd);
     return -1;
   }
   return sd;
 }
 
+/** Gets src port */
 uint16_t Socket::getSrcPort(int sd)
 {
   struct sockaddr_in sa;
@@ -114,7 +117,7 @@ uint16_t Socket::getSrcPort(int sd)
   sa.sin_family = AF_INET;
   sa.sin_port = 0;
   sa.sin_addr.s_addr = htonl(INADDR_ANY);
-  if (getsockname(sd, (struct sockaddr *) &sa, (socklen_t *) &slen) < 0) {
+  if (getsockname(sd, reinterpret_cast<struct sockaddr *> (&sa), &slen) < 0) {
     error("getSrcPort: %s (%d)", strerror(errno), errno);
     return 0;
   }
@@ -150,28 +153,25 @@ int Socket::setNoBlocking(int sd)
 }
 
 /**
- * Set the ttl
+ * Sets the ttl
  * return sd if OK, else -1
  */
-int Socket::setScope(int sd, uint8_t _ttl)
+int Socket::setScope(int sd, uint8_t ttl)
 {
-  if (_ttl) {
-    uint8_t ttl = (uint8_t) _ttl;
-    if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, sizeof(ttl)) < 0) {
-      error("IP_MULTICAST_TTL: %s (%d)", strerror(errno), errno);
-      return -1;
-    }
+  if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_TTL, reinterpret_cast<const char*> (&ttl), sizeof(ttl)) < 0) {
+    error("IP_MULTICAST_TTL: %s (%d)", strerror(errno), errno);
+    return -1;
   }
   return sd;
 }
 
 /**
- * Set loopback: active (1) either inactive (0)
+ * Sets loopback: active (1) either inactive (0)
  * return sd if OK, else -1
  */
 int Socket::handleLoopback(int sd, uint8_t loop)
 {
-#ifdef IP_MULTICAST_LOOP // Windoze doesn't handle IP_MULTICAST_LOOP
+#ifdef IP_MULTICAST_LOOP	// Windoze doesn't handle IP_MULTICAST_LOOP
   if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_LOOP, &loop, sizeof(loop)) < 0) {
 #if IPMC_ENABLED
     error("IP_MULTICAST_LOOP: %s (%d)", strerror(errno), errno);
@@ -192,6 +192,7 @@ int Socket::setNoLoopback(int sd)
   return handleLoopback(sd, 0);
 }
 
+/** Adds membership */
 int Socket::addMembership(int sd, const void *pmreq)
 {
   if (setsockopt(sd, IPPROTO_IP, IP_ADD_MEMBERSHIP, pmreq, sizeof(struct ip_mreq)) < 0) {
@@ -203,6 +204,7 @@ int Socket::addMembership(int sd, const void *pmreq)
   return 0;
 }
 
+/** Drops membership */
 int Socket::dropMembership(int sd, const void *pmreq)
 {
   if (setsockopt(sd, IPPROTO_IP, IP_DROP_MEMBERSHIP, pmreq, sizeof(struct ip_mreq)) < 0) {
@@ -214,7 +216,7 @@ int Socket::dropMembership(int sd, const void *pmreq)
   return 0;
 }
 
-/** Set a Multicast socket */
+/** Sets a Multicast socket */
 void Socket::setSendSocket(int sd, uint8_t ttl)
 {
 #ifdef PROXY_MULTICAST
@@ -234,12 +236,12 @@ void Socket::setSendSocket(int sd, uint8_t ttl)
 }
 
 /**
- * Create an UDP socket
+ * Sends an UDP socket
  * Prevue pour emettre (uni et mcast) et recevoir (unicast donc)
  * Do setScope (ttl) and setLoopback (off)
  * return sd if OK, else -1
  */
-int Socket::createSendSocket(uint8_t ttl)
+int Socket::sendSocket(uint8_t ttl)
 {
   int sd = -1;
 
@@ -249,7 +251,7 @@ int Socket::createSendSocket(uint8_t ttl)
 }
 
 /**
- * Bind
+ * Binds
  */
 int Socket::bindSocket(int sd, uint32_t uni_addr, uint16_t port)
 {
@@ -261,17 +263,17 @@ int Socket::bindSocket(int sd, uint32_t uni_addr, uint16_t port)
   sa.sin_addr.s_addr = htonl(uni_addr);
 
   reuseAddr(sd);
-  if (::bind(sd, (struct sockaddr *) &sa, sizeof(struct sockaddr_in)) < 0) {
+  if (::bind(sd, reinterpret_cast<struct sockaddr *> (&sa), sizeof(struct sockaddr_in)) < 0) {
     error("receive unicast bind: %s (%d)", strerror(errno), errno);
   }
   return sd;
 }
 
 /**
- * Create an Unicast socket
+ * Creates an Unicast socket
  * return fd, -1 if problem
  */
-int Socket::createUcastSocket(uint32_t uni_addr, uint16_t port)
+int Socket::ucastSocket(uint32_t uni_addr, uint16_t port)
 {
   int sd = -1;
 
@@ -280,10 +282,13 @@ int Socket::createUcastSocket(uint32_t uni_addr, uint16_t port)
   return sd;
 }
 
+#if 0 //notused
 bool Socket::isMulticastAddress(uint32_t address)
 {
-  // Note: We return False for addresses in the range 224.0.0.0
-  // through 224.0.0.255, because these are non-routable
+  // Note: We return False for addresses in the
+  // range 224.0.0.0 through 224.0.0.255,
+  // because these are non-routable
   unsigned addressInHostOrder = ntohl(address);
   return addressInHostOrder > 0xE00000FF && addressInHostOrder <= 0xEFFFFFFF;
 }
+#endif //notused

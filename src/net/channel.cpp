@@ -271,7 +271,7 @@ int Channel::create(const char *chan_str, int **pfds)
     }
   }
 
-  sd[SD_W_RTP] = Socket::createSendSocket(ttl);
+  sd[SD_W_RTP] = Socket::sendSocket(ttl);
   cntfds += 2;
   //echo("sa[SA_RTP]=%p", sa[SA_RTP]);
   //echo("sd[SD_R_RTP]=%d, sd[SD_W_RTP]=%d", sd[SD_R_RTP], sd[SD_W_RTP]);
@@ -310,7 +310,7 @@ int Channel::create(const char *chan_str, int **pfds)
     }
   }
 
-  sd[SD_W_RTCP] = Socket::createSendSocket(ttl);
+  sd[SD_W_RTCP] = Socket::sendSocket(ttl);
   cntfds += 2;
   //echo("sa[SA_RTCP]=%p", sa[SA_RTCP]);
   //echo("sd[SD_R_RTCP]=%d, sd[SD_W_RTCP]=%d", sd[SD_R_RTCP], sd[SD_W_RTCP]);
