@@ -47,9 +47,9 @@ class Source {
   virtual ~Source();		/**< destructor */
 
   static Source * getSource(uint32_t ssrc);
-  static uint16_t getSourcesNumber();
-  static uint16_t incrSourcesNumber();
-  static uint16_t decrSourcesNumber();
+  static uint16_t getSourceNumber();
+  static uint16_t incrSourceNumber();
+  static uint16_t decrSourceNumber();
 };
 
 #endif

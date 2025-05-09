@@ -3604,3 +3604,4 @@
 3604 Jeu  8 mai 2025 16:05:46 CEST	cleanup IPMC_ENABLED rtp.cpp sap.cpp
 3605 Ven  9 mai 2025 09:39:54 CEST	cleanup rtp.cpp
 3606 Ven  9 mai 2025 16:02:06 CEST	createMcast, closeMcast channel.*pp
+3607 Ven  9 mai 2025 17:31:17 CEST	cleanup session.*pp

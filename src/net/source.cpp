@@ -30,7 +30,7 @@
 
 
 // local
-static uint16_t sourcesCounter;		// sources counter
+static uint16_t sourceCounter;		// source counter
 
 
 /**
@@ -40,8 +40,8 @@ Source::Source(uint32_t _ssrc)
 {
   new_source++;
   ssrc = _ssrc;
-  extended_max = 0;
-  expected = 0;
+  extended_max = 0;	// payload
+  expected = 0;		// payload
   lost = 0;
   sdes.si_type = 0;
   sdes.si_len = 0;
@@ -62,25 +62,23 @@ Source * Source::getSource(uint32_t _ssrc)
   int i = 0;
 
   for (pso = psolast = pchan->session->source;
-       pso && (i < sourcesCounter);
+       pso && (i < sourceCounter);
        pso = pso->next, i++) {
     if (pso->ssrc == _ssrc) return pso;	// registered source
     psolast = pso;
   }
-  /* not yet registered source */
+  // not yet registered source
   if (! pso) {
-    /* no source found, we must create it now */
+    // no source found, we must create it now
     pchan->session->source = new Source(_ssrc);
-
     pchan->session->incrSources();
-    trace1(DBG_RTP, "getSource: create source=%p", pchan->session->source);
+    //trace1(DBG_RTP, "getSource: create source=%p", pchan->session->source);
     return pchan->session->source;
   }
   else {
-    error("bad new source");
-    /* new incoming source: create this source */
+    //error("bad new source");
+    // new incoming source: create this source
     psolast->next = new Source(_ssrc);
-
     pchan->session->incrSources();
     return psolast->next;
   }
@@ -94,17 +92,17 @@ Source::~Source()
   del_source++;
 }
 
-uint16_t Source::getSourcesNumber()
+uint16_t Source::getSourceNumber()
 {
-  return sourcesCounter;
+  return sourceCounter;
 }
 
-uint16_t Source::incrSourcesNumber()
+uint16_t Source::incrSourceNumber()
 {
-  return ++sourcesCounter;
+  return ++sourceCounter;
 }
 
-uint16_t Source::decrSourcesNumber()
+uint16_t Source::decrSourceNumber()
 {
-  return --sourcesCounter;
+  return --sourceCounter;
 }

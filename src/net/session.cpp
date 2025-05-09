@@ -119,7 +119,7 @@ void Session::clearList()
 
 void Session::incrSources()
 {
-  nbsources = Source::incrSourcesNumber();
+  nbsources = Source::incrSourceNumber();
 }
 
 /**
@@ -146,7 +146,7 @@ uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint
   // alloc Source
   source = new Source(ssrc);
 
-  nbsources = source->incrSourcesNumber();
+  nbsources = source->incrSourceNumber();
   //echo("Session: nbsources=%d", nbsources);
   Rtp::initSource(&source->s, rtp_seq);
   createMySdes();
@@ -190,7 +190,7 @@ void Session::deleteSource(uint32_t _ssrc)
         }
       }
       setLostPackets(pso->lost);
-      nbsources = Source::decrSourcesNumber();
+      nbsources = Source::decrSourceNumber();
       delete pso;		// delete Source
       pso = NULL;
       break;
