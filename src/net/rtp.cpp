@@ -50,7 +50,7 @@ uint32_t Rtp::createSsrc(int value)
   time_t t;
 
   srand(time(&t));
-  return (uint32_t) random32(value);
+  return random32(value);
 }
 
 void Rtp::initSource(sourceInfos *s, uint16_t seq)
@@ -122,7 +122,7 @@ int Rtp::updateSeq(sourceInfos *s, uint16_t seq)
  * Handling RTCP SDES
  */
 
-/* Returns name */
+/** Returns name */
 const char * Rtp::getRtpName(char *name)
 {
   FILE *fp;
@@ -150,7 +150,7 @@ const char * Rtp::getRtpName(char *name)
   return NULL;
 }
 
-/* Returns email */
+/** Returns email */
 void Rtp::getRtcpEmail(char *email)
 {
   char mail[EMAIL_LEN+10], hostfqdn[255], hostname[MAXHOSTNAMELEN];
@@ -179,7 +179,7 @@ void Rtp::getRtcpEmail(char *email)
   strcpy(email, mail);
 }
 
-/* Returns rtcpname */
+/** Returns rtcpname */
 void Rtp::getRtcpName(char *rtcpname)
 {
   const char *p;
@@ -193,7 +193,7 @@ void Rtp::getRtcpName(char *rtcpname)
   }
 }
 
-/* Returns tool */
+/** Returns tool */
 void Rtp::getRtcpTool(char *tool)
 {
   sprintf(tool, "%s-%s", PACKAGE_NAME, PACKAGE_VERSION);
@@ -254,7 +254,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
   uint32_t ssrc = 0;
   Channel *pchan = Channel::current(); // maybe indeterminated
 
-  /* we are supposed to receive compounds RTCP packets */
+  // we are supposed to receive compounds RTCP packets
   for (int len = 0; len < pkt_len ; ) {
     memcpy(&rtcp_hdr, pkt+len, sizeof(rtcp_common_t));
     length = ntohs(rtcp_hdr.length);
@@ -262,7 +262,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
     len += sizeof(rtcp_common_t);
 
 #ifdef CHECK_RTCP_VALIDITY
-    /* Check RTCP validity */
+    // Check RTCP validity
     r = (rtcp_t *) &rtcp_hdr;
     do {
       r = (rtcp_t *) ((uint32_t *) r + ntohs(r->common.length + sizeof(rtcp_common_t)));
@@ -277,7 +277,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
 
     switch (rtcp_hdr.pt) {
 
-     /* receives a SR */
+     // receives a SR
       case RTCP_SR: {
         rtcp_sr_t sr;
         Source *pso;
@@ -291,7 +291,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
       }
       break;
 
-      /* receives a SDES */
+      // receives a SDES
       case RTCP_SDES: {
         SdesItem *sitem = NULL;
         Source *pso;
@@ -307,7 +307,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
 
           sitem = &pso->sdes;	// first sitem which ever exists
 
-          /* parses SDES chunks */
+          // parses SDES chunks
           while (p < (uint8_t *) end) {
             trace1(DBG_RTP, "SDES: sitem=%p p=%p end=%p", sitem, p, end);
             sitem->si_type = *p++;
@@ -324,7 +324,6 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
               trace1(DBG_RTP, "end SDES: p=%p end=%p", p, end);
               break;	// end of SDES packet
             }
-
             if (! sitem->si_next) {
               /* alloc next item */
               trace1(DBG_RTP, "alloc new item");
@@ -342,7 +341,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
       }
       break;
 
-     /* receives a BYE */
+     // receives a BYE
       case RTCP_BYE: {
         memcpy(&ssrc, pkt+len, sizeof(ssrc));
         trace1(DBG_RTP, "Got BYE: ssrc=%x", ntohl(ssrc));
@@ -352,11 +351,11 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
       }
       break;
 
-     /* receives a APP */
+     // receives a APP
       case RTCP_APP:
         trace1(DBG_RTP, "Got APP");
 
-     /* receives something unknown */
+     // receives something unknown
       default:
         len += (length << 2);
         error("Got RTCP unknown type: pt=%u, pkt_len=%d len=%d",
@@ -371,12 +370,11 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
   return 0;
 }
 
-/*
- * Generate a random 32-bit quantity
+/**
+ * Generate a random 32-bit value
  *
  * RFC 1889
  */
-
 uint32_t md_32(char *str, int len)
 {
   MD5_CTX context;
@@ -384,21 +382,19 @@ uint32_t md_32(char *str, int len)
     char  c[16];
     uint32_t  x[4];
   } digest;
-  uint32_t r;
-  int i;
+  uint32_t r = 0;
 
   MD5Init(&context);
   MD5Update(&context, (uint8_t *) str, len);
   MD5Final((unsigned char *)&digest, &context);
-  r = 0;
-  for (i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++) {
     r ^= digest.x[i];
   }
   return r;
 }
 
-/*
- * Return random unsigned 32-bit quantity. Use 'type' argument if you
+/**
+ * Returns random unsigned 32-bit value. Use 'type' argument if you
  * need to generate several different values in close succession.
  */
 uint32_t random32(int type)
