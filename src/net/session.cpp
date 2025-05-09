@@ -36,7 +36,7 @@
 
 // local
 static Session *sessionList;		// RTP sessions list
-static Session *currentSession = NULL;	// RTP current session
+static Session *currentSession= NULL;	// RTP current session
 
 static char rtcp_name[Rtp::RTPNAME_LEN]; // rtcp name
 static char rtcp_email[Rtp::EMAIL_LEN];  // rtcp email
@@ -117,18 +117,13 @@ void Session::clearList()
   sessionList = NULL;
 }
 
-Session * Session::getList()
-{
-  return sessionList;
-}
-
 void Session::incrSources()
 {
   nbsources = Source::incrSourcesNumber();
 }
 
 /**
- * initialize variables for a session already allocated, return local ssrc
+ * Initializes variables for a session already allocated, return local ssrc
  */
 uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint32_t _ssrc)
 {
@@ -136,33 +131,29 @@ uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint
   rtp_port = htons(_rtp_port);
   rtcp_port = htons(_rtp_port + 1);
   ttl = _ttl;
-  //echo("Session: rtp_port=%x rtcp_port=%x", rtp_port, rtcp_port);
 
-  /* seq number initialization */
+  // seq number initialization
   rtp_seq = Rtp::createSeq();
 
-  /* SSRC number initialization */
+  // SSRC number initialization
   if (_ssrc)
     ssrc = _ssrc;	// ssrc already used
   else
     ssrc = htonl(Rtp::createSsrc(rtp_seq));	// new ssrc
-
-  //echo("Session: ssrc=%x", ssrc);
   rtp_hdr.ssrc = ssrc;
   sr.ssrc = ssrc;
 
-  /* alloc Source */
+  // alloc Source
   source = new Source(ssrc);
 
   nbsources = source->incrSourcesNumber();
   //echo("Session: nbsources=%d", nbsources);
-
   Rtp::initSource(&source->s, rtp_seq);
   createMySdes();
-
   return ssrc;
 }
 
+/** Deletes session */
 void Session::deleteSession(uint32_t _ssrc)
 {
   //dax CHECK_SESSION_LIST
@@ -174,9 +165,9 @@ void Session::deleteSession(uint32_t _ssrc)
       }
     }
   }
-  //echo("deleteSession: ssrc=%x not found", _ssrc);
 }
 
+/** Deletes source */
 void Session::deleteSource(uint32_t _ssrc)
 {
   Source *pso, *psolast;
@@ -200,7 +191,6 @@ void Session::deleteSource(uint32_t _ssrc)
       }
       setLostPackets(pso->lost);
       nbsources = Source::decrSourcesNumber();
-      //echo("nbsources--=%d", nbsources);
       delete pso;		// delete Source
       pso = NULL;
       break;
@@ -220,7 +210,7 @@ Session::~Session()
 }
 
 /**
- * creates my SDES item
+ * Creates my SDES item
  */
 void Session::createMySdes()
 {
@@ -229,7 +219,6 @@ void Session::createMySdes()
   Rtp::getRtcpName(rtcp_name);		// fill rtcp Name
   Rtp::getRtcpEmail(rtcp_email);	// fill rtcp Email
   Rtp::getRtcpTool(rtcp_tool);		// fill rtcp Tool
-  //echo("createMySdes: name=%s, email=%s, pse=%p", rtcp_name, rtcp_email, this);
 
   if (! (scname = Rtp::allocSdesItem())) return;
   mysdes = scname;
@@ -266,18 +255,15 @@ void Session::createMySdes()
   stool->si_type = RTCP_SDES_TOOL;
   stool->si_len = strlen(rtcp_tool);
   stool->si_str = (uint8_t *) rtcp_tool;
-
   stool->si_next = NULL;
 }
 
 /**
- * refreshes my SDES item
+ * Refreshes my SDES item
  */
 void Session::refreshMySdes()
 {
   SdesItem *scname, *sname, *semail, *sloc;
-
-  //echo("refreshMySdes: pse=%p", this);
 
   if (! (scname = mysdes)) return;
   if (! (sname = scname->si_next)) return;
@@ -292,7 +278,6 @@ void Session::refreshMySdes()
     sloc->si_len = strlen(MANAGER_NAME);
     sloc->si_str = (uint8_t *) MANAGER_NAME;
   }
-  //echo("sloc: %p %s", sloc, sloc->si_str);
 }
 
 void Session::freeMySdes()
@@ -335,8 +320,6 @@ int Session::buildSR(rtcp_common_t *prtcp_hdr, uint8_t *pkt)
   len += sizeof(rtcp_common_t);
   memcpy(pkt+len, &sr, sizeof(rtcp_sr_t));
   len += sizeof(rtcp_sr_t);
-
-  //echo("setSR: ssrc=%x len=%d", sr.ssrc, len);
   return len;
 }
 
@@ -354,7 +337,7 @@ int Session::buildSDES(rtcp_common_t *prtcp_hdr, uint8_t* pkt)
   memset(items, 0, sizeof(items));
   prtcp_hdr->count = 1; // Only one SDES with multiple chunks
 
-  /* fill chunks */
+  // fill chunks
   for (pchunk = mysdes; pchunk; pchunk = pchunk->si_next) {
     items[xitem++] = pchunk->si_type;
     items[xitem++] = pchunk->si_len;
@@ -367,7 +350,7 @@ int Session::buildSDES(rtcp_common_t *prtcp_hdr, uint8_t* pkt)
     items[xitem++] = 0;
   }
 
-  /* SDES header */
+  // SDES header
   prtcp_hdr->length = htons(1 + (xitem >> 2));
   memcpy(pkt, prtcp_hdr, sizeof(rtcp_common_t));
   len += sizeof(rtcp_common_t);
@@ -375,7 +358,6 @@ int Session::buildSDES(rtcp_common_t *prtcp_hdr, uint8_t* pkt)
   len += sizeof(ssrc);
   memcpy(pkt+len, items, xitem);
   len += xitem;
-
   //echo("setSDES: ssrc=%x len=%d xitem=%d", ssrc, len, xitem);
   return len;
 }
@@ -385,7 +367,6 @@ int Session::buildSDES(rtcp_common_t *prtcp_hdr, uint8_t* pkt)
  */
 int Session::buildBYE(rtcp_common_t *prtcp_hdr, uint8_t *pkt)
 {
-
   buildRTCPcommon(prtcp_hdr, RTCP_BYE);
   prtcp_hdr->count = 1;	// me only says bye
   prtcp_hdr->length = htons(1);
@@ -393,8 +374,6 @@ int Session::buildBYE(rtcp_common_t *prtcp_hdr, uint8_t *pkt)
   int len = sizeof(rtcp_common_t);
   memcpy(pkt+len, &ssrc, sizeof(ssrc));
   len += sizeof(ssrc);
-
-  //echo("setBYE: ssrc=%x len=%d", ssrc, len);
   return len;
 }
 
@@ -425,7 +404,6 @@ int Session::sendRTCPPacket(const struct sockaddr_in *to, uint8_t pt)
   if ((sd = Channel::getFdSendRTCP(sin_rtcp)) < 0) {
     error("sendRTCPPacket: sd <0"); return -1;
   }
-
   r = Rtp::sendPacket(sd, pkt, pkt_len, sin_rtcp);
   statSendRTCP(pkt_len);
   return r;
@@ -454,8 +432,6 @@ int Session::sendSRSDES(const struct sockaddr_in *to)
     error("sendSRSDES: sd <0");
     return -1;
   }
-
-  //echo("sendSRSDES: pkt_len=%d", pkt_len);
   int r = Rtp::sendPacket(sd, pkt, pkt_len, sin_rtcp);
   statSendRTCP(pkt_len);
   return r;

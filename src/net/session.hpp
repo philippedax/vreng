@@ -77,7 +77,6 @@ class Session {
   static Session * current();
   /**< Gets the current session */
 
-  static Session * getList();
   static void clearList();
 
  private:
