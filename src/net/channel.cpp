@@ -54,7 +54,7 @@ static int cntFd;
 // channels
 static Channel *channel = NULL;		// current channel
 static Channel *managerChannel = NULL;	// manager channel
-static int16_t channelCount = 0;	// channel count
+static int16_t cntchan = 0;		// channel count
 
 static char vrum_addr[16];
 
@@ -83,7 +83,6 @@ void Channel::init()
   }
   clearList();
   Session::clearList();
-  //NetObj::clearList();
 }
 
 /** Creates a new Channel */
@@ -132,7 +131,7 @@ int Channel::leaveGroup(int sd)
 }
 
 /** Creates a Multicast listen socket on the channel defined by group/port */
-int Channel::createMcastRecvSocket(struct sockaddr_in *sa)
+int Channel::createMcast(struct sockaddr_in *sa)
 {
   int sd = -1;
 
@@ -140,7 +139,7 @@ int Channel::createMcastRecvSocket(struct sockaddr_in *sa)
 
   if (Socket::reuseAddr(sd) < 0)
     perror("reuse failed");
-  if (::bind(sd, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0)
+  if (::bind(sd, reinterpret_cast<struct sockaddr *> (sa), sizeof(struct sockaddr_in)) < 0)
     error("bind: %s port=%d", strerror(errno), ntohs(sa->sin_port));
 
   joinGroup(sd);
@@ -148,7 +147,7 @@ int Channel::createMcastRecvSocket(struct sockaddr_in *sa)
 }
 
 /** Closes a multicast socket */
-void Channel::closeMcastSocket()
+void Channel::closeMcast()
 {
   leaveGroup(sd[SD_R_RTP]);
   leaveGroup(sd[SD_R_RTCP]);
@@ -203,9 +202,8 @@ void Channel::namingId()
   if (! (hp = my_gethostbyname(hostname, AF_INET))) {
     return;
   }
-
   struct in_addr *pa;
-  if (! (pa = (struct in_addr*) (hp->h_addr))) {
+  if (! (pa = reinterpret_cast<struct in_addr*> ((hp->h_addr)))) {
     my_free_hostent(hp);
     return;
   }
@@ -216,13 +214,9 @@ void Channel::namingId()
   Payload pp;			// dummy payload
   pp.sendPayload(sa[SA_RTP]);	// needed for naming (port number)
 
-#if NEEDLOOPBACK
-  NetObj::setPort(static_cast<uint16_t> (NetObj::getSsrc() & 0x00007FFF));
-#else
   NetObj::setPort(Socket::getSrcPort(sd[SD_W_RTP]));
   if (NetObj::getPort() == 0)
     NetObj::setPort(static_cast<uint16_t> (NetObj::getSsrc()) & 0x00007FFF);
-#endif
 
   pp.sendPayload(sa[SA_RTCP]);	// needed for proxy (source port)
   NetObj::setObj(0);
@@ -259,13 +253,13 @@ int Channel::create(const char *chan_str, int **pfds)
   sa[SA_RTP] = &sa_rtp;
 
   if (::g.pref.reflector) {
-    if ((sd[SD_R_RTP] = createMcastRecvSocket(sa[SA_RTP_R])) < 0) {
+    if ((sd[SD_R_RTP] = createMcast(sa[SA_RTP_R])) < 0) {
       error("can't open receive socket RTP reflector");
       return 0;
     }
   }
   else {	// native Multicast
-    if ((sd[SD_R_RTP] = createMcastRecvSocket(sa[SA_RTP])) < 0) {
+    if ((sd[SD_R_RTP] = createMcast(sa[SA_RTP])) < 0) {
       error("can't open receive socket RTP");
       return 0;
     }
@@ -298,13 +292,13 @@ int Channel::create(const char *chan_str, int **pfds)
   sa[SA_RTCP] = &sa_rtcp;
 
   if (::g.pref.reflector) {
-    if ((sd[SD_R_RTCP] = createMcastRecvSocket(sa[SA_RTCP_R])) < 0) {
+    if ((sd[SD_R_RTCP] = createMcast(sa[SA_RTCP_R])) < 0) {
       error("can't open receive socket RTCP reflector");
       return 0;
     }
   }
   else {	// native Multicast
-    if ((sd[SD_R_RTCP] = createMcastRecvSocket(sa[SA_RTCP])) < 0) {
+    if ((sd[SD_R_RTCP] = createMcast(sa[SA_RTCP])) < 0) {
       error("can't open receive socket RTCP");
       return 0;
     }
@@ -384,13 +378,13 @@ void Channel::deleteFromList()
 /** Quits a channel */
 void Channel::quit()
 {
-  /* respect this order! */
+  // respect this order!
   if (this != managerChannel) {
     sendBYE();
 
     if (session) delete session;	// delete Session
     session = NULL;
-    closeMcastSocket();
+    closeMcast();
     deleteFromList();
   }
 }
@@ -402,19 +396,19 @@ Channel::~Channel()
   quit();
   ::g.gui.removeChannelSources(WORLD_MODE);
 
-  for (int i=0; i < cntfds && channelCount > 0; i++) { // debugged by efence
+  for (int i=0; i < cntfds && cntchan > 0; i++) { // debugged by efence
     if (tabFd[i] > 0) {
       Socket::closeDatagram(tabFd[i]);
       tabFd[i] = -1;
     }
     cntFd--;
   }
-  channelCount--;
-  if (channelCount < 0) channelCount = 0;
+  cntchan--;
+  if (cntchan < 0) cntchan = 0;
   channel = NULL;
 }
 
-/** join the channel and return the new channel string */
+/** Joins the channel and returns the new channel string */
 bool Channel::join(char *chan_str)
 {
   if (! chan_str)  return false;
@@ -426,7 +420,7 @@ bool Channel::join(char *chan_str)
   if (cntfd == 0)  return false;
 
   ::g.gui.addChannelSources(WORLD_MODE, tabFd, cntfd);
-  channelCount++;
+  cntchan++;
   return true;
 }
 
@@ -487,7 +481,6 @@ struct sockaddr_in * Channel::getsabysa(const struct sockaddr_in *sa, int i_sa)
     error("getsabysa: sa NULL");
     return NULL;
   }
-
   if (channelList.empty()) return NULL;
   for (std::list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
     if ((*it)->sa[SA_RTP] == sa || (*it)->sa[SA_RTCP] == sa)
@@ -496,12 +489,13 @@ struct sockaddr_in * Channel::getsabysa(const struct sockaddr_in *sa, int i_sa)
   return NULL;
 }
 
+/** Gets a socket address by RTCP */
 struct sockaddr_in * Channel::getSaRTCP(const struct sockaddr_in *sa)
 {
   return getsabysa(sa, SA_RTCP);
 }
 
-/** get a channel by sockaddr_in */
+/** Gets a channel by sockaddr_in */
 Channel * Channel::getbysa(const struct sockaddr_in *sa)
 {
   if (! sa) {

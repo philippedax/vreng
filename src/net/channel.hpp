@@ -38,7 +38,7 @@ class Channel {
    * Channel naming : my_host_id, my_port_id, my_obj_id
    */
 
-  int createMcastRecvSocket(struct sockaddr_in *sa);
+  int createMcast(struct sockaddr_in *sa);
   /**<
    * Creates a Multicast listen socket on the channel defined by group/port.
    * Returns sock else -1 if problem.
@@ -60,7 +60,7 @@ class Channel {
   static void clearList();
   /**< Clears channelList */
 
-  void closeMcastSocket();
+  void closeMcast();
   /**< Closes Multicast sockets */
 
   int joinGroup(int sock);
