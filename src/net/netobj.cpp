@@ -35,7 +35,6 @@
 
 
 // local
-
 std::list<NetObj*> NetObj::netobjList;
 
 // network ids
@@ -179,9 +178,7 @@ void NetObj::initProperties(bool _responsible)
   uint8_t np = NetProperty::getProperties(type);
   if (!np) return;
   trace1(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, object->objectName(), np, _responsible);
-
   prop = new NetProperty[np];
-
   for (int i=0; i<np; i++) {
     NetProperty *pprop = prop + i;
     pprop->responsible = _responsible;
@@ -230,7 +227,6 @@ void NetObj::set(bool _state)
   // MS.: Objects need a unique ID from the start,
   // not just for networked objects, so that the
   // Vjc controller apps can tell them apart.
-
   state = _state;
   setNoid();
   initProperties(true);			// new: then we are responsible
@@ -243,15 +239,12 @@ void NetObj::setNetName(const char *s, bool _state)
   uint16_t scene_id, obj_id;
 
   int c = sscanf(s, "%hu/%hu", &scene_id, &obj_id);
-
   if (c != 2 || scene_id == 0) {
     error("setNetName: invalid name %s c=%d scene=%d", s, c, scene_id);
     return;
   }
-
-  state = _state;		// should be true
-  initProperties(false);	// we are not responsible
-
+  state = _state;			// should be true
+  initProperties(false);		// we are not responsible
   noid.src_id = htonl(1);
   noid.port_id = htons(scene_id);
   noid.obj_id = htons(obj_id);
@@ -259,7 +252,7 @@ void NetObj::setNetName(const char *s, bool _state)
   if (getNetObj()) {
     return;	//error("%s already seen %d/%d", object->objectName(), scene_id, obj_id);
   }
-  netobjList.push_back(this);	// add to list
+  netobjList.push_back(this);		// add to list
 }
 
 /** Deletes a netobj from the list */
@@ -318,7 +311,6 @@ void NetObj::getAllProperties(Payload *pp) const
 void NetObj::putAllProperties(Payload *pp)
 {
   uint8_t nbp = getProperties(type);
-
   for (int p=0; p < nbp; p++) {
     putProperty(p, pp);
   }
@@ -334,7 +326,6 @@ void NetObj::requestDeletion()
 NetObj * NetObj::replicate(uint8_t type_id, Noid noid, Payload *pp)
 {
   Object *o = OClass::replicatorInstance(type_id, noid, pp);  // factory
-
   if (o) {
     if (! o->netop) {
       error("replicate: no o->netop for type=%d", type_id);
@@ -352,7 +343,6 @@ void NetObj::sendDelta(uint8_t prop_id)
     error("sendDelta: prop NULL");
     return;
   }
-
   NetProperty *pprop = prop + prop_id;
   pprop->setResponsible(true);
   pprop->resetDates();
@@ -385,7 +375,6 @@ void NetObj::sendCreate(const struct sockaddr_in *to)
   for (int i=0; i < nprop; i++) {
     pp.putPayload("h", prop[i].version);
   }
-
   trace1(DBG_NET, "sendCreate: nobj=%s to=%s", noid.getNoid(), inet4_ntop(&to->sin_addr));
   pp.sendPayload(to);
 #if 0 //pddebug
@@ -454,7 +443,6 @@ void NetObj::sendDelete(const struct sockaddr_in *to)
 NetObj * NetObj::getNetObj()
 {
   for (std::list<NetObj*>::iterator it = netobjList.begin(); it != netobjList.end(); ++it) {
-    //dax if ((*it)->equalNoid((*it)->noid)) {
     if ((*it)->noid.equal((*it)->noid)) {
       return *it;	// NetObj found
     }
