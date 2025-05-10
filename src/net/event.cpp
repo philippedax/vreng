@@ -47,23 +47,23 @@ void netIncoming(int fd)
       break;
     }
     
-    /*
-     * read the incoming packet
-     */
+    //
+    // read the incoming packet
+    //
     struct sockaddr_in from;	// sender unicast address
-    int r;
     
     Payload *pp = new Payload();	// create the payload to get the data
     
-    if ((r = pp->recvPayload(fd, &from)) <= 0) {
+    int r;
+    if (( r = pp->recvPayload(fd, &from)) <= 0) {
       echo("netIncoming: from %lx", ntohl(from.sin_addr.s_addr));
       delete pp;
       return;	// read err <0 or ignore == 0
     }
     
-    /*
-     * check if this packet belongs to VREP (VREng Protocol)
-     */
+    //
+    // check if this packet belongs to VREP (VREng Protocol)
+    //
     uint8_t cmd;
     if (pp->len > 0 && pp->getPayload("c", &cmd) >= 0) {
       echo("In %lx/%x l=%d c=%02x", ntohl(from.sin_addr.s_addr),ntohs(from.sin_port), pp->len, cmd);
@@ -101,7 +101,7 @@ void netIncoming(int fd)
 }
 
 
-/** Check if some responsibilities should to be taken when a timeout occurs */
+/** Checks if some responsibilities should to be taken when a timeout occurs */
 int netTimeout()
 {
   float refresh = DEF_REFRESH_TIMEOUT;
@@ -110,46 +110,46 @@ int netTimeout()
   struct timeval now;
   gettimeofday(&now, NULL);
   
-  /* timeout grows as log(nbsources) to keep bandwidth confined */
+  // timeout grows as log(nbsources) to keep bandwidth confined
 #ifdef REDUCE_BW
   nsrc = Source::getSourcesNumber() - 1;
   nsrc = (nsrc <= 1) ? 1 : nsrc;
-  refresh = DEF_REFRESH_TIMEOUT * ((1.0 + static_cast<float>(log((double) nsrc)) / 2));
+  refresh = DEF_REFRESH_TIMEOUT * ((1 + static_cast<float> (log((double) nsrc)) / 2));
   //echo("refresh=%.2f nsrc=%d", refresh, nsrc);
 #endif
   
-  /*
-   * for each netobj in netobjList
-   */
+  //
+  // for each netobj in netobjList
+  //
   for (std::list<NetObj*>::iterator it = NetObj::netobjList.begin(); it != NetObj::netobjList.end(); ++it) {
     if (! OClass::isValidType((*it)->type)) {
       error("netTimout: invalid type (%d)", (*it)->type);
       return -1;
     }
     
-    /*
-     * scan its properties
-     */
+    //
+    // scan its properties
+    //
     uint8_t nprop = (*it)->getProperties();
     for (int i=0; i < nprop; i++) {
       switch ((*it)->type) {
         case USER_TYPE:
           if (i < User::PROPBEGINVAR || i > User::PROPENDVAR) {
-            continue;	// skip static properties
+            continue;			// skip static properties
           }
       }
       NetProperty *pprop = (*it)->prop + i;
       
-      /*
-       * test if refresh timeout reached
-       */
+      //
+      // test if refresh timeout reached
+      //
       if (pprop->responsible && Timer::diffDates(pprop->last_seen, now) > refresh) {
         // now - last_seen > refresh: we are responsible, we must refresh
-        (*it)->sendDelta(i);	// publish a heartbeat
+        (*it)->sendDelta(i);		// publish a heartbeat
       }
       if (Timer::diffDates(pprop->assume_at, now) > 0) {
         // now > assume_at: assume's timeout on this property
-        if ((*it)->isPermanent()) { // permanent object (door, lift, button, thing, ...)
+        if ((*it)->isPermanent()) {	// permanent object (door, lift, button, thing, ...)
           if (pprop->version != 0) {
             // if permanent prop hasn't its initial value,
             // somebody must assume responsibility
@@ -163,7 +163,7 @@ int netTimeout()
             (*it)->declareDelta(i);	// assume responsibility: publish my existence
           }
         }
-        else { // volatile object (user, ball, dart, bullet, sheet, icon)
+        else {				// volatile object (user, ball, dart, bullet, sheet, icon)
           if (pprop->responsible) {
             echo("netTimeout: (volatile) should assume death of %s I am responsible for", (*it)->object->objectName());
             return -1;
