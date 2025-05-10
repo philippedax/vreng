@@ -32,7 +32,6 @@
 #include "session.hpp"	// buildRtpHeader
 #include "source.hpp"	// Source
 #include "netprop.hpp"	// NetProperty
-#include "socket.hpp"	// NEEDLOOPBACK
 #include "stat.hpp"	// statSendRTP getSentPackets
 
 
@@ -78,12 +77,11 @@ int Payload::putPayload(const char *format, ...)
     error("putPayload: NULL format");
     return -1;
   }
-
   va_start(ap, format);
   len = idx;	// "rewrite" mode rather than "append"
   trace1(DBG_NET, "putPayload: idx=%d", idx);
 
-  /* Parse format */
+  // Parse format
   while (*format) {
     switch (*format) {
     case 'c': // char
@@ -170,12 +168,11 @@ int Payload::putPayload(const char *format, ...)
       va_end(ap);
       return -1;
     }
-
     format++;
     if (idx > len)
       len = idx;
 
-    /* check the length */
+    // check the length
     if (len >= PAYLOAD_LEN) {
       error("putPayload: payload too long (%d > %d)", len, PAYLOAD_LEN);
       dump(stderr);
@@ -203,9 +200,8 @@ int Payload::getPayload(const char *format, ...)
   }
 
   va_start(ap, format);
-
   while (*format) {
-    /* Format known ? */
+    // format known ?
     if (! strchr("chdfsnt", *format)) {
       error("getPayload: invalid format [%c] in %s", *format, format);
       format++;
@@ -233,7 +229,7 @@ int Payload::getPayload(const char *format, ...)
     }
 #endif //debug
 
-    /* test matching Payload - format */
+    // test matching Payload - format
     if (data[idx] != *format) {
       error("getPayload: mismatch '%c'[x'%02x'], format='%s', len=%d, idx=%d[x'%02x']",
 	    data[idx], data[idx], format, len, idx, idx);
@@ -325,7 +321,7 @@ int Payload::getPayload(const char *format, ...)
       return -1;
     }
 
-    /* verify if not too far */
+    // verify if not too far
     if (idx > len) {
       error("getPayload: past end of payload: idx=%d len=%d", idx, len);
       dump(stderr);
@@ -356,7 +352,7 @@ int Payload::tellPayload(const char *str)
   for (idx = 0; idx < len; ) {
     uint8_t format = data[idx];
 
-    /* checks format */
+    // checks format
     if (! strchr("chdfsnt", format)) {
       error("tellPayload: invalid format [%c]", format);
       idx = save_idx;
@@ -419,9 +415,7 @@ int Payload::sendPayload(const struct sockaddr_in *to)
   int pkt_len, sd;
   rtp_hdr_t *rtp_hdr = (rtp_hdr_t *) pkt;
 
-  /*
-   * initial checks
-   */
+  // initial checks
   if (! isValid()) {
     error("sendPayload: invalid");
     return -1;
@@ -472,9 +466,7 @@ int Payload::sendPayload(const struct sockaddr_in *to)
   }
   trace1(DBG_NET, "S: %02x%02x%02x%02x/%02x", hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
 
-  /*
-   * finds the file descriptor
-   */
+  // finds the file descriptor
   if ((sd = Channel::getFdSendRTP(to)) <= 0) {
     sd = pchan->sd[SD_W_RTP];	// hack !!!
   }
@@ -523,27 +515,25 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
   }
   //echo("recvPayload: %lx (%x)", ntohl(from->sin_addr.s_addr), pkt_len);
 
-  /*
-   * test if the packet was sent by myself
-   * this is probably broken anyway, loopback or not
-   */
+  //
+  // test if the packet was sent by myself
+  // this is probably broken anyway, loopback or not
+  //
   if (NetObj::getHost() == ntohl(from->sin_addr.s_addr)) {
-#if NEEDLOOPBACK
     // If two apps are running on the same machine,
     // you need to sort out the packets on something else than just the host ID
-    if (ntohl(rtp_hdr->ssrc) == NetObj::getSsrc())
-#endif
+    if (ntohl(rtp_hdr->ssrc) == NetObj::getSsrc()) {
       return 0; // Loopback from same app : ignore it
+    }
   }
+  statReceivePacket(pkt_len);		// FIXME! is not at the good place
 
-  statReceivePacket(pkt_len);		//FIXME! is not at the good place
-
-  /*
-   * test if it is a valid RTP header
-   */
+  //
+  // test if it is a valid RTP header
+  //
   uint8_t rtp_hdr_size;
-  if (rtp_hdr->version == RTP_VERSION &&
-      (rtp_hdr->pt == RTP_VREP_TYPE || rtp_hdr->pt == RTP_VREP_TYPE_V1)) {
+  if ( rtp_hdr->version == RTP_VERSION &&
+      (rtp_hdr->pt == RTP_VREP_TYPE || rtp_hdr->pt == RTP_VREP_TYPE_V1) ) {
     //
     // it's a RTP packet
     //
@@ -587,12 +577,11 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
   uint8_t *hdrpl = pkt + RTP_HDR_SIZE;
   //echo("R: %02x%02x%02x%02x/%02x",hdrpl[0],hdrpl[1],hdrpl[2],hdrpl[3],hdrpl[4]);
 
-  /*
-   * compatibility with older VREP Protocol
-   */
+  //
+  // compatibility with older VREP Protocol
+  //
   uint8_t vrep_version = hdrpl[VREP_HDR_VERSION]; // vrep version received
   int32_t vrep_len;		// vrep header size + payload size
-
   uint8_t vrep_hdr_size;	// vrep header size
 
   switch (vrep_version) {
@@ -618,9 +607,9 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
     memcpy(&from->sin_port, hdrpl+VREP_HDR_PORTID_V1, 2);
   }
 
-  /*
-   * check if valid payload header
-   */
+  //
+  // check if valid payload header
+  //
   if (pkt_len != rtp_hdr_size + vrep_hdr_size + vrep_len || vrep_len < vrep_hdr_size) {
     trace1(DBG_NET, "R: %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
                     pkt[0], pkt[1], pkt[2], pkt[3],
@@ -631,9 +620,9 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
     return -2;	// unknown packet type
   }
 
-  /*
-   * fill the Payload fields
-   */
+  //
+  // fill the Payload fields
+  //
   resetPayload();
   vrep = vrep_version;
   len = vrep_len;
@@ -675,10 +664,10 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
   //
   // in complement to 2: d gives the distance, same throught the boundary
   int16_t d = pprop->version - vers_id;	// versions difference
-  if (abs(d) > 5000) {	// very far
+  if (abs(d) > 5000) {			// very far
     echo("inDelta: very different versions: mine is %d, received %d", pprop->version, vers_id);
   }
-  if (d > 0) return;	// mine is more recent
+  if (d > 0) return;			// mine is more recent
 
   pprop->resetDates();
   if (d < 0) {  	// mine is less recent, its own is more recent
@@ -693,9 +682,8 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
     // publishes new version to sender in unicast
     pn->declareDelta(prop_id);
     // error("conflict resol: obj=%s, prop=%d, changing vers_num %d->%d",
-    // pn->getNoid(), prop_id, vers_id, pn->prop[prop_id].version);
   }
-  // else, it's just a "recall" (then nothing to do)
+  // it's just a "recall" (then nothing to do)
 }
 
 /** Incoming Create */
@@ -710,7 +698,6 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   if (noid.getNetObj()) {
     return;	// local copy already exists -> ignore this request
   }
-
   trace1(DBG_NET, "inCreate: nobj=%s (type=%d), perm=%d", noid.getNoid(), type_id, perm);
   //dump(stderr);
 
@@ -775,7 +762,6 @@ void Payload::incomingDelete(const struct sockaddr_in *from)
   if (getPayload("n", &noid) < 0) {
     return;
   }
-
   trace1(DBG_NET, "inDelete: nobj=%s from=%s", noid.getNoid(), inet4_ntop(&from->sin_addr));
 
   NetObj *pn;
@@ -787,7 +773,7 @@ void Payload::incomingDelete(const struct sockaddr_in *from)
 /** Incoming Unknown */
 void Payload::incomingUnknown(const struct sockaddr_in *from, int size)
 {
-  error("InUnknown: size=%d from %lx/%x", size, ntohl(from->sin_addr.s_addr), ntohs(from->sin_port));
+  error("ncomming: size=%d from %lx/%x", size, ntohl(from->sin_addr.s_addr), ntohs(from->sin_port));
   if (size) {
     trace1(DBG_NET,
           "%02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
@@ -800,17 +786,16 @@ void Payload::incomingUnknown(const struct sockaddr_in *from, int size)
 
 void Payload::dump(FILE *f)
 {
-  fprintf(f, "dump: len=%d 0x%03x, idx=%d 0x%03x\n", len, len, idx, idx);
-
   char adr[4], hex[49], asc[17];
 
+  fprintf(f, "dump: len=%d 0x%03x, idx=%d 0x%03x\n", len, len, idx, idx);
   for (int i=0; i<len; ) {
     memset(adr, 0, sizeof(adr));
     memset(hex, 0, sizeof(hex));
     memset(asc, 0, sizeof(asc));
     sprintf(adr, "%03x", i);
     for (int j=0; j<16; j++, i++) {
-      int c = (uint8_t) data[i];
+      int c = data[i];
       sprintf(&hex[j*3], "%02x ", c);
       if (isprint(c))
         sprintf(&asc[j], "%c", c);
