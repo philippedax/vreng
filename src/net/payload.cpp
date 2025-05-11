@@ -423,7 +423,7 @@ int Payload::sendPayload(const struct sockaddr_in *to)
    */
   hdrpl = pkt + RTP_HDR_SIZE;
 
-  hdrpl[VREP_HDR_VERSION] = vrep;
+  hdrpl[0] = vrep;
   switch (vrep) {
   case VREP_VERSION_V3:
     pkt_len = RTP_HDR_SIZE + VREP_HDR_SIZE_V3 + len;	// bytes
@@ -511,8 +511,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
   // test if it is a valid RTP header
   //
   uint8_t rtp_hdr_size;
-  if ( rtp_hdr->version == RTP_VERSION &&
-      (rtp_hdr->pt == RTP_VREP_TYPE || rtp_hdr->pt == RTP_VREP_TYPE_V1) ) {
+  if ( rtp_hdr->version == RTP_VERSION && rtp_hdr->pt == RTP_VREP_TYPE ) {
     //
     // it's a RTP packet
     //
@@ -559,9 +558,9 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
   //
   // compatibility with older VREP Protocol
   //
-  uint8_t vrep_version = hdrpl[VREP_HDR_VERSION]; // vrep version received
-  int32_t vrep_len;		// vrep header size + payload size
-  uint8_t vrep_hdr_size;	// vrep header size
+  uint8_t vrep_version = hdrpl[0];	// vrep version received
+  int32_t vrep_len;			// vrep header size + payload size
+  uint8_t vrep_hdr_size;		// vrep header size
 
   switch (vrep_version) {
   case VREP_VERSION_V3:
@@ -569,7 +568,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
     vrep_len = pkt_len - rtp_hdr_size - vrep_hdr_size;
     gzipped = hdrpl[VREP_HDR_VERSION] & VREP_GZIP_MASK;
     break;
-#if 0 //ignoree
+#if 0 //ignore
   case VREP_VERSION_V2:
     /* old version <= 5.1.5 VREP2 */
     vrep_hdr_size = VREP_HDR_SIZE_V2;

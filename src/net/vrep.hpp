@@ -49,6 +49,7 @@
 
 #define VREP_VERS_MASK		0x70
 #define VREP_FLAGS_MASK		0x8f
+#define VREP_HDR_VERSION	0
 #define VREP_GZIP_FLAG		1
 #define VREP_GZIP_MASK		1
 #define VREP_IPV4_FLAG		4
@@ -66,13 +67,14 @@
 //|              payload              |
 //|                ...                |
 //+--------+--------+--------+--------+
+#if 0 //ignore
 #define VREP_VERSION_V2		0x02
 #define VREP_HDR_SIZE_V2	4
 
-#define VREP_HDR_VERSION	0
 #define VREP_HDR_IP		1
 #define VREP_HDR_FLAGS		2
 #define VREP_HDR_PLLEN		3
+#endif //ignore
 
 //
 // VREP1
@@ -85,6 +87,7 @@
 //|              payload              |
 //|                ...                |
 //+--------+--------+--------+--------+
+#if 0 //ignore
 #define VREP_VERSION_V1		0x01
 #define VREP_HDR_SIZE_V1	7
 
@@ -92,6 +95,7 @@
 #define VREP_HDR_SRCID_V1	1
 #define VREP_HDR_PORTID_V1	5
 #define RTP_VREP_TYPE_V1	105	// vreng RTP payload type
+#endif //ignore
 
 //
 // VREP command types
@@ -100,6 +104,7 @@
 #define VREP_DELTA		2
 #define VREP_QUERY		3
 #define VREP_DELETE		4
+#if 0 //ignore
 #define VREP_WORLD_SET		10
 #define VREP_WORLD_INFO		11
 #define VREP_WORLD_RESET	12
@@ -107,11 +112,11 @@
 #define VREP_ADDRESS_RET	21
 #define VREP_ADDRESS_REL	22
 #define VREP_ADDRESS_REN	23
-
 #define VREP_CREATE_V1	'C'
 #define VREP_DELTA_V1	'd'
 #define VREP_QUERY_V1	'?'
 #define VREP_DELETE_V1	'D'
+#endif //ignore
 
 /* socket address indexes */
 enum {
