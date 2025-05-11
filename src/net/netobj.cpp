@@ -27,7 +27,7 @@
 #include "vrep.hpp"	// VREP
 #include "nsl.hpp"	// inet4_ntop
 #include "payload.hpp"	// Payload
-#include "netprop.hpp"	// NetProperty
+#include "netprop.hpp"	// NetProp
 #include "channel.hpp"	// Channel
 #include "oclass.hpp"	// isValidType
 #include "object.hpp"	// Object
@@ -175,42 +175,42 @@ void NetObj::initProperties(bool _responsible)
 {
   if (prop) return; //error("initProperties: prop already exists (type=%d)", type);
 
-  uint8_t np = NetProperty::getProperties(type);
+  uint8_t np = NetProp::getProperties(type);
   if (!np) return;
   trace1(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, object->objectName(), np, _responsible);
-  prop = new NetProperty[np];
+  prop = new NetProp[np];
   for (int i=0; i<np; i++) {
-    NetProperty *pprop = prop + i;
+    NetProp *pprop = prop + i;
     pprop->responsible = _responsible;
     pprop->version = 0;
-    pprop->resetDates();
+    pprop->newDate();
   }
 }
 
 /** Returns the number of properties of this type */
 uint8_t NetObj::getProperties() const
 {
-  if (nbprop == 0) return NetProperty::getProperties(type);
+  if (nbprop == 0) return NetProp::getProperties(type);
   return nbprop;
 }
 
 /** Returns the number of properties of this type */
 uint8_t NetObj::getProperties(uint8_t _type_id)
 {
-  return NetProperty::getProperties(_type_id);
+  return NetProp::getProperties(_type_id);
 }
 
 /** Sets the number of properties of this type */
 void NetObj::setProperties(uint8_t _nbprop)
 {
   nbprop = _nbprop;
-  NetProperty::setProperties(type, _nbprop);
+  NetProp::setProperties(type, _nbprop);
 }
 
 /** Sets the number of properties of this type */
 void NetObj::setProperties(uint8_t _type_id, uint8_t _nbprop)
 {
-  NetProperty::setProperties(_type_id, _nbprop);
+  NetProp::setProperties(_type_id, _nbprop);
 }
 
 /** Sets an unique identifier to each Vreng netobj */
@@ -343,9 +343,9 @@ void NetObj::sendDelta(uint8_t prop_id)
     error("sendDelta: prop NULL");
     return;
   }
-  NetProperty *pprop = prop + prop_id;
+  NetProp *pprop = prop + prop_id;
   pprop->setResponsible(true);
-  pprop->resetDates();
+  pprop->newDate();
 
   Payload pp;
   pp.putPayload("cnch", VREP_DELTA, noid, prop_id, pprop->version);
@@ -410,7 +410,7 @@ void NetObj::declareDelta(uint8_t prop_id)
     error("declareDelta: invalid prop_id=%d > nprop=%d (type=%d)", prop_id, nprop, type);
     return;
   }
-  NetProperty *pprop = prop + prop_id;
+  NetProp *pprop = prop + prop_id;
   pprop->setResponsible(true);
   pprop->version += 1 + abs(rand() % VREP_VERS_JUMP); /* %10 */
   sendDelta(prop_id);

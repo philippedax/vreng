@@ -28,7 +28,7 @@
 #include "stat.hpp"	// new_netprop
 
 
-NetProperty::NetProperty()
+NetProp::NetProp()
 {
   min_assume_delay = DEF_REFRESH_TIMEOUT * 2;
   max_assume_delay = DEF_REFRESH_TIMEOUT * 5;
@@ -36,35 +36,35 @@ NetProperty::NetProperty()
 }
 
 /** Initializes responsibilities */
-void NetProperty::setResponsible(bool _responsible)
+void NetProp::setResponsible(bool _responsible)
 {
   responsible = _responsible;
 }
 
-NetProperty::~NetProperty()
+NetProp::~NetProp()
 {
   del_netprop++;
 }
 
 /** Returns the number of properties of this type */
-uint8_t NetProperty::getProperties(uint8_t _type_id)
+uint8_t NetProp::getProperties(uint8_t _type_id)
 {
   return getPropertiesnumber(_type_id);
 }
 
 /** Sets the number of properties of this type */
-void NetProperty::setProperties(uint8_t _type_id, uint8_t _nbprop)
+void NetProp::setProperties(uint8_t _type_id, uint8_t _nbprop)
 {
   setPropertiesnumber(_type_id, _nbprop);
 }
 
 /** Adds d seconds to the date */
-void NetProperty::addToDate(struct timeval *t, double d)
+void NetProp::addToDate(struct timeval *t, double d)
 {
-  double f = floor(d);
+  float f = floor(d);
 
   t->tv_sec += (time_t) f;
-  t->tv_usec += (time_t) ((d-f)*1e6);
+  t->tv_usec += (time_t) (d-f)*1e6;
   while (t->tv_usec >= 1000000) {
     t->tv_usec -= 1000000;
     t->tv_sec++;
@@ -75,7 +75,7 @@ void NetProperty::addToDate(struct timeval *t, double d)
  * Computes a new date for the assume_at of the property
  * and sets the last_seen at "now"
  */
-void NetProperty::resetDates()
+void NetProp::newDate()
 {
   struct timeval now;
   gettimeofday(&now, NULL);
@@ -84,7 +84,5 @@ void NetProperty::resetDates()
   assume_at = now;
 
   double delay = min_assume_delay + rand()/(RAND_MAX+1.0)*(max_assume_delay - min_assume_delay);
-  //trace(DBG_FORCE, "delay=%.2fs min=%.2fs max=%.2fs", delay, min_assume_delay, max_assume_delay);
-
   addToDate(&assume_at, delay);
 }

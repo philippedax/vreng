@@ -25,9 +25,9 @@
 
 
 /**
- * NetProperty class
+ * NetProp class
  */
-class NetProperty {
+class NetProp {
  public:
   bool responsible;		///< flag responsibility
   int16_t version;		///< version number
@@ -36,10 +36,10 @@ class NetProperty {
   float min_assume_delay;	///< min in secs
   float max_assume_delay;	///< max in secs
 
-  NetProperty();		///< Constructor
-  virtual ~NetProperty();	///< Destructor
+  NetProp();			///< Constructor
+  virtual ~NetProp();		///< Destructor
 
-  void resetDates();
+  void newDate();
   /**<
    * Computes a new date for the assume_at of the property
    * and sets the last_seen at "now"
@@ -48,9 +48,7 @@ class NetProperty {
   void setResponsible(bool flag);
 
   static uint8_t getProperties(uint8_t _type_id);
-
   static void setProperties(uint8_t _type_id, uint8_t _nbprop);
-
   static void addToDate(struct timeval *t, double d);
 };
 

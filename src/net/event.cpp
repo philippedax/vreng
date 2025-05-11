@@ -27,7 +27,7 @@
 #include "vrep.hpp"	// VREP_*
 #include "netobj.hpp"	// NetObj
 #include "payload.hpp"	// Payload
-#include "netprop.hpp"	// NetProperty
+#include "netprop.hpp"	// NetProp
 #include "oclass.hpp"	// isValidType
 #include "user.hpp"	// USER_TYPE
 #include "timer.hpp"	// diffDates
@@ -138,7 +138,7 @@ int netTimeout()
             continue;			// skip static properties
           }
       }
-      NetProperty *pprop = (*it)->prop + i;
+      NetProp *pprop = (*it)->prop + i;
       
       //
       // test if refresh timeout reached

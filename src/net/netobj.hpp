@@ -89,12 +89,12 @@ class NetObj {
     NET_PERMANENT	// local
   };
 
-  class Noid noid;		///< NetObj id
-  uint8_t type;			///< NetObj type
-  uint8_t nbprop;		///< number of properties
-  uint8_t state;		///< permanent or valatile (not a true bool)
-  class Object *object;		///< pointer on the Object
-  class NetProperty *prop;	///< netobj properties
+  class Noid noid;	///< NetObj id
+  uint8_t type;		///< NetObj type
+  uint8_t nbprop;	///< number of properties
+  uint8_t state;	///< permanent or valatile (not a true bool)
+  class Object *object;	///< pointer on the Object
+  class NetProp *prop;	///< netobj properties
 
   NetObj();
   /**< Constructor for local */

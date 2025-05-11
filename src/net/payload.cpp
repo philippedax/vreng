@@ -31,7 +31,7 @@
 #include "channel.hpp"	// Channel
 #include "session.hpp"	// buildRtpHeader
 #include "source.hpp"	// Source
-#include "netprop.hpp"	// NetProperty
+#include "netprop.hpp"	// NetProp
 #include "stat.hpp"	// statSendRTP getSentPackets
 
 
@@ -657,7 +657,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
     error("inDelta: invalid property prop_id=%d" "(type=%d, nprop=%d)", prop_id, pn->type, nprop);
     return;
   }
-  NetProperty *pprop = pn->prop + prop_id;
+  NetProp *pprop = pn->prop + prop_id;
 
   //
   // depends on prop version
@@ -669,7 +669,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
   }
   if (d > 0) return;			// mine is more recent
 
-  pprop->resetDates();
+  pprop->newDate();
   if (d < 0) {  	// mine is less recent, its own is more recent
     pn->getProperty(prop_id, this);
     pprop->setResponsible(false); // leave responsibility to the other one
