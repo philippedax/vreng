@@ -71,16 +71,16 @@ void netIncoming(int fd)
       // parse VREP
       //
       switch (cmd) {
-        case VREP_CREATE: case VREP_CREATE_V1:
+        case VREP_CREATE:
           pp->incomingCreate(&from);
           break;
-        case VREP_DELTA: case VREP_DELTA_V1:
+        case VREP_DELTA:
           pp->incomingDelta(&from);
           break;
-        case VREP_QUERY: case VREP_QUERY_V1:
+        case VREP_QUERY:
           pp->incomingQuery(&from);
           break;
-        case VREP_DELETE: case VREP_DELETE_V1:
+        case VREP_DELETE:
           pp->incomingDelete(&from);
           break;
         default:
@@ -150,7 +150,7 @@ int netTimeout()
       if (Timer::diffDates(pprop->assume_at, now) > 0) {
         // now > assume_at: assume's timeout on this property
         if ((*it)->isPermanent()) {	// permanent object (door, lift, button, thing, ...)
-          if (pprop->version != 0) {
+          if (pprop->version) {
             // if permanent prop hasn't its initial value,
             // somebody must assume responsibility
             echo("netTimeout: (permanent) assuming responsibility for %s prop=%d unseen for %5.2fs", (*it)->noid.getNoid(), i, Timer::diffDates(pprop->last_seen, now));
@@ -159,7 +159,9 @@ int netTimeout()
                    "of something I am responsible for");
               return -1;
             }
+            //
             // heartbeat
+            //
             (*it)->declareDelta(i);	// assume responsibility: publish my existence
           }
         }
