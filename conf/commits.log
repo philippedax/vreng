@@ -3609,3 +3609,4 @@
 3609 Sam 10 mai 2025 10:40:12 CEST	cleanup NEEDLOOPBACK payload.*pp
 3610 Sam 10 mai 2025 12:08:24 CEST	cleanup event.cpp
 3611 Sam 10 mai 2025 15:04:28 CEST	cleanup netobj.cpp
+3612 Dim 11 mai 2025 11:18:14 CEST	cleanup class NetProp netprop.*pp

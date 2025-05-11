@@ -208,27 +208,6 @@ int Payload::getPayload(const char *format, ...)
       continue;
     }
 
-#if 0 //debug
-    switch (*format) {
-    case 'c':
-      echo("format=%c idx=%d len=%d data=[%c %02x]", *format, idx, len, data[idx+0], data[idx+1]);
-      break;
-    case 'h':
-      echo("format=%c idx=%d len=%d data=[%c %02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2]);
-      break;
-    case 'd':
-    case 'f':
-      echo("format=%c idx=%d len=%d data=[%c %02x%02x%02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2], data[idx+3], data[idx+4]);
-      break;
-    case 'n':
-      echo("format=%c idx=%d len=%d data=[%c %02x%02x%02x%02x %02x%02x %02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2], data[idx+3], data[idx+4], data[idx+5], data[idx+6], data[idx+7], data[idx+8]);
-      break;
-    case 's':
-      echo("format=%c idx=%d len=%d data=[%c %02x %02x%02x%02x%02x%02x%02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2], data[idx+3], data[idx+4], data[idx+5], data[idx+6], data[idx+7], data[idx+8]);
-      break;
-    }
-#endif //debug
-
     // test matching Payload - format
     if (data[idx] != *format) {
       error("getPayload: mismatch '%c'[x'%02x'], format='%s', len=%d, idx=%d[x'%02x']",
@@ -424,7 +403,6 @@ int Payload::sendPayload(const struct sockaddr_in *to)
     error("sendPayload: to NULL");
     return -1;
   }
-  //dax if (! len) { return -1; }
 
   /*
    * builds the RTP Header
@@ -450,8 +428,8 @@ int Payload::sendPayload(const struct sockaddr_in *to)
   case VREP_VERSION_V3:
     pkt_len = RTP_HDR_SIZE + VREP_HDR_SIZE_V3 + len;	// bytes
     memcpy(hdrpl+VREP_HDR_SIZE_V3, data, len);
-    //TODO: if (gzipped) do compression
     break;
+#if 0 //ignore
   case VREP_VERSION_V2:
     hdrpl[VREP_HDR_FLAGS] = 1;	// payload header length in words
     hdrpl[VREP_HDR_IP] = AF_INET;
@@ -460,6 +438,7 @@ int Payload::sendPayload(const struct sockaddr_in *to)
     memcpy(hdrpl+VREP_HDR_SIZE_V2, data, len);
     hdrpl[VREP_HDR_SIZE_V2 + len] = 0;	// end of payload chunk
     break;
+#endif //ignore
   default:
     error("sendpayload: bad vrep_version=%d", vrep);
     return -1;
@@ -477,7 +456,7 @@ int Payload::sendPayload(const struct sockaddr_in *to)
   Rtp::sendPacket(sd, pkt, pkt_len, to);
   statSendRTP(pkt_len);
 
-  /* Updates SR, TODO: computes RCTP interval */
+  // Updates SR, TODO: computes RCTP interval
   pchan->session->sr.psent++;
   pchan->session->sr.osent += pkt_len;
 
@@ -589,8 +568,8 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
     vrep_hdr_size = VREP_HDR_SIZE_V3;
     vrep_len = pkt_len - rtp_hdr_size - vrep_hdr_size;
     gzipped = hdrpl[VREP_HDR_VERSION] & VREP_GZIP_MASK;
-    //TODO: ungzip data and update len
     break;
+#if 0 //ignoree
   case VREP_VERSION_V2:
     /* old version <= 5.1.5 VREP2 */
     vrep_hdr_size = VREP_HDR_SIZE_V2;
@@ -605,6 +584,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
     vrep_len = hdrpl[VREP_HDR_PLLEN_V1]; // length in bytes <= 1.5.8 VREP1
     memcpy(&from->sin_addr.s_addr, hdrpl+VREP_HDR_SRCID_V1, 4);
     memcpy(&from->sin_port, hdrpl+VREP_HDR_PORTID_V1, 2);
+#endif //ignore
   }
 
   //
