@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "slider.hpp"
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 
 
 const OClass Slider::oclass(SLIDER_TYPE, "Slider", Slider::creator);
@@ -140,6 +140,6 @@ void Slider::funcs()
   putPropFunc(SLIDER_TYPE, PROPAY, _Payload put_ay);
   putPropFunc(SLIDER_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(SLIDER_TYPE, 0, _Action gotoFront, "Approach");
+  setActionFunc(SLIDER_TYPE, 0, _Action goFront, "Approach");
   setActionFunc(SLIDER_TYPE, 1, _Action pause_cb, "Pause/Continue");
 }

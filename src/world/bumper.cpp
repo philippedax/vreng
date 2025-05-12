@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "bumper.hpp"
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 #include "user.hpp"	// localuser
 #include "ball.hpp"	// BALL_TYPE
 
@@ -147,6 +147,6 @@ void Bumper::quit()
 
 void Bumper::funcs()
 {
-  setActionFunc(BUMPER_TYPE, 0, _Action gotoFront, "Approach");
+  setActionFunc(BUMPER_TYPE, 0, _Action goFront, "Approach");
   setActionFunc(BUMPER_TYPE, 1, _Action pause_cb, "Pause/Continue");
 }

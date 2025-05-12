@@ -29,7 +29,7 @@
 #include "world.hpp"	// current()
 #include "cache.hpp"	// setCachePath
 #include "user.hpp"	// pos
-#include "move.hpp"	// gotoXYZ
+#include "move.hpp"	// goXYZ
 #include "render.hpp"	// highlight
 #include "vicinity.hpp"	// analScene
 #include "xml.hpp"	// selectProximity
@@ -194,7 +194,7 @@ value deplacement_to_Objet(value px, value py, value pz, value ori, value depl)
     localuser->pos.az = orient;
   }
   else {
-    gotoXYZ(posx, posy, posz, orient);
+    goXYZ(posx, posy, posz, orient);
   }
   return Val_int(0);
 }
@@ -271,7 +271,7 @@ value deplacement_to_Proximite(value mot, value pos)
 #endif
 
   if (! res) {
-    gotoXYZ(posx, posy, posz, orient);
+    goXYZ(posx, posy, posz, orient);
   }
   return Val_int(0);
 }

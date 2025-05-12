@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "vnc.hpp"
 #include "matvec.hpp"   // V3 M4
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 #include "glu.hpp"	// glu alternative
 #include "gui.hpp"	// setToVnc launchVnc
 #include "env.hpp"	// passwd
@@ -475,5 +475,5 @@ void Vnc::funcs()
   setActionFunc(VNC_TYPE, 1, _Action leaveFocus, "Navigate");
   setActionFunc(VNC_TYPE, 2, _Action disconnectServer, "Disconnect");
   setActionFunc(VNC_TYPE, 3, _Action reconnectServer, "Reconnect");
-  setActionFunc(VNC_TYPE, 4, _Action gotoFront, "Approach");
+  setActionFunc(VNC_TYPE, 4, _Action goFront, "Approach");
 }

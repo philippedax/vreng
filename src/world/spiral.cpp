@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "spiral.hpp"
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 
 
 const OClass Spiral::oclass(SPIRAL_TYPE, "Spiral", Spiral::creator);
@@ -107,5 +107,5 @@ void Spiral::quit()
 
 void Spiral::funcs()
 {
-  setActionFunc(SPIRAL_TYPE, 0, _Action gotoFront, "Approach");
+  setActionFunc(SPIRAL_TYPE, 0, _Action goFront, "Approach");
 }

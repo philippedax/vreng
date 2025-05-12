@@ -426,7 +426,7 @@ int Parse::parseVreFile(char *buf, int buflen)
       bol = eol + 1;	// begin of next line = end of current line + \n
     }
     else {
-      break;		// goto next line
+      break;		// next line
     }
   }
   DELETE2(line);

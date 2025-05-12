@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "door.hpp"
 #include "matvec.hpp"   // V3 M4
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 #include "user.hpp"	// USER-TYPE
 #include "netobj.hpp"	// NetObj
 #include "sound.hpp"	// playSound
@@ -319,5 +319,5 @@ void Door::funcs()
   setActionFunc(DOOR_TYPE, 1, _Action close_cb, "Close");
   setActionFunc(DOOR_TYPE, 2, _Action unlock_cb, "Unlock");
   setActionFunc(DOOR_TYPE, 3, _Action lock_cb, "Lock");
-  setActionFunc(DOOR_TYPE, 4, _Action gotoFront, "Approach");
+  setActionFunc(DOOR_TYPE, 4, _Action goFront, "Approach");
 }

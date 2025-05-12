@@ -203,5 +203,4 @@ void Mirror::funcs()
 {
   setActionFunc(MIRROR_TYPE, 0, _Action mirrorOn, "Switch-On");
   setActionFunc(MIRROR_TYPE, 1, _Action mirrorOff, "Switch-Off");
-  setActionFunc(MIRROR_TYPE, 2, _Action gotoFront, "Approach");
 }

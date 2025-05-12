@@ -52,13 +52,13 @@ enum {
 void changeKey(int key_id, bool pressed, time_t s, time_t u);
 /** pressed is TRUE for a Key Press and FALSE for a Key Release */
 
-void gotoFront(class Object *po, void *d, time_t s, time_t u);
+void goFront(class Object *o, void *d, time_t s, time_t u);
 /** Moves the user in front of the object */
 
-void gotoBehind(class Object *po, void *d, time_t s, time_t u);
+void goBehind(class Object *o, void *d, time_t s, time_t u);
 /** Moves the user behind the object */
 
-void gotoXYZ(float gox, float goy, float goz, float az);
+void goXYZ(float gox, float goy, float goz, float az);
 /** Move the user to the point */
 
 //static void moveObject(class Object *object);

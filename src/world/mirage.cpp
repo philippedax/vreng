@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "mirage.hpp"
 #include "user.hpp"	// user
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 #include "sql.hpp"	// VSql
 #include "timer.hpp"	// rate
 #include "flare.hpp"	// Flare
@@ -303,7 +303,7 @@ void Mirage::leavemanip_cb(Mirage *mirage, void *d, time_t s, time_t u)
 
 void Mirage::funcs()
 {
-  setActionFunc(MIRAGE_TYPE, APPROACH, _Action gotoFront, "Approach");
+  setActionFunc(MIRAGE_TYPE, APPROACH, _Action goFront, "Approach");
   setActionFunc(MIRAGE_TYPE, TAKE,     _Action takemanip_cb, "Take");
   setActionFunc(MIRAGE_TYPE, LEAVE,    _Action leavemanip_cb, "Leave");
   setActionFunc(MIRAGE_TYPE, DESTROY,  _Action destroy, "Destroy");

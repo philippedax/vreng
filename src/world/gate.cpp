@@ -27,7 +27,7 @@
 #include "matvec.hpp"   // V3 M4
 #include "world.hpp"	// enter
 #include "universe.hpp"	// Universe
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 #include "channel.hpp"	// join
 #include "entry.hpp"	// set
 #include "user.hpp"	// USER_TYPE, localuser
@@ -293,6 +293,6 @@ void Gate::funcs()
   putPropFunc(GATE_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(GATE_TYPE, 0, _Action enter_cb, "Enter");
-  setActionFunc(GATE_TYPE, 1, _Action gotoFront, "Approach");
+  setActionFunc(GATE_TYPE, 1, _Action goFront, "Approach");
   //setActionFunc(GATE_TYPE, 2, _Action moveObject, "Move");
 }

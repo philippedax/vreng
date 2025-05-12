@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "widget.hpp"
 #include "matvec.hpp"   // V3 M4
-#include "move.hpp"     // gotoFront
+#include "move.hpp"     // goFront
 
 
 const OClass Widget::oclass(WIDGET_TYPE, "Widget", Widget::creator);
@@ -247,5 +247,5 @@ void Widget::funcs()
 {
   setActionFunc(WIDGET_TYPE, 0, _Action takeFocus,  "Focus");
   setActionFunc(WIDGET_TYPE, 1, _Action leaveFocus, "Navigate");
-  setActionFunc(WIDGET_TYPE, 2, _Action gotoFront, "Approach");
+  setActionFunc(WIDGET_TYPE, 2, _Action goFront, "Approach");
 }

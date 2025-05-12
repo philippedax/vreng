@@ -25,7 +25,6 @@
 #include "vreng.hpp"
 #include "template.hpp"
 #include "matvec.hpp"   // V3 M4
-#include "move.hpp"     // gotoFront
 
 
 const OClass Template::oclass(TEMPLATE_TYPE, "Template", Template::creator);
@@ -121,5 +120,4 @@ void Template::funcs()
 {
   setActionFunc(TEMPLATE_TYPE, 0, _Action action1, "action1");
   setActionFunc(TEMPLATE_TYPE, 1, _Action action2, "action2");
-  setActionFunc(TEMPLATE_TYPE, 2, _Action gotoFront, "Approach");
 }

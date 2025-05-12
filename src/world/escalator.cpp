@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "escalator.hpp"
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 
 
 const OClass Escalator::oclass(ESCALATOR_TYPE, "Escalator", Escalator::creator);
@@ -135,5 +135,5 @@ void Escalator::funcs()
 {
   setActionFunc(ESCALATOR_TYPE, 0, _Action pause_cb, "Pause/Continue");
   //setActionFunc(ESCALATOR_TYPE, 1, _Action stop_cb, "Stop/Restart");
-  //setActionFunc(ESCALATOR_TYPE, 2, _Action gotoFront, "Approach");
+  //setActionFunc(ESCALATOR_TYPE, 2, _Action goFront, "Approach");
 }

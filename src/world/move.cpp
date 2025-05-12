@@ -609,7 +609,7 @@ void Object::moveUserToObject(float sgn, float lttl, float attl)
 }
 
 /** Moves the user at the point x,y,z */
-void gotoXYZ(float gox, float goy, float goz, float az)
+void goXYZ(float gox, float goy, float goz, float az)
 {
   if (! localuser) return;
 
@@ -638,13 +638,13 @@ void gotoXYZ(float gox, float goy, float goz, float az)
 }
 
 /** Moves the user in front of the object */
-void gotoFront(Object *po, void *d, time_t s, time_t u)
+void goFront(Object *po, void *d, time_t s, time_t u)
 {
   po->moveUserToObject(1, 5, .5);	// lttl: 5sec attl: 1/2sec
 }
 
 /** Moves the user behind the object */
-void gotoBehind(Object *po, void *d, time_t s, time_t u)
+void goBehind(Object *po, void *d, time_t s, time_t u)
 {
   po->moveUserToObject(-1, 4, 1);
 }

@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "travolator.hpp"
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 
 
 const OClass Travolator::oclass(TRAVOLATOR_TYPE, "Travolator", Travolator::creator);
@@ -112,5 +112,5 @@ void Travolator::quit()
 void Travolator::funcs()
 {
   setActionFunc(TRAVOLATOR_TYPE, 0, _Action pause_cb, "Pause/Continue");
-  setActionFunc(TRAVOLATOR_TYPE, 1, _Action gotoFront, "Approach");
+  setActionFunc(TRAVOLATOR_TYPE, 1, _Action goFront, "Approach");
 }

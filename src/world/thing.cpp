@@ -269,7 +269,6 @@ void Thing::funcs()
   setActionFunc(THING_TYPE, TAKE,     _Action takemanip_cb, "Take");
   setActionFunc(THING_TYPE, LEAVE,    _Action leavemanip_cb, "Leave");
   setActionFunc(THING_TYPE, BASKET,   _Action dropIntoBasket, "Basket");
-  setActionFunc(THING_TYPE, APPROACH, _Action gotoFront, "Approach");
   setActionFunc(THING_TYPE, DESTROY,  _Action destroy, "Destroy");
   setActionFunc(THING_TYPE, RECREATE, _Action recreate, "");
 }

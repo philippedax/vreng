@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "step.hpp"
 #include "user.hpp"	// localuser
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 
 #include <vector>
 
@@ -445,5 +445,5 @@ void Step::funcs()
   putPropFunc(STEP_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(STEP_TYPE, 0, _Action pause_cb, "Pause/Running");
-  setActionFunc(STEP_TYPE, 1, _Action gotoFront, "Approach");
+  setActionFunc(STEP_TYPE, 1, _Action goFront, "Approach");
 }

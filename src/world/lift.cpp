@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "lift.hpp"
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 #include "user.hpp"	// localuser
 #include "netobj.hpp"   // netop
 
@@ -205,5 +205,5 @@ void Lift::funcs()
   setActionFunc(LIFT_TYPE, 0, _Action up_cb, "Up");
   setActionFunc(LIFT_TYPE, 1, _Action down_cb, "Down");
   setActionFunc(LIFT_TYPE, 2, _Action call_cb, "Call");
-  setActionFunc(LIFT_TYPE, 3, _Action gotoFront, "Approach");
+  setActionFunc(LIFT_TYPE, 3, _Action goFront, "Approach");
 }

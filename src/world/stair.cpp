@@ -24,7 +24,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "stair.hpp"
-#include "move.hpp"	// gotoFront
+#include "move.hpp"	// goFront
 
 
 const OClass Stair::oclass(STAIR_TYPE, "Stair", Stair::creator);
@@ -112,5 +112,5 @@ void Stair::quit()
 
 void Stair::funcs()
 {
-  setActionFunc(STAIR_TYPE, 0, _Action gotoFront, "Approach");
+  setActionFunc(STAIR_TYPE, 0, _Action goFront, "Approach");
 }
