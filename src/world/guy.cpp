@@ -45,7 +45,7 @@ const float Guy::LEGS_COLOR[] = {.1, .3, .9, 1};
 const float Guy::FEET_COLOR[] = {.0, .0, .0, 1};
 
 
-/* Creation from a file */
+/** Creation from a file */
 Object * Guy::creator(char *l)
 {
   return new Guy(l);
@@ -182,50 +182,43 @@ void Guy::reader(void *_guy, Http *http)
     error("can't open %s", http->url);
     return;
   }
-  //echo("url: %s", http->url);
 
   char *l, line[256];
-
   fgets(line, sizeof(line), f);		// numjoints
   line[strlen(line) - 1] = '\0';
   guy->numjoints = atoi(line);
   guy->curve = new tCset[guy->numjoints];
-
   fgets(line, sizeof(line), f);		// skip unused line
-
   for (int j=0; j < guy->numjoints; j++) {
     fgets(line, sizeof(line), f);	// numpoints
     line[strlen(line) - 1] = '\0';
     pts = atoi(line);
-    if (pts < 4 || pts > MAX_POINTS) goto abort;
-    guy->curve[j].numpoints = pts;
-
-    fgets(line, sizeof(line), f);	// coords of joinpoints
-    line[strlen(line) - 1] = '\0';
-    l = strtok(line, " ");
-    for (int i=0; i < pts; i++) {
-      guy->curve[j].coords[i] = static_cast<float>(atof(l));
-      l = strtok(NULL, " ");
+    if (pts < 4 || pts > MAX_POINTS) {
+      error("wrong CSet file, numjoints=%d, pts=%d", guy->numjoints, pts);
+      guy->pose();
     }
-
-    fgets(line, sizeof(line), f);	// angles
-    line[strlen(line) - 1] = '\0';
-    l = strtok(line, " ");
-    for (int i=0; i < pts; i++) {
-      guy->curve[j].angles[i] = static_cast<float>(atof(l));
-      l = strtok(NULL, " ");
+    else {
+      guy->curve[j].numpoints = pts;
+      fgets(line, sizeof(line), f);	// coords of joinpoints
+      line[strlen(line) - 1] = '\0';
+      l = strtok(line, " ");
+      for (int i=0; i < pts; i++) {
+        guy->curve[j].coords[i] = static_cast<float>(atof(l));
+        l = strtok(NULL, " ");
+      }
+      fgets(line, sizeof(line), f);	// angles
+      line[strlen(line) - 1] = '\0';
+      l = strtok(line, " ");
+      for (int i=0; i < pts; i++) {
+        guy->curve[j].angles[i] = static_cast<float>(atof(l));
+        l = strtok(NULL, " ");
+      }
     }
   }
   cache->close();
   delete cache;
   return;
 
-abort:
-  error("wrong CSet file, numjoints=%d, pts=%d", guy->numjoints, pts);
-  guy->setPose();
-  cache->close();
-  delete cache;
-  return;
 }
 
 /** Computes curves */
@@ -240,7 +233,6 @@ void Guy::computeCurve()
     for (int i=0; i<4; i++) {
       pointset[2][i] = 0;
     }
-
     int newindex, lastindex = -1;
     for (int p=0; p < curve[join].numpoints; p += 3) {
       float t = 0.;
@@ -271,7 +263,8 @@ void Guy::computeCurve()
   }
 }
 
-void Guy::setPose()
+/** pose */
+void Guy::pose()
 {
   for (int i=0; i < numjoints; i++) {
     curve[i].numpoints = 4;

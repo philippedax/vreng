@@ -173,7 +173,6 @@ class Guy: public Object {
   bool publish(const Pos &oldpos);
   /**< Publishes to network. */
 
-
  private:
   void parser(char *l);
   /**< Parses file line. */
@@ -193,8 +192,8 @@ class Guy: public Object {
   void draw();
   /**< Draws the body. */
 
-  void setPose();
-  /**< unused */
+  void pose();
+  /**< clears */
 
   static void reader(void *oa, Http *http);
   /**< Reads cset files. */
