@@ -61,9 +61,6 @@ class Texture {
   static void init();
   /**< Initializes the texture cache. */
 
-  static void quit();
-  /**< Close the texture cache. */
-
   static GLuint open(const char *url);
   /**< Opens a texture. */
 
@@ -76,14 +73,17 @@ class Texture {
   static Texture * getTexById(GLuint texid);
   /**< Gets a texture by its texture id. */
 
-  static GLuint getIdByObject(class Object *wo);
-  /**< Gets a texture id by its object. */
-
   static void update();
   /**< Updates textures (resizing). */
 
-  static void listTextures();
+  void quit();
+  /**< Close the texture cache. */
+
+  void listTextures();
   /**< List textureList. */
+
+  static GLuint getIdByObject(class Object *wo);
+  /**< Gets a texture id by its object. */
 };
 
 #endif

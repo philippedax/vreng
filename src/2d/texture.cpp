@@ -69,10 +69,8 @@ void Texture::update()
       }
       glBindTexture(GL_TEXTURE_2D, (*it)->tex_id);
 
-      if (! (*it)->img->wellsized()) {
-        // image must be resized
+      if (! (*it)->img->wellsized()) {	// image must be resized
         Img *img1 = NULL;
-        //echo("to resize: %s", (*it)->url);
         if (! (img1 = (*it)->img->resize(Img::SIZE, Img::SIZE))) {
           error("updateTextures: id=%d u=%s", (*it)->tex_id, (*it)->url);
           continue;
@@ -81,15 +79,12 @@ void Texture::update()
                      GL_RGB, GL_UNSIGNED_BYTE, img1->pixmap);
         if (img1) delete img1;
       }
-      else {
-        // image well sized
-        if (! (*it)->img->nummipmaps) {
-          // no mipmap
+      else {				// image well sized
+        if (! (*it)->img->nummipmaps) {	// no mipmap
           glTexImage2D(GL_TEXTURE_2D, 0, 3, (*it)->img->width, (*it)->img->height, 0,
                        GL_RGB, GL_UNSIGNED_BYTE, (*it)->img->pixmap);
         }
-        else {
-          // have mipmap
+        else {				// have mipmap
           GLsizei mipw = (*it)->img->width;
           GLsizei miph = (*it)->img->height;
           int mipc = ((*it)->img->bpp == Img::RGB) ? 8 : 16;
@@ -102,10 +97,8 @@ void Texture::update()
           // upload mipmaps to video memory
           for (GLint mip = 0; mip < (*it)->img->nummipmaps; ++mip) {
             GLsizei mips = ((mipw + 3) / 4) * ((miph + 3) / 4) * mipc;	// mip size
-
             glCompressedTexImage2D(GL_TEXTURE_2D, mip, (*it)->img->bpp,
-                                   mipw, miph, 0, mips,
-                                   (*it)->img->pixmap + off);
+                                   mipw, miph, 0, mips, (*it)->img->pixmap + off);
             mipw = MAX(mipw >> 1, 1);
             miph = MAX(miph >> 1, 1);
             off += mips;
@@ -137,7 +130,6 @@ void Texture::selectLoader(void *_tex, Http *_http)
   if (! _http) return;
   Texture *tex = static_cast<Texture *> (_tex);
   tex->http = _http;
-  //echo("texture: %s", tex->url);
 
   uint8_t format = 0;
   Img *img = NULL;
