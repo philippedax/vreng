@@ -26,7 +26,7 @@ dev=""			# suffix for libs packages
 pfx=/usr		# prefix for libs
 dyl=so			# suffix for libs
 ret=0			# return code
-log=../log/by_hand.log	# log to install by hand
+log=log/by_hand.log	# log to install by hand
 
 
 # name of this script
@@ -217,7 +217,7 @@ else
 fi
 
 # libGLU
-pfx=/usr
+pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
 if [ -f $pfx/lib/libGLU.$dyl ]; then
   echo "$p: have libGLU !"
 else
@@ -228,7 +228,7 @@ else
 fi
 
 # libX11
-pfx=/usr
+pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
 if [ -f $pfx/lib/libX11.$dyl ]; then
   echo "$p: have libX11 !"
 else
@@ -238,7 +238,7 @@ else
 fi
 
 # libXmu
-pfx=/usr
+pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
 if [ -f $pfx/lib/libXmu.$dyl ]; then
   echo "$p: have libXmu !"
 else
@@ -248,7 +248,7 @@ else
 fi
 
 # libXpm
-pfx=/usr
+pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
 if [ -f $pfx/lib/libXpm.$dyl ]; then
   echo "$p: have libXpm !"
 else
@@ -350,8 +350,10 @@ fi
 ret=0
 
 if [ $do_sudo != "yes" ]; then
-  echo "$p: the following operations must to do manually"
-  cat $log
+  if [ -s $log ]; then
+    echo "$p: the following operations must to do manually"
+    cat $log
+  fi
 fi
 
 exit $ret
