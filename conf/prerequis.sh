@@ -61,6 +61,7 @@ Darwin)	# macos
   else
     echo "$p: get brew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    pfx=/usr
     echo "install brew" >>$log
   fi
 
@@ -216,6 +217,7 @@ else
 fi
 
 # libGLU
+pfx=/usr
 if [ -f $pfx/lib/libGLU.$dyl ]; then
   echo "$p: have libGLU !"
 else
@@ -226,6 +228,7 @@ else
 fi
 
 # libX11
+pfx=/usr
 if [ -f $pfx/lib/libX11.$dyl ]; then
   echo "$p: have libX11 !"
 else
@@ -235,6 +238,7 @@ else
 fi
 
 # libXmu
+pfx=/usr
 if [ -f $pfx/lib/libXmu.$dyl ]; then
   echo "$p: have libXmu !"
 else
@@ -244,6 +248,7 @@ else
 fi
 
 # libXpm
+pfx=/usr
 if [ -f $pfx/lib/libXpm.$dyl ]; then
   echo "$p: have libXpm !"
 else
@@ -294,7 +299,6 @@ fi
 
 # libfreetype
 pfx=$(freetype-config --prefix)
-pfx=/usr/local
 if [ -f $pfx/lib/libfreetype.$dyl ]; then
   echo "$p: have freetype !"
 else
