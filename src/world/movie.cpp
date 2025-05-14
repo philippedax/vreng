@@ -53,6 +53,7 @@ Object * Movie::creator(char *l)
   return new Movie(l);
 }
 
+/** Default values */
 void Movie::defaults()
 {
   rate = FPS;
@@ -60,6 +61,7 @@ void Movie::defaults()
   anim = false;
 }
 
+/** Parser */
 void Movie::parser(char *l)
 {
   defaults();
@@ -80,6 +82,7 @@ void Movie::parser(char *l)
   end_while_parse(l);
 }
 
+/** Constructor */
 Movie::Movie(char *l)
 {
   state = INACTIVE;
@@ -106,6 +109,7 @@ Movie::Movie(char *l)
   }
 }
 
+/** Opens mpg */
 void Movie::open_mpg()
 {
   if (mpg) return;		// an instance is already running
@@ -120,12 +124,11 @@ void Movie::open_mpg()
     return;
   }
   if (! (fp = file->open(filempg, "r"))) {
-    error("can't open mpg");
+    error("can't open filempg");
     delete[] filempg;
     delete file;
     return;
   }
-  //echo("mpg: open %s", name.url);
 
   mpg = new ImageDesc[1];
 
@@ -139,7 +142,6 @@ void Movie::open_mpg()
   }
   else {
     error("can't OpenMPEG %s", name.url);
-    delete[] filempg;
     delete[] mpg;
     mpg = NULL;
     file->close();
@@ -148,6 +150,7 @@ void Movie::open_mpg()
   }
 }
 
+/** Opens avi */
 void Movie::open_avi()
 {
   if (avi) return;		// an instance is already running
@@ -167,6 +170,7 @@ void Movie::open_avi()
   //echo("open_avi: w=%d h=%d f=%.3f", width, height, fps);
 }
 
+/** Inits texture */
 void Movie::init_tex()
 {
   GLint param = (::g.pref.quality3D) ? GL_LINEAR : GL_NEAREST;
@@ -198,6 +202,7 @@ void Movie::init_tex()
   //echo("texid=%d (%s)", texid, Texture::getUrlById(texid));
 }
 
+/** inits */
 void Movie::inits()
 {
   switch (vidfmt) {
@@ -211,7 +216,7 @@ void Movie::inits()
   }
   init_tex();
 
-  /* creates a spot */
+  // creates a spot
   spot = new Spot(this, (void *)Spot::SPOT_PENTAGON, 0L, 0L);
 }
 
@@ -227,8 +232,7 @@ void Movie::play_mpg()
 
   if (! mpg) return;
   // get a frame from the mpg video stream
-  if (GetMPEGFrame(reinterpret_cast<char *>(videobuf)) == false) { // end of mpg video
-  //if (GetMPEGFrame((char *)(videobuf)) == false) { // end of mpg video
+  if (GetMPEGFrame(reinterpret_cast<char *> (videobuf)) == false) { // end of mpg video
     if (state == LOOP) {
       RewindMPEG(fp, mpg);	// rewind mpg video
       begin = true;
@@ -244,7 +248,6 @@ void Movie::play_mpg()
       delete spot;
       spot = NULL;
     }
-    //parser(line);	// try to redisplay initial texture
     return;
   }
   // mpg frame : build pixmap texture
@@ -276,6 +279,7 @@ void Movie::play_mpg()
   }
 }
 
+/** Plays an avi frame */
 void Movie::play_avi()
 {
   int ret, len;
@@ -320,6 +324,7 @@ void Movie::play_avi()
   }
 }
 
+/** Binds frame tex */
 void Movie::bind_frame()
 {
   glEnable(GL_TEXTURE_2D);
@@ -340,17 +345,15 @@ void Movie::permanent(float lasting)
   if (state == INACTIVE || state == PAUSE) return;
 
   static struct timeval tstart;
-
   if (begin) {
     gettimeofday(&tstart, NULL);
     begin = false;
   }
   uint16_t finter = frame;	// previous frame
 
+  // current frame
   struct timeval tcurr;
   gettimeofday(&tcurr, NULL);
-  	
-  // current frame
   frame = (uint16_t) floor(((((float)((tcurr.tv_sec - tstart.tv_sec) * 1000.)) +
 	                     ((float)((tcurr.tv_usec - tstart.tv_usec) / 1000.)) / 1000.)
                            ) * (float)(rate));
@@ -368,7 +371,6 @@ void Movie::permanent(float lasting)
       break;
     }
   }
-
   bind_frame();
 }
 
