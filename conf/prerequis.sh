@@ -21,29 +21,28 @@ do_sudo="no"		# change to "yes" if you trust this scipt to do sudo
 
 dist=""			# os distribution
 cmd=""			# command to install
-sudo=""			# sudo or not
-dev=""			# suffix for libs
 pfx=/usr		# prefix for libs
-dyl=so			# suffix for libs
+sfx=so			# suffix for libs
+dev=""			# suffix for libs
 ret=0			# return code
 log=log/by_hand.log	# log to install by hand
 
 
 # name of this script
 p=$(basename $0)
+cp /dev/null $log
 
-####
-# determines sudo
 #
-if [ "do_sudo" == "yes" ]; then
-  sudo=sudo
-else
+# choose sudo
+#
+if [ "do_sudo" == "no" ]; then
   sudo=""
-  cp /dev/null $log
+else
+  sudo=sudo
 fi
 
-####
-# determines os
+###################
+# select os
 #
 case $(uname -s) in
 
@@ -51,10 +50,10 @@ Darwin)		# macos
   dist=macos
   echo "$p: $dist !"
 
-  # brew
+  ## brew
   if [ $(which brew) ]; then
     echo "$p: brew !"
-    dyl=dylib
+    sfx=dylib
     dev=
   else
     echo "$p: get brew..."
@@ -62,7 +61,7 @@ Darwin)		# macos
     echo "install brew" >>$log
   fi
 
-  # X11
+  ## X11
   if [ $(which xquartz) ]; then
     echo "$p: xquartz !"
   else
@@ -70,7 +69,6 @@ Darwin)		# macos
     echo "brew install --cask xquartz" >>$log
     brew install --cask xquartz >>$log
   fi
-  java=java
   ret=0
   ;;
 
@@ -84,36 +82,42 @@ Linux)		# debian, ubuntu, mint, fedora, centos, arch
     ret=1
   fi
 
+  ## pkg system
   if [ $(which apt-get) ]; then
+    pkg="apt-get"
     echo "$p: apt-get !"
     cmd="$sudo apt-get install -y"
     dev="-dev"
-    dyl=so
     pfx=/usr
+    sfx=so
     java="default-jdk"
   elif [ $(which dnf) ]; then
+    pkg="dnf"
     echo "$p: dnf !"
     cmd="$sudo dnf install"
     dev="-devel"
-    dyl=so
     pfx=/usr
+    sfx=so
     java="java-1.8.0-openjdk.x86_64"
   elif [ $(which yum) ]; then
+    pkg="yum"
     echo "$p: yum !"
     cmd="$sudo yum install"
     dev="-devel"
-    dyl=so
     pfx=/usr
+    sfx=so
     java="java-1.8.0-openjdk.x86_64"	# not sure
   elif [ $(which pacman) ]; then
     dist=arch
+    pkg="pacman"
     echo "$p: pacman !"
     cmd="$sudo pacman -S"
-    dyl=so
     pfx=/usr
+    sfx=so
     java=java	# not sure
   else
     echo "$p: unknown linux distrib"
+    pkg=""
     ret=1
     exit $ret
   fi
@@ -123,8 +127,8 @@ Linux)		# debian, ubuntu, mint, fedora, centos, arch
 *bsd|*BSD)	# freeBSD, netBSD, openBSD
   echo "$p: bsd distrib !"
   cmd="$sudo pkg"
-  dyl=so
   pfx=/usr
+  sfx=so
   java=java	# not sure
   ret=0
   ;;
@@ -136,75 +140,75 @@ Linux)		# debian, ubuntu, mint, fedora, centos, arch
   ;;
 esac
 
-####
+###################
 # Autotools : autoconf, automake, aclocal, autoreconf
 #
 
-# autoconf
+## autoconf
 if [ $(which autoconf) ]; then
   echo "$p: autoconf !"
 else
   echo "$p: get autoconf..."
   echo "$cmd autoconf" >>$log
-  $cmd autoconf
+  $cmd autoconf >>$log
 fi
 
-# automake
+## automake
 if [ $(which automake) ]; then
   echo "$p: automake !"
 else
   echo "$p: get automake..."
   echo "$cmd automake" >>$log
-  $cmd automake
+  $cmd automake >>$log
 fi
 
-# aclocal
+## aclocal
 if [ $(which aclocal) ]; then
   echo "$p: aclocal !"
 else
   echo "$p: get aclocal..."
   echo "$cmd aclocal" >>$log
-  $cmd aclocal
+  $cmd aclocal >>$log
 fi
 
-# autoreconf
+## autoreconf
 if [ $(which autoreconf) ]; then
   echo "$p: autoreconf !"
 else
   echo "$p: get autoreconf..."
   echo "$cmd autoreconf" >>$log
-  $cmd autoreconf
+  $cmd autoreconf >>$log
 fi
 
-####
+###################
 # Compilers : g++, gcc
 #
 
-# g++
+## g++
 if [ $(which g++) ]; then
   echo "$p: g++ !"
 else
   echo "$p: get g++..."
   echo "$cmd g++" >>$log
-  $cmd g++
+  $cmd g++ >>$log
 fi
 
-# gcc
+## gcc
 if [ $(which gcc) ]; then
   echo "$p: gcc !"
 else
   echo "$p: get gcc..."
   echo "$cmd gcc" >>$log
-  $cmd gcc
+  $cmd gcc >>$log
 fi
 
-####
+###################
 # Libs : libGL, libGLU, libX11, libXmu, libXpm, libgif, libpng, libjpeg, libtiff, libfreetype
 #
 
-# libGL
+## libGL
 pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
-if [ -f $pfx/lib/libGL.$dyl ]; then
+if [ -f $pfx/lib/libGL.$sfx ]; then
   echo "$p: libGL !"
 else
   echo "$p: get libGL..."
@@ -213,9 +217,9 @@ else
   $cmd libGL$dev >>$log
 fi
 
-# libGLU
+## libGLU
 pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
-if [ -f $pfx/lib/libGLU.$dyl ]; then
+if [ -f $pfx/lib/libGLU.$sfx ]; then
   echo "$p: libGLU !"
 else
   echo "$p: get libGLU..."
@@ -224,9 +228,9 @@ else
   $cmd libGLU$dev >>$log
 fi
 
-# libX11
+## libX11
 pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
-if [ -f $pfx/lib/libX11.$dyl ]; then
+if [ -f $pfx/lib/libX11.$sfx ]; then
   echo "$p: libX11 !"
 else
   echo "$p: get libX11..."
@@ -234,9 +238,9 @@ else
   $cmd libX11$dev >>$log
 fi
 
-# libXmu
+## libXmu
 pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
-if [ -f $pfx/lib/libXmu.$dyl ]; then
+if [ -f $pfx/lib/libXmu.$sfx ]; then
   echo "$p: libXmu !"
 else
   echo "$p: get libXmu..."
@@ -244,9 +248,9 @@ else
   $cmd libXmu$dev >>$log
 fi
 
-# libXpm
+## libXpm
 pfx=$(which xinit | cut -d '/' -f 1,2,3)	# assume X11 is installed
-if [ -f $pfx/lib/libXpm.$dyl ]; then
+if [ -f $pfx/lib/libXpm.$sfx ]; then
   echo "$p: libXpm !"
 else
   echo "$p: get libXpm..."
@@ -254,9 +258,9 @@ else
   $cmd libXpm$dev >>$log
 fi
 
-# libgif
+## libgif
 pfx=/usr/local
-if [ -f $pfx/lib/libgif.$dyl ]; then
+if [ -f $pfx/lib/libgif.$sfx ]; then
   echo "$p: libgif !"
 else
   echo "$p: get libgif..."
@@ -264,9 +268,9 @@ else
   $cmd libgif$dev >>$log
 fi
 
-# libpng
+## libpng
 pfx=/usr/local
-if [ -f $pfx/lib/libpng.$dyl ]; then
+if [ -f $pfx/lib/libpng.$sfx ]; then
   echo "$p: libpng !"
 else
   echo "$p: get libpng..."
@@ -274,9 +278,9 @@ else
   $cmd libpng$dev >>$log
 fi
 
-# libjpeg
+## libjpeg
 pfx=/usr/local
-if [ -f $pfx/lib/libjpeg.$dyl ]; then
+if [ -f $pfx/lib/libjpeg.$sfx ]; then
   echo "$p: libjpeg !"
 else
   echo "$p: get libjpeg..."
@@ -284,9 +288,9 @@ else
   $cmd libjpeg$dev >>$log
 fi
 
-# libtiff
+## libtiff
 pfx=/usr/local
-if [ -f $pfx/lib/libtiff.$dyl ]; then
+if [ -f $pfx/lib/libtiff.$sfx ]; then
   echo "$p: libtiff !"
 else
   echo "$p: get libtiff..."
@@ -294,9 +298,9 @@ else
   $cmd libtiff$dev >>$log
 fi
 
-# libfreetype
+## libfreetype
 pfx=$(freetype-config --prefix)
-if [ -f $pfx/lib/libfreetype.$dyl ]; then
+if [ -f $pfx/lib/libfreetype.$sfx ]; then
   echo "$p: freetype !"
 else
   echo "$p: get freetype..."
@@ -304,11 +308,11 @@ else
   $cmd freetype$dev >>$log
 fi
 
-#
+####################
 # Optional : ocaml, sqlite3, java
 #
 
-# ocaml
+## ocaml
 if [ $(which ocaml) ]; then
   echo "$p: ocaml !"
 else
@@ -317,7 +321,7 @@ else
   $cmd ocaml >>$log
 fi
 
-# sqlite3
+## sqlite3
 if [ $(which sqlite3) ]; then
   echo "$p: sqlite3 !"
 else
@@ -326,7 +330,7 @@ else
   $cmd sqlite3 >>$log
 fi
 
-# java
+## java
 if [ $(which java) ]; then
   echo "$p: java !"
 else
@@ -335,8 +339,11 @@ else
   $cmd $java >>$log
 fi
 
-ret=0
+####################
+# Finish
+#
 
+ret=0
 if [ $do_sudo != "yes" ]; then
   if [ -s $log ]; then
     echo "$p: the following operations must to do manually"
