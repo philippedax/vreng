@@ -40,7 +40,7 @@ void initOcaml()
 {
   char *args[2];
 
-  args[0] = "";
+  args[0] = NULL;
   args[1] = NULL;
 #if HAVE_OCAML
   caml_startup(args);

@@ -14,7 +14,7 @@ MLI = requeteSyntax.mli stringParser.mli stringLexer.mli requeteParser.mli reque
 #CMX = $(CML:.ml=.cmx)
 
 CFLAGS = @OCAML_CFLAGS@ @UBIT_CFLAGS@ @XML2_CFLAGS@
-CXXFLAGS += -Wno-c++11-compat-deprecated-writable-strings
+#CXXFLAGS += -Wno-c++11-compat-deprecated-writable-strings
 SRC = $(top_srcdir)/src
 AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/net -I$(SRC)/world -I$(SRC)/3d -I$(SRC)/gui
 
