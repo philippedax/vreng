@@ -3621,3 +3621,4 @@
 3621 Mer 14 mai 2025 18:15:55 CEST	cleanup log by_hand prerequis.sh
 3622 Jeu 15 mai 2025 11:39:47 CEST	cleanup pfx prerequis.sh
 3623 Jeu 15 mai 2025 16:29:52 CEST	cleanup sfx prerequis.sh
+3624 Sam 17 mai 2025 08:03:19 CEST	cleanup src/ai/Makefile.am

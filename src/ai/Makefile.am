@@ -6,46 +6,32 @@ HDRS = ai.hpp analyseur.mli requeteAffichage.mli stringLexer.mli requeteParser.m
 
 EXTRA_DIST = $(SRCS) $(HDRS)
 
-ML = stringLexer.ml stringParser.mli stringParser.ml requeteLexer.ml requeteParser.mli requeteParser.ml
+ML  = stringLexer.ml stringParser.mli stringParser.ml requeteLexer.ml requeteParser.mli requeteParser.ml
 CML = stringParser.ml stringLexer.ml requeteLexer.ml requeteParser.ml requeteAffichage.ml requeteSemantique.ml analyseur.ml
 MLI = requeteSyntax.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteAffichage.mli requeteSemantique.mli analyseur.mli
 CMI = $(MLI:.mli=.cmi)
 CMO = $(CML:.ml=.cmo)
 CMX = $(CML:.ml=.cmx)
 
-SRC = $(top_srcdir)/src
 CFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@
 CXXFLAGS += -Wno-writable-strings
-
+SRC = $(top_srcdir)/src
 AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/net -I$(SRC)/world -I$(SRC)/3d -I$(SRC)/gui
 
 if ENABLE_OCAML
-
 libai_a_SOURCES = $(INIT) ai.hpp
 noinst_LIBRARIES = libai.a
 
 SUFFIXES: .o .c .cmo .cmi .cmx .ml .mli .mll .mly
-
-.ml.o:
-	ocamlopt -c $<
-.mli.cmi:
-	ocamlc -c $<
-.cmo:
-	ocamlc -c $<
-.mll.ml:
-	ocamllex $<
-.mly.ml:
-	ocamlyacc $<
-.mly.mli:
-	ocamlyacc $<
+.ml.o:    ; ocamlopt -c $<
+.mli.cmi: ; ocamlc -c $<
+.cmo:     ; ocamlc -c $<
+.mll.ml:  ; ocamllex $<
+.mly.ml:  ; ocamlyacc $<
+.mly.mli: ; ocamlyacc $<
 
 all: dummy_.o
-
 dummy_.o: $(ML) $(CMI) $(CML) dummy_.ml
-	ocamlopt -output-obj $(CML) -o dummy.o
-	mv dummy.o dummy_.o
-
+	ocamlopt -output-obj $(CML) -o dummy_.o
 endif
-
-clean-generic:
-	-@rm -f $(ML) $(CMO) $(CMI) $(CMX) dummy_.cmx dummy_.cmi Libai.a
+#clean-generic: ; -@rm -f $(ML) $(CMO) $(CMI) $(CMX) dummy_.cmx dummy_.cmi Libai.a
