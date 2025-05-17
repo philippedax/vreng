@@ -3,35 +3,35 @@
   open Lexing
   open RequeteParser
 
- (*s Exceptions pouvant être levées pendant l'analyse lexicale. *)
+ (*s Exceptions pouvant être levees pendant l'analyse lexicale. *)
   exception Illegal_character of (int * string)
   exception Illegal_syntax of (int * int)
 }
 
-(*s Expressions régulières. *)
+(*s Expressions regulieres. *)
 
 let alpha = ['a'-'z''A'-'Z']
 let mot = alpha (alpha | '-')*
 let ident = alpha (alpha | ['0'-'9''_''-'])*
-(* les identificateurs doivent obligatoirement debute par un caractère *)
-(* et peut ensuite être suivis d'un chiffre ou d'un caractère ou d'un "_".*)
-(* nous ne ferons la reconnaissance des idents que sur la fin pour pouvoir *)  
-(* reconnaitre les autres tokens. *)
+(* les identificateurs doivent obligatoirement debuter par un caractere *)
+(* et peuvent ensuite etre suivis d'un chiffre ou d'un caractere ou d'un "_".*)
+(* nous ne ferons la reconnaissance des identificateurss que sur la fin *)
+(* pour pouvoir reconnaitre les autres tokens. *)
 
 let blank = [' ''\n''\t']
-(* nous ne tenons pas compte des tabulations '\t' et des saut de ligne :'\n' *)
+(* nous ne tenons pas compte des tabulations '\t' et des sauts de ligne :'\n' *)
 
 
 (*let num = '-'?['0'-'9']+*)
 (*let coordonnees = num','num','num*)
-(* les constatantes sont pour nous une suite de chiffre et *)
+(* les constantes sont une suite de chiffre et *)
 (* nous autorisons les  -"0000" *)
 
 (*
 let float = num '.' ['0'-'9']* (['e''E']['+''-']num)?
 *)
 
-(*s les différents articles. *)
+(*s les differents articles. *)
 let articleNotFound     = ("son"|"sa"|"mon"|"ma"|"ton"|"ta"|"par")
 let articleDefinis      = ("le"|"la"|"les")
 let articleIndefinis    = ("du"|"des"|"de"|"une"|"un"|"au")
@@ -43,7 +43,7 @@ let pronomSelection     = ("tout"|"tous"|"toute"|"toutes")
 (*s les fonctions *) 
 let actions_exclamation = ("va"|"pars"|"prend"|"deplace"|"avance")
 let actions_exclamation_functions = 
-  ("manipule"|"navigue"|"ouvre"|"ferme"|"deverrouiller"
+  ("manipule"|"navigue"|"ouvre"|"ferme"|"deverrouille"
   |"verouille"|"va"|"panier"|"pousse"|"tire"|"frappe"
   |"prend"|"lache"|"tourne"|"detruit"|"entre"|"balle"
   |"connecte"|"deconnecte"|"dessin"|"sort"|"regarde"
@@ -70,7 +70,7 @@ let position =
   |"dehors"|"a l\'interieur"
   |"a l\'exterieur")
 
-(*s Point d'entrée du lexeur. *)
+(*s Point d'entree du lexeur. *)
 rule phraseToToken = parse
   | blank { phraseToToken lexbuf }
 (*  | num { VINT(int_of_string(lexeme lexbuf)) }*)
@@ -95,7 +95,7 @@ rule phraseToToken = parse
   | eof   { EOF }
   | _     { raise (Illegal_character(lexeme_start lexbuf,lexeme lexbuf)) }
   
-  
   (*s Contraintes :
-	  - les mots cles sont toujours en minuscule.
-	  - les mots ne peuvent pas avoir d'accents.*)
+    - les mots cles sont toujours en minuscule.
+    - les mots ne peuvent pas avoir d'accents.
+  *)

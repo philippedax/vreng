@@ -10,15 +10,13 @@
 
 }
 
-(*déclaration de la forme d'un flottant*)
+(*declaration de la forme d'un flottant*)
 let num = '-'?['0'-'9']+
 let float = num '.' ['0'-'9']* (['e''E']['+''-']num)?
 let blank = [' ''\n''\t'',']
-(* nous ne tenons pas compte des tabulations '\t' et des saut de ligne :'\n' *)
+(* nous ne tenons pas compte des tabulations '\t' et des sauts de ligne :'\n' *)
 
-
-
-(*On oblige a ce que les valeurs soit tous des flottants*)
+(*on oblige a ce que les valeurs soient tous des flottants*)
 rule stringToPosDim = parse
   | blank { stringToPosDim lexbuf }
   | float { VFLOAT(float_of_string(lexeme lexbuf)) }

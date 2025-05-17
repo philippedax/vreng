@@ -1,6 +1,6 @@
 (*s
 token buf retourne a chaque appel de buf le token associe.
-Il lève l'exception Erreur_lex si il n'arrive pas a trouve de token
+Il leve l'exception Erreur_lex si il n'arrive pas a trouve de token
 associe.
 *)
 

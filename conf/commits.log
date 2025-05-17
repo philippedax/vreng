@@ -3624,3 +3624,4 @@
 3624 Sam 17 mai 2025 08:03:19 CEST	cleanup src/ai/Makefile.am
 3625 Sam 17 mai 2025 09:36:33 CEST	cleanup src/ai/Makefile.am
 3626 Sam 17 mai 2025 09:55:18 CEST	add -Wno-c++11-compat-deprecated-writable-strings src/ai/Makefile.am
+3627 Sam 17 mai 2025 10:20:51 CEST	fix argv[0] = "" ai.cpp

@@ -18,7 +18,7 @@
 
 %}
 
-/*s Déclaration des tokens. */
+/*s Declaration des tokens. */
 
 %token EOF 
 %token <int> VINT
@@ -33,14 +33,14 @@
 %token ART_DEMONSTRATIF ART_UNDEF
 %token PRN_INTERROGATIF ADV_INTERROGATIF PRN_SELECTION
 
-/*s Point d'entrée de la grammaire. */
+/*s Point d'entree de la grammaire. */
 
 %type <RequeteSyntax.phrase> program
 %start program
 
 %%
 
-/*s Règles de grammaire. */
+/*s Regles de grammaire. */
 
 program :
 | verbe position objet INFORMATION  { Action($1,$2,$3) }
@@ -75,4 +75,3 @@ objetundef:
 | ART_UNDEF VMOT{ Objet(UNDEFINI,$2) }
 | PRN_SELECTION VMOT{ Objet(PRN_SELECT,$2) }
 ;
-

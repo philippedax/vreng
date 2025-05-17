@@ -8,19 +8,19 @@
   let parse_error _ = raise Parsing.Parse_error
 %}
 
-/*s Déclaration des tokens. */
+/*s Declaration des tokens. */
 
 %token EOF 
 %token <float> VFLOAT
 
-/*s Point d'entrée de la grammaire. */
+/*s Point d'entree de la grammaire. */
 
 %type <RequeteSyntax.objet> stringdepart
 %start stringdepart
 
 %%
 
-/*s Règles de grammaire. */
+/*s Regles de grammaire. */
 
 stringdepart :
 | VFLOAT VFLOAT VFLOAT VFLOAT VFLOAT VFLOAT VFLOAT {ObjetTrouve(Coord($1,$2,$3,$4),Dimension($5,$6,$7))}
