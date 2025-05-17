@@ -1,7 +1,6 @@
-AUTOMAKE_OPTIONS = foreign no-dependencies
+AUTOMAKE_OPTIONS = foreign
 
-INIT = ai.cpp dummy_.ml
-SRCS = $(INIT) stringParser.mly stringLexer.mll requeteParser.mly requeteLexer.mll requeteAffichage.ml requeteSemantique.ml analyseur.ml
+SRCS = ai.cpp stringParser.mly stringLexer.mll requeteParser.mly requeteLexer.mll requeteAffichage.ml requeteSemantique.ml analyseur.ml dummy_.ml
 HDRS = ai.hpp analyseur.mli requeteAffichage.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteSemantique.mli requeteSyntax.mli
 
 EXTRA_DIST = $(SRCS) $(HDRS)
@@ -19,7 +18,7 @@ SRC = $(top_srcdir)/src
 AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/net -I$(SRC)/world -I$(SRC)/3d -I$(SRC)/gui
 
 if ENABLE_OCAML
-libai_a_SOURCES = $(INIT) ai.hpp
+libai_a_SOURCES = ai.cpp ai.hpp dummy_.ml
 noinst_LIBRARIES = libai.a
 
 SUFFIXES: .o .c .cmo .cmi .cmx .ml .mli .mll .mly
