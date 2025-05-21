@@ -3627,3 +3627,4 @@
 3627 Sam 17 mai 2025 10:20:51 CEST	fix argv[0] = "" ai.cpp
 3628 Sam 17 mai 2025 13:07:17 CEST	cleanup accents
 3629 Sam 17 mai 2025 13:11:27 CEST	cleanup accents
+3630 Sam 17 mai 2025 16:51:34 CEST	cleanup foreign dummy_.ml

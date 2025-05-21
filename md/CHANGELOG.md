@@ -1,7 +1,7 @@
 Last changes in VREng
 ---------------------
 
-------------------------------------------
+-----------------------------------------------
 The rules for this file:
 * entries are sorted newest-first.
 *
@@ -10,15 +10,22 @@ The rules for this file:
 * -- : minor
 * Version: major.medium.minor
 * date and author format: (YYYY/MM/DD, Author).
-------------------------------------------
+-----------------------------------------------
 
-++ 9 [2024/12]
+++ 9 [2025/05]
 == 9.4 (2025/02)
 -- 9.4.8
+	- addobj and manip things carrier.*pp
 	- rename updateToNetwork to publish
+	- rename whenIntersect to intersect
+	- rename changePermanent to permanent
+	- rename changePosition to imposed
 	(2025/02/03, Philippe Dax)
-	- add conf/prerequis
-	- update build
+	- add conf/prerequis.sh
+	- add conf/httpd.sh
+	- add conf/x11.sh
+	- add conf/cache.sh
+	- update build.sh
 	(2024/11/01, Philippe Dax)
 
 -- 9.4.7
@@ -27,7 +34,7 @@ The rules for this file:
 
 -- 9.4.6
 	- rename config/ to conf/
-	- add log/commit.log to repo
+	- add conf/commits.log to repo
 	(2024/09/18, Philippe Dax)
 	- new syntax of body parts body/avatar.body
 	(2024/07/01, Philippe Dax)
@@ -41,7 +48,7 @@ The rules for this file:
 	(2024/05/15, Philippe Dax)
 
 -- 9.4.5
-	- dates yy/mm in ChangeLog
+	- dates yyyy/mm in ChangeLog
 	(2024/04/03, Philippe Dax)
 
 -- 9.4.4
@@ -52,7 +59,7 @@ The rules for this file:
 
 -- 9.4.3
 	- fix AM_CPPFLAGS for freetype2 src/*/Makefile.am
-	- fix -lptread by reordering CHECK-LIBs configure.ac
+	- fix -lpthread by reordering CHECK-LIBs configure.ac
 	(2023/12/24, Philippe Dax)
 	- rename model/face*pp to model/v3d*pp
 	- rename world/humanhead*pp to world/face*pp
