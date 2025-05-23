@@ -657,7 +657,7 @@ void World::init(const char *url)
 /** Quits the current World */
 void World::quit()
 {
-  trace1(DBG_WO, "quit %s", name);
+  //trace1(DBG_WO, "quit %s", name);
   state = STOPPED;
 
   //
