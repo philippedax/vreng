@@ -102,7 +102,6 @@ class Movie: public Object {
   void play_mpg();
   void play_avi();
   void bind_frame();
-
   void inits();
   /**< Inits. */
 
@@ -117,8 +116,8 @@ class Movie: public Object {
   static void play_cb(Movie *po, void *d, time_t s, time_t u);
   static void stop_cb(Movie *po, void *d, time_t s, time_t u);
   static void pause_cb(Movie *po, void *d, time_t s, time_t u);
-  static void rewind_cb(Movie *po, void *d, time_t s, time_t u);
   static void loop_cb(Movie *po, void *d, time_t s, time_t u);
+  static void rewind_cb(Movie *po, void *d, time_t s, time_t u);
 };
 
 #endif

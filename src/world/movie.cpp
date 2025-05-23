@@ -117,7 +117,7 @@ void Movie::open_mpg()
   char *filempg = new char[MAXHOSTNAMELEN];
   file = new File();
 
-  if (Cache::download(name.url, filempg) == 0) {	// download Mpeg file
+  if (! Cache::download(name.url, filempg)) {	// download Mpeg file
     error("can't download %s", filempg);
     delete[] filempg;
     delete file;
@@ -167,7 +167,7 @@ void Movie::open_avi()
   fp = avi->getFile();
   avi->getInfos(&width, &height, &fps);
   videobuf = new uint8_t[4 * width * height];
-  //echo("open_avi: w=%d h=%d f=%.3f", width, height, fps);
+  //echo("avi: w=%d h=%d f=%.3f", width, height, fps);
 }
 
 /** Inits texture */
@@ -199,7 +199,6 @@ void Movie::init_tex()
   if (! texid) {
     texid = Texture::open(name.url);
   }
-  //echo("texid=%d (%s)", texid, Texture::getUrlById(texid));
 }
 
 /** inits */
@@ -223,16 +222,16 @@ void Movie::inits()
 /** Plays a mpeg frame */
 void Movie::play_mpg()
 {
-  uint8_t r, g, b;
+  if (! mpg) return;
 
+  uint8_t r, g, b;
   if (Endian::bigEndian())
     r = 2, g = 1, b = 0; // BGR
   else
     r = 0, g = 1, b = 2; // RGB
 
-  if (! mpg) return;
   // get a frame from the mpg video stream
-  if (GetMPEGFrame(reinterpret_cast<char *> (videobuf)) == false) { // end of mpg video
+  if (GetMPEGFrame(reinterpret_cast<char *> (videobuf)) == 0) {	// end of mpg video
     if (state == LOOP) {
       RewindMPEG(fp, mpg);	// rewind mpg video
       begin = true;
@@ -250,6 +249,7 @@ void Movie::play_mpg()
     }
     return;
   }
+
   // mpg frame : build pixmap texture
   int wof = (texsiz - width) / 2;
   int hof = (texsiz - height) / 2;
@@ -282,7 +282,7 @@ void Movie::play_mpg()
 /** Plays an avi frame */
 void Movie::play_avi()
 {
-  int ret, len;
+  int len;
   uint8_t r, g, b;
 
   if (Endian::bigEndian())
@@ -291,9 +291,8 @@ void Movie::play_avi()
     r = 0, g = 1, b = 2; // RGB
 
   // get a frame from the avi video stream
-  ret = avi->read_data(videobuf, width * height * 4, &len);
-  //echo("avi: f=%d s=%d l=%d", frame, width*height*4, len);
-  if (ret == 0) {	// end of avi video
+  if ( avi->read_data(videobuf, width * height * 4, &len) == 0 ) {	// end of avi video
+    //echo("avi: f=%d s=%d l=%d", frame, width*height*4, len);
     file->close();
     delete file;
     delete avi;
@@ -307,6 +306,7 @@ void Movie::play_avi()
     }
     return;
   }
+
   // avi frame : build pixmap texture : doesn't work !!!
   int wof = (texsiz - width) / 2;
   int hof = (texsiz - height) / 2;
@@ -315,7 +315,6 @@ void Movie::play_avi()
     for (int w=0; w < width; w++) {
       int v = 4 * (width * h + w);		// videobuf index
       int t = 4 * (texsiz * (h+hof) + w+wof);	// texframe index
-      //echo("w,h: %d,%d t,v: %d,%d", w,h,t,v);
       texframe[t+0] = videobuf[v+r];
       texframe[t+1] = videobuf[v+g];
       texframe[t+2] = videobuf[v+b];
@@ -486,7 +485,6 @@ void Movie::loop_cb(Movie *movie, void *d, time_t s, time_t u)
 
 void Movie::funcs()
 {
-  //setActionFunc(MOVIE_TYPE, 0, _Action play_cb, (const char *) uitem(ulabel(g.theme.Playvideo)));
   setActionFunc(MOVIE_TYPE, 0, _Action play_cb, "Play");
   setActionFunc(MOVIE_TYPE, 1, _Action stop_cb, "Stop");
   setActionFunc(MOVIE_TYPE, 2, _Action pause_cb, "Pause");	// side effect if pending
