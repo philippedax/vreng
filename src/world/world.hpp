@@ -34,9 +34,9 @@
  */
 class World {
  private:
-  static class World * worldVisit;
+  static class World * worldcurr;
 
-  /* world states */
+  // world states
   enum world_state {
     TOLOAD,
     LOADING,

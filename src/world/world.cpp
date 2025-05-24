@@ -74,7 +74,7 @@ const uint8_t World::WORLD_LEN = 32;
 
 class OList* World::gridArray[GRIDX][GRIDY][GRIDZ];
 
-World* World::worldVisit = NULL;
+World* World::worldcurr = NULL;
 
 
 /** World constructor */
@@ -112,21 +112,21 @@ World::World()
   trace1(DBG_WO, "World: num=%d", num);
 
   // Adds world into world list
-  if (! worldVisit) {	// first world encountered
+  if (! worldcurr) {	// first world encountered
     next = prev = NULL;
   }
-  else if (worldVisit != this) {
-    next = worldVisit;
-    worldVisit->prev = this;
+  else if (worldcurr != this) {
+    next = worldcurr;
+    worldcurr->prev = this;
     prev = NULL;
   }
-  worldVisit = this;
+  worldcurr = this;
 }
 
 /** Gets current world */
 World * World::current()
 {
-  return worldVisit;	// head of the worlds list
+  return worldcurr;	// head of the worlds list
 }
 
 /** Sets local world name */
@@ -156,7 +156,7 @@ World * World::find(const char *url)
   char urla[URL_LEN] = {0};
   Url::abs(url, urla);
 
-  for (World *w = worldVisit; w ; w = w->next) {
+  for (World *w = worldcurr; w ; w = w->next) {
     if ((! strcmp(w->url, url)) || (! strcmp(w->url, urla))) {
       return w;	// world found
     }
@@ -170,7 +170,7 @@ World * World::find(const char *url)
 /** Gets a world by its group number */
 World * World::find(uint32_t group)
 {
-  for (World *w = worldVisit; w ; w = w->next) {
+  for (World *w = worldcurr; w ; w = w->next) {
     if (w->group == group) {
       return w;	// world found
     }
@@ -339,26 +339,25 @@ bool World::call(World *world)
 /** Go to the previous world - static */
 World * World::goPrev()
 {
-  World *worldback = worldVisit->next;
+  World *worldback = worldcurr->next;
   if (! worldback) return NULL;	// no prev world
 
-  World *world = worldVisit;
+  World *world = worldcurr;
   world->quit();		// quit current world first
 
   World *wp;
   for (wp = worldback; wp->next ; wp = wp->next) {
     if (wp == wp->next) {
-      break;	// found
+      break;			// found
     }
   }
   wp->next = world;
   world->next = NULL;
   worldback->prev = NULL;
   world->prev = worldback;
-  worldVisit = worldback;
-
+  worldcurr = worldback;
   if (worldback->call(world)) {
-    return worldVisit;
+    return worldcurr;
   }
   return NULL;
 }
@@ -366,10 +365,10 @@ World * World::goPrev()
 /** Go to the next world - static */
 World * World::goNext()
 {
-  if (! worldVisit->next) return NULL;	// no forward world
+  if (! worldcurr->next) return NULL;	// no forward world
 
-  World *world = worldVisit;
-  world->quit();	// quit current world first
+  World *world = worldcurr;
+  world->quit();			// quit current world first
 
   World *wp;
   World *worldnext;
@@ -380,10 +379,10 @@ World * World::goNext()
   worldnext->prev = NULL;
   world->prev = worldnext;
   wp->next = NULL;
-  worldVisit = worldnext;
+  worldcurr = worldnext;
 
   if (worldnext->call(world)) {
-    return worldVisit;
+    return worldcurr;
   }
   return NULL;
 }
@@ -391,22 +390,21 @@ World * World::goNext()
 /** Exchanges worlds in the list - static */
 World * World::swap(World *world)
 {
-  if (worldVisit == world) return worldVisit;	// same world
+  if (worldcurr == world) return worldcurr;	// same world
 
   if (world->prev)
-    world->prev->next = worldVisit;	// 1
+    world->prev->next = worldcurr;	// 1
   if (world->next)
-    world->next->prev = worldVisit;	// 2
-  if (worldVisit->next)
-    worldVisit->next->prev = world;	// 3
-  worldVisit->prev = world->prev;	// 4
-  World *wtmp = worldVisit->next;
-  worldVisit->next = world->next;	// 5
+    world->next->prev = worldcurr;	// 2
+  if (worldcurr->next)
+    worldcurr->next->prev = world;	// 3
+  worldcurr->prev = world->prev;	// 4
+  World *wtmp = worldcurr->next;
+  worldcurr->next = world->next;	// 5
   world->next = wtmp;			// 6
   world->prev = NULL;			// 7
-  worldVisit = world;			// 8
-
-  return worldVisit;
+  worldcurr = world;			// 8
+  return worldcurr;
 }
 
 /**
@@ -440,7 +438,7 @@ void World::checkIcons()
   chdir(::g.env.icons());
   DIR *dirw = opendir(".");
   if (dirw) {
-    // find if current world is there
+    // check if current world is there
     for (struct dirent *dw = readdir(dirw); dw; dw = readdir(dirw)) {
       struct stat bufstat;
       if (stat(dw->d_name, &bufstat) == 0 &&
@@ -585,7 +583,6 @@ httpread:
     filein->close();
     delete filein;
   }
-
   delete[] cachename;
   return;
 }
@@ -648,7 +645,7 @@ void World::init(const char *url)
   entry->query(user);
   localuser->setPosition();
 
-  // Attach bubble welcome text to localuser
+  // attach bubble welcome text to localuser
   char welcome[32];
   sprintf(welcome, "Hi! I am %s", ::g.user);
   user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEVERSO);
@@ -675,16 +672,16 @@ void World::quit()
   // still objects
   for (std::vector<Object*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
-    (*it)->quit();	// sometimes segfault FIXME!!!
+    (*it)->quit();			// sometimes segfault FIXME!!!
     delete *it;
   }
   stillList.clear();
 
   // mobile objects
   for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
+    if ((*it) == localuser) continue;	// FIX segfault
     if ((*it)->deleted) continue;
-    if (! strlen((*it)->objectName())) continue;
+    //dax if (! strlen((*it)->objectName())) continue;
     (*it)->quit();
     delete *it;
   }
@@ -702,7 +699,7 @@ void World::quit()
   for (std::vector<Object*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
-    delete *it;		// sometimes segfault FIXME!!!
+    delete *it;				// sometimes segfault FIXME!!!
   }
   clothList.clear();
 
@@ -710,11 +707,11 @@ void World::quit()
   if (guip) {
     ::g.gui.updateWorld(this, OLD);
   }
-  ::g.gui.showNavigator();	// force navig mode
+  ::g.gui.showNavigator();		// force navig mode
 
   if (localuser && localuser->netop) {
-    localuser->netop->declareDeletion();	// publishes I leave
-    localuser->netop->deleteFromList();
+    localuser->netop->declareDeletion();
+    localuser->netop->deleteFromList();	// publishes I leave
   }
 
   // reset user position
@@ -722,7 +719,7 @@ void World::quit()
   if (linked) return;
 
   //dax Object::resetObjectsNumber();
-  Tool::quitTools();		// quits all tools
+  Tool::quitTools();			// quits all tools
 }
 
 /** Enters in a new World - static */
@@ -741,7 +738,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   // check whether this world is already in memory
   if (find(url) && isnew) {
     world = find(url);	// existing world
-    worldVisit = swap(world);
+    worldcurr = swap(world);
     if (::g.pref.trace) echo("enter: world=%s (%d)", world->name, isnew);
     if (world->guip) {
       ::g.gui.updateWorld(world, NEW);
