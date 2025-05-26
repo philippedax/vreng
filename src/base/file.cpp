@@ -58,15 +58,6 @@ void File::close()
   }
 }
 
-/** Open a file - static */
-FILE * File::openFile(const char *filename, const char *param)
-{
-  FILE *fp = fopen(filename, param);
-  if (fp) opn_file++;
-  //debug fopenlog(fp, filename);
-  return fp; 
-}
-
 /** Close a file - static */
 void File::close(FILE *fp)
 {
@@ -74,14 +65,6 @@ void File::close(FILE *fp)
     fclose(fp);
     cls_file++;
   }
-}
-
-/** Close a file - static */
-void File::closeFile(FILE *fp)
-{
-  fclose(fp);
-  cls_file++;
-  //debug fcloselog(fp);
 }
 
 ////////////////////////////////////

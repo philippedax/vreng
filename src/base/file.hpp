@@ -38,9 +38,6 @@ class File {
   void close();
   void close(FILE *fp);
 
-  static FILE * openFile(const char *filename, const char *param);
-  static void closeFile(FILE *f);
-
   int read_char(FILE *f);
   int read_short_le(FILE *f);
   int read_short_be(FILE *f);
