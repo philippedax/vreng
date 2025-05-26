@@ -36,7 +36,7 @@
 #include "fap.hpp"
 #include "body.hpp"	// body
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// setCachePath, open
+#include "cache.hpp"	// path, open
 #include "bone.hpp"	// BoneMesh, BoneSkel
 
 #include <algorithm>
@@ -191,7 +191,7 @@ void Face::load(const char *url)
   mesh = new BoneMesh();
   skel = new BoneVertex();
 
-  if (Cache::setCachePath(url, pathfile) == 0) {
+  if (Cache::path(url, pathfile) == 0) {
     error("Face load: file=%s url=%s", pathfile, url);
     return;
   }

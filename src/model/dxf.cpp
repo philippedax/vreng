@@ -80,7 +80,7 @@ void Dxf::reader(void *_dxf, Http *http)
   if (! dxf) return;
 
   char filename[PATH_LEN] = {0};
-  Cache::setCachePath(http->url, filename);	// absolute path needed for reading
+  Cache::path(http->url, filename);	// absolute path needed for reading
   dxf->dxffile = newDXF(filename);
 
   Cache *cache = new Cache();

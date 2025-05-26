@@ -569,7 +569,7 @@ void Widgets::saveCB()
   World *world = World::current();
   if (! world) return;
 
-  Cache::setCachePath(world->url, vrein);
+  Cache::path(world->url, vrein);
 
   FILE *fi, *fo;
   sprintf(vreout, "%s.vre", world->name);

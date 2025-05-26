@@ -27,7 +27,7 @@
 #include "object.hpp"	// Object
 #include "gui.hpp"	// getClicked
 #include "world.hpp"	// current()
-#include "cache.hpp"	// setCachePath
+#include "cache.hpp"	// path
 #include "user.hpp"	// pos
 #include "move.hpp"	// goXYZ
 #include "render.hpp"	// highlight
@@ -168,7 +168,7 @@ value recherche_Objet(value mot)
 #if HAVE_LIBXML2
   char *val = const_cast<char *> (String_val(mot));
   char filename[64];
-  Cache::setCachePath(World::current()->url, filename);
+  Cache::path(World::current()->url, filename);
   Xml::selectXpathExpr(filename, "//*/@name", val, foundpos);
 #endif
 
@@ -266,7 +266,7 @@ value deplacement_to_Proximite(value mot, value pos)
 #if HAVE_LIBXML2
   char *val = const_cast<char *> (String_val(mot));
   char filename[64];
-  Cache::setCachePath(World::current()->url, filename);
+  Cache::path(World::current()->url, filename);
   res = Xml::selectProximity(filename, val, &posx, &posy, &posz, &orient);
 #endif
 

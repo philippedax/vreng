@@ -26,7 +26,7 @@
 #include "world.hpp"
 #include "http.hpp"	// httpOpen httpRead
 #include "user.hpp"	// USER_TYPE
-#include "cache.hpp"	// setCachePath
+#include "cache.hpp"	// path
 #include "url.hpp"	// file2url
 #include "universe.hpp"	// Universe
 #include "gui.hpp"	// clearInfoBar
@@ -546,7 +546,7 @@ void World::reader(void *_url, Http *http)
   Parse *parser = new Parse();	// creates the parser instance
 
   *cachename = 0;
-  Cache::setCachePath(url, cachename);
+  Cache::path(url, cachename);
   if (stat(cachename, &bufstat) < 0) {	// is not in the cache
     if (! (fpcache = fileout->open(cachename, "w"))) {
       error("worldReader: can't create file %s from url %s", cachename, url);

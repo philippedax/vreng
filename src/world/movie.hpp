@@ -63,6 +63,7 @@ class Movie: public Object {
   char *line;			///< line copy
   class Avi *avi;		///< avi instance
   class File *file;		///< file mpg instance
+  class Cache *cache;		///< cache mpg instance
   class Spot *spot;		///< Spot instance
 
  public:

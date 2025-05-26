@@ -43,7 +43,7 @@ class Cache : public File {
   char * getFilename(void *tex);
   ///< Gets file name.
 
-  static int setCachePath(const char *url, char *cachepath);
+  static int path(const char *url, char *cachepath);
   ///< Sets cache path from url.
 
   FILE * open(const char *url, class Http *http);

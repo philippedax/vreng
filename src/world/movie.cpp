@@ -33,13 +33,10 @@
 #include "pref.hpp"	// quality
 #include "format.hpp"	// Format
 #include "spot.hpp"	// new Spot
-#if HAVE_LIBMPEG
-#include <mpeg.h>	// /usr/local/include
-#else
-#include "mpeg.h"	// local: src/ext/mpeg_lib
-#endif
 #include "avi.hpp"	// Avi
 #include "theme.hpp"	// theme.playvideo
+
+#include <mpeg.h>	// /usr/local/include
 
 
 const OClass Movie::oclass(MOVIE_TYPE, "Movie", Movie::creator);
@@ -94,6 +91,7 @@ Movie::Movie(char *l)
   mpg = NULL;
   avi = NULL;
   file = NULL;
+  cache = NULL;
   spot = NULL;
 
   line = new char[strlen(l)];
@@ -117,6 +115,17 @@ void Movie::open_mpg()
   char *filempg = new char[MAXHOSTNAMELEN];
   file = new File();
 
+#if 0 //test
+  cache = new Cache();
+
+  Cache::path(name.url, filempg);
+  echo("filempg: %s", filempg);
+  if (! (fp = cache->open(name.url, NULL))) {
+    error("can't open cache %s %p", name.url, fp);
+    delete[] filempg;
+    //delete cache;
+  }
+#else
   if (! Cache::download(name.url, filempg)) {	// download Mpeg file
     error("can't download %s", filempg);
     delete[] filempg;
@@ -129,6 +138,7 @@ void Movie::open_mpg()
     delete file;
     return;
   }
+#endif
 
   mpg = new ImageDesc[1];
 
@@ -155,7 +165,7 @@ void Movie::open_avi()
 {
   if (avi) return;		// an instance is already running
 
-  avi = new Avi(name.url);	// downloads avi file
+	  avi = new Avi(name.url);	// downloads avi file
 
   int ret = avi->read_header();
   if (ret) {

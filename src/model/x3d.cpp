@@ -59,7 +59,7 @@ void X3d::reader(void *_x3d, class Http *http)
   if (! x3d) return;
 
   char filename[PATH_LEN] = {0};
-  Cache::setCachePath(http->url, filename);
+  Cache::path(http->url, filename);
 
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);

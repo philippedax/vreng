@@ -52,7 +52,7 @@ Cache::~Cache()
 }
 
 /** Fills cachepath from url */
-int Cache::setCachePath(const char *url, char *cachepath)
+int Cache::path(const char *url, char *cachepath)
 {
   if (! url) return 0;
   const char *pfile = strrchr(url, '/');	// only the file
@@ -94,7 +94,7 @@ FILE * Cache::open(const char *url, Http *http)
 
   char *cachepath = new char[PATH_LEN];
   memset(cachepath, 0, PATH_LEN);
-  if (! setCachePath(url, cachepath)) return NULL;
+  if (! path(url, cachepath)) return NULL;
 
   FILE *fpr = NULL;
   FILE *fpw = NULL;
@@ -191,7 +191,7 @@ bool Cache::inCache(const char *url)
   char *cachepath = new char[PATH_LEN];
   *cachepath = 0;
 
-  if (! setCachePath(url, cachepath)) {
+  if (! path(url, cachepath)) {
     delete[] cachepath;
     return false;
   }
@@ -216,7 +216,7 @@ char * Cache::getFilename(void *_tex)
   static char filepath[PATH_LEN] = {0};
   Texture *tex = static_cast<Texture *>(_tex);
 
-  setCachePath(tex->url, filepath);
+  path(tex->url, filepath);
   return filepath;
 }
 
@@ -224,11 +224,10 @@ char * Cache::getFilename(void *_tex)
 int Cache::download(const char *_url, char *filename, const char arg[])
 {
   char url[URL_LEN];
-
   Url::abs(_url, url);
   
   if (filename && (! strcmp(arg, "cache"))) {        // use the cache
-    if (! Cache::setCachePath(url, filename)) {
+    if (! Cache::path(url, filename)) {
       return 0;
     }
 

@@ -40,7 +40,7 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
   Texture *tex = static_cast<Texture *>(_tex);
   char filename[PATH_LEN] = {0};
 
-  Cache::setCachePath(tex->url, filename);
+  Cache::path(tex->url, filename);
   Cache *cache = new Cache();
   FILE *f = cache->open(filename, tex->http);
   if (! f) {

@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "wget.hpp"
 #include "url.hpp"	// abs
-#include "cache.hpp"	// setCachePath
+#include "cache.hpp"	// path
 #include "str.hpp"	// stringcmp
 
 extern int my_wait(pid_t);
@@ -40,7 +40,7 @@ int Wget::start(const char *_url, char *file, const char opts[])
 
   if (file && (! strcmp(opts, "-qO"))) {	// use the cache
     cached = true;
-    if (Cache::setCachePath(_url, file) == 0) return 0;
+    if (Cache::path(url, file) == 0) return 0;
 
     struct stat bufstat;
     if (stat(file, &bufstat) == 0) {
