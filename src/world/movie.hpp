@@ -28,12 +28,7 @@
 #define MOVIE_TYPE	25
 #define MOVIE_NAME	"Movie"
 
-#if HAVE_LIBMPEG
-// Warning! there is a typedef conflict with Boolean type
-// between mpeg.h and X11/Intrinsic.h
-#define Boolean Fuck_Boolean_X11
-#include <mpeg.h>
-#endif
+#include <mpeg.h>	// ImageDesc
 
 
 /**
