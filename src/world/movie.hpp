@@ -54,7 +54,7 @@ class Movie: public Object {
   uint8_t vidfmt;		///< video format (mpg | avi)
   bool anim;			///< animated or not
   bool begin;			///< first frame begin playing
-  GLfloat proj;			///< distance between projector and screen
+  GLfloat dist;			///< distance between projector and screen
   V3 dim;			///< dimension of screen projection
   FILE *fp;			///< the corresponding file pointer
   uint8_t *videobuf;		///< buffer of the video
@@ -63,7 +63,6 @@ class Movie: public Object {
   char *line;			///< line copy
   class Avi *avi;		///< avi instance
   class File *file;		///< file mpg instance
-  class Cache *cache;		///< cache mpg instance
   class Spot *spot;		///< Spot instance
 
  public:

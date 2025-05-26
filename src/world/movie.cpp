@@ -45,6 +45,7 @@ const float Movie::FPS = 10.;		// max number of frames decoded per rendering
 const float Movie::DEF_PROJ = 10;	// distance between projector and screen
 
 
+/** Creator from file */
 Object * Movie::creator(char *l)
 {
   return new Movie(l);
@@ -54,7 +55,7 @@ Object * Movie::creator(char *l)
 void Movie::defaults()
 {
   rate = FPS;
-  proj = DEF_PROJ;
+  dist = DEF_PROJ;
   anim = false;
 }
 
@@ -67,7 +68,7 @@ void Movie::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "url"))  l = parseUrl(l, name.url);
-    else if (! stringcmp(l, "proj")) l = parseFloat(l, &proj, "proj");
+    else if (! stringcmp(l, "dist")) l = parseFloat(l, &dist, "dist");
     else if (! stringcmp(l, "rate")) l = parseFloat(l, &rate, "rate");
     else if (! stringcmp(l, "anim")) l = parseBool(l, &anim, "anim");
     else {
@@ -91,7 +92,6 @@ Movie::Movie(char *l)
   mpg = NULL;
   avi = NULL;
   file = NULL;
-  cache = NULL;
   spot = NULL;
 
   line = new char[strlen(l)];
@@ -165,7 +165,7 @@ void Movie::open_avi()
 {
   if (avi) return;		// an instance is already running
 
-	  avi = new Avi(name.url);	// downloads avi file
+  avi = new Avi(name.url);	// downloads avi file
 
   int ret = avi->read_header();
   if (ret) {
@@ -366,7 +366,6 @@ void Movie::permanent(float lasting)
   frame = (uint16_t) floor(((((float)((tcurr.tv_sec - tstart.tv_sec) * 1000.)) +
 	                     ((float)((tcurr.tv_usec - tstart.tv_usec) / 1000.)) / 1000.)
                            ) * (float)(rate));
-
   for (uint16_t fdelta=0; fdelta < (frame-finter); fdelta++) {
     if (fdelta >= (uint16_t) fps) {
       return;	// ignore this frame
