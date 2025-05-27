@@ -149,7 +149,7 @@ void World::setName(const char *urlOrName)
 }
 
 /** Checks whether this url has been already loaded - static */
-World * World::find(const char *url)
+World * World::getWorld(const char *url)
 {
   if (! url) return NULL;	// sandbox world
 
@@ -165,17 +165,6 @@ World * World::find(const char *url)
     }
   }
   return NULL;	// world not found
-}
-
-/** Gets a world by its group number */
-World * World::find(uint32_t group)
-{
-  for (World *w = worldcurr; w ; w = w->next) {
-    if (w->group == group) {
-      return w;	// world found
-    }
-  }
-  return NULL;
 }
 
 void World::joinManager(const char *chan_str)
@@ -449,7 +438,7 @@ void World::checkIcons()
         chdir(dw->d_name);
         DIR *diri = opendir(".");
         if (diri) {
-          // find icons in this world
+          // checks icons in this world
           for (struct dirent *di = readdir(diri); di; di = readdir(diri)) {
             if (stat(di->d_name, &bufstat) == 0 && S_ISREG(bufstat.st_mode)) {
               // open the icon and read it
@@ -734,17 +723,16 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 {
   trace1(DBG_WO, "world enter");
 
-  // cleanup
+  // clear everything
   ::g.gui.clearInfoBar();
   Object::initNames();
   current()->clearObjects();
   current()->initGrid();
-
   World *world = NULL;
 
   // check whether this world is already in memory
-  if (find(url) && isnew) {
-    world = find(url);	// existing world
+  if (getWorld(url) && isnew) {
+    world = getWorld(url);	// existing world
     worldcurr = swap(world);
     if (::g.pref.trace) echo("enter: world=%s (%d)", world->name, isnew);
     if (world->guip) {
@@ -752,32 +740,28 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     }
   }
   else if (isnew) {
-    //
     // new world must be initialized
-    //
-    World *newworld = new World();
+    World *world = new World();
 
-    if (! url) {	// sandbox world without url
-      if (newworld->guip) {
-        ::g.gui.updateWorld(newworld, NEW);
+    if (! url) {		// sandbox world without url
+      if (world->guip) {
+        ::g.gui.updateWorld(world, NEW);
       }
     }
     else if (isprint(*url)) {
-      newworld->url = new char[strlen(url) + 1];
-      strcpy(newworld->url, url);
-      newworld->setName(newworld->url);
+      world->url = new char[strlen(url) + 1];
+      strcpy(world->url, url);
+      world->setName(world->url);
     }
     else {
-      return NULL;	// bad world url
+      return NULL;		// bad world url
     }
-    
-    if (chanstr) {	// not a world link
-      newworld->setChan(chanstr);
+    if (chanstr) {		// not a world link
+      world->setChan(chanstr);
     }
-    newworld->guip = ::g.gui.addWorld(world, NEW);
-    world = newworld;
+    world->guip = ::g.gui.addWorld(world, NEW);
   }
-  else {		// world already exists
+  else {			// world already exists
     world = current();
     if (world->guip) {
       ::g.gui.updateWorld(world, OLD);
@@ -848,7 +832,6 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   trace1(DBG_WO, "enter: world %s loaded: ", world->name);
   world->state = LOADED;// downloaded
-
   return world;
 }
 
