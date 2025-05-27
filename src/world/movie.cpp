@@ -385,6 +385,9 @@ void Movie::permanent(float lasting)
 /** Quits */
 void Movie::quit()
 {
+  static int q = 0;
+  q++;
+  echo("quit: %d", q);
 }
 
 /*

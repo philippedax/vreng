@@ -339,6 +339,7 @@ bool World::call(World *world)
 /** Go to the previous world - static */
 World * World::goPrev()
 {
+  if (! worldcurr) return NULL;	// no prev world
   World *worldback = worldcurr->next;
   if (! worldback) return NULL;	// no prev world
 
@@ -365,6 +366,7 @@ World * World::goPrev()
 /** Go to the next world - static */
 World * World::goNext()
 {
+  if (! worldcurr) return NULL;		// no forward world
   if (! worldcurr->next) return NULL;	// no forward world
 
   World *world = worldcurr;
@@ -663,6 +665,7 @@ void World::quit()
 
   // invisible objects
   for (std::vector<Object*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+    if ((*it) == NULL) continue;	// FIX quit segfault
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
@@ -671,6 +674,7 @@ void World::quit()
 
   // still objects
   for (std::vector<Object*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+    if ((*it) == NULL) continue;	// FIX quit segfault
     if ((*it)->deleted) continue;
     (*it)->quit();			// sometimes segfault FIXME!!!
     delete *it;
@@ -679,6 +683,7 @@ void World::quit()
 
   // mobile objects
   for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    if ((*it) == NULL) continue;	// FIX quit segfault
     if ((*it) == localuser) continue;	// FIX segfault
     if ((*it)->deleted) continue;
     //dax if (! strlen((*it)->objectName())) continue;
@@ -689,6 +694,7 @@ void World::quit()
 
   // fluid objects
   for (std::vector<Object*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+    if ((*it) == NULL) continue;	// FIX quit segfault
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
@@ -697,6 +703,7 @@ void World::quit()
 
   // cloth objects
   for (std::vector<Object*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
+    if ((*it) == NULL) continue;	// FIX quit segfault
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;				// sometimes segfault FIXME!!!

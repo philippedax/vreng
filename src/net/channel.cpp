@@ -308,9 +308,9 @@ int Channel::create(const char *chan_str, int **pfds)
   cntfds += 2;
   //echo("sa[SA_RTCP]=%p", sa[SA_RTCP]);
   //echo("sd[SD_R_RTCP]=%d, sd[SD_W_RTCP]=%d", sd[SD_R_RTCP], sd[SD_W_RTCP]);
-  //echo("SA_RTCP: port=%d", sa[SA_RTCP]->sin_port);
+  //echo("SA_RTCP: port=%d" sa[SA_RTCP]->sin_port);
 
-  /* UDP channel */
+  // UDP channel
   sa[SA_UDP] = NULL;
 
   /*
@@ -321,20 +321,12 @@ int Channel::create(const char *chan_str, int **pfds)
   uint32_t oldssrc = 0;
   World *world = NULL;
 
-#if 0 //dax loop in World::find
-  if ((world = World::find(group))) {
-    if (world) {
-      oldssrc = world->getSsrc();
-    }
-  }
-#endif
   if ((ssrc = session->create(group, port, ttl, oldssrc)) == 0) {
     error("create Channel: can't create session");
     delete session;
     session = NULL;
     return 0;
   }
-
   if (this == managerChannel) {
     NetObj::setMgrSsrc(ssrc);
     session->mode = MANAGER_MODE;
@@ -342,7 +334,6 @@ int Channel::create(const char *chan_str, int **pfds)
   else {
     NetObj::setSsrc(ssrc);
     session->mode = WORLD_MODE;
-
     if (world) {
       world->setGroup(group);
     }
@@ -350,9 +341,7 @@ int Channel::create(const char *chan_str, int **pfds)
       World::current()->setGroup(group);
     }
   }
-
   namingId();
-
   *pfds = sd;
   cntFd += cntfds;
   return cntfds;
