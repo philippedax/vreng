@@ -149,7 +149,7 @@ void World::setName(const char *urlOrName)
 }
 
 /** Checks whether this url has been already loaded - static */
-World * World::find(const char *url)
+World * World::getWorld(const char *url)
 {
   if (! url) return NULL;	// sandbox world
 
@@ -165,17 +165,6 @@ World * World::find(const char *url)
     }
   }
   return NULL;	// world not found
-}
-
-/** Gets a world by its group number */
-World * World::find(uint32_t group)
-{
-  for (World *w = worldcurr; w ; w = w->next) {
-    if (w->group == group) {
-      return w;	// world found
-    }
-  }
-  return NULL;
 }
 
 void World::joinManager(const char *chan_str)
@@ -382,7 +371,6 @@ World * World::goNext()
   world->prev = worldnext;
   wp->next = NULL;
   worldcurr = worldnext;
-
   if (worldnext->call(world)) {
     return worldcurr;
   }
@@ -409,130 +397,10 @@ World * World::swap(World *world)
   return worldcurr;
 }
 
-/**
- * Vicinity Grid
- */
-
-void World::initGrid()
-{ 
-  dimgrid[0] = GRIDX;
-  dimgrid[1] = GRIDY;
-  dimgrid[2] = GRIDZ;
-  bbslice.v[0] = DISTX;
-  bbslice.v[1] = DISTY;
-  bbslice.v[2] = DISTZ;
-
-  localGrid();
-
-  // Clears all pointers in the grid
-  for (int x=0; x < dimgrid[0]; x++) {
-    for (int y=0; y < dimgrid[1]; y++) {
-      for (int z=0; z < dimgrid[2]; z++) {
-        gridArray[x][y][z] = NULL;
-      }
-    }
-  }
-}
-
-/** Checks and load my proper icons - static */
-void World::checkIcons()
-{
-  chdir(::g.env.icons());
-  DIR *dirw = opendir(".");
-  if (dirw) {
-    // check if current world is there
-    for (struct dirent *dw = readdir(dirw); dw; dw = readdir(dirw)) {
-      struct stat bufstat;
-      if (stat(dw->d_name, &bufstat) == 0 &&
-          S_ISDIR(bufstat.st_mode) &&
-          ! strcmp(dw->d_name, name)) {
-        chdir(dw->d_name);
-        DIR *diri = opendir(".");
-        if (diri) {
-          // find icons in this world
-          for (struct dirent *di = readdir(diri); di; di = readdir(diri)) {
-            if (stat(di->d_name, &bufstat) == 0 && S_ISREG(bufstat.st_mode)) {
-              // open the icon and read it
-              FILE *fp;
-              File *file = new File();
-              if (! (fp = file->open(di->d_name, "r"))) {
-                error("can't open %s/%s/%s", ::g.env.icons(), name, di->d_name);
-                continue;
-              }
-              char vref[BUFSIZ], infos[BUFSIZ *2], url[URL_LEN];
-              fgets(vref, sizeof(vref), fp);
-              file->close();
-
-              // create the icon
-              Url::file2url(di->d_name, url);
-              sprintf(infos, "<url=\"%s\">&<vref=%s>", url, vref);
-              //echo("load-icon: %s", infos);
-              if (isAction(ICON_TYPE, Icon::CREATE)) {
-                doAction(ICON_TYPE, Icon::CREATE, localuser, infos, 0, 0);
-              }
-            }
-          }
-          closedir(diri);
-        }
-        break;
-      }
-    }
-    closedir(dirw);
-  }
-  chdir(::g.env.cwd());
-}
-
-/** Checks whether other objects are persistents */
-void World::checkPersist()
-{
-  VSql *vsql = new VSql();     // first take the VSql handle;
-  if (vsql) {
-    int nitem = 0;
-    char pat[64], name[128];
-
-    // check balls
-    nitem = vsql->getCount(BALL_NAME, name);	// balls in VSql
-    for (int i=0; i < nitem; i++) {
-      sprintf(pat, "@%s", name);
-      if (vsql->getName(BALL_NAME, pat, i, name) >= 0) {
-        char *p = strchr(name, '@');
-        if (p) {
-          *p = '\0';
-          doAction(BALL_TYPE, Ball::RECREATE, (Object*)this, (void*)name,0,0);
-        }
-      }
-    }
-    // check things
-    nitem = vsql->getCount(THING_NAME, name);	// things in VSql
-    for (int i=0; i < nitem; i++) {
-      sprintf(pat, "@%s", name);
-      if (vsql->getName(THING_NAME, pat, i, name) >= 0) {
-        char *p = strchr(name, '@');
-        if (p) {
-          *p = '\0';
-          doAction(THING_TYPE, Thing::RECREATE, (Object*)this, (void*)name,0,0);
-        }
-      }
-    }
-    // check mirages
-    nitem = vsql->getCount(MIRAGE_NAME, name);	// mirages in VSql
-    for (int i=0; i < nitem; i++) {
-      sprintf(pat, "@%s", name);
-      if (vsql->getName(MIRAGE_NAME, pat, i, name) >= 0) {
-        char *p = strchr(name, '@');
-        if (p) {
-          *p = '\0';
-          doAction(MIRAGE_TYPE, Mirage::RECREATE, (Object*)this, (void*)name,0,0);
-        }
-      }
-    }
-  }
-}
-
 /** Reads a world - static */
 void World::reader(void *_url, Http *http)
 {
-  char *url = static_cast<char *>(_url);
+  char *url = static_cast<char *> (_url);
   if (! http) {
     error("can't download %s, check access to the remote http server", url);
   }
@@ -734,17 +602,16 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 {
   trace1(DBG_WO, "world enter");
 
-  // cleanup
+  // clear everything
   ::g.gui.clearInfoBar();
   Object::initNames();
   current()->clearObjects();
   current()->initGrid();
-
   World *world = NULL;
 
   // check whether this world is already in memory
-  if (find(url) && isnew) {
-    world = find(url);	// existing world
+  if (getWorld(url) && isnew) {
+    world = getWorld(url);	// existing world
     worldcurr = swap(world);
     if (::g.pref.trace) echo("enter: world=%s (%d)", world->name, isnew);
     if (world->guip) {
@@ -752,12 +619,10 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     }
   }
   else if (isnew) {
-    //
     // new world must be initialized
-    //
     World *newworld = new World();
 
-    if (! url) {	// sandbox world without url
+    if (! url) {		// sandbox world without url
       if (newworld->guip) {
         ::g.gui.updateWorld(newworld, NEW);
       }
@@ -768,16 +633,15 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
       newworld->setName(newworld->url);
     }
     else {
-      return NULL;	// bad world url
+      return NULL;		// bad world url
     }
-    
-    if (chanstr) {	// not a world link
+    if (chanstr) {		// not a world link
       newworld->setChan(chanstr);
     }
     newworld->guip = ::g.gui.addWorld(world, NEW);
     world = newworld;
   }
-  else {		// world already exists
+  else {			// world already exists
     world = current();
     if (world->guip) {
       ::g.gui.updateWorld(world, OLD);
@@ -848,7 +712,6 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   trace1(DBG_WO, "enter: world %s loaded: ", world->name);
   world->state = LOADED;// downloaded
-
   return world;
 }
 
@@ -881,4 +744,123 @@ void World::clearObjects()
   invisList.clear();
   deleteList.clear();
   lightList.clear();
+}
+
+/**
+ * Vicinity Grid
+ */
+void World::initGrid()
+{ 
+  dimgrid[0] = GRIDX;
+  dimgrid[1] = GRIDY;
+  dimgrid[2] = GRIDZ;
+  bbslice.v[0] = DISTX;
+  bbslice.v[1] = DISTY;
+  bbslice.v[2] = DISTZ;
+
+  localGrid();
+
+  // Clears all pointers in the grid
+  for (int x=0; x < dimgrid[0]; x++) {
+    for (int y=0; y < dimgrid[1]; y++) {
+      for (int z=0; z < dimgrid[2]; z++) {
+        gridArray[x][y][z] = NULL;
+      }
+    }
+  }
+}
+
+/** Checks and load my proper icons - static */
+void World::checkIcons()
+{
+  chdir(::g.env.icons());
+  DIR *dirw = opendir(".");
+  if (dirw) {
+    // check if current world is there
+    for (struct dirent *dw = readdir(dirw); dw; dw = readdir(dirw)) {
+      struct stat bufstat;
+      if (stat(dw->d_name, &bufstat) == 0 &&
+          S_ISDIR(bufstat.st_mode) &&
+          ! strcmp(dw->d_name, name)) {
+        chdir(dw->d_name);
+        DIR *diri = opendir(".");
+        if (diri) {
+          // checks icons in this world
+          for (struct dirent *di = readdir(diri); di; di = readdir(diri)) {
+            if (stat(di->d_name, &bufstat) == 0 && S_ISREG(bufstat.st_mode)) {
+              // open the icon and read it
+              FILE *fp;
+              File *file = new File();
+              if (! (fp = file->open(di->d_name, "r"))) {
+                error("can't open %s/%s/%s", ::g.env.icons(), name, di->d_name);
+                continue;
+              }
+              char vref[BUFSIZ], infos[BUFSIZ *2], url[URL_LEN];
+              fgets(vref, sizeof(vref), fp);
+              file->close();
+
+              // create the icon
+              Url::file2url(di->d_name, url);
+              sprintf(infos, "<url=\"%s\">&<vref=%s>", url, vref);
+              //echo("load-icon: %s", infos);
+              if (isAction(ICON_TYPE, Icon::CREATE)) {
+                doAction(ICON_TYPE, Icon::CREATE, localuser, infos, 0, 0);
+              }
+            }
+          }
+          closedir(diri);
+        }
+        break;
+      }
+    }
+    closedir(dirw);
+  }
+  chdir(::g.env.cwd());
+}
+
+/** Checks whether other objects are persistents */
+void World::checkPersist()
+{
+  VSql *vsql = new VSql();     // first take the VSql handle;
+  if (vsql) {
+    int nitem = 0;
+    char pat[64], name[128];
+
+    // check balls
+    nitem = vsql->getCount(BALL_NAME, name);	// balls in VSql
+    for (int i=0; i < nitem; i++) {
+      sprintf(pat, "@%s", name);
+      if (vsql->getName(BALL_NAME, pat, i, name) >= 0) {
+        char *p = strchr(name, '@');
+        if (p) {
+          *p = '\0';
+          doAction(BALL_TYPE, Ball::RECREATE, (Object*)this, (void*)name,0,0);
+        }
+      }
+    }
+    // check things
+    nitem = vsql->getCount(THING_NAME, name);	// things in VSql
+    for (int i=0; i < nitem; i++) {
+      sprintf(pat, "@%s", name);
+      if (vsql->getName(THING_NAME, pat, i, name) >= 0) {
+        char *p = strchr(name, '@');
+        if (p) {
+          *p = '\0';
+          doAction(THING_TYPE, Thing::RECREATE, (Object*)this, (void*)name,0,0);
+        }
+      }
+    }
+    // check mirages
+    nitem = vsql->getCount(MIRAGE_NAME, name);	// mirages in VSql
+    for (int i=0; i < nitem; i++) {
+      sprintf(pat, "@%s", name);
+      if (vsql->getName(MIRAGE_NAME, pat, i, name) >= 0) {
+        char *p = strchr(name, '@');
+        if (p) {
+          *p = '\0';
+          doAction(MIRAGE_TYPE, Mirage::RECREATE, (Object*)this, (void*)name,0,0);
+        }
+      }
+    }
+  }
 }

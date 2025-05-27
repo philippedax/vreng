@@ -148,7 +148,7 @@ class World {
   static void init(const char *urlvre);
   /**< General World initialization. */
 
-  static World* enter(const char* _url, const char* _chanstr, bool _new_one);
+  static World* enter(const char* url, const char* chanstr, bool isnew);
   /**< New World initialization. */
 
   static World* goPrev();
@@ -160,11 +160,8 @@ class World {
   static World* swap(World *w);
   /**< Exchanges Worlds in the list. */
 
-  static World* find(const char *_url);
+  static World* getWorld(const char *url);
   /**< Gets world by url. */
-
-  static World* find(uint32_t group);
-  /**< Gets world by group addr. */
 
   static void initFunc();
   /**< Initializes table of general functions. */
