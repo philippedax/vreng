@@ -3637,3 +3637,4 @@
 3637 Lun 26 mai 2025 15:49:19 CEST	cleanup dist movie.*pp
 3638 Lun 26 mai 2025 16:08:30 CEST	cleanup movie.hpp
 3639 Mar 27 mai 2025 11:33:32 CEST	cleanup unused channel.cpp
+3640 Mar 27 mai 2025 12:05:11 CEST	cleanup getWorld() world.*pp
