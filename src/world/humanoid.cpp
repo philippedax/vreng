@@ -180,7 +180,6 @@ int Humanoid::receiver()
     return 0;
   }
   Socket::bindSocket(sdudp, INADDR_ANY, vaps_port);
-#if 1 //dax
   if (ipmode == MULTICAST) {
     char group[GROUP_LEN];
     Channel::getGroup(World::current()->chan, group);
@@ -192,7 +191,6 @@ int Humanoid::receiver()
       error("receiver: cannot join multicast group %s", group); return 0;
     }
   }
-#endif
   //echo("receiver: waiting on port %d, sdudp=%d", vaps_port, sdudp);
   return 1;
 }
@@ -231,7 +229,6 @@ int Humanoid::connectVaps(int _ipmode)
     return 0;
   }
   //echo("connection established with vaps server: %s(%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
-#if 1 //dax
   ipmode = _ipmode;
   if (ipmode == MULTICAST) {
     char group[GROUP_LEN];
@@ -239,7 +236,6 @@ int Humanoid::connectVaps(int _ipmode)
     sprintf(setup_cmd, "setup a=%s p=%d t=%d r=%.2f ",
             group, vaps_port, Channel::getTtl(World::current()->chan), ::g.timer.rate());
   }
-#endif
   sprintf(setup_cmd, "setup p=%d r=%.2f ", vaps_port, ::g.timer.rate());
   write(sdtcp, setup_cmd, strlen(setup_cmd));	// setup packet
   return sdtcp;
