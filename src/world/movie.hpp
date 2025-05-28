@@ -82,7 +82,7 @@ class Movie: public Object {
   void permanent(float lasting);
   /**< Change permanent (frames). */
 
-  void quit();
+  //void quit();
 
  private:
   void parser(char *l);

@@ -135,6 +135,7 @@ void Movie::open_mpg()
   if (! (fp = file->open(filempg, "r"))) {
     error("can't open filempg");
     delete[] filempg;
+    file->close();
     delete file;
     return;
   }
@@ -142,7 +143,7 @@ void Movie::open_mpg()
 
   mpg = new ImageDesc[1];
 
-  SetMPEGOption(MPEG_DITHER, FULL_COLOR_DITHER); //ORDERED_DITHER);
+  //SetMPEGOption(MPEG_DITHER, FULL_COLOR_DITHER); //ORDERED_DITHER);
   if (OpenMPEG(fp, mpg)) {
     width = mpg->Width;
     height = mpg->Height;
@@ -250,6 +251,8 @@ void Movie::play_mpg()
     CloseMPEG();
     delete[] mpg;
     mpg = NULL;
+    file->close();
+    delete file;
     state = INACTIVE;
     begin = true;
     if (spot) {
@@ -383,12 +386,14 @@ void Movie::permanent(float lasting)
 }
 
 /** Quits */
+#if 0 //dax
 void Movie::quit()
 {
   static int q = 0;
   q++;
   echo("quit: %d", q);
 }
+#endif
 
 /*
  * Actions
