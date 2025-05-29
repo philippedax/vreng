@@ -142,9 +142,9 @@ void Gate::enter()
   // saves url because World::quit frees gate
   char *new_url = strdup(name.url);
 
-  if (link) {	// without channel
+  if (link) {				// without channel
     World::current()->quit();
-    World::enter(new_url, NULL, World::NEW);
+    World::enter(new_url, NULL, World::NEW_WORLD);
     World::current()->linked = true;	// linked world
     return;
   }
@@ -184,7 +184,7 @@ void Gate::enter()
   delete Channel::current();		// delete Channel
   Sound::playSound(GATESND);
 
-  World::enter(new_url, new_chan, World::NEW);	// enter in this world
+  World::enter(new_url, new_chan, World::NEW_WORLD);	// enter in this world
 
   Channel::join(new_chan);
   trace1(DBG_IPMC, "enter: join channel=%s url=%s", new_chan, new_url);

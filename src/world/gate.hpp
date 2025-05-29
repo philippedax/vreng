@@ -41,7 +41,7 @@ class Gate: public Object {
   V3 entry;		///< position after passing gate
 
  public:
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,

@@ -112,10 +112,9 @@ class World {
   /**< Checks whether objects are persistents. */
 
  public:
-
   enum {
-    OLD,
-    NEW
+    OLD_WORLD,
+    NEW_WORLD
   };
 
   //
@@ -148,7 +147,7 @@ class World {
   static void init(const char *urlvre);
   /**< General World initialization. */
 
-  static World* enter(const char* url, const char* chanstr, bool isnew);
+  static World* enter(const char* url, const char* chan, bool isnew);
   /**< New World initialization. */
 
   static World* goPrev();

@@ -299,49 +299,47 @@ void World::compute(time_t sec, time_t usec)
 bool World::call(World *world)
 {
   if (world->linked) {
-    enter(url, NULL, OLD);
+    enter(url, NULL, OLD_WORLD);
     setChan(world->chan);
+    return true;
   }
-  else {
-    trace1(DBG_IPMC, "call: leave chan=%s", world->chan);
-    if (Channel::current()) {
-      delete Channel::current();	// leave current channel
-    }
-
-    enter(url, NULL, OLD);		// enter in this world
-
-    char grpstr[GROUP_LEN];
-    Channel::getGroup(chan, grpstr);
-    group = inet_addr(grpstr);
-
-    trace1(DBG_IPMC, "call: join chan=%s", chan);
-    if (Channel::join(chan) == 0) {	// join previous channel
-      trace1(DBG_IPMC, "call: can't join chan=%s", chan);
-      return false;	// fail
-    }
-    setChan(chan);
-    ::g.gui.updateWorld(this, NEW);	// nofify the gui
+  trace1(DBG_IPMC, "call: leave chan=%s", world->chan);
+  if (Channel::current()) {
+    delete Channel::current();	// leave current channel
   }
+
+  enter(url, NULL, OLD_WORLD);	// enter in this world
+
+  char grp[GROUP_LEN];
+  Channel::getGroup(chan, grp);
+  group = inet_addr(grp);
+
+  trace1(DBG_IPMC, "call: join chan=%s", chan);
+  if (Channel::join(chan) == 0) {	// join previous channel
+    trace1(DBG_IPMC, "call: can't join chan=%s", chan);
+    return false;	// fail
+  }
+  setChan(chan);
+  ::g.gui.updateWorld(this, NEW_WORLD);	// nofify the gui
   return true;		// success
 }
 
 /** Go to the previous world - static */
 World * World::goPrev()
 {
-  if (! worldcurr) return NULL;	// no prev world
   World *worldback = worldcurr->next;
   if (! worldback) return NULL;	// no prev world
 
   World *world = worldcurr;
   world->quit();		// quit current world first
 
-  World *wp;
-  for (wp = worldback; wp->next ; wp = wp->next) {
-    if (wp == wp->next) {
+  World *w;
+  for (w = worldback; w->next ; w = w->next) {
+    if (w == w->next) {
       break;			// found
     }
   }
-  wp->next = world;
+  w->next = world;
   world->next = NULL;
   worldback->prev = NULL;
   world->prev = worldback;
@@ -355,21 +353,20 @@ World * World::goPrev()
 /** Go to the next world - static */
 World * World::goNext()
 {
-  if (! worldcurr) return NULL;		// no forward world
   if (! worldcurr->next) return NULL;	// no forward world
 
   World *world = worldcurr;
   world->quit();			// quit current world first
 
-  World *wp;
+  World *w;
   World *worldnext;
-  for (wp = world; (worldnext = wp->next)->next; wp = wp->next) {
+  for (w = world; (worldnext = w->next)->next; w = w->next) {
     ;
   }
   worldnext->next = world;
   worldnext->prev = NULL;
   world->prev = worldnext;
-  wp->next = NULL;
+  w->next = NULL;
   worldcurr = worldnext;
   if (worldnext->call(world)) {
     return worldcurr;
@@ -473,7 +470,7 @@ void World::init(const char *url)
   Universe::current()->port = Channel::getPort(world->chan);
 
   //report(world->name);
-  world->guip = ::g.gui.addWorld(world, NEW);
+  world->guip = ::g.gui.addWorld(world, NEW_WORLD);
   world->initGrid();
   world->clearObjects();
   Object::initNames();
@@ -533,7 +530,6 @@ void World::quit()
 
   // invisible objects
   for (std::vector<Object*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
-    if ((*it) == NULL) continue;	// FIX quit segfault
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
@@ -542,7 +538,6 @@ void World::quit()
 
   // still objects
   for (std::vector<Object*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-    if ((*it) == NULL) continue;	// FIX quit segfault
     if ((*it)->deleted) continue;
     (*it)->quit();			// sometimes segfault FIXME!!!
     delete *it;
@@ -551,7 +546,6 @@ void World::quit()
 
   // mobile objects
   for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if ((*it) == NULL) continue;	// FIX quit segfault
     if ((*it) == localuser) continue;	// FIX segfault
     if ((*it)->deleted) continue;
     //dax if (! strlen((*it)->objectName())) continue;
@@ -562,7 +556,6 @@ void World::quit()
 
   // fluid objects
   for (std::vector<Object*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
-    if ((*it) == NULL) continue;	// FIX quit segfault
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
@@ -571,7 +564,6 @@ void World::quit()
 
   // cloth objects
   for (std::vector<Object*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
-    if ((*it) == NULL) continue;	// FIX quit segfault
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;				// sometimes segfault FIXME!!!
@@ -580,7 +572,7 @@ void World::quit()
 
   // Update GUI
   if (guip) {
-    ::g.gui.updateWorld(this, OLD);
+    ::g.gui.updateWorld(this, OLD_WORLD);
   }
   ::g.gui.showNavigator();		// force navig mode
 
@@ -593,12 +585,11 @@ void World::quit()
   if (localuser) localuser->resetPosition();
   if (linked) return;
 
-  //dax Object::resetObjectsNumber();
   Tool::quitTools();			// quits all tools
 }
 
 /** Enters in a new World - static */
-World * World::enter(const char *url, const char *chanstr, bool isnew)
+World * World::enter(const char *url, const char *chan, bool isnew)
 {
   trace1(DBG_WO, "world enter");
 
@@ -614,52 +605,40 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     world = getWorld(url);	// existing world
     worldcurr = swap(world);
     if (::g.pref.trace) echo("enter: world=%s (%d)", world->name, isnew);
-    if (world->guip) {
-      ::g.gui.updateWorld(world, NEW);
-    }
+    ::g.gui.updateWorld(world, NEW_WORLD);
   }
   else if (isnew) {
     // new world must be initialized
     World *newworld = new World();
 
     if (! url) {		// sandbox world without url
-      if (newworld->guip) {
-        ::g.gui.updateWorld(newworld, NEW);
-      }
+      ::g.gui.updateWorld(newworld, NEW_WORLD);
     }
     else if (isprint(*url)) {
       newworld->url = new char[strlen(url) + 1];
       strcpy(newworld->url, url);
       newworld->setName(newworld->url);
     }
-    else {
-      return NULL;		// bad world url
+    if (chan) {			// not a world link
+      newworld->setChan(chan);
     }
-    if (chanstr) {		// not a world link
-      newworld->setChan(chanstr);
-    }
-    newworld->guip = ::g.gui.addWorld(world, NEW);
+    newworld->guip = ::g.gui.addWorld(world, NEW_WORLD);
     world = newworld;
   }
   else {			// world already exists
     world = current();
-    if (world->guip) {
-      ::g.gui.updateWorld(world, OLD);
-    }
+    ::g.gui.updateWorld(world, OLD_WORLD);
   }
 
   // default bgcolor
   world->bgcolor = new Bgcolor();
 
-  /////////////////////////////////////////////////////
   //
-  // Download the vre description file of the new world
+  // downloads the vre description file of the new world
   //
   world->state = LOADING;	// need to download
   if (url) {
-    //
     // world to download
-    //
     trace1(DBG_WO, "enter: downloading world url=%s", url);
     //world->universe->startWheel();
     if (Http::httpOpen(url, reader, (void *)url, 0) < 0) {
@@ -672,20 +651,16 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     Grid::grid()->reset();
     Axis::axis()->reset();
   }
-  else {	// world sandbox
-    //
+  else {			// world sandbox
     // sandbox world
-    //
-    //echo("enter: world sandbox");
     World *sandbox = world;
-
     sandbox->setName("sandbox");
 
     Parse *parser = Parse::getParse();
     parser->parseVreFile(sandbox_vre, sizeof(sandbox_vre));
     sandbox->linked = true;
 
-    float gridcolor[4] = { 0, 1, 0, .5 };	// green grid
+    float gridcolor[4] = { 0,1,0,.5 };	// green grid
     Grid::grid()->toggleGrid2d();
     Grid::grid()->setColor(gridcolor);
     Grid::grid()->setWidthIncr(16);
@@ -697,17 +672,17 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   // default entry
   new Entry();
 
-  // Attach bubble hello text to localuser
+  // attachs bubble hello text to localuser
   char hello[32];
   sprintf(hello, "Hello! I am %s", ::g.user);
   localuser->bubble = new Bubble(localuser, hello, Color::black, Bubble::BUBBLEVERSO);
 
-  // check whether icons are locally presents
+  // checks whether icons are locally presents
   world->checkIcons();
   // check whether other objects are persistents by VSql
   world->checkPersist();
 
-  // create clock
+  // creates clock
   world->clock = new Clock();	// internal clock
 
   trace1(DBG_WO, "enter: world %s loaded: ", world->name);

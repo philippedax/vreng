@@ -46,13 +46,13 @@ class Movie: public Object {
   uint16_t frame;		///< the current frame being displayed
   uint16_t width;		///< video width in pixels
   uint16_t height;		///< video height in pixels
-  uint8_t vidfmt;		///< video format (mpg | avi)
+  uint8_t format;		///< video format (mpg | avi)
   bool anim;			///< animated or not
   bool begin;			///< first frame begin playing
   GLfloat dist;			///< distance between projector and screen
   V3 dim;			///< dimension of screen projection
   FILE *fp;			///< the corresponding file pointer
-  uint8_t *videobuf;		///< buffer of the video
+  uint8_t *buf;			///< buffer of the video
   GLubyte *texframe;		///< pixmap of the texture
   ImageDesc *mpg;		///< this is a structure used by mpeg_lib to store infos
   char *line;			///< line copy
