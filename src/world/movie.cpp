@@ -149,7 +149,7 @@ void Movie::open_mpg()
     height = mpg->Height;
     fps = mpg->PictureRate;
     buf = new uint8_t[mpg->Size];
-    echo("mpg: w=%d h=%d s=%d f=%.3f", width, height, mpg->Size, fps);
+    //echo("mpg: w=%d h=%d s=%d f=%.3f", width, height, mpg->Size, fps);
   }
   else {
     error("can't OpenMPEG %s", name.url);

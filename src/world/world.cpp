@@ -305,10 +305,10 @@ bool World::call(World *world)
   }
   trace1(DBG_IPMC, "call: leave chan=%s", world->chan);
   if (Channel::current()) {
-    delete Channel::current();	// leave current channel
+    delete Channel::current();		// leave current channel
   }
 
-  enter(url, NULL, OLD_WORLD);	// enter in this world
+  enter(url, NULL, OLD_WORLD);		// enter in this world
 
   char grp[GROUP_LEN];
   Channel::getGroup(chan, grp);
@@ -317,11 +317,11 @@ bool World::call(World *world)
   trace1(DBG_IPMC, "call: join chan=%s", chan);
   if (Channel::join(chan) == 0) {	// join previous channel
     trace1(DBG_IPMC, "call: can't join chan=%s", chan);
-    return false;	// fail
+    return false;			// fail
   }
   setChan(chan);
   ::g.gui.updateWorld(this, NEW_WORLD);	// nofify the gui
-  return true;		// success
+  return true;				// success
 }
 
 /** Go to the previous world - static */
@@ -329,6 +329,8 @@ World * World::goPrev()
 {
   World *worldback = worldcurr->next;
   if (! worldback) return NULL;	// no prev world
+  if (::g.pref.trace) echo("curr: %s", worldcurr->name);
+  if (::g.pref.trace) echo("back: %s", worldback->name);
 
   World *world = worldcurr;
   world->quit();		// quit current world first
