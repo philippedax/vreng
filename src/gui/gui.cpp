@@ -237,31 +237,31 @@ void Gui::openWorld(const UStr& url_or_name)
   if (url_or_name.empty())  return;
 
   const char* urlorname = url_or_name.c_str();
-  char urlvre[URL_LEN], chanstr[CHAN_LEN];
+  char url[URL_LEN], chan[CHAN_LEN];
   Vac *vac = Vac::current();
 
-  strcpy(chanstr, DEF_VRENG_CHANNEL);
+  strcpy(chan, DEF_VRENG_CHANNEL);
   if (strchr(urlorname, '/')) {		// url or path
-    strcpy(urlvre, urlorname);
-    if (! vac->resolveWorldUrl(urlvre, chanstr)) {
-      if (strcmp(chanstr, DEF_VRENG_CHANNEL)) {
+    strcpy(url, urlorname);
+    if (! vac->resolveWorldUrl(url, chan)) {
+      if (strcmp(chan, DEF_VRENG_CHANNEL)) {
 	return;				// url not found
       }
     }
   }
   else {				// worldname
-    if (! vac->getUrlAndChannel(urlorname, urlvre, chanstr)) {
+    if (! vac->getUrlAndChannel(urlorname, url, chan)) {
       return;				// world not found
     }
   }
-  //echo("goto %s at %s", urlvre, chanstr);
+  //echo("goto %s at %s", url, chan);
 
   World::current()->quit();
   delete Channel::current();		// delete old Channel
-  World::enter(urlvre, chanstr, true);
-  World::current()->joinChan(chanstr);	// join new channel
+  World::enter(url, chan, true);
+  World::current()->joinChan(chan);	// join new channel
 
-  if (audioactive) Audio::start(chanstr);
+  if (audioactive) Audio::start(chan);
 }
 
 GuiItem * Gui::addWorld(World *world, bool isCurrent)
