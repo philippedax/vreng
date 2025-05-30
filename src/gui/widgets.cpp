@@ -263,7 +263,7 @@ static void functionMenu(Widgets*)
 /** Adds dynamic menus */
 void Widgets::dynamicMenus(UMenubar& menubar, const char* filename)
 {
-  FILE* fp = null;
+  FILE* fp = NULL;
   UMenu* dyna_menu = null;
   char attr[100], val[100];
 
@@ -307,7 +307,7 @@ UMenu& Widgets::markMenu()
                                         )
                           );
   File *file = new File();
-  FILE *fp = null;
+  FILE *fp = NULL;
   char line[URL_LEN + CHAN_LEN + 2];
   if ((fp = file->open(::g.env.worldmarks(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
@@ -501,7 +501,6 @@ Object* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
     }
   }
   objinfo[i+2].name = NULL; // NULL terminated
-
   return object;
 }
 
@@ -530,7 +529,7 @@ void Widgets::homeCB()
   World::current()->quit();
   delete Channel::current();		// delete Channel
   World::enter(::g.url, chan, true);
-  World::current()->joinChan(chan); // join new channel
+  World::current()->joinChan(chan);	// join new channel
 
   if (audioactive) Audio::start(chan);
 }
@@ -550,13 +549,12 @@ void Widgets::nextCB()
 /** Cleans current world from cache */
 void Widgets::cleanCB()
 {
-  char cachename[PATH_LEN];
+  char path[PATH_LEN];
 
   World *world = World::current();
   if (! world) return;
-  sprintf(cachename, "%s/%s.vre", ::g.env.cache(), world->name);
-  //echo("unlink %s", cachename);
-  unlink(cachename);
+  sprintf(path, "%s/%s.vre", ::g.env.cache(), world->name);
+  unlink(path);
 }
 
 /** Saves current world */
@@ -759,7 +757,7 @@ void Widgets::processKey(const int keysym, int keychar, bool press)
   int vrkey;
   long keymask = convertKey(keysym, keychar, vrkey);
 
-  if (keymask == 0) return;		// return if null (undefined or not a vrkey)
+  if (keymask == 0) return;		// return (undefined or not a vrkey)
 
   if (postponedKRcount < 0) {
     echo("!negative KRcount => reset"); // should never happen!
