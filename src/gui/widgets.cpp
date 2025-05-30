@@ -522,17 +522,17 @@ void Widgets::setRayDirection(int x, int y)
 /** Home world */
 void Widgets::homeCB()
 {
-  char chan_str[CHAN_LEN];
+  char chan[CHAN_LEN];
 
-  sprintf(chan_str, "%s/%u/%d", Universe::current()->grpstr, Universe::current()->port, Channel::currentTtl());
-  trace1(DBG_IPMC, "home: %s at %s", ::g.url, chan_str);
+  sprintf(chan, "%s/%u/%d", Universe::current()->grpstr, Universe::current()->port, Channel::currentTtl());
+  trace1(DBG_IPMC, "home: %s at %s", ::g.url, chan);
 
   World::current()->quit();
   delete Channel::current();		// delete Channel
-  World::enter(::g.url, chan_str, true);
-  World::current()->joinChan(chan_str); // join new channel
+  World::enter(::g.url, chan, true);
+  World::current()->joinChan(chan); // join new channel
 
-  if (audioactive) Audio::start(chan_str);
+  if (audioactive) Audio::start(chan);
 }
 
 /** Previous world */
