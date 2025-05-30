@@ -169,10 +169,10 @@ Channel * Channel::current()
 }
 
 /** Decodes the string format "group[/port[/ttl]]" */
-void Channel::decodeChan(const char *chan_str, uint32_t *group, uint16_t *port, uint8_t *ttl)
+void Channel::decodeChan(const char *chan, uint32_t *group, uint16_t *port, uint8_t *ttl)
 {
   char *ttlstr, *portstr, *groupstr;
-  char *chanstr = strdup(chan_str);
+  char *chanstr = strdup(chan);
 
   groupstr = chanstr;
   portstr = strchr(chanstr, '/');
@@ -223,12 +223,12 @@ void Channel::namingId()
 }
 
 /** Creates a Channel */
-int Channel::create(const char *chan_str, int **pfds)
+int Channel::create(const char *chan, int **pfds)
 {
   cntfds = 0;	// number of fd
 
-  if (! chan_str)  return 0;
-  decodeChan(chan_str, &group, &port, &ttl);
+  if (! chan)  return 0;
+  decodeChan(chan, &group, &port, &ttl);
 
   port &= ~1;	// RTP compliant: even port
 
@@ -398,14 +398,14 @@ Channel::~Channel()
 }
 
 /** Joins the channel and returns the new channel string */
-bool Channel::join(char *chan_str)
+bool Channel::join(char *chan)
 {
-  if (! chan_str)  return false;
+  if (! chan)  return false;
 
   channel = new Channel();
-  newChanStr(chan_str);
+  newChanStr(chan);
 
-  int cntfd = channel->create(chan_str, &tabFd);
+  int cntfd = channel->create(chan, &tabFd);
   if (cntfd == 0)  return false;
 
   ::g.gui.addChannelSources(WORLD_MODE, tabFd, cntfd);
@@ -414,14 +414,14 @@ bool Channel::join(char *chan_str)
 }
 
 /** joinManagerChannel: only for vreng client */
-bool Channel::joinManager(char *manager_str, const char *chan_str)
+bool Channel::joinManager(char *manager, const char *chan)
 {
   managerChannel = new Channel();
 
-  strcpy(manager_str, chan_str);
-  newChanStr(manager_str);
+  strcpy(manager, chan);
+  newChanStr(manager);
 
-  int cntfd = managerChannel->create(manager_str, &tabManagerFd);
+  int cntfd = managerChannel->create(manager, &tabManagerFd);
   if (cntfd == 0)  return false;
 
   ::g.gui.addChannelSources(MANAGER_MODE, tabManagerFd, cntfd);
@@ -505,85 +505,86 @@ Channel * Channel::getbysa(const struct sockaddr_in *sa)
  * manage group/port/ttl strings
  */
 
-/* Extracts grp_str from chan_str */
-void Channel::getGroup(const char *chan_str, char *grp_str)
+/** Extracts group from chan */
+void Channel::getGroup(const char *chan, char *group)
 {
   // TODO
   // Call GNC (Group Name Cache)
   // return gncGroupByName(worldname, leasetime);
 
-  if (! chan_str) {
-    *grp_str = 0;	// empty group
+  if (! chan) {
+    *group = 0;	// empty group
     return;
   }
 
-  char *tmpchan = strdup(chan_str);
+  char *tmpchan = strdup(chan);
   char *p;
   if (! (p = strchr(tmpchan, '/'))) {
-    *grp_str = 0;	// empty string
+    *group = 0;	// empty string
     free(tmpchan);
     return;
   }
   *p = '\0';	// null terminated
   if (strlen(tmpchan) < GROUP_LEN)
-    strcpy(grp_str, tmpchan);
+    strcpy(group, tmpchan);
   else {
-    strncpy(grp_str, tmpchan, GROUP_LEN-1);
-    grp_str[GROUP_LEN] = '\0';
+    strncpy(group, tmpchan, GROUP_LEN-1);
+    group[GROUP_LEN] = '\0';
     error("getGroup: \"%s\" too long", tmpchan);
   }
   free(tmpchan);
 }
 
-/* Returns port value fron chan_str */
-uint16_t Channel::getPort(const char *chan_str)
+/** Returns port value from chan */
+uint16_t Channel::getPort(const char *chan)
 {
   uint16_t port;
   const char *p;
 
-  if (! chan_str)
+  if (! chan)
     port = (uint16_t) DEF_VRENG_PORT;
-  else if (! (p = strchr(chan_str, '/')))
+  else if (! (p = strchr(chan, '/')))
     port = (uint16_t) DEF_VRENG_PORT;
   else
     port = (uint16_t) atoi(++p);
   return port;
 }
 
+/** Returns ttl value */
 uint8_t Channel::currentTtl()
 {
   return Universe::current()->ttl;
 }
 
-/* Returns ttl value fron chan_str */
-uint8_t Channel::getTtl(const char *chan_str)
+/** Returns ttl value from chan */
+uint8_t Channel::getTtl(const char *chan)
 {
   uint8_t ttl;
   const char *p;
 
-  if (! chan_str)
+  if (! chan)
     ttl = (uint8_t) DEF_VRENG_TTL;
-  else if (! (p = strrchr(chan_str, '/')))
+  else if (! (p = strrchr(chan, '/')))
     ttl = (uint8_t) DEF_VRENG_TTL;
   else
     ttl = (uint8_t) atoi(++p);
   return ttl;
 }
 
-/** Modifies a chan_str */
-void Channel::newChanStr(char *chan_str)
+/** Modifies a chan */
+void Channel::newChanStr(char *chan)
 {
   char *group = NULL;
   char groupstr[GROUP_LEN];
 
-  if (! chan_str)  return;
+  if (! chan)  return;
 
-  getGroup(chan_str, groupstr);
+  getGroup(chan, groupstr);
   group = strdup(groupstr);
-  sprintf(chan_str, "%s/%u/%d", group, getPort(chan_str), currentTtl());
-  if (strlen(chan_str) >= CHAN_LEN) {
-    error("buildChanStr: %s too long", chan_str);
-    chan_str[CHAN_LEN] = '\0';
+  sprintf(chan, "%s/%u/%d", group, getPort(chan), currentTtl());
+  if (strlen(chan) >= CHAN_LEN) {
+    error("buildChanStr: %s too long", chan);
+    chan[CHAN_LEN] = '\0';
   }
   free(group);
   return;

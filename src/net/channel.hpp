@@ -44,11 +44,11 @@ class Channel {
    * Returns sock else -1 if problem.
    */
 
-  static void decodeChan(const char *chan_str, uint32_t *group, uint16_t *port, uint8_t *ttl);
+  static void decodeChan(const char *chan, uint32_t *group, uint16_t *port, uint8_t *ttl);
   /**<
    * Decodes the string format "group[/port[/ttl]]".
    * Returns group, port, ttl.
-   * If chan_str == "" or NULL, we get the default values.
+   * If chan == "" or NULL, we get the default values.
    */
 
   void sendBYE();
@@ -79,7 +79,7 @@ class Channel {
   static void initReflector();
   /**< Reflector Initialization */
 
-  static void newChanStr(char *chan_str);
+  static void newChanStr(char *chan);
 
  public:
   uint32_t	ssrc;		///< ssrcid
@@ -111,7 +111,7 @@ class Channel {
   static void init();
   /**< Network Initialization */
 
-  int create(const char *chanstr, int **fds);
+  int create(const char *chan, int **fds);
   /**<
    * Create a Channel
    * channel string is given by decode
@@ -119,7 +119,7 @@ class Channel {
    *
    * Usage:
    * int *fds;
-   * int count = createChannel(chan_str, &fds);
+   * int count = createChannel(chan, &fds);
    * for (i=0; i < count; i++) {
    *   addThisFdToList(fds[i]);
    * }
@@ -127,13 +127,13 @@ class Channel {
    *        sockets mcast_recv_rtcp and mcast_send_rtcp
    */
 
-  static bool join(char *chan_str);
+  static bool join(char *chan);
   /**<
    * Joins the channel and return the new channel string.
    * Sets the global variables: currentChannel, cntFd, tabFd
    */
 
-  static bool joinManager(char *manager_str, const char *chan_str);
+  static bool joinManager(char *manager, const char *chan);
   /**<
    * Only for vreng client.
    * Sets the global variables: managerChannel, cntManagerFd, tabManagerFd.
@@ -143,7 +143,6 @@ class Channel {
   /**< Gets current channel instance */
 
   static Channel * getbysa(const struct sockaddr_in *sa);
-
   static int getFdSendRTP(const struct sockaddr_in *sa);
   static int getFdSendRTCP(const struct sockaddr_in *sa);
   static struct sockaddr_in * getSaRTCP(const struct sockaddr_in *sa);
