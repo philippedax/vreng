@@ -123,8 +123,8 @@ class World {
   void setName(const char* name);	///< Builds world name from url.
   void setUrl(const char* _url);	///< Sets the world url.
   void setGroup(uint32_t _group);	///< Sets the world group.
-  bool setChan(const char *chanstr);	///< Sets the channel name.
-  void joinChan(char *chanstr);		///< Joins the channel.
+  bool setChan(const char *chan);	///< Sets the channel name.
+  void joinChan(char *chan);		///< Joins the channel.
   void setGround(float level);		///< Sets the world level.
 
   //
@@ -171,7 +171,7 @@ class World {
   void deleteObjects();
   /**< Deletes all objects dropped in the todeletelist. */
 
-  void joinManager(const char *chanstr);
+  void joinManager(const char *chan);
   /**< Sets the manager channel name and joins it. */
 };
 

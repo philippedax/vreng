@@ -167,40 +167,39 @@ World * World::getWorld(const char *url)
   return NULL;	// world not found
 }
 
-void World::joinManager(const char *chan_str)
+void World::joinManager(const char *chan)
 {
-  world_manager->chan = new char[strlen(chan_str) + 1];
-  Channel::joinManager(world_manager->chan, chan_str);
+  world_manager->chan = new char[strlen(chan) + 1];
+  Channel::joinManager(world_manager->chan, chan);
 }
 
 /** Sets the channel name */
-bool World::setChan(const char *chan_str)
+bool World::setChan(const char *chanstr)
 {
-  if (! chan_str) {
+  if (! chanstr) {
     return false;
   }
-  if (strlen(chan_str) >= CHAN_LEN) {
+  if (strlen(chanstr) >= CHAN_LEN) {
     return false;
   }
-
-  if (*chan_str == '\0') {
+  if (*chanstr == '\0') {
     chan = new char[strlen(::g.channel) + 1];
     memset(chan, 0, strlen(::g.channel)+1);
     strncpy(chan, ::g.channel, strlen(::g.channel));
   }
   else {
-    chan = new char[strlen(chan_str) + 1];
-    memset(chan, 0, strlen(chan_str)+1);
-    strncpy(chan, chan_str, strlen(chan_str));
+    chan = new char[strlen(chanstr) + 1];
+    memset(chan, 0, strlen(chanstr)+1);
+    strncpy(chan, chanstr, strlen(chanstr));
   }
   return true;
 }
 
 /** Sets the channel name and Joins the new channel */
-void World::joinChan(char *chan_str)
+void World::joinChan(char *chan)
 {
-  if (setChan(chan_str)) {
-    Channel::join(chan_str);
+  if (setChan(chan)) {
+    Channel::join(chan);
   }
 }
 
