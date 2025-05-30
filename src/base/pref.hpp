@@ -29,7 +29,6 @@
  */
 class Pref {
  public:
-
   Pref();
   /**< constructor */
   

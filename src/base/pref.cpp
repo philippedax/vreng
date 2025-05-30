@@ -395,11 +395,11 @@ void Pref::parse(int argc, char **argv)
       case 'w':
         ::g.url = strdup(optarg);
 	{
-          char chanstr[CHAN_LEN];
-          memset(chanstr, 0, sizeof(chanstr));
+          char chan[CHAN_LEN];
+          memset(chan, 0, sizeof(chan));
 	  //dax Vac *vac = Vac::current();
-          //dax FIXME segfault: vac->resolveWorldUrl(::g.url, chanstr);
-          ::g.channel = strdup(chanstr);
+          //dax FIXME segfault: vac->resolveWorldUrl(::g.url, chan);
+          ::g.channel = strdup(chan);
 	}
         break;
       case 'x':

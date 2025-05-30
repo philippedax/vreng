@@ -3644,3 +3644,4 @@
 3644 Mer 28 mai 2025 13:41:20 CEST	remove quit() movie.*pp
 3645 Jeu 29 mai 2025 16:08:23 CEST	cleanup call world.cpp
 3646 Ven 30 mai 2025 09:21:32 CEST	add trace to goPrev world.cpp
+3647 Ven 30 mai 2025 09:30:14 CEST	cleanup openWorld gui.cpp
