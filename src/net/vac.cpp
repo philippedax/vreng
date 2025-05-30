@@ -73,7 +73,7 @@ bool Vac::connectVacs()
   return connected;
 }
 
-/** Thread */
+/** Connect via a thread */
 void * Vac::connectThread(void *)
 {
   int sdvac;
@@ -95,7 +95,7 @@ void * Vac::connectThread(void *)
   timeout.tv_usec = 0;
 
   if (setsockopt(sdvac, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<char *>(&timeout), sizeof(timeout)) < 0) {
-    error("setsockopt failed\n");
+    error("setsockopt failed");
   }
 
   memset(&savac, 0, sizeof(struct sockaddr_in));
@@ -114,10 +114,10 @@ void * Vac::connectThread(void *)
 
 bool Vac::getList()
 {
+  if (connected == false) return false;
+
   uint32_t sizecache = 0;
   char reqvacs[8];
-
-  if (connected == false) return false;
 
   strcpy(url, MANAGER_NAME);
   strcpy(channel, DEF_MANAGER_CHANNEL);
@@ -131,7 +131,7 @@ bool Vac::getList()
   memset(reqvacs, 0, sizeof(reqvacs));
   read(sdvac, reqvacs, sizeof(reqvacs));
   sizecache = atoi(reqvacs);
-  //printf("sizecache: %d\n", sizecache);
+  //echo("sizecache: %d", sizecache);
 
   // and then get the cache
   Vac::connectVacs();
@@ -149,7 +149,6 @@ bool Vac::getList()
   memset(cache, 0, sizecache + 1);
   while ((r = read(sdvac, cache, sizecache)) > 0) {
     cache[r] = '\0';
-    //DEBUG printf("readvac: r=%d,%d l=%s\n", r, strlen(cache), cache);
     char *p = strtok(cache, " ");
     while (p) {
       if (strncmp(p, "http://", 7) != 0) break;  // !!! ELC: pour eviter blocage
@@ -161,19 +160,18 @@ bool Vac::getList()
       prev->next = vac;
       prev = vac;
       p = strtok(NULL, " ");
-      //DEBUG printf("u=%s c=%s\n", vac->url, vac->channel);
+      //echo("u=%s c=%s", vac->url, vac->channel);
     }
   }
   if (cache) delete[] cache;
+  cache = NULL;
   Socket::closeStream(sdvac);
   trace1(DBG_INIT, "VacC initialized");
   return true;
 }
 
-bool Vac::resolveWorldUrl(const char *url, char *chanstr)
+bool Vac::resolveWorldUrl(const char *url, char *chan)
 {
-  if (connected == false) return false;
-
   // connect to the vacs server
   Vac::connectVacs();
   if (connected == false) return false;
@@ -187,7 +185,7 @@ bool Vac::resolveWorldUrl(const char *url, char *chanstr)
   char line[CHAN_LEN + 2];
   memset(line, 0, sizeof(line));
   if (read(sdvac, line, sizeof(line)) > 0) {
-    strcpy(chanstr, line);
+    strcpy(chan, line);
     if (vacList && vacList->next) {
       bool cached = false;
       Vac *w = NULL, *wlast = NULL;
@@ -214,18 +212,18 @@ bool Vac::resolveWorldUrl(const char *url, char *chanstr)
   }
   else {
     error("resolveWorld: channel NULL");
-    strcpy(chanstr, DEF_VRENG_CHANNEL);
+    strcpy(chan, DEF_VRENG_CHANNEL);
     Socket::closeStream(sdvac);
     return false;
   }
 }
 
-bool Vac::getChannel(const char *url, char *chanstr)
+bool Vac::getChannel(const char *url, char *chan)
 {
   if (vacList && vacList->next) {
     for (Vac *w = vacList->next; w ; w = w->next) {
       if (strstr(w->url, url)) {
-        strcpy(chanstr, w->channel);
+        strcpy(chan, w->channel);
         return true;
       }
     }
@@ -233,13 +231,13 @@ bool Vac::getChannel(const char *url, char *chanstr)
   return false;
 }
 
-bool Vac::getUrlAndChannel(const char *name, char *url, char *chanstr)
+bool Vac::getUrlAndChannel(const char *name, char *url, char *chan)
 {
   if (vacList && vacList->next) {
     for (Vac *w = vacList->next; w ; w = w->next) {
       if (strstr(w->url, name)) {
         strcpy(url, w->url);
-        strcpy(chanstr, w->channel);
+        strcpy(chan, w->channel);
         return true;
       }
     }

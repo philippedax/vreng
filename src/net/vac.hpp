@@ -23,6 +23,7 @@
 #ifndef VAC_HPP
 #define VAC_HPP
 
+
 /**
  * Vac class
  */

@@ -3645,3 +3645,4 @@
 3645 Jeu 29 mai 2025 16:08:23 CEST	cleanup call world.cpp
 3646 Ven 30 mai 2025 09:21:32 CEST	add trace to goPrev world.cpp
 3647 Ven 30 mai 2025 09:30:14 CEST	cleanup openWorld gui.cpp
+3648 Ven 30 mai 2025 09:41:28 CEST	cleanup pref.cpp
