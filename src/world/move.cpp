@@ -280,13 +280,13 @@ void User::imposed(const float lastings[])
   }
 }
 
-/** Sets max lasting */
+/** Sets lasting */
 void Object::setLasting(float maxlast)
 {
   setMaxLastings(type, maxlast);
 }
 
-/** Gets max lasting */
+/** Gets lasting */
 float Object::getLasting() const
 {
   return getMaxLastings(type);
@@ -301,9 +301,9 @@ float Object::deltaTime(time_t sec, time_t usec)
 /** Initializes an imposed movement */
 void Object::imposedMovement(float ttl)
 {
-  if (move.sec == 0 && move.usec == 0) {
-    struct timeval t;
+  struct timeval t;
 
+  if (move.sec == 0 && move.usec == 0) {
     gettimeofday(&t, NULL);
     move.sec = t.tv_sec;
     move.usec = t.tv_usec;
@@ -371,7 +371,7 @@ void Object::permanentMovement(float speed)
 void User::elemUserMovement(const float dts[])
 {
   Object *o = new Object();
-  o->pos = pos;		// keep pos for intersection
+  o->pos = pos;			// keep pos for intersection
 
   imposed(dts);
 
@@ -424,9 +424,7 @@ void User::userMovements(time_t sec, time_t usec)
 void Object::elemImposedMovement(float dt)
 {
   imposed(dt);				// handled by each object
-
   updatePos();
-
   if (! isBehavior(COLLIDE_NEVER)) {
     Object *o = new Object();
     o->pos = pos;			// keep pos for intersection
