@@ -228,7 +228,6 @@ void User::imposed(const float lastings[])
       changePosition(k, lastings[k] * (kpressed[KEY_SP]+1));
     }
   }
-
   float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
 
   if (pos.z > 2) {		// hight >2 m
@@ -398,7 +397,7 @@ void User::userMovements(time_t sec, time_t usec)
       dt = keylastings[k];
     }
   }
-  if (dt > MIN_LASTING) {	// user is moving
+  if (dt > MIN_LASTING) {		// user is moving
     float maxlast = MIN( getLasting(), 1. );
     float dts[MAXKEYS];
     int moves = int( (dt / maxlast) );
@@ -409,11 +408,11 @@ void User::userMovements(time_t sec, time_t usec)
           keylastings[k] -= maxlast;
         }
         else {
-          dts[k] = keylastings[k];  // last movement
+          dts[k] = keylastings[k];	// last movement
           keylastings[k] = 0;
         }
       }
-      elemUserMovement(dts);
+      elemUserMovement(dts);		// elementary user movement
     }
     publish(pos);
     updateGrid(pos);
@@ -424,13 +423,13 @@ void User::userMovements(time_t sec, time_t usec)
 /** Elementary imposed movement for an object */
 void Object::elemImposedMovement(float dt)
 {
-  imposed(dt);			// handled by each object
+  imposed(dt);				// handled by each object
 
   updatePos();
 
   if (! isBehavior(COLLIDE_NEVER)) {
     Object *o = new Object();
-    o->pos = pos;		// keep pos for intersection
+    o->pos = pos;			// keep pos for intersection
     checkVicinity(o);
     delete o;
   }
@@ -445,21 +444,9 @@ void Object::imposedMovements(time_t sec, time_t usec)
     error("imposedMovements: %s %d invalid", name.given, type);
     return;
   }
-  if (! isMoving() && ! move.manip) {
+  if ( ! isMoving() && ! move.manip ) {
     return;			// no moving
   }
-#if 0
-  if (move.manip) {		// capted by carrier
-    dt = deltaTime(sec, usec);
-    Object *o = carrier->getObject();
-    if (! o) return;
-    for (int k=0; k < MAXKEYS; k++) {
-      echo("k=%d", k);
-      carrier->mouseEvent(o, k, dt);
-    }
-    return;
-  }
-#endif
   dt = -1;
   timing(sec, usec, &dt);	// handled by each object only for imposed movements
   move.next = NULL;
@@ -477,10 +464,10 @@ void Object::imposedMovements(time_t sec, time_t usec)
         dts = dt;
         dt = 0;
       }
-      elemImposedMovement(dts);
       if (isBehavior(NO_ELEMENTARY_MOVE)) {
         return;			// do movement only once
       }
+      elemImposedMovement(dts);	// elementary imposed movement
     }
   }
   if (netop && netop->isResponsible()) {
@@ -517,7 +504,7 @@ void Object::permanentMovements(time_t sec, time_t usec)
     error("permanentMovements: type=%d invalid", type);
     return;
   }
-  if (move.perm_sec > 0) {	// is permanent movement activated ?
+  if (move.perm_sec > 0) {		// is permanent movement activated ?
     float dt = static_cast<float>(sec-move.perm_sec) + static_cast<float>(usec-move.perm_usec)/1e6;
     move.perm_sec = sec;
     move.perm_usec = usec;
@@ -536,15 +523,15 @@ void Object::permanentMovements(time_t sec, time_t usec)
           dts = dt;
           dt = 0;
         }
-        elemPermanentMovement(dts);
         if (isBehavior(NO_ELEMENTARY_MOVE)) {
-          return;		// do movement only once
+          return;			// do movement only once
         }
+        elemPermanentMovement(dts);	// elementary permanent movement
       }
     }
-    timing(sec, usec, &dt);	// never called FIXME!
+    timing(sec, usec, &dt);		// never called FIXME!
     if (netop && netop->isResponsible()) {
-      publish(pos);		// handled by each object
+      publish(pos);			// handled by each object
     }
     updateGrid(pos);
     if (this == localuser) {
