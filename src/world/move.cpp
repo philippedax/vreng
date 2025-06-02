@@ -369,12 +369,12 @@ void Object::permanentMovement(float speed)
 }
 
 /** Elementary user movement */
-void User::elemUserMovement(const float tabdt[])
+void User::elemUserMovement(const float dts[])
 {
   Object *o = new Object();
   o->pos = pos;		// keep pos for intersection
 
-  imposed(tabdt);
+  imposed(dts);
 
   if (checkPosition()) {	// sanity check
     echo("pos: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
@@ -385,7 +385,7 @@ void User::elemUserMovement(const float tabdt[])
 }
 
 /** User general movement */
-void User::userMovement(time_t sec, time_t usec)
+void User::userMovements(time_t sec, time_t usec)
 {
   float keylastings[MAXKEYS];
 
@@ -398,25 +398,22 @@ void User::userMovement(time_t sec, time_t usec)
       dt = keylastings[k];
     }
   }
-
   if (dt > MIN_LASTING) {	// user is moving
-    float maxlast = getLasting();
-    maxlast = maxlast ? maxlast : 1;
+    float maxlast = MIN( getLasting(), 1. );
+    float dts[MAXKEYS];
     int moves = int( (dt / maxlast) );
-    float tabdt[MAXKEYS];
-
     for (int m=0; m <= moves; m++) {
       for (int k=0; k < MAXKEYS; k++) {
         if (keylastings[k] > maxlast) {
-          tabdt[k] = maxlast;
+          dts[k] = maxlast;
           keylastings[k] -= maxlast;
         }
         else {
-          tabdt[k] = keylastings[k];  // last movement
+          dts[k] = keylastings[k];  // last movement
           keylastings[k] = 0;
         }
       }
-      elemUserMovement(tabdt);
+      elemUserMovement(dts);
     }
     publish(pos);
     updateGrid(pos);
@@ -445,13 +442,14 @@ void Object::imposedMovements(time_t sec, time_t usec)
   float dt;
 
   if (! isValid()) {
-    error("imposedMovements: %s type=%d invalid", name.given, type);
+    error("imposedMovements: %s %d invalid", name.given, type);
     return;
   }
-  if (! isMoving() && ! move.manip) return;	// no moving
-
+  if (! isMoving() && ! move.manip) {
+    return;			// no moving
+  }
 #if 0
-  if (move.manip) {			// capted by carrier
+  if (move.manip) {		// capted by carrier
     dt = deltaTime(sec, usec);
     Object *o = carrier->getObject();
     if (! o) return;
@@ -462,38 +460,31 @@ void Object::imposedMovements(time_t sec, time_t usec)
     return;
   }
 #endif
-
   dt = -1;
-  timing(sec, usec, &dt);		// handled by each object only for imposed movements
-
+  timing(sec, usec, &dt);	// handled by each object only for imposed movements
   move.next = NULL;
-
   if (dt > MIN_LASTING) {
-    float maxlast = getLasting();
-    maxlast = maxlast ? maxlast : 1;
+    float maxlast = MIN( getLasting(), 1. );
     // spliting movement in m elementary movements
-    float tabdt = 0.;
+    float dts = 0;
     int moves = int( (dt / maxlast) );
-
     for (int m=0; m <= moves; m++) {
       if (dt > maxlast) {
-        tabdt = maxlast;
+        dts = maxlast;
         dt -= maxlast;
       }
       else {
-        tabdt = dt;
+        dts = dt;
         dt = 0;
       }
-
-      elemImposedMovement(tabdt);
-
+      elemImposedMovement(dts);
       if (isBehavior(NO_ELEMENTARY_MOVE)) {
-        return;		// do movement only once
+        return;			// do movement only once
       }
     }
   }
   if (netop && netop->isResponsible()) {
-    publish(pos);	// handled by each object
+    publish(pos);		// handled by each object
   }
   updateGrid(pos);
 }
@@ -531,35 +522,29 @@ void Object::permanentMovements(time_t sec, time_t usec)
     move.perm_sec = sec;
     move.perm_usec = usec;
     move.next = NULL;
-
     if (dt > 0 /* MIN_LASTING */) {
-      float maxlast = getLasting();
-      maxlast = maxlast ? maxlast : 1;
-      float tabdt = 0;
+      float maxlast = MIN( getLasting(), 1. );
+      float dts = 0;
       int moves = int( (dt / maxlast) );
       moves = MIN(moves, MIN_MOVES);
-
       for (int m=0; m <= moves; m++) {
         if (dt > maxlast) {
-          tabdt = maxlast;
+          dts = maxlast;
           dt -= maxlast;
         }
         else {
-          tabdt = dt;
+          dts = dt;
           dt = 0;
         }
-
-        elemPermanentMovement(tabdt);
-
+        elemPermanentMovement(dts);
         if (isBehavior(NO_ELEMENTARY_MOVE)) {
-          return;	// do movement only once
+          return;		// do movement only once
         }
       }
     }
-    timing(sec, usec, &dt);		// never called FIXME!
-
+    timing(sec, usec, &dt);	// never called FIXME!
     if (netop && netop->isResponsible()) {
-      publish(pos);			// handled by each object
+      publish(pos);		// handled by each object
     }
     updateGrid(pos);
     if (this == localuser) {

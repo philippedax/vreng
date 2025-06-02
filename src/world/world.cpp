@@ -158,13 +158,10 @@ World * World::getWorld(const char *url)
 
   for (World *w = worldcurr; w ; w = w->next) {
     if ((! strcmp(w->url, url)) || (! strcmp(w->url, urla))) {
-      return w;	// world found
-    }
-    if (w == w->next) {
-      break;	//FIXME: bug inside the list
+      return w;			// world found
     }
   }
-  return NULL;	// world not found
+  return NULL;			// world not found
 }
 
 void World::joinManager(const char *chan)
@@ -228,21 +225,15 @@ void World::setGroup(uint32_t _group)
 void World::compute(time_t sec, time_t usec)
 {
   switch (state) {
-
   case LOADING:
     error("compute: no end of vre file encountered");
-    return;
-
   case LOADED:
     trace1(DBG_WO, "compute: world loaded");
     if (localuser) {
       localuser->move.perm_sec = sec;
       localuser->move.perm_usec = usec;
     }
-
-    //
     // computes world's bounding box
-    //
     for (std::vector<Object*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
@@ -259,39 +250,23 @@ void World::compute(time_t sec, time_t usec)
       bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]);
       bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]);
     }
-    //echo("bbs=%.1f,%.1f,%.1f bbc=%.1f,%.1f,%.1f", bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
-
-    //dax OList::clearIspointed(mobileList);
-    state = SIMULATION;
     Axis::axis()->init();
     Grid::grid()->init(bbsize.v[0], bbsize.v[1], bbsize.v[2]);
-    return;
-
-  case SIMULATION:	// do movements
-    //
-    // user movement
-    //
+    state = SIMULATION;
+  case SIMULATION:				// do movements
+    // user movements
     if (localuser) {
-      localuser->userMovement(sec, usec);	// localuser movement
+      localuser->userMovements(sec, usec);	// localuser movement
     }
-
-    //
-    // Removes objects scheduled to be deleted
-    //
+    // removes objects scheduled to be deleted
     deleteObjects();
-
-    //
-    // objects movement with imposed or permanent movements
-    //
+    // objects movements with imposed or permanent movements
     for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       (*it)->imposedMovements(sec, usec);	// object with imposed movement
       (*it)->permanentMovements(sec, usec);	// object with permanent movement
     }
-
-    break;
-
-  default: return;
   }
+  return;
 }
 
 /** Calls a world - private */
@@ -332,7 +307,10 @@ World * World::goPrev()
   if (::g.pref.trace) echo("back: %s", worldback->name);
 
   World *world = worldcurr;
-  world->quit();		// quit current world first
+  //if (world->quit() != NULL)
+    world->quit();		// quit current world : FIXME segfault !!!
+  //else
+  //  return world;
 
   World *w;
   for (w = worldback; w->next ; w = w->next) {
@@ -348,7 +326,7 @@ World * World::goPrev()
   if (worldback->call(world)) {
     return worldcurr;
   }
-  return NULL;
+  return world;
 }
 
 /** Go to the next world - static */
@@ -358,6 +336,7 @@ World * World::goNext()
 
   World *world = worldcurr;
   world->quit();			// quit current world first
+  //return world;
 
   World *w;
   World *worldnext;
@@ -372,7 +351,7 @@ World * World::goNext()
   if (worldnext->call(world)) {
     return worldcurr;
   }
-  return NULL;
+  return world;
 }
 
 /** Exchanges worlds in the list - static */
@@ -411,7 +390,7 @@ void World::reader(void *_url, Http *http)
   FILE *fpcache = NULL;
   struct stat bufstat;
 
-  Parse *parser = new Parse();	// creates the parser instance
+  Parse *parser = new Parse();		// creates the parser instance
 
   *cachename = 0;
   Cache::path(url, cachename);
@@ -426,24 +405,24 @@ httpread:
       if (fpcache) {
         fwrite(buf, 1, len, fpcache);	// save into the cache
       }
-      if (parser->parseVreFile(buf, len) <= 0) {  // eof
-        break;
+      if (parser->parseVreFile(buf, len) <= 0) {
+        break;				// eof
       }
     }
     fileout->close();
     delete fileout;
 
 #if 0 //HAVE_LIBXML2
-    Xml::dtdValidation(cachename);        // check the DTD
+    Xml::dtdValidation(cachename);	// check the DTD
 #endif //HAVE_LIBXML2
   }
-  else {        // cachename exists in the cache
+  else {        			// cachename exists in the cache
     if (! (fpcache = filein->open(cachename, "r"))) {
-      goto httpread;		// if can't open download it by http
+      goto httpread;			// if can't open download it by http
     }
     while ((len = fread(buf, 1, sizeof(buf), fpcache)) > 0) {
       if (parser->parseVreFile(buf, len) <= 0) {
-        break;			// eof
+        break;				// eof
       }
     }
   }
@@ -605,7 +584,7 @@ World * World::enter(const char *url, const char *chan, bool isnew)
   if (getWorld(url) && isnew) {
     world = getWorld(url);	// existing world
     worldcurr = swap(world);
-    if (::g.pref.trace) echo("enter: world=%s (%d)", world->name, isnew);
+    if (::g.pref.trace) echo("enter: %s", world->name);
     ::g.gui.updateWorld(world, NEW_WORLD);
   }
   else if (isnew) {
@@ -640,10 +619,10 @@ World * World::enter(const char *url, const char *chan, bool isnew)
   world->state = LOADING;	// need to download
   if (url) {
     // world to download
-    trace1(DBG_WO, "enter: downloading world url=%s", url);
+    trace1(DBG_WO, "enter: downloading %s", url);
     //world->universe->startWheel();
     if (Http::httpOpen(url, reader, (void *)url, 0) < 0) {
-      error("enter: bad download: url=%s", url);
+      error("enter: bad download: %s", url);
       return NULL;
     }
     //world->universe->stopWheel();
@@ -686,8 +665,8 @@ World * World::enter(const char *url, const char *chan, bool isnew)
   // creates clock
   world->clock = new Clock();	// internal clock
 
-  trace1(DBG_WO, "enter: world %s loaded: ", world->name);
-  world->state = LOADED;// downloaded
+  trace1(DBG_WO, "enter: %s loaded", world->name);
+  world->state = LOADED;	// downloaded
   return world;
 }
 

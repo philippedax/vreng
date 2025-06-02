@@ -200,7 +200,7 @@ class User: public Object {
   void imposed(const float lasting[]);
   /**< Does the motion in each direction. */
 
-  void userMovement(time_t sec, time_t usec);
+  void userMovements(time_t sec, time_t usec);
   /**< User general motion. */
 
   void setRayDirection(GLint x, GLint y);
