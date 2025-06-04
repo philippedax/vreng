@@ -54,7 +54,7 @@ class Step: public Object {
  public:
   static const float JUMP;	///< jump
 
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -73,11 +73,10 @@ class Step: public Object {
 
   Step() {}		///< Constructor
   Step(char *l);	///< Constructor
-
   Step(Object *user, char *form);	///< Constructor from GUI
-
   Step(Pos& newpos, Pos& _ipos, const char *name, const char *geom, bool _mobile, float _height, float _speed, int _dir);
   /**< Constructor for structure of steps */
+  ~Step();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Create from fileline */
@@ -102,9 +101,6 @@ class Step: public Object {
 
   void pause();
   /**< Pauses/Continues */
-
-  virtual void quit();
-  /**< Quits */
 
  protected:
   // Gui callbacks

@@ -160,7 +160,7 @@ void Light::lighting()
   if (fog) glEnable(GL_FOG);
 }
 
-void Light::quit()
+Light::~Light()
 {
   glDisable(GL_FOG);
   glDisable(GL_LIGHT2);

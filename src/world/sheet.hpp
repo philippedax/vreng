@@ -49,7 +49,7 @@ class Sheet: public Object {
   static const float LSPEED;
   static const float ASPEED;
 
-  /* actions */
+  // actions
   enum {
     CREATE,
     DESTROY,
@@ -57,8 +57,7 @@ class Sheet: public Object {
     PULL,
     ROTATE
   };
-
-  /* states */
+  // states
   enum {
     RIGHT,
     LEFT
@@ -70,13 +69,12 @@ class Sheet: public Object {
 
   static void funcs();	///< init funclist
 
-  Sheet(class Book* _book, char* l);
-  /**< Constructor called by Book */
+  Sheet(class Book* _book, char* l); ///< Constructor called by Book
+  ~Sheet();	///< Destructor
 
   void imposed(float lasting);
   void timing(time_t s, time_t us, float *lasting);
   bool intersect(Object *pcur, Object *pold);
-  void quit();
 
   void turnPrev();
   void turnNext();

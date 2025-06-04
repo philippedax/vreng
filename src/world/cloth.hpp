@@ -46,7 +46,7 @@ class Cloth: public Object {
   char color[16];			///< given color
 
  public:
-  /* cloth models */
+  // cloth models
   enum cloth_model {
     HALO,
     HAT,
@@ -54,8 +54,7 @@ class Cloth: public Object {
     WINGS,
     NONE
   };
-
-  /* net properties */
+  // net properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -65,7 +64,7 @@ class Cloth: public Object {
     PROPAY,
     PROPS       ///< last item = properties number
   };
-  /* actions */
+  // actions
   enum cloth_action {
     WEAR,
     TAKEOFF,
@@ -84,15 +83,13 @@ class Cloth: public Object {
 
   Cloth(char *l);		///< Constructor
   Cloth() {}			///< Constructor for sub-classes
+  ~Cloth();			///< Constructor for sub-classes
 
   static Object * (creator)(char *l);
   /**< Creation from a file */
 
   virtual void permanent(float lasting);
   /**< movement */
-
-  virtual void quit();
-  /**< Quits */
 
  protected:
   void setName(const char *_name);

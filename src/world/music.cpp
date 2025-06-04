@@ -177,7 +177,7 @@ void Music::loop(Music *music, void *d, time_t s, time_t u)
   }
 }
 
-void Music::quit()
+Music::~Music()
 {
   switch (fmt) {
   case FMT_MP3:  Mp3::stop(); break;

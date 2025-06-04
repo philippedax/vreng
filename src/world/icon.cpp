@@ -558,7 +558,7 @@ void Icon::put_gname(Icon *icon, Payload *pp)
   if (icon && icon->objectName()) pp->putPayload("s", icon->objectName());
 }
 
-void Icon::quit()
+Icon::~Icon()
 {
   // Save icons for persistency
   if ((! taken) && (! remove) && *name.url) {

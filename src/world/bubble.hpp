@@ -42,7 +42,7 @@ class Bubble: public Object {
   Pos postext;		///< text position
 
  public:
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -65,7 +65,8 @@ class Bubble: public Object {
 
   static void funcs();	///< init funclist.
 
-  Bubble(class User *user, char *str, const float *color, bool face);	///< Constructor.
+  Bubble(class User *user, char *str, const float *color, bool face);	///< Constructor
+  ~Bubble();		///< Destructor
 
   void timing(time_t s, time_t us, float *dt);
   /**< Updates lasting time. */
@@ -79,9 +80,6 @@ class Bubble: public Object {
   void setPosition();
   /**< Sets position above the head. */
 
-  void quit();
-  /**< Quits bubble. */
-
  private:
   void defaults();
   /**< Sets default values. */
@@ -94,7 +92,6 @@ class Bubble: public Object {
 
   void inits();
   /**< Sets initializations. */
-
 };
 
 #endif

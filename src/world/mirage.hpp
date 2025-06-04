@@ -55,7 +55,7 @@ class Mirage: public Object {
   GLfloat color[3];	///< flare color
 
  public:
-  /* actions */
+  // actions
   enum {
     APPROACH,
     TAKE,
@@ -72,21 +72,15 @@ class Mirage: public Object {
   static void funcs();	///< init funclist
 
   Mirage(char *l);	///< Constructor
-
-  Mirage(Object *user, char *form);
-  /**< Constructor from palette */
-
-  Mirage(class World *pw, void *d, time_t s, time_t u);
-  /**< Constructor from World */
+  Mirage(Object *user, char *form); ///< Constructor from palette
+  Mirage(class World *pw, void *d, time_t s, time_t u); ///< Constructor from World
+  ~Mirage();		///< Constructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void permanent(float lasting);
   /**< Permanent movement */
-
-  void quit();
-  /**< Quits */
 
  private:
   void parser(char *l);

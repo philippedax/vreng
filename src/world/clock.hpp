@@ -60,14 +60,13 @@ class Clock: public Object {
 
   Clock(char *l);	///< Constructor
   Clock();		///< Constructor internal
+  ~Clock();		///< Destructor
 
   static void funcs();	///< init funclist
 
   static Object * (creator)(char *l);
 
   void permanent(float lasting);
-
-  void quit();
 
  private:
   void inits();		///< init time

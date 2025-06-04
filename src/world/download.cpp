@@ -61,9 +61,6 @@ void Download::get(Download *wo, void *d, time_t s, time_t u)
   }
 }
 
-void Download::quit()
-{}
-
 void Download::funcs()
 {
   setActionFunc(DOWNLOAD_TYPE, 0, _Action get, "Download");

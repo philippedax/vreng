@@ -259,9 +259,4 @@ void Human::armShowing(int dir[3])
 }
 
 void Human::funcs()
-{
-}
-
-void Human::quit()
-{
-}
+{}

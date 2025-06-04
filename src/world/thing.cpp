@@ -243,7 +243,7 @@ void Thing::destroy(Thing *thing, void *d, time_t s, time_t u)
     thing->removeFromScene();
 }
 
-void Thing::quit()
+Thing::~Thing()
 {
   oid = 0;
   savePersist();

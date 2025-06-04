@@ -174,7 +174,7 @@ void Board::import_cb(Board *board, void *d, time_t s, time_t u) { board->import
 
 void Board::cancel_cb(Board *board, void *d, time_t s, time_t u) { Wb::quit(); }
 
-void Board::quit()
+Board::~Board()
 {
   Wb::quit();
 }

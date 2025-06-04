@@ -58,7 +58,7 @@ class Icon: public Object {
   char *tex;		///< texture of the icon
 
  public:
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -71,8 +71,7 @@ class Icon: public Object {
     PROPGNAME,
     PROPS		///< last item = properties number
   };
-
-  /* actions */
+  // actions
   enum {
     OPEN,		///< open document
     SAVE,		///< save document
@@ -96,11 +95,9 @@ class Icon: public Object {
 
   const OClass* getOClass() {return &oclass;}
 
-  Icon(class User *pu, void *data);
-  /**< constructor: called by GUI */
-
-  Icon(uint8_t type_id, Noid noid, Payload *pp);
-  /**< constructor: network replication */
+  Icon(class User *pu, void *data); ///< constructor: called by GU
+  Icon(uint8_t type_id, Noid noid, Payload *pp); //*< constructor: network replication
+  ~Icon();	///< destructor
 
   static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a icon coming from the Network */
@@ -122,9 +119,6 @@ class Icon: public Object {
 
   bool intersect(Object *pcur, Object *pold);
   /**< Handles collisions */
-
-  void quit();
-  /**< Quits */
 
  private:
   void parser(char *l);

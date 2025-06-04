@@ -66,7 +66,7 @@ class Carrier: public Object {
   const OClass* getOClass() {return &oclass;} ///< inst. method
 
   Carrier();			///< Constructor */
-  virtual ~Carrier() {};	///< destructor
+  ~Carrier() {}			///< destructor
 
   static void funcs();		///< init funclist
 

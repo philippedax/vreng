@@ -308,7 +308,7 @@ void Model::render()
 }
 
 /** Quits a model */
-void Model::quit()
+Model::~Model()
 {
   switch (model_t) {
   case MODEL_LWO: if (lwo) delete lwo; lwo = NULL; break;

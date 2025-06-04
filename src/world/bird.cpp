@@ -185,10 +185,6 @@ void Bird::render()
   glPopMatrix();
 }
 
-void Bird::quit()
-{
-}
-
 void Bird::fly()
 {
   enableBehavior(SPECIFIC_RENDER);

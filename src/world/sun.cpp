@@ -181,8 +181,5 @@ void Sun::lighting()
 #endif
 }
 
-void Sun::quit()
-{} 
-
 void Sun::funcs()
 {} 

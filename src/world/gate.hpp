@@ -60,6 +60,7 @@ class Gate: public Object {
 
   Gate(char *l);		///< Constructor.
   Gate(Object *user, char *geom);	///< Constructor from user.
+  ~Gate();	///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from file line. */
@@ -72,9 +73,6 @@ class Gate: public Object {
 
   bool publish(const Pos &oldpos);
   /**< Publishes new position. */
-
-  void quit();
-  /**< Quits properly. */
 
  private:
   void parser(char *l);

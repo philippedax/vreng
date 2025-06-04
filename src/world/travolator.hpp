@@ -45,12 +45,10 @@ class Travolator: public Step {
   static void funcs();	///< init funclist
 
   Travolator(char *l);	///< Constructor
+  ~Travolator();	///< Destructor
 
   static Object * (creator)(char *l);
   /**< Create from fileline */
-
-  void quit();
-  /**< Quits */
 
  private:
   void parser(char *l);

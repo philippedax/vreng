@@ -65,7 +65,7 @@ class Book: public Object {
   static const float ASPEED;
   static const float LSPEED;
 
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -75,8 +75,7 @@ class Book: public Object {
     PROPAY,
     PROPS
   };
-
-  /* actions */
+  // actions
   enum {
     OPEN,
     CLOSE,
@@ -88,15 +87,13 @@ class Book: public Object {
     LOOKL,
     LOOKR
   };
-
-  /* states */
+  // states
   enum {
     OPENED = 2,
     CLOSED_R,
     CLOSED_L
   };
-
-  /* parts */
+  // parts
   enum {
     RIGHT,
     LEFT,
@@ -110,6 +107,7 @@ class Book: public Object {
   static void funcs();	///< init funclist
 
   Book(char *l);	///< Constructor
+  ~Book();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from a file */
@@ -125,9 +123,6 @@ class Book: public Object {
 
   bool intersect(Object *pcur, Object *pold);
   /**< When an intersection occurs */
-
-  void quit();
-  /**< Quits properly */
 
  private:
   void forward(void *d, time_t s, time_t u);

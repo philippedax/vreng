@@ -263,7 +263,7 @@ bool Gate::intersectOut(Object *pcur, Object *pold)
 }
 
 /** Quits */
-void Gate::quit()
+Gate::~Gate()
 {
   clearObjectBar();
   oid = 0;

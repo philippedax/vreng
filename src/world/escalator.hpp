@@ -29,6 +29,7 @@
 #define ESCALATOR_TYPE	59
 #define ESCALATOR_NAME	"Escalator"
 
+
 /**
  * Escalator class
  */
@@ -44,12 +45,10 @@ class Escalator: public Step {
   static void funcs();	///< init funclist
 
   Escalator(char *l);	///< Constructor
+  ~Escalator();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Create from fileline */
-
-  void quit();
-  /**< Quits */
 
  private:
   void parser(char *l);

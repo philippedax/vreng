@@ -43,8 +43,8 @@ class Ground: public Object {
   static Object * (creator)(char *l);
   /**< Creates from fileline */
 
-  Ground(char *l);
-  /**< Contructor */
+  Ground(char *l);	///< Contructor
+  ~Ground() {}		///< Detructor
 
   Ground(Object *user, char *form);
   /**< Contructor from GUI */
@@ -52,19 +52,9 @@ class Ground: public Object {
   bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
 
-  void quit();
-  /**< Quits */
-
-#if 0
-  // GUI callbacks
-  static void destroy(Ground *po, void *d, time_t s, time_t u);
-  /**< Destroyes */
-#endif
-
  private:
   void parser(char *l);
   /**< Parses */
-
 };
 
 #endif

@@ -375,7 +375,7 @@ bool Step::intersectOut(Object *pcur, Object *pold)
   return false;
 }
 
-void Step::quit()
+Step::~Step()
 {
   stairList.clear();
   escaList.clear();

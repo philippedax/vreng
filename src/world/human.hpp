@@ -84,15 +84,12 @@ enum {
  * Human class
  */
 class Human : public Object {
-
  public:
   Pos pos;		///< position and BB
 
   Human();		///< constructor from user
-
   Human(char *l);	///< constructor from e vre file
-
-  virtual ~Human();	///< destructor
+  ~Human();		///< destructor
 
   void draw();
 
@@ -110,9 +107,6 @@ class Human : public Object {
   /**< Specific rendering. */
 
   GLint displaylist();
-
-  void quit();  
-  /**< Quits properly. */
 
   void armShowing(int *dir);
 

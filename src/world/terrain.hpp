@@ -63,6 +63,7 @@ class Terrain: public Object {
   static void funcs();	///< init funclist
 
   Terrain(char *l);	///< Constructor
+  ~Terrain();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
@@ -72,9 +73,6 @@ class Terrain: public Object {
 
   void render();
   /**< Renderer */
-
-  void quit();
-  /**< Quits */
 
  private:
   void parser(char *l);

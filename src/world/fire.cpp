@@ -279,7 +279,7 @@ void Fire::render()
   nf++;
 }
 
-void Fire::quit()
+Fire::~Fire()
 {
   signal(SIGUSR2, SIG_IGN);
 }

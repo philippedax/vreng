@@ -98,8 +98,4 @@ void Fog::render()
   glPopMatrix();
 }
 
-void Fog::quit()
-{
-}
-
 void Fog::funcs() {}

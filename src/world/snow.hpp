@@ -41,8 +41,8 @@ class Snow: public Particle {
     NONE
   };
 
-  Snow(class Cloud *o, void *d, time_t s, time_t u);
-  /**< constructor: called by cloud */
+  Snow(class Cloud *o, void *d, time_t s, time_t u); ///< constructor: called by cloud
+  ~Snow() {};	///< constructor: called by cloud
 
   static const OClass oclass;	// class variable
 
@@ -62,7 +62,6 @@ class Snow: public Particle {
   // Callbacks
   static void start_cb(class Cloud *cloud, void *d, time_t s, time_t u);
   static void stop_cb(class Cloud *cloud, void *d, time_t s, time_t u);
-
 };
 
 #endif

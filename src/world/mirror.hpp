@@ -34,7 +34,7 @@
  */
 class Mirror: public Object {
  public:
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -54,6 +54,7 @@ class Mirror: public Object {
   static void funcs();	///< init funclist
 
   Mirror(char *l);	///< Constructor
+  ~Mirror();		///< Destructor
 
   static Object * (creator)(char *l);
 
@@ -65,9 +66,6 @@ class Mirror: public Object {
 
   void render();
   /**< Renders mirrored scene. */
-
-  void quit();
-  /**< Quits properly */
 
  private:
   void defaults();

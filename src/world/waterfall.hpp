@@ -40,6 +40,7 @@ class Waterfall: public Particle {
   const OClass* getOClass() {return &oclass;}
 
   Waterfall(char *l);	///< Constructor
+  ~Waterfall() {};	///< Destructor
 
   static void funcs();	///< init funclist
 
@@ -58,7 +59,6 @@ class Waterfall: public Particle {
 
   static void pause(Waterfall *waterfall, void* d, time_t s, time_t u);
   /** Action on waterfall. */
-
 };
 
 #endif

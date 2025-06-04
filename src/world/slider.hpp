@@ -42,6 +42,7 @@ class Slider: public Step {
   static void funcs();	///< init funclist.
 
   Slider(char *l);	///< Constructor.
+  ~Slider();		///< Destructor.
 
   static Object * (creator)(char *l);
   /**< Create from fileline. */
@@ -57,9 +58,6 @@ class Slider: public Step {
 
   bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
-
-  void quit();
-  /**< Quits. */
 
  private:
   float incrx;

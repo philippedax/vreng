@@ -56,6 +56,7 @@ class Light: public Object {
 
   Light(char *l);	///< Constructor
   Light();		///< Constructor
+  ~Light();		///< Destructor
 
   static Object * (creator)(char *l);
 
@@ -65,16 +66,12 @@ class Light: public Object {
   static void lights();
   /**< Finds lights to render. */
 
-  void quit();
-  /**< Quits properly. */
-
  private:
   void parser(char *l);
   /**< Parses file line. */
 
   void defaults();
   /**< Sets default values. */
-
 };
 
 #endif

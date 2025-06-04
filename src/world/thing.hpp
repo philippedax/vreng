@@ -69,12 +69,9 @@ class Thing: public Object {
   static void funcs();	///< init funclist
 
   Thing(char *l);	///< Constructor
-
-  Thing(Object *user, char *form);
-  /**< Constructor from GUI */
-
-  Thing(class World *pw, void *d, time_t s, time_t u);
-  /**< Constructor from World */
+  Thing(Object *user, char *form); ///< Constructor from GUI
+  Thing(class World *pw, void *d, time_t s, time_t u); ///< Constructor from World
+  ~Thing();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from a file */
@@ -90,9 +87,6 @@ class Thing: public Object {
 
   bool intersect(Object *pcur, Object *pold);
   /**< Intersects with a mobile object */
-
-  void quit();
-  /**< Quits properly */
 
  private:
   void parser(char *l);

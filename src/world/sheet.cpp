@@ -191,7 +191,7 @@ void Sheet::pushPrev(float dist)
   imposedMovement(ttl);
 }
 
-void Sheet::quit()
+Sheet::~Sheet()
 {
   oid = 0;
 }

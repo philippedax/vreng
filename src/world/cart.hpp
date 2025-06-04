@@ -46,8 +46,8 @@ class Cart: public Object {
     LEAVE
   };
 
-  Cart(char *l);
-  /**< constructor */
+  Cart(char *l);	 ///< constructor
+  ~Cart();		 ///< destructor
 
   static const OClass oclass;   ///< class variable
 
@@ -63,9 +63,6 @@ class Cart: public Object {
 
   void leave(Object *o);
   /**< called by GuiRemoveCart (target = "LEAVE") */
-
-  void quit();
-  /**< Quits properly */
 
   private:
   void parser(char *l);

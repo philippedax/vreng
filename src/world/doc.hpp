@@ -33,9 +33,8 @@
  * Doc class
  */
 class Doc: public Object {
-
  public:
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -53,6 +52,7 @@ class Doc: public Object {
   static void funcs();	///< init funclist.
 
   Doc(char *l);		///< Constructor.
+  ~Doc();		///< Destructor.
 
   static Object * (creator)(char *l);
   /** Creates from fileline. */
@@ -62,9 +62,6 @@ class Doc: public Object {
 
   bool publish(const Pos &oldpos);
   /**< Publishes new position. */
-
-  void quit();
-  /**< Quits. */
 
  private:
   void parser(char *l);

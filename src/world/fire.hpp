@@ -84,6 +84,7 @@ class Fire: public Object {
 
   Fire(char *l);	///< Constructor.
   Fire() {}		///< Constructor needed by Smoke.
+  ~Fire();		///< Destructor
 
   static Object * (creator)(char *l);
   ///< Creates from fileline.
@@ -93,9 +94,6 @@ class Fire: public Object {
 
   void render();
   /**< Renders the fire. */
-
-  void quit();
-  /**< Quits properly. */
 
  protected:
   uint16_t np;		///< number of particles

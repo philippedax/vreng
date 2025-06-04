@@ -149,7 +149,7 @@ float Wind::getOrient() const
   return orient;
 }
 
-void Wind::quit()
+Wind::~Wind()
 {
   wind = NULL;
 }

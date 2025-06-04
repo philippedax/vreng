@@ -79,6 +79,7 @@ class Particle: public Object {
 
   Particle(char *l);	///< Constructor
   Particle();		///< Constructor needed for sub classes
+  ~Particle();		///< Destructor
 
   static void funcs();	///< init funclist
 
@@ -90,9 +91,6 @@ class Particle: public Object {
 
   void render();
   /**< Specific rendering */
-
-  void quit();
-  /**< Quits properly */
 
  protected:
   void behaviors();

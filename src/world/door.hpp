@@ -46,16 +46,14 @@ class Door: public Object {
   V3 size;		///< dimension
 
  public:
-
-  /* mecanisms */
+  // mecanisms
   enum {
     NOMECANISM,
     ANGULAR,
     SLIDING,
     VERTICAL
   };
-
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -63,8 +61,7 @@ class Door: public Object {
     PROPAZ,
     PROPS
   };
-
-  /* states */
+  // states
   enum {
     NONE,
     OPENED,	///< opened
@@ -78,6 +75,7 @@ class Door: public Object {
   const OClass* getOClass() {return &oclass;}
 
   Door(char *l);	///< Constructor
+  ~Door();		///< Destructor
 
   static void funcs();	///< init funclist
 
@@ -95,9 +93,6 @@ class Door: public Object {
 
   bool intersect(Object *pcur, Object *pold);
   /**< When an collision occurs */
-
-  void quit();
-  /**< Quits properly */
 
  private:
   void parser(char *l);

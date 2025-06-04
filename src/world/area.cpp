@@ -30,7 +30,7 @@
 const OClass Area::oclass(AREA_TYPE, "Area", Area::creator);
 
 
-/* creation from a file */
+/** Creation from a file */
 Object * Area::creator(char *l)
 {
   return new Area(l);

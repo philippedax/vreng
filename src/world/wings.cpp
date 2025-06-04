@@ -610,7 +610,7 @@ void Wings::render(uint8_t _model)
   glPopMatrix();
 }
 
-void Wings::quit()
+Wings::~Wings()
 {
   oid = 0;
   savePersist();

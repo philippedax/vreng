@@ -40,6 +40,7 @@ class Firework: public Particle {
   const OClass* getOClass() {return &oclass;}
 
   Firework(char *l);	///< Constructor
+  ~Firework() {}	///< Constructor
 
   void timing(time_t s, time_t u, float *lasting);
   /**< Updates times. */
@@ -70,7 +71,6 @@ class Firework: public Particle {
 
   void generate();
   /**< Generates particles. */
-
 };
 
 #endif

@@ -61,6 +61,7 @@ class Water: public Object {
   static void funcs();	///< init funclist.
 
   Water(char *l);	///< Constructor.
+  ~Water() {};		///< Destructor.
 
   static Object * (creator)(char *l);
   ///< Creates from fileline.

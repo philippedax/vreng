@@ -52,8 +52,8 @@ class Bird : public Object {
 
   static void funcs();		///< init funclist
 
-  Bird(char *l);
-  /**< Constructor */
+  Bird(char *l);	///< Constructor
+  ~Bird() {};		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
@@ -63,9 +63,6 @@ class Bird : public Object {
 
   void render();
   /**< Render the object */
-
-  void quit();
-  /**< Called when the object is destroy */
 
  private:
   void parser(char *l);
@@ -88,7 +85,6 @@ class Bird : public Object {
   static void fly_cb(Bird *o, void *d, time_t s, time_t u);
   static void pause_cb(Bird *o, void *d, time_t s, time_t u);
   static void reset_cb(Bird *o, void *d, time_t s, time_t u);
-
 };
 
 #endif

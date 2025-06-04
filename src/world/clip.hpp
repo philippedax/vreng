@@ -28,6 +28,7 @@
 #define CLIP_TYPE	26
 #define CLIP_NAME	"Clip"
 
+
 /**
  * Clip class
  */
@@ -37,7 +38,7 @@ class Clip: public Object {
   char url2[URL_LEN];	///< url where is video
 
  public:
-  /* video formats */
+  // video formats
   enum {
     FMT_MPEG,
     FMT_RTPAV,
@@ -45,7 +46,7 @@ class Clip: public Object {
     FMT_FLASH
   };
 
-  /* states */
+  // states
   enum {
     RTP_INACTIVE,
     RTP_ACTIVE
@@ -58,15 +59,13 @@ class Clip: public Object {
   static void funcs();	///< init funclist
 
   Clip(char *l);	///< Constructor
+  ~Clip();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Create from fileline */
 
   bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects */
-
-  void quit();
-  /**< Quits */
 
   void stopRtp();
   /**< Stops Rtp streams */

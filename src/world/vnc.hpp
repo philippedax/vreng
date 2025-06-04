@@ -82,8 +82,8 @@ class Vnc : public Object {
 
   static void funcs();		///< init funclist
 
-  Vnc(char *l);
-  ///< Constructor
+  Vnc(char *l);			///< Constructor
+  ~Vnc();			///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
@@ -93,9 +93,6 @@ class Vnc : public Object {
 
   void render();
   /**< Render the object */
-
-  void quit();
-  /**< Called when the object is destroy */
 
   bool mouseEvent(int16_t x, int16_t y, uint8_t button);
   /**< Redirect mouse  events to VNC Server */
@@ -136,7 +133,6 @@ class Vnc : public Object {
   static void leaveFocus(Vnc *o, void *d, time_t s, time_t u);
   static void disconnectServer(Vnc *o, void *d, time_t s, time_t u);
   static void reconnectServer(Vnc *o, void *d, time_t s, time_t u);
-
 };
 
 #endif

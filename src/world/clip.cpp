@@ -250,7 +250,7 @@ void Clip::cont(Clip *clip, void *d, time_t s, time_t u)
   }
 }
 
-void Clip::quit()
+Clip::~Clip()
 {
   state = RTP_INACTIVE;
   stopRtp();

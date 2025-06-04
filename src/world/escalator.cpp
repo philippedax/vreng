@@ -125,7 +125,7 @@ Escalator::Escalator(char *l)
   }
 }
 
-void Escalator::quit()
+Escalator::~Escalator()
 {
   escaList.clear();
   oid = 0;

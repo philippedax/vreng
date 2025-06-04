@@ -51,7 +51,6 @@ class Hat: public Cloth {
     SOMBRERO,
     ENDHAT
   };
-
   enum {
     WEAR,
     TAKEOFF,
@@ -71,8 +70,7 @@ class Hat: public Cloth {
 
   Hat(char *l);			///< Constructor file
   Hat(class User *user, void *d, time_t s, time_t u); ///< Constructor from World
-
-  void quit();	///< Quits
+  ~Hat();			///< Destructor file
   
  private:
   void defaults();
@@ -103,7 +101,6 @@ class Hat: public Cloth {
 
   static void recreate_cb(class User *user, void *d, time_t s, time_t u);
   static void destroy_cb(class User *user, void *d, time_t s, time_t u);
-
 };
 
 #endif

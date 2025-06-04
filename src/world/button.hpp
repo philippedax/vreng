@@ -43,7 +43,7 @@ class Button: public Object {
  public:
   char *use_names;	///< object instance names
 
-  /* properties */
+  // properties
   enum {
     PROPSTATE,
     PROPS
@@ -58,10 +58,9 @@ class Button: public Object {
   static void funcs();	///< init funlist
 
   Button(char *l);	///< Constructor
+  ~Button();		///< Destructor
 
   static Object * (creator)(char *l);
-
-  void quit();	///< when leaving
 
  private:
   void parser(char *l);

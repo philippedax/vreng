@@ -61,6 +61,7 @@ class Cloud: public Object {
   static void funcs();	///< init funclist
 
   Cloud(char *l);	///< Constructor
+  ~Cloud();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creation from a file */
@@ -70,9 +71,6 @@ class Cloud: public Object {
 
   void render();
   /**< Specific rendering */
-
-  void quit();
-  /**< Quits properly */
 
  private:
   Pos origpos;

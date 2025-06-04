@@ -197,7 +197,7 @@ Dress::Dress(User *user, void *d, time_t s, time_t u)
   inits();
 }
 
-void Dress::quit()
+Dress::~Dress()
 {
   oid = 0;
   savePersist();

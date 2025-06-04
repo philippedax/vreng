@@ -218,7 +218,7 @@ void Cloth::restorePosition()
   behaviors();
 }
 
-void Cloth::quit()
+Cloth::~Cloth()
 {
   oid = 0;
 }

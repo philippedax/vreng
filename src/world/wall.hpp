@@ -45,14 +45,10 @@ class Wall: public Object {
   static Object * (creator)(char *l);
   /**< Creates from fileline */
 
-  Wall(char *l);
-  /**< Contructor */
-
-  Wall() {}
-  /**< Contructor for sub-classes */
-
-  Wall(Object *user, char *forme);
-  /**< Contructor from user */
+  Wall(char *l);	///< Contructor
+  Wall() {}		///< Contructor for sub-classes
+  Wall(Object *user, char *forme); ///< Contructor from user
+  ~Wall() {};		///< Destuctor
 
   bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects */

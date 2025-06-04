@@ -93,7 +93,7 @@ void Host::disconnect(Host *host, void *d, time_t s, time_t u)
   Xterm::quit();
 }
 
-void Host::quit()
+Host::~Host()
 {
   Xterm::quit();
   oid = 0;

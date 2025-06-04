@@ -68,6 +68,7 @@ class Stars: public Object {
   static void funcs();	///< init funclist
 
   Stars(char *l);	///< Constructor
+  ~Stars();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creation from a file */
@@ -77,9 +78,6 @@ class Stars: public Object {
 
   void render();
   /**< Specific rendering */
-
-  void quit();
-  /**< Quits properly */
 
  private:
   void parser(char *l);

@@ -52,12 +52,10 @@ class Head: public Object {
     FEMALE,
     NONE
   };
-
   enum {
     RECREATE
   };
-
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -74,9 +72,10 @@ class Head: public Object {
 
   static void funcs();	///< init funclist
 
-  Head(char *l);		///< Constructor.
+  Head(char *l);	///< Constructor.
   Head(class User *user, void *d, time_t s, time_t u); ///< Constructor from User.
   Head(class User *user, const char *url, const float *skin); ///< Constructor from User.
+  ~Head();		///< Destructor.
 
   static Object * (creator)(char *l);
   /**< Creation from a file */
@@ -86,9 +85,6 @@ class Head: public Object {
 
   void render();
   /**< Renders */
-
-  void quit();
-  /**< Quits */
 
   void visibility(bool flag);
   /**< Handle visibility */

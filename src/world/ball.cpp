@@ -367,7 +367,7 @@ void Ball::destroy()
   if (vsql) vsql->deleteRow(this);
 }
 
-void Ball::quit()
+Ball::~Ball()
 {
   savePersist();
 }

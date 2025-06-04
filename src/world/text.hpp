@@ -60,8 +60,8 @@ class Text: public Object {
 
   static void funcs();	///< init funclist.
 
-  Text(char *l);
-  ///< Constructor for vre file.
+  Text(char *l);	///< Constructor for vre file.
+  ~Text();		///< Destructor for vre file.
 
   Text(const char *t, struct Pos &pos, float _scale, const float *_color);
   ///< Constructor for legend.
@@ -86,9 +86,6 @@ class Text: public Object {
 
   float lenText(const char *text);
   ///< Returns lenght en glyphs.
-
-  void quit();
-  /**< Quits text. */
 
  protected:
   bool loadFont();

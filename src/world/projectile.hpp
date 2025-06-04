@@ -40,15 +40,14 @@ class Projectile: public Object {
   bool hit;		///< hit: no=0, yes=1
 
  public:
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
     PROPHIT,
     PROPS
   };
-
-  /* actions */
+  // actions
   enum {
     CREATE
   };
@@ -66,9 +65,6 @@ class Projectile: public Object {
   void wallsIntersect(Object *pold, V3 *norm);
 
   bool publish(const Pos &oldpos);
-
-  void quit() {};
-  /**< Quits. */
 };
 
 #endif

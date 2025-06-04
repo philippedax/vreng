@@ -34,7 +34,7 @@
  */
 class Host: public Object {
  public:
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -52,6 +52,7 @@ class Host: public Object {
   static void funcs();	///< init funlist
 
   Host(char *l);	///< Constructor
+  ~Host();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
@@ -61,9 +62,6 @@ class Host: public Object {
 
   bool publish(const Pos &oldpos);
   /**< Publishes new position */
-
-  void quit();
-  /**< Quits */
 
  private:
   void parser(char *l);

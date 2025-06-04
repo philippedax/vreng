@@ -48,18 +48,16 @@ class Walls: public Object {
 
   static void funcs();	///< init funclist
 
-  Walls(char *l);	///< Constructor
-
   Walls(float sx, float ex, float sy, float ey, float sz, float ez, float r, float g, float b);
   /**< Constructor for one wall */
+  Walls(char *l);	///< Constructor
+  ~Walls();		///< Destructor
 
   static Object * (creator)(char *l);	///< Creates from fileline
 
   void draw();	///< Draws walls
 
   void render(); ///< Renders the walls
-
-  void quit();	///< Quits
 
   static int intersect(const V3& center, const V3& size, V3& norm);
 

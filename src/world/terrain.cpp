@@ -246,7 +246,7 @@ void Terrain::setColor(float z)
   }
 }
 
-void Terrain::quit()
+Terrain::~Terrain()
 {
   glDeleteLists(dlist, 1);
   if (mesh) delete[] mesh;

@@ -150,11 +150,11 @@ bool Bubble::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-void Bubble::quit()
+Bubble::~Bubble()
 {
   oid = 0;
   if (bubtext) {
-    //dax bubtext->quit();
+    bubtext->quit();
   }
   if (text) {
     free(text);

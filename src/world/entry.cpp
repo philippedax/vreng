@@ -47,10 +47,6 @@ void Entry::parser(char *l)
   l = parseAttributes(l);
 }
 
-Entry::Entry()
-{
-}
-
 Entry::Entry(char *l)
 {
   parser(l);
@@ -82,9 +78,4 @@ void Entry::query(User *user)
     user->pos.az = pos.az;
     user->pos.ax = pos.ax;
   }
-}
-
-void Entry::quit()
-{
-  entry = NULL;
 }

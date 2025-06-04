@@ -45,6 +45,7 @@ class Fog: public Object {
   const OClass* getOClass() {return &oclass;}
 
   Fog(char *l);	///< Constructor
+  ~Fog() {}	///< Destructor
 
   static void funcs();	///< init funclist
 
@@ -53,9 +54,6 @@ class Fog: public Object {
 
   void render();
   /**< Specific rendering */
-
-  void quit();
-  /**< Quits properly */
 
  private:
   void behaviors();
@@ -69,7 +67,6 @@ class Fog: public Object {
 
   void geometry();
   /**< Makes a pseudo solid */
-
 };
 
 #endif

@@ -172,9 +172,8 @@ class Line {
   void draw(int pdata);
 };
 
-
 /**
- * CHair class
+ * Hair class
  */
 class Hair {
  public:
@@ -196,11 +195,11 @@ class Hair {
   /**< Animates hair. */
 };
 
+
 /**
  * Hairs class
  */
 class Hairs: public Object {
-
  private:
   Hair *hair;
 #if 0 //dax use Lwo
@@ -222,13 +221,13 @@ class Hairs: public Object {
   static void funcs();  ///< init funclist.
 
   Hairs(char *l);	///< Constructor.
+  ~Hairs();		///< Destructor.
 
   static Object * (creator)(char *l);
   ///< Creates from fileline.
 
   void permanent(float lasting);
   void render();
-  void quit();
 
  private:
   void parser(char *l);

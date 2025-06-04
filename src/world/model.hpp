@@ -65,8 +65,8 @@ class Model: public Object {
   static void funcs();	///< init funclist.
 
   Model(char *l);	///< Constructor.
-
   Model(class Object *user, char *_url, float _scale);     ///< Constructor from GUI.
+  ~Model();		///< Destructor.
 
   static class Object * (creator)(char *l);
   /**< Creates from fileline. */
@@ -76,9 +76,6 @@ class Model: public Object {
 
   void permanent(float lasting);
   /**< permanent movement. */
-
-  void quit();
-  /**< Quits. */
 
   void render();
   /**< Renders the model. */

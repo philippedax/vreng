@@ -58,12 +58,9 @@ class Halo: public Cloth {
   static Object * (creator)(char *l);
   /**< Creation from a file */
 
-  Halo(char *l);		///< Constructor file
-  Halo(class User *pu, void *d, time_t s, time_t u);
-  /**< Constructor from World */
-
-  void quit();
-  /**< Quits */
+  Halo(char *l);	///< Constructor file
+  Halo(class User *pu, void *d, time_t s, time_t u); ///< Constructor from World
+  ~Halo();		///< Destructor file
 
  private:
   void defaults();
@@ -89,7 +86,6 @@ class Halo: public Cloth {
   static void takeoff_cb(Halo *halo, void *d, time_t s, time_t u);
 
   static void recreate_cb(class User *user, void *d, time_t s, time_t u);
-
 };
 
 #endif

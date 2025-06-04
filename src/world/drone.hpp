@@ -28,6 +28,7 @@
 
 #include "object.hpp"
 
+
 /**
  * Drone class
  */
@@ -55,8 +56,8 @@ class Drone : public Object {
 
   static void funcs();		///< init funclist
 
-  Drone(char *l);
-  /**< Constructor */
+  Drone(char *l);	///< Constructor
+  ~Drone() {}		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
@@ -66,9 +67,6 @@ class Drone : public Object {
 
   void render();
   /**< Render the object */
-
-  void quit();
-  /**< Called when the object is destroy */
 
  private:
   void parser(char *l);
@@ -97,7 +95,6 @@ class Drone : public Object {
   static void pause_cb(Drone *o, void *d, time_t s, time_t u);
   static void view_cb(Drone *o, void *d, time_t s, time_t u);
   static void reset_cb(Drone *o, void *d, time_t s, time_t u);
-
 };
 
 #endif

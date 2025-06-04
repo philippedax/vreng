@@ -189,7 +189,7 @@ bool Lift::intersectOut(Object *pcur, Object *pold)
   return true;
 }
 
-void Lift::quit()
+Lift::~Lift()
 {
   oid = 0;
 }

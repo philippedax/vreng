@@ -69,7 +69,6 @@ class Wings: public Object {
     HELICOPTER,
     UNKNOWN
   };
-
   enum {
     WEAR,
     TAKEOFF,
@@ -78,8 +77,7 @@ class Wings: public Object {
     RECREATE,
     DESTROY
   };
-
-  /* net properties */  
+  // net properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -105,6 +103,8 @@ class Wings: public Object {
   Wings(uint8_t model, float scale, float aspeed);		///< Constructor from bird.
   Wings(uint8_t model, float scale, float aspeed, float *color);///< Constructor from drone.
 
+  ~Wings();	///< Destructor
+
   void permanent(float lasting);
   /**< Changes. */
 
@@ -115,9 +115,6 @@ class Wings: public Object {
   void render();
   void render(uint8_t model);
   /**< Renders. */
-
-  void quit();
-  /**< Quits. */
 
   void start();
   /**< Starts movement. */

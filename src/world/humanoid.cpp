@@ -542,7 +542,7 @@ bool Humanoid::sendPlay(const char *bap_name)
 }
 
 /** Quits */
-void Humanoid::quit()
+Humanoid::~Humanoid()
 {
   disconnectVaps();
   if (bap) delete bap;

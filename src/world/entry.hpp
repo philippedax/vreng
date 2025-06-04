@@ -43,9 +43,10 @@ class Entry: public Object {
 
   static void funcs();	///< init funclist
 
-  Entry();		///< Constructor from world
   Entry(char *l);	///< Constructor from file
   Entry(float *newpos);	///< Constructor from gate
+  Entry() {}		///< Constructor from world
+  ~Entry() {}		///< Destructor
 
   static Object * (creator)(char *l);	///< Creates from fileline
 
@@ -55,12 +56,9 @@ class Entry: public Object {
   void query(class User *user);
   /**< Answers the entry positions */
 
-  void quit();	///< Quits
-
  private:
   void parser(char *l);
   /**< Parses */
-
 };
 
 #endif

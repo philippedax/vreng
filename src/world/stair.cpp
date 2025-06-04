@@ -105,7 +105,7 @@ Stair::Stair(char *l)
   build();
 }
 
-void Stair::quit()
+Stair::~Stair()
 {
   oid = 0;
 }

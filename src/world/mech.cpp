@@ -641,9 +641,6 @@ void Mech::render()
   glPopMatrix();
 }
 
-void Mech::quit()
-{}
-
 void Mech::still(Mech *mech, void *d, time_t s, time_t u)
 {
   mech->anim = false;

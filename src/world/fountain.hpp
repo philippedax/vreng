@@ -40,13 +40,12 @@ class Fountain: public Particle {
   const OClass* getOClass() {return &oclass;}
 
   Fountain(char *l);	///< Constructor
+  ~Fountain() {}	///< Destructor
 
   static void funcs();	///< init funclist
 
   static Object * (creator)(char *l);
   /**< Creates from file line */
-
-  //dax void render();	///< rendering
 
  private:
   void parser(char *l);
@@ -60,7 +59,6 @@ class Fountain: public Particle {
 
   static void pause(Fountain *fountain, void* d, time_t s, time_t u);
   /** Action on fountain. */
-
 };
 
 #endif

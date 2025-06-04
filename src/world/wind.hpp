@@ -48,6 +48,7 @@ class Wind: public Object {
   static void funcs();	///< init funclist.
 
   Wind(char *l);	///< Constructor.
+  ~Wind();		///< Destructor.
 
   static Object* (creator)(char *l);	///< Creates from fileline.
 
@@ -59,16 +60,12 @@ class Wind: public Object {
 
   float getOrient() const;	///< Gets orientation.
 
-  void quit();		///< Quits.
-
-
  private:
   void defaults();
   /**< Sets default values. */
 
   void parser(char *l);
   /**< Parses. */
-
 };
 
 #endif

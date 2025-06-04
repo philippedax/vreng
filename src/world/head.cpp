@@ -237,7 +237,7 @@ void Head::render()
     //dax model->render(pos, color);
 }
 
-void Head::quit()
+Head::~Head()
 {
   oid = 0;
 }

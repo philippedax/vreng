@@ -164,14 +164,9 @@ class User: public Object {
   const OClass* getOClass() { return &oclass; }
   /**< Returns instance of this class. */
 
-  User();
-  /**< Constructor builtin. */
-
-  User(uint8_t type_id, Noid noid, Payload *pp);
-  /**< Constructor replicator. */
-
-  virtual ~User();
-  /**< Destructor. */
+  User();	///< Constructor builtin.
+  User(uint8_t type_id, Noid noid, Payload *pp); ///< Constructor replicator.
+  ~User();	///< Destructor.
 
   void inits();
   /**< Makes needed initializations. */

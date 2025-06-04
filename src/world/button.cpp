@@ -157,7 +157,7 @@ void Button::put_bstate(Button *button, Payload *pp)
   pp->putPayload("d", button->pos.st);
 }
 
-void Button::quit()
+Button::~Button()
 {
   delete[] use_names;
   use_names = NULL;

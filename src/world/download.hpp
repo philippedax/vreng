@@ -40,13 +40,11 @@ class Download: public Object {
 
   static void funcs();	///< init funclist
 
-  Download(char *l);		///< Constructor
+  Download(char *l);	///< Constructor
+  ~Download() {}	///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
-
-  void quit();
-  /**< Quits */
 
  private:
   void parser(char *l);

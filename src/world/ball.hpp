@@ -62,7 +62,6 @@ class Ball: public Object {
     PROPAY,
     PROPS
   };
-
   // actions
   enum {
     PUSH,	///< forward
@@ -86,20 +85,12 @@ class Ball: public Object {
 
   const OClass* getOClass() {return &oclass;}
 
-  Ball(class Object *cauldron, void *d, time_t s, time_t u);
-  /**< constructor: called by cauldron. */
-
-  Ball(class World *world, void *d, time_t s, time_t u);
-  /**< constructor: called by world. */
-
-  Ball(uint8_t type_id, Noid noid, Payload *pp);
-  /**< constructor: network replication. */
-
-  Ball(Object *user, char *solid);
-  /**< constructor: created by user. */
-
-  Ball(char *l);
-  /**< constructor: fileline. */
+  Ball(class Object *cauldron, void *d, time_t s, time_t u); ///< constructor: called by cauldron.
+  Ball(class World *world, void *d, time_t s, time_t u); ///< constructor: called by world.
+  Ball(uint8_t type_id, Noid noid, Payload *pp); ///< constructor: network replication.
+  Ball(Object *user, char *solid); ///< constructor: created by user.
+  Ball(char *l);	///< constructor: fileline.
+  ~Ball();		///< destructor
 
   static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a ball coming from the Network. */
@@ -127,9 +118,6 @@ class Ball: public Object {
 
   void wallsIntersect(Object *pold, V3 *norm);
   /**< Handles collisions with a wall. */
-
-  void quit();
-  /**< Quits. */
 
  private:
   void defaults();

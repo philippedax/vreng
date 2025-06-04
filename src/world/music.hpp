@@ -39,7 +39,7 @@ class Music: public Object {
   char statestr[8];	///< action string
 
  public:
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -49,8 +49,7 @@ class Music: public Object {
     PROPAY,
     PROPS       ///< last item = properties number
   };
-
-  /* audio formats */
+  // audio formats
   enum {
     FMT_NONE,
     FMT_MP3,
@@ -58,16 +57,14 @@ class Music: public Object {
     FMT_AU,
     FMT_WAV
   };
-
-  /* states */
+  // states
   enum {
     INACTIVE,
     PLAYING,
     PAUSING,
     LOOPING
   };
-
-  /* actions */
+  // actions
   enum {
     PLAY,
     STOP,
@@ -84,15 +81,13 @@ class Music: public Object {
   static void funcs();	///< init funclist
 
   Music(char *l);	///< Constructor
+  ~Music();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Create from file */
 
   bool intersect(Object *pcur, Object *pold);
   /**< Intersects with another object */
-
-  void quit();
-  /**< Quits properly */
 
  private:
   void parser(char *l);

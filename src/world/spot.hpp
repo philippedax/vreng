@@ -42,14 +42,12 @@ class Spot: public Object {
   V3 dim;		///< surface dimension
 
  public:
-
-  /* shapes */
+  // shapes
   enum {
     SPOT_PENTAGON,
     SPOT_CONE
   };
-
-  /* spot actions */
+  // spot actions
   enum {
     SPOT_ON,
     SPOT_OFF,
@@ -62,6 +60,7 @@ class Spot: public Object {
 
   Spot(char *l);	///< Constructor
   Spot(Object *movie, void *d, time_t s, time_t u);
+  ~Spot() {};		///< Constructor
 
   static void funcs();	///< init funclist
 
@@ -70,9 +69,6 @@ class Spot: public Object {
 
   void render();
   /**< Specific rendering */
-
-  void quit();
-  /**< Quits properly */
 
  private:
   void behaviors();

@@ -33,7 +33,6 @@
  * Cauldron class
  */
 class Cauldron: public Object {
-
  private:
   static const float DELTAZ;
 
@@ -45,6 +44,7 @@ class Cauldron: public Object {
   const OClass* getOClass() {return &oclass;} ///< inst. method
 
   Cauldron(char *l);	///< Constructor
+  ~Cauldron() {}	///< Destructor
 
   static Object * (creator)(char *l);
   /**< Create from fileline */

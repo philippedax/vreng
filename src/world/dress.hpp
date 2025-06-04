@@ -64,12 +64,10 @@ class Dress: public Cloth {
   static Object * (creator)(char *l);
   /**< Creation from a file */
 
-  Dress(char *l);			///< Constructor file
+  Dress(char *l);		///< Constructor file
+  ~Dress();			///< Destructor
   Dress(class User *user, void *d, time_t s, time_t u);
   /**< Constructor from World */
-
-  void quit();
-  /**< Quits */
   
  private:
   void defaults();

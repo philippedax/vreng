@@ -253,7 +253,7 @@ void Walls::render()
 }
 
 /** Free the walls list */
-void Walls::quit()
+Walls::~Walls()
 {
   while (wallsList) {
     Walls *nextwall = wallsList->next;

@@ -42,8 +42,8 @@ class Template : public Object {
 
   static void funcs();		///< init funclist
 
-  Template(char *l);
-  /**< Constructor */
+  Template(char *l);	///< Constructor
+  ~Template() {};	///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
@@ -53,9 +53,6 @@ class Template : public Object {
 
   void render();
   /**< Render the object */
-
-  void quit();
-  /**< Called when the object is destroy */
 
  private:
   void parser(char *l);
@@ -73,7 +70,6 @@ class Template : public Object {
   // GUI callbacks
   static void action1(Template *o, void *d, time_t s, time_t u);
   static void action2(Template *o, void *d, time_t s, time_t u);
-
 };
 
 #endif

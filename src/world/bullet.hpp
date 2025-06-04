@@ -47,12 +47,9 @@ class Bullet: public Projectile {
 
   static void funcs();	///< init funclist
 
-  Bullet(Object *po, void *d, time_t s, time_t u);
-  /**< Constructor */
-  Bullet(uint8_t type_id, Noid noid, Payload *pp);
-  /**< Constructor replicator */
-
-  virtual ~Bullet() {};
+  Bullet(Object *po, void *d, time_t s, time_t u); ///< Constructor
+  Bullet(uint8_t type_id, Noid noid, Payload *pp); ///< Constructor replicator
+  ~Bullet() {};		///< Destructor
 
   static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
 

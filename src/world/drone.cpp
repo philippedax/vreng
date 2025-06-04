@@ -280,10 +280,6 @@ void Drone::reset()
   }
 }
 
-void Drone::quit()
-{
-}
-
 void Drone::fly_cb(Drone *drone, void *d, time_t s, time_t u)
 {
   drone->fly();

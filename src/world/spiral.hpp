@@ -42,12 +42,10 @@ class Spiral: public Step {
   static void funcs();	///< init funclist
 
   Spiral(char *l);	///< Constructor
+  ~Spiral();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Create from fileline */
-
-  void quit();
-  /**< Quits */
 
  private:
   void parser(char *l);

@@ -65,6 +65,7 @@ class Vrelet: public Object {
   const OClass* getOClass() {return &oclass;} ///< inst. method
 
   Vrelet(char *l);	///< Constructor
+  ~Vrelet();		///< Destructor
 
   static void funcs();	///< init funclist
 
@@ -90,9 +91,6 @@ class Vrelet: public Object {
 
   void click(V3 dir);
   /**< React to a user click on our surface */
-
-  void quit();
-  /**< Turn the child on (start it up) */
 
  private:
   int wantDelta;	///< true if the child has requested a position delta
@@ -206,7 +204,6 @@ class Vrelet: public Object {
   void freeObject2D(tObject2D *);
   void freeObject2DList(tObject2D *);
   void freePointList(tPointList *);
-
 };
 
 #endif

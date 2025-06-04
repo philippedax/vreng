@@ -42,6 +42,7 @@ class Bumper: public Step {
   static void funcs();	///< init funclist.
 
   Bumper(char *l);	///< Constructor.
+  ~Bumper();		///< Destructor.
 
   static Object * (creator)(char *l);
   /**< Create from fileline. */
@@ -58,9 +59,6 @@ class Bumper: public Step {
   bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
 
-  void quit();
-  /**< Quits. */
-
  private:
   float forcex;
   float forcey;
@@ -75,7 +73,6 @@ class Bumper: public Step {
 
   void behaviors();
   /**< Sets behaviors. */
-
 };
 
 #endif

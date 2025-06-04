@@ -230,7 +230,7 @@ Hat::Hat(User *user, void *d, time_t s, time_t u)
   inits();
 }
 
-void Hat::quit()
+Hat::~Hat()
 {
   phat = NULL;
   oid = 0;

@@ -53,17 +53,14 @@ class Widget : public Object {
 
   static void funcs();		///< init funclist
 
-  Widget(char *l);
-  /**< Constructor */
+  Widget(char *l);	///< Constructor
+  ~Widget();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void render();
   /**< Render the object */
-
-  void quit();
-  /**< Called when the object is destroy */
 
   bool mouseEvent(int16_t x, int16_t y, uint8_t button);
   /**< Redirect mouse events */

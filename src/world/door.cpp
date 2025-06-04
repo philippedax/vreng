@@ -277,7 +277,7 @@ void Door::unlock()
   }
 }
 
-void Door::quit()
+Door::~Door()
 {
   oid = 0;
   savePersist();

@@ -104,10 +104,6 @@ void Template::render()
   glPopMatrix();
 }
 
-void Template::quit()
-{
-}
-
 void Template::action1(Template *template, void *d, time_t s, time_t u)
 {
 }

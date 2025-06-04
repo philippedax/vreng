@@ -181,7 +181,3 @@ void Spot::funcs()
   //setActionFunc(SPOT_TYPE, Spot::SPOT_OFF, _Action Off, "Off");
   //setActionFunc(SPOT_TYPE, Spot::SPOT_CREATE, _Action create_cb, ""); // not necessary
 }
-
-void Spot::quit()
-{
-}

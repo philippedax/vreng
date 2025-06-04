@@ -383,14 +383,12 @@ void Movie::permanent(float lasting)
 }
 
 /** Quits */
-#if 0 //dax
-void Movie::quit()
+Movie::~Movie()
 {
-  static int q = 0;
-  q++;
-  echo("quit: %d", q);
+  //static int q = 0;
+  //q++;
+  //echo("quit: %d", q);
 }
-#endif
 
 /*
  * Actions

@@ -113,7 +113,7 @@ void Transform::render()
   }
 }
 
-void Transform::quit()
+Transform::~Transform()
 {
   for (opl = opList; opl ; ) {
     struct sOplist *tmp = opl;

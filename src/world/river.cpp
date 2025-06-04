@@ -177,7 +177,7 @@ void River::render()
   glPopMatrix();
 }
 
-void River::quit()
+River::~River()
 {
   if (mesh)  delete[] mesh;
   if (phase) delete[] phase;

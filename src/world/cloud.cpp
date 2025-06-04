@@ -209,7 +209,7 @@ void Cloud::render()
   glPopMatrix();
 }
 
-void Cloud::quit()
+Cloud::~Cloud()
 {
   for (int n=0; n < number; n++) {
     if (obloids[n].dlist > 0) glDeleteLists(obloids[n].dlist, 1);

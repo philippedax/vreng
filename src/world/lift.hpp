@@ -62,6 +62,7 @@ class Lift: public Object {
   static void funcs();	///< init funclist
 
   Lift(char *l);	///< Constructor
+  ~Lift();		///< Destructor
 
   static Object * (creator)(char *l);
 
@@ -74,8 +75,6 @@ class Lift: public Object {
   bool intersect(Object *pcur, Object *pold);
 
   bool intersectOut(Object *pcur, Object *pold);
-
-  void quit();
 
  private:
   void parser(char *l);

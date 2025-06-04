@@ -255,7 +255,7 @@ void Mirage::permanent(float lasting)
   updatePos();
 }
 
-void Mirage::quit()
+Mirage::~Mirage()
 {
   if (persist) savePersist();
 }

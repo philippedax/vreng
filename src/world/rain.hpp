@@ -42,8 +42,8 @@ class Rain: public Particle {
     NONE
   };
 
-  Rain(class Cloud *o, void *d, time_t s, time_t u);
-  /**< constructor: called by cloud */
+  Rain(class Cloud *o, void *d, time_t s, time_t u); ///< constructor: called by cloud
+  ~Rain() {}	///< destructor
 
   static const OClass oclass;	// class variable
 
@@ -68,7 +68,6 @@ class Rain: public Particle {
   static void start_cb(class Cloud *cloud, void *d, time_t s, time_t u);
   static void stop_cb(class Cloud *cloud, void *d, time_t s, time_t u);
   static void sound_cb(class Cloud *cloud, void *d, time_t s, time_t u);
-
 };
 
 #endif

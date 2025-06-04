@@ -73,8 +73,5 @@ bool Ground::intersect(Object *pcur, Object *pold)
   return true;
 }
 
-void Ground::quit()
-{}
-
 void Ground::funcs()
 {}

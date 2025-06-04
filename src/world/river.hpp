@@ -58,15 +58,13 @@ class River: public Object {
   static void funcs();	///< init funclist
 
   River(char *l);	///< Constructor
+  ~River();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
 
   void render();
   /**< Renderer */
-
-  void quit();
-  /**< Quits */
 
  private:
   void parser(char *l);
@@ -86,7 +84,6 @@ class River: public Object {
 
   void draw(float a, float b);
   /**< Draws wave point */
-
 };
 
 #endif

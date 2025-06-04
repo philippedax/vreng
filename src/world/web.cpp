@@ -190,7 +190,7 @@ void Web::caption_cb(Web *web, void *d, time_t s, time_t u)
   web->showCaption();
 }
 
-void Web::quit()
+Web::~Web()
 {
   oid = 0;
   if (text)

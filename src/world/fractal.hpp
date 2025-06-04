@@ -40,6 +40,7 @@ class Fractal: public Object {
   const OClass* getOClass() {return &oclass;}
 
   Fractal(char *l);	///< Constructor
+  ~Fractal() {}		///< Destructor
 
   void render();
 
@@ -91,6 +92,5 @@ class Fractal: public Object {
 
   void step();
 };
-
 
 #endif

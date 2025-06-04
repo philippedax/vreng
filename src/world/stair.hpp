@@ -42,12 +42,10 @@ class Stair: public Step {
   static void funcs();	///< init funclist
 
   Stair(char *l);	///< Constructor
+  ~Stair();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Create from fileline */
-
-  void quit();
-  /**< Quits */
 
  private:
   void parser(char *l);

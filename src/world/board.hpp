@@ -33,7 +33,7 @@
  */
 class Board: public Object {
  public:
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -43,8 +43,7 @@ class Board: public Object {
     PROPAY,
     PROPS	///< last item = properties number
   };
-
-  /* states */
+  // states
   enum {
     INACTIVE,
     OPEN,
@@ -58,6 +57,7 @@ class Board: public Object {
   static void funcs();	///< init funclist
 
   Board(char *l);	///< Constructor
+  ~Board();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
@@ -76,9 +76,6 @@ class Board: public Object {
 
   void click(V3 dir);
   /**< React to a user click on our surface */
-
-  void quit();
-  /**< Quits */
 
  private:
   GLint dlist;		///< display-list

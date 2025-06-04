@@ -100,7 +100,7 @@ Spiral::Spiral(char *l)
   inits();
 }
 
-void Spiral::quit()
+Spiral::~Spiral()
 {
   oid = 0;
 }

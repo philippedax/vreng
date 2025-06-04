@@ -103,7 +103,7 @@ Travolator::Travolator(char *l)
   }
 }
 
-void Travolator::quit()
+Travolator::~Travolator()
 {
   travList.clear();
   oid = 0;

@@ -56,6 +56,7 @@ class Thunder: public Object {
   static void funcs();		///< init funclist
 
   Thunder(char *l);		///< Constructor
+  ~Thunder() {};		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creation from a file */
@@ -65,9 +66,6 @@ class Thunder: public Object {
 
   void render();
   /**< Specific rendering */
-
-  void quit() {};
-  /**< Quits properly */
 
  private:
   void parser(char *l);

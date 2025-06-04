@@ -75,14 +75,13 @@ class Movie: public Object {
   static void funcs();	///< init funclist
 
   Movie(char *l);	///< Constructor
+  ~Movie();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from file line. */
 
   void permanent(float lasting);
   /**< Change permanent (frames). */
-
-  //void quit();
 
  private:
   void parser(char *l);

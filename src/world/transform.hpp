@@ -56,7 +56,7 @@ class Transform: public Object {
   Pos rot;
   Pos scale;
 
-  /* operations */
+  // operations
   enum {
     NONE,
     PUSH,
@@ -72,14 +72,13 @@ class Transform: public Object {
   const OClass* getOClass() {return &oclass;}
 
   Transform(char *l);	///< Constructor
+  ~Transform();		///< Destructor
 
   static void funcs();	///< init funclist
 
   static Object * (creator)(char *l);	///< Creates from fileline
 
   void render();	///< do the operation
-
-  void quit();		///< quits
 
  private:
   void parser(char *l);

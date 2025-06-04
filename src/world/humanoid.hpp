@@ -72,11 +72,8 @@ class Humanoid: public Object {
   static void funcs();		///< init funclist.
 
   Humanoid(char *l);
-  Humanoid();
-  /**< Constructor. */
-
-  virtual ~Humanoid() {}
-  /**< Desructor. */
+  Humanoid();	///< Constructor.
+  ~Humanoid();	///< Desructor.
 
   static Object * (creator)(char *l);
   /**< Creates from fileline. */
@@ -86,9 +83,6 @@ class Humanoid: public Object {
 
   void render();
   /**< Renders body and face. */
-
-  void quit();
-  /**< Quits. */
 
   void pause();
 

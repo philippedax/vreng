@@ -140,7 +140,7 @@ bool Bumper::intersect(Object *pcur, Object *pold)
   return true;
 }
 
-void Bumper::quit()
+Bumper::~Bumper()
 {
   oid = 0;
 }

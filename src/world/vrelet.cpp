@@ -405,7 +405,7 @@ bool Vrelet::intersectOut(Object *pcur, Object *pold)
 }
 
 /** Turn the app child off */
-void Vrelet::quit()
+Vrelet::~Vrelet()
 {
   glDeleteLists(dlist, 1);
   Vjc::stopApp(this);

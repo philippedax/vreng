@@ -55,6 +55,7 @@ class Flag: public Object {
   static void funcs();	///< init funclist
 
   Flag(char *l);	///< Constructor
+  ~Flag() {}		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */

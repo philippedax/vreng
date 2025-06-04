@@ -34,7 +34,7 @@
  */
 class Plane: public Object {
  public:
- /* properties */
+ // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -52,16 +52,13 @@ class Plane: public Object {
   static Object * (creator)(char *l);
   /**< Creates from fileline. */
 
-  Plane(char *l);
-  /**< Contructor */
+  Plane(char *l);	///< Contructor
+  ~Plane();		///< Detructor
 
   static void funcs();	///< init funclist.
 
   bool intersect(Object *pcur, Object *pold);
   /**< When an other object intersects. */
-
-  void quit();
-  /**< Quits. */
 
  private:
   char *tex;	///< texture string.
@@ -71,7 +68,6 @@ class Plane: public Object {
 
   void geometry();
   /**< Makes a new solid. */
-
 };
 
 #endif

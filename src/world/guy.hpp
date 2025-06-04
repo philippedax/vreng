@@ -67,7 +67,6 @@ typedef struct {
  * Guy class
  */
 class Guy: public Object {
-
  private:
   enum {
     BUST,
@@ -80,7 +79,6 @@ class Guy: public Object {
     LARM,
     BREA
   };
-
   enum {
     CSET_ULEG,
     CSET_LLEG,
@@ -88,7 +86,6 @@ class Guy: public Object {
     CSET_UARM,
     CSET_LARM
   };
-
   enum {
     L_SIDE,	// left
     R_SIDE	// right
@@ -121,7 +118,7 @@ class Guy: public Object {
   float cycles[2][MAX_JOINTS][CYCLES]; ///< array of angles
 
  public:
-  /* properties */
+  // properties
   enum {
     PROPHNAME,
     PROPXY,
@@ -141,6 +138,7 @@ class Guy: public Object {
   Guy(char *l);		///< Constructor from file.
   Guy();		///< Constructor from localuser (avatar).
   Guy(uint8_t type_id, Noid noid, Payload *pp); ///< Constructor: network replication.
+  ~Guy();		///< Destructor
 
   static Object * (creator)(char *l);
   
@@ -151,9 +149,6 @@ class Guy: public Object {
 
   void render();
   /**< Specific rendering. */
-
-  void quit();
-  /**< Quits properly. */
 
   void setAniming(bool flag);
   /**< Set animing flag. */

@@ -47,6 +47,7 @@ class Aoi: public Object {
   static void funcs();	///< init funclist
 
   Aoi(char *l);		///< Constructor
+  ~Aoi() {}		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */

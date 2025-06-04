@@ -57,6 +57,7 @@ class Sun: public Object {
   static void funcs();	///< init funclist
 
   Sun(char *l);	///< Constructor
+  ~Sun() {};	///< Constructor
 
   static Object * (creator)(char *l);
   /**< Creates from file line. */
@@ -69,9 +70,6 @@ class Sun: public Object {
 
   void render();
   /**< Renders. */
-
-  void quit();
-  /**< Quits. */
 
  private:
   void parser(char *l);

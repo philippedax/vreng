@@ -101,7 +101,7 @@ class Vicinity {
  public:
   Vicinity();
   Vicinity(std::string objname);
-  virtual ~Vicinity();
+  ~Vicinity();
 
   Object* searchProximityObject(char **typeObj, int nbre);
 

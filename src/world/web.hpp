@@ -52,6 +52,7 @@ class Web: public Object {
   static void funcs();	///< init funclist.
 
   Web(char *l);		///< Constructor.
+  ~Web();		///< Destructor.
 
   static Object * (creator)(char *l);
   /**< Creates from fileline. */
@@ -61,9 +62,6 @@ class Web: public Object {
   void imposed(float lasting);
 
   bool intersect(Object *pcur, Object *pold);
-
-  void quit();
-  /**< Quits. */
 
  private:
   static const float TTL;

@@ -433,7 +433,7 @@ bool Vnc::keyEvent(const char *key, bool is_pressed)
 }
 
 /** Quits */
-void Vnc::quit()
+Vnc::~Vnc()
 {
   if (def_pixmap) delete[] def_pixmap;
 

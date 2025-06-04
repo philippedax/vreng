@@ -67,6 +67,7 @@ class Guide: public Object {
   static void funcs();	///< init funclist
 
   Guide(char *l);	///< Constructor
+  ~Guide();		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Create from fileline. */
@@ -87,9 +88,6 @@ class Guide: public Object {
 
   void render();
   /**< Renders the trajectory. */
-
-  void quit();
-  /**< Quits. */
 
  private:
   void parser(char *l);

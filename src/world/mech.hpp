@@ -34,7 +34,7 @@
  */
 class Mech: public Object {
  private:
-  /* display list definitions */
+  // display list definitions
   enum {
     TORSO,
     HIP,
@@ -63,6 +63,7 @@ class Mech: public Object {
   static void funcs();	///< init funclist
 
   Mech(char *l);	///< Constructor
+  ~Mech() {}		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
@@ -72,9 +73,6 @@ class Mech: public Object {
 
   void render();
   /**< Specific rendering */
-
-  void quit();
-  /**< Quits properly */
 
  private:
   void parser(char *l);

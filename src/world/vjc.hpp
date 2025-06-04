@@ -102,7 +102,6 @@
  * in-out socket holder
  */
 class VjcSocket {
-
  public:
   uint16_t listenPort;	///< Local port
   uint16_t destPort;	///< Server port
@@ -203,7 +202,6 @@ typedef struct {
  * Vreng and the external server.
  */
 class VjcMessage {
-
  public:
   static const uint8_t VERS;
   static const uint32_t MAGIC;
@@ -233,7 +231,7 @@ class VjcMessage {
    * so the orginal data can be freed once the message is constructed.
    */
 
-  virtual ~VjcMessage();
+  ~VjcMessage();
   /**<
    * Destructor: frees the internal buffer
    */
@@ -349,6 +347,7 @@ class VjcMessage {
   void dumpHeader(tVjcHeader hdr);
 };
 
+
 /**
  * Vjc class
  *
@@ -367,7 +366,6 @@ class VjcMessage {
  * use are static and delegate to that singelton.
  */
 class Vjc: public Object {
-
  public:
   char host[MAXHOSTNAMELEN];	///< Controler's hostname
   uint32_t ssrc;		///< This app's ssrc
@@ -392,6 +390,8 @@ class Vjc: public Object {
    * - optional port number the server should call back to
    */
 
+  ~Vjc();	///< Destructor
+
   static void funcs();	///< init funclist
 
   static Object * (creator)(char *l);
@@ -399,8 +399,6 @@ class Vjc: public Object {
 
   void permanent(float lasting);
   /**< Used to scan the sockets for incoming messages */
-
-  void quit();
 
   static void stop();
   /**<

@@ -135,7 +135,7 @@ bool Plane::intersect(Object *pcur, Object *pold)
   return true;
 }
 
-void Plane::quit()
+Plane::~Plane()
 {
   oid = 0;
   if (tex) delete[] tex;
@@ -143,5 +143,4 @@ void Plane::quit()
 }
 
 void Plane::funcs()
-{
-}
+{}
