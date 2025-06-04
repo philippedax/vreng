@@ -138,77 +138,65 @@ void Render::cameraPosition(Object *o)
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	//default
 
   switch (view) {
-
-    case VIEW_FIRST_PERSON:		// 5cm front
-      vrmat = mulM4(transM4(0, 0, 0.05), mulM4(rotM4(pitch, UX), camera_pos));
-      break;
-
-    case VIEW_THIRD_PERSON:		// 80cm back
-      vrmat = mulM4(transM4(0, localuser->height/6, third_Near - 0.80),
-                    mulM4(rotM4(M_PI_2/6 + third_xRot + pitch, UX),
-                          mulM4(rotM4(third_yRot, UY), camera_pos)
-                         )
-                   );
-      break;
-
-    case VIEW_THIRD_PERSON_FAR: 	// 2m40 back
-      vrmat = mulM4(transM4(0, localuser->height/6, third_Near - 2.40),
-                    mulM4(rotM4(M_PI_2/6 + third_xRot + pitch, UX),
-                          mulM4(rotM4(third_yRot, UY), camera_pos)
-                         )
-                   );
-      break;
-
-    case VIEW_THIRD_PERSON_FRONT:	// -3m front
-      vrmat = mulM4(transM4(0, 0, -3), mulM4(rotM4(M_PI, UY), camera_pos));
-      break;
-
-    case VIEW_VERTICAL_FROM_OBJECT:
-      {
-      if (o == localuser) return;
-      //echo("xyz: %.1f %.1f %.1f", o->pos.x, o->pos.y, o->pos.z);
-      vrmat = mulM4(transM4(-o->pos.x, -o->pos.y, -o->pos.z),	// FIXME!
-                    mulM4(rotM4(M_PI_2, UX), 
-                          mulM4(rotM4(M_PI_2, UY), camera_pos)
-                         )
-                   );
-      }
-      break;
-
-    case VIEW_VERTICAL_NEAR:		// 50cm top
-      vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -.5, 0), camera_pos));
-      break;
-
-    case VIEW_VERTICAL_FAR: 		// 5m top
-      vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -5, 0), camera_pos));
-      break;
-
-    case VIEW_VERTICAL_FROM_SKY: 	// 50m top
-      vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -50, 0), camera_pos));
-      break;
-
-    case VIEW_TURN_AROUND:		// -2m side
-      turna += (M_PI/18) / MAX(::g.timer.rate() / 5, 1);
-      vrmat = mulM4(transM4(0, localuser->height/4, -2),
-                     mulM4(rotM4(M_PI_2/4, UX),
-                           mulM4(rotM4(third_yRot + turna, UY), camera_pos)
-                          )
-                    );
-      break;
-
-    case VIEW_GROUND_LEVEL:		// 2cm top
-      vrmat = mulM4(transM4(0, localuser->height - 0.02, 0), camera_pos);
-      break;
-
-    case VIEW_WIRED:
-      glLineWidth(1);
-      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-      vrmat = camera_pos;
-      break;
-
-    case VIEW_SCISSOR:
-      vrmat = camera_pos;
-      break;
+  case VIEW_FIRST_PERSON:		// 5cm front
+    vrmat = mulM4(transM4(0, 0, 0.05), mulM4(rotM4(pitch, UX), camera_pos));
+    break;
+  case VIEW_THIRD_PERSON:		// 80cm back
+    vrmat = mulM4(transM4(0, localuser->height/6, third_Near - 0.80),
+                  mulM4(rotM4(M_PI_2/6 + third_xRot + pitch, UX),
+                        mulM4(rotM4(third_yRot, UY), camera_pos)
+                       )
+                 );
+    break;
+  case VIEW_THIRD_PERSON_FAR:	 	// 2m40 back
+    vrmat = mulM4(transM4(0, localuser->height/6, third_Near - 2.40),
+                  mulM4(rotM4(M_PI_2/6 + third_xRot + pitch, UX),
+                        mulM4(rotM4(third_yRot, UY), camera_pos)
+                       )
+                 );
+    break;
+  case VIEW_THIRD_PERSON_FRONT:		// -3m front
+    vrmat = mulM4(transM4(0, 0, -3), mulM4(rotM4(M_PI, UY), camera_pos));
+    break;
+  case VIEW_VERTICAL_FROM_OBJECT:
+    {
+    if (o == localuser) return;
+    //echo("xyz: %.1f %.1f %.1f", o->pos.x, o->pos.y, o->pos.z);
+    vrmat = mulM4(transM4(-o->pos.x, -o->pos.y, -o->pos.z),	// FIXME!
+                  mulM4(rotM4(M_PI_2, UX), 
+                        mulM4(rotM4(M_PI_2, UY), camera_pos)
+                       )
+                 );
+    }
+    break;
+  case VIEW_VERTICAL_NEAR:		// 50cm top
+    vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -.5, 0), camera_pos));
+    break;
+  case VIEW_VERTICAL_FAR: 		// 5m top
+    vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -5, 0), camera_pos));
+    break;
+  case VIEW_VERTICAL_FROM_SKY: 		// 50m top
+    vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -50, 0), camera_pos));
+    break;
+  case VIEW_TURN_AROUND:		// -2m side
+    turna += (M_PI/18) / MAX(::g.timer.rate() / 5, 1);
+    vrmat = mulM4(transM4(0, localuser->height/4, -2),
+                  mulM4(rotM4(M_PI_2/4, UX),
+                        mulM4(rotM4(third_yRot + turna, UY), camera_pos)
+                       )
+                 );
+    break;
+  case VIEW_GROUND_LEVEL:		// 2cm top
+    vrmat = mulM4(transM4(0, localuser->height - 0.02, 0), camera_pos);
+    break;
+  case VIEW_WIRED:
+    glLineWidth(1);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    vrmat = camera_pos;
+    break;
+  case VIEW_SCISSOR:
+    vrmat = camera_pos;
+    break;
   }
 
   // transpose Vreng to OpenGl coordinates
