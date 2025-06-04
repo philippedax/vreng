@@ -494,7 +494,6 @@ void Render::lighting()
   const GLfloat light1_position[] = {-0.5, 0.7, -1, 0};
 
   glEnable(GL_NORMALIZE);
-
   if (glIsEnabled(GL_LIGHT2)) {	//Hack! see light.cpp
     glDisable(GL_LIGHT0);
     glDisable(GL_LIGHT1);
@@ -528,7 +527,7 @@ void Render::lighting()
   }
 }
 
-/** highlight same type of object. */
+/** Highlights same type of object. */
 void Render::highlight(char *object_type, int flash)
 {
   for (std::list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; it++) {
@@ -744,9 +743,7 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
   //echo("wx=%d wy=%d dir=%.1f %.1f %.1f", wx, wy,dir->v[0], dir->v[1] ,dir->v[2]);
 }
 
-/**
- * Get the object list where each object have a type present in the given list.
- */
+/** Gets the object list where each object have a type present in the given list. */
 Object** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
 {
   int hits = 0;
@@ -786,7 +783,6 @@ Object** Render::getDrawedObjects(int *nbhit)
 
   GLint vp[4];
   glGetIntegerv(GL_VIEWPORT, vp);
-
   GLint w = vp[2];
   GLint h = vp[3];
   GLfloat top = camera.near * tan(camera.fovy * M_PI_180);
@@ -851,14 +847,14 @@ void Render::setFlash()
   flash = true;
 }
 
-/** prints stat */
+/** Prints stat */
 void Render::stat()
 {
   GLint dl = glGenLists(1);
   echo("### Graphic ###\ndisplay-lists   : %d", --dl);
 }
 
-/** Debug */
+/** Debug show solid list */
 void Render::showSolidList()
 {
   for (std::list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
@@ -885,39 +881,35 @@ void Render::quit()
 //
 
 /** Renders a solid */
-void Render::displaySolid(Solid *s, int rdr_type)
+void Render::displaySolid(Solid *s, int render_mode)
 {
-  if (s->blinking && (! s->toggleBlinking()))
-    return;			// pass one turn
-
-  switch (rdr_type) {
-
-    case OPAQUE:		// Display opaque solids
-      if (s->reflexive)
-        displayList(s, REFLEXIVE);
-      else
-        displayList(s, NORMAL);
-      break;
-
-    case TRANSPARENT:		// Display transparent solids 
-      if (s->reflexive)
-        displayList(s, REFLEXIVE);
-      else
-        displayList(s, NORMAL);
-      break;
-
-    case FLASH:			// Display flashy edges
-      if (s->flashy)
-        displayList(s, FLASHY);
-      if (s->flary)
-        displayFlary(s);	// Display attached flares
-      if (s->ray_dlist)
-        displayRay(s);
-      break;
-
-    case USER:			// Display local user last
+  if (s->blinking && (! s->toggleBlinking())) {
+    return;		// pass one turn
+  }
+  switch (render_mode) {
+  case OPAQUE:		// display opaque solids
+    if (s->reflexive)
+      displayList(s, REFLEXIVE);
+    else
       displayList(s, NORMAL);
-      break;
+    break;
+  case TRANSPARENT:	// display transparent solids 
+    if (s->reflexive)
+      displayList(s, REFLEXIVE);
+    else
+      displayList(s, NORMAL);
+    break;
+  case FLASH:		// display flashy edges
+    if (s->flashy)
+      displayList(s, FLASHY);
+    if (s->flary)
+      displayFlary(s);	// display attached flares
+    if (s->ray_dlist)
+      displayRay(s);
+    break;
+  case USER:		// display local user last
+    displayList(s, NORMAL);
+    break;
   }
 }
 
@@ -951,7 +943,6 @@ void Render::displayFlary(Solid *s)
   }
 }
 
-
 /** Renders a solid calling its displist. */
 int Render::displayList(Solid *s, int display_mode = NORMAL)
 {
@@ -968,7 +959,6 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
    glMultMatrixf(gl_mat);	// openGl coordinates
 
    switch (display_mode) {
-
    case NORMAL:
      if (s->object->type == USER_TYPE) {	// if localuser
        User *user = static_cast<User *> (s->object);
@@ -1012,7 +1002,6 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
        glCallList(s->displist[s->frame]);	// display the solid here !!!
      }
      break;
-
    case FLASHY:
      glPushMatrix();
       glPolygonOffset(2., 1.);			// factor=2 unit=1
@@ -1025,7 +1014,6 @@ int Render::displayList(Solid *s, int display_mode = NORMAL)
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
      glPopMatrix();
      break;
-
    case REFLEXIVE:
     glPushMatrix();
      glGetIntegerv(GL_DRAW_BUFFER, &bufs); 	// get the current color buffer being drawn to
