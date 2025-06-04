@@ -83,11 +83,8 @@ class World {
   class Vjc *vjc;		///< vjc.
   class Wind *wind;		///< wind.
 
-  World();
-  /**< Constructor. */
-
-  virtual ~World() {};
-  /**< Destructor. */
+  World();	///< Constructor.
+  ~World() {};	///< Destructor.
 
   void compute(time_t sec, time_t usec);
   /**< Processes the world. */
