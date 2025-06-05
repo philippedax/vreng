@@ -3658,3 +3658,4 @@
 3658 Mer  4 jui 2025 07:48:56 CEST	cleanup case camera.cpp
 3659 Mer  4 jui 2025 22:01:45 CEST	remove method quit()
 3660 Mer  4 jui 2025 22:11:47 CEST	cleanup ~World world.hpp
+3661 Jeu  5 jui 2025 07:33:38 CEST	replace method quit() to destructor object.hpp

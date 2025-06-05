@@ -131,6 +131,7 @@ void Bubble::imposed(float dt)
   }
 }
 
+/** Timing expiration */
 void Bubble::timing(time_t sec, time_t usec, float *last)
 {
   if (! lasting(sec, usec, last)) {
@@ -154,7 +155,7 @@ Bubble::~Bubble()
 {
   oid = 0;
   if (bubtext) {
-    //bubtext->quit();
+    delete[] bubtext;
   }
   if (text) {
     free(text);
