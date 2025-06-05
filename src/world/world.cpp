@@ -511,7 +511,6 @@ void World::quit()
   // invisible objects
   for (std::vector<Object*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
     if ((*it)->deleted) continue;
-    (*it)->quit();
     delete *it;
   }
   invisList.clear();
@@ -519,7 +518,6 @@ void World::quit()
   // still objects
   for (std::vector<Object*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
-    (*it)->quit();			// sometimes segfault FIXME!!!
     delete *it;
   }
   stillList.clear();
@@ -529,7 +527,6 @@ void World::quit()
     if ((*it) == localuser) continue;	// FIX segfault
     if ((*it)->deleted) continue;
     //dax if (! strlen((*it)->objectName())) continue;
-    (*it)->quit();
     delete *it;
   }
   mobileList.clear();
@@ -537,7 +534,6 @@ void World::quit()
   // fluid objects
   for (std::vector<Object*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
     if ((*it)->deleted) continue;
-    (*it)->quit();
     delete *it;
   }
   fluidList.clear();
@@ -545,7 +541,6 @@ void World::quit()
   // cloth objects
   for (std::vector<Object*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
     if ((*it)->deleted) continue;
-    (*it)->quit();
     delete *it;				// sometimes segfault FIXME!!!
   }
   clothList.clear();

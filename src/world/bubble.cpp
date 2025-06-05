@@ -154,7 +154,7 @@ Bubble::~Bubble()
 {
   oid = 0;
   if (bubtext) {
-    bubtext->quit();
+    //bubtext->quit();
   }
   if (text) {
     free(text);

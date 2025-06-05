@@ -3657,3 +3657,4 @@
 3657 Mer  4 jui 2025 07:14:48 CEST	cleanup case render.cpp
 3658 Mer  4 jui 2025 07:48:56 CEST	cleanup case camera.cpp
 3659 Mer  4 jui 2025 22:01:45 CEST	remove method quit()
+3660 Mer  4 jui 2025 22:11:47 CEST	cleanup ~World world.hpp
