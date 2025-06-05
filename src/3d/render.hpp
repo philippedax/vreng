@@ -301,7 +301,6 @@ class Render {
   /**< Checks OpenGL buffers. */
 
   static void stat();
-  void quit();			///< Closes the 3d renderer.
 };
 
 #endif

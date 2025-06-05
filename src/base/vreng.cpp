@@ -124,7 +124,6 @@ void Vreng::quit(int sig)
   if (::g.pref.stats)	printStats(stderr);
 
   // closes modules properly
-  ::g.render.quit();		// quits 3D rendering
   World::current()->quit();	// quits world management
   UAppli::quit(sig);		// quits the application and closes the main window
 }

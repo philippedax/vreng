@@ -871,10 +871,6 @@ void Render::showSolidList()
   }
 }
 
-void Render::quit()
-{
-}
-
 //---------------------------------------------------------------------------
 //
 // Rendering solids
