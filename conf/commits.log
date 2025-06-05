@@ -3660,3 +3660,4 @@
 3660 Mer  4 jui 2025 22:11:47 CEST	cleanup ~World world.hpp
 3661 Jeu  5 jui 2025 07:33:38 CEST	replace method quit() to destructor object.hpp
 3662 Jeu  5 jui 2025 08:10:32 CEST	destructor text expiration bubble.cpp
+3663 Jeu  5 jui 2025 11:26:52 CEST	cleanup Quit - destructor

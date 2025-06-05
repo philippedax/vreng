@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 // movie.cpp
 //
-// Movie haandling
+// Movie handling
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "movie.hpp"
@@ -382,13 +382,9 @@ void Movie::permanent(float lasting)
   bind_frame();
 }
 
-/** Quits */
+/** Quits - destructor */
 Movie::~Movie()
-{
-  //static int q = 0;
-  //q++;
-  //echo("quit: %d", q);
-}
+{}
 
 /*
  * Actions

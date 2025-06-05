@@ -394,7 +394,7 @@ void Guide::render()
   glPopAttrib();
 }
 
-/** Quits */
+/** Quits - destructor */
 Guide::~Guide()
 {
   glDeleteLists(dlist, 1);

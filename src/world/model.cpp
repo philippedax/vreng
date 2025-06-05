@@ -307,7 +307,7 @@ void Model::render()
   }
 }
 
-/** Quits a model */
+/** Quits - destructor */
 Model::~Model()
 {
   switch (model_t) {

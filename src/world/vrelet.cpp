@@ -404,7 +404,6 @@ bool Vrelet::intersectOut(Object *pcur, Object *pold)
   return true;
 }
 
-/** Turn the app child off */
 /** Quits - destructor */
 Vrelet::~Vrelet()
 {

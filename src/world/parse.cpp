@@ -65,7 +65,7 @@ Parse::Parse()
   commented = false;
 }
 
-/** Destructor */
+/** Quits - destructor */
 Parse::~Parse()
 {
   parse = NULL;

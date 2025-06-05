@@ -36,7 +36,7 @@ const OClass Plane::oclass(PLANE_TYPE, "Plane", Plane::creator);
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** Creation from a file */
 Object * Plane::creator(char *l)
 {
   return new Plane(l);

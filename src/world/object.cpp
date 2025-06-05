@@ -116,25 +116,22 @@ Object::Object()
   vsql = NULL;
 }
 
-/** Object destructor */
+/** Quits - Object destructor */
 Object::~Object()
 {
-  if (name.type) delete[] name.type;
-  if (name.given) delete[] name.given;
-  if (name.url) delete[] name.url;
-  if (name.owner) delete[] name.owner;
+  if (name.type)     delete[] name.type;
+  if (name.given)    delete[] name.given;
+  if (name.url)      delete[] name.url;
+  if (name.owner)    delete[] name.owner;
   if (name.implicit) delete[] name.implicit;
   if (name.category) delete[] name.category;
-  if (name.infos) delete[] name.infos;
-  if (geom) delete[] geom;
+  if (name.infos)    delete[] name.infos;
+  if (geom)          delete[] geom;
 
   if (! isBehavior(COLLIDE_NEVER)) {
     delGrid();
   }
-
   delSolids();	// delete all solids
-
-  // delete NetObj
   if (netop && (mode == MOBILE)) {
     if (! isPermanent()) {
       netop->declareDeletion();

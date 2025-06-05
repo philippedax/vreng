@@ -102,7 +102,7 @@ void Vicinity::setSize(Object *user)
     usersize = SIZE_NORMAL;
 }
 
-/** Destructor */
+/** Quits - destructor */
 Vicinity::~Vicinity()
 {
   if (vicilist) delete vicilist;

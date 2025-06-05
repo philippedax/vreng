@@ -262,7 +262,7 @@ bool Gate::intersectOut(Object *pcur, Object *pold)
   return false;
 }
 
-/** Quits */
+/** Quits - destructor */
 Gate::~Gate()
 {
   clearObjectBar();

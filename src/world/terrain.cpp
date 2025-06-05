@@ -255,5 +255,4 @@ Terrain::~Terrain()
 } 
 
 void Terrain::funcs()
-{
-} 
+{} 

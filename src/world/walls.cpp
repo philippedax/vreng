@@ -252,7 +252,7 @@ void Walls::render()
   glPopMatrix();
 }
 
-/** Free the walls list */
+/** Quits - destructor */
 Walls::~Walls()
 {
   while (wallsList) {
