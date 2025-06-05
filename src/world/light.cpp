@@ -160,6 +160,7 @@ void Light::lighting()
   if (fog) glEnable(GL_FOG);
 }
 
+/** Quits - destructor */
 Light::~Light()
 {
   glDisable(GL_FOG);

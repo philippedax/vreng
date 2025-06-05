@@ -76,6 +76,7 @@ bool Doc::intersect(Object *pcur, Object *pold)
   return true;
 }
 
+/** Quits - destructor */
 Doc::~Doc()
 {
   Ps::quit();

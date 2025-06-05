@@ -310,6 +310,7 @@ void Hairs::permanent(float dt)
   angle += dt*20;
 }
 
+/** Quits - destructor */
 Hairs::~Hairs()
 {
   if (dlist) { glDeleteLists(dlist, 1); dlist = 0; }

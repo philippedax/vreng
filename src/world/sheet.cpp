@@ -191,6 +191,7 @@ void Sheet::pushPrev(float dist)
   imposedMovement(ttl);
 }
 
+/** Quits - destructor */
 Sheet::~Sheet()
 {
   oid = 0;

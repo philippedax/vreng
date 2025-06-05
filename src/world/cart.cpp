@@ -188,6 +188,7 @@ void Cart::removeObject(Object *o)
   o->toDelete();
 }
 
+/** Quits - destructor */
 Cart::~Cart()
 {
   savePersist();

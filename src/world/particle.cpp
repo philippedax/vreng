@@ -364,6 +364,7 @@ void Particle::render()
   glPopMatrix();
 }
 
+/** Quits - destructor */
 Particle::~Particle()
 {
   if (particles) delete[] particles;

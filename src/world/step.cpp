@@ -375,6 +375,7 @@ bool Step::intersectOut(Object *pcur, Object *pold)
   return false;
 }
 
+/** Quits - destructor */
 Step::~Step()
 {
   stairList.clear();

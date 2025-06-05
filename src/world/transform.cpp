@@ -113,6 +113,7 @@ void Transform::render()
   }
 }
 
+/** Quits - destructor */
 Transform::~Transform()
 {
   for (opl = opList; opl ; ) {

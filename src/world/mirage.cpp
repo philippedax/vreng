@@ -255,6 +255,7 @@ void Mirage::permanent(float lasting)
   updatePos();
 }
 
+/** Quits - destructor */
 Mirage::~Mirage()
 {
   if (persist) savePersist();

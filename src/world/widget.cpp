@@ -218,6 +218,7 @@ bool Widget::keyEvent(const char *key, bool is_down)
   return true;
 }
 
+/** Quits - destructor */
 Widget::~Widget()
 {
   if (def_pixmap) delete[] def_pixmap;

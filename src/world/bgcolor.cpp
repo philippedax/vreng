@@ -85,6 +85,7 @@ void Bgcolor::black()
   color[0] = color[1] = color[2] = 0; color[3] = 1;
 }
 
+/** Quits - destructor */
 Bgcolor::~Bgcolor()
 {
   black();

@@ -277,6 +277,7 @@ void Door::unlock()
   }
 }
 
+/** Quits - destructor */
 Door::~Door()
 {
   oid = 0;

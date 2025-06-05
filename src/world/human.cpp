@@ -111,6 +111,7 @@ Human::Human(char *l)
   dlist = -1;
 }
 
+/** Quits - destructor */
 Human::~Human()
 {}
 

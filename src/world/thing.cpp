@@ -243,6 +243,7 @@ void Thing::destroy(Thing *thing, void *d, time_t s, time_t u)
     thing->removeFromScene();
 }
 
+/** Quits - destructor */
 Thing::~Thing()
 {
   oid = 0;

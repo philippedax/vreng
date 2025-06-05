@@ -119,6 +119,7 @@ bool Slider::intersect(Object *pcur, Object *pold)
   return true;
 }
 
+/** Quits - destructor */
 Slider::~Slider()
 {
   oid = 0;

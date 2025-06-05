@@ -405,6 +405,7 @@ bool Vrelet::intersectOut(Object *pcur, Object *pold)
 }
 
 /** Turn the app child off */
+/** Quits - destructor */
 Vrelet::~Vrelet()
 {
   glDeleteLists(dlist, 1);

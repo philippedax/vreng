@@ -197,6 +197,7 @@ Dress::Dress(User *user, void *d, time_t s, time_t u)
   inits();
 }
 
+/** Quits - destructor */
 Dress::~Dress()
 {
   oid = 0;

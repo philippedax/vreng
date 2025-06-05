@@ -103,6 +103,7 @@ Travolator::Travolator(char *l)
   }
 }
 
+/** Quits - destructor */
 Travolator::~Travolator()
 {
   travList.clear();

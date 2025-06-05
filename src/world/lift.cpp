@@ -189,6 +189,7 @@ bool Lift::intersectOut(Object *pcur, Object *pold)
   return true;
 }
 
+/** Quits - destructor */
 Lift::~Lift()
 {
   oid = 0;

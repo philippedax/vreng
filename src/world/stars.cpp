@@ -260,6 +260,7 @@ void Stars::render()
   glPopMatrix();
 }
 
+/** Quits - destructor */
 Stars::~Stars()
 {
   if (stars) delete[] stars;

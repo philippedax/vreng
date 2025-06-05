@@ -230,6 +230,7 @@ Hat::Hat(User *user, void *d, time_t s, time_t u)
   inits();
 }
 
+/** Quits - destructor */
 Hat::~Hat()
 {
   phat = NULL;

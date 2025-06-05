@@ -558,6 +558,7 @@ void Icon::put_gname(Icon *icon, Payload *pp)
   if (icon && icon->objectName()) pp->putPayload("s", icon->objectName());
 }
 
+/** Quits - destructor */
 Icon::~Icon()
 {
   // Save icons for persistency

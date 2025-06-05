@@ -279,6 +279,7 @@ void Fire::render()
   nf++;
 }
 
+/** Quits - destructor */
 Fire::~Fire()
 {
   signal(SIGUSR2, SIG_IGN);

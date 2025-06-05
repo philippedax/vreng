@@ -218,6 +218,7 @@ void Text::render()
   glPopMatrix();
 }
 
+/** Quits - destructor */
 Text::~Text()
 {
   if (textstr) delete[] textstr;

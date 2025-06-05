@@ -180,6 +180,7 @@ void Mirror::mirroredScene()
   }
 }
 
+/** Quits - destructor */
 Mirror::~Mirror()
 {
   oid = 0;

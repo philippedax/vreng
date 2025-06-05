@@ -137,6 +137,7 @@ void Vjc::ping()
   echo("vjc: ping %d", lastping);
 }
 
+/** Quits - destructor */
 Vjc::~Vjc()
 {
   stop();

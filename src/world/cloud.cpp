@@ -209,6 +209,7 @@ void Cloud::render()
   glPopMatrix();
 }
 
+/** Quits - destructor */
 Cloud::~Cloud()
 {
   for (int n=0; n < number; n++) {

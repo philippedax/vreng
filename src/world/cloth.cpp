@@ -218,6 +218,7 @@ void Cloth::restorePosition()
   behaviors();
 }
 
+/** Quits - destructor */
 Cloth::~Cloth()
 {
   oid = 0;

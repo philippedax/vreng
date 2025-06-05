@@ -125,6 +125,7 @@ Escalator::Escalator(char *l)
   }
 }
 
+/** Quits - destructor */
 Escalator::~Escalator()
 {
   escaList.clear();

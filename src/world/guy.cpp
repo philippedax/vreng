@@ -581,7 +581,7 @@ void Guy::setShowing(bool flag)
   showing = flag;
 }
 
-/** Quits */
+/** Quits - destructor */
 Guy::~Guy()
 {
   if (curve) delete[] curve;

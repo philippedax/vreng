@@ -143,6 +143,7 @@ Object * Clock::creator(char *l)
   return new Clock(l);
 }
 
+/** Quits - destructor */
 Clock::~Clock()
 {
   oid = 0;

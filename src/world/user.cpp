@@ -490,7 +490,7 @@ void User::getMemory()
   rtcpname = new char[Rtp::RTPNAME_LEN];
 }
 
-/** Destructor */
+/** Quits - destructor */
 User::~User()
 {
   echo("User %s quits", objectName());

@@ -157,6 +157,7 @@ void Button::put_bstate(Button *button, Payload *pp)
   pp->putPayload("d", button->pos.st);
 }
 
+/** Quits - destructor */
 Button::~Button()
 {
   delete[] use_names;

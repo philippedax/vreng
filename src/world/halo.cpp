@@ -145,6 +145,7 @@ Halo::Halo(User *user, void *d, time_t s, time_t u)
   inits();
 }
 
+/** Quits - destructor */
 Halo::~Halo()
 {
   oid = 0;

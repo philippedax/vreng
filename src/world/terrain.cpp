@@ -246,6 +246,7 @@ void Terrain::setColor(float z)
   }
 }
 
+/** Quits - destructor */
 Terrain::~Terrain()
 {
   glDeleteLists(dlist, 1);

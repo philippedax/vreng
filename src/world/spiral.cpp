@@ -100,6 +100,7 @@ Spiral::Spiral(char *l)
   inits();
 }
 
+/** Quits - destructor */
 Spiral::~Spiral()
 {
   oid = 0;

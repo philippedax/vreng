@@ -151,6 +151,7 @@ bool Bubble::publish(const Pos &oldpos)
   return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
+/** Quits - destructor */
 Bubble::~Bubble()
 {
   oid = 0;

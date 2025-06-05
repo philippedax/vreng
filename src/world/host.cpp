@@ -93,6 +93,7 @@ void Host::disconnect(Host *host, void *d, time_t s, time_t u)
   Xterm::quit();
 }
 
+/** Quits - destructor */
 Host::~Host()
 {
   Xterm::quit();

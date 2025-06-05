@@ -177,6 +177,7 @@ void Music::loop(Music *music, void *d, time_t s, time_t u)
   }
 }
 
+/** Quits - destructor */
 Music::~Music()
 {
   switch (fmt) {

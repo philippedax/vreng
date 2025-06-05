@@ -135,6 +135,7 @@ bool Plane::intersect(Object *pcur, Object *pold)
   return true;
 }
 
+/** Quits - destructor */
 Plane::~Plane()
 {
   oid = 0;
