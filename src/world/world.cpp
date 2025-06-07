@@ -505,7 +505,7 @@ void World::quit()
   state = STOPPED;
 
   //
-  // Quits and deletes objects
+  // Deletes objects
   //
 
   // invisible objects
@@ -526,7 +526,6 @@ void World::quit()
   for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it) == localuser) continue;	// FIX segfault
     if ((*it)->deleted) continue;
-    //dax if (! strlen((*it)->objectName())) continue;
     delete *it;
   }
   mobileList.clear();
@@ -566,7 +565,7 @@ void World::quit()
 /** Enters in a new World - static */
 World * World::enter(const char *url, const char *chan, bool isnew)
 {
-  trace1(DBG_WO, "world enter");
+  //trace1(DBG_FORCE, "world enter");
 
   // clear everything
   ::g.gui.clearInfoBar();
@@ -614,7 +613,7 @@ World * World::enter(const char *url, const char *chan, bool isnew)
   world->state = LOADING;	// need to download
   if (url) {
     // world to download
-    trace1(DBG_WO, "enter: downloading %s", url);
+    //trace1(DBG_FORCE, "enter: downloading %s", url);
     //world->universe->startWheel();
     if (Http::httpOpen(url, reader, (void *)url, 0) < 0) {
       error("enter: bad download: %s", url);
@@ -660,7 +659,7 @@ World * World::enter(const char *url, const char *chan, bool isnew)
   // creates clock
   world->clock = new Clock();	// internal clock
 
-  trace1(DBG_WO, "enter: %s loaded", world->name);
+  //trace1(DBG_FORCE, "enter: %s loaded", world->name);
   world->state = LOADED;	// downloaded
   return world;
 }

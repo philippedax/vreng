@@ -211,23 +211,20 @@ void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
   //Sound::playSound(CLICKSND);
 
   // current clic
-  static uint8_t clic = 0;		// first object
+  static uint8_t clic = 0;	// first object
   Object* object = gw.pointedObject(x, y, objinfo, clic % MAX_CLICKS_DEPTH);
-  clic++;				// next object hidden in the z buffer
+  clic++;			// next object hidden in the z buffer
 
   if (object) {
     gw.gui.selected_object = object;
-    //echo("clic on %s", object->objectName());
+    echo("navig: clic %s", object->objectName());
 
     gw.message.performRequest(object);
-    if (b == 1) {
-      // do the click method on the object
+    if (b == 1) {		// do the click method on the object
       if (gw.gui.vrelet) object->click(x, y);
       if (gw.gui.board)  object->click(x, y);
     }
-
     selectObject(objinfo);
-  
     if (b == 3) {		// show object menu
       object_menu.open(ev);
       opened_menu = object_menu;

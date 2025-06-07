@@ -184,6 +184,7 @@ void Text::imposed(float lasting)
 
 void Text::expire()
 {
+  //echo("text: expire");
   toDelete();
 }
 

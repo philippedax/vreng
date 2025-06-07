@@ -86,7 +86,8 @@ void Bgcolor::black()
 }
 
 /** Quits - destructor */
-Bgcolor::~Bgcolor()
+//Bgcolor::~Bgcolor()
+void Bgcolor::quit()
 {
   black();
   bgcolor = NULL;

@@ -38,7 +38,7 @@ const OClass Board::oclass(BOARD_TYPE, "Board", Board::creator);
 static uint16_t oid = 0;
 
 
-/* creation from a file */
+/** creation from a file */
 Object * Board::creator(char *l)
 {
   return new Board(l);
@@ -175,7 +175,8 @@ void Board::import_cb(Board *board, void *d, time_t s, time_t u) { board->import
 void Board::cancel_cb(Board *board, void *d, time_t s, time_t u) { Wb::quit(); }
 
 /** Quits - destructor */
-Board::~Board()
+//Board::~Board()
+void Board::quit()
 {
   Wb::quit();
 }

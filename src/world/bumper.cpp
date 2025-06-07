@@ -141,7 +141,8 @@ bool Bumper::intersect(Object *pcur, Object *pold)
 }
 
 /** Quits - destructor */
-Bumper::~Bumper()
+//Bumper::~Bumper()
+void Bumper::quit()
 {
   oid = 0;
 }

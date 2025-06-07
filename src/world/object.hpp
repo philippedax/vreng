@@ -278,6 +278,8 @@ class Object {
   virtual void click(V3 norm)			{}
   /**< Intercepts a click. */
 
+  virtual void quit() {}
+
 
   //
   // Accessors to Solid

@@ -174,7 +174,7 @@ void Animator::put_ttl(Animator *po, Payload *pp)
   pp->putPayload("f", po->ttl);
 }
 
-void Animator::quit()
+Animator::~Animator()
 {
   oid = 0;
   savePersist();

@@ -90,7 +90,9 @@ class Ball: public Object {
   Ball(uint8_t type_id, Noid noid, Payload *pp); ///< constructor: network replication.
   Ball(Object *user, char *solid); ///< constructor: created by user.
   Ball(char *l);	///< constructor: fileline.
-  ~Ball();		///< destructor
+  ~Ball() {};		///< destructor
+
+  void quit();
 
   static Object * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a ball coming from the Network. */

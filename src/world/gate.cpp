@@ -153,7 +153,7 @@ void Gate::enter()
   if (! strcmp(name.url, ::g.url)) {
     sprintf(chan, "%s/%u/%d",
             Universe::current()->grpstr, Universe::current()->port, Channel::currentTtl());
-    //echo("initial channel: %s", chan);
+    echo("initial channel: %s", chan);
   }
 #if 1 //dax
 #define USE_VACS 0

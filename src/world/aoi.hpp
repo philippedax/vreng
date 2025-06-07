@@ -47,7 +47,7 @@ class Aoi: public Object {
   static void funcs();	///< init funclist
 
   Aoi(char *l);		///< Constructor
-  ~Aoi() {}		///< Destructor
+  ~Aoi() ;		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
@@ -63,7 +63,9 @@ class Aoi: public Object {
    * Unique caller is generalIntersect() (col.cc)
    */
 
-  static void aoiQuit();
+  void aoiQuit();
+
+  //void quit();
   /**<
    * Performs actions to be done while leaving an Area of Interest:
    *  - Remove all mobile object from network (leaving only static ones)
@@ -75,9 +77,6 @@ class Aoi: public Object {
  private:
   void parser(char *l);
   /**< Parses */
-
-  void defaults();
-  /**< Sets defauts values */
 
   void behaviors();
   /**< Sets behaviors. */

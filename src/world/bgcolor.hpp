@@ -49,7 +49,9 @@ class Bgcolor: public Object {
 
   Bgcolor(char *l);	///< Constructor
   Bgcolor();		///< Contructor initial
-  ~Bgcolor();		///< Detructor
+  ~Bgcolor() {};	///< Detructor
+
+  void quit();
 
   static Object * (creator)(char *l); ///< Creates from fileline
 

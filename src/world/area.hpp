@@ -43,8 +43,8 @@ class Area: public Object {
 
   const OClass* getOClass() {return &oclass;}
 
-  Area(char *l);
-  /**< Constructor */
+  Area(char *l);	///< Constructor
+  ~Area() {};		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */

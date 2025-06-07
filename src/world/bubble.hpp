@@ -66,7 +66,8 @@ class Bubble: public Object {
   static void funcs();	///< init funclist.
 
   Bubble(class User *user, char *str, const float *color, bool face);	///< Constructor
-  ~Bubble();		///< Destructor
+  ~Bubble() {};		///< Destructor
+  void quit();
 
   void timing(time_t s, time_t us, float *dt);
   /**< Updates lasting time. */

@@ -41,15 +41,13 @@ class Accessory: public Cloth {
   static void funcs();	///< init funclist.
 
   Accessory(char *l);	///< Constructor.
+  ~Accessory() ;	///< Destructor.
 
   static Object * (creator)(char *l);
   /**< Create from fileline. */
 
   void permanent(float lasting);
   /**< Position movement. */
-
-  void quit();
-  /**< Quits. */
 
  private:
   static const float LSPEED;    ///< linear speed

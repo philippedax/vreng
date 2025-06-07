@@ -107,7 +107,9 @@ class Book: public Object {
   static void funcs();	///< init funclist
 
   Book(char *l);	///< Constructor
-  ~Book();		///< Destructor
+  ~Book() {};		///< Destructor
+
+  void quit();
 
   static Object * (creator)(char *l);
   /**< Creates from a file */

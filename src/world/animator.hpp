@@ -39,15 +39,14 @@ class Animator: public Object {
   float   ttl;		///< time to live
 
  public:
-  /* properties */
+  // properties
   enum {
     PROPFRAME,
     PROPNBFRAMES,
     PROPTTL,
     PROPS
   };
-
-  /* states */
+  // states
   enum {
     INACTIVE,
     ACTIVE
@@ -60,6 +59,7 @@ class Animator: public Object {
   static void funcs();	///< init funclist
 
   Animator(char *l);	///< Constructor
+  ~Animator() ;		///< Destructor
 
   static Object * (creator)(char *l);
 
@@ -70,8 +70,6 @@ class Animator: public Object {
   void timing(time_t, time_t, float *);
 
   bool intersect(Object *pcur, Object *pold);
-
-  void quit();
 
  private:
   void parser(char *l);

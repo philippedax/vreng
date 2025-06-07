@@ -124,11 +124,11 @@ void Accessory::permanent(float lasting)
     pos.z += dz;
   else
     pos.z -= dz;
-
   updatePos();
 }
 
-void Accessory::quit()
+/** Quits - destructor */
+Accessory::~Accessory()
 {
   oid = 0;
   savePersist();

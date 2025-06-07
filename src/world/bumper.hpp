@@ -42,7 +42,8 @@ class Bumper: public Step {
   static void funcs();	///< init funclist.
 
   Bumper(char *l);	///< Constructor.
-  ~Bumper();		///< Destructor.
+  ~Bumper() {};		///< Destructor.
+  void quit();
 
   static Object * (creator)(char *l);
   /**< Create from fileline. */

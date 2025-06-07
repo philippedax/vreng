@@ -158,7 +158,8 @@ void Button::put_bstate(Button *button, Payload *pp)
 }
 
 /** Quits - destructor */
-Button::~Button()
+//Button::~Button()
+void Button::quit()
 {
   delete[] use_names;
   use_names = NULL;

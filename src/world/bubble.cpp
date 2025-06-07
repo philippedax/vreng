@@ -152,7 +152,8 @@ bool Bubble::publish(const Pos &oldpos)
 }
 
 /** Quits - destructor */
-Bubble::~Bubble()
+//Bubble::~Bubble()
+void Bubble::quit()
 {
   oid = 0;
   if (bubtext) {

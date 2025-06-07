@@ -50,14 +50,10 @@ Aoi *currentAoi = NULL;  ///< points to current AoI where localuser is in
  */
 
 
-/* creation from file */
+/** creation from file */
 Object * Aoi::creator(char *l)
 {
   return new Aoi(l);
-}
-
-void Aoi::defaults()
-{
 }
 
 void Aoi::parser(char *l)
@@ -71,9 +67,9 @@ void Aoi::parser(char *l)
   end_while_parse(l);
 }
 
+/** AoI are not visible */
 void Aoi::behaviors()
 {
-  /* AoI are not visible */
 #if !defined(AOI_VISIBLE)
   enableBehavior(UNVISIBLE);
 #endif
@@ -106,7 +102,7 @@ void Aoi::aoiEnter()
 
   currentAoi = this;	// new AoI is the current one
 
-  /* initializes network with new AoI's mcast group (cf. channel.cc) */
+  // initializes network with new AoI's mcast group (cf. channel.cc)
   Channel *pchan = new Channel();
 
   int *tabfd;
@@ -116,11 +112,11 @@ void Aoi::aoiEnter()
     return;
   }
 
-  /* initializes local user's avatar */
+  // initializes local user's avatar
   localuser->mobileObject(0);
   localuser->netop->set(NetObj::NET_VOLATILE);
 
-  /* publishes to other VREng processes we are there (no latency) */
+  // publishes to other VREng processes we are there (no latency)
   localuser->netop->declareCreation();
 
   /* To do here: broadcast a query on new AoI to see who is there with
@@ -130,36 +126,37 @@ void Aoi::aoiEnter()
    * ok when entering a World).
    */
 
-  /* GUI stuff */
+  // GUI stuff
   g.gui.updateAvatar(localuser);
 
-  /* 3D stuff */
+  // 3D stuff
   localuser->updatePos();
   localuser->updateCamera(pos);
 }
 
+void Aoi::aoiQuit()
+{}
+
 /**
  * Performs actions to be done while leaving an Area of Interest:
  */
-void Aoi::aoiQuit()
+Aoi::~Aoi()
 {
-  /* freeing only mobile object we're responsible for */
+  // freeing only mobile object we're responsible for
   for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    /* skipping local user object (as we do not want to remove it) */
+    // skipping local user object (as we do not want to remove it)
     if (*it == localuser) continue;
-    /* closes GUI */
     if ((*it)->type == USER_TYPE) ::g.gui.removeAvatar(reinterpret_cast<User *>((*it)));
-    /* performs some clean up */
     if ((*it)->type) delete *it;
   }
   //dax clearList(mobileList);  //FIXME! don't comment else segfault
 
-  /* explicit declaration to network so that there is minimal latency
-     on other VREng processes to see user leaving previous AoI */
+  // explicit declaration to network so that there is minimal latency
+  // on other VREng processes to see user leaving previous AoI
   localuser->netop->declareDeletion();
   localuser->netop->deleteFromList();
 
-  /* closes multicast channel now as we do not need it anymore */
+  // closes multicast channel now as we do not need it anymore
   delete Channel::current();  // delete Channel
 }
 
