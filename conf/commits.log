@@ -3663,3 +3663,4 @@
 3663 Jeu  5 jui 2025 11:26:52 CEST	cleanup Quit - destructor
 3664 Jeu  5 jui 2025 12:43:08 CEST	cleanup Quit - destructor
 3665 Jeu  5 jui 2025 16:45:41 CEST	cleanup Quit render*.pp
+3666 Sam  7 jui 2025 12:13:37 CEST	fix desructor / quit() world/b*pp

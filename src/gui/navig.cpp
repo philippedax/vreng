@@ -217,7 +217,7 @@ void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
 
   if (object) {
     gw.gui.selected_object = object;
-    echo("navig: clic %s", object->objectName());
+    //echo("navig: clic %s", object->objectName());
 
     gw.message.performRequest(object);
     if (b == 1) {		// do the click method on the object
