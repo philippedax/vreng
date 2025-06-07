@@ -321,8 +321,7 @@ bool Book::intersect(Object *pcur, Object *pold)
 }
 
 /** Quits - destructor */
-//Book::~Book()
-void Book::quit()
+Book::~Book()
 {
   if (tex) delete[] tex;
   if (html) delete[] html;

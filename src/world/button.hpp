@@ -58,8 +58,7 @@ class Button: public Object {
   static void funcs();	///< init funlist
 
   Button(char *l);	///< Constructor
-  ~Button() {};		///< Destructor
-  void quit();
+  ~Button() ;		///< Destructor
 
   static Object * (creator)(char *l);
 

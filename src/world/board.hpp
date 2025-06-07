@@ -57,8 +57,7 @@ class Board: public Object {
   static void funcs();	///< init funclist
 
   Board(char *l);	///< Constructor
-  ~Board() {};		///< Destructor
-  void quit();
+  ~Board() ;		///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creates from fileline */
