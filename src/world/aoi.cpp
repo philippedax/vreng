@@ -134,13 +134,11 @@ void Aoi::aoiEnter()
   localuser->updateCamera(pos);
 }
 
-void Aoi::aoiQuit()
-{}
-
 /**
  * Performs actions to be done while leaving an Area of Interest:
  */
-Aoi::~Aoi()
+//Aoi::~Aoi()
+void Aoi::aoiQuit()
 {
   // freeing only mobile object we're responsible for
   for (std::list<Object*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
