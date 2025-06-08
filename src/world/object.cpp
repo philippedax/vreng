@@ -405,16 +405,16 @@ bool Object::isVisible() const
 }
 
 /** Sets a ray - accessor */
-void Object::setRay(GLint wx, GLint wy)
+void Object::ray(GLint wx, GLint wy)
 {
-  if (solid) solid->setRay(wx, wy);
+  if (solid) solid->ray(wx, wy);
 }
 
 /** Resets a ray - accessor */
-void Object::resetRay()
+void Object::killRay()
 {
   if (! isValid()) return;
-  if (solid) solid->resetRay();
+  if (solid) solid->killRay();
 }
 
 /** Sets reflexive - accessor */
@@ -499,9 +499,9 @@ void Object::setFlashy()
 }
 
 /** Reset flashy - accessor */
-void Object::resetFlashy()
+void Object::stopFlashy()
 {
-  if (solid) solid->resetFlashy();
+  if (solid) solid->stopFlashy();
 }
 
 ////////////////

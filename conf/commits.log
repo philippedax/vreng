@@ -3665,3 +3665,4 @@
 3665 Jeu  5 jui 2025 16:45:41 CEST	cleanup Quit render*.pp
 3666 Sam  7 jui 2025 12:13:37 CEST	fix desructor / quit() world/b*pp
 3667 Sam  7 jui 2025 12:19:27 CEST	cleanup navig: clic navig.cpp
+3668 Sam  7 jui 2025 18:43:22 CEST	fix destructor/quit world/b*pp

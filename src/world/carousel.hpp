@@ -75,7 +75,7 @@ class Carousel: public Object {
   static void pause(Carousel *po, void *d, time_t s, time_t u);
   static void stop(Carousel *po, void *d, time_t s, time_t u);
   static void setFlashy(Carousel *po, void *d, time_t s, time_t u);
-  static void resetFlashy(Carousel *po, void *d, time_t s, time_t u);
+  static void stopFlashy(Carousel *po, void *d, time_t s, time_t u);
 };
 
 #endif

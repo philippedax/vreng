@@ -273,16 +273,16 @@ static const uint8_t FRAME_MAX;		// 255
   void setFrame(uint8_t frame);
   /**< Changes the "frame" of the solid (ie its geometry). */
 
-  void setRay(GLint x, GLint y);
+  void ray(GLint x, GLint y);
   /**< Makes a ray between user'eyes and the center of the object. */
 
-  void resetRay();
+  void killRay();
   /**< Resets ray. */
 
   void setFlashy(const GLfloat *_flashcol);
   /**< Sets the solid edges flashy with this color. */
 
-  void resetFlashy();
+  void stopFlashy();
   /**< Resets the solid edges flashy. */
 
   GLint getDlist() const;

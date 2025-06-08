@@ -299,7 +299,7 @@ class X3d {
 
   void setFlashy();
   /**< Sets flashy the X3d object */
-  void resetFlashy();
+  void stopFlashy();
 
   static bool isEqual(const char*, const char*);
   /**< case insensitive equality betwen strings */

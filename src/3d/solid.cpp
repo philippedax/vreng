@@ -1275,7 +1275,7 @@ void Solid::setReflexive(bool flag)
  *         v			  |
  *         y			  +--> x
  */
-void Solid::setRay(GLint wx, GLint wy)
+void Solid::ray(GLint wx, GLint wy)
 {
   if (! localuser) return;
 
@@ -1296,7 +1296,7 @@ void Solid::setRay(GLint wx, GLint wy)
   localuser->netop->declareDelta(User::PROPRAY);  // publish ray property to network
 }
 
-void Solid::resetRay()
+void Solid::killRay()
 {
   if (ray_dlist) {
     ray_dlist = 0;
@@ -1320,7 +1320,7 @@ void Solid::setFlashy(const GLfloat *color)
   }
 }
 
-void Solid::resetFlashy()
+void Solid::stopFlashy()
 {
   flashy = false;
 }

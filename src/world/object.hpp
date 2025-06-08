@@ -709,11 +709,11 @@ class Object {
   void setFlashy();
   /**< Sets flashy the 3D object. */
 
-  void resetFlashy();
+  void stopFlashy();
   /**< Resets flashy the 3D object. */
 
-  void setRay(GLint wx, GLint wy);
-  void resetRay();
+  void ray(GLint wx, GLint wy);
+  void killRay();
   /**< Resets Ray on the 3D object. */
 
   void setReflexive(bool flag);

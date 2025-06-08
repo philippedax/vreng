@@ -200,7 +200,7 @@ class Widgets : public ubit::UFrame {
   void modelerCB(bool on);
   void markCB();
   void newObjectCB();
-  void setRayDirection(int x, int y);
+  void rayDir(int x, int y);
 };
 
 

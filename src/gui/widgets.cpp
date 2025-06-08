@@ -505,10 +505,10 @@ Object* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 }
 
 /** Launches a ray */
-void Widgets::setRayDirection(int x, int y)
+void Widgets::rayDir(int x, int y)
 {
   if (localuser) {
-    localuser->setRayDirection(x, y);	// play the ray
+    localuser->rayDir(x, y);	// play the ray
   }
 }
 

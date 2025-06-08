@@ -119,10 +119,10 @@ void Navig::mouseReleaseCB(UMouseEvent& mev)
     gw.gui.vnc->mouseEvent(int(mev.getX()), int(mev.getY()), 0);
   }
   else if (gw.gui.selected_object) {
-    gw.gui.selected_object->resetRay();
+    gw.gui.selected_object->killRay();
   }
   if (localuser) {
-    localuser->resetRay();	//stop showing direction
+    localuser->killRay();	//stop showing direction
   }
   opened_menu = null;
 }
@@ -131,12 +131,12 @@ void Navig::mouseReleaseCB(UMouseEvent& mev)
 void Navig::mouseDragCB(UMouseEvent& mev)
 {
   if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
-    gw.gui.selected_object->resetFlashy();	// stop flashing edges
-    gw.gui.selected_object->resetRay();
+    gw.gui.selected_object->stopFlashy();	// stop flashing edges
+    gw.gui.selected_object->killRay();
   }
   else {
     if (localuser) {
-      localuser->resetRay();	// stop showing direction
+      localuser->killRay();	// stop showing direction
     }
   }
 }
@@ -155,8 +155,8 @@ void Navig::mouseMoveCB(UMouseEvent& mev)
   }
 #endif //expensive followMouse
   if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
-    gw.gui.selected_object->resetFlashy();	// stop flashing edges
-    gw.gui.selected_object->resetRay();
+    gw.gui.selected_object->stopFlashy();	// stop flashing edges
+    gw.gui.selected_object->killRay();
   }
 }
 
@@ -205,8 +205,8 @@ void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
   // desactivate previous object
   Object* prev_object = gw.gui.getSelectedObject();
   if (prev_object) {
-    prev_object->resetFlashy();
-    prev_object->resetRay();
+    prev_object->stopFlashy();
+    prev_object->killRay();
   }
   //Sound::playSound(CLICKSND);
 
@@ -233,11 +233,11 @@ void Navig::pressB1orB3(UMouseEvent& ev, int x, int y, int b)
       navig_menu.open(ev);	// show(e, 0, 0); TRASH !!!
       opened_menu = navig_menu;
       object->setFlashy();	// flashes the edges of the object
-      object->setRay(x, y);	// launches stipple ray on the object
+      object->ray(x, y);	// launches stipple ray on the object
     }
   }
   else {			// no object!
-    gw.setRayDirection(x, y);	// launches ray on x,y screen coord
+    gw.rayDir(x, y);		// launches ray on x,y screen coord
   }
 }
 
@@ -248,13 +248,13 @@ void Navig::pressB2(int x, int y)
   Object* object = gw.pointedObject(x, y, objinfo, depthsel);
   if (object) {
     gw.gui.selected_object = object;
-    object->resetFlashy();
+    object->stopFlashy();
     object->setFlashy();	// flashes edges of the solid
-    object->setRay(x, y);	// launches stipple ray on the object
+    object->ray(x, y);		// launches stipple ray on the object
     selectObject(objinfo);
   }  
   else {			// no object!
-    gw.setRayDirection(x, y);	// launches ray on x,y screen coord
+    gw.rayDir(x, y);		// launches ray on x,y screen coord
   }
 }
 

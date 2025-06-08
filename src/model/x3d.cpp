@@ -732,7 +732,7 @@ void X3d::setFlashy()
   flashy = true;
 }
 
-void X3d::resetFlashy()
+void X3d::stopFlashy()
 {
   flashy = false;
 }

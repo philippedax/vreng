@@ -160,7 +160,7 @@ void Cart::leave(Object *o)
 
   if (number) number--;
   if (! number) ::g.gui.showCartDialog(false);	// switch-off cartDialog
-  o->resetFlashy();
+  o->stopFlashy();
 }
 
 /**

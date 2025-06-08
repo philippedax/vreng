@@ -414,7 +414,7 @@ void Icon::push(Icon *icon, void *d, time_t s, time_t u)
 void Icon::pull(Icon *icon, void *d, time_t s, time_t u)
 {
   if (! icon->taken) {
-    icon->resetFlashy();
+    icon->stopFlashy();
     clearV3(icon->move.lspeed);
     clearV3(icon->move.aspeed);
     icon->move.lspeed.v[0] = -icon->lspeed * cos(localuser->pos.az);
@@ -430,7 +430,7 @@ void Icon::pull(Icon *icon, void *d, time_t s, time_t u)
 void Icon::carry(Icon *icon, void *d, time_t s, time_t u)
 {
   if (! icon->taken) {
-    icon->resetFlashy();
+    icon->stopFlashy();
     icon->ttl = MAXFLOAT;
     icon->imposedMovement(icon->ttl);
     icon->stopPermanent();

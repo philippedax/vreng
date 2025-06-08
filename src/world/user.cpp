@@ -665,7 +665,7 @@ bool User::intersect(Object *pcur, Object *pold)
 }
 
 /** Sends a ray */
-void User::setRayDirection(GLint wx, GLint wy)
+void User::rayDir(GLint wx, GLint wy)
 {
   const GLfloat *white = Color::white;
 

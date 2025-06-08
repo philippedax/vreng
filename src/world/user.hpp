@@ -198,7 +198,7 @@ class User: public Object {
   void userMovements(time_t sec, time_t usec);
   /**< User general motion. */
 
-  void setRayDirection(GLint x, GLint y);
+  void rayDir(GLint x, GLint y);
   /**< Lanche a ray in thar direction. */
 
   void specialAction(int act_id, void *data, time_t sec, time_t usec);

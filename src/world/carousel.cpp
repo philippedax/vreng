@@ -131,9 +131,9 @@ void Carousel::setFlashy(Carousel *carousel, void *d, time_t s, time_t u)
   carousel->x3d->setFlashy();
 }
 
-void Carousel::resetFlashy(Carousel *carousel, void *d, time_t s, time_t u)
+void Carousel::stopFlashy(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  carousel->x3d->resetFlashy();
+  carousel->x3d->stopFlashy();
 }
 
 void Carousel::funcs()
@@ -142,5 +142,5 @@ void Carousel::funcs()
   setActionFunc(CAROUSEL_TYPE, 1, _Action pause, "Pause");
   setActionFunc(CAROUSEL_TYPE, 2, _Action stop, "Stop");
   setActionFunc(CAROUSEL_TYPE, 3, _Action setFlashy, "Flash");
-  setActionFunc(CAROUSEL_TYPE, 4, _Action resetFlashy, "Reset");
+  setActionFunc(CAROUSEL_TYPE, 4, _Action stopFlashy, "Reset");
 }
