@@ -3667,3 +3667,4 @@
 3667 Sam  7 jui 2025 12:19:27 CEST	cleanup navig: clic navig.cpp
 3668 Sam  7 jui 2025 18:43:22 CEST	fix destructor/quit world/b*pp
 3669 Dim  8 jui 2025 12:07:28 CEST	renmame setRay to ray() navig.*pp
+3670 Dim  8 jui 2025 12:19:10 CEST	destructor aoi.*pp

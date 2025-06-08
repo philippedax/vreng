@@ -99,8 +99,8 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
 {
   defaults();
   face = _face;
-  text = strdup(_text);
-  //text = new char[128];
+  text = new char[128];
+  strcpy(text, _text);
   setPosition();
   geometry();
   behaviors();
@@ -161,8 +161,7 @@ void Bubble::quit()
     delete[] bubtext;
   }
   if (text) {
-    //delete[] text;
-    free(text);
+    delete[] text;
   }
 }
 
