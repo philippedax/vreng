@@ -49,12 +49,6 @@ void Texture::init()
   initMutex(tex_pmutex);
 }
 
-/** Texture terminaison */
-void Texture::quit()
-{
-  if (default_img) delete default_img;
-}
-
 /** Updates textures - called by render() */
 void Texture::update()
 {
@@ -190,9 +184,10 @@ Texture::Texture(const char *_url)
   new_texture++;
 }
 
-/** Destructor */
+/** Quit - Destructor */
 Texture::~Texture()
 {
+  if (default_img) delete default_img;
   del_texture++;
 }
 
@@ -262,7 +257,6 @@ GLuint Texture::getIdByUrl(const char *url)
   }
   return 0;
 }
-
 /** Gets texture-id by its object */
 GLuint Texture::getIdByObject(Object *wo)
 {
@@ -272,13 +266,4 @@ GLuint Texture::getIdByObject(Object *wo)
     }
   }
   return 0;
-}
-
-/** Lists textures - debug */
-void Texture::listTextures()
-{
-  for (std::list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
-    echo("%d %s", (*it)->tex_id, (*it)->url);
-  }
-  return;
 }

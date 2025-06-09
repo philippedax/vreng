@@ -49,11 +49,8 @@ class Texture {
   class Object *object;	///< object referant
   char *url;		///< url where is the texture
 
-  Texture(const char *url);
-  /**< Constructor. */
-
-  virtual ~Texture();
-  /**< Destructor. */
+  Texture(const char *url);	///< Constructor
+  ~Texture();			///< Destructor
 
   static void selectLoader(void *_tex, Http *_http);
   /**< Selects a texture loader. */
@@ -78,9 +75,6 @@ class Texture {
 
   void quit();
   /**< Close the texture cache. */
-
-  void listTextures();
-  /**< List textureList. */
 
   static GLuint getIdByObject(class Object *wo);
   /**< Gets a texture id by its object. */
