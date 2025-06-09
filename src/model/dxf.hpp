@@ -358,7 +358,7 @@ class Dxf {
 
  public:
   Dxf(const char *url);
-  virtual ~Dxf();
+  ~Dxf();
 
   void setScale(float scale);
   /**< Sets the scale */

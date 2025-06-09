@@ -54,8 +54,7 @@ class Universe {
   uint8_t worldcnt;	///< world counter
 
   Universe();		///< Constructor
-
-  virtual ~Universe();	///< Destructor
+  ~Universe();		///< Destructor
 
   static Universe * current();	///< pointer
 

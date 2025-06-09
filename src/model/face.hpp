@@ -71,7 +71,7 @@ class Face {
  public:
   Face();			///< Constructor
   Face(const char *urlindex);	///< Constructor
-  virtual ~Face();		///< Destructor
+  ~Face();			///< Destructor
 
   void render();
   /**< Render the face */

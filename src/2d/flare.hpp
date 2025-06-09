@@ -57,7 +57,7 @@ class Flare {
   Flare();		///< constructor
   Flare(uint8_t number, float _scale, GLfloat *color);
 
-  virtual ~Flare();	///< destructor
+  ~Flare();		///< destructor
 
   void setNumber(uint8_t number);
   /**< Sets number of flares */

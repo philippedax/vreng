@@ -110,8 +110,7 @@ template <class BoneElem> class BoneNode {
    * du noeud passe en parametre
    */
 
-  virtual ~BoneNode() {}
-  ///< destructor
+  ~BoneNode() {}	///< destructor
 
   // Methodes de remplissage des champs d'un noeud
   void setPrev(BoneNode *prev) { prevNode = prev; }
@@ -202,7 +201,7 @@ template <class BoneElem> class BoneList {
   }
   ///< Constructeur par defaut. Il initialise la liste comme une liste vide
 
-  virtual ~BoneList() { empty(); }
+  ~BoneList() { empty(); }
   ///< Le destructeur vide la liste de son contenu
 
   // Vidage de la liste enleve les noeuds un par un et efface le tableau compile
@@ -364,7 +363,7 @@ class Bonename {
   Bonename(Bonename *op);
   Bonename(Bonename &op);
 
-  virtual ~Bonename();
+  ~Bonename();
 
   void setName(char *Name);
 
@@ -428,7 +427,7 @@ class BoneVertex : public Bonename {
   BoneVertex();
   BoneVertex(Vect3D &position, float angle, Vect3D &axis);
   BoneVertex(Vect3D *position, float angle, Vect3D *axis);
-  virtual ~BoneVertex();
+  ~BoneVertex();
 
   // Accessing initial position datas
   void setIniPos(Vect3D &position);
@@ -508,7 +507,7 @@ class Vertex {
   Vertex(Vect3D &position);
   Vertex(Vect3D *position);
   Vertex(float ox, float oy, float oz);
-  virtual ~Vertex() {}
+  ~Vertex() {}
 
   // Acces aux champs
   void setPos(Vect3D &position);
@@ -539,7 +538,7 @@ class BoneLink {
   BoneLink(Vertex *Vertex, BoneVertex *BoneVertex, float weight);
   /**< Constructor. */
 
-  virtual ~BoneLink();
+  ~BoneLink();
   /**< Destructor. */
 
   void setVertex(Vertex *Vertex);
@@ -567,7 +566,7 @@ class BoneTriangle {
   // Construct / destruct
   BoneTriangle();
 
-  virtual ~BoneTriangle();
+  ~BoneTriangle();
 
   // Accessing datas
   void addVertex(Vertex *vertex, int index, float u, float v);
@@ -603,7 +602,7 @@ class BoneMesh : public Bonename {
 
   // Constructeurs / destructeur
   BoneMesh();
-  virtual ~BoneMesh();
+  ~BoneMesh();
 
   // Actions sur les champs
   void addVertex(Vect3D & position);
@@ -654,7 +653,7 @@ class Bone {
   int compiled;
 
   Bone();		///< Constructor
-  virtual ~Bone();	///< Destructor
+  ~Bone();		///< Destructor
 
   // Accessing datas
   void registerMesh(BoneMesh *mesh);

@@ -45,7 +45,7 @@ class Vac {
 
  public:
   Vac();		///< Constructor
-  virtual ~Vac() {};	///< Destructor
+  ~Vac() {};		///< Destructor
 
   bool getList();
   /**< Gets the whole cache and put it into an internal list */

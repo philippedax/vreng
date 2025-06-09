@@ -110,7 +110,7 @@ class Md2 {
   int32_t skinheight;	///< skin height
 
   Md2(const char *url);	///< Constructor
-  virtual ~Md2();	///< Destructor
+  ~Md2();		///< Destructor
 
   int32_t displaylist(int frame, int texture);
   /**< Get display-lists from Md2 model */

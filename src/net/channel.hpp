@@ -102,8 +102,8 @@ class Channel {
     WORLD_MODE
   };
 
-  Channel();		/**< Constructor */
-  virtual ~Channel();	/**< Destructor */
+  Channel();	///< Constructor
+  ~Channel();	///< Destructor
 
   static void init();
   /**< Network Initialization */

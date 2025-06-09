@@ -37,8 +37,8 @@ class Car {
   void cylindre(GLfloat height, GLfloat radius, int precision);
 
  public:
-  Car() {};		/**< constructor */
-  virtual ~Car() {};	/**< destructor */
+  Car() {};		///< constructor
+  ~Car() {};		///< destructor
 
   void draw(GLfloat width, GLfloat depth, GLfloat height, const int tex[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
   /**< Draws a car */

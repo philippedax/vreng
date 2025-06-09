@@ -41,8 +41,8 @@ class V3d {
  public:
   static const float SCALE;
 
-  V3d();			///< Constructor
-  virtual ~V3d() {};		///< Destructor
+  V3d();		///< Constructor
+  ~V3d() {};		///< Destructor
 
   static void readV3D(BoneMesh *result, BoneVertex *skeletonRoot, char *filename, float size = 1.);
 };

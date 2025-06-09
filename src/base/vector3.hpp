@@ -40,8 +40,7 @@ class Vector3 {
   Vector3(float tx, float ty, float tz, float tw) : x(tx), y(ty), z(tz) {}
   ///< Constructors.
 
-  virtual ~Vector3() {}
-  ///< Destructor.
+  virtual ~Vector3() {}	///< Destructor.
 
   //
   // General utility functions.

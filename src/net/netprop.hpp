@@ -37,7 +37,7 @@ class NetProp {
   float max_assume_delay;	///< max in secs
 
   NetProp();			///< Constructor
-  virtual ~NetProp();		///< Destructor
+  ~NetProp();			///< Destructor
 
   void newDate();
   /**<

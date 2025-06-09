@@ -59,7 +59,7 @@ class Vreng {
 
   // methods
   Vreng();		///< constructor.
-  virtual ~Vreng() {}	///< destructor.
+  ~Vreng() {}		///< destructor.
 
   void initCB();	///< init call-back
   static void quit(int st);	///< quits

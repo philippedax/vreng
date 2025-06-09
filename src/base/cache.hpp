@@ -38,7 +38,7 @@ class Cache : public File {
 
  public:
   Cache();
-  virtual ~Cache();
+  ~Cache();
 
   char * getFilename(void *tex);
   ///< Gets file name.

@@ -32,7 +32,7 @@ class File {
   FILE *f;		///< file handle
 
   File();		///< Constructor
-  virtual ~File();	///< Destructor
+  ~File();		///< Destructor
 
   FILE * open(const char *filename, const char *param);
   void close();

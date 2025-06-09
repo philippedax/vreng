@@ -23,6 +23,7 @@
 #ifndef WHEEL_HPP
 #define WHEEL_HPP
 
+
 /**
  * Wheel class
  */

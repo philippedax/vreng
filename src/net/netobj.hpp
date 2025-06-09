@@ -108,8 +108,7 @@ class NetObj {
   NetObj(Object *po, uint8_t nprop, class Noid _noid);
   /**< Constructor for replica */
 
-  virtual ~NetObj();
-  /**< Destructor */
+  ~NetObj();	///< Destructor
 
   void deleteFromList();
   /**<

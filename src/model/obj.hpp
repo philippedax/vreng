@@ -114,8 +114,7 @@ class Obj {
  public:
   Obj(const char *url);			///< Constructor
   Obj(const char *url, int flgpart);	///< Constructor
-
-  virtual ~Obj();	///< Destructor
+  ~Obj();		///< Destructor
 
   void setScale(float scale);
   /**< Sets the scale */

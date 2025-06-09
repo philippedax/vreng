@@ -38,13 +38,10 @@ class Axis {
 
  public:
   Axis();
-  Axis(GLfloat glyph);
-  /**< Constructors */
+  Axis(GLfloat glyph);	///< Constructors
+  ~Axis() {};	///< Destructor
 
-  virtual ~Axis() {};
-  /**< Destructor */
-
-  virtual void render();
+  void render();
   /**< Renders axis */
 
   static Axis * axis();

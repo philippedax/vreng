@@ -69,7 +69,7 @@ class Lwo {
 
  public:
   Lwo(const char *url);	///< constructor.
-  virtual ~Lwo();	///< destructor.
+  ~Lwo();		///< destructor.
 
   void displaylist();
   void render();

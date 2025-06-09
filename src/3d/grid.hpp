@@ -60,13 +60,10 @@ class Grid {
   GLfloat color[4];		///< color
   uint8_t i_width, i_depth, i_height; ///< size increments
 
-  Grid();
-  /**< Constructor. */
+  Grid();	///< Constructor.
+  ~Grid() {};	///< Destructor.
 
-  virtual ~Grid() {};
-  /**< Destructor. */
-
-  virtual void render();
+  void render();
   /**< Renders grid. */
 
   void init(uint16_t depth, uint16_t width, uint16_t height);

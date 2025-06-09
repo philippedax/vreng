@@ -30,7 +30,7 @@
 class Socket {
  public:
   Socket() {};
-  virtual ~Socket() {};
+  ~Socket() {};
 
   static int openDatagram();
   static int openStream();

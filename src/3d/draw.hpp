@@ -29,8 +29,7 @@
  */
 class Draw {
  public:
-
-  /* draw styles */
+  // draw styles
   enum {
     STYLE_FILL,
     STYLE_LINES,

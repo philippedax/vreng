@@ -106,7 +106,7 @@ class Ase {
 
  public:
   Ase(const char *url);		///< Constructor
-  virtual ~Ase();		///< Destructor
+  ~Ase();			///< Destructor
 
   void setScale(float scale);
   /**< Sets the scale */

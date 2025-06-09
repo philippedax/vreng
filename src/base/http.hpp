@@ -94,7 +94,7 @@ class Http {
   // methods
   //
   Http();		///< constructor.
-  virtual ~Http();	///< destructor.
+  ~Http();		///< destructor.
 
   static void init();
   /**< Initializes Http. */

@@ -84,8 +84,7 @@ private:
 #endif
 
   VSql();		///< constructor
-
-  virtual ~VSql() {};	///< destructor
+  ~VSql() {};		///< destructor
 
   static VSql* init();
   /**< initialization */

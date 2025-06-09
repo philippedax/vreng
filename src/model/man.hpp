@@ -34,8 +34,7 @@ class Man {
   Pos pos;		///< position and BB
 
   Man();		///< constructor
-
-  virtual ~Man();	///< destructor
+  ~Man();		///< destructor
 
   GLint displaylist();
   void draw();

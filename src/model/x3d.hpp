@@ -172,7 +172,7 @@ class X3dTimeSensor {
     fraction = 0;
   }
 
-  virtual ~X3dTimeSensor() {}
+  ~X3dTimeSensor() {}
 
   bool initSensor(XMLNode* xmlnode);
   /**< gets the attributes of the sensor */
@@ -251,7 +251,7 @@ class X3dInterpolator {
   bool initTarget(X3dShape* targetShape, X3DINField field);
   /**< adds a target field for the animated values */
 
-  virtual ~X3dInterpolator() {}
+  ~X3dInterpolator() {}
 
   std::string getName() { return name; }
 
@@ -276,7 +276,7 @@ class X3dRoute {
    toField = NOINX3DFIELD;
   }
 
-  virtual ~X3dRoute() {}
+  ~X3dRoute() {}
 
   bool initRoute(XMLNode* xmlnode);
   /**< inits the attributes of the temp Route */
@@ -291,7 +291,7 @@ class X3d {
   bool anim; 			///< is it animated or not ?
 
   X3d(const char *url);		///< Constructor.
-  virtual ~X3d();		///< Destructor.
+  ~X3d();			///< Destructor.
 
   void displayShape(X3dShape* mySHape);
   void render();		///< rendering.

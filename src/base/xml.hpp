@@ -39,7 +39,7 @@
 class Xml {
  public:
   Xml() {};		/**< Constructor */
-  virtual ~Xml();	/**< Destructor */
+  ~Xml();		/**< Destructor */
 
   static void dtdValidation(const char *pathname);
   /**< Checks DTD */

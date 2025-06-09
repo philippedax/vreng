@@ -145,8 +145,7 @@ class _3ds {
 
  public:
   _3ds(const char *url);	///< Constructor
-
-  virtual ~_3ds();		///< Destructor
+  ~_3ds();			///< Destructor
 
   void render(float *color);
   void render(const Pos &pos, float *color);

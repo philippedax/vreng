@@ -33,10 +33,8 @@ class Color {
 
  public:
   Color(const float* _color);
-
   Color(float r, float g, float b, float a);
-
-  virtual ~Color() {};
+  ~Color() {};
 
   operator const GLfloat* const() const {return color;}
 

@@ -49,7 +49,7 @@ class Session {
   class Source	*source;	///< informations on sources
 
   Session();			///< Constructor
-  virtual ~Session();		///< Destructor
+  ~Session();			///< Destructor
 
   uint32_t create(uint32_t group, uint16_t port, uint8_t ttl, uint32_t ssrc);
   /**< creates a new session, called by channel */

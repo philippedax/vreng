@@ -30,7 +30,7 @@
 class Endian {
  public:
   Endian() {};
-  virtual ~Endian() {};
+  ~Endian() {};
 
   // Endians methods
   static bool bigEndian();

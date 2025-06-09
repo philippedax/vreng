@@ -85,7 +85,7 @@ class Avi {
  public:
   Avi();
   Avi(const char *url);
-  virtual ~Avi();
+  ~Avi();
 
   FILE * getFile() const;
   int32_t read_header();

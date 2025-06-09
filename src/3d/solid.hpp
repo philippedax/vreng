@@ -214,7 +214,7 @@ static const uint8_t FRAME_MAX;		// 255
   GLint		ray_dlist;	///< ray display list.
 
   Solid();			///< constructor.
-  virtual ~Solid();		///< destructor.
+  ~Solid();			///< destructor.
 
   const char * getShape(uint16_t tokid);
   /**< Returns token string if token-id matches */

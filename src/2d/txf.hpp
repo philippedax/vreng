@@ -75,7 +75,7 @@ class Txf {
  public:
   Txf(const char *url);	///< constructor
 
-  virtual ~Txf();	///< destructor
+  ~Txf();		///< destructor
 
   static Txf * load(const char *url);
   /**< get Txf from cache or downloading. */
@@ -89,7 +89,7 @@ class Txf {
   void render(const char *string, int len);
   /**< render string. */
 
-  virtual void render(int c);
+  void render(int c);
   /**< render one character. */
 
  private:

@@ -59,8 +59,7 @@ class Img {
   Img(uint16_t width, uint16_t height, uint8_t bpp, int32_t nummipmaps, uint32_t size);
   /**< Constructors. */
 
-  virtual ~Img();
-  /**< Destructor. */
+  ~Img();	///< Destructor.
 
   static Img * init();
   /**< set a default image. */

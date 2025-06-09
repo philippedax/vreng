@@ -39,7 +39,7 @@ class Teapot {
 
  public:
   Teapot();		///< constructor
-  virtual ~Teapot() {}	///< destructor
+  ~Teapot() {}		///< destructor
 
   void draw(GLfloat width, GLfloat depth, GLfloat height, const int textures[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
   /**< Draws a teapot */

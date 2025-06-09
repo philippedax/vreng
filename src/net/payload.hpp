@@ -51,8 +51,8 @@ class Payload {
  public:
   uint16_t len;			///< length
 
-  Payload();		/**< Constructor */
-  virtual ~Payload();	/**< Destructor */
+  Payload();		///< Constructor
+  ~Payload();		///< Destructor
 
   int putPayload(const char *format,...);
   /**<

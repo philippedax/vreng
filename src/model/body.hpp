@@ -49,7 +49,7 @@ class Phalanx2 {
   float length;			///< phalanx length
 
   Phalanx2();			///< constructor
-  virtual ~Phalanx2() {}	///< destructor
+  ~Phalanx2() {}		///< destructor
 
   int init();
   /**< Init Phalanx2 */
@@ -68,7 +68,7 @@ class Phalanx {
   class Phalanx2 *phalanx2;	///< phalanx2 ptr
 
   Phalanx(Phalanx2 *phalanx2);	///< constructor
-  virtual ~Phalanx() {}		///< destructor
+  ~Phalanx() {}			///< destructor
 
   int init();
   /**< Init phalanx */
@@ -91,7 +91,7 @@ class Finger {
   class Phalanx *phalanx;	///< phalanx ptr
 
   Finger(Phalanx *phalanx);	///< constructor
-  virtual ~Finger() {}		///< destructor
+  ~Finger() {}			///< destructor
 
   int init();
   /**< Init finger */
@@ -118,7 +118,7 @@ class Hand {
   class Finger *fingers[5];	///< five fingers
 
   Hand(Finger **finger);	///< constructor
-  virtual ~Hand() {}		///< destructor
+  ~Hand() {}			///< destructor
 
   int init();
   /**< Init hand */
@@ -148,7 +148,7 @@ class Forearm {
   class Hand *hand;		///< hand ptr
 
   Forearm(Hand *hand);		///< constructor
-  virtual ~Forearm() {}		///< destructor
+  ~Forearm() {}			///< destructor
 
   int init();
   /**< Init forearm */
@@ -175,7 +175,7 @@ class Arm {
   class Forearm *forearm;	///< forearm ptr
 
   Arm(Forearm *forearm);	///< constructor
-  virtual ~Arm() {}		///< destructor
+  ~Arm() {}			///< destructor
 
   int init();
   /**< Init arm */
@@ -204,7 +204,7 @@ class Shoulder {
   class Arm *arm;		///< arm ptr
 
   Shoulder(Arm *arm);		///< constructor
-  virtual ~Shoulder() {}	///< destructor
+  ~Shoulder() {}		///< destructor
 
   int init();
   /**< Init shoulder */
@@ -230,7 +230,7 @@ class HeadBody {
   float atorsion;		///< head torsion angle
 
   HeadBody();			///< constructor
-  virtual ~HeadBody() {}	///< destructor
+  ~HeadBody() {}		///< destructor
 
   int init();
   /**< Init head */
@@ -260,7 +260,7 @@ class Neck {
   class HeadBody *head;		///< head ptr
 
   Neck(HeadBody *head);		///< constructor
-  virtual ~Neck() {}		///< destructor
+  ~Neck() {}			///< destructor
 
   int init();
   /**< Init neck */
@@ -289,7 +289,7 @@ class Foot {
   float atorsion;		///< foot torsion angle
 
   Foot();			///< constructor
-  virtual ~Foot() {}		///< destructor
+  ~Foot() {}			///< destructor
 
   int init();
   /**< Init foot */
@@ -318,7 +318,7 @@ class Shin {
   class Foot *foot;		///< foot ptr
 
   Shin(Foot *foot);		///< constructor
-  virtual ~Shin() {}		///< destructor
+  ~Shin() {}			///< destructor
 
   int init();
   /**< Init shin */
@@ -345,7 +345,7 @@ class Thigh {
   class Shin *shin;		///< shin ptr
 
   Thigh(Shin *shin);		///< constructor
-  virtual ~Thigh() {}		///< destructor
+  ~Thigh() {}			///< destructor
 
   int init();
   /**< Init thigh */
@@ -375,7 +375,7 @@ class Chest {
 
   Chest();			///< constructor
   //Chest(Thigh **thighs, Shoulder **shoulders, Neck *neck);
-  virtual ~Chest() {}		///< destructor
+  ~Chest() {}			///< destructor
 
   //int init(class Body *body);
   /**< Init chest */
@@ -531,7 +531,7 @@ class Body {
   Body();
   Body(const char *url);	///< constructor.
 
-  virtual ~Body();		///< destructor.
+  ~Body();			///< destructor.
 
   void init();
   /**< Inits body. */

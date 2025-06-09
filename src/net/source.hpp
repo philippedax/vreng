@@ -43,8 +43,7 @@ class Source {
   SdesItem	sdes;		///< sdes from the source, if we received it
 
   Source(uint32_t ssrc);	/**< Constructor: creates a new source */
-
-  virtual ~Source();		/**< destructor */
+  ~Source();			/**< destructor */
 
   static Source * getSource(uint32_t ssrc);
   static uint16_t getSourceNumber();

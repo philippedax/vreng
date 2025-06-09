@@ -41,7 +41,7 @@ class vector3f {
  public:
   vector3f() { memset(vertex, 0, sizeof(float[3])); }
   vector3f(float x, float y, float z);
-  virtual ~vector3f() {}
+  ~vector3f() {}
 
   float vertex[3];
 
@@ -171,7 +171,7 @@ class movable {
  public:
   movable();
   movable(string name);
-  virtual ~movable() {}
+  ~movable() {}
 
   void init();
 
@@ -216,7 +216,7 @@ class movable {
 class triangleInd {
  public:
   triangleInd() {}
-  virtual ~triangleInd() {}
+  ~triangleInd() {}
 
   int vertIndices[3];   
   vector3f normal;
@@ -241,7 +241,7 @@ class camera: public movable {
   
   // prototype in movable prevents lookMode= from working
   camera(string name, mode lookMode = FREE);
-  virtual ~camera() {}
+  ~camera() {}
 
   void init();
   void move(int pitch,int turn, int roll,float x, float y, float z);
@@ -282,7 +282,7 @@ class camera: public movable {
 class light: public movable {
  public:
   light() {}
-  virtual ~light();
+  ~light();
   light(camera *viewer, int number, float maxFade = 0, float minFade = 0, float scale = 1.0f);
 
   void draw();
@@ -323,7 +323,7 @@ class light: public movable {
 class material {
  public:
   material() {}
-  virtual ~material() {}
+  ~material() {}
 
   material& operator= (const material &mat);
 
@@ -359,7 +359,7 @@ class objloader: public movable {
 
  public:
   objloader(string objFile);
-  virtual ~objloader();
+  ~objloader();
 
   /// Load .obj file
   bool load(string objFile);
@@ -426,7 +426,7 @@ specialized classes for loading and holding rigid body data.
 class rigid: public movable {
  public:
   rigid(const char *url);
-  virtual ~rigid() {}
+  ~rigid() {}
   
   /// Virtual generic draw member, calls makeList
   void draw();
@@ -524,7 +524,7 @@ class Bvh {
   float frameTime;
 
   Bvh(const char *url);
-  virtual ~Bvh() {}
+  ~Bvh() {}
 
   int framesNum;
   char *url;

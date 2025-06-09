@@ -31,8 +31,8 @@ class Env {
  public:
   char vrengsites[PATH_LEN];
 
-  Env();		///< constructor
-  virtual ~Env();	///< destructor
+  Env();	///< constructor
+  ~Env();	///< destructor
   
   const char * home() const;
   const char * cwd() const;

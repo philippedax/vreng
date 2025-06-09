@@ -248,7 +248,7 @@ class Bap {
   uint16_t frames;		///< number of frames
 
   Bap();			///< constructor
-  virtual ~Bap(){};		///< destructor
+  ~Bap(){};			///< destructor
 
   uint8_t getType() const;
   /**< Returns stream type */

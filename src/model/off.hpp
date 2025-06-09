@@ -33,7 +33,7 @@ class Off {
  public:
   Off(float _scale);	///< constructor
   Off(const char *url);	///< constructor
-  virtual ~Off();	///< destructor
+  ~Off();		///< destructor
 
   GLint displaylist();
   /**< Draws model Off into display list*/
