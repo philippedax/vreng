@@ -125,7 +125,7 @@ class VjcSocket {
    * The sockets aren't actually opened. The addresses are initialized.
    */
 
-  virtual ~VjcSocket();
+  ~VjcSocket();
   /**<
    * Closes and frees a VjcSocket.
    * The handle is invalidated by this call.

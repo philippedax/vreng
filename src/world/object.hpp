@@ -226,11 +226,8 @@ class Object {
   // Methods
   //
 
-  Object();
-  /**< Constructor. */
-
-  virtual ~Object();
-  /**< Destructor. */
+  Object();		///< Constructor.
+  virtual ~Object();	///< Destructor.
 
   virtual const OClass* getOClass()		{ return NULL; }
   /**< Abstract class. */
@@ -561,7 +558,7 @@ class Object {
   void checkVicinity(Object *wo);
   /**< Checks whether vicinity. */
 
-  static Object * byNum(uint16_t num); // to become virtual !
+  static Object * byNum(uint16_t num);
   /**< Gets an object by its num. */
 
   //

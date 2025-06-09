@@ -107,16 +107,16 @@ class Step: public Object {
   static void pause_cb(Step *po, void *d, time_t s, time_t u);
 
  private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses vre line. */
 
-  virtual void defaults();
+  void defaults();
   /**< Default values. */
 
-  virtual void inits();
+  void inits();
   /**< Do initialization. */
 
-  virtual void build();
+  void build();
   /**< Builds stair or escalator structure. */
 
   void setName(const char *typname);

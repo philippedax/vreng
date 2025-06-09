@@ -33,7 +33,7 @@ class OList {
   class OList *next;	///< next.
 
   OList();		///< constructor.
-  virtual ~OList();	///< destructor.
+  ~OList();		///< destructor.
 
   void removeObject();
   /**< Frees an object list. */

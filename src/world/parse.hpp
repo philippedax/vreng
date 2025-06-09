@@ -102,11 +102,8 @@ class Parse {
   uint32_t numline;	///< line number
   char tag[TAG_LEN];	///< tag
 
-  Parse();
-  /**< Constructor */
-
-  virtual ~Parse();
-  /**< Destructor */
+  Parse();	///< Constructor
+  ~Parse();	///< Destructor
 
   static Parse * getParse();
   /**< Gets the parse instance */
