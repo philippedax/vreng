@@ -364,25 +364,18 @@ void Channel::deleteFromList()
   channelList.remove(this);
 }
 
-/** Quits a channel */
-void Channel::quit()
+/** Channel Destructor */
+Channel::~Channel()
 {
+  del_channel++;
   // respect this order!
   if (this != managerChannel) {
     sendBYE();
-
     if (session) delete session;	// delete Session
     session = NULL;
     closeMcast();
     deleteFromList();
   }
-}
-
-/** Channel Destructor */
-Channel::~Channel()
-{
-  del_channel++;
-  quit();
   ::g.gui.removeChannelSources(WORLD_MODE);
 
   for (int i=0; i < cntfds && cntchan > 0; i++) { // debugged by efence

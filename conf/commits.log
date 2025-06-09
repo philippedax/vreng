@@ -3668,3 +3668,4 @@
 3668 Sam  7 jui 2025 18:43:22 CEST	fix destructor/quit world/b*pp
 3669 Dim  8 jui 2025 12:07:28 CEST	renmame setRay to ray() navig.*pp
 3670 Dim  8 jui 2025 12:19:10 CEST	destructor aoi.*pp
+3671 Dim  8 jui 2025 16:31:44 CEST	cleanup strdup(text) bubble.cpp

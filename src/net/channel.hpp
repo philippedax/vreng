@@ -105,9 +105,6 @@ class Channel {
   Channel();		/**< Constructor */
   virtual ~Channel();	/**< Destructor */
 
-  void quit();
-  /**< Quits a channel */
-
   static void init();
   /**< Network Initialization */
 
