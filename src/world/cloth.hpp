@@ -83,12 +83,12 @@ class Cloth: public Object {
 
   Cloth(char *l);		///< Constructor
   Cloth() {}			///< Constructor for sub-classes
-  ~Cloth();			///< Constructor for sub-classes
+  ~Cloth();			///< Destructor
 
   static Object * (creator)(char *l);
   /**< Creation from a file */
 
-  virtual void permanent(float lasting);
+  void permanent(float lasting);
   /**< movement */
 
  protected:
