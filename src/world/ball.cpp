@@ -368,8 +368,7 @@ void Ball::destroy()
 }
 
 /** Quits - destructor */
-//Ball::~Ball()
-void Ball::quit()
+Ball::~Ball()
 {
   savePersist();
 }
