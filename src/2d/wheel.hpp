@@ -34,13 +34,12 @@ class Wheel {
 
  public:
   Wheel(uint8_t teeth, GLfloat r, const GLfloat *color); ///< constructor.
-  Wheel(); ///< constructor.
-
-  virtual ~Wheel();	///< destructor.
+  Wheel();	///< constructor.
+  ~Wheel();	///< destructor.
 
   static Wheel * current();	///< accessor.
 
-  virtual void render();
+  void render();
   /**< Renders wheel */
 
  private:
