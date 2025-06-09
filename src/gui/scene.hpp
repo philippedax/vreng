@@ -39,6 +39,7 @@ struct GLSection : public ubit::UGraph::Glpaint {
 class Scene : public ubit::UBox {
  public:
   Scene(class Widgets*);	///< constructor.
+  ~Scene() {};			///< destructor.
 
   void getScene(GLint& x, GLint& y, GLsizei& w, GLsizei& h);
   /** Gets scene view */

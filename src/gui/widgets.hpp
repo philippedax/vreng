@@ -69,6 +69,7 @@ class Widgets : public ubit::UFrame {
   static const int GW_ZOOM_SCROLL = 35;
 
   Widgets(class Gui*);	///< constructor.
+  ~Widgets() {};	///< destructor.
 
   class Navig* getNavig() { return &navig; }
 

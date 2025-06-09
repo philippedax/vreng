@@ -3674,3 +3674,4 @@
 3674 Lun  9 jui 2025 11:30:34 CEST	destructor wheel.*pp
 3675 Lun  9 jui 2025 11:44:56 CEST	destructor ball.*pp
 3676 Lun  9 jui 2025 12:02:50 CEST	virtual world/*hpp
+3677 Lun  9 jui 2025 12:54:48 CEST	cleanup virtual destuctor

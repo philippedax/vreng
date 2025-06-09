@@ -30,6 +30,7 @@
 class Palette : public UBox {
  public:
   Palette(UArgs content = UArgs::none);
+  ~Palette() {};
 
   void collapse();
   void expand();

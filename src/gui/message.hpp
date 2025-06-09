@@ -37,6 +37,7 @@ using namespace ubit;
 class Message {
  public:
   Message(class Widgets*);		///< constructor.
+  ~Message() {};			///< destructor.
   
   std::vector<UStr> mess_history;	///< history log
 
@@ -76,7 +77,7 @@ class Message {
 class Message2 {
  public:
   Message2() {}		///< constructor.
-  virtual ~Message2() {}///< destructor.
+  ~Message2() {}	///< destructor.
 
   void putIcon(const UStr& val);
   ///< Puts Icon's infos.

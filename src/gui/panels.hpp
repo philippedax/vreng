@@ -40,6 +40,7 @@ class Panels {
 
  public:
   Panels(class Widgets*, class Scene&);
+  ~Panels() {};
 
   class Palette *pnavig;
   class Palette *pnotif;

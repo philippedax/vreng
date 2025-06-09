@@ -45,8 +45,7 @@ class Motion {
   static Motion o_trans_f, o_trans_b, o_trans_l, o_trans_r, o_trans_d, o_trans_u, o_rot_l_z, o_rot_r_z, o_rot_l_x, o_rot_r_x, o_rot_d_y, o_rot_u_y;	///< object movement
 
   Motion(int minuskey, int pluskey, int fun, float accel);	///< constructor
-
-  virtual ~Motion() {}		///< destructor
+  ~Motion() {};		///< destructor
 
   void move(int mspeed);
   /**< Mouse motion according to mouse speed */

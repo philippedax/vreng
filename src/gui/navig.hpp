@@ -60,6 +60,7 @@ class Navig {
 
  public:
   Navig(Widgets*, class Scene&);	///< constructor
+  ~Navig() {};		///< destructoer
 
   UBox& manipulator();
   

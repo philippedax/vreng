@@ -39,6 +39,7 @@
 class Gui {
  public:
   Gui();	// constructor.
+  ~Gui() {};	// constructor.
  
   void createWidgets();
   void showWidgets(bool = true);

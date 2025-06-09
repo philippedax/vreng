@@ -32,6 +32,7 @@
 class Theme {
  public:
   Theme();
+  ~Theme() {};
   
   void init();
   ///< inits the theme; must be called before using the GUI.
