@@ -299,7 +299,7 @@ int Humanoid::getLine()
 /** System of equations handling permanent motion */
 void Humanoid::permanent(float lasting)
 {
-  static float angle = 0;
+  //notused static float angle = 0;
 
   if (state != PLAYING) return;  // not playing
 
@@ -357,7 +357,7 @@ void Humanoid::permanent(float lasting)
       //body->animFoot(-30, 1, 2);	// foot right torsion ext : NO
       render();
        state = INACTIVE;
-       angle = 0;
+       //notused angle = 0;
       break;
     default:
       break;
