@@ -272,10 +272,10 @@ class Object {
   virtual void lighting()			{}
   /**< Makes special lighting. */
 
-  virtual void click(V3 norm)			{}
-  /**< Intercepts a click. */
+  virtual void quit()				{}
 
-  virtual void quit()				 {}
+  void click(V3 norm)				{}
+  /**< Intercepts a click. */
 
 
   //
