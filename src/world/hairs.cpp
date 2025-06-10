@@ -250,10 +250,8 @@ void Hair::animate(float dt, Vector3 depl)
 
 void Hairs::render()
 {
-  static uint32_t nf = 0;
-
+  //static uint32_t nf = 0;
   glPushMatrix();
-
   glDisable(GL_CULL_FACE);
   glDisable(GL_DEPTH_TEST);
   glCullFace(GL_BACK); // reject fliped faces
@@ -287,7 +285,7 @@ void Hairs::render()
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
   glPopMatrix();
-  nf++;
+  //nf++;
 }
 
 void Hairs::permanent(float dt)
