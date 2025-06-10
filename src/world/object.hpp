@@ -229,9 +229,6 @@ class Object {
   Object();		///< Constructor.
   virtual ~Object();	///< Destructor.
 
-  virtual const OClass* getOClass()		{ return NULL; }
-  /**< Abstract class. */
-
   uint8_t typeId()				{ return getOClass()->type_id; }
   const char* typeName()			{ return getOClass()->type_name; }
 
@@ -242,6 +239,9 @@ class Object {
   //
   // Virtual Methods of Instances of general object handlers
   //
+  virtual const OClass* getOClass()		{ return NULL; }
+  /**< Abstract class. */
+
   virtual bool isMoving()			{ return testMoving(); }
   /**< Checks whether object is moving. */
 
@@ -275,7 +275,7 @@ class Object {
   virtual void click(V3 norm)			{}
   /**< Intercepts a click. */
 
-  virtual void quit() {}
+  virtual void quit()				 {}
 
 
   //
@@ -316,20 +316,6 @@ class Object {
 
   bool runAction(const char *action);
   /**< Runs action everwhere if available. */
-
-#if 0
-  //
-  // keys (see move.cpp)
-  //
-  void clearKeys();
-  /**< Clears keys times array. */
-
-  void updateKeys(time_t sec, time_t usec);
-  /**< Updates the keydifftime arrays. */
-
-  void changePosition(const uint8_t move_type, const float last);
-  /**< Modifies user */
-#endif
 
   //
   // Set, Get, Is
