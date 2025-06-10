@@ -821,13 +821,13 @@ void    GLUI_Main::mouse(int button, int state, int x, int y)
 void    GLUI_Main::motion(int x, int y)
 {
   //dax int           callthrough;
-  GLUI_Control *control;
+  //dax GLUI_Control *control;
 
   /*  printf( "MOTION: %d %d\n", x, y );          */
 
   //dax callthrough = true;
 
-  control = find_control(x,y);
+  //dax control = find_control(x,y);
   
   if ( mouse_button_down AND active_control != NULL ) {
     //dax callthrough = active_control->mouse_held_down_handler(x,y,control==active_control);

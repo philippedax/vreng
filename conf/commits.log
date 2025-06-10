@@ -3678,3 +3678,4 @@
 3678 Lun  9 jui 2025 18:31:27 CEST	cleanup virtual destuctor gui/*hpp
 3679 Lun  9 jui 2025 18:36:13 CEST	cleanup virtual destuctor cloth.hpp
 3680 Mar 10 jui 2025 09:19:30 CEST	cleanup virtual object.hpp
+3681 Mar 10 jui 2025 16:38:16 CEST	cleanup nf hairs.cpp
