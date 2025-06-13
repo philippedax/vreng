@@ -72,14 +72,13 @@ void Session::buildRtpHeader(rtp_hdr_t *rtp_hdr, uint32_t _ssrc)
   gettimeofday(&ts, NULL);
   rtp_hdr->ts = htonl(ts.tv_sec*1000 + ts.tv_usec/1000);
   rtp_hdr->ssrc = htonl(_ssrc);
-
 #ifdef DEBUG
   echo("RTP: %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x", hdr[0], hdr[1], hdr[2], hdr[3], hdr[4], hdr[5], hdr[6], hdr[7], hdr[8], hdr[9], hdr[10], hdr[11]);
 #endif
 }
 
 /**
- * creates a new Session
+ * Creates a new Session
  */
 Session::Session()
 {
@@ -119,7 +118,7 @@ void Session::clearList()
 
 void Session::incrSources()
 {
-  nbsources = Source::incrSourceNumber();
+  nbsources = Source::incrNumber();
 }
 
 /**
@@ -146,7 +145,7 @@ uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint
   // alloc Source
   source = new Source(ssrc);
 
-  nbsources = source->incrSourceNumber();
+  nbsources = source->incrNumber();
   //echo("Session: nbsources=%d", nbsources);
   Rtp::initSource(&source->s, rtp_seq);
   createMySdes();
@@ -175,7 +174,7 @@ void Session::deleteSource(uint32_t _ssrc)
         }
       }
       setLostPackets(pso->lost);
-      nbsources = Source::decrSourceNumber();
+      nbsources = Source::decrNumber();
       delete pso;		// delete Source
       pso = NULL;
       break;
@@ -423,19 +422,6 @@ int Session::sendSRSDES(const struct sockaddr_in *to)
   int r = Rtp::sendPacket(sd, pkt, pkt_len, sin_rtcp);
   statSendRTCP(pkt_len);
   return r;
-}
-
-void Session::dump()
-{
-  echo("group/port/ttl=%x/%x/%x", group, rtp_port, ttl);
-
-  SdesItem *sitem;
-  int i;
-  for (i=0, sitem = mysdes; sitem ; sitem = sitem->si_next, i++) {
-    if (sitem->si_type > RTCP_SDES_END && sitem->si_type <= RTCP_SDES_SOURCE && sitem->si_len > 0 && sitem->si_len < 128 && sitem->si_str)
-      echo("  sdes[%d]=%s", i, sitem->si_str);
-  }
-  fflush(stderr);
 }
 
 void Session::stat()

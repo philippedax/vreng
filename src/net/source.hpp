@@ -42,13 +42,13 @@ class Source {
   rtcp_rr_t	rr;		///< receiver report
   SdesItem	sdes;		///< sdes from the source, if we received it
 
-  Source(uint32_t ssrc);	/**< Constructor: creates a new source */
-  ~Source();			/**< destructor */
+  Source(uint32_t ssrc);	///< Constructor: creates a new source
+  ~Source();			///< destructor
 
   static Source * getSource(uint32_t ssrc);
-  static uint16_t getSourceNumber();
-  static uint16_t incrSourceNumber();
-  static uint16_t decrSourceNumber();
+  static uint16_t getNumber();
+  static uint16_t incrNumber();
+  static uint16_t decrNumber();
 };
 
 #endif

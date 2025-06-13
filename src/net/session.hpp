@@ -94,8 +94,6 @@ class Session {
 
   void createMySdes();
   void deleteMySdes();
-
-  void dump();
 };
 
 #endif

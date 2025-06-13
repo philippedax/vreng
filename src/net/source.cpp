@@ -92,17 +92,17 @@ Source::~Source()
   del_source++;
 }
 
-uint16_t Source::getSourceNumber()
+uint16_t Source::getNumber()
 {
   return sourceCounter;
 }
 
-uint16_t Source::incrSourceNumber()
+uint16_t Source::incrNumber()
 {
   return ++sourceCounter;
 }
 
-uint16_t Source::decrSourceNumber()
+uint16_t Source::decrNumber()
 {
   return --sourceCounter;
 }
