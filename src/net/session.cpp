@@ -153,20 +153,6 @@ uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint
   return ssrc;
 }
 
-/** Deletes session */
-void Session::deleteSession(uint32_t _ssrc)
-{
-  //dax CHECK_SESSION_LIST
-  for (Session *pse = sessionList; pse; pse = pse->next) {
-    for (Source *pso = pse->source; pso; pso = pso->next) {
-      if (pso->ssrc == _ssrc) {
-        pse->deleteSource(_ssrc);
-        return;
-      }
-    }
-  }
-}
-
 /** Deletes source */
 void Session::deleteSource(uint32_t _ssrc)
 {
@@ -175,12 +161,11 @@ void Session::deleteSource(uint32_t _ssrc)
 
   for (psolast = pso = source; pso && (i < nbsources); pso = pso->next, i++) {
     if (pso->ssrc == _ssrc) {
-      if (! psolast) {	// no source found
+      if (! psolast) {		// no source found
         source = NULL;
       }
       else {
-        // MS : this is a NOOP if pso == source
-        // Bad things happen after that
+        // MS : this is a NOOP if pso == source, bad things happen after that
         // psolast->next = pso->next;
         if (pso == source) {
           source = pso->next;
@@ -205,7 +190,15 @@ void Session::deleteSource(uint32_t _ssrc)
 Session::~Session()
 {
   del_session++;
-  freeMySdes();
+  for (Session *pse = sessionList; pse; pse = pse->next) {
+    for (Source *pso = pse->source; pso; pso = pso->next) {
+      if (pso->ssrc == ssrc) {
+        pse->deleteSource(ssrc);
+        return;
+      }
+    }
+  }
+  deleteMySdes();
   deleteSource(NetObj::getSsrc());
 }
 
@@ -249,7 +242,6 @@ void Session::createMySdes()
     sloc->si_len = strlen(MANAGER_NAME);
     sloc->si_str = (uint8_t *) MANAGER_NAME;
   }
-
   if (! (stool = Rtp::allocSdesItem())) return;
   sloc->si_next = stool;
   stool->si_type = RTCP_SDES_TOOL;
@@ -280,7 +272,7 @@ void Session::refreshMySdes()
   }
 }
 
-void Session::freeMySdes()
+void Session::deleteMySdes()
 {
   SdesItem *sitem, *tmp;
   for (sitem = mysdes; sitem; ) {
@@ -332,7 +324,6 @@ int Session::buildSDES(rtcp_common_t *prtcp_hdr, uint8_t* pkt)
   int len = 0;
   uint8_t items[PKTSIZE-sizeof(rtcp_sr_t)-sizeof(rtcp_common_t)-sizeof(ssrc)];
   SdesItem *pchunk;
-
   buildRTCPcommon(prtcp_hdr, RTCP_SDES);
   memset(items, 0, sizeof(items));
   prtcp_hdr->count = 1; // Only one SDES with multiple chunks
@@ -345,7 +336,6 @@ int Session::buildSDES(rtcp_common_t *prtcp_hdr, uint8_t* pkt)
     xitem += pchunk->si_len;
   }
   items[xitem++] = RTCP_SDES_END; // end of chunks is indicated by a zero
-
   while (xitem % 4) {	// Pad to 4 bytes word boundary and store zeros there
     items[xitem++] = 0;
   }
@@ -418,12 +408,10 @@ int Session::sendSRSDES(const struct sockaddr_in *to)
   rtcp_common_t rtcp_hdr;
   struct sockaddr_in *sin_rtcp;
   uint8_t pkt[PKTSIZE];
-
   int len = buildSR(&rtcp_hdr, pkt);
   pkt_len += len;
   len = buildSDES(&rtcp_hdr, pkt+len);
   pkt_len += len;
-
   if (! (sin_rtcp = Channel::getSaRTCP(to))) {
     error("sendSRSDES: sin_rtcp NULL");
     return -1;
@@ -448,13 +436,6 @@ void Session::dump()
       echo("  sdes[%d]=%s", i, sitem->si_str);
   }
   fflush(stderr);
-}
-
-void Session::dumpAll()
-{
-  for (Session *pse = sessionList; pse ; pse = pse->next) {
-    pse->dump();
-  }
 }
 
 void Session::stat()

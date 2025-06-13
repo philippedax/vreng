@@ -93,10 +93,9 @@ class Session {
    */
 
   void createMySdes();
-  void freeMySdes();
+  void deleteMySdes();
+
   void dump();
-  static void deleteSession(uint32_t ssrc);
-  static void dumpAll();
 };
 
 #endif

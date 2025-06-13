@@ -3681,3 +3681,4 @@
 3681 Mar 10 jui 2025 16:38:16 CEST	cleanup nf hairs.cpp
 3682 Mar 10 jui 2025 16:49:16 CEST	cleanup glui control not used glui.cpp
 3683 Mar 10 jui 2025 16:52:15 CEST	cleanup angle not used humanoid.cpp
+3684 Mar 10 jui 2025 17:04:52 CEST	cleanup virtual click object.hpp
