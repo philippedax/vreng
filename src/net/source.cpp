@@ -90,7 +90,6 @@ Source * Source::getSource(uint32_t _ssrc)
 Source::~Source()
 {
   del_source++;
-/*
   Source *pso;
   int i = 0;
 
@@ -102,7 +101,6 @@ Source::~Source()
     pso = NULL;
     break;
   }
-*/
 }
 
 uint16_t Source::getNumber()
