@@ -90,6 +90,19 @@ Source * Source::getSource(uint32_t _ssrc)
 Source::~Source()
 {
   del_source++;
+/*
+  Source *pso;
+  int i = 0;
+
+  for (pso = getSource(ssrc); pso && (i<getNumber()); pso = pso->next, i++) {
+    //psolast->next = pso->next;
+    setLostPackets(pso->lost);
+    //nbsources = Source::decrNumber();
+    delete pso;               // delete Source
+    pso = NULL;
+    break;
+  }
+*/
 }
 
 uint16_t Source::getNumber()

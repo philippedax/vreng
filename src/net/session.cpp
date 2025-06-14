@@ -153,25 +153,16 @@ uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint
 }
 
 /** Deletes source */
-void Session::deleteSource(uint32_t _ssrc)
+void Session::deleteSource(uint32_t ssrc)
 {
-  Source *pso, *psolast;
+  Source *pso;
   int i = 0;
 
-  for (psolast = pso = source; pso && (i < nbsources); pso = pso->next, i++) {
-    if (pso->ssrc == _ssrc) {
-      if (! psolast) {		// no source found
-        source = NULL;
-      }
-      else {
-        // MS : this is a NOOP if pso == source, bad things happen after that
-        // psolast->next = pso->next;
-        if (pso == source) {
-          source = pso->next;
-        }
-        else {
-          psolast->next = pso->next;
-        }
+  for (pso = source = Source::getSource(ssrc); pso && (i<nbsources); pso = pso->next, i++) {
+    if (pso->ssrc == ssrc) {
+      // MS : this is a NOOP if pso == source, bad things happen after that
+      if (pso == source) {
+        source = pso->next;
       }
       setLostPackets(pso->lost);
       nbsources = Source::decrNumber();
@@ -179,7 +170,6 @@ void Session::deleteSource(uint32_t _ssrc)
       pso = NULL;
       break;
     }
-    psolast = pso;
   }
 }
 
