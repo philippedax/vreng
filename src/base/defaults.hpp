@@ -77,14 +77,17 @@
 #endif //DEF_URL_PFX
 
 /** these paths are relative to the data/ (htdocs) directory */
-#define DEF_URL_WORLD     "/vre/Rendezvous.vre"		// location: /vre/Rendezvous.vre
-#define DEF_URL_WORLD_BAK "/vre/v8/Rendezvous.vre"	// alt location: /vre/v8/Rendezvous.vre
-#define DEF_URL_WORLDS    "/vre/worlds"			// list of worlds
+#define DEF_URL_WORLD	"/vre/Rendezvous.vre"	// location: /vre/Rendezvous.vre
+#define DEF_URL_ORIGIN	"/vre/origin.vre"	// location: /vre/origin.vre
+#define DEF_URL_SANDBOX	"/vre/sandbox.vre"	// location: /vre/sandbox.vre
+#define DEF_URL_WORLDS	"/vre/worlds"		// list of worlds
 
 /** default IPmulticast addresses & ports */
 #define DEF_VRENG_MADDR		"224.255.0.0"
 #define DEF_VRENG_PORT		52656
 #define DEF_VRENG_TTL		127
+#define DEF_ORIGIN_MADDR	"224.255.1.0"
+#define DEF_ORIGIN_PORT		55226
 #define DEF_VRENG_CHANNEL	"224.255.0.1/52666/127"
 #define DEF_MANAGER_CHANNEL	"224.255.0.0/52656/127"
 #define DEF_VACS_PORT		4150 + VRE_VERSION	// port of vacs server
