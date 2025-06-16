@@ -35,3 +35,5 @@
 /vre/forest2.vre      224.255.0.35/53006
 #/vre/enstnet.vre      224.255.0.36/53016
 /vre/sandbox.vre      224.255.0.38/53026
+#
+/vre/origine.vre	224.255.1.0/55226
