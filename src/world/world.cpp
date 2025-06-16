@@ -464,7 +464,7 @@ void World::init(const char *url)
   world->bgcolor = new Bgcolor();
 
   //
-  // Create local user first
+  // Creates localuser first
   //
   User *user = new User();
   world->user = user;
@@ -473,9 +473,9 @@ void World::init(const char *url)
   //
   // Download initial world (Rendezvous.vre by default)
   //
-  //world->universe->startWheel();
-  Http::httpOpen(url, reader, (void *)url, 0);
-  //world->universe->stopWheel();
+  world->universe->startWheel();
+  Http::httpOpen(url, reader, (void *) (url), 0);
+  world->universe->stopWheel();
   endprogression();
 
   // check whether icons are locally presents
@@ -567,14 +567,14 @@ World * World::enter(const char *url, const char *chan, bool isnew)
 {
   //trace1(DBG_FORCE, "world enter");
 
-  // clear everything
+  // clears everything
   ::g.gui.clearInfoBar();
   Object::initNames();
   current()->clearObjects();
   current()->initGrid();
   World *world = NULL;
 
-  // check whether this world is already in memory
+  // checks whether this world is already in memory
   if (getWorld(url) && isnew) {
     world = getWorld(url);	// existing world
     worldcurr = swap(world);
@@ -611,15 +611,14 @@ World * World::enter(const char *url, const char *chan, bool isnew)
   // downloads the vre description file of the new world
   //
   world->state = LOADING;	// need to download
-  if (url) {
-    // world to download
-    //trace1(DBG_FORCE, "enter: downloading %s", url);
-    //world->universe->startWheel();
-    if (Http::httpOpen(url, reader, (void *)url, 0) < 0) {
+  if (url) {			// world to download
+    //trace1(DBG_FORCE, "enter: download %s", url);
+    world->universe->startWheel();
+    if (Http::httpOpen(url, reader, (void *) (url), 0) < 0) {
       error("enter: bad download: %s", url);
       return NULL;
     }
-    //world->universe->stopWheel();
+    world->universe->stopWheel();
     endprogression();
     localuser->enableGravity();
     Grid::grid()->reset();
