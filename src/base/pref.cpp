@@ -76,6 +76,7 @@ where options are:\n\
 ";
 
 
+/** Pref constructor */
 Pref::Pref()
 {
   ::g.version = strdup(PACKAGE_VERSION);
@@ -144,6 +145,7 @@ Pref::Pref()
   stdcpp = NULL;
 }
 
+/** Preferences init */
 void Pref::init(int argc, char **argv, const char* pref_file)
 {
   FILE *fp;
@@ -166,7 +168,9 @@ void Pref::init(int argc, char **argv, const char* pref_file)
     }
   }
 
+  //////////////////
   // read prefs file
+  //
   while (fgets(buf, sizeof(buf), fp)) {
     if (*buf == '#' || *buf == '\n') {
       continue;			// if commented or empty line
@@ -266,7 +270,7 @@ void Pref::init(int argc, char **argv, const char* pref_file)
   trace1(DBG_INIT, "Pref initialized");
 }
 
-/** parses options in command line */
+/** Parses options in command line */
 void Pref::parse(int argc, char **argv)
 {
   extern char *optarg;
@@ -317,6 +321,9 @@ void Pref::parse(int argc, char **argv)
 #endif
    != -1) {
 
+    /////////////////////
+    // switch preferences
+    //
     switch (c) {
       case '-':
         echo("-- long options not available, use - short options");
@@ -477,14 +484,20 @@ void Pref::parse(int argc, char **argv)
         break;
     }
   }
+  // end switch preferences
 
-  ///////////
-  // username
+
+  //////////////////////
+  // url, urlpfx, server
+  //
+
+  ////////////
+  // loginname
   //
   if (! ::g.user) {
     struct passwd *pwd = getpwuid(getuid());
     if (pwd) {
-      ::g.user = strdup(pwd->pw_name);	// login name
+      ::g.user = strdup(pwd->pw_name);	// loginname
     }
     else {
       ::g.user = strdup("nobody");
@@ -526,32 +539,40 @@ void Pref::parse(int argc, char **argv)
   /////////
   // server
   //
-  char *srv = new char[URL_LEN];
+  char *server = new char[URL_LEN];
 
   if (! ::g.universe) {
-    sprintf(srv, "%s", DEF_HTTP_SERVER);
+    sprintf(server, "%s", DEF_HTTP_SERVER);
   }
   else {
     char *p1, *p2;
-    strcpy(srv, ::g.universe);
-    p1 = strchr(srv, '/');
+    strcpy(server, ::g.universe);
+    p1 = strchr(server, '/');
     p1++;
     p1 = strchr(p1, '/');
     p2 = ++p1;
     p1 = strchr(p1, '/');
     *p1 = '\0';
-    strcpy(srv, p2); 
+    strcpy(server, p2); 
   }
-  ::g.server = strdup(srv);
+  ::g.server = strdup(server);
   //echo("url: %s", ::g.url);
   //echo("server: %s", ::g.server);
   //echo("universe: %s", ::g.universe);
   //echo("pfx: %s", ::g.urlpfx);
 
+  //////////
+  // channel
+  //
+  if (! ::g.channel) {
+    ::g.channel = strdup(DEF_VRENG_CHANNEL);
+  }
+
+  ////////
   // skins
+  //
   char *urlskinf = new char[URL_LEN];
   char *urlskinb = new char[URL_LEN];
-
   if (! ::g.universe) {
     sprintf(urlskinf, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_FRONT);
     sprintf(urlskinb, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_BACK);
@@ -563,15 +584,17 @@ void Pref::parse(int argc, char **argv)
   my_skinf = strdup(urlskinf);
   my_skinb = strdup(urlskinb);
 
-  if (! ::g.channel) {
-    ::g.channel = strdup(DEF_VRENG_CHANNEL);
-  }
-
+  //////////////////////
   // checks ubit options
+  //
   if (helpx) {
     argc++;
     argv++;
     *argv = new char[10];
     strcpy(*argv, "--help-x");
   }
+
+  /////////////////////
+  // end of preferences
+  //
 }
