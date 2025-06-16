@@ -355,15 +355,6 @@ void Channel::sendBYE()
   }
 }
 
-/** Deletes from channelList */
-void Channel::deleteFromList()
-{
-  if (this == managerChannel)  return;
-
-  if (channelList.empty()) return;
-  channelList.remove(this);
-}
-
 /** Channel Destructor */
 Channel::~Channel()
 {
@@ -374,7 +365,10 @@ Channel::~Channel()
     if (session) delete session;	// delete Session
     session = NULL;
     closeMcast();
-    deleteFromList();
+    if (this == managerChannel)  return;
+
+    if (channelList.empty()) return;
+    channelList.remove(this);
   }
   ::g.gui.removeChannelSources(WORLD_MODE);
 

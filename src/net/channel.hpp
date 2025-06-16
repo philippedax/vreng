@@ -54,9 +54,6 @@ class Channel {
   void sendBYE();
   /**< Sends a BYE RTCP */
 
-  void deleteFromList();
-  /**< Deletes a channel from a list */
-
   static void clearList();
   /**< Clears channelList */
 
