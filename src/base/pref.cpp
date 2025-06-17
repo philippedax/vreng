@@ -112,8 +112,8 @@ Pref::Pref()
   sql = false;
 
   // options with default values
-  width3D  = DEF_WIDTH3D;
-  height3D = DEF_HEIGHT3D;
+  width3D  = DEF_WIDTH_3D;
+  height3D = DEF_HEIGHT_3D;
   maxsimcon = DEF_MAXSIMCON;
   maxfps = DEF_RATE;
   frame_delay = 1000000 / DEF_RATE;	// 20 ms
