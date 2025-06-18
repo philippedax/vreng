@@ -888,25 +888,22 @@ static void gotoHttpReader(void *box, Http *http)
   FILE *fp = cache->open(http->url, http);
   while (cache->nextLine(fp, line)) {
     if (*line == '#') continue;		// commented line
-
     UStr& url = ustr();
-    char tmpline[URL_LEN + CHAN_LEN +2];
-
-    strcpy(tmpline, line);
-    char *p = strchr(tmpline, ' ');
+    char tmpurl[URL_LEN + CHAN_LEN +2];
+    strcpy(tmpurl, line);
+    char *p = strchr(tmpurl, ' ');
     if (p) *p = '\0';
     else {
-      p = strchr(tmpline, '\t');
+      p = strchr(tmpurl, '\t');
       if (p) *p = '\0';
     }
     char tmpname[URL_LEN + 2];
-    strcpy(tmpname, tmpline);
+    strcpy(tmpname, tmpurl);
     char *worldname = strrchr(tmpname, '/');
-    if (worldname) {
-      *worldname++ = '\0';
+    url = tmpurl;
+    if (*tmpurl) {
       p = strchr(worldname, '.');
       if (p) *p = '\0';
-      url = tmpline;
       //echo("goto: %s", url.c_str());
 
       worlds_box->add(  UBackground::white
@@ -917,6 +914,10 @@ static void gotoHttpReader(void *box, Http *http)
                               + ucall(&g.gui, static_cast<const UStr&> (url), &Gui::openWorld)
                              )
                      );
+    }
+    else {
+      echo("goto: %s null", url.c_str());
+      // TODO: we must repopulate the empty url
     }
   }
   cache->close();

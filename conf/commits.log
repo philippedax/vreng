@@ -3693,3 +3693,4 @@
 3693 Lun 16 jui 2025 10:40:13 CEST	add /vre/origin.vre defaults.hpp
 3694 Lun 16 jui 2025 15:03:25 CEST	add start/stop Wheel world.cpp
 3695 Lun 16 jui 2025 17:51:59 CEST	cleanup deleteFromList channel.cpp
+3696 Mar 17 jui 2025 16:41:10 CEST	cleanup base/defaults.hpp
