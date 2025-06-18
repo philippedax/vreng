@@ -132,6 +132,7 @@ void Gui::showCartDialog(bool flag)
   widgets->panels.showBasket(flag);
 }
 
+/** Adds cart to the palette */
 GuiItem* Gui::addCart(Object *cart)
 {
   if (! cart) return NULL;
@@ -146,6 +147,7 @@ GuiItem* Gui::addCart(Object *cart)
   return gu;
 }
 
+/** Removes cart from the palette */
 void Gui::removeCart(Object *cart, int action)
 {
   if (! cart) return;
@@ -169,22 +171,23 @@ void Gui::removeCart(Object *cart, int action)
   }
 }
 
-void Gui::updateCart(Object* po)
+/** Updates cart from the palette */
+void Gui::updateCart(Object* o)
 {
   UBox* actions_cart = &uhbox(ulabel(ugroup(g.theme.objectTypeStyle
                                             + USymbol::right
-                                            + ustr(po->name.type)
+                                            + ustr(o->name.type)
                                            )
                                      + " "
                                      + ugroup(g.theme.objectNameStyle
-                                              + po->objectName()
+                                              + o->objectName()
                                              )
                                     )
                               + uitem("Leave"
-                                       + ucall(this, po, int(Cart::LEAVE), &Gui::removeCart)
+                                       + ucall(this, o, int(Cart::LEAVE), &Gui::removeCart)
                                      )
                               + uitem("Remove"
-                                       + ucall(this, po, int(Cart::REMOVE), &Gui::removeCart)
+                                       + ucall(this, o, int(Cart::REMOVE), &Gui::removeCart)
                                      )
                              );
   widgets->setInfobar(actions_cart);
@@ -193,6 +196,7 @@ void Gui::updateCart(Object* po)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling Avatar
 //
+/** Adds avatar to the palette */
 GuiItem * Gui::addAvatar(User *user) 	// when a new user comes in
 {
   if (! user)  return NULL;
@@ -201,6 +205,7 @@ GuiItem * Gui::addAvatar(User *user) 	// when a new user comes in
   return widgets->addAvatar(user);
 }
 
+/** Removes avatar from the palette */
 void Gui::removeAvatar(User *user)	// when an user quits
 {
   if (! user)  return;
@@ -214,6 +219,7 @@ void Gui::removeAvatar(User *user)	// when an user quits
   }
 }
 
+/** Updates avatar from the palette */
 void Gui::updateAvatar(User *user)
 {
   if (! user)  return;
@@ -234,7 +240,11 @@ void Gui::pauseAvatar()
 /** Opens a new world */
 void Gui::openWorld(const UStr& url_or_name)
 {
-  if (url_or_name.empty())  return;
+  if (url_or_name.empty()) {
+    echo("world null");
+    // world to repopulate
+    return;
+  }
 
   const char* urlorname = url_or_name.c_str();
   char url[URL_LEN], chan[CHAN_LEN];
@@ -264,6 +274,7 @@ void Gui::openWorld(const UStr& url_or_name)
   if (audioactive) Audio::start(chan);
 }
 
+/** Adds a world into the palette */
 GuiItem * Gui::addWorld(World *world, bool isCurrent)
 {
   if (! world)  return NULL;
@@ -271,6 +282,7 @@ GuiItem * Gui::addWorld(World *world, bool isCurrent)
   return widgets->addWorld(world, isCurrent);
 }
 
+/** Removes a world from the palette */
 void Gui::removeWorld(World *world)
 {
   if (! world)  return;
@@ -278,6 +290,7 @@ void Gui::removeWorld(World *world)
   if (world->guip) widgets->removeWorld(world);
 }
 
+/** Updates a world from the palette */
 void Gui::updateWorld(World *world, bool isCurrent)
 {
   if (! world)  return;
@@ -288,6 +301,7 @@ void Gui::updateWorld(World *world, bool isCurrent)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling Vnc
 //
+/** Vnc mode */
 void Gui::setToVnc(Vnc* _vnc)
 {
   vnc = _vnc;
